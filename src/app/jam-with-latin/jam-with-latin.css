@@ -1,0 +1,298 @@
+/* Jam with Latin product page. The app has its own Roman-legion identity —
+   navy halls, gold trim, crimson banners, parchment — so every rule here is
+   scoped under .jwl and never touches the Kingdom Sites design.
+
+   Palette taken from the app's own brand file (resources/brand.ts).
+
+   Note: .jwl uses `overflow-x: clip` rather than `hidden`, which would turn it
+   into a scroll container and break the sticky nav inside it. */
+
+.jwl {
+  --navy:       #1A2744;
+  --navy-deep:  #121C33;
+  --crimson:    #C41E0F;
+  --gold:       #E8B923;
+  --gold-dark:  #B8890E;
+  --gold-light: #F5D76E;
+  --bronze:     #A67C3D;
+  --stone:      #6B6358;
+  --stone-light: #D9D0C1;
+  --parchment:  #F3E6C8;
+  --parchment-2: #FAF3E2;
+  --ink:        #1A1410;
+  --ink-2:      #4A3F32;
+
+  --shadow-sm: 0 1px 2px rgba(26, 20, 16, 0.06), 0 4px 12px rgba(26, 20, 16, 0.08);
+  --shadow-md: 0 2px 6px rgba(26, 20, 16, 0.08), 0 14px 34px rgba(26, 20, 16, 0.12);
+  --shadow-lg: 0 8px 24px rgba(26, 20, 16, 0.12), 0 34px 64px rgba(26, 20, 16, 0.2);
+
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", "Segoe UI", Roboto, sans-serif;
+
+  --maxw: 1080px;
+
+  font-family: var(--sans);
+  background: var(--parchment-2);
+  color: var(--ink-2);
+  line-height: 1.55;
+  overflow-x: clip;
+  min-height: 100vh;
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+}
+
+.jwl *,
+.jwl *::before,
+.jwl *::after { box-sizing: border-box; }
+
+.jwl ::selection { background: var(--gold); color: var(--ink); }
+.jwl img { max-width: 100%; display: block; }
+.jwl a { color: inherit; }
+
+.jwl h1,
+.jwl h2,
+.jwl h3 {
+  font-family: var(--serif);
+  color: var(--ink);
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+  font-weight: 700;
+}
+
+.jwl .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+
+/* ---------- nav ---------- */
+.jwl header {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--navy);
+  border-bottom: 2px solid var(--gold-dark);
+}
+.jwl nav {
+  max-width: var(--maxw); margin: 0 auto; padding: 0 24px;
+  height: 56px; display: flex; align-items: center; justify-content: space-between;
+}
+.jwl .brand {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--serif); font-size: 17px; font-weight: 700; color: #fff;
+  letter-spacing: 0.01em;
+}
+.jwl .brand .crest {
+  width: 28px; height: 28px; border-radius: 8px; flex: none;
+  background: var(--crimson); border: 2px solid var(--gold);
+  display: grid; place-items: center;
+  font-family: var(--serif); font-size: 12px; font-weight: 700; color: var(--gold-light);
+}
+.jwl .nav-links { display: flex; align-items: center; gap: 24px; font-size: 13.5px; color: rgba(255, 255, 255, 0.72); }
+.jwl .nav-links a { text-decoration: none; transition: color 0.2s; }
+.jwl .nav-links a:hover { color: var(--gold-light); }
+@media (max-width: 760px) {
+  .jwl .nav-links a:not(.btn-gold) { display: none; }
+}
+.jwl .btn-gold {
+  background: var(--gold); color: var(--ink) !important; padding: 7px 15px;
+  border-radius: 10px; font-weight: 600; font-size: 13px;
+  border: 1px solid var(--gold-dark);
+}
+.jwl .btn-gold:hover { background: var(--gold-light); }
+
+/* ---------- buttons ---------- */
+.jwl .btn,
+.jwl .btn-ghost {
+  display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+  padding: 14px 26px; border-radius: 14px;
+  font-size: 15.5px; font-weight: 600; letter-spacing: -0.01em;
+  white-space: nowrap; text-decoration: none;
+  transition: transform 0.18s ease, background 0.18s ease;
+}
+.jwl .btn {
+  background: var(--crimson); color: #fff;
+  border: 2px solid rgba(26, 20, 16, 0.12);
+  box-shadow: var(--shadow-md);
+}
+.jwl a.btn:hover { transform: translateY(-1.5px); }
+.jwl .btn-ghost {
+  background: var(--parchment); color: var(--ink);
+  border: 2px solid var(--bronze);
+}
+.jwl .btn-ghost:hover { background: #fff; }
+/* Not on the App Store yet — same shape, plainly not a live link. */
+.jwl span.btn { cursor: default; opacity: 0.94; }
+
+/* ---------- hero ---------- */
+.jwl .hero {
+  position: relative; overflow: hidden; text-align: center;
+  padding: 76px 0 0;
+  background:
+    radial-gradient(ellipse 80% 55% at 50% 0%, rgba(26, 39, 68, 0.13), transparent 68%),
+    var(--parchment-2);
+}
+.jwl .eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--navy); color: var(--gold-light);
+  font-family: var(--sans); font-size: 12px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 7px 15px; border-radius: 999px; margin-bottom: 24px;
+  border: 1px solid var(--gold-dark);
+}
+.jwl h1 { font-size: clamp(38px, 6.6vw, 68px); }
+.jwl h1 .gold { color: var(--gold-dark); }
+.jwl h1 .crimson { color: var(--crimson); }
+.jwl .sub {
+  font-size: clamp(17px, 2.1vw, 20px); color: var(--ink-2);
+  max-width: 620px; margin: 22px auto 0; line-height: 1.5;
+}
+.jwl .sub strong { color: var(--ink); font-weight: 700; }
+.jwl .cta-row { display: flex; gap: 12px; justify-content: center; align-items: center; margin-top: 32px; flex-wrap: wrap; }
+.jwl .note { font-size: 13px; color: var(--stone); margin-top: 18px; }
+.jwl .note b { color: var(--ink-2); }
+
+/* latin word chips */
+.jwl .chips { display: flex; gap: 9px; justify-content: center; flex-wrap: wrap; margin-top: 40px; }
+.jwl .chip {
+  display: inline-flex; align-items: baseline; gap: 7px;
+  background: var(--parchment); border: 1px solid var(--bronze);
+  padding: 7px 14px; border-radius: 10px;
+  font-size: 13.5px; color: var(--ink-2); box-shadow: var(--shadow-sm);
+}
+.jwl .chip b { font-family: var(--serif); font-size: 15px; color: var(--crimson); }
+
+/* ---------- hero shot ---------- */
+.jwl .hero-shot { margin-top: 56px; padding-bottom: 84px; }
+.jwl .stage { display: flex; justify-content: center; align-items: flex-end; gap: 24px; }
+.jwl .phone {
+  border-radius: 32px; overflow: hidden; width: 228px; flex: none;
+  border: 3px solid var(--navy);
+  box-shadow: var(--shadow-lg);
+}
+.jwl .phone.lift { width: 264px; margin-bottom: 20px; border-color: var(--gold-dark); }
+.jwl .phone img { width: 100%; height: auto; }
+@media (max-width: 760px) {
+  .jwl .stage > .phone:not(.lift) { display: none; }
+  .jwl .phone.lift { width: 260px; margin-bottom: 0; }
+}
+
+/* ---------- sections ---------- */
+.jwl section { padding: 92px 0; }
+.jwl .band-navy {
+  background: var(--navy);
+  border-top: 2px solid var(--gold-dark);
+  border-bottom: 2px solid var(--gold-dark);
+}
+.jwl .band-navy h2,
+.jwl .band-navy h3 { color: #fff; }
+.jwl .band-navy .lede { color: rgba(255, 255, 255, 0.7); }
+.jwl .band-navy .kicker { color: var(--gold); }
+.jwl .band-parchment { background: var(--parchment); border-top: 1px solid var(--stone-light); border-bottom: 1px solid var(--stone-light); }
+
+.jwl .kicker {
+  font-family: var(--sans); font-size: 11.5px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--crimson);
+  margin-bottom: 14px;
+}
+.jwl h2 { font-size: clamp(28px, 4vw, 40px); }
+.jwl .lede { font-size: 17px; color: var(--ink-2); margin-top: 16px; max-width: 46ch; }
+.jwl .lede b { color: var(--ink); font-weight: 700; }
+
+.jwl .split { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+.jwl .split.flip .copy { order: 2; }
+@media (max-width: 880px) {
+  .jwl .split { grid-template-columns: 1fr; gap: 36px; }
+  .jwl .split.flip .copy { order: 0; }
+  .jwl section { padding: 68px 0; }
+}
+
+/* ---------- cards ---------- */
+.jwl .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 44px; }
+.jwl .grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 44px; }
+@media (max-width: 880px) {
+  .jwl .grid3, .jwl .grid2 { grid-template-columns: 1fr; }
+}
+.jwl .card {
+  background: var(--parchment-2); border: 1px solid var(--bronze); border-radius: 16px;
+  padding: 24px; box-shadow: var(--shadow-sm);
+}
+.jwl .band-navy .card {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(232, 185, 35, 0.35);
+}
+.jwl .card .ic {
+  width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center;
+  font-size: 18px; margin-bottom: 14px; background: var(--navy); color: var(--gold);
+  border: 1px solid var(--gold-dark);
+}
+.jwl .card h3 { font-size: 17px; margin-bottom: 7px; }
+.jwl .card p { font-size: 14px; color: var(--ink-2); line-height: 1.55; }
+.jwl .band-navy .card p { color: rgba(255, 255, 255, 0.68); }
+
+/* the march — city list */
+.jwl .march { display: grid; gap: 10px; }
+.jwl .stop {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--parchment-2); border: 1px solid var(--bronze);
+  border-radius: 12px; padding: 12px 15px;
+}
+.jwl .stop .num {
+  width: 32px; height: 32px; border-radius: 50%; flex: none;
+  display: grid; place-items: center;
+  background: var(--navy); color: var(--gold);
+  font-family: var(--serif); font-size: 13px; font-weight: 700;
+  border: 2px solid var(--gold-dark);
+}
+.jwl .stop .city { font-family: var(--serif); font-size: 15.5px; font-weight: 700; color: var(--ink); }
+.jwl .stop .what { font-size: 13px; color: var(--stone); display: block; }
+.jwl .stop.camp { background: var(--stone-light); border-style: dashed; }
+.jwl .stop.camp .num { background: var(--bronze); color: #fff; border-color: var(--bronze); }
+
+/* screens gallery */
+.jwl .gallery {
+  display: flex; gap: 20px; overflow-x: auto; padding: 8px 24px 28px;
+  scroll-snap-type: x mandatory;
+}
+@media (min-width: 1180px) { .jwl .gallery { justify-content: center; } }
+.jwl .gallery::-webkit-scrollbar { height: 6px; }
+.jwl .gallery::-webkit-scrollbar-thumb { background: var(--bronze); border-radius: 3px; }
+.jwl .gshot { flex: none; width: 208px; scroll-snap-align: center; }
+.jwl .gshot img { border-radius: 22px; border: 2px solid var(--navy); box-shadow: var(--shadow-md); height: auto; }
+.jwl .gshot .cap { font-size: 12.5px; color: var(--stone); text-align: center; margin-top: 12px; }
+
+/* safety pills */
+.jwl .pills { display: flex; gap: 9px; justify-content: center; flex-wrap: wrap; margin-top: 26px; }
+.jwl .pill {
+  background: var(--parchment-2); border: 1px solid var(--bronze); border-radius: 999px;
+  padding: 7px 16px; font-size: 13px; color: var(--ink-2); font-weight: 500;
+}
+.jwl .band-navy .pill {
+  background: rgba(255, 255, 255, 0.07); border-color: rgba(232, 185, 35, 0.4);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* final cta */
+.jwl .final { text-align: center; padding: 100px 0; }
+.jwl .final h2 { font-size: clamp(30px, 4.6vw, 46px); }
+
+.jwl footer {
+  background: var(--navy-deep); color: rgba(255, 255, 255, 0.55);
+  padding: 30px 0; font-size: 13px;
+  border-top: 2px solid var(--gold-dark);
+}
+.jwl footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; }
+.jwl footer a { text-decoration: none; }
+.jwl footer a:hover { color: var(--gold-light); }
+
+.jwl .reveal {
+  opacity: 0; transform: translateY(18px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.jwl .reveal.in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .jwl *, .jwl *::before, .jwl *::after { animation: none !important; transition: none !important; }
+  .jwl .reveal { opacity: 1; transform: none; }
+}
+
+/* Printing never scrolls, so reveal sections would come out blank. */
+@media print {
+  .jwl .reveal { opacity: 1 !important; transform: none !important; }
+  .jwl header { position: static; }
+}

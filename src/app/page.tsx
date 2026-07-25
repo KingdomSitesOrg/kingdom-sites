@@ -1,296 +1,228 @@
-'use client'
-
-import { useState } from 'react'
-import Link from 'next/link'
 import Image from 'next/image'
-import heroImage from '../../public/Photos/hero.jpeg'
+import Link from 'next/link'
+import aboutImage from '../../public/Photos/about.jpg'
+import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
 
-type FieldErrors = {
-  name?: string[]
-  email?: string[]
-  message?: string[]
-}
+const STACK = ['Next.js', 'React', 'TypeScript', 'React Native', 'Swift', 'Node.js', 'PostgreSQL', 'AWS', 'Vercel']
+
+const SERVICES = [
+  {
+    eyebrow: 'Websites',
+    title: 'Fast, beautiful, built to convert.',
+    desc: 'Landing pages, marketing sites, and full multi-page builds that load instantly and turn visitors into customers.',
+  },
+  {
+    eyebrow: 'Mobile Apps',
+    title: 'iOS and Android, done right.',
+    desc: 'Mobile apps for your customers or your team — from first idea to the App Store.',
+  },
+  {
+    eyebrow: 'Platforms & Dashboards',
+    title: 'Your operations, organized.',
+    desc: 'Customer portals, admin dashboards, and internal tools that make running your business easier.',
+  },
+  {
+    eyebrow: 'APIs & Backends',
+    title: 'The engine behind it all.',
+    desc: 'Reliable backend systems, integrations, and APIs that scale with you.',
+  },
+]
+
+const PROCESS = [
+  {
+    step: '01',
+    title: 'Tell me about your project',
+    desc: 'A short email is enough. We hop on a call or keep it async — whatever works for you.',
+  },
+  {
+    step: '02',
+    title: 'Get a scoped quote',
+    desc: 'I scope the work and send you a clear, competitive quote. Free, no obligation, no inflated agency rates.',
+  },
+  {
+    step: '03',
+    title: 'I design and build',
+    desc: 'One developer, end to end — no handoffs, no telephone game. You get regular updates and working previews.',
+  },
+  {
+    step: '04',
+    title: 'Launch and beyond',
+    desc: 'I stick around after launch: updates, new features, support. A partner, not a one-off transaction.',
+  },
+]
+
+const WHY = [
+  {
+    title: 'One developer, end to end',
+    desc: 'You talk directly to the person building your software. Decisions are fast, context never gets lost, and quality stays consistent from design to deployment.',
+  },
+  {
+    title: 'Competitive quotes, no packages',
+    desc: "I'm not the cheapest, and I don't try to be. Every project is scoped individually and priced competitively — you pay for exactly what you need, and you know the price up front.",
+  },
+  {
+    title: 'Built to last',
+    desc: 'Modern stack, clean code, real performance. Software you can build on for years — not a template you outgrow in six months.',
+  },
+]
 
 export default function Home() {
-  const [submitted, setSubmitted] = useState(false)
-  const [submitting, setSubmitting] = useState(false)
-  const [errors, setErrors] = useState<FieldErrors>({})
-  const [serverError, setServerError] = useState('')
-
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    setSubmitting(true)
-    setErrors({})
-    setServerError('')
-
-    const data = new FormData(e.currentTarget)
-    const body = {
-      website: data.get('website')?.toString() || '', // honeypot
-      name:    data.get('name') as string,
-      email:   data.get('email') as string,
-      message: data.get('message') as string,
-    }
-
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      })
-
-      if (res.ok) {
-        setSubmitted(true)
-        ;(e.target as HTMLFormElement).reset()
-      } else if (res.status === 400) {
-        const json = await res.json()
-        setErrors(json.errors ?? {})
-      } else {
-        const json = await res.json()
-        setServerError(json.error ?? 'Something went wrong. Please try again.')
-      }
-    } catch {
-      setServerError('Network error. Please try again.')
-    } finally {
-      setSubmitting(false)
-    }
-  }
-
   return (
-    <div className="overflow-x-hidden w-full">
-      <section className="mx-auto max-w-6xl px-4 pb-14 pt-14 sm:px-6 sm:pb-20 sm:pt-20">
-        <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
-          <div className="lg:col-span-7">
-            <h1 className="text-balance text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
-              Custom software solutions scoped and quoted to your needs.
-            </h1>
-            <p className="mt-5 max-w-2xl text-pretty text-base leading-relaxed text-[#1d1d1f]/75 sm:text-lg">
-              Websites, apps, platforms and more — every engagement is quoted individually based on what you actually need.
-            </p>
+    <div className="w-full overflow-x-hidden">
+      {/* Hero */}
+      <section className="hero-wash px-5 pb-20 pt-16 sm:px-8 sm:pb-24 sm:pt-24">
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="eyebrow">Custom software, quoted to your project</p>
+          <h1 className="mx-auto mt-5 max-w-3xl text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-6xl">
+            Software that moves your business <span className="text-accent">forward.</span>
+          </h1>
+          <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-body sm:text-lg">
+            {"I'm Thomas — a full-stack developer building websites, mobile apps, and platforms. Designed, built, and supported by one person who actually cares how it turns out."}
+          </p>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <a
-                href="#contact"
-                className="inline-flex cursor-pointer items-center justify-center rounded-full border border-transparent bg-[#0071e3] px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:border-[#0071e3] hover:bg-[#f5f5f7] hover:text-[#0071e3] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0071e3]"
-              >
-                Get a Quote
-              </a>
-              <a
-                href="#value"
-                className="inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold text-[#0071e3] transition hover:bg-[#0071e3]/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0071e3]"
-              >
-                What We Build
-              </a>
-            </div>
+          <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <a href={CONTACT_MAILTO} className="btn-primary">Email me about your project</a>
+            <a href="#process" className="btn-ghost">See how it works</a>
           </div>
 
-          <div className="lg:col-span-5">
-            <div className="relative mx-auto w-full max-w-sm">
-              <div className="absolute -inset-4 -z-10 rounded-[28px] bg-[#0071e3]/10 blur-2xl" />
-              <div className="glass overflow-hidden rounded-3xl">
-                <Image
-                  src={heroImage}
-                  alt="Photo"
-                  quality={75}
-                  placeholder="blur"
-                  className="w-full object-cover"
-                  priority
-                  fetchPriority="high"
-                  sizes="(max-width: 1024px) 100vw, 400px"
-                />
-              </div>
-              <div className="mt-4 text-center">
-                <Link
-                  href="/about"
-                  className="inline-flex items-center justify-center rounded-full border border-white/40 bg-white/25 px-5 py-2.5 text-sm font-medium text-[#1d1d1f]/80 backdrop-blur-sm transition hover:bg-white/40"
-                >
-                  About Us
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <div
-        data-dark-section
-        className="dark"
-        style={{
-          background:
-            'radial-gradient(ellipse 130% 80% at 5% 0%, rgba(0,80,200,0.22) 0%, transparent 55%),' +
-            'radial-gradient(ellipse 90% 70% at 98% 5%, rgba(30,80,180,0.14) 0%, transparent 55%),' +
-            '#0b1a32',
-          color: '#e8eef7',
-        }}
-      >
-      <section id="value" aria-label="Value proposition">
-        <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20">
-          <div className="mx-auto max-w-3xl text-center">
-            <h2
-              id="built-premium"
-              className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl shine-once"
-            >
-              We build software solutions, not cookie-cutter sites.
-            </h2>
-            <p className="mt-4 text-pretty text-base leading-relaxed text-[#e8eef7]/65 sm:text-lg">
-              Every project is scoped, quoted, and built around your specific goals.
-            </p>
-          </div>
-
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 sm:gap-5">
-            {[
-              {
-                title: 'Built with purpose',
-                desc: 'We care about the work we do and the people we serve. Every project gets our full attention and best effort.',
-              },
-              {
-                title: 'Quoted to your project',
-                desc: 'No templates or fixed packages. Every engagement is scoped and quoted individually — from a simple site to a full custom platform.',
-              },
-              {
-                title: 'Ongoing partnership',
-                desc: 'Need updates, new features, or ongoing support? We stick around after launch. This is a relationship, not a transaction.',
-              },
-              {
-                title: 'Long-term partnership',
-                desc: "We're not just building and disappearing. Your success is our success — we stay invested in your project long after launch.",
-              },
-            ].map((item) => (
-              <div key={item.title} className="rounded-3xl p-6" style={{ background: 'rgba(10,25,60,0.55)', border: '1px solid rgba(100,150,255,0.12)', backdropFilter: 'blur(16px)' }}>
-                <h3 className="text-sm font-semibold tracking-tight text-white">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-[#e8eef7]/60">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      </div>
-
-      {/* Pricing */}
-      <section aria-label="Pricing" className="mx-auto max-w-6xl px-4 pb-14 pt-8 sm:px-6 sm:pb-20 sm:pt-10">
-        <div className="mx-auto max-w-3xl text-center mb-10">
-          <h2 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
-            Every project quoted individually.
-          </h2>
-          <p className="mt-4 text-pretty text-base leading-relaxed text-[#1d1d1f]/65">
-            No fixed packages. Tell me what you need and I will scope it out and put together a custom quote.
+          <p className="mt-5 text-sm text-muted">
+            Free scoped quote, no obligation · <a href={CONTACT_MAILTO} className="link-accent">{CONTACT_EMAIL}</a>
           </p>
         </div>
 
-        <div className="glass rounded-3xl p-8 sm:p-12 max-w-3xl mx-auto flex flex-col items-center text-center gap-6">
-          <ul className="grid gap-3 sm:grid-cols-2 text-left w-full max-w-xl">
-            {[
-              'Websites and landing pages',
-              'Custom web and mobile applications',
-              'Login portals and admin dashboards',
-              'APIs and backend systems',
-              'Ongoing retainer and support',
-              'White label development',
-            ].map(f => (
-              <li key={f} className="flex items-start gap-2 text-sm text-[#1d1d1f]/65">
-                <span className="mt-0.5 shrink-0 text-[#0071e3] font-medium">✓</span>
-                {f}
-              </li>
-            ))}
-          </ul>
-          <button
-            onClick={() => document.dispatchEvent(new CustomEvent('open-contact-modal'))}
-            className="inline-flex cursor-pointer items-center justify-center rounded-full bg-[#0071e3] px-8 py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-95"
-          >
-            Request a Quote
-          </button>
+        {/* Stack strip */}
+        <div className="mx-auto mt-14 flex max-w-3xl flex-wrap items-center justify-center gap-x-6 gap-y-2">
+          {STACK.map((t) => (
+            <span key={t} className="text-xs font-medium tracking-wide text-muted">{t}</span>
+          ))}
         </div>
       </section>
 
-      <section id="contact" aria-label="Contact">
-        <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20">
-          <div className="mx-auto max-w-3xl text-center">
-            <h2 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
-              {"Let's talk about your project."}
+      {/* Services */}
+      <section id="services" aria-label="What I build" className="border-t border-line px-5 py-20 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="max-w-2xl">
+            <p className="eyebrow eyebrow-blue">What I build</p>
+            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+              Whatever your project needs.
             </h2>
-            <p className="mt-4 text-pretty text-base leading-relaxed text-[#1d1d1f]/70 sm:text-lg">
-              {"Tell me what you're building and I'll put together a quote."}
+          </div>
+
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-5">
+            {SERVICES.map((s) => (
+              <div key={s.eyebrow} className="tile flex flex-col p-7 sm:p-9">
+                <p className="text-xs font-semibold uppercase tracking-[0.08em] text-muted">{s.eyebrow}</p>
+                <h3 className="mt-3 text-xl font-semibold tracking-tight text-ink sm:text-2xl">
+                  {s.title}
+                </h3>
+                <p className="mt-3 flex-1 text-[15px] leading-relaxed text-body">{s.desc}</p>
+                <a href={CONTACT_MAILTO} className="link-accent mt-5 self-start text-sm">
+                  Get a quote <span aria-hidden="true">›</span>
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Why work with me — the dark band */}
+      <section aria-label="Why Kingdom Sites" className="band-dark px-5 py-20 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="eyebrow">Why work with me</p>
+            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              A developer, not an agency queue.
+            </h2>
+            <p className="mt-4 text-pretty text-base leading-relaxed text-white/70">
+              Every project is scoped, quoted, and built around your goals — never dropped into a template.
             </p>
           </div>
 
-          <div className="glass mx-auto mt-10 max-w-2xl rounded-3xl p-6" style={{ maxWidth: '100%', overflowWrap: 'break-word' }}>
-            {submitted ? (
-              <div className="py-6 text-center">
-                <p className="text-sm font-semibold tracking-tight">Message sent!</p>
-                <p className="mt-2 text-sm text-[#1d1d1f]/70">
-                  {"Thanks—I'll reply as soon as I can."}
-                </p>
-                <button onClick={() => setSubmitted(false)} className="mt-3 text-xs text-[#0071e3]">Send another</button>
+          <div className="mt-12 grid gap-4 sm:grid-cols-3 sm:gap-5">
+            {WHY.map((item) => (
+              <div key={item.title} className="tile-dark p-7">
+                <h3 className="text-base font-semibold tracking-tight text-white">{item.title}</h3>
+                <p className="mt-2.5 text-sm leading-relaxed text-white/65">{item.desc}</p>
               </div>
-            ) : (
-              <form className="grid gap-4" onSubmit={handleSubmit} style={{ maxWidth: '100%' }}>
-                {/* Honeypot — hidden from humans, bots fill it */}
-                <input name="website" type="text" tabIndex={-1} autoComplete="off" style={{ position: 'absolute', left: '-9999px', opacity: 0, pointerEvents: 'none' }} />
+            ))}
+          </div>
 
-                <div className="grid gap-2 sm:grid-cols-2">
-                  <label className="grid gap-1 text-sm">
-                    <span className="font-medium text-[#1d1d1f]/80">Name</span>
-                    <input
-                      required
-                      name="name"
-                      type="text"
-                      placeholder="Your name"
-                      maxLength={100}
-                      className="h-11 rounded-2xl border border-white/30 bg-white/20 px-4 text-sm backdrop-blur outline-none ring-[#0071e3]/20 transition focus:bg-white/35 focus:ring-4"
-                      style={{ maxWidth: '100%', overflowWrap: 'break-word' }}
-                    />
-                    {errors.name && (
-                      <span className="text-xs text-red-500">{errors.name[0]}</span>
-                    )}
-                  </label>
-                  <label className="grid gap-1 text-sm">
-                    <span className="font-medium text-[#1d1d1f]/80">Email</span>
-                    <input
-                      required
-                      name="email"
-                      type="email"
-                      placeholder="you@example.com"
-                      maxLength={255}
-                      className="h-11 rounded-2xl border border-white/30 bg-white/20 px-4 text-sm backdrop-blur outline-none ring-[#0071e3]/20 transition focus:bg-white/35 focus:ring-4"
-                      style={{ maxWidth: '100%', overflowWrap: 'break-word' }}
-                    />
-                    {errors.email && (
-                      <span className="text-xs text-red-500">{errors.email[0]}</span>
-                    )}
-                  </label>
-                </div>
+          <div className="mt-12 text-center">
+            <Link href="/my-work" className="btn-primary">See my work</Link>
+          </div>
+        </div>
+      </section>
 
-                <label className="grid gap-1 text-sm">
-                  <span className="font-medium text-[#1d1d1f]/80">What do you need built?</span>
-                  <textarea
-                    required
-                    name="message"
-                    rows={4}
-                    placeholder="One-page landing, multi-page site, redesign, etc."
-                    maxLength={2000}
-                    className="resize-none rounded-2xl border border-white/30 bg-white/20 px-4 py-3 text-sm backdrop-blur outline-none ring-[#0071e3]/20 transition focus:bg-white/35 focus:ring-4"
-                    style={{ maxWidth: '100%', overflowWrap: 'break-word' }}
-                  />
-                  {errors.message && (
-                    <span className="text-xs text-red-500">{errors.message[0]}</span>
-                  )}
-                </label>
+      {/* Process */}
+      <section id="process" aria-label="How it works" className="px-5 py-20 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="max-w-2xl">
+            <p className="eyebrow eyebrow-blue">How it works</p>
+            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+              Simple, from first email to launch.
+            </h2>
+          </div>
 
-                {serverError && (
-                  <p className="text-xs text-red-500">{serverError}</p>
-                )}
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 sm:gap-5">
+            {PROCESS.map((p) => (
+              <div key={p.step} className="tile p-7">
+                <p className="text-sm font-semibold tracking-widest text-accent">{p.step}</p>
+                <h3 className="mt-3 text-base font-semibold tracking-tight text-ink">{p.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-body">{p.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-                <div className="mt-2 flex items-center justify-end">
-                  <button
-                    type="submit"
-                    disabled={submitting}
-                    className="inline-flex cursor-pointer items-center justify-center rounded-full border border-transparent bg-[#0071e3] px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:border-[#0071e3] hover:bg-[#f5f5f7] hover:text-[#0071e3] disabled:cursor-not-allowed disabled:opacity-60"
-                  >
-                    {submitting ? 'Sending…' : 'Send'}
-                  </button>
-                </div>
-              </form>
-            )}
+      {/* Purpose */}
+      <section aria-label="Built with purpose" className="border-t border-line px-5 py-20 sm:px-8 sm:py-24">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-2 lg:gap-16">
+          <div className="tile-elevated mx-auto w-full max-w-sm lg:mx-0">
+            <Image
+              src={aboutImage}
+              alt="Thomas and Monisha"
+              quality={75}
+              placeholder="blur"
+              sizes="(max-width: 1024px) 90vw, 420px"
+              className="h-auto w-full object-cover"
+            />
+          </div>
+
+          <div>
+            <p className="eyebrow">Built with purpose</p>
+            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+              Your project becomes part of a bigger story.
+            </h2>
+            <p className="mt-5 text-pretty text-base leading-relaxed text-body">
+              Kingdom Sites is more than a business. Every project also helps support the long-term
+              mission work my wife Monisha and I are part of. You get great software — and it goes
+              further than your launch day.
+            </p>
+            <div className="mt-7 flex flex-wrap items-center gap-6">
+              <Link href="/about" className="link-accent text-sm">
+                About us <span aria-hidden="true">›</span>
+              </Link>
+              <Link href="/mission" className="link-accent text-sm">
+                Our mission <span aria-hidden="true">›</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section id="contact" aria-label="Contact" className="px-5 pb-24 sm:px-8">
+        <div className="tile-elevated mx-auto max-w-4xl px-6 py-14 text-center sm:px-12 sm:py-16">
+          <h2 className="text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+            {"Let's talk about your project."}
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-pretty text-base leading-relaxed text-body">
+            {"Email me what you're building and I'll put together a quote. Free, fast, no obligation."}
+          </p>
+          <div className="mt-8 flex flex-col items-center gap-4">
+            <a href={CONTACT_MAILTO} className="btn-primary">Email me</a>
+            <a href={CONTACT_MAILTO} className="link-accent text-sm">{CONTACT_EMAIL}</a>
           </div>
         </div>
       </section>

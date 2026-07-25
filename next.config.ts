@@ -1,9 +1,6 @@
 import type { NextConfig } from "next";
 import { withSentryConfig } from "@sentry/nextjs";
 
-const supabaseUrl = 'https://giuopcvpvbkutnteuems.supabase.co'
-const supabaseWs  = 'wss://giuopcvpvbkutnteuems.supabase.co'
-
 const isDev = process.env.NODE_ENV === 'development'
 
 const csp = [
@@ -12,8 +9,8 @@ const csp = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self'",
-  `connect-src 'self' ${supabaseUrl} ${supabaseWs} https://*.ingest.us.sentry.io https://*.ingest.sentry.io`,
-  "form-action 'self' https://formsubmit.co",
+  "connect-src 'self' https://*.ingest.us.sentry.io https://*.ingest.sentry.io",
+  "form-action 'none'",
   "frame-src 'none'",
   "base-uri 'self'",
   "object-src 'none'",

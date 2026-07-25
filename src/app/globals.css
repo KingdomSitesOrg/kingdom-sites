@@ -1,50 +1,165 @@
 @import "tailwindcss";
 
+/* Light, warm-neutral palette. Colour does the work that gradients used to:
+   near-black ink for headlines, a single blue for actions, terracotta for small
+   accents, and one deep navy for the sections that go dark. */
+@theme {
+  --color-canvas:      #f5f7fa;
+  --color-surface:     #ffffff;
+  --color-surface-2:   #eceff5;
+
+  --color-ink:         #15181d;
+  --color-body:        #575d67;
+  --color-muted:       #838a94;
+
+  --color-line:        rgba(21, 24, 29, 0.09);
+  --color-line-strong: rgba(21, 24, 29, 0.14);
+
+  --color-accent:       #0a63c9;
+  --color-accent-hover: #0a56ac;
+
+  --color-warm:      #c05a2b;
+
+  --color-dark:   #111827;
+}
+
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  font-family: Inter, sans-serif;
-  background:
-    radial-gradient(ellipse 120% 75% at 5%   0%,  rgba(0, 113, 227, 0.18) 0%, transparent 52%),
-    radial-gradient(ellipse 80%  65% at 98%  5%,  rgba(90,  90, 160, 0.08) 0%, transparent 52%),
-    #e8eef7;
-  background-attachment: fixed;
-  color: #1d1d1f;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+  background: var(--color-canvas);
+  color: var(--color-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.dark body {
-  background:
-    radial-gradient(ellipse 120% 75% at 5%   0%,  rgba(0, 113, 227, 0.12) 0%, transparent 52%),
-    radial-gradient(ellipse 80%  65% at 98%  5%,  rgba(90,  90, 160, 0.06) 0%, transparent 52%),
-    #0b0c0f;
-
-  color: #e8eef7;
+/* One soft wash behind the top of the page — the only gradient on the site. */
+.hero-wash {
+  position: relative;
+}
+.hero-wash::before {
+  content: '';
+  position: absolute;
+  inset: -120px 0 auto 0;
+  height: 620px;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(10, 99, 201, 0.09), transparent 70%);
 }
 
-@media (max-width: 768px) {
-  body {
-    background-attachment: scroll;
-  }
+/* ---------- cards ---------- */
+.tile {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: 22px;
+  box-shadow: 0 1px 2px rgba(16, 23, 37, 0.04), 0 10px 28px rgba(16, 23, 37, 0.05);
 }
 
-.glass {
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(16px) saturate(140%);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+.tile-elevated {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: 26px;
+  box-shadow: 0 2px 4px rgba(16, 23, 37, 0.05), 0 18px 44px rgba(16, 23, 37, 0.09);
+  overflow: hidden;
 }
+
+/* Cards that sit inside a dark band. */
+.tile-dark {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 22px;
+}
+
+/* ---------- dark bands ---------- */
+.band-dark {
+  background: var(--color-dark);
+  color: #e9edf4;
+}
+
+/* ---------- buttons ---------- */
+.btn-primary,
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 12px 26px;
+  border-radius: 980px;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+.btn-primary {
+  background: var(--color-accent);
+  color: #fff;
+  box-shadow: 0 1px 2px rgba(10, 99, 201, 0.2), 0 8px 20px rgba(10, 99, 201, 0.18);
+}
+.btn-primary:hover { background: var(--color-accent-hover); transform: translateY(-1px); }
+.btn-ghost {
+  background: var(--color-surface);
+  color: var(--color-ink);
+  border: 1px solid var(--color-line-strong);
+}
+.btn-ghost:hover { border-color: var(--color-ink); }
+
+/* Small button, used in the nav. */
+.btn-sm {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 980px;
+  background: var(--color-accent);
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #fff;
+  text-decoration: none;
+  transition: background 0.18s ease;
+}
+.btn-sm:hover { background: var(--color-accent-hover); }
+
+/* On a dark band the primary button inverts. */
+.band-dark .btn-primary {
+  background: #fff;
+  color: var(--color-dark);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+.band-dark .btn-primary:hover { background: #e9edf4; }
+
+/* ---------- links ---------- */
+.link-accent {
+  color: var(--color-accent);
+  font-weight: 500;
+}
+.link-accent:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---------- small labels ---------- */
+.eyebrow {
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-warm);
+}
+.eyebrow-blue { color: var(--color-accent); }
+.band-dark .eyebrow { color: #f0b48c; }
+
 
 .reveal-card {
   opacity: 0;
-  transform: translateY(32px);
+  transform: translateY(24px);
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
 .reveal-card.revealed {
   opacity: 1;
   transform: translateY(0);
+}
+
+@media print {
+  .reveal-card { opacity: 1 !important; transform: none !important; }
 }

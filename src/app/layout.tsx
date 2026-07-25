@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     default: "Kingdom Sites",
     template: "%s | Kingdom Sites",
   },
-  description: "Custom software solutions — websites, apps, and platforms — scoped and quoted to your needs.",
+  description: "Websites, mobile apps, and custom software for any project — competitive pricing, every engagement individually quoted.",
   metadataBase: new URL("https://kingdom-sites.com"),
   alternates: {
     canonical: "/",
@@ -20,6 +20,7 @@ export const metadata: Metadata = {
   keywords: [
     "custom software",
     "web development",
+    "mobile app development",
     "app development",
     "custom websites",
     "software solutions",
@@ -28,7 +29,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "Kingdom Sites",
-    description: "Custom software solutions — websites, apps, and platforms — scoped and quoted to your needs.",
+    description: "Websites, mobile apps, and custom software for any project — competitive pricing, every engagement individually quoted.",
     url: "https://kingdom-sites.com",
     siteName: "Kingdom Sites",
     locale: "en_US",
@@ -37,7 +38,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Kingdom Sites",
-    description: "Professional websites that support Kingdom work in the most unreached places.",
+    description: "Websites, mobile apps, and custom software for any project — competitive pricing, every engagement individually quoted.",
   },
   robots: {
     index: true,

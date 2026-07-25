@@ -13,12 +13,12 @@ export default function Icon() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: '#0b1a32',
+          background: '#0a63c9',
           borderRadius: 8,
-          color: '#e8eef7',
+          color: '#ffffff',
           fontSize: 22,
           fontWeight: 700,
-          fontFamily: 'serif',
+          
         }}
       >
         K

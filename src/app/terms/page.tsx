@@ -4,22 +4,23 @@ export const metadata = {
 
 export default function TermsPage() {
   return (
-    <main className="mx-auto max-w-3xl px-4 py-20 sm:px-6">
-      <h1 className="mb-2 text-3xl font-bold text-[#1d1d1f]">Terms of Service</h1>
-      <p className="mb-10 text-sm text-[#1d1d1f]/50">Last updated: March 15, 2026</p>
+    <main className="mx-auto max-w-3xl px-5 py-20 sm:px-8">
+      <h1 className="mb-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">Terms of Service</h1>
+      <p className="mb-10 text-sm text-muted">Last updated: March 15, 2026</p>
 
-      <section className="space-y-10 text-sm leading-relaxed text-[#1d1d1f]/80">
+      <section className="space-y-10 text-[15px] leading-relaxed text-body">
 
         <div>
-          <h2 className="mb-3 text-base font-semibold text-[#1d1d1f]">1. Project Scope &amp; Methodology</h2>
+          <h2 className="mb-3 text-base font-semibold text-ink">1. Project Scope &amp; Methodology</h2>
           <div className="space-y-3">
             <p>
-              <span className="font-medium text-[#1d1d1f]">Deliverables:</span> A custom-built,
-              mobile-responsive website (up to 7 pages). Core architecture includes high-performance
-              Next.js framework and SEO-optimized structure.
+              <span className="font-medium text-ink">Deliverables:</span> The deliverables
+              for each engagement — website, mobile app, platform, or other custom software — are
+              defined in the individual project quote. Web projects are built on a high-performance
+              Next.js framework with an SEO-optimized structure.
             </p>
             <p>
-              <span className="font-medium text-[#1d1d1f]">The Solo Developer:</span> Kingdom Sites
+              <span className="font-medium text-ink">The Solo Developer:</span> Kingdom Sites
               is a specialized, solo-operated freelancer. To maintain code integrity and project speed,
               I work exclusively within my own established processes, design flows, and tech stack
               (Next.js/Vercel). I work hand in hand with the client but I do not collaborate with
@@ -27,34 +28,34 @@ export default function TermsPage() {
               the build phase.
             </p>
             <p>
-              <span className="font-medium text-[#1d1d1f]">Exclusions:</span> Price covers the
-              initial build only. Advanced custom features (e.g., complex databases, member portals,
-              or custom API integrations) are considered an &ldquo;advanced premium site&rdquo;
-              which costs extra.
+              <span className="font-medium text-ink">Exclusions:</span> The quoted price
+              covers the scope agreed in the quote only. Features requested beyond the agreed
+              scope (e.g., additional integrations, portals, or modules) are scoped and quoted
+              separately.
             </p>
           </div>
         </div>
 
         <div>
-          <h2 className="mb-3 text-base font-semibold text-[#1d1d1f]">2. Payment Terms &amp; Service Integration</h2>
+          <h2 className="mb-3 text-base font-semibold text-ink">2. Payment Terms &amp; Service Integration</h2>
           <div className="space-y-3">
             <p>
-              <span className="font-medium text-[#1d1d1f]">Deposit:</span> A non-refundable $100
+              <span className="font-medium text-ink">Deposit:</span> A non-refundable $100
               commitment fee is required to secure your spot and begin architecture.
             </p>
             <p>
-              <span className="font-medium text-[#1d1d1f]">Final Payment:</span> The remaining
-              balance ($499 for Premium / $899 for Advanced) is due upon project completion or 30
-              days after the start date, whichever comes first.
+              <span className="font-medium text-ink">Final Payment:</span> The remaining
+              quoted balance is due upon project completion or 30 days after the start date,
+              whichever comes first.
             </p>
             <p>
-              <span className="font-medium text-[#1d1d1f]">Mandatory Service Integration:</span>{' '}
+              <span className="font-medium text-ink">Mandatory Service Integration:</span>{' '}
               To ensure ongoing security and high-performance hosting, all projects require enrollment
               in the $49/month Maintenance &amp; Hosting Plan (or the $199/month Managed Growth Plan)
               as a condition of service.
             </p>
             <p>
-              <span className="font-medium text-[#1d1d1f]">Refund Eligibility:</span> Fees (minus
+              <span className="font-medium text-ink">Refund Eligibility:</span> Fees (minus
               deposit) are only refundable if Kingdom Sites fails to deliver a functional
               &ldquo;Beta,&rdquo; abandons the project for 14+ business days, or fails to resolve
               a critical security vulnerability before hand-off.
@@ -63,7 +64,7 @@ export default function TermsPage() {
         </div>
 
         <div>
-          <h2 className="mb-3 text-base font-semibold text-[#1d1d1f]">3. The Content Deadline </h2>
+          <h2 className="mb-3 text-base font-semibold text-ink">3. The Content Deadline </h2>
           <div className="space-y-3">
             <p>
               The client or agency must provide all text, branding assets, and photography within 14 days
@@ -78,26 +79,26 @@ export default function TermsPage() {
         </div>
 
         <div>
-          <h2 className="mb-3 text-base font-semibold text-[#1d1d1f]">4. Revision &amp; Maintenance Policy</h2>
+          <h2 className="mb-3 text-base font-semibold text-ink">4. Revision &amp; Maintenance Policy</h2>
           <div className="space-y-3">
             <p>
-              <span className="font-medium text-[#1d1d1f]">Revisions:</span> Includes three rounds
+              <span className="font-medium text-ink">Revisions:</span> Includes three rounds
               of revisions on the &ldquo;Beta&rdquo; version. Post-launch requests or changes
               exceeding the initial scope will result in a $50 per hour billing fee. 
             </p>
             <p>
-              <span className="font-medium text-[#1d1d1f]">Stability Period:</span> A 30-day
+              <span className="font-medium text-ink">Stability Period:</span> A 30-day
               Stability Period begins at launch. During this time, I focus exclusively on performance
               monitoring and security. Routine content updates included in your monthly plan commence
               after this 30-day window.
             </p>
             <p>
-              <span className="font-medium text-[#1d1d1f]">Maintenance Definition:</span> Monthly
+              <span className="font-medium text-ink">Maintenance Definition:</span> Monthly
               fees cover hosting, security monitoring, and up to two (1) hour minor content updates
               (text swaps, image changes) per month.
             </p>
             <p>
-              <span className="font-medium text-[#1d1d1f]">Major Updates:</span> Requests exceeding
+              <span className="font-medium text-ink">Major Updates:</span> Requests exceeding
               one hour of labor or requiring structural changes are classified as &ldquo;Major
               Updates&rdquo; and will be quoted separately.
             </p>
@@ -105,23 +106,23 @@ export default function TermsPage() {
         </div>
 
         <div>
-          <h2 className="mb-3 text-base font-semibold text-[#1d1d1f]">5. Ownership &amp; Security Access</h2>
+          <h2 className="mb-3 text-base font-semibold text-ink">5. Ownership &amp; Security Access</h2>
           <div className="space-y-3">
             <p>
-              <span className="font-medium text-[#1d1d1f]">Ownership:</span> The client owns the
+              <span className="font-medium text-ink">Ownership:</span> The client owns the
               website content, domain, and assets 100% upon receipt of the final payment.
             </p>
             <p>
-              <span className="font-medium text-[#1d1d1f]">Technical Access:</span> If Kingdom Sites
-              host (preferred) Kingdom Sites retains administrative access to the Vercel/Supabase
-              environment to perform the mandatory maintenance and security updates.
+              <span className="font-medium text-ink">Technical Access:</span> If Kingdom Sites
+              host (preferred) Kingdom Sites retains administrative access to the hosting and
+              database environment to perform the mandatory maintenance and security updates.
             </p>
              <p>
-              <span className="font-medium text-[#1d1d1f]">Subject to Change</span> Kingdom Sites reserves the right to adjust the terms of service at any time. 
+              <span className="font-medium text-ink">Subject to Change</span> Kingdom Sites reserves the right to adjust the terms of service at any time. 
               Kingdom Sites must notify all clients / agencies upon change. 
             </p>
             <p>
-              <span className="font-medium text-[#1d1d1f]">White Label Clause (If Applicable):</span> For
+              <span className="font-medium text-ink">White Label Clause (If Applicable):</span> For
               agency partners, I operate as a &ldquo;Work for Hire&rdquo; developer. Ownership of
               the end-product is governed by the specific partnership agreement.
             </p>
@@ -129,12 +130,12 @@ export default function TermsPage() {
         </div>
 
         <div>
-          <h2 className="mb-3 text-base font-semibold text-[#1d1d1f]">Contact</h2>
+          <h2 className="mb-3 text-base font-semibold text-ink">Contact</h2>
           <p>
             Please reach out if you have any questions: {' '}
             <a
               href="mailto:thomas@kingdom-sites.com"
-              className="underline underline-offset-2 hover:text-[#1d1d1f]"
+              className="underline underline-offset-2 hover:text-ink"
             >
               thomas@kingdom-sites.com 
             </a>
