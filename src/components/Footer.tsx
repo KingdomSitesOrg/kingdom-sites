@@ -4,6 +4,7 @@ import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
 const PAGE_LINKS = [
   { href: '/',        label: 'Home' },
   { href: '/my-work', label: 'My Work' },
+  { href: '/ministry', label: 'Ministry' },
   { href: '/about',   label: 'About' },
   { href: '/why-us',  label: 'Why Kingdom Sites' },
   { href: '/mission', label: 'Mission' },

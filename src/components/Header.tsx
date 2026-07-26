@@ -6,10 +6,11 @@ import { usePathname } from 'next/navigation'
 import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
 
 const NAV_LINKS = [
-  { to: '/my-work', label: 'My Work' },
-  { to: '/about',   label: 'About' },
-  { to: '/why-us',  label: 'Why Kingdom Sites' },
-  { to: '/mission', label: 'Mission' },
+  { to: '/my-work',  label: 'My Work' },
+  { to: '/ministry', label: 'Ministry' },
+  { to: '/about',    label: 'About' },
+  { to: '/why-us',   label: 'Why Kingdom Sites' },
+  { to: '/mission',  label: 'Mission' },
 ]
 
 function MenuIcon() {
