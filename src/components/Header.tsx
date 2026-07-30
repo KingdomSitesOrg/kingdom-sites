@@ -9,7 +9,7 @@ import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
 const WORK_LINKS = [
   { to: '/my-work',       label: 'All my work',   desc: 'Everything I’ve designed and shipped' },
   { to: '/ruta',          label: 'Ruta',          desc: 'Service management platform · case study' },
-  { to: '/tap-to-tick',   label: 'Tap to Tick',   desc: 'Budgeting for iPhone · on the App Store' },
+  { to: '/tap-to-tick',   label: 'Tap to Tick',   desc: 'A frictionless expense tracker for iPhone' },
   { to: '/jam-with-latin',label: 'Jam with Latin',desc: 'Latin practice for students' },
   { to: '/ai-tooling',    label: 'AI tooling',    desc: 'Setting up teams new to AI' },
 ]

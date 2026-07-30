@@ -79,9 +79,18 @@ export default function JamWithLatin() {
     <>
       <header ref={headerRef}>
         <nav>
-          <div className="brand">
-            <span className="crest" aria-hidden="true">JL</span>
-            Jam with Latin
+          <div className="brand-row">
+            {/* The way back to Kingdom Sites, anchored top left on every page and
+                styled like the badge on the main site. */}
+            <Link href="/" className="ks-anchor">
+              <span className="ks-mark" aria-hidden="true">K</span>
+              <span className="ks-name">Kingdom Sites</span>
+            </Link>
+            <span className="brand-sep" aria-hidden="true" />
+            <div className="brand">
+              <span className="crest" aria-hidden="true">JL</span>
+              Jam with Latin
+            </div>
           </div>
           <div className="nav-right">
             <div className="nav-links">
@@ -90,9 +99,6 @@ export default function JamWithLatin() {
               <a href="#screens">Screens</a>
             </div>
             <a href="#get" className="btn-gold">Get it</a>
-            {/* Pinned to the far right on every page, and deliberately not one of
-                the product's own links. */}
-            <Link href="/my-work" className="home-link">Kingdom Sites</Link>
           </div>
         </nav>
       </header>

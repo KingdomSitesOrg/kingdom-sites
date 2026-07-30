@@ -192,7 +192,7 @@ export default function AiTooling() {
             <div className="tile flex flex-col p-7 sm:p-9">
               <h3 className="text-lg font-semibold tracking-tight text-ink">The Tap to Tick money coach</h3>
               <p className="mt-1 text-xs font-medium uppercase tracking-wider text-muted">
-                iPhone budgeting app · my own product
+                iPhone expense tracker · my own product · coming soon
               </p>
               <p className="mt-3 flex-1 text-sm leading-relaxed text-body">
                 Ask a question in plain English and get an answer built from your own numbers — and

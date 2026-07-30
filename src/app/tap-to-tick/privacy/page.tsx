@@ -22,7 +22,7 @@ export default function TapToTickPrivacy() {
       <h2>Summary</h2>
       <p>
         Tap to Tick (the app, its Lock Screen and Home Screen widgets, and its Apple Watch companion) is a
-        personal budgeting tool. There is no Tap to Tick account system, no analytics, and no advertising.
+        personal expense tracker. There is no Tap to Tick account system, no analytics, and no advertising.
         Sign-in is your existing Apple ID / iCloud account at the system level. Tap to Tick does not operate
         a database that stores your budget.
       </p>

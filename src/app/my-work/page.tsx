@@ -20,12 +20,12 @@ const TTT_HIGHLIGHTS = [
     desc: 'No servers holding your budget and no account to create. Everything syncs through your own iCloud, including an optional shared budget for two people.',
   },
   {
-    title: 'An AI coach on real numbers',
-    desc: 'Ask a question in plain English and get an answer built from your own entries, budgets and balances — the specific thing worth changing this month, not generic advice.',
+    title: 'An AI coach on real numbers — coming soon',
+    desc: 'Ask a question in plain English and get an answer built from your own entries, budgets and balances — the specific thing worth changing this month, not generic advice. In beta now, and switched on by request while it is tested.',
   },
   {
     title: 'Free, all of it',
-    desc: 'Every feature is free, including the shared budget for two people. The AI coach is in beta and switched on by request while it is being tested.',
+    desc: 'Every feature is free, including the shared budget for two people. The AI money coach is coming soon — in beta now, switched on by request while it is tested.',
   },
 ]
 
@@ -35,14 +35,6 @@ const JWL_HIGHLIGHTS = [
   {
     title: 'A curriculum, not a word list',
     desc: 'Twelve stops teach declensions, then verbs, then sentences — the order classical teachers use — with camp-outs along the way that review everything so far.',
-  },
-  {
-    title: 'Wrong answers that still teach',
-    desc: 'Every wrong option is a real, correctly-declined Latin form rather than nonsense, and macrons are correct throughout. A student who guesses still sees true grammar.',
-  },
-  {
-    title: 'Sign-up a parent will accept',
-    desc: 'A username and a six-digit PIN — no email address, no ads, no tracking, and account deletion built into the app.',
   },
   {
     title: 'A reason to come back',
@@ -86,7 +78,7 @@ const AI_SHIPPED = [
   },
   {
     product: 'The Tap to Tick money coach',
-    where: 'iPhone budgeting app · my own product',
+    where: 'iPhone expense tracker · my own product · coming soon',
     points: [
       'Ask a question in plain English, get an answer from your own entries, budgets and balances',
       'The app decides which of your numbers bear on the question and sends only those',
@@ -275,12 +267,13 @@ export default function MyWork() {
                 Tap to Tick
               </h2>
               <p className="mt-2 text-base text-white/80">
-                A budgeting app you can actually keep up with.
+                A frictionless expense tracker.
               </p>
               <p className="mt-4 text-[15px] leading-relaxed text-white/65">
-                Most budgeting apps fail for the same reason: logging a purchase is more work than making
-                one. Tap to Tick puts the whole thing on your Lock Screen, your wrist, and your Apple Pay —
-                and then explains your own numbers back to you with an AI money coach.
+                Most expense trackers fail for the same reason: logging a purchase is more work than
+                making one. Tap to Tick puts the whole thing on your Lock Screen, your wrist, and your
+                Apple Pay. An AI money coach that explains your own numbers back to you is coming
+                soon.
               </p>
 
               <div className="mt-6 flex flex-wrap gap-x-4 gap-y-2">
@@ -342,8 +335,9 @@ export default function MyWork() {
           </h2>
           <p className="mt-5 max-w-2xl text-pretty text-base leading-relaxed text-body">
             I have shipped this twice, in two very different products: an assistant inside a platform
-            businesses run on, and a money coach inside a consumer app. Both answer from the user&apos;s
-            own data, and one of them takes actions on it.
+            businesses run on, and a money coach inside a consumer app — the coach is in beta and
+            coming soon. Both answer from the user&apos;s own data, and one of them takes actions on
+            it.
           </p>
 
           <div className="mt-10 grid gap-5 lg:grid-cols-2">

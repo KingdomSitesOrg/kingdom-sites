@@ -115,9 +115,18 @@ export default function TapToTick() {
     <>
       <header ref={headerRef}>
         <nav>
-          <div className="brand">
-            <span className="mark"><Tick /></span>
-            Tap to Tick
+          <div className="brand-row">
+            {/* The way back to Kingdom Sites, anchored top left on every page and
+                styled like the badge on the main site. */}
+            <Link href="/" className="ks-anchor">
+              <span className="ks-mark" aria-hidden="true">K</span>
+              <span className="ks-name">Kingdom Sites</span>
+            </Link>
+            <span className="brand-sep" aria-hidden="true" />
+            <div className="brand">
+              <span className="mark"><Tick /></span>
+              Tap to Tick
+            </div>
           </div>
           <div className="nav-right">
             <div className="nav-links">
@@ -131,9 +140,6 @@ export default function TapToTick() {
             <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" className="btn-sm">
               Get it
             </a>
-            {/* Pinned to the far right on every page, and deliberately not one of
-                the product's own links. */}
-            <Link href="/my-work" className="home-link">Kingdom Sites</Link>
           </div>
         </nav>
       </header>
@@ -392,7 +398,7 @@ export default function TapToTick() {
       <section id="ask" className="band">
         <div className="wrap split">
           <div className="copy reveal">
-            <div className="kicker">06 — Ask<span className="tag-beta">Beta</span></div>
+            <div className="kicker">06 — Ask<span className="tag-beta">Beta · coming soon</span></div>
             <h2>A money coach that reads your numbers.</h2>
             <p className="lede">
               Ask anything in plain English and get an answer built from <b>your own</b> entries,
