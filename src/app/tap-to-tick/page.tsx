@@ -50,6 +50,10 @@ const CHIPS = [
   { label: 'Other',     icon: '🏷️', color: 'var(--grey)' },
 ]
 
+/* One half of the drifting rail: the categories repeated until they are wider
+   than any screen, so the loop never shows daylight at the end. */
+const CHIP_RAIL = Array.from({ length: 4 }, () => CHIPS).flat()
+
 const BARS = [
   { name: 'Groceries', value: '$85.50 of $400',   width: '21%', color: 'var(--green)' },
   { name: 'Dining',    value: '$16.00 of $150',   width: '11%', color: 'var(--orange)' },
@@ -174,11 +178,13 @@ export default function TapToTick() {
 
           <p className="note"><b>Free to use.</b> No account to create, no ads, no tracking.</p>
 
-          {/* Two copies of the list, so the drift can loop without a gap. Hidden
-              from screen readers; the plain list below says it once. */}
+          {/* Seven chips are narrower than a desktop window, so each half of the
+              track repeats them enough times to overflow the widest screen — that
+              is what stops a blank stretch appearing before the loop restarts.
+              Hidden from screen readers; the plain list below says it once. */}
           <div className="chip-rail" aria-hidden="true">
             <div className="chip-track">
-              {[...CHIPS, ...CHIPS].map((c, i) => (
+              {[...CHIP_RAIL, ...CHIP_RAIL].map((c, i) => (
                 <span key={`${c.label}-${i}`} className="chip">
                   <i style={{ background: c.color }}>{c.icon}</i>
                   {c.label}

@@ -184,7 +184,9 @@
 }
 .ttt .chip-track {
   display: flex; gap: 9px; width: max-content;
-  animation: ttt-chip-drift 54s linear infinite;
+  /* The track is now several copies wide, so the duration is long to match —
+     one pass covers far more pixels than it used to. */
+  animation: ttt-chip-drift 180s linear infinite;
 }
 @keyframes ttt-chip-drift { to { transform: translateX(-50%); } }
 .ttt .chip-rail:hover .chip-track { animation-play-state: paused; }
