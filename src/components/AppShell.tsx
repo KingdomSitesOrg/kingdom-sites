@@ -25,8 +25,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     return <main className="w-full">{children}</main>
   }
 
+  // `overflow-x: clip` rather than `hidden` on the wrapper: hidden would make it
+  // a scroll container, and the sticky header inside it would stop sticking on
+  // both mobile and desktop. Clip still keeps stray width from scrolling.
   return (
-    <div className="min-h-screen min-h-dvh w-full overflow-x-hidden text-ink">
+    <div className="min-h-screen min-h-dvh w-full overflow-x-clip text-ink">
       <Header />
       <main>{children}</main>
       <Footer />
