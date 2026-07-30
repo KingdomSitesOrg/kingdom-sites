@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import aboutImage from '../../public/Photos/about.jpg'
+import ToolTicker from '@/components/ToolTicker'
 import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
 
 const STACK = ['Next.js', 'React', 'TypeScript', 'React Native', 'Swift', 'Node.js', 'PostgreSQL', 'AWS', 'Vercel']
@@ -122,6 +123,26 @@ export default function Home() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* My tools — the rotating strips */}
+      <section aria-label="My tools" className="overflow-hidden border-t border-line py-16 sm:py-20">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8">
+          <div className="max-w-2xl">
+            <p className="eyebrow eyebrow-blue">My tools</p>
+            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+              The kit I build with.
+            </h2>
+            <p className="mt-4 text-[15px] leading-relaxed text-body sm:text-base">
+              Languages and platforms, the cloud services behind them, and the AI work — including
+              AI tooling for developers and teams who are new to it and want a hand getting started.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-10">
+          <ToolTicker />
         </div>
       </section>
 

@@ -160,6 +160,22 @@ body {
   transform: translateY(0);
 }
 
+/* The rotating tool strips. Each row holds two identical copies of its list,
+   so sliding the row half its own width and starting over loops with no seam. */
+@keyframes marquee-slide {
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee-slide linear infinite;
+  will-change: transform;
+}
+.marquee-row:hover .marquee-track { animation-play-state: paused; }
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+}
+
 @media print {
   .reveal-card { opacity: 1 !important; transform: none !important; }
+  .marquee-track { animation: none; }
 }

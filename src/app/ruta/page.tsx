@@ -117,26 +117,6 @@ const AI_FOR_YOU = [
   },
 ]
 
-/* How I work when the codebase is not mine. */
-const APPROACH = [
-  {
-    title: 'Read first, then ship in its grain',
-    desc: 'I follow the conventions already in the repo rather than importing my own. A reviewer should not be able to tell which files are mine.',
-  },
-  {
-    title: 'Small, reviewable changes',
-    desc: 'One ticket, one pull request, described in plain language. 400+ of them merged, which only works if each is easy to review.',
-  },
-  {
-    title: 'Errors that say something',
-    desc: 'A lot of my work is turning silent failures and raw error codes into messages a dispatcher or a crew member can act on.',
-  },
-  {
-    title: 'Careful around money and time',
-    desc: 'Billing, clock-ins, and scheduled jobs get the most scrutiny, because those are the bugs a business actually feels.',
-  },
-]
-
 const STACK = [
   'TypeScript',
   'React',
@@ -160,6 +140,10 @@ const GREEN = 'text-[#15803d]'
 const GREEN_ON_DARK = 'text-[#4ade80]'
 const EYEBROW = `text-xs font-semibold uppercase tracking-[0.1em] ${GREEN}`
 const EYEBROW_ON_DARK = `text-xs font-semibold uppercase tracking-[0.1em] ${GREEN_ON_DARK}`
+
+/* The store links read as buttons rather than stray text. */
+const STORE_PILL =
+  'inline-flex min-h-[42px] items-center gap-2 rounded-full border border-[#15803d]/25 bg-[#16a34a]/10 px-5 py-2.5 text-sm font-medium text-[#15803d] transition-colors hover:border-[#15803d]/45 hover:bg-[#16a34a]/16'
 
 function AppStoreIcon() {
   return (
@@ -202,22 +186,30 @@ export default function Ruta() {
 
           <dl className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {FACTS.map((f) => (
-              <div key={f.label} className="tile p-5">
-                <dt className="text-[11px] font-semibold uppercase tracking-wider text-muted">{f.label}</dt>
-                <dd className="mt-1.5 text-lg font-semibold tracking-tight text-ink">{f.value}</dd>
+              <div
+                key={f.label}
+                className="rounded-2xl border border-[#15803d]/18 bg-[#16a34a]/[0.07] p-5"
+              >
+                <dt className="text-[11px] font-semibold uppercase tracking-wider text-[#15803d]/75">{f.label}</dt>
+                <dd className={`mt-1.5 text-lg font-semibold tracking-tight ${GREEN}`}>{f.value}</dd>
               </div>
             ))}
           </dl>
 
-          <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
-            <a href={RUTA_SITE_URL} target="_blank" rel="noopener noreferrer" className="btn-ghost">
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <a
+              href={RUTA_SITE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-[42px] items-center rounded-full bg-[#15803d] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#166534]"
+            >
               getruta.com
             </a>
-            <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm text-body hover:text-ink">
+            <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" className={STORE_PILL}>
               <AppStoreIcon />
               Ruta Crew on the App Store
             </a>
-            <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm text-body hover:text-ink">
+            <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer" className={STORE_PILL}>
               <PlayStoreIcon />
               On Google Play
             </a>
@@ -372,29 +364,6 @@ export default function Ruta() {
                 ))}
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ---------- how I work ---------- */}
-      <section aria-label="How I work" className="band-dark px-5 py-16 sm:px-8 sm:py-20">
-        <div className="mx-auto max-w-6xl">
-          <p className={EYEBROW_ON_DARK}>How I work</p>
-          <h2 className="mt-4 max-w-2xl text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-            Coming into a codebase someone else started
-          </h2>
-          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-white/65">
-            Ruta is the long-running example of what I do inside an existing product with a team
-            around it — which is most client work. The habits matter more than the features.
-          </p>
-
-          <div className="mt-10 grid gap-4 sm:grid-cols-2">
-            {APPROACH.map((a) => (
-              <div key={a.title} className="tile-dark p-7">
-                <h3 className="text-base font-semibold tracking-tight text-white">{a.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-white/65">{a.desc}</p>
-              </div>
-            ))}
           </div>
         </div>
       </section>
