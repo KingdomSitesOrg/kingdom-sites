@@ -18,9 +18,11 @@ const SERVICES = [
     desc: 'Mobile apps for your customers or your team — from first idea to the App Store.',
   },
   {
-    eyebrow: 'Platforms & Dashboards',
-    title: 'Your operations, organized.',
-    desc: 'Customer portals, admin dashboards, and internal tools that make running your business easier.',
+    eyebrow: 'AI Consultation',
+    title: 'Learn it, or build it in.',
+    desc: 'Sitting down with your developers to use AI properly, or getting it inside the product you are building. Built for teams who are new to it.',
+    href: '/ai-tooling',
+    cta: 'See what that covers',
   },
   {
     eyebrow: 'APIs & Backends',
@@ -117,9 +119,12 @@ export default function Home() {
                   {s.title}
                 </h3>
                 <p className="mt-3 flex-1 text-[15px] leading-relaxed text-body">{s.desc}</p>
-                <a href={CONTACT_MAILTO} className="link-accent mt-5 self-start text-sm">
-                  Get a quote <span aria-hidden="true">›</span>
-                </a>
+                {/* Only the AI card leads anywhere; the rest just describe the work. */}
+                {s.href && (
+                  <Link href={s.href} className="link-accent mt-5 self-start text-sm">
+                    {s.cta} <span aria-hidden="true">›</span>
+                  </Link>
+                )}
               </div>
             ))}
           </div>
