@@ -143,14 +143,15 @@ function Slide({
   const Line = index === 0 ? 'h1' : 'p'
 
   return (
-    /* Each line owns a tall stretch of page, and holds still in the middle of
-       the screen for most of it. That is the pause: you have to keep scrolling
-       to move past a line, so nobody flies through the whole section in one
-       flick. */
-    <div className="h-[150svh]">
+    /* On a desktop each line owns a tall stretch of page and holds still in the
+       middle of the screen for most of it, so you have to keep scrolling to get
+       past it. On a phone that hold fights with touch scrolling — a slightly
+       long flick lands you in the middle of a pause — so there each line simply
+       scrolls by with the page. */
+    <div className="h-[88svh] sm:h-[150svh]">
       <div
         ref={ref}
-        className="sticky top-0 flex h-svh items-center justify-center px-5 sm:px-8"
+        className="flex h-full items-center justify-center px-5 sm:sticky sm:top-0 sm:h-svh sm:px-8"
       >
         {/* On a phone this stacks: the country map on top and large, the words
             underneath at full width. From tablet up the drawing moves
