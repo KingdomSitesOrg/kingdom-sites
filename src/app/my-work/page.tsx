@@ -583,7 +583,7 @@ export default function MyWork() {
           <p className="mx-auto mt-10 max-w-2xl text-center text-[13.5px] leading-relaxed text-muted">
             <span className="text-accent">*</span> Assuming the direction, graphics, and content come
             from you before the build starts, or reach me as it goes. Time spent waiting on those
-            pushes the date out with it.
+            pushes the date out with it — and it depends on how complex the app is.
           </p>
         </div>
       </section>
