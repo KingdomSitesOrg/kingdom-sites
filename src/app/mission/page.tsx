@@ -12,73 +12,16 @@ export const metadata: Metadata = {
 }
 
 /* Organizations we stand with. Every link was checked; a couple of these sites
-   sit behind bot protection, so they answer a browser but not a script.
-   `note` is the line that shows once a card turns over. */
+   sit behind bot protection, so they answer a browser but not a script. */
 const ORGS = [
-  {
-    name: 'Voice of the Martyrs',
-    url: 'https://www.persecution.com',
-    what: 'Serves persecuted Christians worldwide',
-    icon: 'book',
-    how: 'Bibles, relief, and the stories of believers under pressure — the ones almost nobody else reports.',
-    note: 'Started by Richard Wurmbrand, a pastor who spent fourteen years in Romanian prisons.',
-  },
-  {
-    name: 'Open Doors',
-    url: 'https://www.opendoors.org',
-    what: 'Strengthens the church where following Jesus costs most',
-    icon: 'door',
-    how: 'Long-term presence in the hardest countries, and the annual watch list that tells the rest of us where to look.',
-    note: 'Began with Brother Andrew carrying Bibles across the Iron Curtain.',
-  },
-  {
-    name: 'International Christian Concern',
-    url: 'https://www.persecution.org',
-    what: 'Advocacy and relief for persecuted Christians',
-    icon: 'megaphone',
-    how: 'Puts names and cases in front of governments and the press, and gets aid to families who lost everything.',
-    note: 'Advocacy work aimed at the people who can actually change a policy.',
-  },
-  {
-    name: 'RUN Ministries',
-    url: 'https://runministries.org',
-    what: 'Disciple-making movements, church to church',
-    icon: 'multiply',
-    how: 'Training ordinary believers to start churches rather than waiting for professionals to arrive.',
-    note: 'The multiplication side of the work: every disciple expected to make disciples.',
-  },
-  {
-    name: 'No Place Left',
-    url: 'https://noplaceleft.net',
-    what: 'A coalition aiming at no place left unreached',
-    icon: 'globe',
-    how: 'The approaches we use ourselves: simple, reproducible, and handed straight to new believers.',
-    note: 'A coalition rather than an organization — nobody owns it, anyone can run with it.',
-  },
-  {
-    name: 'Operation Mobilization',
-    url: 'https://www.om.org',
-    what: 'Global mission across land and sea',
-    icon: 'ship',
-    how: 'Decades of work in places that took decades to reach, including ocean-going ships carrying books and help into port cities.',
-    note: 'One of the older sending organizations still going, in well over a hundred countries.',
-  },
-  {
-    name: 'GFA World',
-    url: 'https://www.gfa.org',
-    what: 'Serving the poorest in hard places',
-    icon: 'drop',
-    how: 'Clean water, literacy, and care for the people our own work is aimed at.',
-    note: 'Wells, tuition, and medical care among communities with almost no Christian witness.',
-  },
-  {
-    name: 'International Mission Board',
-    url: 'https://www.imb.org',
-    what: 'Sends and supports long-term workers',
-    icon: 'send',
-    how: 'The unglamorous infrastructure — training, sending, and staying — behind thousands of families overseas.',
-    note: 'The sending body of the Southern Baptist Convention, at work since the 1840s.',
-  },
+  { name: 'Voice of the Martyrs', url: 'https://www.persecution.com' },
+  { name: 'Open Doors', url: 'https://www.opendoors.org' },
+  { name: 'International Christian Concern', url: 'https://www.persecution.org' },
+  { name: 'RUN Ministries', url: 'https://runministries.org' },
+  { name: 'No Place Left', url: 'https://noplaceleft.net' },
+  { name: 'Operation Mobilization', url: 'https://www.om.org' },
+  { name: 'GFA World', url: 'https://www.gfa.org' },
+  { name: 'International Mission Board', url: 'https://www.imb.org' },
 ]
 
 function ArrowOut() {
@@ -93,75 +36,6 @@ function ArrowOut() {
       />
     </svg>
   )
-}
-
-/* One small mark per organization, drawn inline. Nothing loaded, nothing to
-   maintain, and each one says something about the work. */
-function OrgIcon({ name }: { name: string }) {
-  const common = {
-    width: 22,
-    height: 22,
-    viewBox: '0 0 24 24',
-    fill: 'none',
-    stroke: 'currentColor',
-    strokeWidth: 1.6,
-    strokeLinecap: 'round' as const,
-    strokeLinejoin: 'round' as const,
-    'aria-hidden': true,
-  }
-  switch (name) {
-    case 'book':
-      return (
-        <svg {...common}>
-          <path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v15H5.5C4.7 19 4 18.3 4 17.5v-12ZM20 5.5c0-.8-.7-1.5-1.5-1.5H13v15h5.5c.8 0 1.5-.7 1.5-1.5v-12ZM12 6v13" />
-        </svg>
-      )
-    case 'door':
-      return (
-        <svg {...common}>
-          <path d="M6 20V4h9a2 2 0 0 1 2 2v14M6 20h13M13.5 12h.01M17 6l4 3v11h-4" />
-        </svg>
-      )
-    case 'megaphone':
-      return (
-        <svg {...common}>
-          <path d="M4 10v4l10 4V6L4 10ZM14 8.5a4 4 0 0 1 0 7M7 15v4h3v-3" />
-        </svg>
-      )
-    case 'multiply':
-      return (
-        <svg {...common}>
-          <path d="M12 4v4M12 8 7 13M12 8l5 5M7 13v3M17 13v3M5 19h4M15 19h4" />
-        </svg>
-      )
-    case 'globe':
-      return (
-        <svg {...common}>
-          <circle cx="12" cy="12" r="8" />
-          <path d="M4 12h16M12 4c2.5 2.6 2.5 12.4 0 16-2.5-3.6-2.5-13.4 0-16Z" />
-        </svg>
-      )
-    case 'ship':
-      return (
-        <svg {...common}>
-          <path d="M4 14h16l-2 5H6l-2-5ZM7 14V9l5-4 5 4v5M12 5v9" />
-        </svg>
-      )
-    case 'drop':
-      return (
-        <svg {...common}>
-          <path d="M12 3.5c3 3.7 5.5 6.4 5.5 9.6A5.5 5.5 0 0 1 12 19a5.5 5.5 0 0 1-5.5-5.9c0-3.2 2.5-5.9 5.5-9.6Z" />
-        </svg>
-      )
-    case 'send':
-      return (
-        <svg {...common}>
-          <path d="M4 12 20 4l-4 16-5-6-7-2ZM11 14l9-10" />
-        </svg>
-      )
-    default:
-      return null
-  }
 }
 
 export default function Mission() {
@@ -281,17 +155,17 @@ export default function Mission() {
             </p>
           </div>
 
-          {/* Mobile: names and visit links float freely — no grid. */}
-          <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-5 sm:hidden">
+          {/* Same plain-link grid on every width — no borders, no flip cards. */}
+          <ul className="mt-10 grid grid-cols-2 gap-x-6 gap-y-7 sm:grid-cols-3 lg:grid-cols-4">
             {ORGS.map((org) => (
               <li key={org.name}>
                 <a
                   href={org.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex flex-col gap-1"
+                  className="flex flex-col gap-1.5 transition-opacity hover:opacity-80"
                 >
-                  <span className="text-[15px] font-semibold leading-snug tracking-tight text-white">
+                  <span className="text-[15px] font-semibold leading-snug tracking-tight text-white sm:text-base">
                     {org.name}
                   </span>
                   <span className="flex items-center gap-1.5 text-[13px] font-medium text-[#f0b48c]">
@@ -302,55 +176,6 @@ export default function Mission() {
               </li>
             ))}
           </ul>
-
-          {/* Desktop: hover to turn a card over. */}
-          <div className="mt-10 hidden gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-4">
-            {ORGS.map((org) => (
-              <div key={org.name} className="flip">
-                {/* No overflow clipping here: hiding overflow flattens the 3D
-                    space, which showed the front face mirrored instead of the
-                    back. The back carries its own rounded corners instead. */}
-                <div className="flip-inner tile-dark transition-colors hover:border-white/25">
-                  <a
-                    href={org.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flip-face flex min-h-[212px] flex-col p-6"
-                  >
-                    <span className="text-[#f0b48c]">
-                      <OrgIcon name={org.icon} />
-                    </span>
-                    <span className="mt-4 text-base font-semibold leading-snug tracking-tight text-white">
-                      {org.name}
-                    </span>
-                    <span className="mt-2 flex-1 text-sm leading-relaxed text-white/60">
-                      {org.what}
-                    </span>
-                    <span className="mt-4 flex items-center gap-1.5 text-sm font-medium text-[#f0b48c]">
-                      Their site
-                      <ArrowOut />
-                    </span>
-                  </a>
-
-                  <a
-                    href={org.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flip-back flip-face flex flex-col rounded-[22px] bg-[#1b2436] p-6"
-                  >
-                    <span className="text-sm leading-relaxed text-white/80">{org.how}</span>
-                    <span className="mt-3 flex-1 text-[13px] leading-relaxed text-white/50">
-                      {org.note}
-                    </span>
-                    <span className="mt-4 flex items-center gap-1.5 text-sm font-medium text-[#f0b48c]">
-                      Visit and give
-                      <ArrowOut />
-                    </span>
-                  </a>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
