@@ -301,10 +301,6 @@ export default function Mission() {
                 gospel. My wife and I are in training for long-term ministry in South Asia.
               </p>
             </div>
-
-            <div className="mt-8">
-              <ContactCta label="Start a Project" />
-            </div>
           </div>
         </div>
       </section>
