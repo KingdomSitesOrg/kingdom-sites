@@ -168,22 +168,23 @@ export default function Mission() {
   return (
     <div className="band-dark w-full">
       {/* ---------- opening ---------- */}
-      <section className="px-5 pb-14 pt-16 sm:px-8 sm:pb-16 sm:pt-24">
-        <div className="mx-auto grid max-w-6xl items-stretch gap-4 sm:gap-5 lg:grid-cols-12 lg:gap-6">
-          <div className="lg:col-span-6">
-            <div className="h-full min-h-[min(52vw,280px)] overflow-hidden rounded-[26px] border border-white/12 shadow-[0_28px_64px_rgba(0,0,0,0.5)] sm:min-h-[360px] lg:min-h-[480px]">
+      <section className="px-4 pb-12 pt-12 sm:px-6 sm:pb-14 sm:pt-16 lg:px-8 lg:pb-16 lg:pt-20">
+        <div className="mx-auto grid max-w-[90rem] items-stretch gap-5 lg:grid-cols-12 lg:gap-7">
+          <div className="lg:col-span-8">
+            <div className="h-full min-h-[min(78vw,340px)] overflow-hidden rounded-[26px] border border-white/12 shadow-[0_28px_64px_rgba(0,0,0,0.5)] sm:min-h-[480px] lg:min-h-[min(78vh,720px)]">
               <Image
                 src={missionImage}
                 alt="Mission work overseas"
-                quality={80}
+                quality={85}
                 placeholder="blur"
-                sizes="(max-width: 1024px) 100vw, 50vw"
+                sizes="(max-width: 1024px) 100vw, 68vw"
                 className="h-full w-full object-cover object-center"
+                priority
               />
             </div>
           </div>
 
-          <div className="flex flex-col justify-center lg:col-span-6">
+          <div className="flex flex-col justify-center lg:col-span-4">
             <p className="eyebrow">Our mission work</p>
             <h1 className="mt-4 text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-white sm:text-5xl">
               Mission work in the <span className="text-[#f0b48c]">unreached world.</span>
