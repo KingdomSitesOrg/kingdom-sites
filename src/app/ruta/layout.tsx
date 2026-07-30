@@ -1,23 +1,23 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Ruta — service management from prospect to payment',
+  title: 'Ruta — what I built in a live service-management platform',
   description:
-    'Ruta is service-management software for landscaping and maintenance businesses: rate requests, crew routing, an offline-first field app, a customer portal, and automatic invoicing. A production platform I helped build, across the web app, the AWS backend, and the iOS crew app.',
+    'A case study: Ruta is service-management software for landscaping and maintenance businesses. Since April 2026 I have merged 350+ pull requests across its office web app, crew app for iPhone and Android, customer portal, and AWS backend.',
   alternates: { canonical: '/ruta' },
   openGraph: {
-    title: 'Ruta — One platform. Prospect to payment.',
+    title: 'Ruta — a case study',
     description:
-      'Scheduling, crews, billing, and customers in one place for landscaping and maintenance businesses.',
+      'What I have shipped inside Ruta: billing, the field app, the office web app, the customer portal, and the AWS backend behind them.',
     url: 'https://kingdom-sites.com/ruta',
-    siteName: 'Ruta',
+    siteName: 'Kingdom Sites',
     locale: 'en_US',
     type: 'website',
   },
 }
 
 export default function RutaLayout({ children }: { children: React.ReactNode }) {
-  // Ruta has its own dark-green identity, so this page renders without the
-  // Kingdom Sites header and footer, the same as the other product pages.
-  return <div className="min-h-screen bg-[#0a1f0a] text-white">{children}</div>
+  // Unlike the Tap to Tick and Jam with Latin pages, this one is a case study
+  // rather than a product page, so it keeps the Kingdom Sites look and chrome.
+  return <>{children}</>
 }

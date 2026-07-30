@@ -55,7 +55,7 @@ const RUTA_STACK = ['TypeScript', 'React', 'React Native', 'Expo', 'AWS Lambda',
 const RUTA_HIGHLIGHTS = [
   {
     title: 'Four apps over one backend',
-    desc: 'An office web app, an iOS app for field crews, a self-service customer portal, and an internal admin console — all reading and writing the same jobs, visits, and invoices.',
+    desc: 'An office web app, a field crew app on iPhone and Android, a self-service customer portal, and an internal admin console — all reading and writing the same jobs, visits, and invoices.',
   },
   {
     title: 'Money that moves on its own',
@@ -89,60 +89,82 @@ export default function MyWork() {
         </p>
       </section>
 
-      {/* Featured project — Tap to Tick */}
-      <section aria-label="Tap to Tick" className="band-dark px-5 py-16 sm:px-8 sm:py-24">
+      {/* Featured project — Ruta */}
+      <section aria-label="Ruta" className="bg-[#0a1f0a] px-5 py-16 text-white sm:px-8 sm:py-24">
         <div className="mx-auto max-w-6xl">
           <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-14">
             <div>
-              <p className="eyebrow">iPhone · Apple Watch · Widgets</p>
-              <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-                Tap to Tick
-              </h2>
-              <p className="mt-2 text-base text-white/80">
-                A budgeting app you can actually keep up with.
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-green-400/80">
+                Web · iOS + Android · Team product · In production
               </p>
-              <p className="mt-4 text-[15px] leading-relaxed text-white/65">
-                Most budgeting apps fail for the same reason: logging a purchase is more work than making
-                one. Tap to Tick puts the whole thing on your Lock Screen, your wrist, and your Apple Pay —
-                and then explains your own numbers back to you with an AI money coach.
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">Ruta</h2>
+              <p className="mt-2 text-base text-white/80">
+                Service management for landscaping and maintenance businesses.
+              </p>
+              <p className="mt-4 text-[15px] leading-relaxed text-white/60">
+                One platform that carries a job from the first rate request to the final payment:
+                rates and signatures, crews routed and clocked in, invoices raised the moment a visit
+                closes, and customers paying from their own portal. I helped build it, and work across
+                the web app, the AWS backend, the crew app on iPhone and Android, and the customer
+                portal.
               </p>
 
               <div className="mt-6 flex flex-wrap gap-x-4 gap-y-2">
-                {TTT_STACK.map((t) => (
+                {RUTA_STACK.map((t) => (
                   <span key={t} className="text-xs font-medium tracking-wide text-white/45">{t}</span>
                 ))}
               </div>
 
               <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
-                <Link href="/tap-to-tick" className="btn-primary">See the product page</Link>
-                <Link href="/tap-to-tick/privacy" className="text-sm text-white/70 underline underline-offset-4 hover:text-white sm:ml-2">
-                  Privacy policy
+                <Link
+                  href="/ruta"
+                  className="inline-flex min-h-[44px] items-center justify-center rounded-full bg-white px-6 py-3 text-[15px] font-medium text-[#0a1f0a] transition-colors hover:bg-white/90"
+                >
+                  See the product page
                 </Link>
+                <a
+                  href="https://apps.apple.com/us/app/ruta-crew/id6749279335"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-white/70 underline underline-offset-4 hover:text-white sm:ml-2"
+                >
+                  App Store
+                </a>
+                <a
+                  href="https://play.google.com/store/apps/details?id=com.getruta.mobile"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-white/70 underline underline-offset-4 hover:text-white"
+                >
+                  Google Play
+                </a>
+                <a
+                  href="https://getruta.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-white/70 underline underline-offset-4 hover:text-white"
+                >
+                  getruta.com
+                </a>
               </div>
             </div>
 
             {/* Screens */}
             <div className="flex items-end justify-center gap-4 sm:gap-6">
-              <div className="w-[42%] max-w-[180px] translate-y-4 overflow-hidden rounded-[26px] border border-white/12 shadow-[0_20px_50px_rgba(0,0,0,0.45)]">
-                <Image src={shotLog} alt="Logging a purchase in Tap to Tick" sizes="180px" className="h-auto w-full" />
+              <div className="w-[42%] max-w-[180px] translate-y-4 overflow-hidden rounded-[22px] border border-white/12 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+                <Image src={rutaVisit} alt="A Ruta Crew visit screen with the crew, an admin note, and the property" sizes="180px" className="h-auto w-full" />
               </div>
-              <div className="w-[48%] max-w-[210px] overflow-hidden rounded-[30px] border border-white/12 shadow-[0_28px_64px_rgba(0,0,0,0.5)]">
-                <Image src={shotOverview} alt="The Tap to Tick overview screen" sizes="210px" className="h-auto w-full" priority />
+              <div className="w-[48%] max-w-[210px] overflow-hidden rounded-[26px] border border-white/12 shadow-[0_28px_64px_rgba(0,0,0,0.55)]">
+                <Image src={rutaQueue} alt="The Ruta Crew queue of today's visits with a clock-in button" sizes="210px" className="h-auto w-full" />
               </div>
             </div>
           </div>
 
-        </div>
-      </section>
-
-      {/* What makes it work */}
-      <section aria-label="How Tap to Tick works" className="px-5 py-16 sm:px-8 sm:py-20">
-        <div className="mx-auto max-w-6xl">
-          <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
-            {TTT_HIGHLIGHTS.map((h) => (
-              <div key={h.title} className="tile p-7">
-                <h3 className="text-base font-semibold tracking-tight text-ink">{h.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-body">{h.desc}</p>
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 sm:gap-5">
+            {RUTA_HIGHLIGHTS.map((h) => (
+              <div key={h.title} className="rounded-[22px] border border-white/12 bg-white/[0.05] p-7">
+                <h3 className="text-base font-semibold tracking-tight text-white">{h.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-white/60">{h.desc}</p>
               </div>
             ))}
           </div>
@@ -201,73 +223,60 @@ export default function MyWork() {
         </div>
       </section>
 
-      {/* Featured project — Ruta */}
-      <section aria-label="Ruta" className="bg-[#0a1f0a] px-5 py-16 text-white sm:px-8 sm:py-24">
+      {/* Featured project — Tap to Tick */}
+      <section aria-label="Tap to Tick" className="band-dark px-5 py-16 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-6xl">
           <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-14">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-green-400/80">
-                Web &amp; iOS · Team product · In production
-              </p>
-              <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">Ruta</h2>
+              <p className="eyebrow">iPhone · Apple Watch · Widgets</p>
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+                Tap to Tick
+              </h2>
               <p className="mt-2 text-base text-white/80">
-                Service management for landscaping and maintenance businesses.
+                A budgeting app you can actually keep up with.
               </p>
-              <p className="mt-4 text-[15px] leading-relaxed text-white/60">
-                One platform that carries a job from the first rate request to the final payment:
-                rates and signatures, crews routed and clocked in, invoices raised the moment a visit
-                closes, and customers paying from their own portal. I helped build it, and work across
-                the web app, the AWS backend, the iOS crew app, and the customer portal.
+              <p className="mt-4 text-[15px] leading-relaxed text-white/65">
+                Most budgeting apps fail for the same reason: logging a purchase is more work than making
+                one. Tap to Tick puts the whole thing on your Lock Screen, your wrist, and your Apple Pay —
+                and then explains your own numbers back to you with an AI money coach.
               </p>
 
               <div className="mt-6 flex flex-wrap gap-x-4 gap-y-2">
-                {RUTA_STACK.map((t) => (
+                {TTT_STACK.map((t) => (
                   <span key={t} className="text-xs font-medium tracking-wide text-white/45">{t}</span>
                 ))}
               </div>
 
               <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
-                <Link
-                  href="/ruta"
-                  className="inline-flex min-h-[44px] items-center justify-center rounded-full bg-white px-6 py-3 text-[15px] font-medium text-[#0a1f0a] transition-colors hover:bg-white/90"
-                >
-                  See the product page
+                <Link href="/tap-to-tick" className="btn-primary">See the product page</Link>
+                <Link href="/tap-to-tick/privacy" className="text-sm text-white/70 underline underline-offset-4 hover:text-white sm:ml-2">
+                  Privacy policy
                 </Link>
-                <a
-                  href="https://apps.apple.com/us/app/ruta-crew/id6749279335"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-white/70 underline underline-offset-4 hover:text-white sm:ml-2"
-                >
-                  Ruta Crew on the App Store
-                </a>
-                <a
-                  href="https://getruta.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-white/70 underline underline-offset-4 hover:text-white"
-                >
-                  getruta.com
-                </a>
               </div>
             </div>
 
             {/* Screens */}
             <div className="flex items-end justify-center gap-4 sm:gap-6">
-              <div className="w-[42%] max-w-[180px] translate-y-4 overflow-hidden rounded-[22px] border border-white/12 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
-                <Image src={rutaVisit} alt="A Ruta Crew visit screen with the crew, an admin note, and the property" sizes="180px" className="h-auto w-full" />
+              <div className="w-[42%] max-w-[180px] translate-y-4 overflow-hidden rounded-[26px] border border-white/12 shadow-[0_20px_50px_rgba(0,0,0,0.45)]">
+                <Image src={shotLog} alt="Logging a purchase in Tap to Tick" sizes="180px" className="h-auto w-full" />
               </div>
-              <div className="w-[48%] max-w-[210px] overflow-hidden rounded-[26px] border border-white/12 shadow-[0_28px_64px_rgba(0,0,0,0.55)]">
-                <Image src={rutaQueue} alt="The Ruta Crew queue of today's visits with a clock-in button" sizes="210px" className="h-auto w-full" />
+              <div className="w-[48%] max-w-[210px] overflow-hidden rounded-[30px] border border-white/12 shadow-[0_28px_64px_rgba(0,0,0,0.5)]">
+                <Image src={shotOverview} alt="The Tap to Tick overview screen" sizes="210px" className="h-auto w-full" priority />
               </div>
             </div>
           </div>
 
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 sm:gap-5">
-            {RUTA_HIGHLIGHTS.map((h) => (
-              <div key={h.title} className="rounded-[22px] border border-white/12 bg-white/[0.05] p-7">
-                <h3 className="text-base font-semibold tracking-tight text-white">{h.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-white/60">{h.desc}</p>
+        </div>
+      </section>
+
+      {/* What makes it work */}
+      <section aria-label="How Tap to Tick works" className="px-5 py-16 sm:px-8 sm:py-20">
+        <div className="mx-auto max-w-6xl">
+          <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
+            {TTT_HIGHLIGHTS.map((h) => (
+              <div key={h.title} className="tile p-7">
+                <h3 className="text-base font-semibold tracking-tight text-ink">{h.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-body">{h.desc}</p>
               </div>
             ))}
           </div>

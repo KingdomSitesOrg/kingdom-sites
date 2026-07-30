@@ -20,20 +20,6 @@ function CheckGlyph({ className = 'h-2.5 w-2.5' }: { className?: string }) {
   )
 }
 
-function CloudIcon() {
-  return (
-    <svg viewBox="0 0 16 16" className="h-3 w-3 shrink-0" aria-hidden="true">
-      <path
-        d="M4.5 12.5h7a3 3 0 0 0 .4-5.97A4 4 0 0 0 4.2 6.6 2.95 2.95 0 0 0 4.5 12.5Z"
-        fill="none"
-        stroke="#b45309"
-        strokeWidth="1.3"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
-
 function Chevron() {
   return (
     <svg viewBox="0 0 8 12" className="h-2.5 w-2.5 shrink-0" aria-hidden="true">
@@ -153,46 +139,6 @@ export function BrowserMockup() {
   )
 }
 
-/* ---------- The crew app: today's route ---------- */
-
-const JOBS = [
-  { order: 1, name: 'Maple Grove HOA', service: 'Weekly lawn maintenance', addr: '120 Maple Dr', est: '2.5h est.', status: 'Completed' },
-  { order: 2, name: 'The Harper Home', service: 'Hedge trimming', addr: '14 Cedar Court', est: '1.5h est.', status: 'In progress' },
-  { order: 3, name: 'Birchwood Office', service: 'Spring cleanup', addr: '88 Birchwood Ln', est: '3h est.', status: 'Not started' },
-  { order: 4, name: 'Cedar Ridge Apartments', service: 'Mow and trim', addr: '400 Cedar Ridge Rd', est: '2h est.', status: 'Not started' },
-]
-
-const STATUS_PILL: Record<string, string> = {
-  Completed: 'bg-green-100 text-green-700',
-  'In progress': 'bg-blue-100 text-blue-700',
-  'Not started': 'bg-stone-100 text-stone-500',
-}
-
-function JobCard({ order, name, service, addr, est, status }: (typeof JOBS)[number]) {
-  return (
-    <div className={`rounded-xl border bg-white p-2 ${status === 'In progress' ? 'border-blue-300' : 'border-stone-200'}`}>
-      <div className="flex items-start gap-2">
-        <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-stone-900 text-[8px] font-bold text-white">
-          {order}
-        </span>
-        <div className="min-w-0 flex-1">
-          <div className="flex items-center justify-between gap-2">
-            <span className="truncate text-[10px] font-semibold text-stone-800">{name}</span>
-            <span className={`shrink-0 rounded-full px-1.5 py-[2px] text-[6.5px] font-semibold ${STATUS_PILL[status]}`}>
-              {status}
-            </span>
-          </div>
-          <div className="text-[8px] text-stone-500">{service}</div>
-          <div className="mt-0.5 flex items-center justify-between">
-            <span className="text-[7.5px] text-stone-400">{addr}</span>
-            <span className="text-[7.5px] font-medium text-stone-500">{est}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
 function PhoneTabs({ items }: { items: [string, boolean][] }) {
   return (
     <div className="flex border-t border-stone-200 bg-white px-2 pb-3 pt-1.5">
@@ -203,40 +149,6 @@ function PhoneTabs({ items }: { items: [string, boolean][] }) {
         </div>
       ))}
     </div>
-  )
-}
-
-export function PhoneCrewMockup() {
-  return (
-    <PhoneFrame>
-      <div className="flex h-full flex-col bg-[#fafaf9] pt-7">
-        <div className="px-4 pb-1">
-          <div className="text-[14px] font-bold text-stone-800">Today&apos;s Visits</div>
-          <div className="text-[8px] text-stone-400">Wednesday, May 14 · 8 stops</div>
-        </div>
-
-        <div className="mx-3 mt-1.5 flex items-center gap-1.5 rounded-lg border border-amber-300 bg-amber-50 px-2.5 py-1.5">
-          <CloudIcon />
-          <span className="text-[8.5px] font-medium text-amber-700">Offline — 2 actions pending sync</span>
-        </div>
-
-        <div className="mt-2 space-y-1.5 px-3">
-          {JOBS.map((job) => (
-            <JobCard key={job.order} {...job} />
-          ))}
-        </div>
-
-        <div className="flex-1" />
-        <PhoneTabs
-          items={[
-            ['Route', true],
-            ['Time', false],
-            ['Chat', false],
-            ['More', false],
-          ]}
-        />
-      </div>
-    </PhoneFrame>
   )
 }
 

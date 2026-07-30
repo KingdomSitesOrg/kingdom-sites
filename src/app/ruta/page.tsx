@@ -1,77 +1,39 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { CONTACT_MAILTO } from '@/lib/contact'
-import { BrowserMockup, PhoneCrewMockup, PhonePortalMockup } from './Mockups'
+import ContactCta from '@/components/ContactCta'
+import { BrowserMockup, PhonePortalMockup } from './Mockups'
 import shotQueue from '../../../public/ruta/crew-queue.jpg'
 import shotVisit from '../../../public/ruta/crew-visit.jpg'
 import shotTime from '../../../public/ruta/crew-time.jpg'
 
 const APP_STORE_URL = 'https://apps.apple.com/us/app/ruta-crew/id6749279335'
+const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.getruta.mobile'
 const RUTA_SITE_URL = 'https://getruta.com'
-const RUTA_FACEBOOK_URL = 'https://www.facebook.com/share/1EzdtfSCs3/'
 
-/* The three stages of the platform, in the order a job actually moves. */
-const STAGES = [
-  {
-    num: '01',
-    eyebrow: 'Win the work',
-    title: 'Rate sent. Rate accepted.',
-    body:
-      'A rate request goes out from the service catalog. The prospect reviews and signs it on their phone, and becomes a customer the moment they do — with approved visits landing straight on the schedule.',
-    points: [
-      'Rate requests drafted from the service catalog',
-      'Customer accepts and signs from any device',
-      'Approved services generate their own visits',
-    ],
-    mockup: <BrowserMockup />,
-    width: 'max-w-[540px]',
-  },
-  {
-    num: '02',
-    eyebrow: 'Get it done',
-    title: 'The crew shows up and does the work.',
-    body:
-      'Each visit is routed to a crew for the day. They clock in, work the queue stop by stop, and capture time and photos as proof — even when there is no signal in the field.',
-    points: [
-      'A stop-by-stop route for every crew, every day',
-      'Time, photos, and location captured on each visit',
-      'Offline-first — pending work syncs when signal returns',
-    ],
-    mockup: <PhoneCrewMockup />,
-    width: 'max-w-[300px]',
-  },
-  {
-    num: '03',
-    eyebrow: 'Get paid',
-    title: 'Invoice fires. Customer pays.',
-    body:
-      'Closing a visit raises the invoice on its own. Customers pay from their own portal, see their visit history, and can add more work without anyone picking up the phone.',
-    points: [
-      'Invoiced automatically once a visit is complete',
-      'Card payment and payment plans in the portal',
-      'Visit history that sells the next job',
-    ],
-    mockup: <PhonePortalMockup />,
-    width: 'max-w-[300px]',
-  },
+/* Plain facts about the engagement, not claims about the product. */
+const FACTS = [
+  { label: 'Merged pull requests', value: '350+' },
+  { label: 'Working on it since', value: 'April 2026' },
+  { label: 'Apps I ship in', value: 'Four' },
+  { label: 'Platforms', value: 'Web, iOS + Android' },
 ]
 
-/* Every audience the platform serves has its own app. */
+/* What the platform is, kept short — this page is about the work, not the pitch. */
 const SURFACES = [
   {
     title: 'Office web app',
     who: 'Owners and dispatchers',
-    desc: 'The control room: customers, services, the schedule, dispatch, revenue, team chat, and a map of every property being served today.',
+    desc: 'Customers, services, the schedule, dispatch, revenue, messaging, and a map of every property being served today.',
   },
   {
-    title: 'Crew app for iOS',
-    who: 'Field crews',
-    desc: 'Published on the App Store as Ruta Crew. Today’s queue, the time clock, visit notes and photos — built to keep working when the signal drops.',
+    title: 'Crew app',
+    who: 'Field crews, iPhone and Android',
+    desc: 'Published as Ruta Crew. The day’s queue, the time clock, visit notes and photos — and it keeps working when the signal drops.',
   },
   {
     title: 'Customer portal',
     who: 'Homeowners and property managers',
-    desc: 'Self-service: approve a rate, pay a balance, follow a payment plan, review past visits, and request more services.',
+    desc: 'Approve a rate, pay a balance, follow a payment plan, review past visits, and ask for more work.',
   },
   {
     title: 'Admin console',
@@ -80,31 +42,83 @@ const SURFACES = [
   },
 ]
 
-/* Work of mine that shipped — drawn from real, merged changes. */
-const SHIPPED = [
+/* The work itself, grouped the way I actually worked on it. Every line below is
+   something that shipped. */
+const WORK = [
   {
-    title: 'Payment plans that charge themselves',
-    desc: 'Installments charge automatically on their due dates, and the customer can follow the plan and their balance from the portal.',
+    area: 'Billing and money',
+    lede: 'The part of the product where a bug costs someone real money, so it gets the most care.',
+    items: [
+      'Payment plans that charge their installments automatically on the due date, with the plan and balance visible to the customer in the portal',
+      'Failed card charges retried instead of quietly left unpaid',
+      'Account credits that stop re-applying once they are exhausted',
+      'Collecting a payment now marks every visit that contributed to it as paid',
+      'One bundle price charged once, rather than per visit',
+      'Projected revenue built from live service schedules, so an owner can see what the book of business is worth next month',
+    ],
   },
   {
-    title: 'Revenue you can see coming',
-    desc: 'Projected revenue built from active service schedules, so an owner can see what the book of business is worth next month.',
+    area: 'The crew app in the field',
+    lede: 'A crew will abandon an app that loses their work. Most of this is reliability, not features.',
+    items: [
+      'The clock survives network blips, and a visit timer survives the app being resumed',
+      'Photo capture times and distances that tell the truth, and an undo for a photo deleted by mistake',
+      'Failed visit moves reported to error monitoring instead of being swallowed',
+      'Crew leaders can remove a clocked-in member, and dispatch a service from the field',
+      'Services, options, and requested work visible on the visit screen, in plain text',
+    ],
   },
   {
-    title: 'Geofences and work zones',
-    desc: 'Job-site boundaries precomputed on the backend, and an alert to the office when a crew member stops sharing location mid-visit.',
+    area: 'The office web app',
+    lede: 'Where owners and dispatchers spend their day, and where most of my changes land.',
+    items: [
+      'A messages inbox with unread and needs-response filters, drafts that survive a reload, and reusable message templates',
+      'Visits placed on their actual property on the map, with customer detail on hover and every clocked-in crew member’s trail',
+      'A review queue that recognizes skipped visits and clears an approved visit immediately',
+      'The AI assistant reachable from anywhere in the app, able to send a customer their existing rate, and failing in plain English instead of raw error codes',
+      'Dozens of smaller repairs: a dashboard that stays usable on a narrow window, a close button Safari would not show, counts that agree with the page they link to',
+    ],
   },
   {
-    title: 'Whole-property assessment',
-    desc: 'Measure a property from the customer profile and price area-based services off real square footage instead of a guess.',
+    area: 'The customer portal',
+    lede: 'Self-service that has to be understandable by someone who has never seen the product.',
+    items: [
+      'Payment plan and outstanding balance shown to the customer',
+      'Service inquiries with selectable reasons, and an optional note when modifying a service',
+      'Deactivated services with past visits stay reachable instead of disappearing',
+      'Accurate visit counts for unlimited plans, and correct labels for one-time and seasonal work',
+    ],
   },
   {
-    title: 'The AI assistant, wired in',
-    desc: 'Ruta AI reachable from anywhere in the web app, able to send a customer their existing rate, and failing in plain English rather than raw error codes.',
+    area: 'Backend and platform',
+    lede: 'The AWS side: the data model, the scheduled jobs, and the plumbing everything else sits on.',
+    items: [
+      'Job-site geofences and work zones precomputed on the backend, and an alert to the office when a crew member stops sharing location mid-visit',
+      'Employee STOP texts honoured as an SMS opt-out',
+      'Scheduled service deactivations that actually run on their date',
+      'Whole-property measurement from the customer profile, so area-based services are priced off real square footage',
+      'Maintenance scripts that stop reporting success when they processed nothing, and endpoints that return the right status instead of a 500',
+    ],
+  },
+]
+
+/* How I work when the codebase is not mine. */
+const APPROACH = [
+  {
+    title: 'Read first, then ship in its grain',
+    desc: 'I follow the conventions already in the repo rather than importing my own. A reviewer should not be able to tell which files are mine.',
   },
   {
-    title: 'Field-app reliability',
-    desc: 'Visit timers that survive a resume, photo capture times that tell the truth, undo for deleted photos, and failed visit moves reported instead of swallowed.',
+    title: 'Small, reviewable changes',
+    desc: 'One ticket, one pull request, described in plain language. 350+ of them merged, which only works if each is easy to review.',
+  },
+  {
+    title: 'Errors that say something',
+    desc: 'A lot of my work is turning silent failures and raw error codes into messages a dispatcher or a crew member can act on.',
+  },
+  {
+    title: 'Careful around money and time',
+    desc: 'Billing, clock-ins, and scheduled jobs get the most scrutiny, because those are the bugs a business actually feels.',
   },
 ]
 
@@ -124,340 +138,236 @@ const STACK = [
   'Justifi payments',
 ]
 
+const CREW_SHOTS = [
+  { src: shotQueue, alt: 'The Ruta Crew queue of today’s visits with a clock-in button', cap: 'The day’s queue' },
+  { src: shotVisit, alt: 'A Ruta Crew visit screen with the crew, an admin note, and an aerial view of the property', cap: 'A visit in detail' },
+  { src: shotTime, alt: 'The Ruta Crew time clock showing hours logged this week', cap: 'The time clock' },
+]
+
 function AppStoreIcon() {
   return (
-    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="M17.05 12.54c.02-2.3 1.88-3.4 1.96-3.45-1.07-1.56-2.73-1.78-3.32-1.8-1.41-.14-2.76.83-3.48.83-.72 0-1.83-.81-3-.79-1.55.02-2.97.9-3.77 2.28-1.61 2.79-.41 6.92 1.15 9.19.76 1.11 1.67 2.35 2.87 2.31 1.15-.05 1.59-.74 2.98-.74 1.39 0 1.78.74 3 .72 1.24-.02 2.02-1.13 2.78-2.24.87-1.28 1.23-2.53 1.25-2.59-.03-.01-2.4-.92-2.42-3.65zM14.9 5.4c.63-.77 1.06-1.83.94-2.9-.91.04-2.02.61-2.67 1.37-.58.68-1.09 1.77-.96 2.81 1.02.08 2.06-.52 2.69-1.28z" />
     </svg>
   )
 }
 
-function AppStoreButton({ tone = 'light' }: { tone?: 'light' | 'outline' }) {
-  const base =
-    'inline-flex min-h-[44px] items-center justify-center gap-2.5 whitespace-nowrap rounded-xl px-6 py-3 text-sm font-semibold transition-colors'
-  const skin =
-    tone === 'light'
-      ? 'bg-white text-[#0a1f0a] hover:bg-white/90'
-      : 'border border-white/20 text-white hover:border-white/45'
+function PlayStoreIcon() {
   return (
-    <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" className={`${base} ${skin}`}>
-      <AppStoreIcon />
-      Get Ruta Crew on the App Store
-    </a>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M3.6 2.3a1 1 0 0 0-.35.76v17.88a1 1 0 0 0 .35.76l9.24-9.7L3.6 2.3zm10.4 8.02 2.6-2.73-8.9-5.06a.98.98 0 0 0-.35-.12l6.65 7.91zm0 3.36-6.65 7.9c.12-.02.24-.06.35-.12l8.9-5.05-2.6-2.73zm1.13-1.68 3.02 3.17 2.6-1.48c.79-.45.79-1.93 0-2.38l-2.6-1.48-3.02 3.17z" />
+    </svg>
   )
 }
-
-function Check() {
-  return (
-    <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-green-500/15 text-green-400">
-      <svg viewBox="0 0 12 12" className="h-3 w-3" aria-hidden="true">
-        <path
-          d="M2 6.4 4.7 9 10 3.2"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    </span>
-  )
-}
-
-const GALLERY = [
-  { src: shotQueue, alt: 'The crew app queue: eleven visits today with a clock-in button', cap: 'The day’s queue — clock in and work down the list' },
-  { src: shotVisit, alt: 'A visit detail screen with schedule, crew, an admin note, and an aerial view of the property', cap: 'A visit — crew, notes, and the property itself' },
-  { src: shotTime, alt: 'The time clock screen showing 16.9 hours logged this week across sessions', cap: 'The time clock — hours logged, session by session' },
-]
 
 export default function Ruta() {
   return (
     <div className="w-full overflow-x-hidden">
-      {/* ---------- nav ---------- */}
-      <header className="sticky top-0 z-50 border-b border-white/[0.07] bg-[#0a1f0a]/85 backdrop-blur">
-        <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-5 sm:px-8">
-          <div className="flex items-center gap-2.5">
-            <span className="grid h-6 w-6 place-items-center rounded-[7px] bg-green-500 text-[13px] font-extrabold text-[#0a1f0a]" aria-hidden="true">
-              R
-            </span>
-            <span className="text-[15px] font-extrabold tracking-[0.14em]">RUTA</span>
-          </div>
-          <div className="flex items-center gap-6 text-[13.5px] text-white/60">
-            <a href="#platform" className="hidden hover:text-white sm:inline">The platform</a>
-            <a href="#crew" className="hidden hover:text-white sm:inline">Crew app</a>
-            <a href="#my-part" className="hidden hover:text-white sm:inline">My part in it</a>
-            <Link href="/my-work" className="hover:text-white">Kingdom Sites</Link>
-          </div>
-        </nav>
-      </header>
-
       {/* ---------- hero ---------- */}
-      <section className="relative overflow-hidden px-5 pb-20 pt-16 text-center sm:px-8 sm:pb-24 sm:pt-24">
-        <div
-          className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[560px] -translate-x-1/2 rounded-full bg-green-500/[0.09] blur-[130px]"
-          aria-hidden="true"
-        />
-        <div className="relative mx-auto max-w-3xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-green-400/80">
-            Web &amp; iOS · Service management · In production
-          </p>
-
-          <h1 className="mt-6 text-[clamp(3.4rem,13vw,8rem)] font-extrabold leading-[0.9] tracking-[0.06em]">
-            RUTA
+      <section className="hero-wash px-5 pb-14 pt-16 sm:px-8 sm:pb-16 sm:pt-24">
+        <div className="mx-auto max-w-4xl">
+          <p className="eyebrow">Case study · Ruta</p>
+          <h1 className="mt-5 max-w-3xl text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
+            What I&apos;ve built inside <span className="text-accent">Ruta.</span>
           </h1>
-
-          <h2 className="mt-6 text-2xl font-bold leading-[1.15] tracking-tight sm:text-4xl">
-            One platform.
-            <br />
-            <span className="text-white/60">Prospect to payment.</span>
-          </h2>
-
-          <p className="mx-auto mt-6 max-w-xl text-pretty text-base leading-relaxed text-white/55">
-            Every step from the first rate request to the final invoice, for landscaping and
-            maintenance businesses. Four apps over one backend: the office web app, the crew app in
-            the field, the customer portal, and the admin console behind them.
+          <p className="mt-6 max-w-2xl text-pretty text-base leading-relaxed text-body sm:text-lg">
+            Ruta is service-management software for landscaping and maintenance businesses — one
+            platform carrying a job from the first rate request to the final payment. I did not start
+            it, and it is not my company. I helped build it: since April 2026 I have shipped across
+            all four of its apps and the AWS backend they share.
           </p>
 
-          <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <AppStoreButton />
-            <a
-              href={RUTA_SITE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex min-h-[44px] items-center justify-center rounded-xl border border-white/20 px-6 py-3 text-sm font-semibold text-white transition-colors hover:border-white/45"
-            >
+          <dl className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {FACTS.map((f) => (
+              <div key={f.label} className="tile p-5">
+                <dt className="text-[11px] font-semibold uppercase tracking-wider text-muted">{f.label}</dt>
+                <dd className="mt-1.5 text-lg font-semibold tracking-tight text-ink">{f.value}</dd>
+              </div>
+            ))}
+          </dl>
+
+          <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
+            <a href={RUTA_SITE_URL} target="_blank" rel="noopener noreferrer" className="btn-ghost">
               getruta.com
             </a>
+            <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm text-body hover:text-ink">
+              <AppStoreIcon />
+              Ruta Crew on the App Store
+            </a>
+            <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm text-body hover:text-ink">
+              <PlayStoreIcon />
+              On Google Play
+            </a>
           </div>
-
-          <p className="mt-5 text-[13px] text-white/40">
-            Published by P163, LLC · on the App Store since March 2026
-          </p>
         </div>
       </section>
 
-      {/* ---------- the three stages ---------- */}
-      <div id="platform">
-        {STAGES.map((stage, i) => {
-          const mockupFirst = i % 2 === 1
-          return (
-            <section
-              key={stage.num}
-              aria-label={stage.title}
-              className="relative overflow-hidden border-t border-white/[0.06] px-5 py-16 sm:px-8 sm:py-24"
-            >
-              <div
-                className={`pointer-events-none absolute top-1/2 h-[380px] w-[380px] -translate-y-1/2 rounded-full bg-green-500/[0.06] blur-[120px] ${
-                  mockupFirst ? 'left-[-10%]' : 'right-[-10%]'
-                }`}
-                aria-hidden="true"
-              />
-              <div className="relative mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2 lg:gap-20">
-                <div className={mockupFirst ? 'lg:order-2' : 'lg:order-1'}>
-                  <div className="flex items-center gap-3">
-                    <span className="text-sm font-bold text-green-400">{stage.num}</span>
-                    <span className="h-px w-8 bg-green-400/30" aria-hidden="true" />
-                    <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-green-400/70">
-                      {stage.eyebrow}
-                    </span>
+      {/* ---------- what the platform is ---------- */}
+      <section aria-label="What Ruta is" className="border-t border-line px-5 py-16 sm:px-8 sm:py-20">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="max-w-2xl text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+            Four apps over one backend
+          </h2>
+          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-body sm:text-base">
+            An owner, a crew member, and a homeowner want completely different things from the same
+            job, so each has their own app over shared data. I work in all four, which is the reason
+            a single change of mine often touches the backend, the office screen, and the field
+            screen in one pull request.
+          </p>
+
+          <div className="mt-10 grid gap-4 sm:grid-cols-2">
+            {SURFACES.map((s) => (
+              <div key={s.title} className="tile p-7">
+                <h3 className="text-base font-semibold tracking-tight text-ink">{s.title}</h3>
+                <p className="mt-1 text-xs font-medium uppercase tracking-wider text-warm">{s.who}</p>
+                <p className="mt-3 text-sm leading-relaxed text-body">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- the two web surfaces ---------- */}
+      <section aria-label="The web surfaces" className="band-dark px-5 py-16 sm:px-8 sm:py-20">
+        <div className="mx-auto max-w-6xl">
+          <p className="eyebrow">The screens I work in</p>
+          <h2 className="mt-4 max-w-2xl text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+            The office app and the customer portal
+          </h2>
+          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-white/65">
+            Two React apps over the same data: the dispatcher&apos;s control room, and the
+            self-service view a customer gets. Sketched here rather than screenshotted, because
+            real customer data sits on every live screen.
+          </p>
+
+          <div className="mt-10 grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-start lg:gap-14">
+            <div>
+              <BrowserMockup />
+              <p className="mt-4 text-[13px] text-white/45">
+                The office home screen — the day&apos;s visits, revenue, who is clocked in, and what
+                needs a decision now.
+              </p>
+            </div>
+            <div>
+              <PhonePortalMockup />
+              <p className="mt-4 text-center text-[13px] text-white/45">
+                The customer portal — active services, a balance to pay, and more work to request.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- the work ---------- */}
+      <section aria-label="What I've shipped" className="px-5 py-16 sm:px-8 sm:py-20">
+        <div className="mx-auto max-w-6xl">
+          <p className="eyebrow eyebrow-blue">The work</p>
+          <h2 className="mt-4 max-w-2xl text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+            What I&apos;ve shipped, by area
+          </h2>
+          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-body sm:text-base">
+            Every line below went into production. It is a sample, not the full list — three hundred
+            and fifty-odd merged pull requests do not fit on a page.
+          </p>
+
+          <div className="mt-10 space-y-5">
+            {WORK.map((group) => (
+              <div key={group.area} className="tile p-7 sm:p-9">
+                <div className="grid gap-6 lg:grid-cols-[1fr_1.7fr] lg:gap-10">
+                  <div>
+                    <h3 className="text-lg font-semibold tracking-tight text-ink">{group.area}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted">{group.lede}</p>
                   </div>
-                  <h2 className="mt-5 text-3xl font-bold leading-[1.1] tracking-tight sm:text-[2.6rem]">
-                    {stage.title}
-                  </h2>
-                  <p className="mt-5 max-w-md text-base leading-relaxed text-white/55">{stage.body}</p>
-                  <ul className="mt-7 space-y-3">
-                    {stage.points.map((point) => (
-                      <li key={point} className="flex items-start gap-3">
-                        <Check />
-                        <span className="text-sm leading-relaxed text-white/70">{point}</span>
+                  <ul className="space-y-2.5">
+                    {group.items.map((item) => (
+                      <li key={item} className="flex gap-3 text-sm leading-relaxed text-body">
+                        <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
+                        <span>{item}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div className={`flex justify-center ${mockupFirst ? 'lg:order-1' : 'lg:order-2'}`}>
-                  <div className={`w-full ${stage.width}`}>{stage.mockup}</div>
-                </div>
-              </div>
-            </section>
-          )
-        })}
-      </div>
-
-      {/* ---------- the crew app ---------- */}
-      <section id="crew" className="border-t border-white/[0.06] bg-[#08190a] px-5 py-16 sm:px-8 sm:py-24">
-        <div className="mx-auto max-w-6xl">
-          <div className="max-w-2xl">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-green-400/70">
-              On the App Store
-            </p>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-[2.6rem]">Ruta Crew</h2>
-            <p className="mt-2 text-base text-white/70">The field crew companion app.</p>
-            <p className="mt-5 text-[15px] leading-relaxed text-white/55">
-              The half of the platform that lives in a truck. A crew member opens it, clocks in, and
-              works down the queue — service details, gate codes, an aerial view of the property, and
-              the hours they have logged this week. Free, and free of anything a crew would have to
-              learn.
-            </p>
-          </div>
-
-          <div className="mt-10 grid gap-6 sm:grid-cols-3">
-            {GALLERY.map((shot, i) => (
-              <figure key={shot.cap} className="overflow-hidden rounded-2xl border border-white/10 bg-[#0b1f0d]">
-                <Image
-                  src={shot.src}
-                  alt={shot.alt}
-                  sizes="(min-width: 640px) 33vw, 92vw"
-                  className="h-auto w-full"
-                  priority={i === 0}
-                />
-                <figcaption className="px-4 py-3 text-[12.5px] leading-relaxed text-white/45">
-                  {shot.cap}
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-
-          <dl className="mt-10 grid gap-4 sm:grid-cols-4">
-            {[
-              ['Price', 'Free'],
-              ['Devices', 'iPhone, iPad, Mac'],
-              ['Requires', 'iOS 18 or later'],
-              ['Category', 'Productivity · 4+'],
-            ].map(([label, value]) => (
-              <div key={label} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
-                <dt className="text-[11px] uppercase tracking-wider text-white/40">{label}</dt>
-                <dd className="mt-1.5 text-[15px] font-semibold text-white">{value}</dd>
+                {/* The field app is the one surface with public screenshots. */}
+                {group.area === 'The crew app in the field' && (
+                  <div className="mt-8 grid gap-4 sm:grid-cols-3">
+                    {CREW_SHOTS.map((shot) => (
+                      <figure key={shot.cap} className="overflow-hidden rounded-2xl border border-line bg-surface-2">
+                        <Image src={shot.src} alt={shot.alt} sizes="(min-width: 640px) 30vw, 90vw" className="h-auto w-full" />
+                        <figcaption className="px-4 py-3 text-[12.5px] text-muted">{shot.cap}</figcaption>
+                      </figure>
+                    ))}
+                  </div>
+                )}
               </div>
             ))}
-          </dl>
-
-          <div className="mt-8">
-            <AppStoreButton />
           </div>
         </div>
       </section>
 
-      {/* ---------- four surfaces ---------- */}
-      <section aria-label="The apps" className="border-t border-white/[0.06] px-5 py-16 sm:px-8 sm:py-24">
+      {/* ---------- how I work ---------- */}
+      <section aria-label="How I work" className="band-dark px-5 py-16 sm:px-8 sm:py-20">
         <div className="mx-auto max-w-6xl">
-          <div className="max-w-2xl">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-green-400/70">
-              One backend, four front doors
-            </p>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-[2.6rem]">
-              Everyone gets the app they need.
-            </h2>
-            <p className="mt-5 text-[15px] leading-relaxed text-white/55">
-              An owner, a crew member, and a homeowner want completely different things from the same
-              job. Each has their own app, and all of them read and write the same data.
-            </p>
-          </div>
+          <p className="eyebrow">How I work</p>
+          <h2 className="mt-4 max-w-2xl text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+            Coming into a codebase someone else started
+          </h2>
+          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-white/65">
+            Ruta is the long-running example of what I do inside an existing product with a team
+            around it — which is most client work. The habits matter more than the features.
+          </p>
 
           <div className="mt-10 grid gap-4 sm:grid-cols-2">
-            {SURFACES.map((s) => (
-              <div key={s.title} className="rounded-2xl border border-white/10 bg-white/[0.04] p-7">
-                <h3 className="text-base font-semibold text-white">{s.title}</h3>
-                <p className="mt-1 text-[12.5px] uppercase tracking-wider text-green-400/60">{s.who}</p>
-                <p className="mt-3 text-sm leading-relaxed text-white/60">{s.desc}</p>
+            {APPROACH.map((a) => (
+              <div key={a.title} className="tile-dark p-7">
+                <h3 className="text-base font-semibold tracking-tight text-white">{a.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-white/65">{a.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ---------- my part in it ---------- */}
-      <section id="my-part" className="border-t border-white/[0.06] bg-[#08190a] px-5 py-16 sm:px-8 sm:py-24">
+      {/* ---------- stack ---------- */}
+      <section aria-label="Technology" className="px-5 py-16 sm:px-8 sm:py-20">
         <div className="mx-auto max-w-6xl">
-          <div className="max-w-2xl">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-green-400/70">
-              My part in it
-            </p>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-[2.6rem]">
-              I helped build Ruta.
+          <div className="tile p-7 sm:p-10">
+            <p className="text-xs font-semibold uppercase tracking-widest text-accent">Built with</p>
+            <h2 className="mt-3 text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+              A TypeScript monorepo on AWS
             </h2>
-            <p className="mt-5 text-[15px] leading-relaxed text-white/55">
-              Ruta is a team product, and I have been an integral part of it — working across the
-              whole of it: the office web app, the AWS backend and the shared data layer behind it,
-              the iOS crew app, and the customer portal. Hundreds of merged changes: features owners
-              asked for, billing that has to be right, and the unglamorous field-app fixes that
-              decide whether a crew trusts the thing.
+            <p className="mt-4 max-w-3xl text-[15px] leading-relaxed text-body sm:text-base">
+              One language end to end: React on the web, React Native through Expo on phones, and
+              Lambda functions over DynamoDB behind them, with the infrastructure itself defined in
+              code. Payments run through Justifi, maps through Mapbox, search through Typesense, and
+              the assistant through Amazon Bedrock.
             </p>
-            <p className="mt-4 text-[15px] leading-relaxed text-white/55">
-              It is the clearest example of how I work inside a live product with a team around it:
-              read the codebase, ship in its grain, and leave it easier to work in than I found it.
-            </p>
-          </div>
-
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {SHIPPED.map((item) => (
-              <div key={item.title} className="rounded-2xl border border-white/10 bg-white/[0.04] p-7">
-                <h3 className="text-base font-semibold text-white">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-white/60">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-10">
-            <p className="text-[11px] uppercase tracking-wider text-white/40">What it is built with</p>
-            <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2">
+            <div className="mt-6 flex flex-wrap gap-x-4 gap-y-2">
               {STACK.map((tech) => (
-                <span key={tech} className="text-xs font-medium tracking-wide text-white/45">
-                  {tech}
-                </span>
+                <span key={tech} className="text-xs font-medium tracking-wide text-muted">{tech}</span>
               ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* ---------- closing ---------- */}
-      <section aria-label="Contact" className="border-t border-white/[0.06] px-5 py-20 text-center sm:px-8 sm:py-24">
-        <div className="mx-auto max-w-2xl">
-          <h2 className="text-balance text-3xl font-bold tracking-tight sm:text-4xl">
-            Need someone who can step into a real codebase and ship?
+      {/* ---------- CTA ---------- */}
+      <section aria-label="Contact" className="border-t border-line px-5 py-16 text-center sm:px-8 sm:py-20">
+        <div className="mx-auto max-w-3xl">
+          <h2 className="text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+            Have software that needs <span className="text-accent">another pair of hands?</span>
           </h2>
-          <p className="mx-auto mt-5 max-w-xl text-pretty text-base leading-relaxed text-white/55">
-            Ruta is the long-running example. Tell me what your software needs to do next and I will
-            scope it and send a quote.
+          <p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-relaxed text-body">
+            This is the work I do most: joining a live product and shipping in it without breaking
+            what already works. Tell me what yours needs to do next and I&apos;ll scope it and send a
+            quote.
           </p>
-          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <a
-              href={CONTACT_MAILTO}
-              className="inline-flex min-h-[44px] items-center justify-center rounded-xl bg-white px-6 py-3 text-sm font-semibold text-[#0a1f0a] transition-colors hover:bg-white/90"
-            >
-              Email me
-            </a>
-            <Link
-              href="/my-work"
-              className="inline-flex min-h-[44px] items-center justify-center rounded-xl border border-white/20 px-6 py-3 text-sm font-semibold text-white transition-colors hover:border-white/45"
-            >
-              See my other work
-            </Link>
-          </div>
+          <ContactCta className="mt-8" />
+          <p className="mt-8 text-sm text-body">
+            <Link href="/my-work" className="link-accent">See my other work</Link>
+          </p>
         </div>
       </section>
-
-      {/* ---------- footer ---------- */}
-      <footer className="border-t border-white/[0.07] bg-[#061405] px-5 py-8 sm:px-8">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 text-[13px] text-white/45">
-          <span>Ruta is a product of P163, LLC · {new Date().getFullYear()}</span>
-          <span className="flex flex-wrap items-center gap-x-4 gap-y-2">
-            <a href={RUTA_SITE_URL} target="_blank" rel="noopener noreferrer" className="hover:text-white">
-              getruta.com
-            </a>
-            <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" className="hover:text-white">
-              App Store
-            </a>
-            <a href={RUTA_FACEBOOK_URL} target="_blank" rel="noopener noreferrer" className="hover:text-white">
-              Facebook
-            </a>
-            <Link href="/my-work" className="hover:text-white">
-              Kingdom Sites
-            </Link>
-          </span>
-        </div>
-      </footer>
     </div>
   )
 }
