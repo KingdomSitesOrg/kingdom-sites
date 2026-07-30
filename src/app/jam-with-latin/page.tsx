@@ -161,7 +161,6 @@ export default function JamWithLatin() {
           <div className="cta-row">
             <AppStoreButton />
             <PlayStoreButton />
-            <a href="#march" className="btn-ghost">See the journey</a>
           </div>
 
           <p className="note">
