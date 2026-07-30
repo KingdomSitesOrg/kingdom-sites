@@ -1,11 +1,11 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import shotHome from '../../../public/jam-with-latin/home.jpg'
 import shotJourney from '../../../public/jam-with-latin/journey.jpg'
-import shotVocab from '../../../public/jam-with-latin/vocab.png'
+import shotCase from '../../../public/jam-with-latin/case-challenge.png'
 import shotLeaderboard from '../../../public/jam-with-latin/leaderboard.jpg'
 import shotMap from '../../../public/jam-with-latin/map.jpg'
 
@@ -26,6 +26,23 @@ function AppStoreIcon() {
   return (
     <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="M17.05 12.54c.02-2.3 1.88-3.4 1.96-3.45-1.07-1.56-2.73-1.78-3.32-1.8-1.41-.14-2.76.83-3.48.83-.72 0-1.83-.81-3-.79-1.55.02-2.97.9-3.77 2.28-1.61 2.79-.41 6.92 1.15 9.19.76 1.11 1.67 2.35 2.87 2.31 1.15-.05 1.59-.74 2.98-.74 1.39 0 1.78.74 3 .72 1.24-.02 2.02-1.13 2.78-2.24.87-1.28 1.23-2.53 1.25-2.59-.03-.01-2.4-.92-2.42-3.65zM14.9 5.4c.63-.77 1.06-1.83.94-2.9-.91.04-2.02.61-2.67 1.37-.58.68-1.09 1.77-.96 2.81 1.02.08 2.06-.52 2.69-1.28z" />
+    </svg>
+  )
+}
+
+/* The hamburger and its close state, for the menu that appears on phones. */
+function MenuGlyph() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+      <path d="M3 7h16M3 15h16" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function CloseGlyph() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+      <path d="M5 5l12 12M17 5L5 17" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
     </svg>
   )
 }
@@ -73,6 +90,7 @@ function useReveal() {
 
 export default function JamWithLatin() {
   const headerRef = useRef<HTMLElement>(null)
+  const [menuOpen, setMenuOpen] = useState(false)
   useReveal()
 
   return (
@@ -87,8 +105,8 @@ export default function JamWithLatin() {
             </Link>
             <span className="brand-sep" aria-hidden="true" />
             <div className="brand">
-              <span className="crest" aria-hidden="true">JL</span>
-              Jam with Latin
+              <span className="crest" aria-hidden="true">L</span>
+              Latin practice game
             </div>
           </div>
           <div className="nav-right">
@@ -97,9 +115,30 @@ export default function JamWithLatin() {
               <a href="#learn">How you learn</a>
               <a href="#screens">Screens</a>
             </div>
-            <a href="#get" className="btn-gold">Get it</a>
+            {/* On phones the section links collapse into this, so there is always
+                a menu whatever page you land on. */}
+            <button
+              type="button"
+              className="nav-toggle"
+              onClick={() => setMenuOpen((o) => !o)}
+              aria-expanded={menuOpen}
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            >
+              {menuOpen ? <CloseGlyph /> : <MenuGlyph />}
+            </button>
           </div>
         </nav>
+
+        {menuOpen && (
+          <div className="mobile-menu">
+            <a href="#march" onClick={() => setMenuOpen(false)}>The march</a>
+            <a href="#learn" onClick={() => setMenuOpen(false)}>How you learn</a>
+            <a href="#screens" onClick={() => setMenuOpen(false)}>Screens</a>
+            <span className="mobile-menu-sep" aria-hidden="true" />
+            <Link href="/" onClick={() => setMenuOpen(false)}>Kingdom Sites</Link>
+            <Link href="/my-work" onClick={() => setMenuOpen(false)}>All my work</Link>
+          </div>
+        )}
       </header>
 
       {/* ============ HERO ============ */}
@@ -137,7 +176,7 @@ export default function JamWithLatin() {
               <Image src={shotHome} alt="Home screen: your legionary, current city, XP, and the word of the day" sizes="264px" priority />
             </div>
             <div className="phone">
-              <Image src={shotVocab} alt="A vocabulary card asking for the English translation of glōria" sizes="228px" placeholder="blur" />
+              <Image src={shotCase} alt="A case challenge in the city of Rōma: choose the ablative plural of “earth, land”" sizes="228px" placeholder="blur" />
             </div>
           </div>
         </div>
@@ -204,7 +243,7 @@ export default function JamWithLatin() {
           </div>
           <div className="reveal">
             <div className="phone lift" style={{ margin: '0 auto' }}>
-              <Image src={shotVocab} alt="Vocabulary card with four English options for the Latin word glōria" sizes="264px" placeholder="blur" />
+              <Image src={shotCase} alt="A case challenge with four declined Latin forms to choose between" sizes="264px" placeholder="blur" />
             </div>
           </div>
         </div>
@@ -254,8 +293,8 @@ export default function JamWithLatin() {
             <div className="cap">The march — twelve real stops</div>
           </div>
           <div className="gshot">
-            <Image src={shotVocab} alt="Vocabulary card in the city of Rōma" sizes="208px" placeholder="blur" />
-            <div className="cap">Cities — six words to clear</div>
+            <Image src={shotCase} alt="A case challenge in the city of Rōma" sizes="208px" placeholder="blur" />
+            <div className="cap">Cities — case challenges to clear</div>
           </div>
           <div className="gshot">
             <Image src={shotLeaderboard} alt="Arena standings leaderboard" sizes="208px" placeholder="blur" />
@@ -285,7 +324,7 @@ export default function JamWithLatin() {
 
       <footer>
         <div className="wrap">
-          <span>Jam with Latin · {new Date().getFullYear()}</span>
+          <span>Built for Jam with Latin · {new Date().getFullYear()}</span>
           <span>
             <a href="https://www.jamwithlatin.com/" target="_blank" rel="noopener noreferrer">jamwithlatin.com</a>
             {' · '}

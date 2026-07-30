@@ -18,6 +18,23 @@ function AppStoreIcon() {
   )
 }
 
+/* The hamburger and its close state, for the menu that appears on phones. */
+function MenuGlyph() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+      <path d="M3 7h16M3 15h16" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function CloseGlyph() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+      <path d="M5 5l12 12M17 5L5 17" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  )
+}
+
 function Tick({ width = 14, stroke = 13 }: { width?: number; stroke?: number }) {
   return (
     <svg width={width} height={width} viewBox="0 0 100 100" aria-hidden="true">
@@ -99,6 +116,7 @@ export default function TapToTick() {
   const videoRef  = useRef<HTMLVideoElement>(null)
   const [playing, setPlaying] = useState(false)
   const [muted, setMuted]     = useState(true)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useReveal()
   useStuckHeader(headerRef)
@@ -143,8 +161,31 @@ export default function TapToTick() {
             <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" className="btn-sm">
               Get it
             </a>
+            {/* On phones the section links collapse into this, so there is always
+                a menu whatever page you land on. */}
+            <button
+              type="button"
+              className="nav-toggle"
+              onClick={() => setMenuOpen((o) => !o)}
+              aria-expanded={menuOpen}
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            >
+              {menuOpen ? <CloseGlyph /> : <MenuGlyph />}
+            </button>
           </div>
         </nav>
+
+        {menuOpen && (
+          <div className="mobile-menu">
+            <a href="#how" onClick={() => setMenuOpen(false)}>How it works</a>
+            <a href="#cash" onClick={() => setMenuOpen(false)}>Cash</a>
+            <a href="#screens" onClick={() => setMenuOpen(false)}>Screens</a>
+            <a href="#ask" onClick={() => setMenuOpen(false)}>Ask</a>
+            <span className="mobile-menu-sep" aria-hidden="true" />
+            <Link href="/" onClick={() => setMenuOpen(false)}>Kingdom Sites</Link>
+            <Link href="/my-work" onClick={() => setMenuOpen(false)}>All my work</Link>
+          </div>
+        )}
       </header>
 
       {/* ============ HERO ============ */}

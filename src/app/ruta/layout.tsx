@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 }
 
 export default function RutaLayout({ children }: { children: React.ReactNode }) {
-  // Unlike the Tap to Tick and Jam with Latin pages, this one is a case study
+  // Unlike the two standalone product pages, this one is a case study
   // rather than a product page, so it keeps the Kingdom Sites look and chrome.
   return <>{children}</>
 }

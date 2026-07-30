@@ -205,33 +205,32 @@ export default function MyWork() {
         </div>
       </section>
 
-      {/* Featured project — Jam with Latin */}
-      <section aria-label="Jam with Latin" className="border-t border-line px-5 py-16 sm:px-8 sm:py-20">
+      {/* Featured project — the Latin practice game */}
+      <section aria-label="Latin practice game" className="border-t border-line px-5 py-16 sm:px-8 sm:py-20">
         <div className="mx-auto max-w-6xl">
           <div className="tile-elevated grid gap-10 p-7 sm:p-10 lg:grid-cols-[1fr_1.1fr] lg:items-center lg:gap-14">
             {/* Screens */}
             <div className="flex items-end justify-center gap-4 sm:gap-6 lg:order-2">
               <div className="w-[44%] max-w-[180px] translate-y-4 overflow-hidden rounded-[26px] border border-line shadow-[0_18px_44px_rgba(16,23,37,0.16)]">
-                <Image src={jwlMap} alt="The Jam with Latin campaign map of Italy" sizes="180px" className="h-auto w-full" />
+                <Image src={jwlMap} alt="The campaign map of Italy from the Latin practice game" sizes="180px" className="h-auto w-full" />
               </div>
               <div className="w-[50%] max-w-[210px] overflow-hidden rounded-[30px] border border-line shadow-[0_24px_56px_rgba(16,23,37,0.2)]">
-                <Image src={jwlHome} alt="The Jam with Latin home screen" sizes="210px" className="h-auto w-full" />
+                <Image src={jwlHome} alt="The home screen of the Latin practice game" sizes="210px" className="h-auto w-full" />
               </div>
             </div>
 
             <div className="lg:order-1">
               <p className="eyebrow eyebrow-blue">iPhone, iPad &amp; Android · Client project</p>
               <h2 className="mt-4 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-                Jam with Latin
+                Latin practice game
               </h2>
               <p className="mt-2 text-base text-ink/80">
                 First-year classical Latin as a Roman-legion quest.
               </p>
               <p className="mt-4 text-[15px] leading-relaxed text-body">
-                Built for the Jam with Latin brand: homeschool and classical students march north from
-                Rōma to Gaul, learning real vocabulary, verb endings, and sentences at every stop. A
-                curriculum wrapped in a game, with a leaderboard that keeps students drilling on their
-                own initiative.
+                Homeschool and classical students march north from Rōma to Gaul, learning real
+                vocabulary, verb endings, and sentences at every stop. A curriculum wrapped in a game,
+                with a leaderboard that keeps students drilling on their own initiative.
               </p>
 
               <div className="mt-6 flex flex-wrap gap-x-4 gap-y-2">
@@ -243,6 +242,9 @@ export default function MyWork() {
               <div className="mt-7">
                 <Link href="/jam-with-latin" className="btn-primary">See the product page</Link>
               </div>
+
+              {/* The client's brand, named once, as credit. */}
+              <p className="mt-5 text-xs text-muted">Built for Jam with Latin.</p>
             </div>
           </div>
 

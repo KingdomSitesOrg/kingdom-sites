@@ -1,4 +1,4 @@
-/* Jam with Latin product page. The app has its own Roman-legion identity —
+/* The Latin practice game's product page. The app has its own Roman identity —
    navy halls, gold trim, crimson banners, parchment — so every rule here is
    scoped under .jwl and never touches the Kingdom Sites design.
 
@@ -99,8 +99,30 @@
 .jwl .ks-anchor:hover { opacity: 0.75; }
 .jwl .brand-sep { width: 1px; height: 20px; flex: none; background: rgba(255, 255, 255, 0.18); }
 
+/* The phone menu. The section links collapse into a hamburger below 760px, so
+   navigation is available on every page at every width. */
+.jwl .nav-toggle {
+  display: none; align-items: center; justify-content: center;
+  width: 34px; height: 34px; padding: 0; margin-right: -6px;
+  background: none; border: 0; color: rgba(255, 255, 255, 0.9); cursor: pointer;
+}
+.jwl .mobile-menu {
+  display: none; flex-direction: column;
+  padding: 6px 24px 16px;
+  background: var(--navy);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+}
+.jwl .mobile-menu a {
+  padding: 11px 2px; font-size: 15px; color: rgba(255, 255, 255, 0.82); text-decoration: none;
+}
+.jwl .mobile-menu a:active { color: var(--gold-light); }
+.jwl .mobile-menu-sep { height: 1px; margin: 7px 0; background: rgba(255, 255, 255, 0.14); }
+
 @media (max-width: 760px) {
   .jwl .nav-links { display: none; }
+  .jwl .nav-toggle { display: inline-flex; }
+  .jwl .mobile-menu { display: flex; }
   .jwl .brand { font-size: 15px; white-space: nowrap; }
   .jwl .nav-right { gap: 10px; }
   .jwl .btn-gold { padding: 6px 12px; font-size: 12.5px; white-space: nowrap; }
