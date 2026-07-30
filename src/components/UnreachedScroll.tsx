@@ -143,15 +143,13 @@ function Slide({
   const Line = index === 0 ? 'h1' : 'p'
 
   return (
-    /* On a desktop each line owns a tall stretch of page and holds still in the
-       middle of the screen for most of it, so you have to keep scrolling to get
-       past it. On a phone that hold fights with touch scrolling — a slightly
-       long flick lands you in the middle of a pause — so there each line simply
-       scrolls by with the page. */
-    <div className="h-[88svh] sm:h-[150svh]">
+    /* Each line gets close to a screen of its own and scrolls past with the
+       page. Nothing is pinned: holding a line still in the middle of the screen
+       made scrolling feel like it had snagged. */
+    <div className="h-[88svh] sm:h-[85svh]">
       <div
         ref={ref}
-        className="flex h-full items-center justify-center px-5 sm:sticky sm:top-0 sm:h-svh sm:px-8"
+        className="flex h-full items-center justify-center px-5 sm:px-8"
       >
         {/* On a phone this stacks: the country map on top and large, the words
             underneath at full width. From tablet up the drawing moves
