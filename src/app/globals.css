@@ -206,6 +206,51 @@ body {
   .flip-inner { transition: none; }
 }
 
+/* The little site and app drawings on the home page. Everything moves on a loop
+   in CSS — nothing here is a video or an image file. */
+@keyframes mock-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+@keyframes mock-fill {
+  0%        { transform: scaleX(0.12); opacity: 0.45; }
+  35%, 78%  { transform: scaleX(1);    opacity: 1; }
+  100%      { transform: scaleX(0.12); opacity: 0.45; }
+}
+@keyframes mock-rise {
+  0%       { opacity: 0; transform: translateY(7px); }
+  18%, 74% { opacity: 1; transform: translateY(0); }
+  100%     { opacity: 0; transform: translateY(-5px); }
+}
+@keyframes mock-sweep {
+  0%       { transform: translateX(-120%); }
+  60%,100% { transform: translateX(120%); }
+}
+@keyframes mock-tab {
+  0%, 26%   { opacity: 1; }
+  34%, 100% { opacity: 0.25; }
+}
+
+.mock-float   { animation: mock-float 7s ease-in-out infinite; }
+.mock-float-b { animation: mock-float 9s ease-in-out infinite 0.9s; }
+.mock-bar     { transform-origin: left; animation: mock-fill 5s ease-in-out infinite; }
+.mock-row     { animation: mock-rise 5.5s ease-in-out infinite; }
+.mock-tab     { animation: mock-tab 6s ease-in-out infinite; }
+.mock-sweep   { position: relative; overflow: hidden; }
+.mock-sweep::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 32%, rgba(255, 255, 255, 0.14) 50%, transparent 68%);
+  animation: mock-sweep 4.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mock-float, .mock-float-b, .mock-bar, .mock-row, .mock-tab { animation: none; }
+  .mock-bar { transform: scaleX(1); }
+  .mock-sweep::after { animation: none; opacity: 0; }
+}
+
 /* The rotating tool strips. Each row holds two identical copies of its list,
    so sliding the row half its own width and starting over loops with no seam. */
 @keyframes marquee-slide {

@@ -31,6 +31,97 @@ const SERVICES = [
   },
 ]
 
+/* A site and an app, drawn in CSS and quietly animating: bars filling, rows
+   arriving, a highlight sweeping the hero block, the active tab moving. */
+function WebMock({ className = '' }: { className?: string }) {
+  return (
+    <div
+      className={`mock-float w-[300px] overflow-hidden rounded-xl border border-white/12 bg-white/[0.04] shadow-[0_24px_60px_rgba(0,0,0,0.45)] ${className}`}
+      aria-hidden="true"
+    >
+      <div className="flex items-center gap-1.5 border-b border-white/10 bg-white/[0.04] px-3 py-2">
+        <span className="h-1.5 w-1.5 rounded-full bg-white/25" />
+        <span className="h-1.5 w-1.5 rounded-full bg-white/25" />
+        <span className="h-1.5 w-1.5 rounded-full bg-white/25" />
+        <span className="ml-2 h-2.5 w-24 rounded-full bg-white/10" />
+      </div>
+      <div className="p-4">
+        <div className="flex items-center justify-between">
+          <span className="h-2 w-14 rounded-full bg-white/30" />
+          <span className="flex items-center gap-2">
+            <span className="h-1.5 w-7 rounded-full bg-white/15" />
+            <span className="h-1.5 w-7 rounded-full bg-white/15" />
+            <span className="h-3.5 w-11 rounded-full bg-accent" />
+          </span>
+        </div>
+
+        <div className="mock-sweep mt-3.5 rounded-lg bg-white/[0.06] p-4">
+          <span className="mock-bar block h-2.5 w-3/5 rounded-full bg-white/35" />
+          <span className="mock-bar mt-2 block h-1.5 w-4/5 rounded-full bg-white/18" style={{ animationDelay: '0.2s' }} />
+          <span className="mock-bar mt-1.5 block h-1.5 w-2/3 rounded-full bg-white/18" style={{ animationDelay: '0.4s' }} />
+          <span className="mt-3 block h-3.5 w-16 rounded-full bg-accent" />
+        </div>
+
+        <div className="mt-3 grid grid-cols-3 gap-2">
+          {[0, 1, 2].map((i) => (
+            <span key={i} className="rounded-md border border-white/10 p-2">
+              <span className="block h-6 w-full rounded bg-white/[0.06]" />
+              <span
+                className="mock-bar mt-2 block h-1.5 w-full rounded-full bg-white/20"
+                style={{ animationDelay: `${0.3 + i * 0.25}s` }}
+              />
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function PhoneMock({ className = '' }: { className?: string }) {
+  return (
+    <div
+      className={`mock-float-b flex w-[136px] flex-col overflow-hidden rounded-[26px] border-[3px] border-white/25 bg-[#0f1626] shadow-[0_24px_60px_rgba(0,0,0,0.5)] ${className}`}
+      aria-hidden="true"
+    >
+      <div className="relative bg-white/[0.05] px-3 pb-2 pt-3.5">
+        <span className="absolute left-1/2 top-1.5 h-1.5 w-9 -translate-x-1/2 rounded-full bg-black/60" />
+        <span className="mt-2 block h-2 w-14 rounded-full bg-white/30" />
+      </div>
+      <div className="flex-1 px-3 py-3">
+        <div className="mock-sweep rounded-lg bg-accent p-2.5">
+          <span className="block h-1.5 w-9 rounded-full bg-white/50" />
+          <span className="mt-1.5 block h-2.5 w-14 rounded-full bg-white/85" />
+        </div>
+        <div className="mt-2.5 space-y-2">
+          {[0, 1, 2, 3].map((i) => (
+            <span
+              key={i}
+              className="mock-row flex items-center gap-1.5"
+              style={{ animationDelay: `${i * 0.45}s` }}
+            >
+              <span className="h-4 w-4 shrink-0 rounded-md bg-white/12" />
+              <span className="flex-1">
+                <span className="block h-1.5 w-full rounded-full bg-white/22" />
+                <span className="mt-1 block h-1.5 w-2/3 rounded-full bg-white/12" />
+              </span>
+            </span>
+          ))}
+        </div>
+      </div>
+      <div className="flex justify-around border-t border-white/10 px-3 py-2">
+        {[0, 1, 2].map((i) => (
+          <span
+            key={i}
+            className="mock-tab h-1.5 w-1.5 rounded-full bg-accent"
+            style={{ animationDelay: `${i * 2}s` }}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export default function Home() {
   return (
     <div className="w-full overflow-x-hidden">
@@ -112,14 +203,39 @@ export default function Home() {
         </div>
       </section>
 
-      {/* One way on from here: the work itself. */}
-      <section aria-label="My work" className="band-dark px-5 py-20 text-center sm:px-8 sm:py-24">
-        <Link
-          href="/my-work"
-          className="inline-flex min-h-[64px] items-center justify-center rounded-full bg-white px-12 py-4 text-xl font-semibold tracking-tight text-dark transition-transform hover:-translate-y-0.5 sm:min-h-[72px] sm:px-16 sm:text-2xl"
-        >
-          My work
-        </Link>
+      {/* One way on from here: the work itself, with a site and an app running
+          quietly on either side of it. */}
+      <section aria-label="My work" className="band-dark overflow-hidden px-5 py-20 sm:px-8 sm:py-24">
+        <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1fr_auto_1fr] lg:gap-8">
+          <div className="hidden justify-end lg:flex">
+            <WebMock />
+          </div>
+
+          <div className="text-center">
+            <p className="eyebrow">Websites · Apps · Platforms</p>
+            <h2 className="mx-auto mt-4 max-w-md text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              Built, shipped, and still running.
+            </h2>
+            <div className="mt-8">
+              <Link
+                href="/my-work"
+                className="inline-flex min-h-[64px] items-center justify-center rounded-full bg-white px-12 py-4 text-xl font-semibold tracking-tight text-dark transition-transform hover:-translate-y-0.5 sm:min-h-[72px] sm:px-16 sm:text-2xl"
+              >
+                My work
+              </Link>
+            </div>
+          </div>
+
+          <div className="hidden justify-start lg:flex">
+            <PhoneMock />
+          </div>
+
+          {/* Both, smaller, where there is no room for a column either side. */}
+          <div className="flex items-center justify-center gap-6 lg:hidden">
+            <WebMock className="w-[210px]" />
+            <PhoneMock className="w-[104px]" />
+          </div>
+        </div>
       </section>
 
       {/* Purpose */}
