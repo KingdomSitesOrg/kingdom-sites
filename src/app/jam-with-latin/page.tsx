@@ -13,30 +13,6 @@ import shotMap from '../../../public/jam-with-latin/map.jpg'
 const APP_STORE_URL = ''
 const PLAY_STORE_URL = ''
 
-const CHIPS = [
-  { latin: 'glōria', english: 'fame, glory' },
-  { latin: 'trāns', english: 'across' },
-  { latin: 'nauta', english: 'sailor' },
-  { latin: 'silva', english: 'forest' },
-  { latin: 'victōria', english: 'victory' },
-]
-
-/** The twelve stops, straight from the app's campaign definition. */
-const MARCH = [
-  { n: 'I',    city: 'Rōma',                what: '1st declension nouns — the march begins' },
-  { n: 'II',   city: 'Vēiī',                what: '2nd declension nouns' },
-  { n: 'III',  city: 'Clūsium',             what: '3rd declension nouns' },
-  { n: '⛺',   city: 'Castra I',            what: 'Camp out — review every word so far', camp: true },
-  { n: 'IV',   city: 'Florentia',           what: '4th declension nouns' },
-  { n: 'V',    city: 'Bonōnia',             what: '5th declension nouns' },
-  { n: 'VI',   city: 'Vērōna',              what: 'Verbs and the personal endings' },
-  { n: '⛺',   city: 'Castra II',           what: 'Camp out again — review, then more verbs', camp: true },
-  { n: 'VII',  city: 'Mediōlānum',          what: 'Short Latin sentences' },
-  { n: 'VIII', city: 'Genua',               what: 'More sentences — here the road turns west for Gaul' },
-  { n: 'IX',   city: 'Augusta Taurīnōrum',  what: 'Comparative and advanced adjectives' },
-  { n: 'X',    city: 'Cusini',              what: 'Sentences with adjectives — meet the JAM Legion' },
-]
-
 const LEARNING = [
   { icon: '🃏', title: 'Vocabulary cards', desc: 'Match the Latin word to its English meaning. Correct macrons throughout, so students learn the word as it is actually written.' },
   { icon: '⚖️', title: 'Case challenges', desc: 'Pick the correct case form of a noun from real, correctly-declined options — not near-misses invented to trick you.' },
@@ -44,15 +20,6 @@ const LEARNING = [
   { icon: '📖', title: 'Sentence reading', desc: 'Put the grammar together and read short, correct Latin sentences by the end of the march.' },
   { icon: '⚔️', title: 'Training mode', desc: 'Quick matching rounds any time, for the days when a full city is more than you have time for.' },
   { icon: '🗓️', title: 'Word of the day', desc: 'One new word on the home screen every day, to keep vocabulary ticking over between sessions.' },
-]
-
-const SAFETY = [
-  'Username and a 6-digit PIN',
-  'No email address',
-  'No ads',
-  'No in-app purchases',
-  'No tracking',
-  'Delete your account in the app',
 ]
 
 function AppStoreIcon() {
@@ -121,7 +88,6 @@ export default function JamWithLatin() {
               <a href="#march">The march</a>
               <a href="#learn">How you learn</a>
               <a href="#screens">Screens</a>
-              <a href="#safe">Safety</a>
             </div>
             {/* Always reachable, and deliberately not one of the product links. */}
             <Link href="/my-work" className="home-link">Kingdom Sites</Link>
@@ -152,16 +118,8 @@ export default function JamWithLatin() {
           </div>
 
           <p className="note">
-            <b>Built for homeschool and classical students.</b> No email, no ads, no in-app purchases.
+            <b>Built for homeschool and classical students.</b> No email, no ads.
           </p>
-
-          <div className="chips">
-            {CHIPS.map((c) => (
-              <span key={c.latin} className="chip">
-                <b>{c.latin}</b> {c.english}
-              </span>
-            ))}
-          </div>
         </div>
 
         <div className="hero-shot">
@@ -200,32 +158,6 @@ export default function JamWithLatin() {
             <div className="phone lift" style={{ margin: '0 auto' }}>
               <Image src={shotMap} alt="The campaign map of Italy with twelve numbered stops from Rōma north to Gaul" sizes="264px" placeholder="blur" />
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ============ THE STOPS ============ */}
-      <section className="band-navy">
-        <div className="wrap">
-          <div className="reveal" style={{ textAlign: 'center' }}>
-            <div className="kicker">The road</div>
-            <h2>Rōma to the JAM Legion.</h2>
-            <p className="lede" style={{ margin: '16px auto 0', textAlign: 'center' }}>
-              One declension per city, then verbs, then sentences — the order a classical teacher
-              would take them in.
-            </p>
-          </div>
-
-          <div className="march reveal" style={{ marginTop: 44 }}>
-            {MARCH.map((s) => (
-              <div key={s.city} className={`stop${s.camp ? ' camp' : ''}`}>
-                <span className="num">{s.n}</span>
-                <span>
-                  <span className="city">{s.city}</span>
-                  <span className="what">{s.what}</span>
-                </span>
-              </div>
-            ))}
           </div>
         </div>
       </section>
@@ -331,22 +263,6 @@ export default function JamWithLatin() {
       </section>
 
       {/* ============ SAFE ============ */}
-      <section id="safe">
-        <div className="wrap reveal" style={{ textAlign: 'center' }}>
-          <div className="kicker">Safe and simple</div>
-          <h2>A username and a PIN. That is the whole sign-up.</h2>
-          <p className="lede" style={{ margin: '16px auto 0', textAlign: 'center' }}>
-            Parents do not have to hand over an email address, and there is nothing to unsubscribe
-            from later. Progress saves to the account so a student can pick up on any device, and
-            the account can be deleted from inside the app at any time.
-          </p>
-          <div className="pills">
-            {SAFETY.map((s) => (
-              <span key={s} className="pill">{s}</span>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ============ FINAL ============ */}
       <div className="final band-navy" id="get">

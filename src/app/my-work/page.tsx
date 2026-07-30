@@ -42,7 +42,7 @@ const JWL_HIGHLIGHTS = [
   },
   {
     title: 'Sign-up a parent will accept',
-    desc: 'A username and a six-digit PIN — no email address, no ads, no in-app purchases, no tracking, and account deletion built into the app.',
+    desc: 'A username and a six-digit PIN — no email address, no ads, no tracking, and account deletion built into the app.',
   },
   {
     title: 'A reason to come back',

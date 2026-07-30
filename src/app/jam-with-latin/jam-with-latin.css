@@ -171,16 +171,6 @@
 .jwl .note { font-size: 13px; color: var(--stone); margin-top: 18px; }
 .jwl .note b { color: var(--ink-2); }
 
-/* latin word chips */
-.jwl .chips { display: flex; gap: 9px; justify-content: center; flex-wrap: wrap; margin-top: 40px; }
-.jwl .chip {
-  display: inline-flex; align-items: baseline; gap: 7px;
-  background: var(--parchment); border: 1px solid var(--bronze);
-  padding: 7px 14px; border-radius: 10px;
-  font-size: 13.5px; color: var(--ink-2); box-shadow: var(--shadow-sm);
-}
-.jwl .chip b { font-family: var(--serif); font-size: 15px; color: var(--crimson); }
-
 /* ---------- hero shot ---------- */
 .jwl .hero-shot { margin-top: 56px; padding-bottom: 84px; }
 .jwl .stage { display: flex; justify-content: center; align-items: flex-end; gap: 24px; }
@@ -249,25 +239,6 @@
 .jwl .card p { font-size: 14px; color: var(--ink-2); line-height: 1.55; }
 .jwl .band-navy .card p { color: rgba(255, 255, 255, 0.68); }
 
-/* the march — city list */
-.jwl .march { display: grid; gap: 10px; }
-.jwl .stop {
-  display: flex; align-items: center; gap: 14px;
-  background: var(--parchment-2); border: 1px solid var(--bronze);
-  border-radius: 12px; padding: 12px 15px;
-}
-.jwl .stop .num {
-  width: 32px; height: 32px; border-radius: 50%; flex: none;
-  display: grid; place-items: center;
-  background: var(--navy); color: var(--gold);
-  font-family: var(--serif); font-size: 13px; font-weight: 700;
-  border: 2px solid var(--gold-dark);
-}
-.jwl .stop .city { font-family: var(--serif); font-size: 15.5px; font-weight: 700; color: var(--ink); }
-.jwl .stop .what { font-size: 13px; color: var(--stone); display: block; }
-.jwl .stop.camp { background: var(--stone-light); border-style: dashed; }
-.jwl .stop.camp .num { background: var(--bronze); color: #fff; border-color: var(--bronze); }
-
 /* screens gallery */
 .jwl .gallery {
   display: flex; gap: 20px; overflow-x: auto; padding: 8px 24px 28px;
@@ -279,17 +250,6 @@
 .jwl .gshot { flex: none; width: 208px; scroll-snap-align: center; }
 .jwl .gshot img { border-radius: 22px; border: 2px solid var(--navy); box-shadow: var(--shadow-md); height: auto; }
 .jwl .gshot .cap { font-size: 12.5px; color: var(--stone); text-align: center; margin-top: 12px; }
-
-/* safety pills */
-.jwl .pills { display: flex; gap: 9px; justify-content: center; flex-wrap: wrap; margin-top: 26px; }
-.jwl .pill {
-  background: var(--parchment-2); border: 1px solid var(--bronze); border-radius: 999px;
-  padding: 7px 16px; font-size: 13px; color: var(--ink-2); font-weight: 500;
-}
-.jwl .band-navy .pill {
-  background: rgba(255, 255, 255, 0.07); border-color: rgba(232, 185, 35, 0.4);
-  color: rgba(255, 255, 255, 0.85);
-}
 
 /* final cta */
 .jwl .final { text-align: center; padding: 100px 0; }
