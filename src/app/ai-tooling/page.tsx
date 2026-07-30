@@ -3,14 +3,14 @@ import Link from 'next/link'
 import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
 
 export const metadata: Metadata = {
-  title: 'AI tooling — set your team up to work with AI',
+  title: 'AI tooling consultation — $75 an hour',
   description:
-    'I set up the AI tooling around a codebase: agent loops that run on their own, custom tools, instruction files, prompting, and context engineering. For developers and teams who are new to AI and want a hand getting started.',
+    'AI tooling consultation at $75 an hour: learning to use AI properly yourself, or getting it into your product. Agent loops that run on their own, custom tools, instruction files, prompting, and context engineering — for developers and teams new to AI.',
   alternates: { canonical: '/ai-tooling' },
   openGraph: {
-    title: 'AI tooling for developers new to AI',
+    title: 'AI tooling consultation — $75 an hour',
     description:
-      'Loops, custom tools, instruction files, prompting, and context engineering — set up around your codebase, with your team taught how to run it.',
+      'Learning to use AI properly, or getting it into your product. Loops, custom tools, instruction files, prompting, and context engineering.',
     url: 'https://kingdom-sites.com/ai-tooling',
     siteName: 'Kingdom Sites',
     locale: 'en_US',
@@ -88,12 +88,13 @@ export default function AiTooling() {
       {/* Hero */}
       <section className="hero-wash px-5 pb-16 pt-16 sm:px-8 sm:pb-20 sm:pt-24">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="eyebrow eyebrow-blue">AI tooling</p>
+          <p className="eyebrow eyebrow-blue">AI tooling consultation · $75 / hour</p>
           <h1 className="mx-auto mt-5 max-w-3xl text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
             AI that does the work, <span className="text-accent">not just the talking.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-body sm:text-lg">
-            I build with these tools every day, and I set them up for other people. Loops that run on
+            Two things, at <b className="font-semibold text-ink">$75 an hour</b>: learning to use AI
+            properly yourself, and getting it into the product you are building. Loops that run on
             their own, tools an agent can actually use, the rules of your codebase written down, and
             your developers taught how to ask. Especially useful if AI has not clicked for your team
             yet.
@@ -103,7 +104,7 @@ export default function AiTooling() {
             <Link href="/my-work" className="btn-ghost">See what I&apos;ve shipped</Link>
           </div>
           <p className="mt-5 text-sm text-muted">
-            Free scoped quote, no obligation · <a href={CONTACT_MAILTO} className="link-accent">{CONTACT_EMAIL}</a>
+            $75 an hour, billed for the hours used · <a href={CONTACT_MAILTO} className="link-accent">{CONTACT_EMAIL}</a>
           </p>
         </div>
       </section>
@@ -224,6 +225,11 @@ export default function AiTooling() {
           <h2 className="text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
             Want your team set up <span className="text-accent">properly?</span>
           </h2>
+          <p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-relaxed text-body">
+            Consultation is <b className="font-semibold text-ink">$75 an hour</b> — an afternoon is
+            often enough to get a team unstuck. If you would rather I build the thing outright, that
+            is scoped and quoted per project instead.
+          </p>
           <div className="mt-8">
             <a href={CONTACT_MAILTO} className="btn-primary">Email me</a>
             <p className="mt-3 text-sm text-muted">

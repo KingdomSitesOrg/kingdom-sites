@@ -378,9 +378,9 @@ export default function MyWork() {
                 I also set other developers up with AI
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-body sm:text-[15px]">
-                Loops that run on their own, tools an agent can actually use, your codebase&apos;s
-                rules written down, prompting, and context engineering — installed around your
-                repository and handed over working. Built for teams who are new to it.
+                Consultation at $75 an hour: learning to use AI properly, or getting it into the
+                product you are building. Loops that run on their own, tools an agent can actually
+                use, your codebase&apos;s rules written down, prompting, and context engineering.
               </p>
             </div>
             <Link href="/ai-tooling" className="btn-primary shrink-0">See the AI tooling</Link>
