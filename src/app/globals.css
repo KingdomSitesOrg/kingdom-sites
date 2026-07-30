@@ -160,42 +160,43 @@ body {
   transform: translateY(0);
 }
 
-/* Cards that turn over on hover to show a second face. Only where hovering is
-   actually possible — on a phone there is no hover, so the second face is simply
-   laid out under the first (see .flip-static below). Keyboard focus flips them
-   too, so the back is reachable without a mouse. */
+/* Cards that turn over on hover to show a second face. Both faces sit in the same
+   grid cell, so the card is as tall as the taller of the two and neither can spill
+   over the edge — a fixed height was clipping the back of the longer ones.
+
+   Only where hovering is possible: on a phone there is no hover, so the second
+   face is simply laid out under the first. Keyboard focus flips them too. */
 .flip {
   perspective: 1200px;
 }
 .flip-inner {
-  position: relative;
+  display: grid;
   transform-style: preserve-3d;
   transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
 }
 .flip-face {
+  grid-area: 1 / 1;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
 .flip-back {
-  position: absolute;
-  inset: 0;
   transform: rotateY(180deg);
 }
 @media (hover: hover) {
-  .flip { height: 196px; }
-  .flip-inner { height: 100%; }
   .flip:hover .flip-inner,
   .flip:focus-within .flip-inner {
     transform: rotateY(180deg);
   }
 }
-/* No hover: show both faces stacked, no rotation, nothing hidden. */
+/* No hover: the two faces become one continuous card — the second simply
+   continues under a divider, with no second border or background of its own. */
 @media (hover: none) {
-  .flip-inner { transform: none !important; }
+  .flip-inner { display: block; transform: none !important; }
   .flip-back {
-    position: static;
     transform: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    background: transparent !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 18px;
   }
 }
 @media (prefers-reduced-motion: reduce) {

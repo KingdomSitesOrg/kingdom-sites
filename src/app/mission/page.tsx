@@ -387,12 +387,12 @@ export default function Mission() {
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {ORGS.map((org) => (
               <div key={org.name} className="flip">
-                <div className="flip-inner">
+                <div className="flip-inner tile-dark overflow-hidden transition-colors hover:border-white/25">
                   <a
                     href={org.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flip-face tile-dark flex min-h-[212px] flex-col p-6 transition-colors hover:border-white/25"
+                    className="flip-face flex min-h-[212px] flex-col p-6"
                   >
                     <span className="text-[#f0b48c]">
                       <OrgIcon name={org.icon} />
@@ -413,7 +413,7 @@ export default function Mission() {
                     href={org.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flip-back flip-face tile-dark flex flex-col bg-[#1b2436] p-6"
+                    className="flip-back flip-face flex flex-col bg-[#1b2436] p-6"
                   >
                     <span className="text-sm leading-relaxed text-white/80">{org.how}</span>
                     <span className="mt-3 flex-1 text-[13px] leading-relaxed text-white/50">
