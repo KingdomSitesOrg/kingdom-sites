@@ -17,7 +17,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   // App product pages keep each app's own branding, so they render without the
   // Kingdom Sites header and footer.
-  const standalone = ['/tap-to-tick', '/jam-with-latin'].some((p) => pathname?.startsWith(p))
+  const standalone = ['/tap-to-tick', '/latin-game'].some((p) => pathname?.startsWith(p))
 
   // No overflow clipping here — it would make this element the scroll container
   // and stop the product page's sticky nav from sticking.

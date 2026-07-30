@@ -3,8 +3,8 @@ import Link from 'next/link'
 import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
 import shotOverview from '../../../public/tap-to-tick/overview.png'
 import shotLog from '../../../public/tap-to-tick/log.png'
-import jwlHome from '../../../public/jam-with-latin/home.jpg'
-import jwlMap from '../../../public/jam-with-latin/map.jpg'
+import jwlHome from '../../../public/latin-game/home.jpg'
+import jwlMap from '../../../public/latin-game/map.jpg'
 import rutaQueue from '../../../public/ruta/crew-queue.jpg'
 import rutaVisit from '../../../public/ruta/crew-visit.jpg'
 
@@ -268,7 +268,7 @@ export default function MyWork() {
               </div>
 
               <div className="mt-7">
-                <Link href="/jam-with-latin" className="btn-primary">See the product page</Link>
+                <Link href="/latin-game" className="btn-primary">See the product page</Link>
               </div>
 
               {/* The client's brand, named once, as credit. */}

@@ -3,11 +3,11 @@
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import shotHome from '../../../public/jam-with-latin/home.jpg'
-import shotJourney from '../../../public/jam-with-latin/journey.jpg'
-import shotCase from '../../../public/jam-with-latin/case-challenge.png'
-import shotLeaderboard from '../../../public/jam-with-latin/leaderboard.jpg'
-import shotMap from '../../../public/jam-with-latin/map.jpg'
+import shotHome from '../../../public/latin-game/home.jpg'
+import shotJourney from '../../../public/latin-game/journey.jpg'
+import shotCase from '../../../public/latin-game/case-challenge.png'
+import shotLeaderboard from '../../../public/latin-game/leaderboard.jpg'
+import shotMap from '../../../public/latin-game/map.jpg'
 
 /** Set these once each app is live and the buttons become real links. */
 const APP_STORE_URL = ''
