@@ -1,7 +1,8 @@
 'use client'
 
-import { useCallback, useEffect, useId, useRef, useState } from 'react'
-import { COUNTRY_SHAPES, type CountryId } from './countryShapes'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import CountryLens, { COUNTRY_STATS, Lens } from './CountryLens'
+import type { CountryId } from './countryShapes'
 
 type Side = 'left' | 'right'
 
@@ -18,164 +19,22 @@ function isCountryLine(item: RollItem): item is { stat: string; tail: string; ar
   return typeof item.stat === 'string'
 }
 
-/* Figures are rounded from national censuses and Joshua Project country
-   profiles. Each country line draws a small map of that country — and the land
-   around it — right next to the words, then fades out as the next one takes
-   over. */
+/* The lines that pass over the photograph. The country figures come from the
+   shared list so the Mission page and the home page preview always agree; the
+   drawing alternates sides as you go down. */
 const ROLL: RollItem[] = [
   { line: 'Millions of people have no idea who Jesus is.' },
-  {
-    stat: 'Under 0.1%',
-    tail: 'of Afghanistan is Christian',
-    art: { kind: 'country', country: 'afghanistan', side: 'left' },
-  },
-  {
-    stat: 'Under 0.1%',
-    tail: 'of Somalia is Christian',
-    art: { kind: 'country', country: 'somalia', side: 'right' },
-  },
-  {
-    stat: 'Under 0.2%',
-    tail: 'of Yemen is Christian',
-    art: { kind: 'country', country: 'yemen', side: 'left' },
-  },
-  {
-    stat: 'Under 0.1%',
-    tail: 'of Omanis are Christian',
-    art: { kind: 'country', country: 'oman', side: 'right' },
-  },
-  {
-    stat: 'About 0.4%',
-    tail: 'of Bangladesh is Christian',
-    art: { kind: 'country', country: 'bangladesh', side: 'left' },
-  },
-  {
-    stat: 'Under 2%',
-    tail: 'of Pakistan is Christian',
-    art: { kind: 'country', country: 'pakistan', side: 'right' },
-  },
-  {
-    stat: 'About 2%',
-    tail: 'of India is Christian',
-    art: { kind: 'country', country: 'india', side: 'left' },
-  },
+  ...COUNTRY_STATS.map(({ country, stat, tail }, i): RollItem => ({
+    stat,
+    tail,
+    art: { kind: 'country', country, side: i % 2 === 0 ? 'left' : 'right' },
+  })),
   {
     line: 'Most of them will never meet a Christian.',
     art: { kind: 'people', side: 'right' },
   },
   { line: 'The glory of God is at stake.' },
 ]
-
-/** Shared frame: the round lens the drawings sit inside. */
-function Lens({
-  active,
-  label,
-  children,
-}: {
-  active: boolean
-  label?: string
-  children: (ids: { clipId: string; seaId: string }) => React.ReactNode
-}) {
-  /* React's generated ids contain colons; strip them so the ids are safe to
-     reference from the clip-path and gradient attributes. */
-  const uid = useId().replace(/:/g, '')
-  const clipId = `sketch-clip-${uid}`
-  const seaId = `sketch-sea-${uid}`
-
-  return (
-    <figure
-      className="pointer-events-none m-0 flex w-[124px] shrink-0 flex-col items-center sm:w-[168px] lg:w-[196px]"
-      aria-hidden="true"
-    >
-      <svg viewBox="0 0 100 100" className="block h-auto w-full">
-        <defs>
-          <clipPath id={clipId}>
-            <circle cx="50" cy="50" r="47" />
-          </clipPath>
-          <radialGradient id={seaId} cx="50%" cy="42%" r="62%">
-            <stop offset="0%" stopColor="rgba(12,18,28,0.55)" />
-            <stop offset="100%" stopColor="rgba(12,18,28,0.28)" />
-          </radialGradient>
-        </defs>
-
-        {children({ clipId, seaId })}
-
-        {/* Rim of the lens, drawn on as it arrives. */}
-        <circle
-          cx="50"
-          cy="50"
-          r="47"
-          fill="none"
-          stroke="rgba(240,180,140,0.5)"
-          strokeWidth="0.8"
-          pathLength={1}
-          strokeDasharray={1}
-          className="transition-[stroke-dashoffset] duration-[1400ms] ease-out motion-reduce:transition-none"
-          style={{ strokeDashoffset: active ? 0 : 1 }}
-        />
-      </svg>
-
-      {label && (
-        <figcaption
-          className="mt-1.5 text-center text-[11px] font-medium tracking-wide text-[#f0b48c] sm:text-xs"
-          style={{ textShadow: '0 1px 10px rgba(0,0,0,0.75)' }}
-        >
-          {label}
-        </figcaption>
-      )}
-    </figure>
-  )
-}
-
-/**
- * A small round map: the country picked out in the accent colour, with the
- * land around it drawn faintly behind so you can tell where in the world you
- * are. When it becomes the active line the border draws itself on, the
- * surrounding land fades up, and the country fills in.
- */
-function CountrySketch({ country, active }: { country: CountryId; active: boolean }) {
-  const shape = COUNTRY_SHAPES[country]
-
-  return (
-    <Lens active={active} label={shape.label}>
-      {({ clipId, seaId }) => (
-        <g clipPath={`url(#${clipId})`}>
-          <circle cx="50" cy="50" r="47" fill={`url(#${seaId})`} />
-
-          {/* Neighbouring land — context, kept quieter than the country. */}
-          <path
-            d={shape.region}
-            fill="rgba(255,255,255,0.13)"
-            stroke="rgba(255,255,255,0.32)"
-            strokeWidth="0.55"
-            strokeLinejoin="round"
-            className="transition-opacity delay-100 duration-1000 ease-out motion-reduce:transition-none"
-            style={{ opacity: active ? 1 : 0 }}
-          />
-
-          {/* The country itself: the outline is drawn on slowly, then the fill
-              comes up behind it. */}
-          <path
-            d={shape.country}
-            fill="#f0b48c"
-            stroke="#f0b48c"
-            strokeWidth="1.2"
-            strokeLinejoin="round"
-            strokeLinecap="round"
-            pathLength={1}
-            strokeDasharray={1}
-            className="transition-[stroke-dashoffset,fill-opacity] delay-200 duration-[2200ms] ease-out motion-reduce:transition-none"
-            style={{
-              strokeDashoffset: active ? 0 : 1,
-              fillOpacity: active ? 0.5 : 0,
-              filter: 'drop-shadow(0 0 5px rgba(240,180,140,0.35))',
-            }}
-          />
-        </g>
-      )}
-    </Lens>
-  )
-}
 
 /** One figure, drawn as strokes so it can be "sketched" on. */
 function StickFigure({ x, dim = false }: { x: number; dim?: boolean }) {
@@ -293,14 +152,16 @@ function Slide({
         ref={ref}
         className="sticky top-0 flex h-svh items-center justify-center px-5 sm:px-8"
       >
-        {/* The drawing sits in the same cluster as the line — not out in a corner. */}
+        {/* On a phone this stacks: the country map on top and large, the words
+            underneath at full width. From tablet up the drawing moves
+            alongside the words, on its own side. */}
         <div
-          className={`flex max-w-5xl items-center gap-3 sm:gap-6 ${
-            art?.side === 'right' ? 'flex-row' : 'flex-row-reverse'
+          className={`flex w-full max-w-5xl flex-col-reverse items-center gap-7 sm:w-auto sm:gap-6 ${
+            art?.side === 'right' ? 'sm:flex-row' : 'sm:flex-row-reverse'
           }`}
         >
           <Line
-            className="max-w-[11rem] text-balance text-center text-3xl font-semibold leading-[1.12] tracking-tight text-white sm:max-w-xl sm:text-5xl lg:max-w-2xl lg:text-6xl"
+            className="text-balance text-center text-[2.25rem] font-semibold leading-[1.22] tracking-tight text-white sm:max-w-xl sm:text-5xl sm:leading-[1.12] lg:max-w-2xl lg:text-6xl"
             style={{ textShadow: '0 2px 22px rgba(0,0,0,0.7)' }}
           >
             {isCountryLine(item) ? (
@@ -323,7 +184,7 @@ function Slide({
               }`}
             >
               {art.kind === 'country' ? (
-                <CountrySketch country={art.country} active={showArt} />
+                <CountryLens country={art.country} active={showArt} />
               ) : (
                 <PeopleSketch active={showArt} />
               )}

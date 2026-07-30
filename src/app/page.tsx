@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import aboutImage from '../../public/Photos/about.jpg'
 import ToolTicker from '@/components/ToolTicker'
+import MissionPreview from '@/components/MissionPreview'
 import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
 
 const STACK = ['Next.js', 'React', 'TypeScript', 'React Native', 'Swift', 'Node.js', 'PostgreSQL', 'AWS', 'Vercel']
@@ -272,8 +273,11 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Mission — the countries cycle through, drawn one at a time */}
+      <MissionPreview />
+
       {/* Contact */}
-      <section id="contact" aria-label="Contact" className="px-5 pb-24 sm:px-8">
+      <section id="contact" aria-label="Contact" className="px-5 pb-24 pt-24 sm:px-8">
         <div className="tile-elevated mx-auto max-w-4xl px-6 py-14 text-center sm:px-12 sm:py-16">
           <h2 className="text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
             {"Let's talk about your project."}
