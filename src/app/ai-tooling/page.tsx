@@ -3,12 +3,12 @@ import Link from 'next/link'
 import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
 
 export const metadata: Metadata = {
-  title: 'AI tooling consultation — $75 an hour',
+  title: 'AI tooling consultation — learn it, or build it in',
   description:
-    'AI tooling consultation at $75 an hour: learning to use AI properly yourself, or getting it into your product. Agent loops that run on their own, custom tools, instruction files, prompting, and context engineering — for developers and teams new to AI.',
+    'AI tooling consultation: learning to use AI properly yourself, or getting it into your product. Agent loops that run on their own, custom tools, instruction files, prompting, and context engineering — for developers and teams new to AI.',
   alternates: { canonical: '/ai-tooling' },
   openGraph: {
-    title: 'AI tooling consultation — $75 an hour',
+    title: 'AI tooling consultation',
     description:
       'Learning to use AI properly, or getting it into your product. Loops, custom tools, instruction files, prompting, and context engineering.',
     url: 'https://kingdom-sites.com/ai-tooling',
@@ -88,23 +88,22 @@ export default function AiTooling() {
       {/* Hero */}
       <section className="hero-wash px-5 pb-16 pt-16 sm:px-8 sm:pb-20 sm:pt-24">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="eyebrow eyebrow-blue">AI tooling consultation · $75 / hour</p>
+          <p className="eyebrow eyebrow-blue">AI tooling consultation</p>
           <h1 className="mx-auto mt-5 max-w-3xl text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
             AI that does the work, <span className="text-accent">not just the talking.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-body sm:text-lg">
-            Two things, at <b className="font-semibold text-ink">$75 an hour</b>: learning to use AI
-            properly yourself, and getting it into the product you are building. Loops that run on
-            their own, tools an agent can actually use, the rules of your codebase written down, and
-            your developers taught how to ask. Especially useful if AI has not clicked for your team
-            yet.
+            Two things: learning to use AI properly yourself, and getting it into the product you
+            are building. Loops that run on their own, tools an agent can actually use, the rules of
+            your codebase written down, and your developers taught how to ask. Especially useful if
+            AI has not clicked for your team yet.
           </p>
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a href={CONTACT_MAILTO} className="btn-primary">Email me about your team</a>
             <Link href="/my-work" className="btn-ghost">See what I&apos;ve shipped</Link>
           </div>
           <p className="mt-5 text-sm text-muted">
-            $75 an hour, billed for the hours used · <a href={CONTACT_MAILTO} className="link-accent">{CONTACT_EMAIL}</a>
+            Tell me what your team is stuck on · <a href={CONTACT_MAILTO} className="link-accent">{CONTACT_EMAIL}</a>
           </p>
         </div>
       </section>
@@ -225,17 +224,18 @@ export default function AiTooling() {
           <h2 className="text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
             Want your team set up <span className="text-accent">properly?</span>
           </h2>
-          <p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-relaxed text-body">
-            Consultation is <b className="font-semibold text-ink">$75 an hour</b> — an afternoon is
-            often enough to get a team unstuck. If you would rather I build the thing outright, that
-            is scoped and quoted per project instead.
-          </p>
           <div className="mt-8">
             <a href={CONTACT_MAILTO} className="btn-primary">Email me</a>
             <p className="mt-3 text-sm text-muted">
               <a href={CONTACT_MAILTO} className="link-accent font-medium">{CONTACT_EMAIL}</a>
             </p>
           </div>
+
+          <p className="mx-auto mt-10 max-w-xl text-[13px] leading-relaxed text-muted">
+            Consultation hourly fee: $75/hr, booked in two-hour blocks — over your choice of Zoom,
+            Google Meet, FaceTime, or whatever you already use. Build work is scoped and quoted per
+            project instead.
+          </p>
         </div>
       </section>
     </div>
