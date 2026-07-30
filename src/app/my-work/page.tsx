@@ -164,7 +164,7 @@ export default function MyWork() {
             </div>
 
             <div className="lg:order-1">
-              <p className="eyebrow eyebrow-blue">iPhone &amp; iPad · Client project</p>
+              <p className="eyebrow eyebrow-blue">iPhone, iPad &amp; Android · Client project</p>
               <h2 className="mt-4 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
                 Jam with Latin
               </h2>

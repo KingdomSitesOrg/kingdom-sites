@@ -9,8 +9,9 @@ import shotVocab from '../../../public/jam-with-latin/vocab.png'
 import shotLeaderboard from '../../../public/jam-with-latin/leaderboard.jpg'
 import shotMap from '../../../public/jam-with-latin/map.jpg'
 
-/** Set this once the app is live and the buttons become real links. */
+/** Set these once each app is live and the buttons become real links. */
 const APP_STORE_URL = ''
+const PLAY_STORE_URL = ''
 
 const CHIPS = [
   { latin: 'glōria', english: 'fame, glory' },
@@ -62,12 +63,27 @@ function AppStoreIcon() {
   )
 }
 
-/** The App Store button. Plain text until there is a real link to point at. */
+function PlayStoreIcon() {
+  return (
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M3.6 2.3a1 1 0 0 0-.35.76v17.88a1 1 0 0 0 .35.76l9.24-9.7L3.6 2.3zm10.4 8.02 2.6-2.73-8.9-5.06a.98.98 0 0 0-.35-.12l6.65 7.91zm0 3.36-6.65 7.9c.12-.02.24-.06.35-.12l8.9-5.05-2.6-2.73zm1.13-1.68 3.02 3.17 2.6-1.48c.79-.45.79-1.93 0-2.38l-2.6-1.48-3.02 3.17z" />
+    </svg>
+  )
+}
+
+/** The two store buttons. Plain text until there is a real link to point at. */
 function AppStoreButton() {
   if (!APP_STORE_URL) {
     return <span className="btn"><AppStoreIcon />Coming to the App Store</span>
   }
   return <a href={APP_STORE_URL} className="btn"><AppStoreIcon />Download on the App Store</a>
+}
+
+function PlayStoreButton() {
+  if (!PLAY_STORE_URL) {
+    return <span className="btn"><PlayStoreIcon />Coming to Google Play</span>
+  }
+  return <a href={PLAY_STORE_URL} className="btn"><PlayStoreIcon />Get it on Google Play</a>
 }
 
 function useReveal() {
@@ -114,7 +130,7 @@ export default function JamWithLatin() {
       {/* ============ HERO ============ */}
       <div className="hero">
         <div className="wrap">
-          <span className="eyebrow">iPhone &amp; iPad · Ages 4+ · Education</span>
+          <span className="eyebrow">iPhone, iPad &amp; Android · Ages 4+ · Education</span>
 
           <h1>
             March from <span className="crimson">Rōma</span> to Gaul.<br />
@@ -128,6 +144,7 @@ export default function JamWithLatin() {
 
           <div className="cta-row">
             <AppStoreButton />
+            <PlayStoreButton />
             <a href="#march" className="btn-ghost">See the journey</a>
           </div>
 
@@ -337,9 +354,10 @@ export default function JamWithLatin() {
           </p>
           <div className="cta-row">
             <AppStoreButton />
+            <PlayStoreButton />
           </div>
           <p className="note" style={{ color: 'rgba(255,255,255,0.5)' }}>
-            Requires iPhone or iPad. Education · Ages 4+.
+            Coming to iPhone, iPad, and Android. Education · Ages 4+.
           </p>
         </div>
       </div>
