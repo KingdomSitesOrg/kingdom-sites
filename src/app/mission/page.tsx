@@ -164,87 +164,6 @@ function OrgIcon({ name }: { name: string }) {
   }
 }
 
-/* A dotted world, drawn from a grid rather than an image file. Each entry is a
-   row and each pair is a run of columns that is land. Sixty columns spans the
-   globe, so one column is six degrees of longitude and one row is about five
-   degrees of latitude — enough resolution for the continents to be recognisable. */
-const LAND: Record<number, [number, number][]> = {
-  0:  [[21, 26], [37, 52]],
-  1:  [[5, 20], [20, 27], [30, 56]],
-  2:  [[3, 21], [20, 27], [29, 57]],
-  3:  [[2, 21], [21, 26], [29, 58]],
-  4:  [[3, 21], [22, 25], [28, 29], [30, 58]],
-  5:  [[4, 21], [28, 58]],
-  6:  [[5, 21], [28, 58]],
-  7:  [[7, 21], [29, 57]],
-  8:  [[8, 21], [28, 37], [38, 56]],
-  9:  [[9, 20], [28, 31], [32, 33], [34, 36], [37, 55]],
-  10: [[10, 19], [27, 38], [39, 54], [55, 56]],
-  11: [[11, 17], [27, 38], [39, 53], [55, 56]],
-  12: [[12, 17], [27, 38], [39, 41], [42, 45], [46, 53]],
-  13: [[15, 19], [28, 38], [42, 45], [47, 52]],
-  14: [[17, 23], [29, 37], [42, 45], [48, 53]],
-  15: [[17, 24], [29, 37], [42, 44], [48, 54]],
-  16: [[18, 25], [29, 37], [43, 44], [49, 53]],
-  17: [[18, 25], [30, 36], [48, 55]],
-  18: [[18, 24], [31, 36], [49, 55]],
-  19: [[18, 23], [31, 36], [50, 56]],
-  20: [[18, 22], [31, 36], [38, 39], [49, 56]],
-  21: [[18, 22], [32, 35], [38, 39], [49, 56]],
-  22: [[18, 21], [32, 34], [38, 39], [50, 55]],
-  23: [[18, 21], [32, 34], [50, 54]],
-  24: [[18, 21], [51, 53], [57, 58]],
-  25: [[18, 20], [57, 58]],
-  26: [[19, 20], [57, 58]],
-  27: [[19, 20]],
-}
-
-const COLS = 60
-const ROWS = 28
-
-const isLand = (row: number, col: number) =>
-  (LAND[row] ?? []).some(([from, to]) => col >= from && col <= to)
-
-/* Where the work is, placed on the same grid. */
-const PINS = [
-  { label: 'South Asia', detail: 'Where we are going', left: '72.5%', top: '43.5%' },
-  { label: 'Philippines', detail: 'Where we are training', left: '84.5%', top: '50%' },
-]
-
-function WorldMap() {
-  return (
-    <div className="relative mx-auto w-fit">
-      <div className="flex flex-col gap-[2px] sm:gap-[3px]" aria-hidden="true">
-        {Array.from({ length: ROWS }, (_, row) => (
-          <div key={row} className="flex gap-[2px] sm:gap-[3px]">
-            {Array.from({ length: COLS }, (_, col) => (
-              <span
-                key={col}
-                className={`h-[3px] w-[3px] shrink-0 rounded-full sm:h-[5px] sm:w-[5px] ${
-                  isLand(row, col) ? 'bg-white/45' : 'bg-white/[0.06]'
-                }`}
-              />
-            ))}
-          </div>
-        ))}
-      </div>
-
-      {PINS.map((pin) => (
-        <div
-          key={pin.label}
-          className="absolute -translate-x-1/2 -translate-y-1/2"
-          style={{ left: pin.left, top: pin.top }}
-        >
-          <span className="relative flex h-2.5 w-2.5 sm:h-3 sm:w-3">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#f0b48c] opacity-70" />
-            <span className="relative inline-flex h-full w-full rounded-full bg-[#f0b48c]" />
-          </span>
-        </div>
-      ))}
-    </div>
-  )
-}
-
 const WHO = [
   {
     title: 'Small businesses',
@@ -435,30 +354,6 @@ export default function Mission() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ---------- the map ---------- */}
-      <section aria-label="Where the work is" className="border-t border-white/10 px-5 py-16 sm:px-8 sm:py-20">
-        <div className="mx-auto max-w-4xl">
-          <div className="text-center">
-            <p className="eyebrow">Where the work is</p>
-            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              Training here. Going there.
-            </h2>
-          </div>
-          <div className="mt-12 overflow-x-auto">
-            <WorldMap />
-          </div>
-          <ul className="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-2 text-sm">
-            {PINS.map((pin) => (
-              <li key={pin.label} className="flex items-center gap-2 text-white/70">
-                <span className="h-2 w-2 rounded-full bg-[#f0b48c]" aria-hidden="true" />
-                <span className="font-medium text-white">{pin.label}</span>
-                <span className="text-white/45">— {pin.detail}</span>
-              </li>
-            ))}
-          </ul>
         </div>
       </section>
 
