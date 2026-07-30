@@ -115,7 +115,9 @@ export default function Mission() {
             </div>
           </div>
 
-          <div className="mt-10">
+          {/* Centred, and closer to the cards it follows — it was drifting on the
+              left with a stretch of empty page under it. */}
+          <div className="mt-12 border-t border-line pt-10 text-center">
             <ContactCta label="Email me about your project" />
           </div>
         </div>
