@@ -20,8 +20,8 @@ const SERVICES = [
   },
   {
     eyebrow: 'AI Consultation',
-    title: 'Learn it, or build it in.',
-    desc: 'Sitting down with anyone who wants AI actually doing the work — marketing, email, SEO, running a task list — or getting it inside the product you are building. No code required, and built for people new to it.',
+    title: 'Get your time back.',
+    desc: 'Sitting down with anyone who wants AI actually doing the work — email, to-dos, marketing, SEO, the weekly admin. No code required, and built for people new to it.',
     href: '/ai-tooling',
     cta: 'See what that covers',
   },

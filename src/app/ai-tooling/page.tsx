@@ -213,8 +213,8 @@ const SOFTWARE = [
 const HONEST = [
   'It will not replace your developers, and I will not pretend otherwise.',
   'Anything irreversible stays behind a person confirming it.',
-  'A cheaper model per task where a cheap model is enough, so the bill stays sane.',
-  'If a job is better done by ordinary code, I will tell you that instead of selling you a model.',
+  'If a job is better done by ordinary software, I will tell you that instead.',
+  'You keep everything I set up, and I show you how it works rather than keeping it to myself.',
 ]
 
 function CardGrid({ items }: { items: { View: () => React.ReactElement; title: string; desc: string }[] }) {
@@ -300,27 +300,6 @@ export default function AiTooling() {
             </ul>
           </div>
 
-          <div className="mt-5 grid gap-4 sm:grid-cols-2 sm:gap-5">
-            <Link href="/ruta" className="tile flex flex-col p-7 transition-colors hover:border-line-strong sm:p-9">
-              <p className="text-xs font-medium uppercase tracking-wider text-muted">In production</p>
-              <h3 className="mt-2 text-lg font-semibold tracking-tight text-ink">Ruta AI</h3>
-              <p className="mt-3 flex-1 text-sm leading-relaxed text-body">
-                An assistant answering from a company&apos;s own records and taking actions with a
-                person confirming them — on the web and in the field.
-              </p>
-              <span className="link-accent mt-5 text-sm">Read the case study <span aria-hidden="true">›</span></span>
-            </Link>
-
-            <Link href="/tap-to-tick" className="tile flex flex-col p-7 transition-colors hover:border-line-strong sm:p-9">
-              <p className="text-xs font-medium uppercase tracking-wider text-muted">My own product</p>
-              <h3 className="mt-2 text-lg font-semibold tracking-tight text-ink">The Tap to Tick money coach</h3>
-              <p className="mt-3 flex-1 text-sm leading-relaxed text-body">
-                Ask a question in plain English and get an answer built from your own numbers — and
-                only the numbers that bear on the question ever leave the phone.
-              </p>
-              <span className="link-accent mt-5 text-sm">See the app <span aria-hidden="true">›</span></span>
-            </Link>
-          </div>
         </div>
       </section>
 
