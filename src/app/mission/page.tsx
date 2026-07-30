@@ -169,21 +169,21 @@ export default function Mission() {
     <div className="band-dark w-full">
       {/* ---------- opening ---------- */}
       <section className="px-5 pb-14 pt-16 sm:px-8 sm:pb-16 sm:pt-24">
-        <div className="mx-auto grid max-w-6xl items-stretch gap-8 lg:grid-cols-12 lg:gap-10">
-          <div className="lg:col-span-7">
-            <div className="h-full min-h-[min(52vw,280px)] overflow-hidden rounded-[26px] border border-white/12 shadow-[0_28px_64px_rgba(0,0,0,0.5)] sm:min-h-[360px] lg:min-h-[520px]">
+        <div className="mx-auto grid max-w-6xl items-stretch gap-4 sm:gap-5 lg:grid-cols-12 lg:gap-6">
+          <div className="lg:col-span-6">
+            <div className="h-full min-h-[min(52vw,280px)] overflow-hidden rounded-[26px] border border-white/12 shadow-[0_28px_64px_rgba(0,0,0,0.5)] sm:min-h-[360px] lg:min-h-[480px]">
               <Image
                 src={missionImage}
                 alt="Mission work overseas"
                 quality={80}
                 placeholder="blur"
-                sizes="(max-width: 1024px) 100vw, 58vw"
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="h-full w-full object-cover object-center"
               />
             </div>
           </div>
 
-          <div className="flex flex-col justify-center lg:col-span-5">
+          <div className="flex flex-col justify-center lg:col-span-6">
             <p className="eyebrow">Our mission work</p>
             <h1 className="mt-4 text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-white sm:text-5xl">
               Mission work in the <span className="text-[#f0b48c]">unreached world.</span>

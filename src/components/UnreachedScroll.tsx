@@ -2,16 +2,21 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-type Corner = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
+type Side = 'left' | 'right'
 
-type RegionId = 'middle-east' | 'horn' | 'south-asia' | 'central-asia'
+type CountryId =
+  | 'afghanistan'
+  | 'somalia'
+  | 'yemen'
+  | 'oman'
+  | 'bangladesh'
+  | 'pakistan'
+  | 'india'
 
 type MapSpec = {
-  region: RegionId
-  /** Arrow tip as % of the map box (0–100). */
-  pin: { x: number; y: number }
-  /** Where the sketch sits on the slide. */
-  corner: Corner
+  country: CountryId
+  /** Which side of the line the outline sits on. */
+  side: Side
   label: string
 }
 
@@ -24,229 +29,180 @@ function isCountry(item: RollItem): item is CountryItem {
 }
 
 /* Figures are rounded from national censuses and Joshua Project country
-   profiles. Each country slide carries a rough regional sketch that fades in
-   while that line is in view, then fades out as the next one takes over. */
+   profiles. Each country slide fades in a simple outline of that country
+   right next to the line, then fades out as the next one takes over. */
 const ROLL: RollItem[] = [
   { line: 'Millions of people have no idea who Jesus is.' },
   {
     stat: 'Under 0.1%',
     tail: 'of Afghanistan is Christian',
-    map: {
-      region: 'central-asia',
-      pin: { x: 42, y: 48 },
-      corner: 'top-left',
-      label: 'Afghanistan',
-    },
+    map: { country: 'afghanistan', side: 'left', label: 'Afghanistan' },
   },
   {
     stat: 'Under 0.1%',
     tail: 'of Somalia is Christian',
-    map: {
-      region: 'horn',
-      pin: { x: 72, y: 58 },
-      corner: 'bottom-right',
-      label: 'Somalia',
-    },
+    map: { country: 'somalia', side: 'right', label: 'Somalia' },
   },
   {
     stat: 'Under 0.2%',
     tail: 'of Yemen is Christian',
-    map: {
-      region: 'middle-east',
-      pin: { x: 58, y: 72 },
-      corner: 'top-right',
-      label: 'Yemen',
-    },
+    map: { country: 'yemen', side: 'left', label: 'Yemen' },
   },
   {
     stat: 'Under 0.1%',
     tail: 'of Omanis are Christian',
-    map: {
-      region: 'middle-east',
-      pin: { x: 78, y: 62 },
-      corner: 'bottom-left',
-      label: 'Oman',
-    },
+    map: { country: 'oman', side: 'right', label: 'Oman' },
   },
   {
     stat: 'About 0.4%',
     tail: 'of Bangladesh is Christian',
-    map: {
-      region: 'south-asia',
-      pin: { x: 78, y: 48 },
-      corner: 'top-left',
-      label: 'Bangladesh',
-    },
+    map: { country: 'bangladesh', side: 'left', label: 'Bangladesh' },
   },
   {
     stat: 'Under 2%',
     tail: 'of Pakistan is Christian',
-    map: {
-      region: 'south-asia',
-      pin: { x: 28, y: 38 },
-      corner: 'bottom-right',
-      label: 'Pakistan',
-    },
+    map: { country: 'pakistan', side: 'right', label: 'Pakistan' },
   },
   {
     stat: 'About 2%',
     tail: 'of India is Christian',
-    map: {
-      region: 'south-asia',
-      pin: { x: 52, y: 58 },
-      corner: 'top-right',
-      label: 'India',
-    },
+    map: { country: 'india', side: 'left', label: 'India' },
   },
   { line: 'Most of them will never meet a Christian.' },
   { line: 'The glory of God is at stake.' },
 ]
 
-const CORNER_CLASS: Record<Corner, string> = {
-  'top-left': 'left-3 top-6 sm:left-8 sm:top-10',
-  'top-right': 'right-3 top-6 sm:right-8 sm:top-10',
-  'bottom-left': 'bottom-6 left-3 sm:bottom-10 sm:left-8',
-  'bottom-right': 'bottom-6 right-3 sm:bottom-10 sm:right-8',
-}
+/* Simplified country silhouettes — general outline only, not a globe or
+   full regional map. Paths sit in a 100×100 viewBox. */
+function CountryOutline({ country }: { country: CountryId }) {
+  const fill = 'rgba(240, 180, 140, 0.18)'
+  const stroke = '#f0b48c'
 
-/* Soft landmass silhouettes — not cartography, just enough shape to place
-   the country. Edges fade so the region feels cut off at the frame. */
-function RegionLand({ region }: { region: RegionId }) {
-  const fill = 'rgba(240, 180, 140, 0.28)'
-  const stroke = 'rgba(240, 180, 140, 0.5)'
-
-  switch (region) {
-    case 'middle-east':
-      /* Arabian peninsula + Levant — Yemen / Oman toward the south. */
+  switch (country) {
+    case 'afghanistan':
+      /* Rough highland block, wider west, northeast notch. */
       return (
-        <g>
-          <path
-            d="M38 18c8-6 22-8 34-4 10 3 18 12 22 24 3 10 2 22-4 32-4 7-12 14-22 18-9 3-18 2-26-2-10-5-16-14-18-24-3-12 2-24 14-34Z"
-            fill={fill}
-            stroke={stroke}
-            strokeWidth="1.2"
-          />
-          <path
-            d="M52 62c6 4 14 8 22 10 4 1 8-1 10-5 3-6 1-12-4-16-6-5-14-6-22-4-5 1-8 6-6 15Z"
-            fill="rgba(240, 180, 140, 0.16)"
-          />
-        </g>
+        <path
+          d="M18 42 L28 28 L48 22 L62 20 L78 26 L86 38 L84 52 L76 64 L62 72 L44 74 L28 68 L18 56 Z"
+          fill={fill}
+          stroke={stroke}
+          strokeWidth="1.8"
+          strokeLinejoin="round"
+        />
       )
-    case 'horn':
-      /* Horn of Africa — Somalia's coastal hook. */
+    case 'somalia':
+      /* Horn of Africa — long coast, hooked south tip. */
       return (
-        <g>
-          <path
-            d="M28 22c14-10 32-12 46-4 10 6 16 18 14 32-2 12-10 22-20 30-8 6-16 12-18 22-1 4-5 6-9 4-6-3-8-12-6-20 3-12 2-22-4-32-4-7-2-18 0-28 1-3 4-5 0-4Z"
-            fill={fill}
-            stroke={stroke}
-            strokeWidth="1.2"
-          />
-          <path
-            d="M62 38c8 2 14 10 16 20 1 6-2 12-8 14-5 2-10 0-14-4-5-5-6-14-4-22 1-4 5-8 10-8Z"
-            fill="rgba(240, 180, 140, 0.16)"
-          />
-        </g>
+        <path
+          d="M22 28 L38 18 L52 16 L62 22 L68 34 L72 48 L70 62 L64 74 L58 86 L48 90 L42 82 L46 68 L44 52 L36 40 L24 38 Z"
+          fill={fill}
+          stroke={stroke}
+          strokeWidth="1.8"
+          strokeLinejoin="round"
+        />
       )
-    case 'south-asia':
-      /* Subcontinent — Pakistan west, Bangladesh east, India center. */
+    case 'yemen':
+      /* Southern Arabian block, wider bottom coast. */
       return (
-        <g>
-          <path
-            d="M30 28c8-12 22-18 38-16 12 2 22 10 28 22 5 10 6 22 2 32-4 12-14 20-26 24-10 3-18 2-24-4-8-8-10-20-12-30-2-10 0-20 0-28 0-4-2-8-6 0Z"
-            fill={fill}
-            stroke={stroke}
-            strokeWidth="1.2"
-          />
-          <path
-            d="M22 34c-2 8 0 18 6 26 3 4 8 4 10-1 3-6 2-14-1-20-2-5-8-8-15-5Z"
-            fill="rgba(240, 180, 140, 0.16)"
-          />
-          <path
-            d="M72 40c6 2 10 8 10 14 0 5-4 8-9 8-4 0-7-3-8-7-1-5 1-11 7-15Z"
-            fill="rgba(240, 180, 140, 0.18)"
-          />
-        </g>
+        <path
+          d="M22 38 L40 28 L62 26 L80 34 L86 48 L82 64 L68 74 L42 76 L24 66 L18 50 Z"
+          fill={fill}
+          stroke={stroke}
+          strokeWidth="1.8"
+          strokeLinejoin="round"
+        />
       )
-    case 'central-asia':
-      /* Afghanistan / highland block. */
+    case 'oman':
+      /* Eastern Arabian tip + Musandam-ish north hook. */
       return (
-        <g>
-          <path
-            d="M26 36c6-14 20-24 38-26 14-1 28 6 34 18 5 10 4 22-2 32-6 10-18 16-30 18-12 2-24-2-32-12-7-8-10-18-8-30Z"
-            fill={fill}
-            stroke={stroke}
-            strokeWidth="1.2"
-          />
-          <path
-            d="M40 48c6-4 14-4 20 0 4 3 6 8 4 13-3 6-10 8-16 6-7-2-12-8-12-14 0-2 2-4 4-5Z"
-            fill="rgba(240, 180, 140, 0.16)"
-          />
-        </g>
+        <path
+          d="M34 22 L48 18 L56 28 L62 24 L72 30 L78 42 L76 58 L68 72 L52 78 L40 70 L36 54 L30 40 L34 30 Z"
+          fill={fill}
+          stroke={stroke}
+          strokeWidth="1.8"
+          strokeLinejoin="round"
+        />
+      )
+    case 'bangladesh':
+      /* Compact delta, slightly open south coast. */
+      return (
+        <path
+          d="M30 30 L48 22 L66 26 L74 40 L70 56 L62 70 L46 76 L32 68 L26 52 L28 38 Z"
+          fill={fill}
+          stroke={stroke}
+          strokeWidth="1.8"
+          strokeLinejoin="round"
+        />
+      )
+    case 'pakistan':
+      /* Tall western slab, tapering south toward the sea. */
+      return (
+        <path
+          d="M34 18 L56 16 L68 28 L72 44 L66 58 L58 72 L50 84 L38 80 L32 64 L28 46 L30 30 Z"
+          fill={fill}
+          stroke={stroke}
+          strokeWidth="1.8"
+          strokeLinejoin="round"
+        />
+      )
+    case 'india':
+      /* Classic subcontinent — wide north, pointed south. */
+      return (
+        <path
+          d="M28 24 L48 16 L68 18 L80 30 L82 46 L74 58 L66 70 L56 84 L48 90 L40 78 L34 62 L26 48 L24 34 Z"
+          fill={fill}
+          stroke={stroke}
+          strokeWidth="1.8"
+          strokeLinejoin="round"
+        />
       )
     default:
       return null
   }
 }
 
-function ArrowToPin({ pin }: { pin: { x: number; y: number } }) {
-  /* Shaft starts away from the pin so the tip lands on the country. */
-  const from = {
-    x: Math.max(10, Math.min(90, pin.x - 20)),
-    y: Math.max(10, Math.min(90, pin.y - 24)),
-  }
-  const angle = Math.atan2(pin.y - from.y, pin.x - from.x)
-  const tipLen = 5.5
+function CountrySketch({ map }: { map: MapSpec }) {
+  /* Arrow from outside the outline toward its center. */
+  const tip = { x: 52, y: 48 }
+  const from =
+    map.side === 'left'
+      ? { x: 12, y: 18 }
+      : { x: 88, y: 18 }
+  const angle = Math.atan2(tip.y - from.y, tip.x - from.x)
+  const tipLen = 6
   const left = {
-    x: pin.x - tipLen * Math.cos(angle - 0.45),
-    y: pin.y - tipLen * Math.sin(angle - 0.45),
+    x: tip.x - tipLen * Math.cos(angle - 0.5),
+    y: tip.y - tipLen * Math.sin(angle - 0.5),
   }
   const right = {
-    x: pin.x - tipLen * Math.cos(angle + 0.45),
-    y: pin.y - tipLen * Math.sin(angle + 0.45),
+    x: tip.x - tipLen * Math.cos(angle + 0.5),
+    y: tip.y - tipLen * Math.sin(angle + 0.5),
   }
 
   return (
-    <g>
-      <line
-        x1={from.x}
-        y1={from.y}
-        x2={pin.x}
-        y2={pin.y}
-        stroke="#f0b48c"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
-      <path
-        d={`M${pin.x} ${pin.y} L${left.x} ${left.y} L${right.x} ${right.y} Z`}
-        fill="#f0b48c"
-      />
-      <circle cx={pin.x} cy={pin.y} r="2.2" fill="#f0b48c" />
-    </g>
-  )
-}
-
-function RegionSketch({ map }: { map: MapSpec }) {
-  return (
-    <div className="pointer-events-none w-[148px] sm:w-[176px]" aria-hidden="true">
-      <div
-        className="relative overflow-hidden rounded-2xl border border-white/12 bg-[#111827]/55 shadow-[0_12px_40px_rgba(0,0,0,0.45)] backdrop-blur-[2px]"
-        style={{
-          /* Soft vignette so the landmass feels cut off at the edges. */
-          maskImage:
-            'radial-gradient(ellipse 78% 72% at 50% 48%, #000 42%, transparent 92%)',
-          WebkitMaskImage:
-            'radial-gradient(ellipse 78% 72% at 50% 48%, #000 42%, transparent 92%)',
-        }}
-      >
-        <svg viewBox="0 0 100 100" className="block h-auto w-full opacity-95">
-          <RegionLand region={map.region} />
-          <ArrowToPin pin={map.pin} />
-        </svg>
-      </div>
+    <div
+      className="pointer-events-none flex w-[92px] shrink-0 flex-col items-center sm:w-[110px]"
+      aria-hidden="true"
+    >
+      <svg viewBox="0 0 100 100" className="block h-auto w-full drop-shadow-[0_4px_18px_rgba(0,0,0,0.55)]">
+        <CountryOutline country={map.country} />
+        <line
+          x1={from.x}
+          y1={from.y}
+          x2={tip.x}
+          y2={tip.y}
+          stroke="#f0b48c"
+          strokeWidth="1.7"
+          strokeLinecap="round"
+        />
+        <path
+          d={`M${tip.x} ${tip.y} L${left.x} ${left.y} L${right.x} ${right.y} Z`}
+          fill="#f0b48c"
+        />
+      </svg>
       <p
-        className="mt-1.5 text-center text-[11px] font-medium tracking-wide text-[#f0b48c]/90 sm:text-xs"
-        style={{ textShadow: '0 1px 10px rgba(0,0,0,0.7)' }}
+        className="mt-0.5 text-center text-[11px] font-medium tracking-wide text-[#f0b48c] sm:text-xs"
+        style={{ textShadow: '0 1px 10px rgba(0,0,0,0.75)' }}
       >
         {map.label}
       </p>
@@ -282,8 +238,6 @@ function Slide({
         setRatio(index, entry.isIntersecting ? entry.intersectionRatio : 0)
       },
       {
-        /* Bias toward the middle of the sticky photograph so maps pop when
-           the line is most readable. */
         threshold: [0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1],
         rootMargin: '-12% 0px -12% 0px',
       },
@@ -292,44 +246,54 @@ function Slide({
     return () => io.disconnect()
   }, [index, item, setRatio])
 
+  const map = isCountry(item) ? item.map : null
+  const showMap = Boolean(map && active)
+
   return (
     <div
       ref={ref}
-      className="relative flex h-[58svh] items-center justify-center px-6"
+      className="flex h-[58svh] items-center justify-center px-5 sm:px-8"
     >
-      {isCountry(item) && (
-        <div
-          className={`absolute z-10 transition-all duration-500 ease-out motion-reduce:transition-none ${CORNER_CLASS[item.map.corner]} ${
-            active
-              ? 'translate-y-0 scale-100 opacity-100'
-              : 'translate-y-2 scale-95 opacity-0'
-          }`}
-        >
-          <RegionSketch map={item.map} />
-        </div>
-      )}
-
-      <p
-        className="relative z-[1] max-w-4xl text-balance text-center text-3xl font-semibold leading-[1.12] tracking-tight text-white sm:text-5xl lg:text-6xl"
-        style={{ textShadow: '0 2px 22px rgba(0,0,0,0.7)' }}
+      {/* Outline sits in the same cluster as the line — not out in a corner. */}
+      <div
+        className={`flex max-w-5xl items-center gap-3 sm:gap-5 ${
+          map?.side === 'right' ? 'flex-row' : 'flex-row-reverse'
+        }`}
       >
-        {isCountry(item) ? (
-          <>
-            <span className="text-[#f0b48c]">{item.stat}</span>
-            {' '}
-            <span>{item.tail}</span>
-          </>
-        ) : (
-          item.line
+        <p
+          className="max-w-[11rem] text-balance text-center text-3xl font-semibold leading-[1.12] tracking-tight text-white sm:max-w-xl sm:text-5xl lg:max-w-2xl lg:text-6xl"
+          style={{ textShadow: '0 2px 22px rgba(0,0,0,0.7)' }}
+        >
+          {isCountry(item) ? (
+            <>
+              <span className="text-[#f0b48c]">{item.stat}</span>
+              {' '}
+              <span>{item.tail}</span>
+            </>
+          ) : (
+            item.line
+          )}
+        </p>
+
+        {map && (
+          <div
+            className={`transition-all duration-500 ease-out motion-reduce:transition-none ${
+              showMap
+                ? 'translate-y-0 scale-100 opacity-100'
+                : 'translate-y-1 scale-95 opacity-0'
+            }`}
+          >
+            <CountrySketch map={map} />
+          </div>
         )}
-      </p>
+      </div>
     </div>
   )
 }
 
 /**
- * Sticky photograph scroll lines. Country slides fade a rough regional sketch
- * in (with an arrow on that country) while the line is in view.
+ * Sticky photograph scroll lines. Country slides fade a simple country
+ * outline in next to the line while it is in view.
  */
 export default function UnreachedScroll() {
   const [ratios, setRatios] = useState<number[]>(() => ROLL.map(() => 0))
@@ -343,8 +307,6 @@ export default function UnreachedScroll() {
     })
   }, [])
 
-  /* Only the most-visible country slide shows its map — avoids two sketches
-     fighting during a transition. */
   let activeIndex = -1
   let best = 0.35
   ratios.forEach((r, i) => {
