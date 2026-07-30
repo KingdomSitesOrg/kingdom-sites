@@ -36,7 +36,7 @@ const SERVICES = [
 function WebMock({ className = '' }: { className?: string }) {
   return (
     <div
-      className={`mock-float w-[300px] overflow-hidden rounded-xl border border-white/12 bg-white/[0.04] shadow-[0_24px_60px_rgba(0,0,0,0.45)] ${className}`}
+      className={`w-[300px] overflow-hidden rounded-xl border border-white/12 bg-white/[0.04] shadow-[0_24px_60px_rgba(0,0,0,0.45)] ${className}`}
       aria-hidden="true"
     >
       <div className="flex items-center gap-1.5 border-b border-white/10 bg-white/[0.04] px-3 py-2">
@@ -81,7 +81,7 @@ function WebMock({ className = '' }: { className?: string }) {
 function PhoneMock({ className = '' }: { className?: string }) {
   return (
     <div
-      className={`mock-float-b flex w-[136px] flex-col overflow-hidden rounded-[26px] border-[3px] border-white/25 bg-[#0f1626] shadow-[0_24px_60px_rgba(0,0,0,0.5)] ${className}`}
+      className={`flex w-[136px] flex-col overflow-hidden rounded-[26px] border-[3px] border-white/25 bg-[#0f1626] shadow-[0_24px_60px_rgba(0,0,0,0.5)] ${className}`}
       aria-hidden="true"
     >
       <div className="relative bg-white/[0.05] px-3 pb-2 pt-3.5">

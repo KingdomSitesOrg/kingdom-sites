@@ -206,12 +206,25 @@ body {
   .flip-inner { transition: none; }
 }
 
+/* Lines that roll over one another across the top of the mission photograph.
+   Each one is stacked in the same place and takes its turn on a delay. */
+@keyframes roll-line {
+  0%       { opacity: 0; transform: translateY(16px); }
+  3%, 17%  { opacity: 1; transform: translateY(0); }
+  20%, 100%{ opacity: 0; transform: translateY(-16px); }
+}
+.roll-line {
+  opacity: 0;
+  animation: roll-line 22s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  /* No rolling: the first line simply stays. */
+  .roll-line { animation: none; opacity: 0; }
+  .roll-line:first-child { opacity: 1; }
+}
+
 /* The little site and app drawings on the home page. Everything moves on a loop
    in CSS — nothing here is a video or an image file. */
-@keyframes mock-float {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-10px); }
-}
 @keyframes mock-fill {
   0%        { transform: scaleX(0.12); opacity: 0.45; }
   35%, 78%  { transform: scaleX(1);    opacity: 1; }
@@ -231,8 +244,6 @@ body {
   34%, 100% { opacity: 0.25; }
 }
 
-.mock-float   { animation: mock-float 7s ease-in-out infinite; }
-.mock-float-b { animation: mock-float 9s ease-in-out infinite 0.9s; }
 .mock-bar     { transform-origin: left; animation: mock-fill 5s ease-in-out infinite; }
 .mock-row     { animation: mock-rise 5.5s ease-in-out infinite; }
 .mock-tab     { animation: mock-tab 6s ease-in-out infinite; }
@@ -246,7 +257,7 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mock-float, .mock-float-b, .mock-bar, .mock-row, .mock-tab { animation: none; }
+  .mock-bar, .mock-row, .mock-tab { animation: none; }
   .mock-bar { transform: scaleX(1); }
   .mock-sweep::after { animation: none; opacity: 0; }
 }
