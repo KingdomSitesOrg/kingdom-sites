@@ -147,9 +147,9 @@ export default function TapToTick() {
           </span>
 
           <h1>
-            Log it.<br />
+            Tap it.<br />
             <span className="tick-word">
-              Tick.
+              Tick it.
               <svg className="underline" viewBox="0 0 300 40" preserveAspectRatio="none" aria-hidden="true">
                 <path d="M4 26 C 60 38, 150 36, 296 12" />
               </svg>
