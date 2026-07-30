@@ -336,8 +336,30 @@ export default function Mission() {
             </p>
           </div>
 
-          {/* Hover to turn a card over; tap on a phone opens the site. */}
-          <div className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+          {/* Mobile: plain 2×4 linked table — title + visit only. */}
+          <ul className="mt-10 grid grid-cols-2 border-l border-t border-white/10 sm:hidden">
+            {ORGS.map((org) => (
+              <li key={org.name} className="border-b border-r border-white/10">
+                <a
+                  href={org.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-full flex-col justify-between gap-2 p-4"
+                >
+                  <span className="text-[15px] font-semibold leading-snug tracking-tight text-white">
+                    {org.name}
+                  </span>
+                  <span className="flex items-center gap-1.5 text-[13px] font-medium text-[#f0b48c]">
+                    Visit and give
+                    <ArrowOut />
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          {/* Desktop: hover to turn a card over. */}
+          <div className="mt-10 hidden gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-4">
             {ORGS.map((org) => (
               <div key={org.name} className="flip">
                 {/* No overflow clipping here: hiding overflow flattens the 3D
@@ -348,20 +370,19 @@ export default function Mission() {
                     href={org.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flip-face flex min-h-[180px] flex-col p-4 sm:min-h-[212px] sm:p-6"
+                    className="flip-face flex min-h-[212px] flex-col p-6"
                   >
                     <span className="text-[#f0b48c]">
                       <OrgIcon name={org.icon} />
                     </span>
-                    <span className="mt-3 text-[15px] font-semibold leading-snug tracking-tight text-white sm:mt-4 sm:text-base">
+                    <span className="mt-4 text-base font-semibold leading-snug tracking-tight text-white">
                       {org.name}
                     </span>
-                    <span className="mt-1.5 flex-1 text-[13px] leading-relaxed text-white/60 sm:mt-2 sm:text-sm">
+                    <span className="mt-2 flex-1 text-sm leading-relaxed text-white/60">
                       {org.what}
                     </span>
-                    <span className="mt-3 flex items-center gap-1.5 text-[13px] font-medium text-[#f0b48c] sm:mt-4 sm:text-sm">
-                      <span className="sm:hidden">Visit and give</span>
-                      <span className="hidden sm:inline">Their site</span>
+                    <span className="mt-4 flex items-center gap-1.5 text-sm font-medium text-[#f0b48c]">
+                      Their site
                       <ArrowOut />
                     </span>
                   </a>
@@ -370,13 +391,13 @@ export default function Mission() {
                     href={org.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flip-back flip-face flex flex-col rounded-[22px] bg-[#1b2436] p-4 sm:p-6"
+                    className="flip-back flip-face flex flex-col rounded-[22px] bg-[#1b2436] p-6"
                   >
-                    <span className="text-[13px] leading-relaxed text-white/80 sm:text-sm">{org.how}</span>
-                    <span className="mt-2 flex-1 text-[12px] leading-relaxed text-white/50 sm:mt-3 sm:text-[13px]">
+                    <span className="text-sm leading-relaxed text-white/80">{org.how}</span>
+                    <span className="mt-3 flex-1 text-[13px] leading-relaxed text-white/50">
                       {org.note}
                     </span>
-                    <span className="mt-3 flex items-center gap-1.5 text-[13px] font-medium text-[#f0b48c] sm:mt-4 sm:text-sm">
+                    <span className="mt-4 flex items-center gap-1.5 text-sm font-medium text-[#f0b48c]">
                       Visit and give
                       <ArrowOut />
                     </span>
