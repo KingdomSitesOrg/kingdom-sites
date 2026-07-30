@@ -360,7 +360,8 @@ export default function Mission() {
                       {org.what}
                     </span>
                     <span className="mt-3 flex items-center gap-1.5 text-[13px] font-medium text-[#f0b48c] sm:mt-4 sm:text-sm">
-                      Their site
+                      <span className="sm:hidden">Visit and give</span>
+                      <span className="hidden sm:inline">Their site</span>
                       <ArrowOut />
                     </span>
                   </a>
