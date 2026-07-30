@@ -11,7 +11,8 @@ const csp = [
   "font-src 'self'",
   "connect-src 'self' https://*.ingest.us.sentry.io https://*.ingest.sentry.io",
   "form-action 'none'",
-  "frame-src 'none'",
+  // Mission page embeds a YouTube player; links-only would not need this.
+  "frame-src https://www.youtube.com https://www.youtube-nocookie.com",
   "base-uri 'self'",
   "object-src 'none'",
 ].join('; ')
