@@ -323,13 +323,17 @@ export default function Mission() {
             className="absolute inset-0"
             style={{
               background:
-                'linear-gradient(to bottom, rgba(17,24,39,0.75) 0%, rgba(17,24,39,0.12) 30%, rgba(17,24,39,0.12) 55%, rgba(17,24,39,0.92) 100%)',
+                'linear-gradient(to bottom, rgba(17,24,39,0.82) 0%, rgba(17,24,39,0.5) 22%, rgba(17,24,39,0.08) 45%, rgba(17,24,39,0.1) 60%, rgba(17,24,39,0.9) 100%)',
             }}
             aria-hidden="true"
           />
-          <div className="absolute inset-x-0 bottom-0 flex justify-center px-6 pb-16 sm:pb-24">
-            <p className="max-w-2xl text-balance text-center text-lg font-medium leading-snug text-white sm:text-2xl">
-              For millions of people, following Jesus costs everything they have.
+          {/* Across the top of the photograph, at the size of a headline. */}
+          <div className="absolute inset-x-0 top-0 flex justify-center px-6 pt-10 sm:pt-14">
+            <p
+              className="max-w-4xl text-balance text-center text-3xl font-semibold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl"
+              style={{ textShadow: '0 2px 18px rgba(0,0,0,0.55)' }}
+            >
+              Millions of people have no idea who Jesus is.
             </p>
           </div>
         </div>
