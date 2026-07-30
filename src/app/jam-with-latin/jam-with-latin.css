@@ -184,6 +184,8 @@
   max-width: 620px; margin: 22px auto 0; line-height: 1.5;
 }
 .jwl .sub strong { color: var(--ink); font-weight: 700; }
+.jwl .sub a { color: var(--crimson); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.jwl .sub a:hover { color: var(--ink); }
 .jwl .cta-row { display: flex; gap: 12px; justify-content: center; align-items: center; margin-top: 32px; flex-wrap: wrap; }
 .jwl .note { font-size: 13px; color: var(--stone); margin-top: 18px; }
 .jwl .note b { color: var(--ink-2); }

@@ -253,7 +253,7 @@ export default function MyWork() {
                 Latin practice game
               </h2>
               <p className="mt-2 text-base text-ink/80">
-                First-year classical Latin as a Roman-legion quest.
+                Classical Latin as a Roman-legion quest.
               </p>
               <p className="mt-4 text-[15px] leading-relaxed text-body">
                 Homeschool and classical students march north from Rōma to Gaul, learning real
@@ -272,7 +272,18 @@ export default function MyWork() {
               </div>
 
               {/* The client's brand, named once, as credit. */}
-              <p className="mt-5 text-xs text-muted">Built for Jam with Latin.</p>
+              <p className="mt-5 text-xs text-muted">
+                In conjunction with{' '}
+                <a
+                  href="https://www.jamwithlatin.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="link-accent"
+                >
+                  Jam with Latin
+                </a>
+                .
+              </p>
             </div>
           </div>
 

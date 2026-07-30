@@ -150,8 +150,12 @@ export default function JamWithLatin() {
           </h1>
 
           <p className="sub">
-            A Roman-legion adventure that teaches first-year classical Latin — <strong>declensions,
-            verb endings, and sentences you can actually read</strong> — one city at a time.
+            A Roman-legion adventure that teaches you classical Latin — <strong>declensions, verb
+            endings, and sentences you can actually read</strong> — one city at a time. Built in
+            conjunction with{' '}
+            <a href="https://www.jamwithlatin.com/" target="_blank" rel="noopener noreferrer">
+              Jam with Latin
+            </a>.
           </p>
 
           <div className="cta-row">
@@ -322,10 +326,13 @@ export default function JamWithLatin() {
 
       <footer>
         <div className="wrap">
-          <span>Built for Jam with Latin · {new Date().getFullYear()}</span>
           <span>
-            <a href="https://www.jamwithlatin.com/" target="_blank" rel="noopener noreferrer">jamwithlatin.com</a>
+            In conjunction with{' '}
+            <a href="https://www.jamwithlatin.com/" target="_blank" rel="noopener noreferrer">Jam with Latin</a>
             {' · '}
+            {new Date().getFullYear()}
+          </span>
+          <span>
             <Link href="/my-work">Designed &amp; built by Kingdom Sites</Link>
           </span>
         </div>
