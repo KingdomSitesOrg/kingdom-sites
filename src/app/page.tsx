@@ -20,7 +20,7 @@ const SERVICES = [
   {
     eyebrow: 'AI Consultation',
     title: 'Learn it, or build it in.',
-    desc: 'Sitting down with your developers to use AI properly, or getting it inside the product you are building. Built for teams who are new to it.',
+    desc: 'Sitting down with anyone who wants AI actually doing the work — marketing, email, SEO, running a task list — or getting it inside the product you are building. No code required, and built for people new to it.',
     href: '/ai-tooling',
     cta: 'See what that covers',
   },
@@ -139,10 +139,6 @@ export default function Home() {
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a href={CONTACT_MAILTO} className="btn-primary">Email me about your project</a>
           </div>
-
-          <p className="mt-5 text-sm text-muted">
-            Free scoped quote, no obligation · <a href={CONTACT_MAILTO} className="link-accent">{CONTACT_EMAIL}</a>
-          </p>
         </div>
 
         {/* Stack strip */}
@@ -192,8 +188,9 @@ export default function Home() {
               The kit I build with.
             </h2>
             <p className="mt-4 text-[15px] leading-relaxed text-body sm:text-base">
-              Languages and platforms, the cloud services behind them, and the AI work — including
-              AI tooling for developers and teams who are new to it and want a hand getting started.
+              Languages and platforms, the cloud services behind them, and the AI work — for
+              developers, and just as much for anyone doing marketing, email, SEO, or day-to-day
+              task management who wants a hand getting AI genuinely useful.
             </p>
           </div>
         </div>

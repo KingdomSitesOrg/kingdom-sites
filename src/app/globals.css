@@ -253,6 +253,23 @@ body {
   .mock-sweep::after { animation: none; opacity: 0; }
 }
 
+/* Mission page: on the line about never meeting a Christian, two figures are
+   drawn and the second one fades away and does not come back. */
+@keyframes figure-vanish {
+  0%        { opacity: 1; transform: translateY(0) scale(1); }
+  55%       { opacity: 1; transform: translateY(0) scale(1); }
+  100%      { opacity: 0; transform: translateY(-3px) scale(0.94); }
+}
+.figure-vanish {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: figure-vanish 1.3s ease-in-out 0.45s forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .figure-vanish { animation: none; opacity: 0.25; }
+}
+
 /* The rotating tool strips. Each row holds two identical copies of its list,
    so sliding the row half its own width and starting over loops with no seam. */
 @keyframes marquee-slide {

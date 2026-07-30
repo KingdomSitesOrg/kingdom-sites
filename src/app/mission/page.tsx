@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import type { Metadata } from 'next'
-import missionImage from '../../../public/Photos/mission-field.jpg'
 import persecutedImage from '../../../public/Photos/persecuted-church.jpg'
 import UnreachedScroll from '@/components/UnreachedScroll'
 
@@ -41,47 +40,8 @@ function ArrowOut() {
 export default function Mission() {
   return (
     <div className="band-dark w-full">
-      {/* ---------- opening ---------- */}
-      <section className="px-4 pb-12 pt-12 sm:px-6 sm:pb-14 sm:pt-16 lg:px-8 lg:pb-16 lg:pt-20">
-        <div className="mx-auto grid max-w-[90rem] items-stretch gap-5 lg:grid-cols-12 lg:gap-7">
-          <div className="lg:col-span-8">
-            <div className="h-full min-h-[min(78vw,340px)] overflow-hidden rounded-[26px] border border-white/12 shadow-[0_28px_64px_rgba(0,0,0,0.5)] sm:min-h-[480px] lg:min-h-[min(78vh,720px)]">
-              <Image
-                src={missionImage}
-                alt="Mission work overseas"
-                quality={85}
-                placeholder="blur"
-                sizes="(max-width: 1024px) 100vw, 68vw"
-                className="h-full w-full object-cover object-center"
-                priority
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-col justify-center lg:col-span-4">
-            <p className="eyebrow">Our mission work</p>
-            <h1 className="mt-4 text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-white sm:text-5xl">
-              Mission work in the <span className="text-[#f0b48c]">unreached world.</span>
-            </h1>
-            <p className="mt-5 text-pretty text-base leading-relaxed text-white/75 sm:text-lg">
-              {"Billions of people have never heard the gospel once. Our desire is to see Jesus glorified throughout the unreached world. For security reasons I can't share specific details about where or with whom, but please reach out if you have any questions."}
-            </p>
-
-            <div className="mt-6 space-y-4 text-sm leading-relaxed text-white/65">
-              <p>
-                We collaborate with Christians toward seeing movements of Christ among Muslim-majority
-                people groups in the unreached world, using approaches from No Place Left.
-              </p>
-              <p>
-                Your project fuels long-term mission work among people with little access to the
-                gospel. My wife and I are in training for long-term ministry overseas.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ---------- the photograph, held still while the lines pass over ----------
+          This is the opening of the page: no separate hero above it.
           The picture is stuck to the viewport; the sentences below it are pulled
           up over the top, so scrolling brings each one up from underneath. When
           the last one has gone by, the page carries on. No JavaScript involved. */}
@@ -90,10 +50,12 @@ export default function Mission() {
           className="sticky top-0 h-svh overflow-hidden bg-dark"
           style={{ willChange: 'transform', backfaceVisibility: 'hidden' }}
         >
+          {/* On a phone the crop sits further right and higher up in the frame so
+              the woman's face is inside the picture rather than cut off. */}
           <Image
             src={persecutedImage}
             alt="A mother holding her child in front of a destroyed building"
-            className="h-full w-full object-cover object-[62%_26%] opacity-70 sm:object-center"
+            className="h-full w-full object-cover object-[70%_18%] opacity-70 sm:object-center"
             sizes="100vw"
             priority
           />
@@ -176,6 +138,34 @@ export default function Mission() {
               </li>
             ))}
           </ul>
+        </div>
+      </section>
+
+      {/* ---------- what the work is ----------
+          The opening paragraphs used to sit at the very top of the page; the
+          scrolling photograph carries the opening now, so they read here
+          instead, just before the video. */}
+      <section aria-label="Our mission work" className="border-t border-white/10 px-5 py-16 sm:px-8 sm:py-20">
+        <div className="mx-auto max-w-6xl">
+          <div className="max-w-3xl">
+            <p className="eyebrow">Our mission work</p>
+            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              Mission work in the <span className="text-[#f0b48c]">unreached world.</span>
+            </h2>
+            <p className="mt-6 text-pretty text-[15px] leading-relaxed text-white/75 sm:text-base">
+              {"Billions of people have never heard the gospel once. Our desire is to see Jesus glorified throughout the unreached world. For security reasons I can't share specific details about where or with whom, but please reach out if you have any questions."}
+            </p>
+            <div className="mt-4 space-y-4 text-[15px] leading-relaxed text-white/65 sm:text-base">
+              <p>
+                We collaborate with Christians toward seeing movements of Christ among Muslim-majority
+                people groups in the unreached world, using approaches from No Place Left.
+              </p>
+              <p>
+                Your project fuels long-term mission work among people with little access to the
+                gospel. My wife and I are in training for long-term ministry overseas.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 

@@ -132,7 +132,7 @@ export default function Header() {
 
                     {/* The padding is the hover bridge between the link and the panel. */}
                     <div
-                      className={`absolute left-1/2 top-full w-[286px] -translate-x-1/2 pt-3 transition-all duration-150 ${
+                      className={`absolute -left-3 top-full w-[286px] pt-3 transition-all duration-150 ${
                         workOpen
                           ? 'visible translate-y-0 opacity-100'
                           : 'invisible -translate-y-1 opacity-0'

@@ -5,12 +5,12 @@ import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
 export const metadata: Metadata = {
   title: 'AI tooling consultation — learn it, or build it in',
   description:
-    'AI tooling consultation: learning to use AI properly yourself, or getting it into your product. Agent loops that run on their own, custom tools, instruction files, prompting, and context engineering — for developers and teams new to AI.',
+    'AI tooling consultation for developers and for anyone who works with AI — marketing, email, SEO and content, task and project management — plus getting AI into the product you are building. Loops that run on their own, custom tools, instruction files, prompting, and context engineering.',
   alternates: { canonical: '/ai-tooling' },
   openGraph: {
     title: 'AI tooling consultation',
     description:
-      'Learning to use AI properly, or getting it into your product. Loops, custom tools, instruction files, prompting, and context engineering.',
+      'Learning to use AI properly — in your day-to-day work or inside your product. Loops, custom tools, instruction files, prompting, and context engineering.',
     url: 'https://kingdom-sites.com/ai-tooling',
     siteName: 'Kingdom Sites',
     locale: 'en_US',
@@ -50,6 +50,32 @@ const PIECES = [
     name: 'Context engineering',
     title: 'Deciding what the model gets to see',
     desc: 'Quality comes from what you feed it: the right records, at the right size, from your own data. This is the difference between a demo and something a business can rely on.',
+  },
+]
+
+/* The two groups I do this for. The second one is the point of the section:
+   most people asking for help with AI are not developers. */
+const AUDIENCES = [
+  {
+    title: 'People who do not write code',
+    desc: 'Marketing, operations, admin, founders doing a bit of everything. The aim is the same — AI doing a real piece of the work instead of producing drafts nobody uses.',
+    examples: [
+      'Marketing: campaign copy, landing pages, and ad variations drawn from your own brand and past results, not generic prompts.',
+      'Email: an inbox that gets sorted, summarised, and drafted for you, with you approving anything that goes out.',
+      'SEO and content: keyword and competitor research, briefs, and drafts that stay on your voice and your facts.',
+      'Tasks and projects: notes and calls turned into tickets, statuses kept current, and the weekly update written for you.',
+      'Reporting and admin: spreadsheets read, numbers pulled together, and the same report produced the same way each week.',
+    ],
+  },
+  {
+    title: 'Developers and product teams',
+    desc: 'The engineering side: agents that carry real work in your repository, and AI features built into the product your customers use.',
+    examples: [
+      'Agents that pick up tickets, open pull requests, and keep long jobs moving overnight.',
+      'The rules and procedures of your codebase written down so every developer and every agent works the same way.',
+      'AI features inside your product, wired to your own data, with a person confirming anything that changes it.',
+      'Your developers taught what a good ask looks like — and where to stop trusting the answer.',
+    ],
   },
 ]
 
@@ -184,13 +210,48 @@ export default function AiTooling() {
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-body sm:text-lg">
             Two things: learning to use AI properly yourself, and getting it into the product you
-            are building. Loops that run on their own, tools an agent can actually use, the rules of
-            your codebase written down, and your developers taught how to ask. Especially useful if
-            AI has not clicked for your team yet.
+            are building. You do not have to write code for the first one — most of this work is for
+            people running marketing, an inbox, SEO and content, or a task list. Loops that run on
+            their own, tools an agent can actually use, your own way of working written down, and
+            your team taught how to ask. Especially useful if AI has not clicked for you yet.
           </p>
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a href={CONTACT_MAILTO} className="btn-primary">Email me about your team</a>
             <Link href="/my-work" className="btn-ghost">See what I&apos;ve shipped</Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Who this is for */}
+      <section aria-label="Who this is for" className="border-t border-line px-5 py-16 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="max-w-2xl">
+            <p className="eyebrow eyebrow-blue">Who this is for</p>
+            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+              Not just developers.
+            </h2>
+            <p className="mt-4 text-[15px] leading-relaxed text-body sm:text-base">
+              Half of this work has nothing to do with code. If your day is spent in an inbox, a
+              spreadsheet, a content calendar, or a task board, there is a version of this for you —
+              same setup, same handover, aimed at your work instead of a codebase.
+            </p>
+          </div>
+
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-5">
+            {AUDIENCES.map((a) => (
+              <div key={a.title} className="tile flex flex-col p-7 sm:p-9">
+                <h3 className="text-lg font-semibold tracking-tight text-ink">{a.title}</h3>
+                <p className="mt-2.5 text-sm leading-relaxed text-body">{a.desc}</p>
+                <ul className="mt-5 grid gap-2.5">
+                  {a.examples.map((line) => (
+                    <li key={line} className="flex gap-3 text-sm leading-relaxed text-body">
+                      <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
+                      <span>{line}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -204,8 +265,9 @@ export default function AiTooling() {
               The pieces, in plain language.
             </h2>
             <p className="mt-4 text-[15px] leading-relaxed text-body sm:text-base">
-              Six things, installed around your codebase and handed over working. You keep all of it
-              — it lives in your repository, not in an account I control.
+              Six things, set up around the work you already do — your codebase if you have one, your
+              documents and tools if you do not — and handed over working. You keep all of it: it
+              lives in your own repository or your own accounts, not in something I control.
             </p>
           </div>
 
