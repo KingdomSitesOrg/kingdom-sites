@@ -8,7 +8,7 @@ import jwlMap from '../../../public/jam-with-latin/map.jpg'
 import rutaQueue from '../../../public/ruta/crew-queue.jpg'
 import rutaVisit from '../../../public/ruta/crew-visit.jpg'
 
-const TTT_STACK = ['Swift', 'SwiftUI', 'WidgetKit', 'watchOS', 'CloudKit', 'StoreKit', 'Cloudflare Workers', 'Claude API']
+const TTT_STACK = ['Swift', 'SwiftUI', 'WidgetKit', 'watchOS', 'CloudKit', 'Cloudflare Workers', 'Claude API']
 
 const TTT_HIGHLIGHTS = [
   {
@@ -24,8 +24,8 @@ const TTT_HIGHLIGHTS = [
     desc: 'Ask a question in plain English and get an answer built from your own entries, budgets and balances — the specific thing worth changing this month, not generic advice.',
   },
   {
-    title: 'Free tier plus a subscription',
-    desc: 'Simple is free and complete on its own. Advanced, at $4.99 a month through Apple, adds shared budgets and the AI assistant.',
+    title: 'Free, all of it',
+    desc: 'Every feature is free, including the shared budget for two people. The AI coach is in beta and switched on by request while it is being tested.',
   },
 ]
 

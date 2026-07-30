@@ -89,9 +89,10 @@ export default function JamWithLatin() {
               <a href="#learn">How you learn</a>
               <a href="#screens">Screens</a>
             </div>
-            {/* Always reachable, and deliberately not one of the product links. */}
-            <Link href="/my-work" className="home-link">Kingdom Sites</Link>
             <a href="#get" className="btn-gold">Get it</a>
+            {/* Pinned to the far right on every page, and deliberately not one of
+                the product's own links. */}
+            <Link href="/my-work" className="home-link">Kingdom Sites</Link>
           </div>
         </nav>
       </header>

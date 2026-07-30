@@ -168,20 +168,33 @@
 .ttt .note b { color: var(--ink-2); font-weight: 600; }
 
 /* ---------- category chips ---------- */
-.ttt .chips { display: flex; gap: 9px; justify-content: center; flex-wrap: wrap; margin-top: 44px; }
+/* The category chips drift slowly across the hero. Two copies of the list ride
+   in the track, so sliding it half its width and restarting loops seamlessly. */
+.ttt .chip-rail {
+  margin-top: 44px; overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+.ttt .chip-track {
+  display: flex; gap: 9px; width: max-content;
+  animation: ttt-chip-drift 54s linear infinite;
+}
+@keyframes ttt-chip-drift { to { transform: translateX(-50%); } }
+.ttt .chip-rail:hover .chip-track { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .ttt .chip-track { animation: none; justify-content: center; }
+}
 .ttt .chip {
   display: inline-flex; align-items: center; gap: 7px;
   background: var(--card); border: 1px solid var(--hairline);
   padding: 7px 15px 7px 11px; border-radius: 12px;
   font-size: 13.5px; font-weight: 500; color: var(--ink-2);
-  box-shadow: var(--shadow-sm);
-  animation: ttt-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  box-shadow: var(--shadow-sm); white-space: nowrap; flex: none;
 }
 .ttt .chip i {
   width: 18px; height: 18px; border-radius: 5px; flex: none;
   display: grid; place-items: center; font-style: normal; font-size: 10px;
 }
-@keyframes ttt-pop { from { opacity: 0; transform: translateY(8px) scale(0.94); } }
 
 /* ---------- hero shot ---------- */
 .ttt .hero-shot { margin-top: 60px; padding-bottom: 90px; position: relative; }
@@ -315,11 +328,11 @@
 .ttt .card p { font-size: 14px; color: var(--muted); line-height: 1.55; }
 .ttt .card p b { color: var(--ink-2); font-weight: 600; }
 
-/* Advanced-tier marker */
-.ttt .tag-adv {
+/* Marks a feature that is still in beta */
+.ttt .tag-beta {
   display: inline-block; font-family: var(--mono); font-size: 10.5px; font-weight: 500;
   letter-spacing: 0.06em; text-transform: uppercase; color: var(--card);
-  background: var(--green-dk); padding: 2px 8px; border-radius: 5px;
+  background: #b26200; padding: 2px 8px; border-radius: 5px;
   vertical-align: 2px; margin-left: 9px;
 }
 

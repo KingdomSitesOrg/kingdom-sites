@@ -124,12 +124,16 @@ export default function TapToTick() {
               <a href="#how">How it works</a>
               <a href="#cash">Cash</a>
               <a href="#screens">Screens</a>
-              <a href="#pricing">Pricing</a>
-              <a href="#ai">AI</a>
+              <a href="#ask">Ask</a>
             </div>
-            {/* Always reachable, and deliberately not one of the product links. */}
+            {/* Straight to the App Store — the app is live, so there is no reason
+                to send people to a section further down the page first. */}
+            <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" className="btn-sm">
+              Get it
+            </a>
+            {/* Pinned to the far right on every page, and deliberately not one of
+                the product's own links. */}
             <Link href="/my-work" className="home-link">Kingdom Sites</Link>
-            <a href="#get" className="btn-sm">Get it</a>
           </div>
         </nav>
       </header>
@@ -165,14 +169,21 @@ export default function TapToTick() {
 
           <p className="note"><b>Free to use.</b> No account to create, no ads, no tracking.</p>
 
-          <div className="chips">
-            {CHIPS.map((c, i) => (
-              <span key={c.label} className="chip" style={{ animationDelay: `${0.05 + i * 0.06}s` }}>
-                <i style={{ background: c.color }}>{c.icon}</i>
-                {c.label}
-              </span>
-            ))}
+          {/* Two copies of the list, so the drift can loop without a gap. Hidden
+              from screen readers; the plain list below says it once. */}
+          <div className="chip-rail" aria-hidden="true">
+            <div className="chip-track">
+              {[...CHIPS, ...CHIPS].map((c, i) => (
+                <span key={`${c.label}-${i}`} className="chip">
+                  <i style={{ background: c.color }}>{c.icon}</i>
+                  {c.label}
+                </span>
+              ))}
+            </div>
           </div>
+          <ul className="sr-only">
+            {CHIPS.map((c) => <li key={c.label}>{c.label}</li>)}
+          </ul>
         </div>
 
         <div className="hero-shot">
@@ -381,12 +392,17 @@ export default function TapToTick() {
       <section id="ask" className="band">
         <div className="wrap split">
           <div className="copy reveal">
-            <div className="kicker">06 — Ask<span className="tag-adv">Advanced</span></div>
+            <div className="kicker">06 — Ask<span className="tag-beta">Beta</span></div>
             <h2>A money coach that reads your numbers.</h2>
             <p className="lede">
               Ask anything in plain English and get an answer built from <b>your own</b> entries,
               budgets and balances — not generic advice. It leads with the one thing worth changing,
               compares this month against last, and tells you where the money actually went.
+            </p>
+            <p className="note">
+              <b>In beta, coming soon.</b> Ask is still being tested, so it is switched on by request
+              rather than shipped to everyone — if you want it, email me and I&apos;ll turn it on. It
+              arrives for everybody once enough people want it.
             </p>
           </div>
           <div className="reveal">
@@ -409,7 +425,7 @@ export default function TapToTick() {
       <section id="together">
         <div className="wrap split flip">
           <div className="copy reveal">
-            <div className="kicker">07 — Together<span className="tag-adv">Advanced</span></div>
+            <div className="kicker">07 — Together</div>
             <h2>One budget, two people.</h2>
             <p className="lede">
               Invite the person you share money with straight from the share sheet. You both log into
@@ -476,54 +492,6 @@ export default function TapToTick() {
         </div>
       </section>
 
-      {/* ============ PRICING ============ */}
-      <section id="pricing">
-        <div className="wrap reveal" style={{ textAlign: 'center' }}>
-          <div className="kicker">09 — Pricing</div>
-          <h2>Two ways to use it.</h2>
-          <p className="lede" style={{ margin: '16px auto 0', textAlign: 'center' }}>
-            Start free. Add sharing and the AI coach whenever you want them.
-          </p>
-
-          <div className="plans">
-            <div className="plan">
-              <h3>Simple</h3>
-              <div className="price">Free</div>
-              <p className="plan-note">Everything you need to track your own money, on your own devices.</p>
-              <ul>
-                <li>Lock Screen widget logging</li>
-                <li>Apple Watch and Siri logging</li>
-                <li>Apple Pay purchases in one extra tap</li>
-                <li>Cash, checking, savings and tax accounts</li>
-                <li>Recurring rent, paychecks and subscriptions</li>
-                <li>Category budgets, subcategories and CSV export</li>
-                <li>iCloud sync across your own devices</li>
-              </ul>
-              <p className="footnote">No account to create. No ads. No tracking.</p>
-            </div>
-
-            <div className="plan featured">
-              <div className="flag">Sharing + AI</div>
-              <h3>Advanced</h3>
-              <div className="price">$4.99 <small>/ month</small></div>
-              <p className="plan-note">For households sharing a budget, and anyone who wants the numbers explained.</p>
-              <ul>
-                <li>Everything in Simple</li>
-                <li>Share one budget with another person over iCloud</li>
-                <li>See who logged every entry</li>
-                <li>Ask: an AI coach that reads your own numbers</li>
-                <li>Spending insights and month-to-month comparisons</li>
-                <li>New Advanced features as they ship</li>
-              </ul>
-              <p className="footnote">
-                Billed through your Apple ID. Cancel any time in App Store settings — your budget
-                stays, sharing and Ask simply switch off.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ============ PRIVACY ============ */}
       <section id="privacy" className="band">
         <div className="wrap privacy reveal">
@@ -558,7 +526,7 @@ export default function TapToTick() {
       {/* ============ DEMO ============ */}
       <section id="demo">
         <div className="wrap reveal" style={{ textAlign: 'center' }}>
-          <div className="kicker">10 — See it in action</div>
+          <div className="kicker">09 — See it in action</div>
           <h2>Watch it happen.</h2>
           <p className="lede" style={{ margin: '16px auto 28px', textAlign: 'center' }}>
             The whole flow, start to finish.
@@ -604,77 +572,6 @@ export default function TapToTick() {
                 </svg>
               )}
             </button>
-          </div>
-        </div>
-      </section>
-
-      {/* ============ AI ============ */}
-      <section id="ai" className="band">
-        <div className="wrap">
-          <div className="reveal" style={{ textAlign: 'center' }}>
-            <div className="kicker">11 — The AI behind Ask</div>
-            <h2>How the coach actually works.</h2>
-            <p className="lede" style={{ margin: '16px auto 0', textAlign: 'center' }}>
-              The interesting part of an AI feature is not the model — it is everything around it.
-              Ask only works because the app knows which of your own numbers matter to the question,
-              sends just those, and turns the answer into one thing worth doing.
-            </p>
-          </div>
-
-          <div className="grid3">
-            <div className="card reveal">
-              <div className="ic" style={{ background: 'var(--purple)' }} aria-hidden="true">
-                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M4 6h16M4 12h10M4 18h6" />
-                </svg>
-              </div>
-              <h3>Only the numbers that matter</h3>
-              <p>
-                Your ledger stays on your phone. When you ask a question, the app works out which
-                entries, budgets and balances bear on it and sends <b>only those</b> — not your whole
-                financial history.
-              </p>
-            </div>
-
-            <div className="card reveal">
-              <div className="ic" style={{ background: 'var(--blue)' }} aria-hidden="true">
-                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 3v3M12 18v3M3 12h3M18 12h3M6 6l2 2M16 16l2 2M18 6l-2 2M8 16l-2 2" />
-                </svg>
-              </div>
-              <h3>An answer, not an essay</h3>
-              <p>
-                The reply leads with the single thing worth changing, compares this month with last,
-                and names the category. <b>A number and a next step</b>, in the length of a text
-                message.
-              </p>
-            </div>
-
-            <div className="card reveal">
-              <div className="ic" style={{ background: 'var(--green-dk)' }} aria-hidden="true">
-                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 2.5l7.5 3v6c0 4.6-3.2 8.4-7.5 10-4.3-1.6-7.5-5.4-7.5-10v-6z" />
-                </svg>
-              </div>
-              <h3>Nothing leaves until you ask</h3>
-              <p>
-                There is no account, no bank linking and no copy of your budget on a server. The only
-                thing that ever goes out is <b>the question you typed</b>, at the moment you send it.
-              </p>
-            </div>
-          </div>
-
-          <div className="reveal" style={{ textAlign: 'center', marginTop: 56 }}>
-            <h2 style={{ fontSize: 'clamp(22px, 3vw, 30px)' }}>Want this in your own product?</h2>
-            <p className="lede" style={{ margin: '14px auto 0', textAlign: 'center' }}>
-              I have shipped this twice now: the coach in this app, and Ruta AI inside a
-              service-management platform used by real businesses — where it answers from company
-              records and takes actions with a person confirming.
-            </p>
-            <div className="cta-row" style={{ marginTop: 26 }}>
-              <Link href="/ruta" className="btn">See the AI work in Ruta</Link>
-              <a href="mailto:thomas@kingdom-sites.com" className="btn ghost">Talk to me about it</a>
-            </div>
           </div>
         </div>
       </section>

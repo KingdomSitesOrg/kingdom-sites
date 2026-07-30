@@ -27,9 +27,8 @@ export default function TapToTickPrivacy() {
         a database that stores your budget.
       </p>
       <p>
-        One feature is an exception, and it is opt-in by use: the <strong>Ask</strong> assistant (part of the
-        Advanced subscription) sends the parts of your budget needed to answer your question to an AI model
-        provider. That is described in detail below.
+        One feature is an exception, and it is opt-in by use: the <strong>Ask</strong> assistant sends the parts
+        of your budget needed to answer your question to an AI model provider. That is described in detail below.
       </p>
 
       <h2>Where your budget data lives</h2>
@@ -52,7 +51,7 @@ export default function TapToTickPrivacy() {
 
       <h2>Sharing with another person</h2>
       <p>
-        With the Advanced subscription you may invite a second person to the same ledger using Apple&apos;s
+        You may invite a second person to the same ledger using Apple&apos;s
         system share sheet (for example Messages). That person receives access through CloudKit sharing.
         Either of you can leave or stop sharing; when access ends, the participant&apos;s window onto the
         owner&apos;s records goes away. Export a CSV from Settings or History before leaving if you want a
@@ -89,15 +88,6 @@ export default function TapToTickPrivacy() {
       <p>
         If you would rather nothing about your budget leave the device, do not use Ask. Every other feature in
         the app works without it.
-      </p>
-
-      <h2>Advanced subscription and payment</h2>
-      <p>
-        Advanced is a $4.99 per month auto-renewing subscription sold through Apple In-App Purchase. Apple
-        handles the entire transaction and tells the app only whether an active subscription exists. Tap to
-        Tick never receives your card number, billing address, or Apple ID password. Manage or cancel the
-        subscription in your App Store account settings; if it ends, your budget data stays on your device and
-        in your iCloud, and the Advanced features (sharing and Ask) simply switch off.
       </p>
 
       <h2>Optional location on purchases</h2>
