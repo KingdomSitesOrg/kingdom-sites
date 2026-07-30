@@ -11,6 +11,7 @@ const WORK_LINKS = [
   { to: '/ruta',          label: 'Ruta',          desc: 'Service management platform · case study' },
   { to: '/tap-to-tick',   label: 'Tap to Tick',   desc: 'Budgeting for iPhone · on the App Store' },
   { to: '/jam-with-latin',label: 'Jam with Latin',desc: 'Latin practice for students' },
+  { to: '/ai-tooling',    label: 'AI tooling',    desc: 'Setting up teams new to AI' },
 ]
 
 const NAV_LINKS = [

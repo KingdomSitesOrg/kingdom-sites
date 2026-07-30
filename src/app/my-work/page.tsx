@@ -375,6 +375,21 @@ export default function MyWork() {
             ))}
           </div>
 
+          {/* The AI work I do for other developers, rather than inside a product. */}
+          <div className="tile-elevated mt-8 flex flex-col gap-5 p-7 sm:flex-row sm:items-center sm:justify-between sm:p-9">
+            <div className="max-w-2xl">
+              <h3 className="text-xl font-semibold tracking-tight text-ink">
+                I also set other developers up with AI
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-body sm:text-[15px]">
+                Loops that run on their own, tools an agent can actually use, your codebase&apos;s
+                rules written down, prompting, and context engineering — installed around your
+                repository and handed over working. Built for teams who are new to it.
+              </p>
+            </div>
+            <Link href="/ai-tooling" className="btn-primary shrink-0">See the AI tooling</Link>
+          </div>
+
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
             <Link href="/ruta" className="btn-primary">See the AI work in Ruta</Link>
             <Link href="/tap-to-tick#ai" className="text-sm text-body underline underline-offset-4 hover:text-ink sm:ml-2">
@@ -384,22 +399,50 @@ export default function MyWork() {
         </div>
       </section>
 
-      {/* This site */}
-      <section aria-label="Kingdom Sites" className="border-t border-line px-5 py-16 sm:px-8 sm:py-20">
-        <div className="mx-auto max-w-5xl">
-          <div className="tile p-7 sm:p-10">
-            <p className="text-xs font-semibold uppercase tracking-widest text-accent">Website</p>
-            <h2 className="mt-3 text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
-              kingdom-sites.com
-            </h2>
-            <p className="mt-4 max-w-3xl text-sm leading-relaxed text-body sm:text-base">
-              This site. Server-rendered for speed, scored on real visitor performance, deliberately kept
-              to static pages with no database behind it. The same setup I build client marketing sites on.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-x-4 gap-y-2">
-              {SITE_STACK.map((t) => (
-                <span key={t} className="text-xs font-medium tracking-wide text-muted">{t}</span>
-              ))}
+      {/* Websites */}
+      <section aria-label="Websites" className="border-t border-line px-5 py-16 sm:px-8 sm:py-20">
+        <div className="mx-auto max-w-6xl">
+          <p className="eyebrow eyebrow-blue">Websites</p>
+          <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+            Sites built the way I build them for clients
+          </h2>
+
+          <div className="mt-10 grid gap-4 sm:gap-5 lg:grid-cols-2">
+            <div className="tile flex flex-col p-7 sm:p-9">
+              <h3 className="text-xl font-semibold tracking-tight text-ink">kingdom-sites.com</h3>
+              <p className="mt-1 text-xs font-medium uppercase tracking-wider text-muted">
+                This site · marketing site
+              </p>
+              <p className="mt-3 flex-1 text-sm leading-relaxed text-body">
+                Server-rendered for speed, scored on real visitor performance, deliberately kept to
+                static pages with no database behind it. The same setup I build client marketing sites
+                on.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-x-4 gap-y-2">
+                {SITE_STACK.map((t) => (
+                  <span key={t} className="text-xs font-medium tracking-wide text-muted">{t}</span>
+                ))}
+              </div>
+            </div>
+
+            <div className="tile flex flex-col p-7 sm:p-9">
+              <h3 className="text-xl font-semibold tracking-tight text-ink">Hazletts For The Kingdom</h3>
+              <p className="mt-1 text-xs font-medium uppercase tracking-wider text-muted">
+                Ministry site · support raising
+              </p>
+              <p className="mt-3 flex-1 text-sm leading-relaxed text-body">
+                A site for a family on mission with e3 Partners among South Asian communities in
+                Kansas City. Their story, their work, and a clear way to partner with them — the kind
+                of small site that has one job and has to do it on the first scroll.
+              </p>
+              <a
+                href="https://hazletts-for-the-kingdom.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link-accent mt-6 self-start text-sm"
+              >
+                Visit the site <span aria-hidden="true">›</span>
+              </a>
             </div>
           </div>
         </div>

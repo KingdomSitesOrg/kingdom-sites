@@ -10,14 +10,6 @@ const APP_STORE_URL = 'https://apps.apple.com/us/app/ruta-crew/id6749279335'
 const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.getruta.mobile'
 const RUTA_SITE_URL = 'https://getruta.com'
 
-/* Plain facts about the engagement, not claims about the product. */
-const FACTS = [
-  { label: 'Merged pull requests', value: '400+' },
-  { label: 'Working on it since', value: 'April 2026' },
-  { label: 'Apps I ship in', value: 'Four' },
-  { label: 'Platforms', value: 'Web, iOS + Android' },
-]
-
 /* What the platform is, kept short — this page is about the work, not the pitch. */
 const SURFACES = [
   {
@@ -184,19 +176,7 @@ export default function Ruta() {
             all four of its apps and the AWS backend they share.
           </p>
 
-          <dl className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {FACTS.map((f) => (
-              <div
-                key={f.label}
-                className="rounded-2xl border border-[#15803d]/18 bg-[#16a34a]/[0.07] p-5"
-              >
-                <dt className="text-[11px] font-semibold uppercase tracking-wider text-[#15803d]/75">{f.label}</dt>
-                <dd className={`mt-1.5 text-lg font-semibold tracking-tight ${GREEN}`}>{f.value}</dd>
-              </div>
-            ))}
-          </dl>
-
-          <div className="mt-8 flex flex-wrap items-center gap-3">
+          <div className="mt-9 flex flex-wrap items-center gap-3">
             <a
               href={RUTA_SITE_URL}
               target="_blank"
@@ -281,9 +261,9 @@ export default function Ruta() {
             What I&apos;ve shipped, by area
           </h2>
           <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-body sm:text-base">
-            Everything below went into production. It is a summary rather than a list — four hundred
-            merged pull requests do not fit on a page, and the details of a client&apos;s product stay
-            with the client.
+            Everything below went into production. It is a summary rather than a list — years of
+            changes do not fit on a page, and the details of a client&apos;s product stay with the
+            client.
           </p>
 
           <div className="mt-10 space-y-5">
