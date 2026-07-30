@@ -307,26 +307,28 @@ export default function Mission() {
 
       {/* ---------- the photograph, cropped and faded ---------- */}
       <section aria-label="The cost of following Jesus" className="relative">
-        {/* Twice the height it was. Capped near the photograph's own 530px so it
-            is not upscaled into softness, and shifted right on narrow screens so
-            the mother and child stay in frame rather than the rubble. */}
-        <div className="relative h-[340px] overflow-hidden sm:h-[520px]">
+        {/* On a wide screen the frame matches the photograph's own proportions, so
+            nothing is cropped away — faces included. On a phone it stays tall and
+            holds the framing on the two of them rather than the rubble. */}
+        <div className="relative h-[440px] overflow-hidden sm:aspect-[117/53] sm:h-auto">
           <Image
             src={persecutedImage}
             alt="A mother holding her child in front of a destroyed building"
-            className="h-full w-full object-cover object-[68%_center] opacity-55 sm:object-center"
+            className="h-full w-full object-cover object-[58%_30%] opacity-70 sm:object-center"
             sizes="100vw"
           />
+          {/* Dark at the edges so the band blends into the page, clear through the
+              middle so the faces are not lost behind it. */}
           <div
             className="absolute inset-0"
             style={{
               background:
-                'linear-gradient(to bottom, rgba(17,24,39,0.85) 0%, rgba(17,24,39,0.35) 45%, rgba(17,24,39,0.95) 100%)',
+                'linear-gradient(to bottom, rgba(17,24,39,0.75) 0%, rgba(17,24,39,0.12) 30%, rgba(17,24,39,0.12) 55%, rgba(17,24,39,0.92) 100%)',
             }}
             aria-hidden="true"
           />
-          <div className="absolute inset-0 flex items-center justify-center px-6">
-            <p className="max-w-2xl text-balance text-center text-lg font-medium leading-snug text-white/90 sm:text-2xl">
+          <div className="absolute inset-x-0 bottom-0 flex justify-center px-6 pb-8 sm:pb-12">
+            <p className="max-w-2xl text-balance text-center text-lg font-medium leading-snug text-white sm:text-2xl">
               For millions of people, following Jesus costs everything they have.
             </p>
           </div>
