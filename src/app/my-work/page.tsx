@@ -5,6 +5,8 @@ import shotOverview from '../../../public/tap-to-tick/overview.png'
 import shotLog from '../../../public/tap-to-tick/log.png'
 import jwlHome from '../../../public/jam-with-latin/home.jpg'
 import jwlMap from '../../../public/jam-with-latin/map.jpg'
+import rutaQueue from '../../../public/ruta/crew-queue.jpg'
+import rutaVisit from '../../../public/ruta/crew-visit.jpg'
 
 const TTT_STACK = ['Swift', 'SwiftUI', 'WidgetKit', 'watchOS', 'CloudKit', 'StoreKit', 'Cloudflare Workers', 'Claude API']
 
@@ -48,6 +50,27 @@ const JWL_HIGHLIGHTS = [
   },
 ]
 
+const RUTA_STACK = ['TypeScript', 'React', 'React Native', 'Expo', 'AWS Lambda', 'DynamoDB', 'Cognito', 'Pulumi', 'Mapbox']
+
+const RUTA_HIGHLIGHTS = [
+  {
+    title: 'Four apps over one backend',
+    desc: 'An office web app, an iOS app for field crews, a self-service customer portal, and an internal admin console — all reading and writing the same jobs, visits, and invoices.',
+  },
+  {
+    title: 'Money that moves on its own',
+    desc: 'My work here includes payment plans that charge their installments on the due date, automatic invoicing when a visit closes, and projected revenue built from live service schedules.',
+  },
+  {
+    title: 'Built for a truck with no signal',
+    desc: 'The crew app keeps working offline and syncs when signal returns. A lot of my work is the unglamorous half of that: timers that survive a resume, honest photo timestamps, failures that get reported instead of swallowed.',
+  },
+  {
+    title: 'An integral part of a team product',
+    desc: 'Ruta is built by a team, and I have been an integral part of it — shipping across all four apps and the backend they share. It is the best example of what I do inside a live product with other engineers around it.',
+  },
+]
+
 const SITE_STACK = ['Next.js', 'React', 'TypeScript', 'Tailwind', 'Vercel']
 
 export default function MyWork() {
@@ -60,9 +83,9 @@ export default function MyWork() {
           Things I&apos;ve designed, built, and <span className="text-accent">shipped.</span>
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-body sm:text-lg">
-          Each of these was scoped, designed, built, and shipped by me — front to back. Some are my own
-          products, some were built for clients; most client work stays private unless I&apos;m asked to
-          show it.
+          Some of these I scoped, designed, built, and shipped front to back — my own products and
+          client projects. One, Ruta, is a live platform I helped build with a team. Most other client
+          work stays private unless I&apos;m asked to show it.
         </p>
       </section>
 
@@ -172,6 +195,79 @@ export default function MyWork() {
               <div key={h.title} className="tile p-7">
                 <h3 className="text-base font-semibold tracking-tight text-ink">{h.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-body">{h.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Featured project — Ruta */}
+      <section aria-label="Ruta" className="bg-[#0a1f0a] px-5 py-16 text-white sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-14">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-green-400/80">
+                Web &amp; iOS · Team product · In production
+              </p>
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">Ruta</h2>
+              <p className="mt-2 text-base text-white/80">
+                Service management for landscaping and maintenance businesses.
+              </p>
+              <p className="mt-4 text-[15px] leading-relaxed text-white/60">
+                One platform that carries a job from the first rate request to the final payment:
+                rates and signatures, crews routed and clocked in, invoices raised the moment a visit
+                closes, and customers paying from their own portal. I helped build it, and work across
+                the web app, the AWS backend, the iOS crew app, and the customer portal.
+              </p>
+
+              <div className="mt-6 flex flex-wrap gap-x-4 gap-y-2">
+                {RUTA_STACK.map((t) => (
+                  <span key={t} className="text-xs font-medium tracking-wide text-white/45">{t}</span>
+                ))}
+              </div>
+
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <Link
+                  href="/ruta"
+                  className="inline-flex min-h-[44px] items-center justify-center rounded-full bg-white px-6 py-3 text-[15px] font-medium text-[#0a1f0a] transition-colors hover:bg-white/90"
+                >
+                  See the product page
+                </Link>
+                <a
+                  href="https://apps.apple.com/us/app/ruta-crew/id6749279335"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-white/70 underline underline-offset-4 hover:text-white sm:ml-2"
+                >
+                  Ruta Crew on the App Store
+                </a>
+                <a
+                  href="https://getruta.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-white/70 underline underline-offset-4 hover:text-white"
+                >
+                  getruta.com
+                </a>
+              </div>
+            </div>
+
+            {/* Screens */}
+            <div className="flex items-end justify-center gap-4 sm:gap-6">
+              <div className="w-[42%] max-w-[180px] translate-y-4 overflow-hidden rounded-[22px] border border-white/12 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+                <Image src={rutaVisit} alt="A Ruta Crew visit screen with the crew, an admin note, and the property" sizes="180px" className="h-auto w-full" />
+              </div>
+              <div className="w-[48%] max-w-[210px] overflow-hidden rounded-[26px] border border-white/12 shadow-[0_28px_64px_rgba(0,0,0,0.55)]">
+                <Image src={rutaQueue} alt="The Ruta Crew queue of today's visits with a clock-in button" sizes="210px" className="h-auto w-full" />
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 sm:gap-5">
+            {RUTA_HIGHLIGHTS.map((h) => (
+              <div key={h.title} className="rounded-[22px] border border-white/12 bg-white/[0.05] p-7">
+                <h3 className="text-base font-semibold tracking-tight text-white">{h.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-white/60">{h.desc}</p>
               </div>
             ))}
           </div>
