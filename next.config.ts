@@ -38,6 +38,16 @@ const nextConfig: NextConfig = {
       },
     ]
   },
+  // Links people already have in hand, typed or shared without the hyphens.
+  // These used to 404; they now land on the right page.
+  async redirects() {
+    return [
+      { source: '/jamwithlatin', destination: '/jam-with-latin', permanent: true },
+      { source: '/latin', destination: '/jam-with-latin', permanent: true },
+      { source: '/taptotick', destination: '/tap-to-tick', permanent: true },
+      { source: '/aitooling', destination: '/ai-tooling', permanent: true },
+    ]
+  },
 }
 
 export default withSentryConfig(nextConfig, {
