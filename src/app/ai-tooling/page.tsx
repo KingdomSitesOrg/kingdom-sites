@@ -74,22 +74,6 @@ const MY_OWN = [
   },
 ]
 
-/* Who this is actually for. */
-const FOR = [
-  {
-    title: 'Developers who keep bouncing off it',
-    desc: 'You have tried the tools, got mixed results, and quietly gone back to doing it by hand. Usually the setup is missing, not the skill.',
-  },
-  {
-    title: 'Teams with no house rules yet',
-    desc: 'Everyone is using AI differently and nobody has written anything down. I put the shared setup in the repo so the whole team works the same way.',
-  },
-  {
-    title: 'Products that need AI inside them',
-    desc: 'Not tooling for the team but a feature for your customers — an assistant grounded in your own data. I have shipped that in two products.',
-  },
-]
-
 /* Honest limits, stated up front — the part most AI pitches leave out. */
 const HONEST = [
   'It will not replace your developers, and I will not pretend otherwise.',
@@ -173,31 +157,6 @@ export default function AiTooling() {
               <div key={m.title} className="tile p-7">
                 <h3 className="text-base font-semibold tracking-tight text-ink">{m.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-body">{m.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Who it's for */}
-      <section aria-label="Who this is for" className="band-dark px-5 py-16 sm:px-8 sm:py-24">
-        <div className="mx-auto max-w-6xl">
-          <div className="max-w-2xl">
-            <p className="eyebrow">Who this is for</p>
-            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              New to this is the normal starting point.
-            </h2>
-            <p className="mt-4 text-[15px] leading-relaxed text-white/65 sm:text-base">
-              Nobody has been doing this for long. The gap is rarely talent — it is that nothing has
-              been set up, so every developer is starting from a blank box every morning.
-            </p>
-          </div>
-
-          <div className="mt-10 grid gap-4 sm:grid-cols-3 sm:gap-5">
-            {FOR.map((f) => (
-              <div key={f.title} className="tile-dark p-7">
-                <h3 className="text-base font-semibold tracking-tight text-white">{f.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-white/65">{f.desc}</p>
               </div>
             ))}
           </div>
