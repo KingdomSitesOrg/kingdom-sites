@@ -275,15 +275,14 @@ export default function Mission() {
               className="flex h-[58svh] items-center justify-center px-6"
             >
               <p
-                className="max-w-4xl text-balance text-center text-3xl font-semibold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl"
+                className="max-w-4xl text-balance text-center text-3xl font-semibold leading-[1.12] tracking-tight text-white sm:text-5xl lg:text-6xl"
                 style={{ textShadow: '0 2px 22px rgba(0,0,0,0.7)' }}
               >
                 {item.line ?? (
                   <>
-                    <span className="block text-[#f0b48c]">{item.stat}</span>
-                    <span className="mt-2 block text-2xl font-medium text-white/85 sm:text-3xl lg:text-4xl">
-                      {item.tail}
-                    </span>
+                    <span className="text-[#f0b48c]">{item.stat}</span>
+                    {' '}
+                    <span>{item.tail}</span>
                   </>
                 )}
               </p>
@@ -336,15 +335,15 @@ export default function Mission() {
             </p>
           </div>
 
-          {/* Mobile: plain 2×4 linked table — title + visit only. */}
-          <ul className="mt-10 grid grid-cols-2 border-l border-t border-white/10 sm:hidden">
+          {/* Mobile: names and visit links float freely — no grid. */}
+          <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-5 sm:hidden">
             {ORGS.map((org) => (
-              <li key={org.name} className="border-b border-r border-white/10">
+              <li key={org.name}>
                 <a
                   href={org.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-full flex-col justify-between gap-2 p-4"
+                  className="flex flex-col gap-1"
                 >
                   <span className="text-[15px] font-semibold leading-snug tracking-tight text-white">
                     {org.name}
@@ -405,6 +404,53 @@ export default function Mission() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- watch ---------- */}
+      <section aria-label="Watch" className="border-t border-white/10 px-5 py-16 sm:px-8 sm:py-20">
+        <div className="mx-auto max-w-6xl">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div className="max-w-2xl">
+              <p className="eyebrow">Watch</p>
+              <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+                A window into the work.
+              </h2>
+            </div>
+            <div className="flex flex-col items-start gap-2 sm:items-end">
+              <a
+                href="https://www.youtube.com/watch?v=yMTVM0IeqH4"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm font-medium text-[#f0b48c] transition-colors hover:text-[#f5c9a8]"
+              >
+                Watch on YouTube
+                <ArrowOut />
+              </a>
+              <a
+                href="https://www.youtube.com/@tkklein/videos"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm font-medium text-white/65 transition-colors hover:text-white"
+              >
+                My YouTube channel
+                <ArrowOut />
+              </a>
+            </div>
+          </div>
+
+          <div className="mt-8 overflow-hidden rounded-[22px] border border-white/12 bg-black shadow-[0_28px_64px_rgba(0,0,0,0.5)]">
+            <div className="relative aspect-video w-full">
+              <iframe
+                src="https://www.youtube.com/embed/yMTVM0IeqH4"
+                title="Mission work video"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                loading="lazy"
+                className="absolute inset-0 h-full w-full border-0"
+              />
+            </div>
           </div>
         </div>
       </section>
