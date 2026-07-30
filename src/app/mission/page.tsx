@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import type { Metadata } from 'next'
 import missionImage from '../../../public/Photos/mission-field.jpg'
-import persecutedImage from '../../../public/Photos/persecuted-church.png'
+import persecutedImage from '../../../public/Photos/persecuted-church.jpg'
 import ContactCta from '@/components/ContactCta'
 
 export const metadata: Metadata = {
@@ -18,6 +18,9 @@ export const metadata: Metadata = {
 const ROLL = [
   { line: 'Millions of people have no idea who Jesus is.' },
   { stat: 'Under 0.1%', tail: 'of Afghanistan is Christian' },
+  { stat: 'Under 0.1%', tail: 'of Somalia is Christian' },
+  { stat: 'Under 0.2%', tail: 'of Yemen is Christian' },
+  { stat: 'Under 0.1%', tail: 'of Omanis are Christian' },
   { stat: 'About 0.4%', tail: 'of Bangladesh is Christian' },
   { stat: 'Under 2%', tail: 'of Pakistan is Christian' },
   { stat: 'About 2%', tail: 'of India is Christian' },
@@ -199,7 +202,7 @@ const WHO = [
 
 export default function Mission() {
   return (
-    <div className="band-dark w-full overflow-x-clip">
+    <div className="band-dark w-full">
       {/* ---------- opening ---------- */}
       <section className="px-5 pb-14 pt-16 sm:px-8 sm:pb-16 sm:pt-24">
         <div className="mx-auto grid max-w-6xl items-start gap-10 lg:grid-cols-12 lg:gap-12">
@@ -243,11 +246,14 @@ export default function Mission() {
           up over the top, so scrolling brings each one up from underneath. When
           the last one has gone by, the page carries on. No JavaScript involved. */}
       <section aria-label="The unreached" className="relative">
-        <div className="sticky top-0 h-svh overflow-hidden bg-dark">
+        <div
+          className="sticky top-0 h-svh overflow-hidden bg-dark"
+          style={{ willChange: 'transform', backfaceVisibility: 'hidden' }}
+        >
           <Image
             src={persecutedImage}
             alt="A mother holding her child in front of a destroyed building"
-            className="h-full w-full object-contain opacity-70 sm:object-cover sm:object-center"
+            className="h-full w-full object-cover object-[62%_26%] opacity-70 sm:object-center"
             sizes="100vw"
             priority
           />
@@ -266,7 +272,7 @@ export default function Mission() {
           {ROLL.map((item) => (
             <div
               key={item.line ?? item.tail}
-              className="flex h-[72svh] items-center justify-center px-6"
+              className="flex h-[58svh] items-center justify-center px-6"
             >
               <p
                 className="max-w-4xl text-balance text-center text-3xl font-semibold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl"

@@ -230,17 +230,11 @@ export default function Home() {
             <PhoneMock />
           </div>
 
-          {/* On a phone there is no room for a column either side, so the two
-              slide sideways instead of being squeezed to fit. */}
-          <div className="-mx-5 min-w-0 lg:hidden">
-            <div className="flex snap-x snap-mandatory items-center gap-6 overflow-x-auto px-5 pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              <div className="shrink-0 snap-center">
-                <WebMock />
-              </div>
-              <div className="shrink-0 snap-center">
-                <PhoneMock />
-              </div>
-            </div>
+          {/* On a phone there is no room for a column either side, so the site
+              sits above the app rather than beside it. */}
+          <div className="flex min-w-0 flex-col items-center gap-8 lg:hidden">
+            <WebMock className="w-full max-w-[300px]" />
+            <PhoneMock />
           </div>
         </div>
       </section>

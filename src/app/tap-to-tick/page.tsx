@@ -3,10 +3,10 @@
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import shotOverview from '../../../public/tap-to-tick/overview.png'
-import shotLog from '../../../public/tap-to-tick/log.png'
-import shotHistory from '../../../public/tap-to-tick/history.png'
-import shotAccounts from '../../../public/tap-to-tick/accounts.png'
+import shotOverview from '../../../public/tap-to-tick/overview.jpg'
+import shotLog from '../../../public/tap-to-tick/log.jpg'
+import shotHistory from '../../../public/tap-to-tick/history.jpg'
+import shotAccounts from '../../../public/tap-to-tick/accounts.jpg'
 
 const APP_STORE_URL = 'https://apps.apple.com/us/app/tap-to-tick/id6791948663'
 

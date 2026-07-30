@@ -27,6 +27,14 @@ html {
   scroll-behavior: smooth;
 }
 
+/* What shows when a page is dragged past its end. The top half of the viewport
+   stays the page colour, the bottom half is the footer's dark — so overscrolling
+   at the foot of a page shows dark rather than a band of white. The gradient is
+   fixed to the viewport, so it never moves with the content. */
+html {
+  background: linear-gradient(to bottom, var(--color-canvas) 50%, var(--color-dark) 50%) fixed;
+}
+
 body {
   font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
   background: var(--color-canvas);
