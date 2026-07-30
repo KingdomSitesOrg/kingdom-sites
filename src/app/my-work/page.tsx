@@ -574,7 +574,7 @@ export default function MyWork() {
               <div className="mt-7 border-t border-line pt-6 text-center">
                 <p className="text-sm font-medium text-body">An app</p>
                 <p className="mt-1 text-2xl font-semibold tracking-tight text-ink">
-                  30 to 40 days<span className="text-accent">*</span>
+                  30 days<span className="text-accent">*</span>
                 </p>
               </div>
             </div>

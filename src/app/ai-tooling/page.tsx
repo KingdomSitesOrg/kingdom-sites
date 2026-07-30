@@ -3,14 +3,14 @@ import Link from 'next/link'
 import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
 
 export const metadata: Metadata = {
-  title: 'AI tooling consultation — learn it, or build it in',
+  title: 'AI tooling consultation — leverage AI workflows',
   description:
-    'AI tooling consultation for developers and for anyone who works with AI — marketing, email, SEO and content, task and project management — plus getting AI into the product you are building. Loops that run on their own, custom tools, instruction files, prompting, and context engineering.',
+    'Two kinds of help: AI workflows for business owners and busy people — email, to-dos, admin, content — and AI tooling for software teams, including instruction files, skills, agent loops, and custom tools.',
   alternates: { canonical: '/ai-tooling' },
   openGraph: {
     title: 'AI tooling consultation',
     description:
-      'Learning to use AI properly — in your day-to-day work or inside your product. Loops, custom tools, instruction files, prompting, and context engineering.',
+      'AI workflows for busy people, and AI tooling for software teams. Free up your time and produce better work.',
     url: 'https://kingdom-sites.com/ai-tooling',
     siteName: 'Kingdom Sites',
     locale: 'en_US',
@@ -18,122 +18,22 @@ export const metadata: Metadata = {
   },
 }
 
-/* The pieces of the setup. Each is a thing I install and hand over, not a
-   concept — the plain-language line matters more than the name. */
-const PIECES = [
-  {
-    name: 'Loops',
-    title: 'Work that runs without being asked',
-    desc: 'An agent set on a schedule or a trigger: sweeping the ticket queue overnight, watching a deploy, keeping a long job moving. You describe the job once and it runs on its own from then on.',
-  },
-  {
-    name: 'Tools',
-    title: 'Giving the model hands',
-    desc: 'A model that can only talk is a chat box. Wired to your own systems — the database, the ticket tracker, the deploy — it can do the task instead of describing it. That wiring is the work, and it is where the value is.',
-  },
-  {
-    name: 'Instruction files',
-    title: 'The written-down rules, in the repo',
-    desc: 'Plain markdown files that tell an agent how this codebase works, what the conventions are, and what never to touch. They turn scattered tribal knowledge into something every developer and every agent reads the same way.',
-  },
-  {
-    name: 'Skills',
-    title: 'Your team’s procedures, packaged',
-    desc: 'The multi-step jobs your team does the same way every time — a release, a review, a new project scaffold — written once so anyone, or any agent, can run them properly on the first try.',
-  },
-  {
-    name: 'Prompting',
-    title: 'Asking in a way that works',
-    desc: 'Most disappointing AI output is a briefing problem, not a model problem. I show your developers what a good ask looks like, and where to stop trusting the answer.',
-  },
-  {
-    name: 'Context engineering',
-    title: 'Deciding what the model gets to see',
-    desc: 'Quality comes from what you feed it: the right records, at the right size, from your own data. This is the difference between a demo and something a business can rely on.',
-  },
-]
-
-/* The two groups I do this for. The second one is the point of the section:
-   most people asking for help with AI are not developers. */
-const AUDIENCES = [
-  {
-    title: 'People who do not write code',
-    desc: 'Marketing, operations, admin, founders doing a bit of everything. The aim is the same — AI doing a real piece of the work instead of producing drafts nobody uses.',
-    examples: [
-      'Marketing: campaign copy, landing pages, and ad variations drawn from your own brand and past results, not generic prompts.',
-      'Email: an inbox that gets sorted, summarised, and drafted for you, with you approving anything that goes out.',
-      'SEO and content: keyword and competitor research, briefs, and drafts that stay on your voice and your facts.',
-      'Tasks and projects: notes and calls turned into tickets, statuses kept current, and the weekly update written for you.',
-      'Reporting and admin: spreadsheets read, numbers pulled together, and the same report produced the same way each week.',
-    ],
-  },
-  {
-    title: 'Developers and product teams',
-    desc: 'The engineering side: agents that carry real work in your repository, and AI features built into the product your customers use.',
-    examples: [
-      'Agents that pick up tickets, open pull requests, and keep long jobs moving overnight.',
-      'The rules and procedures of your codebase written down so every developer and every agent works the same way.',
-      'AI features inside your product, wired to your own data, with a person confirming anything that changes it.',
-      'Your developers taught what a good ask looks like — and where to stop trusting the answer.',
-    ],
-  },
-]
-
-/* Small CSS-drawn views of the four apps — no image files, no icon font: each
-   one is a handful of divs shaped to suggest the interface it stands for. */
+/* Small CSS-drawn views — no image files, no icon font: each one is a handful
+   of divs shaped to suggest the thing it stands for. */
 
 const FRAME = 'relative h-14 w-[86px] shrink-0 overflow-hidden rounded-lg border border-line bg-surface-2 p-1.5'
 
-/* Rows of running agents, one of them waiting on me. */
-function AgentsView() {
+/* An inbox with one message handled and a reply drafted underneath. */
+function EmailView() {
   return (
     <div className={FRAME} aria-hidden="true">
       <div className="flex h-full flex-col justify-between">
-        {[
-          'w-[70%] bg-[#0a63c9]',
-          'w-[46%] bg-ink/25',
-          'w-[58%] bg-ink/25',
-        ].map((bar, i) => (
+        {['w-[72%] bg-[#0a63c9]', 'w-[54%] bg-ink/25', 'w-[64%] bg-ink/25'].map((bar, i) => (
           <div key={i} className="flex items-center gap-1.5">
-            <span className={`h-1.5 w-1.5 rounded-full ${i === 0 ? 'bg-[#0a63c9]' : 'bg-ink/20'}`} />
+            <span className={`h-2 w-2 rounded-[2px] border ${i === 0 ? 'border-[#0a63c9] bg-[#0a63c9]' : 'border-ink/25'}`} />
             <span className={`h-1.5 rounded-full ${bar}`} />
           </div>
         ))}
-      </div>
-    </div>
-  )
-}
-
-/* The notch pill, with something happening inside it. */
-function IslandView() {
-  return (
-    <div className={FRAME} aria-hidden="true">
-      <div className="flex h-full items-start justify-center">
-        <div className="flex items-center gap-1 rounded-full bg-ink px-2 py-1">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#4ade80]" />
-          <span className="h-1 w-4 rounded-full bg-white/40" />
-        </div>
-      </div>
-    </div>
-  )
-}
-
-/* A reminder arriving: stand up, do a set. */
-function MoveView() {
-  return (
-    <div className={FRAME} aria-hidden="true">
-      <div className="flex h-full items-center">
-        <div className="flex w-full items-center gap-1.5 rounded-md border border-line bg-surface px-1.5 py-1.5 shadow-sm">
-          <span className="grid h-4 w-4 shrink-0 place-items-center rounded-full bg-[#16a34a]">
-            <svg viewBox="0 0 10 10" className="h-2 w-2">
-              <path d="M5 8V2.4M2.6 4.8 5 2.2l2.4 2.6" fill="none" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </span>
-          <span className="flex min-w-0 flex-col gap-1">
-            <span className="h-1.5 w-9 rounded-full bg-ink/30" />
-            <span className="h-1 w-6 rounded-full bg-ink/15" />
-          </span>
-        </div>
       </div>
     </div>
   )
@@ -165,28 +65,147 @@ function TodoView() {
   )
 }
 
-/* The tooling I run on my own machine. Proof that this is a daily practice
-   rather than a service line. */
-const MY_OWN = [
+/* Numbers pulled together into the same report every week. */
+function ReportView() {
+  return (
+    <div className={FRAME} aria-hidden="true">
+      <div className="flex h-full items-end gap-1.5">
+        {['h-[38%]', 'h-[62%]', 'h-[48%]', 'h-full'].map((h, i) => (
+          <span
+            key={i}
+            className={`w-full rounded-sm ${h} ${i === 3 ? 'bg-[#0a63c9]' : 'bg-ink/20'}`}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/* A page of copy being written, with the headline settled. */
+function ContentView() {
+  return (
+    <div className={FRAME} aria-hidden="true">
+      <div className="flex h-full flex-col justify-center gap-1.5">
+        <span className="h-2 w-[64%] rounded-full bg-[#0a63c9]" />
+        <span className="h-1.5 w-full rounded-full bg-ink/20" />
+        <span className="h-1.5 w-[86%] rounded-full bg-ink/20" />
+        <span className="h-1.5 w-[42%] rounded-full bg-ink/15" />
+      </div>
+    </div>
+  )
+}
+
+/* A markdown file: a heading and the rules underneath it. */
+function MarkdownView() {
+  return (
+    <div className={FRAME} aria-hidden="true">
+      <div className="flex h-full flex-col gap-1.5">
+        <span className="flex items-center gap-1">
+          <span className="text-[8px] font-bold leading-none text-[#0a63c9]">#</span>
+          <span className="h-1.5 w-[52%] rounded-full bg-[#0a63c9]" />
+        </span>
+        <span className="h-1 w-full rounded-full bg-ink/20" />
+        <span className="h-1 w-[88%] rounded-full bg-ink/20" />
+        <span className="h-1 w-[70%] rounded-full bg-ink/15" />
+        <span className="h-1 w-[80%] rounded-full bg-ink/15" />
+      </div>
+    </div>
+  )
+}
+
+/* Rows of running agents, one of them waiting on me. */
+function AgentsView() {
+  return (
+    <div className={FRAME} aria-hidden="true">
+      <div className="flex h-full flex-col justify-between">
+        {['w-[70%] bg-[#0a63c9]', 'w-[46%] bg-ink/25', 'w-[58%] bg-ink/25'].map((bar, i) => (
+          <div key={i} className="flex items-center gap-1.5">
+            <span className={`h-1.5 w-1.5 rounded-full ${i === 0 ? 'bg-[#0a63c9]' : 'bg-ink/20'}`} />
+            <span className={`h-1.5 rounded-full ${bar}`} />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/* A model wired to two systems it can actually act on. */
+function ToolsView() {
+  return (
+    <div className={FRAME} aria-hidden="true">
+      <svg viewBox="0 0 74 44" className="h-full w-full">
+        <circle cx="16" cy="22" r="7" fill="#0a63c9" fillOpacity="0.15" stroke="#0a63c9" strokeWidth="1.5" />
+        <path d="M23 22h14M37 22V10h12M37 22v12h12" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-ink/25" strokeLinecap="round" strokeLinejoin="round" />
+        <rect x="49" y="5" width="14" height="10" rx="2.5" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-ink/30" />
+        <rect x="49" y="29" width="14" height="10" rx="2.5" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-ink/30" />
+      </svg>
+    </div>
+  )
+}
+
+/* The same job, running again on its own. */
+function LoopView() {
+  return (
+    <div className={FRAME} aria-hidden="true">
+      <svg viewBox="0 0 44 44" className="mx-auto h-full">
+        <path
+          d="M33 16a13 13 0 1 0 1.6 10"
+          fill="none"
+          stroke="#0a63c9"
+          strokeWidth="2.4"
+          strokeLinecap="round"
+        />
+        <path d="M33 6.5V16h-9.5" fill="none" stroke="#0a63c9" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </div>
+  )
+}
+
+/* For business owners and anyone with a full week. No code involved. */
+const EVERYDAY = [
   {
-    View: AgentsView,
-    title: 'A control room for my agents',
-    desc: 'I run several coding agents at once, so I built the place that keeps track of them: what each one is working on, what it produced, and which ones are waiting on me.',
-  },
-  {
-    View: IslandView,
-    title: 'A dynamic island for my Mac',
-    desc: 'The little status strip Apple gives the iPhone, rebuilt for my desktop — what is building, what just finished, and what needs a decision, glanceable without switching windows.',
-  },
-  {
-    View: MoveView,
-    title: 'A nudge to get up and do push-ups',
-    desc: 'The job is sitting down, which is bad for you, so this one interrupts it — a reminder to stand up and knock out a set. Small thing, but it is the difference between moving during the day and not.',
+    View: EmailView,
+    title: 'Your inbox, handled',
+    desc: 'Mail sorted, summarised, and replies drafted in your own voice — you read the short version and approve anything that goes out.',
   },
   {
     View: TodoView,
-    title: 'Somewhere for every loose end',
-    desc: 'Tools that catch the things I mention in passing and hold onto them until they are done, so follow-ups stop falling through the cracks.',
+    title: 'To-dos that catch themselves',
+    desc: 'Calls, notes, and passing comments turned into a real task list, kept up to date, so follow-ups stop falling through the cracks.',
+  },
+  {
+    View: ReportView,
+    title: 'The weekly admin, done for you',
+    desc: 'Spreadsheets read, numbers pulled together, and the same report or update produced the same way every week without you rebuilding it.',
+  },
+  {
+    View: ContentView,
+    title: 'Marketing, content, and SEO',
+    desc: 'Campaigns, landing pages, and search research drawn from your own brand and past results — first drafts you can actually use, not generic filler.',
+  },
+]
+
+/* For people who ship software. This is the deeper end. */
+const SOFTWARE = [
+  {
+    View: MarkdownView,
+    title: 'Instruction files in your repository',
+    desc: 'Plain markdown files (.md) that tell an AI assistant how your codebase works, the conventions, and what never to touch. Scattered knowledge becomes something every developer and every agent reads the same way.',
+  },
+  {
+    View: AgentsView,
+    title: 'Skills: your procedures, packaged',
+    desc: 'The multi-step jobs your team does the same way every time — a release, a review, a new project — written down once so anyone, or any agent, runs them properly on the first try.',
+  },
+  {
+    View: ToolsView,
+    title: 'Custom tools, so the model can act',
+    desc: 'A model that can only talk is a chat box. Wired to your own systems — the database, the ticket tracker, the deploy — it does the task instead of describing it. That wiring is where the value is.',
+  },
+  {
+    View: LoopView,
+    title: 'Loops that run without being asked',
+    desc: 'An agent on a schedule or a trigger: sweeping the ticket queue overnight, watching a deploy, keeping a long job moving. Describe the job once and it runs on its own from then on.',
   },
 ]
 
@@ -197,6 +216,22 @@ const HONEST = [
   'A cheaper model per task where a cheap model is enough, so the bill stays sane.',
   'If a job is better done by ordinary code, I will tell you that instead of selling you a model.',
 ]
+
+function CardGrid({ items }: { items: { View: () => React.ReactElement; title: string; desc: string }[] }) {
+  return (
+    <div className="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-5">
+      {items.map(({ View, title, desc }) => (
+        <div key={title} className="tile flex flex-col gap-4 p-7 sm:flex-row sm:items-start sm:gap-5">
+          <View />
+          <div>
+            <h3 className="text-base font-semibold tracking-tight text-ink">{title}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-body">{desc}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
 
 export default function AiTooling() {
   return (
@@ -209,11 +244,7 @@ export default function AiTooling() {
             AI that does the work, <span className="text-accent">not just the talking.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-body sm:text-lg">
-            Two things: learning to use AI properly yourself, and getting it into the product you
-            are building. You do not have to write code for the first one — most of this work is for
-            people running marketing, an inbox, SEO and content, or a task list. Loops that run on
-            their own, tools an agent can actually use, your own way of working written down, and
-            your team taught how to ask. Especially useful if AI has not clicked for you yet.
+            Learn how to leverage AI workflows to free up your time and produce more quality work.
           </p>
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a href={CONTACT_MAILTO} className="btn-primary">Email me about your team</a>
@@ -222,139 +253,40 @@ export default function AiTooling() {
         </div>
       </section>
 
-      {/* Who this is for */}
-      <section aria-label="Who this is for" className="border-t border-line px-5 py-16 sm:px-8 sm:py-24">
+      {/* One: everyday productivity */}
+      <section aria-label="AI for your everyday work" className="border-t border-line px-5 py-16 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-6xl">
           <div className="max-w-2xl">
-            <p className="eyebrow eyebrow-blue">Who this is for</p>
+            <p className="eyebrow eyebrow-blue">One</p>
             <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-              Not just developers.
+              AI for your everyday work.
             </h2>
             <p className="mt-4 text-[15px] leading-relaxed text-body sm:text-base">
-              Half of this work has nothing to do with code. If your day is spent in an inbox, a
-              spreadsheet, a content calendar, or a task board, there is a version of this for you —
-              same setup, same handover, aimed at your work instead of a codebase.
+              For business owners and anyone with a full week. No code involved — we sit down with
+              the work you actually do and get AI carrying a real part of it.
             </p>
           </div>
 
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-5">
-            {AUDIENCES.map((a) => (
-              <div key={a.title} className="tile flex flex-col p-7 sm:p-9">
-                <h3 className="text-lg font-semibold tracking-tight text-ink">{a.title}</h3>
-                <p className="mt-2.5 text-sm leading-relaxed text-body">{a.desc}</p>
-                <ul className="mt-5 grid gap-2.5">
-                  {a.examples.map((line) => (
-                    <li key={line} className="flex gap-3 text-sm leading-relaxed text-body">
-                      <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
-                      <span>{line}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+          <CardGrid items={EVERYDAY} />
         </div>
       </section>
 
-      {/* What I set up */}
-      <section aria-label="What I set up" className="border-t border-line px-5 py-16 sm:px-8 sm:py-24">
+      {/* Two: software teams */}
+      <section aria-label="AI tooling for software teams" className="border-t border-line px-5 py-16 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-6xl">
           <div className="max-w-2xl">
-            <p className="eyebrow eyebrow-blue">What I set up</p>
+            <p className="eyebrow eyebrow-blue">Two</p>
             <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-              The pieces, in plain language.
+              AI tooling for software teams.
             </h2>
             <p className="mt-4 text-[15px] leading-relaxed text-body sm:text-base">
-              Six things, set up around the work you already do — your codebase if you have one, your
-              documents and tools if you do not — and handed over working. You keep all of it: it
-              lives in your own repository or your own accounts, not in something I control.
+              The deeper end, and where most of my own time goes: instruction files, packaged
+              procedures, custom tools, and agents that carry real work in your repository. You keep
+              all of it — it lives in your codebase, not in an account I control.
             </p>
           </div>
 
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
-            {PIECES.map((p) => (
-              <div key={p.name} className="tile flex flex-col p-7">
-                <span className="self-start rounded-full border border-[#0a63c9]/20 bg-[#0a63c9]/[0.07] px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-[#0a4e9e]">
-                  {p.name}
-                </span>
-                <h3 className="mt-4 text-lg font-semibold tracking-tight text-ink">{p.title}</h3>
-                <p className="mt-2.5 text-sm leading-relaxed text-body">{p.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* My own workflow — the worked example */}
-      <section aria-label="My own workflow" className="border-t border-line px-5 py-16 sm:px-8 sm:py-24">
-        <div className="mx-auto max-w-6xl">
-          <div className="max-w-2xl">
-            <p className="eyebrow eyebrow-blue">A worked example</p>
-            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-              I run my own day on this.
-            </h2>
-            <p className="mt-4 text-[15px] leading-relaxed text-body sm:text-base">
-              Several small apps I built for myself, each one built with AI and each one now part of
-              how I work. None of them existed a year ago, and none of them would have been worth the
-              hours by hand — that shift is the whole point, and it is what I set up for other
-              people.
-            </p>
-          </div>
-
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-5">
-            {MY_OWN.map(({ View, title, desc }) => (
-              <div key={title} className="tile flex flex-col gap-4 p-7 sm:flex-row sm:items-start sm:gap-5">
-                <View />
-                <div>
-                  <h3 className="text-base font-semibold tracking-tight text-ink">{title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-body">{desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Proof */}
-      <section aria-label="Where I have shipped this" className="px-5 py-16 sm:px-8 sm:py-24">
-        <div className="mx-auto max-w-6xl">
-          <div className="max-w-2xl">
-            <p className="eyebrow eyebrow-blue">In production, not in theory</p>
-            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-              Two products with my AI work inside them.
-            </h2>
-          </div>
-
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-5">
-            <div className="tile flex flex-col p-7 sm:p-9">
-              <h3 className="text-lg font-semibold tracking-tight text-ink">Ruta AI</h3>
-              <p className="mt-1 text-xs font-medium uppercase tracking-wider text-muted">
-                Service management platform · team product
-              </p>
-              <p className="mt-3 flex-1 text-sm leading-relaxed text-body">
-                An assistant answering from the company&apos;s own records, taking actions with a
-                person confirming them, and reachable from anywhere in the app — on the web and in
-                the field.
-              </p>
-              <Link href="/ruta" className="link-accent mt-5 self-start text-sm">
-                Read the case study <span aria-hidden="true">›</span>
-              </Link>
-            </div>
-
-            <div className="tile flex flex-col p-7 sm:p-9">
-              <h3 className="text-lg font-semibold tracking-tight text-ink">The Tap to Tick money coach</h3>
-              <p className="mt-1 text-xs font-medium uppercase tracking-wider text-muted">
-                iPhone expense tracker · my own product · coming soon
-              </p>
-              <p className="mt-3 flex-1 text-sm leading-relaxed text-body">
-                Ask a question in plain English and get an answer built from your own numbers — and
-                only the numbers that bear on the question ever leave the phone.
-              </p>
-              <Link href="/tap-to-tick" className="link-accent mt-5 self-start text-sm">
-                See the app <span aria-hidden="true">›</span>
-              </Link>
-            </div>
-          </div>
+          <CardGrid items={SOFTWARE} />
 
           <div className="tile mt-5 p-7 sm:p-9">
             <h3 className="text-lg font-semibold tracking-tight text-ink">What I will tell you straight</h3>
@@ -367,6 +299,28 @@ export default function AiTooling() {
               ))}
             </ul>
           </div>
+
+          <div className="mt-5 grid gap-4 sm:grid-cols-2 sm:gap-5">
+            <Link href="/ruta" className="tile flex flex-col p-7 transition-colors hover:border-line-strong sm:p-9">
+              <p className="text-xs font-medium uppercase tracking-wider text-muted">In production</p>
+              <h3 className="mt-2 text-lg font-semibold tracking-tight text-ink">Ruta AI</h3>
+              <p className="mt-3 flex-1 text-sm leading-relaxed text-body">
+                An assistant answering from a company&apos;s own records and taking actions with a
+                person confirming them — on the web and in the field.
+              </p>
+              <span className="link-accent mt-5 text-sm">Read the case study <span aria-hidden="true">›</span></span>
+            </Link>
+
+            <Link href="/tap-to-tick" className="tile flex flex-col p-7 transition-colors hover:border-line-strong sm:p-9">
+              <p className="text-xs font-medium uppercase tracking-wider text-muted">My own product</p>
+              <h3 className="mt-2 text-lg font-semibold tracking-tight text-ink">The Tap to Tick money coach</h3>
+              <p className="mt-3 flex-1 text-sm leading-relaxed text-body">
+                Ask a question in plain English and get an answer built from your own numbers — and
+                only the numbers that bear on the question ever leave the phone.
+              </p>
+              <span className="link-accent mt-5 text-sm">See the app <span aria-hidden="true">›</span></span>
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -374,7 +328,7 @@ export default function AiTooling() {
       <section aria-label="Contact" className="border-t border-line px-5 py-16 text-center sm:px-8 sm:py-24">
         <div className="mx-auto max-w-3xl">
           <h2 className="text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-            Want your team set up <span className="text-accent">properly?</span>
+            Want to get set up <span className="text-accent">properly?</span>
           </h2>
           <div className="mt-8">
             <a href={CONTACT_MAILTO} className="btn-primary">Email me</a>
