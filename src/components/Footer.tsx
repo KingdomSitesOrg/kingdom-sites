@@ -6,7 +6,6 @@ const FACEBOOK_URL = 'https://www.facebook.com/share/1EzdtfSCs3/?mibextid=wwXIfr
 const PAGE_LINKS = [
   { href: '/',        label: 'Home' },
   { href: '/my-work', label: 'My Work' },
-  { href: '/ministry', label: 'Ministry' },
   { href: '/about',   label: 'About' },
   { href: '/mission', label: 'Mission' },
   { href: '/privacy', label: 'Privacy Policy' },
@@ -58,6 +57,18 @@ export default function Footer() {
                   {label}
                 </Link>
               ))}
+              {/* Opens in its own tab, like it does in the header. */}
+              <a
+                href="/ministry"
+                target="_blank"
+                rel="noopener"
+                className="flex items-center gap-1.5 text-sm text-white/65 transition-colors hover:text-white"
+              >
+                Ministry
+                <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                  <path d="M4 8 8 4M8 4H4.8M8 4v3.2" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </a>
             </div>
           </div>
         </div>

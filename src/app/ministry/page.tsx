@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Noto_Sans_Bengali } from 'next/font/google'
 import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
+import MinistryNav from './MinistryNav'
 import MinistryPlayer, { type MinistryVideo } from './MinistryPlayer'
 
 // Inter has no Bengali letters, so Bangla text would fall back to whatever the
@@ -68,87 +69,107 @@ const OUTLINE = [
 
 export default function Ministry() {
   return (
-    <div className="w-full overflow-x-hidden">
-      {/* Hero */}
-      <section className="hero-wash px-5 pb-14 pt-16 text-center sm:px-8 sm:pb-16 sm:pt-24">
-        <p className="eyebrow">Ministry</p>
-        <h1 className="mx-auto mt-5 max-w-3xl text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
-          A book of the Bible in four minutes — in English and{' '}
-          <span className={`text-accent ${notoBengali.className}`}>বাংলা</span>.
-        </h1>
-        <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-body sm:text-lg">
-          Hand-drawn walkthroughs that take a whole letter and put it on one page — who wrote it, what
-          it says, and how the parts fit together. Made for people meeting the book for the first time,
-          in the language they actually think in.
-        </p>
-        <p className="mx-auto mt-4 max-w-2xl text-pretty text-[15px] leading-relaxed text-muted">
-          Free to watch, free to download, free to show to anyone.
-        </p>
-      </section>
+    <>
+      <MinistryNav />
 
-      {/* The player */}
-      <section aria-label="Ephesians" className="band-dark px-5 py-14 sm:px-8 sm:py-20">
-        <div className="mx-auto max-w-4xl">
-          <p className="eyebrow">Overview · Ephesians</p>
-          <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-            Ephesians
-          </h2>
-          <p className="mt-2 text-base text-white/80">A letter from prison.</p>
-          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-white/65">
-            Pick a language below. Both versions are the same walkthrough — same drawings, same order —
-            narrated and lettered in English or Bangla.
+      {/* ---------- opening ---------- */}
+      <div className="hero">
+        <div className="wrap narrow">
+          <p className="kicker">Ministry</p>
+          <h1 style={{ marginTop: 18 }}>
+            A book of the Bible in four minutes — in English and{' '}
+            <span className={`oxblood ${notoBengali.className}`}>বাংলা</span>.
+          </h1>
+          <p className="lede" style={{ marginTop: 22 }}>
+            Hand-drawn walkthroughs that take a whole letter and put it on one page — who wrote it,
+            what it says, and how the parts fit together. Made for people meeting the book for the
+            first time, in the language they actually think in.
+          </p>
+          <p className="quiet" style={{ marginTop: 14 }}>
+            Free to watch, free to download, free to show to anyone.
+          </p>
+          <div className="rule" style={{ marginTop: 36 }}>
+            <span>✦</span>
+          </div>
+        </div>
+      </div>
+
+      {/* ---------- the video, on a dark plate ---------- */}
+      <section id="ephesians" className="plate">
+        <div className="wrap">
+          <p className="kicker">Overview · Ephesians</p>
+          <h2 style={{ marginTop: 14 }}>Ephesians</h2>
+          <p style={{ marginTop: 10, fontSize: 18.5 }}>A letter from prison.</p>
+          <p style={{ marginTop: 16, maxWidth: 640, fontSize: 16 }}>
+            Pick a language below. Both versions are the same walkthrough — same drawings, same order
+            — narrated and lettered in English or Bangla.
           </p>
 
-          <div className="mt-8">
+          <div style={{ marginTop: 30 }}>
             <MinistryPlayer videos={EPHESIANS} bengaliFontClass={notoBengali.className} />
           </div>
         </div>
       </section>
 
-      {/* What's in it */}
-      <section aria-label="What the video covers" className="px-5 py-16 sm:px-8 sm:py-20">
-        <div className="mx-auto max-w-6xl">
-          <h2 className="text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
-            What the video covers
-          </h2>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-5">
+      {/* ---------- what it covers ---------- */}
+      <section id="covers">
+        <div className="wrap">
+          <h2>What the video covers</h2>
+          <div className="grid2" style={{ marginTop: 28 }}>
             {OUTLINE.map((item) => (
-              <div key={item.heading} className="tile p-7">
-                <h3 className="text-base font-semibold tracking-tight text-ink">{item.heading}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-body">{item.body}</p>
+              <div key={item.heading} className="card">
+                <h3>{item.heading}</h3>
+                <p>{item.body}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Why Bangla */}
-      <section aria-label="Why these languages" className="border-t border-line px-5 py-16 sm:px-8 sm:py-20">
-        <div className="mx-auto max-w-5xl">
-          <div className="tile p-7 sm:p-10">
-            <p className="eyebrow eyebrow-blue">Why Bangla</p>
-            <h2 className="mt-3 text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+      {/* ---------- why Bangla ---------- */}
+      <section id="bangla" style={{ paddingTop: 0 }}>
+        <div className="wrap">
+          <div className="card" style={{ padding: '34px 34px 38px' }}>
+            <p className="kicker">Why Bangla</p>
+            <h2 style={{ marginTop: 12 }}>
               Roughly 240 million people speak it — and very little of this exists for them.
             </h2>
-            <p className="mt-5 max-w-3xl text-[15px] leading-relaxed text-body sm:text-base">
+            <p style={{ marginTop: 20, maxWidth: 720, fontSize: 16.5 }}>
               Short, visual overviews of Scripture are easy to find in English and scarce in most of
               South Asia. Making them in Bangla costs almost nothing once the English version exists,
               and a four-minute video travels further than a book — it can be watched on a phone,
               downloaded, and passed on with no internet at all.
             </p>
-            <p className="mt-4 max-w-3xl text-[15px] leading-relaxed text-body sm:text-base">
+            <p style={{ marginTop: 14, maxWidth: 720, fontSize: 16.5 }}>
               More books are on the way. If a translation into another language would be useful where
               you are, tell me which one.
             </p>
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
-              <Link href="/mission" className="btn-primary">Read about the mission</Link>
-              <a href={CONTACT_MAILTO} className="text-sm text-body underline underline-offset-4 hover:text-ink">
+            <div
+              style={{
+                marginTop: 28,
+                display: 'flex',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                gap: 18,
+              }}
+            >
+              <Link href="/mission" className="btn">Read about the mission</Link>
+              <a href={CONTACT_MAILTO} className="inline-link" style={{ fontSize: 15 }}>
                 {CONTACT_EMAIL}
               </a>
             </div>
           </div>
         </div>
       </section>
-    </div>
+
+      <footer>
+        <div className="wrap">
+          <span>Kingdom Sites · Ministry · {new Date().getFullYear()}</span>
+          <span>
+            <Link href="/">Back to Kingdom Sites</Link>
+          </span>
+        </div>
+      </footer>
+    </>
   )
 }

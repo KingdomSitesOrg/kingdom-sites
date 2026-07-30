@@ -16,7 +16,6 @@ const WORK_LINKS = [
 
 const NAV_LINKS = [
   { to: '/my-work',  label: 'My Work', children: WORK_LINKS },
-  { to: '/ministry', label: 'Ministry' },
   { to: '/about',    label: 'About' },
   { to: '/mission',  label: 'Mission' },
 ]
@@ -28,6 +27,15 @@ function ChevronIcon({ open }: { open: boolean }) {
       className={`transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
     >
       <path d="M2.5 4.5 6 8l3.5-3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+/* Marks a link that opens in its own tab. */
+function ArrowOutIcon() {
+  return (
+    <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+      <path d="M4 8 8 4M8 4H4.8M8 4v3.2" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
@@ -171,7 +179,17 @@ export default function Header() {
             </nav>
           </div>
 
-          <div className="hidden md:flex items-center">
+          <div className="hidden items-center gap-5 md:flex">
+            {/* Its own tab, because the ministry pages are their own place. */}
+            <a
+              href="/ministry"
+              target="_blank"
+              rel="noopener"
+              className="flex items-center gap-1.5 text-[13.5px] text-body transition-colors duration-200 hover:text-ink"
+            >
+              Ministry
+              <ArrowOutIcon />
+            </a>
             <a href={CONTACT_MAILTO} className="btn-sm">Email me</a>
           </div>
 
@@ -235,6 +253,17 @@ export default function Header() {
                 </div>
               ))}
             </nav>
+
+            <a
+              href="/ministry"
+              target="_blank"
+              rel="noopener"
+              onClick={() => setMenuOpen(false)}
+              className="flex items-center gap-2 rounded-xl px-4 py-3 text-[15px] text-body transition hover:bg-surface-2 hover:text-ink"
+            >
+              Ministry
+              <ArrowOutIcon />
+            </a>
 
             <div className="mt-3 border-t border-line pt-4">
               <a

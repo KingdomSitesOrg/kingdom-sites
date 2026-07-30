@@ -133,18 +133,27 @@ function WebsiteView() {
             <span className="h-4 w-12 rounded-full bg-accent" />
           </span>
         </div>
-        <div className="mt-4 rounded-lg bg-surface-2 p-4">
-          <span className="block h-3 w-3/5 rounded-full bg-ink/25" />
-          <span className="mt-2 block h-2 w-4/5 rounded-full bg-ink/12" />
-          <span className="mt-3 block h-4 w-20 rounded-full bg-accent" />
+        <div className="mt-4 rounded-lg bg-surface-2 p-5">
+          <span className="block h-3.5 w-3/5 rounded-full bg-ink/25" />
+          <span className="mt-2.5 block h-2 w-4/5 rounded-full bg-ink/12" />
+          <span className="mt-1.5 block h-2 w-2/3 rounded-full bg-ink/12" />
+          <span className="mt-4 block h-4 w-20 rounded-full bg-accent" />
         </div>
         <div className="mt-3 grid grid-cols-3 gap-2">
           {[0, 1, 2].map((i) => (
-            <span key={i} className="rounded-md border border-line p-2">
-              <span className="block h-2 w-full rounded-full bg-ink/15" />
+            <span key={i} className="rounded-md border border-line p-2.5">
+              <span className="block h-8 w-full rounded bg-ink/[0.07]" />
+              <span className="mt-2 block h-2 w-full rounded-full bg-ink/15" />
               <span className="mt-1.5 block h-2 w-2/3 rounded-full bg-ink/10" />
             </span>
           ))}
+        </div>
+        <div className="mt-3 flex items-center justify-between border-t border-line pt-3">
+          <span className="h-2 w-16 rounded-full bg-ink/12" />
+          <span className="flex gap-2">
+            <span className="h-2 w-6 rounded-full bg-ink/10" />
+            <span className="h-2 w-6 rounded-full bg-ink/10" />
+          </span>
         </div>
       </div>
     </div>
@@ -154,22 +163,23 @@ function WebsiteView() {
 function AppView() {
   return (
     <div
-      className="mx-auto w-[136px] overflow-hidden rounded-[26px] border-[3px] border-ink/85 bg-surface shadow-md"
+      className="mx-auto flex w-[148px] flex-col overflow-hidden rounded-[30px] border-[3px] border-ink/85 bg-surface shadow-md"
       aria-hidden="true"
     >
-      <div className="relative bg-surface-2 px-3 pb-2 pt-3">
-        <span className="absolute left-1/2 top-1.5 h-1.5 w-9 -translate-x-1/2 rounded-full bg-ink/80" />
-        <span className="mt-2 block h-2.5 w-14 rounded-full bg-ink/25" />
+      <div className="relative bg-surface-2 px-3.5 pb-2.5 pt-4">
+        <span className="absolute left-1/2 top-2 h-1.5 w-10 -translate-x-1/2 rounded-full bg-ink/80" />
+        <span className="mt-2.5 block h-2.5 w-16 rounded-full bg-ink/25" />
       </div>
-      <div className="px-3 py-3">
-        <div className="rounded-lg bg-accent p-2.5">
+      <div className="flex-1 px-3.5 py-3.5">
+        <div className="rounded-lg bg-accent p-3">
           <span className="block h-2 w-10 rounded-full bg-white/50" />
-          <span className="mt-1.5 block h-3 w-16 rounded-full bg-white/85" />
+          <span className="mt-2 block h-3 w-16 rounded-full bg-white/85" />
+          <span className="mt-2 block h-2 w-12 rounded-full bg-white/40" />
         </div>
-        <div className="mt-2.5 space-y-1.5">
-          {[0, 1, 2].map((i) => (
-            <span key={i} className="flex items-center gap-1.5">
-              <span className="h-4 w-4 shrink-0 rounded-md bg-ink/10" />
+        <div className="mt-3 space-y-2.5">
+          {[0, 1, 2, 3, 4].map((i) => (
+            <span key={i} className="flex items-center gap-2">
+              <span className="h-5 w-5 shrink-0 rounded-md bg-ink/10" />
               <span className="flex-1">
                 <span className="block h-1.5 w-full rounded-full bg-ink/18" />
                 <span className="mt-1 block h-1.5 w-2/3 rounded-full bg-ink/10" />
@@ -178,7 +188,7 @@ function AppView() {
           ))}
         </div>
       </div>
-      <div className="flex justify-around border-t border-line px-3 py-2">
+      <div className="flex justify-around border-t border-line px-3 py-2.5">
         <span className="h-2 w-2 rounded-full bg-accent" />
         <span className="h-2 w-2 rounded-full bg-ink/15" />
         <span className="h-2 w-2 rounded-full bg-ink/15" />
@@ -544,12 +554,12 @@ export default function MyWork() {
             </h2>
           </div>
 
-          <div className="mt-12 grid gap-10 sm:grid-cols-2 sm:gap-8">
-            <div className="flex flex-col">
-              <div className="flex flex-1 items-center justify-center">
+          <div className="mt-12 grid gap-5 sm:grid-cols-2">
+            <div className="tile flex flex-col p-7 sm:p-8">
+              <div className="flex flex-1 items-center justify-center py-2">
                 <WebsiteView />
               </div>
-              <div className="mt-6 text-center">
+              <div className="mt-7 border-t border-line pt-6 text-center">
                 <p className="text-sm font-medium text-body">A website</p>
                 <p className="mt-1 text-2xl font-semibold tracking-tight text-ink">
                   About two weeks<span className="text-accent">*</span>
@@ -557,11 +567,11 @@ export default function MyWork() {
               </div>
             </div>
 
-            <div className="flex flex-col">
-              <div className="flex flex-1 items-center justify-center">
+            <div className="tile flex flex-col p-7 sm:p-8">
+              <div className="flex flex-1 items-center justify-center py-2">
                 <AppView />
               </div>
-              <div className="mt-6 text-center">
+              <div className="mt-7 border-t border-line pt-6 text-center">
                 <p className="text-sm font-medium text-body">An app</p>
                 <p className="mt-1 text-2xl font-semibold tracking-tight text-ink">
                   30 to 40 days<span className="text-accent">*</span>

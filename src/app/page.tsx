@@ -31,44 +31,6 @@ const SERVICES = [
   },
 ]
 
-const PROCESS = [
-  {
-    step: '01',
-    title: 'Tell me about your project',
-    desc: 'A short email is enough. We hop on a call or keep it async — whatever works for you.',
-  },
-  {
-    step: '02',
-    title: 'Get a scoped quote',
-    desc: 'I scope the work and send you a clear, competitive quote. Free, no obligation, no inflated agency rates.',
-  },
-  {
-    step: '03',
-    title: 'I design and build',
-    desc: 'One developer, end to end — no handoffs, no telephone game. You get regular updates and working previews.',
-  },
-  {
-    step: '04',
-    title: 'Launch and beyond',
-    desc: 'I stick around after launch: updates, new features, support. A partner, not a one-off transaction.',
-  },
-]
-
-const WHY = [
-  {
-    title: 'One developer, end to end',
-    desc: 'You talk directly to the person building your software. Decisions are fast, context never gets lost, and quality stays consistent from design to deployment.',
-  },
-  {
-    title: 'Competitive quotes, no packages',
-    desc: "I'm not the cheapest, and I don't try to be. Every project is scoped individually and priced competitively — you pay for exactly what you need, and you know the price up front.",
-  },
-  {
-    title: 'Built to last',
-    desc: 'Modern stack, clean code, real performance. Software you can build on for years — not a template you outgrow in six months.',
-  },
-]
-
 export default function Home() {
   return (
     <div className="w-full overflow-x-hidden">
@@ -85,7 +47,6 @@ export default function Home() {
 
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a href={CONTACT_MAILTO} className="btn-primary">Email me about your project</a>
-            <a href="#process" className="btn-ghost">See how it works</a>
           </div>
 
           <p className="mt-5 text-sm text-muted">
@@ -151,54 +112,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Why work with me — the dark band */}
-      <section aria-label="Why Kingdom Sites" className="band-dark px-5 py-20 sm:px-8 sm:py-24">
-        <div className="mx-auto max-w-6xl">
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="eyebrow">Why work with me</p>
-            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              A developer, not an agency queue.
-            </h2>
-            <p className="mt-4 text-pretty text-base leading-relaxed text-white/70">
-              Every project is scoped, quoted, and built around your goals — never dropped into a template.
-            </p>
-          </div>
-
-          <div className="mt-12 grid gap-4 sm:grid-cols-3 sm:gap-5">
-            {WHY.map((item) => (
-              <div key={item.title} className="tile-dark p-7">
-                <h3 className="text-base font-semibold tracking-tight text-white">{item.title}</h3>
-                <p className="mt-2.5 text-sm leading-relaxed text-white/65">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-12 text-center">
-            <Link href="/my-work" className="btn-primary">See my work</Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Process */}
-      <section id="process" aria-label="How it works" className="px-5 py-20 sm:px-8 sm:py-24">
-        <div className="mx-auto max-w-6xl">
-          <div className="max-w-2xl">
-            <p className="eyebrow eyebrow-blue">How it works</p>
-            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-              Simple, from first email to launch.
-            </h2>
-          </div>
-
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 sm:gap-5">
-            {PROCESS.map((p) => (
-              <div key={p.step} className="tile p-7">
-                <p className="text-sm font-semibold tracking-widest text-accent">{p.step}</p>
-                <h3 className="mt-3 text-base font-semibold tracking-tight text-ink">{p.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-body">{p.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+      {/* One way on from here: the work itself. */}
+      <section aria-label="My work" className="band-dark px-5 py-20 text-center sm:px-8 sm:py-24">
+        <Link
+          href="/my-work"
+          className="inline-flex min-h-[64px] items-center justify-center rounded-full bg-white px-12 py-4 text-xl font-semibold tracking-tight text-dark transition-transform hover:-translate-y-0.5 sm:min-h-[72px] sm:px-16 sm:text-2xl"
+        >
+          My work
+        </Link>
       </section>
 
       {/* Purpose */}
