@@ -84,11 +84,24 @@
   background: var(--green); display: grid; place-items: center; flex: none;
 }
 .ttt .brand .mark svg { width: 14px; height: 14px; }
+.ttt .nav-right { display: flex; align-items: center; gap: 18px; }
 .ttt .nav-links { display: flex; align-items: center; gap: 26px; font-size: 13.5px; color: var(--muted); }
 .ttt .nav-links a { text-decoration: none; transition: color 0.2s; }
 .ttt .nav-links a:hover { color: var(--ink); }
+
+/* The way back to Kingdom Sites. Pinned top right, outside the product links,
+   and visible at every screen size. */
+.ttt .home-link {
+  display: inline-flex; align-items: center; white-space: nowrap;
+  padding: 5px 13px; border-radius: 980px;
+  border: 1px solid var(--hairline);
+  font-size: 12.5px; font-weight: 500; color: var(--muted);
+  text-decoration: none; transition: color 0.2s, border-color 0.2s;
+}
+.ttt .home-link:hover { color: var(--ink); border-color: var(--ink); }
+
 @media (max-width: 720px) {
-  .ttt .nav-links a:not(.btn-sm) { display: none; }
+  .ttt .nav-links { display: none; }
 }
 .ttt .btn-sm {
   background: var(--ink); color: #fff !important; padding: 6px 14px;

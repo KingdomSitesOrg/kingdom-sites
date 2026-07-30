@@ -125,12 +125,15 @@ export default function TapToTick() {
             <span className="mark"><Tick /></span>
             Tap to Tick
           </div>
-          <div className="nav-links">
-            <a href="#how">How it works</a>
-            <a href="#cash">Cash</a>
-            <a href="#screens">Screens</a>
-            <a href="#pricing">Pricing</a>
-            <Link href="/my-work">Kingdom Sites</Link>
+          <div className="nav-right">
+            <div className="nav-links">
+              <a href="#how">How it works</a>
+              <a href="#cash">Cash</a>
+              <a href="#screens">Screens</a>
+              <a href="#pricing">Pricing</a>
+            </div>
+            {/* Always reachable, and deliberately not one of the product links. */}
+            <Link href="/my-work" className="home-link">Kingdom Sites</Link>
             <a href="#get" className="btn-sm">Get it</a>
           </div>
         </nav>

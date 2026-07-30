@@ -116,12 +116,15 @@ export default function JamWithLatin() {
             <span className="crest" aria-hidden="true">JL</span>
             Jam with Latin
           </div>
-          <div className="nav-links">
-            <a href="#march">The march</a>
-            <a href="#learn">How you learn</a>
-            <a href="#screens">Screens</a>
-            <a href="#safe">Safety</a>
-            <Link href="/my-work">Kingdom Sites</Link>
+          <div className="nav-right">
+            <div className="nav-links">
+              <a href="#march">The march</a>
+              <a href="#learn">How you learn</a>
+              <a href="#screens">Screens</a>
+              <a href="#safe">Safety</a>
+            </div>
+            {/* Always reachable, and deliberately not one of the product links. */}
+            <Link href="/my-work" className="home-link">Kingdom Sites</Link>
             <a href="#get" className="btn-gold">Get it</a>
           </div>
         </nav>
