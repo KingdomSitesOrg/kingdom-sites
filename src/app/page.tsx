@@ -206,12 +206,12 @@ export default function Home() {
       {/* One way on from here: the work itself, with a site and an app running
           quietly on either side of it. */}
       <section aria-label="My work" className="band-dark overflow-hidden px-5 py-20 sm:px-8 sm:py-24">
-        <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1fr_auto_1fr] lg:gap-8">
+        <div className="mx-auto grid w-full max-w-6xl items-center gap-12 lg:grid-cols-[1fr_auto_1fr] lg:gap-8">
           <div className="hidden justify-end lg:flex">
             <WebMock />
           </div>
 
-          <div className="text-center">
+          <div className="min-w-0 text-center">
             <p className="eyebrow">Websites · Apps · Platforms</p>
             <h2 className="mx-auto mt-4 max-w-md text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
               Built, shipped, and still running.
@@ -230,10 +230,17 @@ export default function Home() {
             <PhoneMock />
           </div>
 
-          {/* Both, smaller, where there is no room for a column either side. */}
-          <div className="flex items-center justify-center gap-6 lg:hidden">
-            <WebMock className="w-[210px]" />
-            <PhoneMock className="w-[104px]" />
+          {/* On a phone there is no room for a column either side, so the two
+              slide sideways instead of being squeezed to fit. */}
+          <div className="-mx-5 min-w-0 lg:hidden">
+            <div className="flex snap-x snap-mandatory items-center gap-6 overflow-x-auto px-5 pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div className="shrink-0 snap-center">
+                <WebMock />
+              </div>
+              <div className="shrink-0 snap-center">
+                <PhoneMock />
+              </div>
+            </div>
           </div>
         </div>
       </section>
