@@ -290,9 +290,17 @@ export default function MyWork() {
                 ))}
               </div>
 
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
                 <Link href="/tap-to-tick" className="btn-primary">See the product page</Link>
-                <Link href="/tap-to-tick/privacy" className="text-sm text-white/70 underline underline-offset-4 hover:text-white sm:ml-2">
+                <a
+                  href="https://apps.apple.com/us/app/tap-to-tick/id6791948663"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-white/70 underline underline-offset-4 hover:text-white sm:ml-2"
+                >
+                  On the App Store
+                </a>
+                <Link href="/tap-to-tick/privacy" className="text-sm text-white/70 underline underline-offset-4 hover:text-white">
                   Privacy policy
                 </Link>
               </div>

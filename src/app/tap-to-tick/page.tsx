@@ -8,8 +8,7 @@ import shotLog from '../../../public/tap-to-tick/log.png'
 import shotHistory from '../../../public/tap-to-tick/history.png'
 import shotAccounts from '../../../public/tap-to-tick/accounts.png'
 
-/** Set this once the app is live and both buttons become real links. */
-const APP_STORE_URL = ''
+const APP_STORE_URL = 'https://apps.apple.com/us/app/tap-to-tick/id6791948663'
 
 function AppStoreIcon() {
   return (
@@ -27,19 +26,14 @@ function Tick({ width = 14, stroke = 13 }: { width?: number; stroke?: number }) 
   )
 }
 
-/** The App Store button. Renders as plain text until there is a real link. */
 function AppStoreButton({ ghost = false }: { ghost?: boolean }) {
-  const className = `btn${ghost ? ' ghost' : ''}`
-  if (!APP_STORE_URL) {
-    return (
-      <span className={className}>
-        <AppStoreIcon />
-        Coming to the App Store
-      </span>
-    )
-  }
   return (
-    <a href={APP_STORE_URL} className={className}>
+    <a
+      href={APP_STORE_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`btn${ghost ? ' ghost' : ''}`}
+    >
       <AppStoreIcon />
       Download on the App Store
     </a>
@@ -693,7 +687,7 @@ export default function TapToTick() {
           <div className="cta-row">
             <AppStoreButton />
           </div>
-          <p className="note">Requires iPhone. Apple Watch app and lock-screen widgets included.</p>
+          <p className="note">Free on the App Store. Requires iPhone with iOS 17 or later — Apple Watch app and lock-screen widgets included.</p>
         </div>
       </div>
 

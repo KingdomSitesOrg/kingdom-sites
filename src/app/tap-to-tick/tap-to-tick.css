@@ -164,8 +164,6 @@
   background: var(--card); color: var(--ink); border: 1px solid var(--hairline);
   box-shadow: var(--shadow-sm);
 }
-/* Not on the App Store yet — same shape, visibly not a live link */
-.ttt span.btn { cursor: default; opacity: 0.92; }
 .ttt .note { font-size: 13px; color: var(--muted); margin-top: 18px; }
 .ttt .note b { color: var(--ink-2); font-weight: 600; }
 
