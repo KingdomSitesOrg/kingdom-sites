@@ -2,7 +2,6 @@ import Image from 'next/image'
 import type { Metadata } from 'next'
 import missionImage from '../../../public/Photos/mission-field.jpg'
 import persecutedImage from '../../../public/Photos/persecuted-church.jpg'
-import ContactCta from '@/components/ContactCta'
 import UnreachedScroll from '@/components/UnreachedScroll'
 
 export const metadata: Metadata = {
@@ -164,25 +163,6 @@ function OrgIcon({ name }: { name: string }) {
       return null
   }
 }
-
-const WHO = [
-  {
-    title: 'Small businesses',
-    desc: 'From local shops to growing startups — software that helps you operate more efficiently and reach more customers.',
-  },
-  {
-    title: 'Agencies',
-    desc: 'Need a trusted development partner for client work? I take white label projects, with the same quality and process as my direct ones.',
-  },
-  {
-    title: 'Non-profits and organizations',
-    desc: 'I love working with mission-driven organizations that need reliable, well-built software at a fair rate.',
-  },
-  {
-    title: 'Growing teams',
-    desc: 'Custom tools, mobile apps, dashboards, and platforms for teams who have outgrown spreadsheets and off-the-shelf software.',
-  },
-]
 
 export default function Mission() {
   return (
@@ -415,30 +395,6 @@ export default function Mission() {
                 className="absolute inset-0 h-full w-full border-0"
               />
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ---------- who I work with ---------- */}
-      <section aria-label="Who I work with" className="border-t border-white/10 px-5 py-16 sm:px-8 sm:py-20">
-        <div className="mx-auto max-w-6xl">
-          <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-            Who I work with
-          </h2>
-          <p className="mt-2 text-[15px] leading-relaxed text-white/65">
-            Businesses and organizations of any size, on any project.
-          </p>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2">
-            {WHO.map((item) => (
-              <div key={item.title} className="tile-dark p-6">
-                <h3 className="text-base font-semibold tracking-tight text-white">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-white/65">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-12 border-t border-white/10 pt-10 text-center">
-            <ContactCta label="Email me about your project" />
           </div>
         </div>
       </section>
