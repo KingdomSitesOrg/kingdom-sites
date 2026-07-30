@@ -273,7 +273,7 @@ export default function MyWork() {
 
               {/* The client's brand, named once, as credit. */}
               <p className="mt-5 text-xs text-muted">
-                In conjunction with{' '}
+                Built for{' '}
                 <a
                   href="https://www.jamwithlatin.com/"
                   target="_blank"

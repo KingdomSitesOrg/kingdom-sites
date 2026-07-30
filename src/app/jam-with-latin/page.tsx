@@ -151,8 +151,8 @@ export default function JamWithLatin() {
 
           <p className="sub">
             A Roman-legion adventure that teaches you classical Latin — <strong>declensions, verb
-            endings, and sentences you can actually read</strong> — one city at a time. Built in
-            conjunction with{' '}
+            endings, and sentences you can actually read</strong> — one city at a time. Built
+            for{' '}
             <a href="https://www.jamwithlatin.com/" target="_blank" rel="noopener noreferrer">
               Jam with Latin
             </a>.
@@ -327,7 +327,7 @@ export default function JamWithLatin() {
       <footer>
         <div className="wrap">
           <span>
-            In conjunction with{' '}
+            Built for{' '}
             <a href="https://www.jamwithlatin.com/" target="_blank" rel="noopener noreferrer">Jam with Latin</a>
             {' · '}
             {new Date().getFullYear()}
