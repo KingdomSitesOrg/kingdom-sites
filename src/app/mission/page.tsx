@@ -1,13 +1,13 @@
 import Image from 'next/image'
 import type { Metadata } from 'next'
-import southasiaImage from '../../../public/Photos/southasia.jpg'
+import missionImage from '../../../public/Photos/mission-field.jpg'
 import persecutedImage from '../../../public/Photos/persecuted-church.png'
 import ContactCta from '@/components/ContactCta'
 
 export const metadata: Metadata = {
   title: 'Our Mission — Kingdom Sites',
   description:
-    'How your project supports gospel work in South Asia, the organizations we stand with and give to, and who I build software for.',
+    'How your project supports gospel work in the unreached world, the organizations we stand with and give to, and who I build software for.',
   alternates: { canonical: '/mission' },
 }
 
@@ -66,10 +66,10 @@ const ORGS = [
   {
     name: 'GFA World',
     url: 'https://www.gfa.org',
-    what: 'Serving the poorest of South Asia',
+    what: 'Serving the poorest in hard places',
     icon: 'drop',
     how: 'Clean water, literacy, and care for the people our own work is aimed at.',
-    note: 'Wells, tuition, and medical care in the same region we are heading to.',
+    note: 'Wells, tuition, and medical care among communities with almost no Christian witness.',
   },
   {
     name: 'International Mission Board',
@@ -192,8 +192,8 @@ export default function Mission() {
           <div className="lg:col-span-5">
             <div className="overflow-hidden rounded-[26px] border border-white/12 shadow-[0_28px_64px_rgba(0,0,0,0.5)]">
               <Image
-                src={southasiaImage}
-                alt="South Asia mission work"
+                src={missionImage}
+                alt="Mission work overseas"
                 quality={75}
                 placeholder="blur"
                 className="w-full object-cover"
@@ -204,20 +204,20 @@ export default function Mission() {
           <div className="lg:col-span-7">
             <p className="eyebrow">Our mission work</p>
             <h1 className="mt-4 text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-white sm:text-5xl">
-              Mission work <span className="text-[#f0b48c]">around the world.</span>
+              Mission work in the <span className="text-[#f0b48c]">unreached world.</span>
             </h1>
             <p className="mt-5 text-pretty text-base leading-relaxed text-white/75 sm:text-lg">
-              {"In South Asia, 1.8 billion people have never heard the gospel. Our desire is to see Jesus glorified throughout South Asia. For security reasons I can't share specific details, but please reach out if you have any questions."}
+              {"Billions of people have never heard the gospel once. Our desire is to see Jesus glorified throughout the unreached world. For security reasons I can't share specific details about where or with whom, but please reach out if you have any questions."}
             </p>
 
             <div className="mt-6 space-y-4 text-sm leading-relaxed text-white/65">
               <p>
                 We collaborate with Christians toward seeing movements of Christ among Muslim-majority
-                people groups in South Asia, using approaches from No Place Left.
+                people groups in the unreached world, using approaches from No Place Left.
               </p>
               <p>
                 Your project fuels long-term mission work among people with little access to the
-                gospel. My wife and I are in training for long-term ministry in South Asia.
+                gospel. My wife and I are in training for long-term ministry overseas.
               </p>
             </div>
           </div>

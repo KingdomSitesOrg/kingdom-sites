@@ -135,8 +135,8 @@ export default function Ministry() {
               Roughly 240 million people speak it — and very little of this exists for them.
             </h2>
             <p style={{ marginTop: 20, maxWidth: 720, fontSize: 16.5 }}>
-              Short, visual overviews of Scripture are easy to find in English and scarce in most of
-              South Asia. Making them in Bangla costs almost nothing once the English version exists,
+              Short, visual overviews of Scripture are easy to find in English and scarce almost
+              everywhere else. Making them in Bangla costs almost nothing once the English version exists,
               and a four-minute video travels further than a book — it can be watched on a phone,
               downloaded, and passed on with no internet at all.
             </p>
