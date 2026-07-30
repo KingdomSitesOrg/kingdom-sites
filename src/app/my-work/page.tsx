@@ -84,8 +84,7 @@ export default function MyWork() {
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-body sm:text-lg">
           Some of these I scoped, designed, built, and shipped front to back — my own products and
-          client projects. One, Ruta, is a live platform I helped build with a team. Most other client
-          work stays private unless I&apos;m asked to show it.
+          client projects. One, Ruta, is a live platform I helped build with a team.
         </p>
       </section>
 
