@@ -102,9 +102,6 @@ export default function AiTooling() {
             <a href={CONTACT_MAILTO} className="btn-primary">Email me about your team</a>
             <Link href="/my-work" className="btn-ghost">See what I&apos;ve shipped</Link>
           </div>
-          <p className="mt-5 text-sm text-muted">
-            Tell me what your team is stuck on · <a href={CONTACT_MAILTO} className="link-accent">{CONTACT_EMAIL}</a>
-          </p>
         </div>
       </section>
 
