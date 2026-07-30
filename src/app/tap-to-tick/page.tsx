@@ -131,6 +131,7 @@ export default function TapToTick() {
               <a href="#cash">Cash</a>
               <a href="#screens">Screens</a>
               <a href="#pricing">Pricing</a>
+              <a href="#ai">AI</a>
             </div>
             {/* Always reachable, and deliberately not one of the product links. */}
             <Link href="/my-work" className="home-link">Kingdom Sites</Link>
@@ -609,6 +610,77 @@ export default function TapToTick() {
                 </svg>
               )}
             </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ AI ============ */}
+      <section id="ai" className="band">
+        <div className="wrap">
+          <div className="reveal" style={{ textAlign: 'center' }}>
+            <div className="kicker">11 — The AI behind Ask</div>
+            <h2>How the coach actually works.</h2>
+            <p className="lede" style={{ margin: '16px auto 0', textAlign: 'center' }}>
+              The interesting part of an AI feature is not the model — it is everything around it.
+              Ask only works because the app knows which of your own numbers matter to the question,
+              sends just those, and turns the answer into one thing worth doing.
+            </p>
+          </div>
+
+          <div className="grid3">
+            <div className="card reveal">
+              <div className="ic" style={{ background: 'var(--purple)' }} aria-hidden="true">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 6h16M4 12h10M4 18h6" />
+                </svg>
+              </div>
+              <h3>Only the numbers that matter</h3>
+              <p>
+                Your ledger stays on your phone. When you ask a question, the app works out which
+                entries, budgets and balances bear on it and sends <b>only those</b> — not your whole
+                financial history.
+              </p>
+            </div>
+
+            <div className="card reveal">
+              <div className="ic" style={{ background: 'var(--blue)' }} aria-hidden="true">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 3v3M12 18v3M3 12h3M18 12h3M6 6l2 2M16 16l2 2M18 6l-2 2M8 16l-2 2" />
+                </svg>
+              </div>
+              <h3>An answer, not an essay</h3>
+              <p>
+                The reply leads with the single thing worth changing, compares this month with last,
+                and names the category. <b>A number and a next step</b>, in the length of a text
+                message.
+              </p>
+            </div>
+
+            <div className="card reveal">
+              <div className="ic" style={{ background: 'var(--green-dk)' }} aria-hidden="true">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 2.5l7.5 3v6c0 4.6-3.2 8.4-7.5 10-4.3-1.6-7.5-5.4-7.5-10v-6z" />
+                </svg>
+              </div>
+              <h3>Nothing leaves until you ask</h3>
+              <p>
+                There is no account, no bank linking and no copy of your budget on a server. The only
+                thing that ever goes out is <b>the question you typed</b>, at the moment you send it.
+              </p>
+            </div>
+          </div>
+
+          <div className="reveal" style={{ textAlign: 'center', marginTop: 56 }}>
+            <h2 style={{ fontSize: 'clamp(22px, 3vw, 30px)' }}>Want this in your own product?</h2>
+            <p className="lede" style={{ margin: '14px auto 0', textAlign: 'center' }}>
+              I have shipped this twice now: the coach in this app, and Ruta AI inside a
+              service-management platform used by real businesses — where it answers from company
+              records and takes actions with a person confirming.
+            </p>
+            <div className="cta-row" style={{ marginTop: 26 }}>
+              <Link href="/ruta" className="btn">See the AI work in Ruta</Link>
+              <a href="mailto:thomas@kingdom-sites.com" className="btn ghost">Talk to me about it</a>
+            </div>
           </div>
         </div>
       </section>

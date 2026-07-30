@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import ContactCta from '@/components/ContactCta'
+import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
 import { BrowserMockup, PhonePortalMockup } from './Mockups'
 import shotQueue from '../../../public/ruta/crew-queue.jpg'
 import shotVisit from '../../../public/ruta/crew-visit.jpg'
@@ -12,7 +12,7 @@ const RUTA_SITE_URL = 'https://getruta.com'
 
 /* Plain facts about the engagement, not claims about the product. */
 const FACTS = [
-  { label: 'Merged pull requests', value: '350+' },
+  { label: 'Merged pull requests', value: '400+' },
   { label: 'Working on it since', value: 'April 2026' },
   { label: 'Apps I ship in', value: 'Four' },
   { label: 'Platforms', value: 'Web, iOS + Android' },
@@ -102,6 +102,36 @@ const WORK = [
   },
 ]
 
+/* The AI work, which is a big enough piece to stand on its own. */
+const AI_BUILT = [
+  'Answers grounded in the company’s own records — notes, reviews, and how-to guides found by natural phrasing rather than exact keywords',
+  'It takes actions and navigates itself: send a customer their existing rate, explain why a visit was flagged for review and then act on it, move the user to the right screen',
+  'Reply drafts written from that customer’s real history, which a person edits or regenerates before anything is sent',
+  '@-mentions and help-me-write inside messaging, on the web and in the crew app',
+  'Marketing campaign suggestions, and a suggested rate applied with a keystroke',
+  'One global entry point, so it is reachable from anywhere in the app',
+  'Failures that read as plain English rather than an HTTP status code',
+]
+
+const AI_FOR_YOU = [
+  {
+    title: 'Grounded in your data, not the internet',
+    desc: 'The useful version of this reads your own records and answers from them. That is a retrieval problem before it is a model problem, and it is most of the work.',
+  },
+  {
+    title: 'Actions, with a person in the loop',
+    desc: 'Drafting, sending, approving, scheduling — the model proposes and a human confirms. Nothing irreversible happens on its own.',
+  },
+  {
+    title: 'Built to fail politely',
+    desc: 'Timeouts, a model chosen per task rather than the most expensive one everywhere, and errors a member of staff can understand and act on.',
+  },
+  {
+    title: 'AI in the workflow, not just the product',
+    desc: 'In Ruta that also means production errors explained by an agent into Slack, a plain-language impact summary on every pull request, and a system map so agents can find their way around the codebase.',
+  },
+]
+
 /* How I work when the codebase is not mine. */
 const APPROACH = [
   {
@@ -110,7 +140,7 @@ const APPROACH = [
   },
   {
     title: 'Small, reviewable changes',
-    desc: 'One ticket, one pull request, described in plain language. 350+ of them merged, which only works if each is easy to review.',
+    desc: 'One ticket, one pull request, described in plain language. 400+ of them merged, which only works if each is easy to review.',
   },
   {
     title: 'Errors that say something',
@@ -172,7 +202,13 @@ export default function Ruta() {
   return (
     <div className="w-full overflow-x-hidden">
       {/* ---------- hero ---------- */}
-      <section className="hero-wash px-5 pb-14 pt-16 sm:px-8 sm:pb-16 sm:pt-24">
+      <section className="relative overflow-hidden px-5 pb-14 pt-16 sm:px-8 sm:pb-16 sm:pt-24">
+        {/* Ruta green in place of the site's blue wash. */}
+        <div
+          className="pointer-events-none absolute inset-x-0 -top-32 -z-10 h-[620px]"
+          style={{ background: 'radial-gradient(ellipse 70% 60% at 50% 0%, rgba(22, 163, 74, 0.12), transparent 70%)' }}
+          aria-hidden="true"
+        />
         <div className="mx-auto max-w-4xl">
           <p className={EYEBROW}>Case study · Ruta</p>
           <h1 className="mt-5 max-w-3xl text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
@@ -274,8 +310,8 @@ export default function Ruta() {
             What I&apos;ve shipped, by area
           </h2>
           <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-body sm:text-base">
-            Every line below went into production. It is a sample, not the full list — three hundred
-            and fifty-odd merged pull requests do not fit on a page.
+            Every line below went into production. It is a sample, not the full list — four hundred
+            merged pull requests do not fit on a page.
           </p>
 
           <div className="mt-10 space-y-5">
@@ -309,6 +345,53 @@ export default function Ruta() {
                 )}
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- AI ---------- */}
+      <section aria-label="AI" className="border-t border-line px-5 py-16 sm:px-8 sm:py-20">
+        <div className="mx-auto max-w-6xl">
+          <p className={EYEBROW}>AI, in production</p>
+          <h2 className="mt-4 max-w-3xl text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+            I built Ruta AI into the product — and it does the work, not just the talking
+          </h2>
+          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-body sm:text-base">
+            Ruta AI runs on Amazon Bedrock and I shipped it across the web app, the backend, and the
+            crew app. The point was never a chat box bolted to the corner of the screen: it answers
+            from the company&apos;s own records, and it can act on what it finds.
+          </p>
+
+          <div className="mt-10 grid gap-5 lg:grid-cols-[1.1fr_1fr] lg:gap-8">
+            <div className="tile p-7 sm:p-9">
+              <h3 className="text-lg font-semibold tracking-tight text-ink">What I shipped</h3>
+              <ul className="mt-5 space-y-2.5">
+                {AI_BUILT.map((item) => (
+                  <li key={item} className="flex gap-3 text-sm leading-relaxed text-body">
+                    <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-[#16a34a]" aria-hidden="true" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="tile p-7 sm:p-9">
+              <h3 className="text-lg font-semibold tracking-tight text-ink">
+                What that means for your software
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted">
+                The same work, pointed at your product. Tap to Tick has an AI money coach in it too,
+                so this is the second product I have shipped it in.
+              </p>
+              <div className="mt-6 space-y-5">
+                {AI_FOR_YOU.map((a) => (
+                  <div key={a.title}>
+                    <h4 className="text-[15px] font-semibold tracking-tight text-ink">{a.title}</h4>
+                    <p className="mt-1.5 text-sm leading-relaxed text-body">{a.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -370,9 +453,23 @@ export default function Ruta() {
             what already works. Tell me what yours needs to do next and I&apos;ll scope it and send a
             quote.
           </p>
-          <ContactCta className="mt-8" />
+          <div className="mt-8">
+            <a
+              href={CONTACT_MAILTO}
+              className="inline-flex min-h-[44px] items-center justify-center rounded-full bg-[#15803d] px-7 py-3 text-[15px] font-medium text-white transition-colors hover:bg-[#166534]"
+            >
+              Email me
+            </a>
+            <p className="mt-3 text-sm text-muted">
+              <a href={CONTACT_MAILTO} className={`font-medium ${GREEN} hover:underline hover:underline-offset-4`}>
+                {CONTACT_EMAIL}
+              </a>
+            </p>
+          </div>
           <p className="mt-8 text-sm text-body">
-            <Link href="/my-work" className="link-accent">See my other work</Link>
+            <Link href="/my-work" className={`font-medium ${GREEN} hover:underline hover:underline-offset-4`}>
+              See my other work
+            </Link>
           </p>
         </div>
       </section>

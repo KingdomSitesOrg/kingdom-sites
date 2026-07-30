@@ -71,6 +71,50 @@ const RUTA_HIGHLIGHTS = [
   },
 ]
 
+/* AI work, across both products. Kept together because clients ask about it as
+   its own thing rather than as a feature of one app. */
+const AI_SHIPPED = [
+  {
+    product: 'Ruta AI',
+    where: 'Service-management platform · web, backend, crew app',
+    points: [
+      'Answers built from the company’s own records — notes, reviews, and how-to guides found by natural phrasing',
+      'It acts: sends a customer their existing rate, explains why a visit was flagged and then clears it, moves the user to the right screen',
+      'Reply drafts from a customer’s real history, which a person edits or regenerates before sending',
+      'Marketing suggestions, help-me-write in messaging, and one entry point reachable from anywhere in the app',
+    ],
+  },
+  {
+    product: 'The Tap to Tick money coach',
+    where: 'iPhone budgeting app · my own product',
+    points: [
+      'Ask a question in plain English, get an answer from your own entries, budgets and balances',
+      'The app decides which of your numbers bear on the question and sends only those',
+      'Replies lead with the one thing worth changing, not a page of generic advice',
+      'No account and no copy of your budget on a server — the question is the only thing that leaves',
+    ],
+  },
+]
+
+const AI_OFFER = [
+  {
+    title: 'Grounded in your data',
+    desc: 'Answers from your own records rather than the open internet. That is a retrieval problem before it is a model problem, and it is where most of the work goes.',
+  },
+  {
+    title: 'Actions with a person in the loop',
+    desc: 'Draft, send, approve, schedule — the model proposes and someone confirms. Nothing irreversible happens on its own.',
+  },
+  {
+    title: 'Costs and failures handled',
+    desc: 'A model chosen per task instead of the priciest one everywhere, timeouts, and errors your staff can actually act on.',
+  },
+  {
+    title: 'AI in the workflow too',
+    desc: 'Not only in the product: production errors explained into Slack, plain-language summaries on every code change, and internal tooling that saves your team time.',
+  },
+]
+
 const SITE_STACK = ['Next.js', 'React', 'TypeScript', 'Tailwind', 'Vercel']
 
 export default function MyWork() {
@@ -278,6 +322,57 @@ export default function MyWork() {
                 <p className="mt-2 text-sm leading-relaxed text-body">{h.desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* AI */}
+      <section aria-label="AI" className="border-t border-line px-5 py-16 sm:px-8 sm:py-20">
+        <div className="mx-auto max-w-6xl">
+          <p className="eyebrow eyebrow-blue">AI</p>
+          <h2 className="mt-4 max-w-3xl text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+            AI that does the work, not just the talking
+          </h2>
+          <p className="mt-5 max-w-2xl text-pretty text-base leading-relaxed text-body">
+            I have shipped this twice, in two very different products: an assistant inside a platform
+            businesses run on, and a money coach inside a consumer app. Both answer from the user&apos;s
+            own data, and one of them takes actions on it.
+          </p>
+
+          <div className="mt-10 grid gap-5 lg:grid-cols-2">
+            {AI_SHIPPED.map((item) => (
+              <div key={item.product} className="tile-elevated p-7 sm:p-9">
+                <h3 className="text-xl font-semibold tracking-tight text-ink">{item.product}</h3>
+                <p className="mt-1 text-xs font-medium uppercase tracking-wider text-warm">{item.where}</p>
+                <ul className="mt-5 space-y-2.5">
+                  {item.points.map((point) => (
+                    <li key={point} className="flex gap-3 text-sm leading-relaxed text-body">
+                      <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <h3 className="mt-14 text-2xl font-semibold tracking-tight text-ink">
+            What I would build into yours
+          </h3>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            {AI_OFFER.map((a) => (
+              <div key={a.title} className="tile p-7">
+                <h4 className="text-base font-semibold tracking-tight text-ink">{a.title}</h4>
+                <p className="mt-2 text-sm leading-relaxed text-body">{a.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <Link href="/ruta" className="btn-primary">See the AI work in Ruta</Link>
+            <Link href="/tap-to-tick#ai" className="text-sm text-body underline underline-offset-4 hover:text-ink sm:ml-2">
+              How the Tap to Tick coach works
+            </Link>
           </div>
         </div>
       </section>
