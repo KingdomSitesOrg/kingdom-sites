@@ -92,20 +92,21 @@ function IslandView() {
   )
 }
 
-/* A day filling itself in, block by block. */
-function TimeView() {
+/* A reminder arriving: stand up, do a set. */
+function MoveView() {
   return (
     <div className={FRAME} aria-hidden="true">
-      <div className="flex h-full flex-col justify-center gap-1.5">
-        <div className="flex gap-1">
-          {['w-5 bg-[#0a63c9]', 'w-3 bg-[#0a63c9]/45', 'w-8 bg-[#0a63c9]', 'w-2 bg-ink/15'].map((b, i) => (
-            <span key={i} className={`h-3 rounded-[3px] ${b}`} />
-          ))}
-        </div>
-        <div className="flex gap-1">
-          {['w-3 bg-ink/15', 'w-7 bg-[#0a63c9]/70', 'w-4 bg-ink/15'].map((b, i) => (
-            <span key={i} className={`h-3 rounded-[3px] ${b}`} />
-          ))}
+      <div className="flex h-full items-center">
+        <div className="flex w-full items-center gap-1.5 rounded-md border border-line bg-surface px-1.5 py-1.5 shadow-sm">
+          <span className="grid h-4 w-4 shrink-0 place-items-center rounded-full bg-[#16a34a]">
+            <svg viewBox="0 0 10 10" className="h-2 w-2">
+              <path d="M5 8V2.4M2.6 4.8 5 2.2l2.4 2.6" fill="none" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+          <span className="flex min-w-0 flex-col gap-1">
+            <span className="h-1.5 w-9 rounded-full bg-ink/30" />
+            <span className="h-1 w-6 rounded-full bg-ink/15" />
+          </span>
         </div>
       </div>
     </div>
@@ -152,9 +153,9 @@ const MY_OWN = [
     desc: 'The little status strip Apple gives the iPhone, rebuilt for my desktop — what is building, what just finished, and what needs a decision, glanceable without switching windows.',
   },
   {
-    View: TimeView,
-    title: 'A time tracker that fills itself in',
-    desc: 'It records what I actually worked on instead of relying on me remembering to start a timer, so a day is accounted for honestly.',
+    View: MoveView,
+    title: 'A nudge to get up and do push-ups',
+    desc: 'The job is sitting down, which is bad for you, so this one interrupts it — a reminder to stand up and knock out a set. Small thing, but it is the difference between moving during the day and not.',
   },
   {
     View: TodoView,
