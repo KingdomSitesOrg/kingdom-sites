@@ -176,7 +176,7 @@ export default function JamWithLatin() {
               <Image src={shotHome} alt="Home screen: your legionary, current city, XP, and the word of the day" sizes="264px" priority />
             </div>
             <div className="phone">
-              <Image src={shotCase} alt="A case challenge in the city of Rōma: choose the ablative plural of “earth, land”" sizes="228px" placeholder="blur" />
+              <Image src={shotCase} alt="A case challenge in the city of Rōma: choose the nominative singular of “earth, land”" sizes="228px" placeholder="blur" />
             </div>
           </div>
         </div>
