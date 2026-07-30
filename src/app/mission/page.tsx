@@ -202,7 +202,7 @@ export default function Mission() {
     <div className="band-dark w-full overflow-x-clip">
       {/* ---------- opening ---------- */}
       <section className="px-5 pb-14 pt-16 sm:px-8 sm:pb-16 sm:pt-24">
-        <div className="mx-auto grid max-w-5xl items-start gap-10 lg:grid-cols-12 lg:gap-12">
+        <div className="mx-auto grid max-w-6xl items-start gap-10 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-5">
             <div className="overflow-hidden rounded-[26px] border border-white/12 shadow-[0_28px_64px_rgba(0,0,0,0.5)]">
               <Image
@@ -238,79 +238,73 @@ export default function Mission() {
         </div>
       </section>
 
-      {/* ---------- the photograph, cropped and faded ---------- */}
-      <section aria-label="The cost of following Jesus" className="relative">
-        {/* On a wide screen the frame matches the photograph's own proportions, so
-            nothing is cropped away — faces included. On a phone it stays tall and
-            holds the framing on the two of them rather than the rubble. */}
-        <div className="relative h-[440px] overflow-hidden sm:aspect-[117/53] sm:h-auto">
+      {/* ---------- the photograph, held still while the lines pass over ----------
+          The picture is stuck to the viewport; the sentences below it are pulled
+          up over the top, so scrolling brings each one up from underneath. When
+          the last one has gone by, the page carries on. No JavaScript involved. */}
+      <section aria-label="The unreached" className="relative">
+        <div className="sticky top-0 h-svh overflow-hidden bg-dark">
           <Image
             src={persecutedImage}
             alt="A mother holding her child in front of a destroyed building"
-            className="h-full w-full object-cover object-[58%_30%] opacity-70 sm:object-center"
+            className="h-full w-full object-contain opacity-70 sm:object-cover sm:object-center"
             sizes="100vw"
+            priority
           />
-          {/* Dark at the edges so the band blends into the page, clear through the
-              middle so the faces are not lost behind it. */}
+          {/* Dark at the edges so the words carry, clear across the middle. */}
           <div
             className="absolute inset-0"
             style={{
               background:
-                'linear-gradient(to bottom, rgba(17,24,39,0.82) 0%, rgba(17,24,39,0.5) 22%, rgba(17,24,39,0.08) 45%, rgba(17,24,39,0.1) 60%, rgba(17,24,39,0.9) 100%)',
+                'linear-gradient(to bottom, rgba(17,24,39,0.9) 0%, rgba(17,24,39,0.45) 26%, rgba(17,24,39,0.12) 50%, rgba(17,24,39,0.55) 78%, rgba(17,24,39,0.95) 100%)',
             }}
             aria-hidden="true"
           />
-          {/* Across the top of the photograph, one line at a time. They are
-              stacked in the same place and each takes its turn. */}
-          <div className="absolute inset-x-0 top-0 px-6 pt-10 sm:pt-14">
-            <div className="relative mx-auto h-[132px] max-w-4xl sm:h-[168px] lg:h-[184px]">
-              {ROLL.map((item, i) => (
-                <p
-                  key={item.line ?? item.tail}
-                  className="roll-line absolute inset-x-0 top-0 text-balance text-center text-3xl font-semibold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl"
-                  style={{
-                    animationDelay: `${i * (22 / ROLL.length)}s`,
-                    textShadow: '0 2px 18px rgba(0,0,0,0.55)',
-                  }}
-                >
-                  {item.line ?? (
-                    <>
-                      <span className="block text-[#f0b48c]">{item.stat}</span>
-                      <span className="mt-1 block text-2xl font-medium text-white/85 sm:text-3xl lg:text-4xl">
-                        {item.tail}
-                      </span>
-                    </>
-                  )}
-                </p>
-              ))}
+        </div>
+
+        <div className="relative -mt-[100svh]">
+          {ROLL.map((item) => (
+            <div
+              key={item.line ?? item.tail}
+              className="flex h-[72svh] items-center justify-center px-6"
+            >
+              <p
+                className="max-w-4xl text-balance text-center text-3xl font-semibold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl"
+                style={{ textShadow: '0 2px 22px rgba(0,0,0,0.7)' }}
+              >
+                {item.line ?? (
+                  <>
+                    <span className="block text-[#f0b48c]">{item.stat}</span>
+                    <span className="mt-2 block text-2xl font-medium text-white/85 sm:text-3xl lg:text-4xl">
+                      {item.tail}
+                    </span>
+                  </>
+                )}
+              </p>
             </div>
-          </div>
+          ))}
         </div>
       </section>
 
       {/* ---------- why this exists ---------- */}
       <section aria-label="Why this exists" className="px-5 py-16 sm:px-8 sm:py-20">
-        <div className="mx-auto max-w-3xl">
-          <p className="eyebrow">Why this exists</p>
-          <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-            The software pays for the mission.
-          </h2>
-          <div className="mt-6 space-y-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
-            <p>
-              Kingdom Sites is not a side project that happens to have a cause attached. It is how the
-              ministry is funded. Every website, app, and platform I am paid to build supports training
-              now and long-term work among people with almost no access to the gospel.
-            </p>
-            <p>
-              That shapes how I work more than it sounds like it would. I quote competitively rather
-              than at agency rates, because the goal is steady work I can do well, not the largest
-              possible invoice. I stay on after launch, because a client who is still here in two years
-              is worth more than a bigger cheque today. And I say no to work I cannot do properly.
-            </p>
-            <p>
-              A percentage of everything I earn goes to the organizations below, on top of what funds
-              our own training and work.
-            </p>
+        <div className="mx-auto max-w-6xl">
+          <div className="max-w-3xl">
+            <p className="eyebrow">Why this exists</p>
+            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              The software pays for the mission.
+            </h2>
+            <div className="mt-6 space-y-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
+              <p>
+                Kingdom Sites is not a side project that happens to have a cause attached. It is how
+                the ministry is funded. Every website, app, and platform I am paid to build supports
+                training now and long-term work among people with almost no access to the gospel.
+              </p>
+              <p>
+                A percentage of everything I earn goes to the organizations below, on top of what
+                funds our own training and work.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -389,7 +383,7 @@ export default function Mission() {
 
       {/* ---------- who I work with ---------- */}
       <section aria-label="Who I work with" className="border-t border-white/10 px-5 py-16 sm:px-8 sm:py-20">
-        <div className="mx-auto max-w-5xl">
+        <div className="mx-auto max-w-6xl">
           <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
             Who I work with
           </h2>

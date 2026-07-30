@@ -206,23 +206,6 @@ body {
   .flip-inner { transition: none; }
 }
 
-/* Lines that roll over one another across the top of the mission photograph.
-   Each one is stacked in the same place and takes its turn on a delay. */
-@keyframes roll-line {
-  0%       { opacity: 0; transform: translateY(16px); }
-  3%, 17%  { opacity: 1; transform: translateY(0); }
-  20%, 100%{ opacity: 0; transform: translateY(-16px); }
-}
-.roll-line {
-  opacity: 0;
-  animation: roll-line 22s ease-in-out infinite;
-}
-@media (prefers-reduced-motion: reduce) {
-  /* No rolling: the first line simply stays. */
-  .roll-line { animation: none; opacity: 0; }
-  .roll-line:first-child { opacity: 1; }
-}
-
 /* The little site and app drawings on the home page. Everything moves on a loop
    in CSS — nothing here is a video or an image file. */
 @keyframes mock-fill {
