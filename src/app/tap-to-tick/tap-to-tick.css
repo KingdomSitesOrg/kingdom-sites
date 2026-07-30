@@ -89,8 +89,8 @@
 .ttt .nav-links a { text-decoration: none; transition: color 0.2s; }
 .ttt .nav-links a:hover { color: var(--ink); }
 
-/* The way back to Kingdom Sites. Anchored top left on every page, wearing the
-   same badge as the main site so it reads as the parent brand. */
+/* The way back to Kingdom Sites. Anchored top left on every page, as a plain
+   wordmark beside the product's own brand. */
 .ttt .brand-row { display: flex; align-items: center; gap: 12px; min-width: 0; }
 .ttt .ks-anchor {
   display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
@@ -98,11 +98,6 @@
   text-decoration: none; transition: opacity 0.2s;
 }
 .ttt .ks-anchor:hover { opacity: 0.7; }
-.ttt .ks-mark {
-  width: 22px; height: 22px; border-radius: 6.5px; flex: none;
-  display: grid; place-items: center;
-  background: #0a63c9; color: #fff; font-size: 12px; font-weight: 700;
-}
 .ttt .brand-sep { width: 1px; height: 18px; flex: none; background: var(--hairline); }
 
 @media (max-width: 720px) {

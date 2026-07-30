@@ -116,10 +116,9 @@ export default function TapToTick() {
       <header ref={headerRef}>
         <nav>
           <div className="brand-row">
-            {/* The way back to Kingdom Sites, anchored top left on every page and
-                styled like the badge on the main site. */}
+            {/* The way back to Kingdom Sites, anchored top left on every page,
+                the same plain wordmark the main site uses. */}
             <Link href="/" className="ks-anchor">
-              <span className="ks-mark" aria-hidden="true">K</span>
               <span className="ks-name">Kingdom Sites</span>
             </Link>
             <span className="brand-sep" aria-hidden="true" />

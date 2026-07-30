@@ -88,8 +88,8 @@
 .jwl .nav-links a { text-decoration: none; transition: color 0.2s; }
 .jwl .nav-links a:hover { color: var(--gold-light); }
 
-/* The way back to Kingdom Sites. Anchored top left on every page, wearing the
-   same badge as the main site so it reads as the parent brand. */
+/* The way back to Kingdom Sites. Anchored top left on every page, as a plain
+   wordmark beside the product's own brand. */
 .jwl .brand-row { display: flex; align-items: center; gap: 13px; min-width: 0; }
 .jwl .ks-anchor {
   display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
@@ -97,11 +97,6 @@
   color: rgba(255, 255, 255, 0.92); text-decoration: none; transition: opacity 0.2s;
 }
 .jwl .ks-anchor:hover { opacity: 0.75; }
-.jwl .ks-mark {
-  width: 22px; height: 22px; border-radius: 6.5px; flex: none;
-  display: grid; place-items: center;
-  background: #0a63c9; color: #fff; font-size: 12px; font-weight: 700;
-}
 .jwl .brand-sep { width: 1px; height: 20px; flex: none; background: rgba(255, 255, 255, 0.18); }
 
 @media (max-width: 760px) {
