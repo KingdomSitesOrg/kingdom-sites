@@ -53,22 +53,111 @@ const PIECES = [
   },
 ]
 
+/* Small CSS-drawn views of the four apps — no image files, no icon font: each
+   one is a handful of divs shaped to suggest the interface it stands for. */
+
+const FRAME = 'relative h-14 w-[86px] shrink-0 overflow-hidden rounded-lg border border-line bg-surface-2 p-1.5'
+
+/* Rows of running agents, one of them waiting on me. */
+function AgentsView() {
+  return (
+    <div className={FRAME} aria-hidden="true">
+      <div className="flex h-full flex-col justify-between">
+        {[
+          'w-[70%] bg-[#0a63c9]',
+          'w-[46%] bg-ink/25',
+          'w-[58%] bg-ink/25',
+        ].map((bar, i) => (
+          <div key={i} className="flex items-center gap-1.5">
+            <span className={`h-1.5 w-1.5 rounded-full ${i === 0 ? 'bg-[#0a63c9]' : 'bg-ink/20'}`} />
+            <span className={`h-1.5 rounded-full ${bar}`} />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/* The notch pill, with something happening inside it. */
+function IslandView() {
+  return (
+    <div className={FRAME} aria-hidden="true">
+      <div className="flex h-full items-start justify-center">
+        <div className="flex items-center gap-1 rounded-full bg-ink px-2 py-1">
+          <span className="h-1.5 w-1.5 rounded-full bg-[#4ade80]" />
+          <span className="h-1 w-4 rounded-full bg-white/40" />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* A day filling itself in, block by block. */
+function TimeView() {
+  return (
+    <div className={FRAME} aria-hidden="true">
+      <div className="flex h-full flex-col justify-center gap-1.5">
+        <div className="flex gap-1">
+          {['w-5 bg-[#0a63c9]', 'w-3 bg-[#0a63c9]/45', 'w-8 bg-[#0a63c9]', 'w-2 bg-ink/15'].map((b, i) => (
+            <span key={i} className={`h-3 rounded-[3px] ${b}`} />
+          ))}
+        </div>
+        <div className="flex gap-1">
+          {['w-3 bg-ink/15', 'w-7 bg-[#0a63c9]/70', 'w-4 bg-ink/15'].map((b, i) => (
+            <span key={i} className={`h-3 rounded-[3px] ${b}`} />
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* Loose ends, two of them caught. */
+function TodoView() {
+  return (
+    <div className={FRAME} aria-hidden="true">
+      <div className="flex h-full flex-col justify-between">
+        {[true, true, false].map((done, i) => (
+          <div key={i} className="flex items-center gap-1.5">
+            <span
+              className={`grid h-2.5 w-2.5 place-items-center rounded-[3px] border ${
+                done ? 'border-[#0a63c9] bg-[#0a63c9]' : 'border-ink/25'
+              }`}
+            >
+              {done && (
+                <svg viewBox="0 0 10 10" className="h-1.5 w-1.5">
+                  <path d="M2 5.4 4 7.5 8 3" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              )}
+            </span>
+            <span className={`h-1.5 rounded-full ${done ? 'w-[46%] bg-ink/20' : 'w-[62%] bg-ink/30'}`} />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 /* The tooling I run on my own machine. Proof that this is a daily practice
    rather than a service line. */
 const MY_OWN = [
   {
+    View: AgentsView,
     title: 'A control room for my agents',
     desc: 'I run several coding agents at once, so I built the place that keeps track of them: what each one is working on, what it produced, and which ones are waiting on me.',
   },
   {
+    View: IslandView,
     title: 'A dynamic island for my Mac',
     desc: 'The little status strip Apple gives the iPhone, rebuilt for my desktop — what is building, what just finished, and what needs a decision, glanceable without switching windows.',
   },
   {
+    View: TimeView,
     title: 'A time tracker that fills itself in',
     desc: 'It records what I actually worked on instead of relying on me remembering to start a timer, so a day is accounted for honestly.',
   },
   {
+    View: TodoView,
     title: 'Somewhere for every loose end',
     desc: 'Tools that catch the things I mention in passing and hold onto them until they are done, so follow-ups stop falling through the cracks.',
   },
@@ -150,10 +239,13 @@ export default function AiTooling() {
           </div>
 
           <div className="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-5">
-            {MY_OWN.map((m) => (
-              <div key={m.title} className="tile p-7">
-                <h3 className="text-base font-semibold tracking-tight text-ink">{m.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-body">{m.desc}</p>
+            {MY_OWN.map(({ View, title, desc }) => (
+              <div key={title} className="tile flex flex-col gap-4 p-7 sm:flex-row sm:items-start sm:gap-5">
+                <View />
+                <div>
+                  <h3 className="text-base font-semibold tracking-tight text-ink">{title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-body">{desc}</p>
+                </div>
               </div>
             ))}
           </div>
