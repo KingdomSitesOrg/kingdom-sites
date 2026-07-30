@@ -144,8 +144,6 @@ export default function JamWithLatin() {
       {/* ============ HERO ============ */}
       <div className="hero">
         <div className="wrap">
-          <span className="eyebrow">iPhone, iPad &amp; Android · Ages 4+ · Education</span>
-
           <h1>
             March from <span className="crimson">Rōma</span> to Gaul.<br />
             Learn <span className="gold">real Latin</span> on the way.

@@ -176,14 +176,6 @@
     radial-gradient(ellipse 80% 55% at 50% 0%, rgba(26, 39, 68, 0.13), transparent 68%),
     var(--parchment-2);
 }
-.jwl .eyebrow {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: var(--navy); color: var(--gold-light);
-  font-family: var(--sans); font-size: 12px; font-weight: 600;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  padding: 7px 15px; border-radius: 999px; margin-bottom: 24px;
-  border: 1px solid var(--gold-dark);
-}
 .jwl h1 { font-size: clamp(38px, 6.6vw, 68px); }
 .jwl h1 .gold { color: var(--gold-dark); }
 .jwl h1 .crimson { color: var(--crimson); }

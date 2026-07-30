@@ -122,6 +122,34 @@ export default function MyWork() {
           Some of these I scoped, designed, built, and shipped front to back — my own products and
           client projects. One, Ruta, is a live platform I helped build with a team.
         </p>
+
+        {/* The question every client asks first. */}
+        <div className="mx-auto mt-10 max-w-3xl">
+          <div className="tile p-6 sm:p-7">
+            <p className="text-xs font-semibold uppercase tracking-wider text-accent">
+              How long it usually takes
+            </p>
+            <dl className="mt-4 grid gap-4 text-left sm:grid-cols-2">
+              <div>
+                <dt className="text-sm font-medium text-body">A website</dt>
+                <dd className="mt-0.5 text-xl font-semibold tracking-tight text-ink">
+                  About two weeks<span className="text-accent">*</span>
+                </dd>
+              </div>
+              <div>
+                <dt className="text-sm font-medium text-body">An app</dt>
+                <dd className="mt-0.5 text-xl font-semibold tracking-tight text-ink">
+                  30 to 40 days<span className="text-accent">*</span>
+                </dd>
+              </div>
+            </dl>
+            <p className="mt-4 text-left text-[13px] leading-relaxed text-muted">
+              <span className="text-accent">*</span> Assuming the direction, graphics, and content
+              come from you before the build starts, or reach me as it goes. Time spent waiting on
+              those pushes the date out with it.
+            </p>
+          </div>
+        </div>
       </section>
 
       {/* Featured project — Ruta */}
