@@ -160,6 +160,48 @@ body {
   transform: translateY(0);
 }
 
+/* Cards that turn over on hover to show a second face. Only where hovering is
+   actually possible — on a phone there is no hover, so the second face is simply
+   laid out under the first (see .flip-static below). Keyboard focus flips them
+   too, so the back is reachable without a mouse. */
+.flip {
+  perspective: 1200px;
+}
+.flip-inner {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+.flip-face {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.flip-back {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+}
+@media (hover: hover) {
+  .flip { height: 196px; }
+  .flip-inner { height: 100%; }
+  .flip:hover .flip-inner,
+  .flip:focus-within .flip-inner {
+    transform: rotateY(180deg);
+  }
+}
+/* No hover: show both faces stacked, no rotation, nothing hidden. */
+@media (hover: none) {
+  .flip-inner { transform: none !important; }
+  .flip-back {
+    position: static;
+    transform: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .flip-inner { transition: none; }
+}
+
 /* The rotating tool strips. Each row holds two identical copies of its list,
    so sliding the row half its own width and starting over loops with no seam. */
 @keyframes marquee-slide {

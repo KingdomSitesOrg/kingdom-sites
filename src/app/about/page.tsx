@@ -36,6 +36,11 @@ export default function About() {
             My name is Thomas Klein — a software developer passionate about building great products for great people.
             My wife Monisha and I love working directly with clients to understand their needs and deliver solutions that actually move the needle.
           </p>
+          <p className="mt-4 text-pretty text-[15px] leading-relaxed text-body sm:text-base">
+            We are currently in the Philippines at IGSL — the International Graduate School of
+            Leadership — training in biblical studies and discipleship. Client work carries on from
+            here, on the same timelines as always.
+          </p>
 
           <div className="mt-8 grid gap-4">
             <div className="tile p-6">
