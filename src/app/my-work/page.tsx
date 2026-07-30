@@ -50,20 +50,20 @@ const JWL_HIGHLIGHTS = [
   },
 ]
 
-const RUTA_STACK = ['TypeScript', 'React', 'React Native', 'Expo', 'AWS Lambda', 'DynamoDB', 'Cognito', 'Pulumi', 'Mapbox']
+const RUTA_STACK = ['TypeScript', 'React', 'React Native', 'Expo', 'AWS', 'Infrastructure as code']
 
 const RUTA_HIGHLIGHTS = [
   {
     title: 'Four apps over one backend',
-    desc: 'An office web app, a field crew app on iPhone and Android, a self-service customer portal, and an internal admin console — all reading and writing the same jobs, visits, and invoices.',
+    desc: 'An office web app, a field crew app on iPhone and Android, a self-service customer portal, and an internal admin console — all working off the same shared data.',
   },
   {
     title: 'Money that moves on its own',
-    desc: 'My work here includes payment plans that charge their installments on the due date, automatic invoicing when a visit closes, and projected revenue built from live service schedules.',
+    desc: 'Billing is the area I spend most care on: charges that run on schedule without anyone chasing them, and an owner who can see what the book of business is worth.',
   },
   {
     title: 'Built for a truck with no signal',
-    desc: 'The crew app keeps working offline and syncs when signal returns. A lot of my work is the unglamorous half of that: timers that survive a resume, honest photo timestamps, failures that get reported instead of swallowed.',
+    desc: 'Crews work in places with no coverage, so the field app has to feel no different offline than online and sync the moment signal returns. Making that true is a large part of my work on it.',
   },
   {
     title: 'An integral part of a team product',
@@ -78,10 +78,10 @@ const AI_SHIPPED = [
     product: 'Ruta AI',
     where: 'Service-management platform · web, backend, crew app',
     points: [
-      'Answers built from the company’s own records — notes, reviews, and how-to guides found by natural phrasing',
-      'It acts: sends a customer their existing rate, explains why a visit was flagged and then clears it, moves the user to the right screen',
-      'Reply drafts from a customer’s real history, which a person edits or regenerates before sending',
-      'Marketing suggestions, help-me-write in messaging, and one entry point reachable from anywhere in the app',
+      'Answers built from the company’s own records, found by natural phrasing rather than exact keywords',
+      'It acts as well as answers, and can take a user straight to the right place in the app',
+      'Draft replies from a customer’s real history, which a person edits or regenerates before sending',
+      'Available everywhere people already work — the office app and the app in the field',
     ],
   },
   {
@@ -145,11 +145,10 @@ export default function MyWork() {
                 Service management for landscaping and maintenance businesses.
               </p>
               <p className="mt-4 text-[15px] leading-relaxed text-white/60">
-                One platform that carries a job from the first rate request to the final payment:
-                rates and signatures, crews routed and clocked in, invoices raised the moment a visit
-                closes, and customers paying from their own portal. I helped build it, and work across
-                the web app, the AWS backend, the crew app on iPhone and Android, and the customer
-                portal.
+                One platform that carries a job from the first rate request to the final payment —
+                quoting, scheduling and dispatch, the crew in the field, and billing. I helped build
+                it, and work across the web app, the AWS backend, the crew app on iPhone and Android,
+                and the customer portal.
               </p>
 
               <div className="mt-6 flex flex-wrap gap-x-4 gap-y-2">

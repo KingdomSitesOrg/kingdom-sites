@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Ruta — what I built in a live service-management platform',
   description:
-    'A case study: Ruta is service-management software for landscaping and maintenance businesses. Since April 2026 I have merged 350+ pull requests across its office web app, crew app for iPhone and Android, customer portal, and AWS backend.',
+    'A case study: Ruta is service-management software for landscaping and maintenance businesses. Since April 2026 I have merged 400+ pull requests across its office web app, crew app for iPhone and Android, customer portal, and AWS backend.',
   alternates: { canonical: '/ruta' },
   openGraph: {
     title: 'Ruta — a case study',

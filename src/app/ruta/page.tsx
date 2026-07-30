@@ -23,94 +23,79 @@ const SURFACES = [
   {
     title: 'Office web app',
     who: 'Owners and dispatchers',
-    desc: 'Customers, services, the schedule, dispatch, revenue, messaging, and a map of every property being served today.',
+    desc: 'Where the day gets run: customers, the schedule, billing, and messaging in one place.',
   },
   {
     title: 'Crew app',
     who: 'Field crews, iPhone and Android',
-    desc: 'Published as Ruta Crew. The day’s queue, the time clock, visit notes and photos — and it keeps working when the signal drops.',
+    desc: 'Published as Ruta Crew. The day’s work and the time clock — and it keeps working when the signal drops.',
   },
   {
     title: 'Customer portal',
     who: 'Homeowners and property managers',
-    desc: 'Approve a rate, pay a balance, follow a payment plan, review past visits, and ask for more work.',
+    desc: 'Self-service: approve work, settle a balance, and look back over past visits.',
   },
   {
     title: 'Admin console',
     who: 'The Ruta team',
-    desc: 'Onboarding new companies, payment provisioning, and the internal tooling that keeps accounts healthy.',
+    desc: 'The internal side — onboarding new companies and supporting live accounts.',
   },
 ]
 
-/* The work itself, grouped the way I actually worked on it. Every line below is
-   something that shipped. */
+/* The work, grouped by area and deliberately kept at a level a client can read.
+   Product specifics stay with the client. */
 const WORK = [
   {
     area: 'Billing and money',
     lede: 'The part of the product where a bug costs someone real money, so it gets the most care.',
     items: [
-      'Payment plans that charge their installments automatically on the due date, with the plan and balance visible to the customer in the portal',
-      'Failed card charges retried instead of quietly left unpaid',
-      'Account credits that stop re-applying once they are exhausted',
-      'Collecting a payment now marks every visit that contributed to it as paid',
-      'One bundle price charged once, rather than per visit',
-      'Projected revenue built from live service schedules, so an owner can see what the book of business is worth next month',
+      'Automated recurring billing, so the money collects itself instead of being chased',
+      'Flexible payment arrangements a customer can follow and settle on their own',
+      'Revenue forecasting from the live schedule, so an owner knows what next month is worth',
     ],
   },
   {
     area: 'The crew app in the field',
     lede: 'A crew will abandon an app that loses their work. Most of this is reliability, not features.',
     items: [
-      'The clock survives network blips, and a visit timer survives the app being resumed',
-      'Photo capture times and distances that tell the truth, and an undo for a photo deleted by mistake',
-      'Failed visit moves reported to error monitoring instead of being swallowed',
-      'Crew leaders can remove a clocked-in member, and dispatch a service from the field',
-      'Services, options, and requested work visible on the visit screen, in plain text',
+      'Offline that feels no different from online, syncing the moment signal comes back',
+      'Time tracking dependable enough to run payroll from',
+      'A verifiable record of every visit, captured on the job rather than written up later',
     ],
   },
   {
     area: 'The office web app',
     lede: 'Where owners and dispatchers spend their day, and where most of my changes land.',
     items: [
-      'A messages inbox with unread and needs-response filters, drafts that survive a reload, and reusable message templates',
-      'Visits placed on their actual property on the map, with customer detail on hover and every clocked-in crew member’s trail',
-      'A review queue that recognizes skipped visits and clears an approved visit immediately',
-      'The AI assistant reachable from anywhere in the app, able to send a customer their existing rate, and failing in plain English instead of raw error codes',
-      'Dozens of smaller repairs: a dashboard that stays usable on a narrow window, a close button Safari would not show, counts that agree with the page they link to',
+      'Customer messaging brought inside the platform, so the conversation lives with the job',
+      'A live map of the day — every property being served, and every crew out working',
+      'An approval step between the work being finished and the customer being billed',
     ],
   },
   {
     area: 'The customer portal',
     lede: 'Self-service that has to be understandable by someone who has never seen the product.',
     items: [
-      'Payment plan and outstanding balance shown to the customer',
-      'Service inquiries with selectable reasons, and an optional note when modifying a service',
-      'Deactivated services with past visits stay reachable instead of disappearing',
-      'Accurate visit counts for unlimited plans, and correct labels for one-time and seasonal work',
+      'Customers settle up themselves instead of calling the office',
+      'Requests for more work come in through the portal and land straight in the schedule',
     ],
   },
   {
     area: 'Backend and platform',
     lede: 'The AWS side: the data model, the scheduled jobs, and the plumbing everything else sits on.',
     items: [
-      'Job-site geofences and work zones precomputed on the backend, and an alert to the office when a crew member stops sharing location mid-visit',
-      'Employee STOP texts honoured as an SMS opt-out',
-      'Scheduled service deactivations that actually run on their date',
-      'Whole-property measurement from the customer profile, so area-based services are priced off real square footage',
-      'Maintenance scripts that stop reporting success when they processed nothing, and endpoints that return the right status instead of a 500',
+      'Location and job-site intelligence handled once on the backend, shared by every app',
+      'The scheduled automation the whole platform leans on, made dependable',
     ],
   },
 ]
 
 /* The AI work, which is a big enough piece to stand on its own. */
 const AI_BUILT = [
-  'Answers grounded in the company’s own records — notes, reviews, and how-to guides found by natural phrasing rather than exact keywords',
-  'It takes actions and navigates itself: send a customer their existing rate, explain why a visit was flagged for review and then act on it, move the user to the right screen',
-  'Reply drafts written from that customer’s real history, which a person edits or regenerates before anything is sent',
-  '@-mentions and help-me-write inside messaging, on the web and in the crew app',
-  'Marketing campaign suggestions, and a suggested rate applied with a keystroke',
-  'One global entry point, so it is reachable from anywhere in the app',
-  'Failures that read as plain English rather than an HTTP status code',
+  'Answers grounded in the company’s own records, found by natural phrasing rather than exact keywords',
+  'It acts as well as answers, and can take a user straight to the right place in the app',
+  'Draft replies written from real history, which a person edits or regenerates before anything is sent',
+  'Available everywhere people already work — the office app and the app in the field',
 ]
 
 const AI_FOR_YOU = [
@@ -128,7 +113,7 @@ const AI_FOR_YOU = [
   },
   {
     title: 'AI in the workflow, not just the product',
-    desc: 'In Ruta that also means production errors explained by an agent into Slack, a plain-language impact summary on every pull request, and a system map so agents can find their way around the codebase.',
+    desc: 'The team’s own way of working, too: production problems explained in plain language, and internal tooling that saves engineering time.',
   },
 ]
 
@@ -155,17 +140,11 @@ const APPROACH = [
 const STACK = [
   'TypeScript',
   'React',
-  'Vite',
   'React Native',
   'Expo',
-  'AWS Lambda',
-  'DynamoDB',
-  'Cognito',
+  'AWS',
   'Amazon Bedrock',
-  'Pulumi',
-  'Mapbox',
-  'Typesense',
-  'Justifi payments',
+  'Infrastructure as code',
 ]
 
 const CREW_SHOTS = [
@@ -310,8 +289,9 @@ export default function Ruta() {
             What I&apos;ve shipped, by area
           </h2>
           <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-body sm:text-base">
-            Every line below went into production. It is a sample, not the full list — four hundred
-            merged pull requests do not fit on a page.
+            Everything below went into production. It is a summary rather than a list — four hundred
+            merged pull requests do not fit on a page, and the details of a client&apos;s product stay
+            with the client.
           </p>
 
           <div className="mt-10 space-y-5">
@@ -428,10 +408,10 @@ export default function Ruta() {
               A TypeScript monorepo on AWS
             </h2>
             <p className="mt-4 max-w-3xl text-[15px] leading-relaxed text-body sm:text-base">
-              One language end to end: React on the web, React Native through Expo on phones, and
-              Lambda functions over DynamoDB behind them, with the infrastructure itself defined in
-              code. Payments run through Justifi, maps through Mapbox, search through Typesense, and
-              the assistant through Amazon Bedrock.
+              One language end to end: React on the web, React Native through Expo on phones, and a
+              serverless AWS backend behind them, with the infrastructure itself defined in code. The
+              assistant runs on Amazon Bedrock. Payments, maps, and search go through managed
+              services rather than anything hand-rolled.
             </p>
             <div className="mt-6 flex flex-wrap gap-x-4 gap-y-2">
               {STACK.map((tech) => (
