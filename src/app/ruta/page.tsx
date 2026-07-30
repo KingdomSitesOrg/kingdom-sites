@@ -144,6 +144,14 @@ const CREW_SHOTS = [
   { src: shotTime, alt: 'The Ruta Crew time clock showing hours logged this week', cap: 'The time clock' },
 ]
 
+/* Ruta's brand green stands in for the site's blue on this page — Ruta's accent
+   without Ruta's full dark-green pages. Two shades: one for the light canvas,
+   one for the dark bands. */
+const GREEN = 'text-[#15803d]'
+const GREEN_ON_DARK = 'text-[#4ade80]'
+const EYEBROW = `text-xs font-semibold uppercase tracking-[0.1em] ${GREEN}`
+const EYEBROW_ON_DARK = `text-xs font-semibold uppercase tracking-[0.1em] ${GREEN_ON_DARK}`
+
 function AppStoreIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -166,9 +174,9 @@ export default function Ruta() {
       {/* ---------- hero ---------- */}
       <section className="hero-wash px-5 pb-14 pt-16 sm:px-8 sm:pb-16 sm:pt-24">
         <div className="mx-auto max-w-4xl">
-          <p className="eyebrow">Case study · Ruta</p>
+          <p className={EYEBROW}>Case study · Ruta</p>
           <h1 className="mt-5 max-w-3xl text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
-            What I&apos;ve built inside <span className="text-accent">Ruta.</span>
+            What I&apos;ve built inside <span className={GREEN}>Ruta.</span>
           </h1>
           <p className="mt-6 max-w-2xl text-pretty text-base leading-relaxed text-body sm:text-lg">
             Ruta is service-management software for landscaping and maintenance businesses — one
@@ -219,7 +227,7 @@ export default function Ruta() {
             {SURFACES.map((s) => (
               <div key={s.title} className="tile p-7">
                 <h3 className="text-base font-semibold tracking-tight text-ink">{s.title}</h3>
-                <p className="mt-1 text-xs font-medium uppercase tracking-wider text-warm">{s.who}</p>
+                <p className={`mt-1 text-xs font-medium uppercase tracking-wider ${GREEN}`}>{s.who}</p>
                 <p className="mt-3 text-sm leading-relaxed text-body">{s.desc}</p>
               </div>
             ))}
@@ -230,7 +238,7 @@ export default function Ruta() {
       {/* ---------- the two web surfaces ---------- */}
       <section aria-label="The web surfaces" className="band-dark px-5 py-16 sm:px-8 sm:py-20">
         <div className="mx-auto max-w-6xl">
-          <p className="eyebrow">The screens I work in</p>
+          <p className={EYEBROW_ON_DARK}>The screens I work in</p>
           <h2 className="mt-4 max-w-2xl text-2xl font-semibold tracking-tight text-white sm:text-3xl">
             The office app and the customer portal
           </h2>
@@ -261,7 +269,7 @@ export default function Ruta() {
       {/* ---------- the work ---------- */}
       <section aria-label="What I've shipped" className="px-5 py-16 sm:px-8 sm:py-20">
         <div className="mx-auto max-w-6xl">
-          <p className="eyebrow eyebrow-blue">The work</p>
+          <p className={EYEBROW}>The work</p>
           <h2 className="mt-4 max-w-2xl text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
             What I&apos;ve shipped, by area
           </h2>
@@ -281,7 +289,7 @@ export default function Ruta() {
                   <ul className="space-y-2.5">
                     {group.items.map((item) => (
                       <li key={item} className="flex gap-3 text-sm leading-relaxed text-body">
-                        <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
+                        <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-[#16a34a]" aria-hidden="true" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -308,7 +316,7 @@ export default function Ruta() {
       {/* ---------- how I work ---------- */}
       <section aria-label="How I work" className="band-dark px-5 py-16 sm:px-8 sm:py-20">
         <div className="mx-auto max-w-6xl">
-          <p className="eyebrow">How I work</p>
+          <p className={EYEBROW_ON_DARK}>How I work</p>
           <h2 className="mt-4 max-w-2xl text-2xl font-semibold tracking-tight text-white sm:text-3xl">
             Coming into a codebase someone else started
           </h2>
@@ -332,7 +340,7 @@ export default function Ruta() {
       <section aria-label="Technology" className="px-5 py-16 sm:px-8 sm:py-20">
         <div className="mx-auto max-w-6xl">
           <div className="tile p-7 sm:p-10">
-            <p className="text-xs font-semibold uppercase tracking-widest text-accent">Built with</p>
+            <p className={`text-xs font-semibold uppercase tracking-widest ${GREEN}`}>Built with</p>
             <h2 className="mt-3 text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
               A TypeScript monorepo on AWS
             </h2>
@@ -355,7 +363,7 @@ export default function Ruta() {
       <section aria-label="Contact" className="border-t border-line px-5 py-16 text-center sm:px-8 sm:py-20">
         <div className="mx-auto max-w-3xl">
           <h2 className="text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-            Have software that needs <span className="text-accent">another pair of hands?</span>
+            Have software that needs <span className={GREEN}>another pair of hands?</span>
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-relaxed text-body">
             This is the work I do most: joining a live product and shipping in it without breaking
