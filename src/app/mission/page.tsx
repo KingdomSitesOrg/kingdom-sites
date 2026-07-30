@@ -327,7 +327,7 @@ export default function Mission() {
             }}
             aria-hidden="true"
           />
-          <div className="absolute inset-x-0 bottom-0 flex justify-center px-6 pb-8 sm:pb-12">
+          <div className="absolute inset-x-0 bottom-0 flex justify-center px-6 pb-16 sm:pb-24">
             <p className="max-w-2xl text-balance text-center text-lg font-medium leading-snug text-white sm:text-2xl">
               For millions of people, following Jesus costs everything they have.
             </p>
