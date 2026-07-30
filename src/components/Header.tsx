@@ -18,7 +18,6 @@ const NAV_LINKS = [
   { to: '/my-work',  label: 'My Work', children: WORK_LINKS },
   { to: '/ministry', label: 'Ministry' },
   { to: '/about',    label: 'About' },
-  { to: '/why-us',   label: 'Why Kingdom Sites' },
   { to: '/mission',  label: 'Mission' },
 ]
 

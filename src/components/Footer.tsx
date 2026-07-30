@@ -8,7 +8,6 @@ const PAGE_LINKS = [
   { href: '/my-work', label: 'My Work' },
   { href: '/ministry', label: 'Ministry' },
   { href: '/about',   label: 'About' },
-  { href: '/why-us',  label: 'Why Kingdom Sites' },
   { href: '/mission', label: 'Mission' },
   { href: '/privacy', label: 'Privacy Policy' },
   { href: '/terms',   label: 'Terms' },

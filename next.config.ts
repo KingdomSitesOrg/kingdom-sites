@@ -46,6 +46,7 @@ const nextConfig: NextConfig = {
       { source: '/jamwithlatin', destination: '/latin-game', permanent: true },
       { source: '/latin', destination: '/latin-game', permanent: true },
       { source: '/latingame', destination: '/latin-game', permanent: true },
+      { source: '/why-us', destination: '/mission', permanent: true },
       { source: '/taptotick', destination: '/tap-to-tick', permanent: true },
       { source: '/aitooling', destination: '/ai-tooling', permanent: true },
     ]
