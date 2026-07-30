@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import missionImage from '../../../public/Photos/mission-field.jpg'
 import persecutedImage from '../../../public/Photos/persecuted-church.jpg'
 import ContactCta from '@/components/ContactCta'
+import UnreachedScroll from '@/components/UnreachedScroll'
 
 export const metadata: Metadata = {
   title: 'Our Mission — Kingdom Sites',
@@ -10,23 +11,6 @@ export const metadata: Metadata = {
     'How your project supports gospel work in the unreached world, the organizations we stand with and give to, and who I build software for.',
   alternates: { canonical: '/mission' },
 }
-
-/* Lines that take turns across the top of the photograph. Figures are rounded
-   and come from national censuses and Joshua Project's country profiles; they
-   move slowly enough to read, and the first one is the one that stays for anyone
-   who has asked their system for less motion. */
-const ROLL = [
-  { line: 'Millions of people have no idea who Jesus is.' },
-  { stat: 'Under 0.1%', tail: 'of Afghanistan is Christian' },
-  { stat: 'Under 0.1%', tail: 'of Somalia is Christian' },
-  { stat: 'Under 0.2%', tail: 'of Yemen is Christian' },
-  { stat: 'Under 0.1%', tail: 'of Omanis are Christian' },
-  { stat: 'About 0.4%', tail: 'of Bangladesh is Christian' },
-  { stat: 'Under 2%', tail: 'of Pakistan is Christian' },
-  { stat: 'About 2%', tail: 'of India is Christian' },
-  { line: 'Most of them will never meet a Christian.' },
-  { line: 'The glory of God is at stake.' },
-]
 
 /* Organizations we stand with. Every link was checked; a couple of these sites
    sit behind bot protection, so they answer a browser but not a script.
@@ -268,27 +252,7 @@ export default function Mission() {
           />
         </div>
 
-        <div className="relative -mt-[100svh]">
-          {ROLL.map((item) => (
-            <div
-              key={item.line ?? item.tail}
-              className="flex h-[58svh] items-center justify-center px-6"
-            >
-              <p
-                className="max-w-4xl text-balance text-center text-3xl font-semibold leading-[1.12] tracking-tight text-white sm:text-5xl lg:text-6xl"
-                style={{ textShadow: '0 2px 22px rgba(0,0,0,0.7)' }}
-              >
-                {item.line ?? (
-                  <>
-                    <span className="text-[#f0b48c]">{item.stat}</span>
-                    {' '}
-                    <span>{item.tail}</span>
-                  </>
-                )}
-              </p>
-            </div>
-          ))}
-        </div>
+        <UnreachedScroll />
       </section>
 
       {/* ---------- why this exists ---------- */}
