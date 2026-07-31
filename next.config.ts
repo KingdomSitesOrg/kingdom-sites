@@ -6,6 +6,10 @@ const isDev = process.env.NODE_ENV === 'development'
 const csp = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''}`,
+  // Sentry Session Replay compresses recordings on a background thread that it
+  // starts from an in-memory blob: script. Without this it falls back to
+  // script-src and gets blocked.
+  "worker-src 'self' blob:",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self'",
