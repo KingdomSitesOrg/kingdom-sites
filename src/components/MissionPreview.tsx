@@ -86,9 +86,15 @@ export default function MissionPreview() {
             gospel, and a percentage of everything I earn goes to organizations serving the
             persecuted church. Your project is part of that.
           </p>
-          <div className="mt-8">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
             <Link href="/mission" className="btn-primary">
               See where it goes
+            </Link>
+            <Link
+              href="/mission#free-ministry-sites"
+              className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-white/25 px-5 py-2.5 text-[14.5px] font-medium text-white transition-colors hover:border-white/40 hover:bg-white/10"
+            >
+              Are you a ministry that needs a site for free?
             </Link>
           </div>
         </div>

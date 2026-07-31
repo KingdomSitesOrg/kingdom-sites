@@ -109,6 +109,25 @@ const AI_OFFER = [
 
 const SITE_STACK = ['Next.js', 'React', 'TypeScript', 'Tailwind', 'Vercel']
 
+/* Each product above has a page selling it — small sites in their own right. */
+const PRODUCT_PAGES = [
+  {
+    name: 'Tap to Tick',
+    href: '/tap-to-tick',
+    desc: 'An expense tracker for iPhone and Apple Watch that logs a purchase in one tap, from the Lock Screen or your wrist.',
+  },
+  {
+    name: 'Latin practice game',
+    href: '/latin-game',
+    desc: 'A Latin course for homeschool and classical students, played as a Roman-legion march from Rōma to Gaul.',
+  },
+  {
+    name: 'Ruta',
+    href: '/ruta',
+    desc: 'Service management for landscaping and maintenance businesses, carrying a job from the first quote to the final payment.',
+  },
+]
+
 /* A website and an app, drawn in CSS — no screenshots, since these stand for the
    kind of thing rather than any one project. */
 
@@ -202,9 +221,10 @@ export default function MyWork() {
     <div className="w-full overflow-x-hidden">
       {/* Hero */}
       <section className="hero-wash px-5 pb-16 pt-16 text-center sm:px-8 sm:pb-20 sm:pt-24">
-        <p className="eyebrow">My work</p>
+        <p className="eyebrow">Portfolio</p>
         <h1 className="mx-auto mt-5 max-w-3xl text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
-          Things I&apos;ve designed, built, and <span className="text-accent">shipped.</span>
+          My <span className="text-accent">favorite projects</span>{' '}
+          that I&apos;ve worked on.
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-body sm:text-lg">
           Some of these I scoped, designed, built, and shipped front to back — my own products and
@@ -213,7 +233,7 @@ export default function MyWork() {
       </section>
 
       {/* Featured project — Ruta */}
-      <section aria-label="Ruta" className="bg-[#0a1f0a] px-5 py-16 text-white sm:px-8 sm:py-24">
+      <section id="platforms" aria-label="Ruta" className="scroll-mt-20 bg-[#0a1f0a] px-5 py-16 text-white sm:px-8 sm:py-24">
         <div className="mx-auto max-w-6xl">
           <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-14">
             <div>
@@ -294,7 +314,7 @@ export default function MyWork() {
       </section>
 
       {/* Featured project — the Latin practice game */}
-      <section aria-label="Latin practice game" className="border-t border-line px-5 py-16 sm:px-8 sm:py-20">
+      <section id="apps" aria-label="Latin practice game" className="scroll-mt-20 border-t border-line px-5 py-16 sm:px-8 sm:py-20">
         <div className="mx-auto max-w-6xl">
           <div className="tile-elevated grid gap-10 p-7 sm:p-10 lg:grid-cols-[1fr_1.1fr] lg:items-center lg:gap-14">
             {/* Screens */}
@@ -496,14 +516,14 @@ export default function MyWork() {
       </section>
 
       {/* Websites */}
-      <section aria-label="Websites" className="border-t border-line px-5 py-16 sm:px-8 sm:py-20">
+      <section id="websites" aria-label="Websites" className="scroll-mt-20 border-t border-line px-5 py-16 sm:px-8 sm:py-20">
         <div className="mx-auto max-w-6xl">
           <p className="eyebrow eyebrow-blue">Websites</p>
           <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
             Sites built the way I build them for clients
           </h2>
 
-          <div className="mt-10 grid gap-4 sm:gap-5 lg:grid-cols-2">
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
             <div className="tile flex flex-col p-7 sm:p-9">
               <h3 className="text-xl font-semibold tracking-tight text-ink">kingdom-sites.com</h3>
               <p className="mt-1 text-xs font-medium uppercase tracking-wider text-muted">
@@ -522,24 +542,59 @@ export default function MyWork() {
             </div>
 
             <div className="tile flex flex-col p-7 sm:p-9">
-              <h3 className="text-xl font-semibold tracking-tight text-ink">Hazletts For The Kingdom</h3>
+              <h3 className="text-xl font-semibold tracking-tight text-ink">Prayer</h3>
               <p className="mt-1 text-xs font-medium uppercase tracking-wider text-muted">
-                Ministry site · support raising
+                This site · Romans 10:14 prayer meetings
               </p>
               <p className="mt-3 flex-1 text-sm leading-relaxed text-body">
-                A site for a family on mission with e3 Partners among South Asian communities in
-                Kansas City. Their story, their work, and a clear way to partner with them — the kind
-                of small site that has one job and has to do it on the first scroll.
+                A casual mini-site for a weekly prayer-meeting initiative for the unreached world —
+                how a night runs, sample guides to download, a leader brief, and links to pray and
+                give. Its own look and navigation, built as a small self-contained site inside this
+                one.
               </p>
-              <a
-                href="https://hazletts-for-the-kingdom.vercel.app/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="link-accent mt-6 self-start text-sm"
-              >
+              <Link href="/prayer" className="link-accent mt-6 self-start text-sm">
                 Visit the site <span aria-hidden="true">›</span>
-              </a>
+              </Link>
             </div>
+
+            <div className="tile flex flex-col p-7 sm:p-9">
+              <h3 className="text-xl font-semibold tracking-tight text-ink">Ministry</h3>
+              <p className="mt-1 text-xs font-medium uppercase tracking-wider text-muted">
+                This site · video pages in two languages
+              </p>
+              <p className="mt-3 flex-1 text-sm leading-relaxed text-body">
+                Short hand-drawn walkthroughs of books of the Bible, in English and Bangla. Its own
+                look and navigation, a custom video player with a language switch, and the Bengali
+                script shipped with the page so it reads the same on every device.
+              </p>
+              <Link href="/ministry" className="link-accent mt-6 self-start text-sm">
+                Visit the site <span aria-hidden="true">›</span>
+              </Link>
+            </div>
+          </div>
+
+          {/* The pages for the products above are site work in their own right —
+              two of them with a look of their own, nothing like this site. */}
+          <h3 className="mt-14 text-2xl font-semibold tracking-tight text-ink">
+            And a product page for everything I ship
+          </h3>
+          <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-body">
+            Every product above gets its own page to sell it.
+          </p>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {PRODUCT_PAGES.map((p) => (
+              <Link
+                key={p.name}
+                href={p.href}
+                className="tile flex flex-col p-7 transition-colors hover:border-accent"
+              >
+                <h4 className="text-base font-semibold tracking-tight text-ink">{p.name}</h4>
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-body">{p.desc}</p>
+                <span className="link-accent mt-5 text-sm">
+                  Visit the page <span aria-hidden="true">›</span>
+                </span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
@@ -562,7 +617,7 @@ export default function MyWork() {
               <div className="mt-7 border-t border-line pt-6 text-center">
                 <p className="text-sm font-medium text-body">A website</p>
                 <p className="mt-1 text-2xl font-semibold tracking-tight text-ink">
-                  About two weeks<span className="text-accent">*</span>
+                  About 2 weeks<span className="align-super text-[0.55em] text-accent">*</span>
                 </p>
               </div>
             </div>
@@ -574,7 +629,7 @@ export default function MyWork() {
               <div className="mt-7 border-t border-line pt-6 text-center">
                 <p className="text-sm font-medium text-body">An app</p>
                 <p className="mt-1 text-2xl font-semibold tracking-tight text-ink">
-                  30 days<span className="text-accent">*</span>
+                  30 days<span className="align-super text-[0.55em] text-accent">*</span>
                 </p>
               </div>
             </div>

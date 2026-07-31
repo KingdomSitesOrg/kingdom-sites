@@ -7,6 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: base, lastModified: new Date(), changeFrequency: "weekly", priority: 1 },
     { url: `${base}/my-work`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
     { url: `${base}/ministry`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/prayer`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
     { url: `${base}/tap-to-tick`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
     { url: `${base}/latin-game`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
     { url: `${base}/ruta`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },

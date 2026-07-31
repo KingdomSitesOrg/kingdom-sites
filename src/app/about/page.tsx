@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import type { Metadata } from 'next'
 import aboutImage from '../../../public/Photos/about.jpg'
 import ContactCta from '@/components/ContactCta'
@@ -54,6 +55,24 @@ export default function About() {
               <h2 className="text-sm font-semibold tracking-tight text-ink">{'Why "Kingdom Sites"'}</h2>
               <p className="mt-2 text-sm leading-relaxed text-body">
                 {"You're not just getting a product — you're getting a development partner who's invested in your success. I want to see your business thrive, and I believe great software can be the difference maker."}
+              </p>
+            </div>
+
+            <div className="tile p-6">
+              <h2 className="text-sm font-semibold tracking-tight text-ink">Free websites for ministries</h2>
+              <p className="mt-2 text-sm leading-relaxed text-body">
+                Ministries, missionaries raising support, and churches get the site built for free
+                <span className="align-super text-[0.6em] text-accent">*</span> — the same work a
+                paying client gets. It is one of the ways this business goes toward the advance of
+                the gospel.{' '}
+                <Link href="/mission" className="link-accent">
+                  Our mission <span aria-hidden="true">›</span>
+                </Link>
+              </p>
+              <p className="mt-3 text-xs leading-relaxed text-muted">
+                <span className="align-super text-[0.75em] text-accent">*</span> My time is the
+                donation. The running costs — the domain name, hosting, and any outside service the
+                site depends on — stay with you, billed to you directly.
               </p>
             </div>
 

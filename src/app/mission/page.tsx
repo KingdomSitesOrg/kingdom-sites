@@ -1,7 +1,9 @@
 import Image from 'next/image'
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import persecutedImage from '../../../public/Photos/persecuted-church.jpg'
 import UnreachedScroll from '@/components/UnreachedScroll'
+import { CONTACT_MAILTO } from '@/lib/contact'
 
 export const metadata: Metadata = {
   title: 'Our Mission — Kingdom Sites',
@@ -138,6 +140,67 @@ export default function Mission() {
               </li>
             ))}
           </ul>
+        </div>
+      </section>
+
+      {/* ---------- prayer initiative ---------- */}
+      <section aria-label="Prayer for the unreached" className="border-t border-white/10 px-5 py-16 sm:px-8 sm:py-20">
+        <div className="mx-auto max-w-6xl">
+          <div className="max-w-3xl">
+            <p className="eyebrow">Prayer</p>
+            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              A weekly prayer meeting for the unreached.
+            </h2>
+            <p className="mt-5 text-[15px] leading-relaxed text-white/70 sm:text-base">
+              Romans 10:14 — how will they hear if no one tells them? The Prayer mini-site is a
+              simple kit for running a weekly meeting: a verse, a story, facts, prayer points, and
+              free guides you can download and use with a group.
+            </p>
+            <div className="mt-7">
+              <Link
+                href="/prayer"
+                className="inline-flex items-center gap-2 text-sm font-medium text-[#f0b48c] transition-colors hover:text-[#f5c9a8]"
+              >
+                Open the prayer site
+                <ArrowOut />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- donated websites ---------- */}
+      <section
+        id="free-ministry-sites"
+        aria-label="Donated websites"
+        className="scroll-mt-20 border-t border-white/10 px-5 py-16 sm:px-8 sm:py-20"
+      >
+        <div className="mx-auto max-w-6xl">
+          <div className="max-w-3xl">
+            <p className="eyebrow">Free of charge</p>
+            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              I donate websites to ministries.
+            </h2>
+            <p className="mt-5 text-[15px] leading-relaxed text-white/70 sm:text-base">
+              Ministries, missionaries raising support, and churches get the site built for free
+              <span className="align-super text-[0.6em] text-[#f0b48c]">*</span> — designed, built,
+              and put live, the same way a paying client gets it. It is one of the ways I can put
+              this work behind the advance of the gospel rather than only behind a business.
+            </p>
+            <p className="mt-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
+              If that is you,{' '}
+              <a href={CONTACT_MAILTO} className="text-white underline underline-offset-4 hover:text-[#f0b48c]">
+                email me what you need
+              </a>
+              .
+            </p>
+            <p className="mt-6 text-[13px] leading-relaxed text-white/45">
+              <span className="align-super text-[0.75em] text-[#f0b48c]">*</span> My time is the
+              donation. The running costs stay with you — the domain name, hosting, and anything
+              paid to an outside service the site depends on. Those are billed to you directly, not
+              through me, and they are usually a few dollars a month.
+            </p>
+          </div>
         </div>
       </section>
 

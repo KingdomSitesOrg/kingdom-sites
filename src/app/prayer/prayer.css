@@ -1,0 +1,349 @@
+/* Prayer (Romans 10:14) keeps its own casual identity — warm sand, soft ink,
+   rounded cards — so it does not read as another Kingdom Sites product page.
+   Everything is scoped under .pray so nothing leaks into the main site.
+
+   Note: .pray uses `overflow-x: clip` rather than `hidden`, because hidden would
+   make it a scroll container and stop the sticky header sticking. */
+
+.pray {
+  --sand:        #f6f0e6;
+  --sand-2:      #ebe3d4;
+  --card:        #fffcf7;
+  --ink:         #1c1915;
+  --ink-2:       #3d3830;
+  --faded:       #7a7368;
+  --ember:       #c45c3e;
+  --ember-deep:  #a3482f;
+  --teal:        #2a7a6a;
+  --teal-soft:   #dceee9;
+  --night:       #171410;
+  --rule:        rgba(28, 25, 21, 0.1);
+  --rule-strong: rgba(28, 25, 21, 0.18);
+  --sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --shadow: 0 1px 2px rgba(28, 25, 21, 0.05), 0 14px 36px rgba(28, 25, 21, 0.08);
+
+  min-height: 100vh;
+  overflow-x: clip;
+  font-family: var(--sans);
+  color: var(--ink-2);
+  background-color: var(--sand);
+  background-image:
+    radial-gradient(ellipse 80% 50% at 12% -8%, rgba(196, 92, 62, 0.12), transparent 65%),
+    radial-gradient(ellipse 60% 40% at 95% 4%, rgba(42, 122, 106, 0.1), transparent 60%);
+  background-attachment: fixed;
+}
+
+.pray *,
+.pray *::before,
+.pray *::after { box-sizing: border-box; }
+
+.pray .wrap { max-width: 1040px; margin: 0 auto; padding: 0 22px; }
+.pray .narrow { max-width: 720px; margin: 0 auto; }
+
+/* ---------- type ---------- */
+.pray h1, .pray h2, .pray h3 {
+  color: var(--ink);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+}
+.pray h1 { font-size: clamp(34px, 5.6vw, 54px); }
+.pray h2 { font-size: clamp(24px, 3.4vw, 34px); }
+.pray h3 { font-size: 17.5px; letter-spacing: -0.015em; }
+.pray p { line-height: 1.65; margin: 0; }
+
+.pray .kicker {
+  font-size: 12px; font-weight: 700; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--ember);
+}
+.pray .lede { font-size: 17.5px; color: var(--ink-2); }
+.pray .quiet { color: var(--faded); font-size: 15px; }
+.pray .verse {
+  font-size: clamp(18px, 2.6vw, 22px);
+  line-height: 1.5;
+  color: var(--ink);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.pray .verse cite {
+  display: block;
+  margin-top: 12px;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ember);
+}
+
+/* ---------- header ---------- */
+.pray header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(246, 240, 230, 0.88);
+  backdrop-filter: saturate(160%) blur(14px);
+  -webkit-backdrop-filter: saturate(160%) blur(14px);
+  border-bottom: 1px solid var(--rule);
+}
+.pray nav {
+  max-width: 1040px; margin: 0 auto; padding: 0 22px;
+  height: 56px; display: flex; align-items: center; justify-content: space-between; gap: 14px;
+}
+.pray .brand-row { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.pray .ks-anchor {
+  display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
+  font-size: 13.5px; color: var(--faded);
+  text-decoration: none; transition: color 0.2s;
+}
+.pray .ks-anchor:hover { color: var(--ink); }
+.pray .brand-sep { width: 1px; height: 16px; flex: none; background: var(--rule-strong); }
+.pray .brand {
+  font-size: 16px; font-weight: 700; color: var(--ink);
+  letter-spacing: -0.02em; white-space: nowrap;
+}
+.pray .nav-right { display: flex; align-items: center; gap: 18px; }
+.pray .nav-links { display: flex; align-items: center; gap: 20px; font-size: 14px; }
+.pray .nav-links a { color: var(--ink-2); text-decoration: none; transition: color 0.2s; }
+.pray .nav-links a:hover { color: var(--ember); }
+.pray .nav-toggle {
+  display: none; align-items: center; justify-content: center;
+  width: 34px; height: 34px; padding: 0; margin-right: -6px;
+  background: none; border: 0; color: var(--ink); cursor: pointer;
+}
+.pray .mobile-menu {
+  display: none; flex-direction: column;
+  padding: 4px 22px 16px;
+  background: rgba(246, 240, 230, 0.98);
+  border-top: 1px solid var(--rule);
+  box-shadow: 0 14px 28px rgba(28, 25, 21, 0.1);
+}
+.pray .mobile-menu a {
+  padding: 11px 2px; font-size: 15.5px; color: var(--ink-2); text-decoration: none;
+}
+.pray .mobile-menu-sep { height: 1px; margin: 7px 0; background: var(--rule); }
+
+@media (max-width: 760px) {
+  .pray .nav-links { display: none; }
+  .pray .nav-toggle { display: inline-flex; }
+  .pray .mobile-menu { display: flex; }
+}
+
+/* ---------- sections ---------- */
+.pray section { padding: 64px 0; }
+.pray .hero {
+  padding: 56px 0 48px;
+  text-align: center;
+}
+.pray .hero-photo {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  margin-top: 36px;
+  aspect-ratio: 16 / 9;
+  max-height: 420px;
+  box-shadow: var(--shadow);
+}
+.pray .hero-photo img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.pray .hero-photo::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(23, 20, 16, 0.55) 0%, transparent 55%);
+  pointer-events: none;
+}
+.pray .hero-photo .caption {
+  position: absolute; left: 20px; bottom: 16px; z-index: 1;
+  color: rgba(255, 252, 247, 0.88);
+  font-size: 13px; font-weight: 500;
+}
+
+.pray .band-night {
+  background: var(--night);
+  color: rgba(255, 252, 247, 0.78);
+  padding: 64px 0;
+}
+.pray .band-night .kicker { color: #e8a090; }
+.pray .band-night h2 { color: #fffcf7; }
+.pray .band-night p { color: rgba(255, 252, 247, 0.72); }
+.pray .band-night .card {
+  background: rgba(255, 252, 247, 0.05);
+  border-color: rgba(255, 252, 247, 0.1);
+  box-shadow: none;
+}
+.pray .band-night .card h3 { color: #fffcf7; }
+.pray .band-night .card p { color: rgba(255, 252, 247, 0.68); }
+.pray .band-night .card .num {
+  color: #e8a090;
+}
+
+/* ---------- cards ---------- */
+.pray .card {
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 22px 22px 24px;
+}
+.pray .card h3 { margin: 0 0 8px; }
+.pray .card p { font-size: 15px; color: var(--ink-2); }
+.pray .card .num {
+  display: block;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ember);
+  margin-bottom: 10px;
+}
+
+.pray .grid2 { display: grid; gap: 14px; }
+.pray .grid3 { display: grid; gap: 14px; }
+@media (min-width: 640px) {
+  .pray .grid2 { grid-template-columns: 1fr 1fr; }
+  .pray .grid3 { grid-template-columns: 1fr 1fr 1fr; }
+}
+
+/* Sample guide block */
+.pray .guide {
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.pray .guide-head {
+  padding: 22px 24px 18px;
+  border-bottom: 1px solid var(--rule);
+  background: linear-gradient(180deg, #fff9f1 0%, var(--card) 100%);
+}
+.pray .guide-body { padding: 8px 0; }
+.pray .guide-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 14px;
+  padding: 14px 24px;
+  border-top: 1px solid var(--rule);
+  font-size: 14.5px;
+}
+.pray .guide-row:first-child { border-top: 0; }
+.pray .guide-label {
+  font-size: 11.5px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--ember);
+  padding-top: 2px;
+}
+.pray .guide-row p { color: var(--ink-2); }
+.pray .guide-foot {
+  padding: 18px 24px 22px;
+  border-top: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+}
+@media (max-width: 560px) {
+  .pray .guide-row { grid-template-columns: 1fr; gap: 4px; }
+}
+
+/* Resource tiles */
+.pray .tile {
+  display: flex; flex-direction: column; gap: 10px;
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.pray .tile:hover {
+  border-color: rgba(196, 92, 62, 0.35);
+  transform: translateY(-1px);
+}
+.pray .tile h3 { margin: 0; color: var(--ink); }
+.pray .tile p { font-size: 14.5px; color: var(--faded); flex: 1; }
+.pray .tile .go {
+  font-size: 13.5px; font-weight: 600; color: var(--ember);
+}
+
+/* ---------- buttons ---------- */
+.pray .btn,
+.pray .btn-quiet,
+.pray .btn-night {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 44px; padding: 11px 22px; border-radius: 999px;
+  font-family: var(--sans); font-size: 14.5px; font-weight: 600;
+  text-decoration: none; white-space: nowrap;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
+}
+.pray .btn {
+  background: var(--ember); color: #fffaf6;
+  border: 1px solid transparent;
+  box-shadow: 0 8px 20px rgba(196, 92, 62, 0.22);
+}
+.pray .btn:hover { background: var(--ember-deep); transform: translateY(-1px); }
+.pray .btn-quiet {
+  background: transparent; color: var(--ink);
+  border: 1px solid var(--rule-strong);
+}
+.pray .btn-quiet:hover { border-color: var(--ink); background: rgba(28, 25, 21, 0.03); }
+.pray .btn-night {
+  background: #fffcf7; color: var(--night);
+  border: 1px solid transparent;
+}
+.pray .btn-night:hover { background: #ebe3d4; transform: translateY(-1px); }
+
+.pray .inline-link {
+  color: var(--ember); text-decoration: underline; text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.pray .inline-link:hover { color: var(--ink); }
+
+/* ---------- terms strip ---------- */
+.pray .term {
+  background: var(--teal-soft);
+  border-radius: 14px;
+  padding: 18px 20px;
+}
+.pray .term h3 { color: var(--teal); margin: 0 0 6px; font-size: 15px; }
+.pray .term p { font-size: 14.5px; color: var(--ink-2); }
+
+/* ---------- footer ---------- */
+.pray footer {
+  border-top: 1px solid var(--rule);
+  padding: 24px 0 40px;
+  font-size: 13.5px; color: var(--faded);
+}
+.pray footer .wrap {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 14px; flex-wrap: wrap;
+}
+.pray footer a { color: var(--faded); text-decoration: none; }
+.pray footer a:hover { color: var(--ink); }
+
+/* ---------- utility ---------- */
+.pray .stack-sm > * + * { margin-top: 10px; }
+.pray .stack > * + * { margin-top: 16px; }
+.pray .stack-lg > * + * { margin-top: 28px; }
+.pray .center { text-align: center; }
+.pray .mt-2 { margin-top: 8px; }
+.pray .mt-3 { margin-top: 12px; }
+.pray .mt-4 { margin-top: 16px; }
+.pray .mt-5 { margin-top: 20px; }
+.pray .mt-6 { margin-top: 24px; }
+.pray .mt-8 { margin-top: 32px; }
+.pray .mt-10 { margin-top: 40px; }
+.pray .actions {
+  display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: center;
+}
+.pray .actions.left { justify-content: flex-start; }
+
+/* Split card (copy + photo) used in the “pray now” section */
+.pray .split-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: 0;
+  align-items: stretch;
+  overflow: hidden;
+  padding: 0;
+}
+.pray .split-card .split-copy { padding: 28px 28px 30px; }
+.pray .split-card .split-photo { position: relative; min-height: 220px; }
+@media (max-width: 700px) {
+  .pray .split-card { grid-template-columns: 1fr; }
+  .pray .split-card .split-photo { min-height: 180px; order: -1; }
+}

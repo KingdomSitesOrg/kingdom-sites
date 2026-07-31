@@ -7,29 +7,12 @@ import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
 
 const STACK = ['Next.js', 'React', 'TypeScript', 'React Native', 'Swift', 'Node.js', 'PostgreSQL', 'AWS', 'Vercel']
 
-const SERVICES = [
-  {
-    eyebrow: 'Websites',
-    title: 'Fast, beautiful, built to convert.',
-    desc: 'Landing pages, marketing sites, and full multi-page builds that load instantly and turn visitors into customers.',
-  },
-  {
-    eyebrow: 'Mobile Apps',
-    title: 'iOS and Android, done right.',
-    desc: 'Mobile apps for your customers or your team — from first idea to the App Store.',
-  },
-  {
-    eyebrow: 'AI Consultation',
-    title: 'Get your time back.',
-    desc: 'Sitting down with anyone who wants AI actually doing the work — email, to-dos, marketing, SEO, the weekly admin. No code required, and built for people new to it.',
-    href: '/ai-tooling',
-    cta: 'See what that covers',
-  },
-  {
-    eyebrow: 'APIs & Backends',
-    title: 'The engine behind it all.',
-    desc: 'Reliable backend systems, integrations, and APIs that scale with you.',
-  },
+/* The four kinds of work, each pointing at the page that shows it. */
+const BUILDS = [
+  { label: 'Websites', href: '/my-work#websites' },
+  { label: 'Apps', href: '/my-work#apps' },
+  { label: 'Custom internal software', href: '/my-work#platforms' },
+  { label: 'AI in your platform', href: '/ai-tooling' },
 ]
 
 /* A site and an app, drawn in CSS and quietly animating: bars filling, rows
@@ -150,32 +133,52 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services */}
-      <section id="services" aria-label="What I build" className="border-t border-line px-5 py-20 sm:px-8 sm:py-24">
-        <div className="mx-auto max-w-6xl">
-          <div className="max-w-2xl">
-            <p className="eyebrow eyebrow-blue">What I build</p>
-            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-              Whatever your project needs.
-            </h2>
+      {/* What I build — a site and an app running quietly on either side of it,
+          with a way through to each kind of work. */}
+      <section id="services" aria-label="What I build" className="band-dark overflow-hidden px-5 py-20 sm:px-8 sm:py-24">
+        <div className="mx-auto grid w-full max-w-6xl items-center gap-12 lg:grid-cols-[1fr_auto_1fr] lg:gap-8">
+          <div className="hidden justify-end lg:flex">
+            <WebMock />
           </div>
 
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-5">
-            {SERVICES.map((s) => (
-              <div key={s.eyebrow} className="tile flex flex-col p-7 sm:p-9">
-                <p className="text-xs font-semibold uppercase tracking-[0.08em] text-muted">{s.eyebrow}</p>
-                <h3 className="mt-3 text-xl font-semibold tracking-tight text-ink sm:text-2xl">
-                  {s.title}
-                </h3>
-                <p className="mt-3 flex-1 text-[15px] leading-relaxed text-body">{s.desc}</p>
-                {/* Only the AI card leads anywhere; the rest just describe the work. */}
-                {s.href && (
-                  <Link href={s.href} className="link-accent mt-5 self-start text-sm">
-                    {s.cta} <span aria-hidden="true">›</span>
-                  </Link>
-                )}
-              </div>
-            ))}
+          <div className="min-w-0 text-center">
+            <p className="eyebrow">Websites · Apps · Platforms</p>
+            <h2 className="mx-auto mt-4 max-w-xl text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              I build websites, apps, and custom internal software — and integrate AI into your
+              platform.
+            </h2>
+
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+              {BUILDS.map((b) => (
+                <Link
+                  key={b.label}
+                  href={b.href}
+                  className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-white/20 px-5 py-2.5 text-[15px] font-medium text-white transition-colors hover:border-white/40 hover:bg-white/10"
+                >
+                  {b.label} <span aria-hidden="true" className="ml-1.5 text-white/60">›</span>
+                </Link>
+              ))}
+            </div>
+
+            <div className="mt-8">
+              <Link
+                href="/my-work"
+                className="inline-flex min-h-[64px] items-center justify-center rounded-full bg-white px-12 py-4 text-xl font-semibold tracking-tight text-dark transition-transform hover:-translate-y-0.5 sm:min-h-[72px] sm:px-16 sm:text-2xl"
+              >
+                My work
+              </Link>
+            </div>
+          </div>
+
+          <div className="hidden justify-start lg:flex">
+            <PhoneMock />
+          </div>
+
+          {/* On a phone there is no room for a column either side, so the site
+              sits above the app rather than beside it. */}
+          <div className="flex min-w-0 flex-col items-center gap-8 lg:hidden">
+            <WebMock className="w-full max-w-[300px]" />
+            <PhoneMock />
           </div>
         </div>
       </section>
@@ -198,42 +201,6 @@ export default function Home() {
 
         <div className="mt-10">
           <ToolTicker />
-        </div>
-      </section>
-
-      {/* One way on from here: the work itself, with a site and an app running
-          quietly on either side of it. */}
-      <section aria-label="My work" className="band-dark overflow-hidden px-5 py-20 sm:px-8 sm:py-24">
-        <div className="mx-auto grid w-full max-w-6xl items-center gap-12 lg:grid-cols-[1fr_auto_1fr] lg:gap-8">
-          <div className="hidden justify-end lg:flex">
-            <WebMock />
-          </div>
-
-          <div className="min-w-0 text-center">
-            <p className="eyebrow">Websites · Apps · Platforms</p>
-            <h2 className="mx-auto mt-4 max-w-md text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              Built, shipped, and still running.
-            </h2>
-            <div className="mt-8">
-              <Link
-                href="/my-work"
-                className="inline-flex min-h-[64px] items-center justify-center rounded-full bg-white px-12 py-4 text-xl font-semibold tracking-tight text-dark transition-transform hover:-translate-y-0.5 sm:min-h-[72px] sm:px-16 sm:text-2xl"
-              >
-                My work
-              </Link>
-            </div>
-          </div>
-
-          <div className="hidden justify-start lg:flex">
-            <PhoneMock />
-          </div>
-
-          {/* On a phone there is no room for a column either side, so the site
-              sits above the app rather than beside it. */}
-          <div className="flex min-w-0 flex-col items-center gap-8 lg:hidden">
-            <WebMock className="w-full max-w-[300px]" />
-            <PhoneMock />
-          </div>
         </div>
       </section>
 
