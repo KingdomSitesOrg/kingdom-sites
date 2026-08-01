@@ -3,7 +3,7 @@ import { ImageResponse } from 'next/og'
 /* The preview card for a /latin-game link — the game's own navy, gold, and
    crimson, since this page carries the game's identity rather than the site's. */
 
-export const alt = 'A Latin practice game — march from Rōma to Gaul and learn real Latin'
+export const alt = 'A Latin practice game — march from Rōma to Gallia and learn real Latin'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -45,7 +45,7 @@ export default function Image() {
               color: '#ffffff',
             }}
           >
-            <div style={{ display: 'flex' }}>March from Rōma to Gaul.</div>
+            <div style={{ display: 'flex' }}>March from Rōma to Gallia.</div>
             <div style={{ display: 'flex', color: '#E8B923' }}>Learn real Latin on the way.</div>
           </div>
         </div>

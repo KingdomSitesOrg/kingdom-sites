@@ -22,6 +22,24 @@ const LEARNING = [
   { icon: '🗓️', title: 'Word of the day', desc: 'One new word on the home screen every day, to keep vocabulary ticking over between sessions.' },
 ]
 
+/* The twelve stops of the march, in order, exactly as the app names them:
+   classical Latin nominatives with macrons. Two of them are camp rests
+   (Castra), not cities, and the last one is the goal. */
+const STOPS = [
+  { name: 'Rōma' },
+  { name: 'Vēiī' },
+  { name: 'Clūsium' },
+  { name: 'Castra I', kind: 'camp rest' },
+  { name: 'Florentia' },
+  { name: 'Bonōnia' },
+  { name: 'Vērōna' },
+  { name: 'Castra II', kind: 'camp rest' },
+  { name: 'Mediōlānum' },
+  { name: 'Genua' },
+  { name: 'Augusta Taurīnōrum' },
+  { name: 'Gallia', kind: 'the goal' },
+]
+
 function AppStoreIcon() {
   return (
     <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -145,7 +163,7 @@ export default function JamWithLatin() {
       <div className="hero">
         <div className="wrap">
           <h1>
-            March from <span className="crimson">Rōma</span> to Gaul.<br />
+            March from <span className="crimson">Rōma</span> to Gallia.<br />
             Learn <span className="gold">real Latin</span> on the way.
           </h1>
 
@@ -197,12 +215,22 @@ export default function JamWithLatin() {
             </p>
             <p className="lede">
               The map is a real map of Italy, so students can see where Vēiī sits relative to Rōma,
-              and where the road turns west for Gaul.
+              and where the road turns west for Gallia.
             </p>
+            {/* The stops carry their classical Latin names, macrons and all — the same
+                labels the app puts on the map. */}
+            <ol className="stops">
+              {STOPS.map((s) => (
+                <li key={s.name} className={s.kind ? 'stop-aside' : undefined}>
+                  <span className="stop-name">{s.name}</span>
+                  {s.kind && <span className="stop-kind">{s.kind}</span>}
+                </li>
+              ))}
+            </ol>
           </div>
           <div className="reveal">
             <div className="phone lift" style={{ margin: '0 auto' }}>
-              <Image src={shotMap} alt="The campaign map of Italy with twelve numbered stops from Rōma north to Gaul" sizes="264px" placeholder="blur" />
+              <Image src={shotMap} alt="The campaign map of Italy with twelve numbered stops from Rōma north to Gallia" sizes="264px" placeholder="blur" />
             </div>
           </div>
         </div>
@@ -258,7 +286,7 @@ export default function JamWithLatin() {
             <h2>Something to march for.</h2>
             <p className="lede">
               Every correct answer earns XP, and the arena standings show who is furthest along the
-              road to Gaul. It turns solitary vocabulary practice into a friendly contest — the part
+              road to Gallia. It turns solitary vocabulary practice into a friendly contest — the part
               that keeps students coming back without any prompting from a parent.
             </p>
             <p className="lede">

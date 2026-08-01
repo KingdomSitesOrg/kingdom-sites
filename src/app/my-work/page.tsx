@@ -119,7 +119,7 @@ const PRODUCT_PAGES = [
   {
     name: 'Latin practice game',
     href: '/latin-game',
-    desc: 'A Latin course for homeschool and classical students, played as a Roman-legion march from Rōma to Gaul.',
+    desc: 'A Latin course for homeschool and classical students, played as a Roman-legion march from Rōma to Gallia.',
   },
   {
     name: 'Ruta',
@@ -336,7 +336,7 @@ export default function MyWork() {
                 Classical Latin as a Roman-legion quest.
               </p>
               <p className="mt-4 text-[15px] leading-relaxed text-body">
-                Homeschool and classical students march north from Rōma to Gaul, learning real
+                Homeschool and classical students march north from Rōma to Gallia, learning real
                 vocabulary, verb endings, and sentences at every stop. A curriculum wrapped in a game,
                 with a leaderboard that keeps students drilling on their own initiative.
               </p>
