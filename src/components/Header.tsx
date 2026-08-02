@@ -9,7 +9,7 @@ import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
 const WORK_LINKS = [
   { to: '/my-work',       label: 'All my work',   desc: 'Everything I’ve designed and shipped' },
   { to: '/ruta',          label: 'Ruta',          desc: 'Service management platform · case study' },
-  // Tap to Tick product page is unlisted (App Store marketing URL only).
+  { to: '/tap-to-tick',   label: 'Tap to Tick',   desc: 'A frictionless expense tracker for iPhone' },
   { to: '/latin-game',    label: 'Latin practice game',desc: 'Classical Latin as a Roman quest' },
   { to: '/ai-tooling',    label: 'AI tooling',    desc: 'Consultation for teams new to AI' },
 ]

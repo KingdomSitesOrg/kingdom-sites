@@ -5,8 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      // Product + privacy pages exist for App Store Connect only.
-      disallow: ["/dashboard", "/login", "/auth", "/tap-to-tick"],
+      disallow: ["/dashboard", "/login", "/auth"],
     },
     sitemap: "https://kingdom-sites.com/sitemap.xml",
   };

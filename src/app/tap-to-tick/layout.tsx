@@ -6,8 +6,7 @@ export const metadata: Metadata = {
   description:
     'Tap to Tick is a frictionless iPhone expense tracker: log any transaction in two taps — including the cash in your pocket. Everything is free, including a shared ledger for two people over iCloud.',
   alternates: { canonical: '/tap-to-tick' },
-  // App Store marketing / privacy URLs only — not listed on the public site.
-  robots: { index: false, follow: false },
+  robots: { index: true, follow: true },
   openGraph: {
     title: 'Tap to Tick',
     description: 'An easy way to log and track transactions — including cash.',

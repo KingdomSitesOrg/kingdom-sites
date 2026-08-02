@@ -6,8 +6,7 @@ export const metadata: Metadata = {
   description:
     'How Tap to Tick handles your budget data: stored on your device and in your own iCloud account. Tap to Tick does not run its own servers.',
   alternates: { canonical: '/tap-to-tick/privacy' },
-  // App Store privacy URL — not listed in search or on the public site.
-  robots: { index: false, follow: false },
+  robots: { index: true, follow: true },
 }
 
 export default function TapToTickPrivacy() {
