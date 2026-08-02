@@ -332,8 +332,8 @@ export default function Ruta() {
                 What that means for your software
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-muted">
-                The same work, pointed at your product. Tap to Tick has an AI money coach in it too,
-                so this is the second product I have shipped it in.
+                The same work, pointed at your product — grounded answers, actions with a person in
+                the loop, and cost/failure handling built in from the start.
               </p>
               <div className="mt-6 space-y-5">
                 {AI_FOR_YOU.map((a) => (

@@ -4,7 +4,7 @@ import './tap-to-tick.css'
 export const metadata: Metadata = {
   title: 'Tap to Tick — an easy way to log and track transactions',
   description:
-    'Tap to Tick is a frictionless iPhone expense tracker: log any transaction in two taps — including the cash in your pocket. Everything is free, including a shared ledger for two people over iCloud. An AI money coach is coming soon.',
+    'Tap to Tick is a frictionless iPhone expense tracker: log any transaction in two taps — including the cash in your pocket. Everything is free, including a shared ledger for two people over iCloud.',
   alternates: { canonical: '/tap-to-tick' },
   // App Store marketing / privacy URLs only — not listed on the public site.
   robots: { index: false, follow: false },

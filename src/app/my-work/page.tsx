@@ -8,7 +8,7 @@ import jwlMap from '../../../public/latin-game/map.jpg'
 import rutaQueue from '../../../public/ruta/crew-queue.jpg'
 import rutaVisit from '../../../public/ruta/crew-visit.jpg'
 
-const TTT_STACK = ['Swift', 'SwiftUI', 'WidgetKit', 'watchOS', 'CloudKit', 'Cloudflare Workers', 'Claude API']
+const TTT_STACK = ['Swift', 'SwiftUI', 'WidgetKit', 'watchOS', 'CloudKit']
 
 const TTT_HIGHLIGHTS = [
   {
@@ -20,12 +20,8 @@ const TTT_HIGHLIGHTS = [
     desc: 'No servers holding your budget and no account to create. Everything syncs through your own iCloud, including an optional shared budget for two people.',
   },
   {
-    title: 'An AI coach on real numbers — coming soon',
-    desc: 'Ask a question in plain English and get an answer built from your own entries, budgets and balances — the specific thing worth changing this month, not generic advice. In beta now, and switched on by request while it is tested.',
-  },
-  {
     title: 'Free, all of it',
-    desc: 'Every feature is free, including the shared budget for two people. The AI money coach is coming soon — in beta now, switched on by request while it is tested.',
+    desc: 'Every feature is free, including the shared budget for two people.',
   },
 ]
 
@@ -63,8 +59,7 @@ const RUTA_HIGHLIGHTS = [
   },
 ]
 
-/* AI work, across both products. Kept together because clients ask about it as
-   its own thing rather than as a feature of one app. */
+/* AI work shipped in products. Tap to Tick’s coach is disabled and not listed. */
 const AI_SHIPPED = [
   {
     product: 'Ruta AI',
@@ -74,16 +69,6 @@ const AI_SHIPPED = [
       'It acts as well as answers, and can take a user straight to the right place in the app',
       'Draft replies from a customer’s real history, which a person edits or regenerates before sending',
       'Available everywhere people already work — the office app and the app in the field',
-    ],
-  },
-  {
-    product: 'The Tap to Tick money coach',
-    where: 'iPhone expense tracker · my own product · coming soon',
-    points: [
-      'Ask a question in plain English, get an answer from your own entries, budgets and balances',
-      'The app decides which of your numbers bear on the question and sends only those',
-      'Replies lead with the one thing worth changing, not a page of generic advice',
-      'No account and no copy of your budget on a server — the question is the only thing that leaves',
     ],
   },
 ]
@@ -389,8 +374,7 @@ export default function MyWork() {
               <p className="mt-4 text-[15px] leading-relaxed text-white/65">
                 Most expense trackers fail for the same reason: logging a purchase is more work than
                 making one. Tap to Tick puts the whole thing on your Lock Screen, your wrist, and your
-                Apple Pay. An AI money coach that explains your own numbers back to you is coming
-                soon.
+                Apple Pay — one shared budget for two people when you want it.
               </p>
 
               <div className="mt-6 flex flex-wrap gap-x-4 gap-y-2">
@@ -447,10 +431,9 @@ export default function MyWork() {
             AI that does the work, not just the talking
           </h2>
           <p className="mt-5 max-w-2xl text-pretty text-base leading-relaxed text-body">
-            I have shipped this twice, in two very different products: an assistant inside a platform
-            businesses run on, and a money coach inside a consumer app — the coach is in beta and
-            coming soon. Both answer from the user&apos;s own data, and one of them takes actions on
-            it.
+            I have shipped this in production on Ruta: an assistant inside a platform businesses run
+            on. It answers from the company&apos;s own data, and it can take actions — with a person
+            in the loop — not just talk about them.
           </p>
 
           <div className="mt-10 grid gap-5 lg:grid-cols-2">

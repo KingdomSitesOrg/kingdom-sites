@@ -154,7 +154,7 @@ export default function TapToTick() {
               <a href="#how">How it works</a>
               <a href="#cash">Cash</a>
               <a href="#screens">Screens</a>
-              <a href="#ask">Ask</a>
+              <a href="#together">Share</a>
             </div>
             {/* Straight to the App Store — the app is live, so there is no reason
                 to send people to a section further down the page first. */}
@@ -180,7 +180,7 @@ export default function TapToTick() {
             <a href="#how" onClick={() => setMenuOpen(false)}>How it works</a>
             <a href="#cash" onClick={() => setMenuOpen(false)}>Cash</a>
             <a href="#screens" onClick={() => setMenuOpen(false)}>Screens</a>
-            <a href="#ask" onClick={() => setMenuOpen(false)}>Ask</a>
+            <a href="#together" onClick={() => setMenuOpen(false)}>Share</a>
             <span className="mobile-menu-sep" aria-hidden="true" />
             <Link href="/" onClick={() => setMenuOpen(false)}>Kingdom Sites</Link>
             <Link href="/my-work" onClick={() => setMenuOpen(false)}>All my work</Link>
@@ -440,44 +440,11 @@ export default function TapToTick() {
         </div>
       </section>
 
-      {/* ============ ASK (AI) ============ */}
-      <section id="ask" className="band">
-        <div className="wrap split">
-          <div className="copy reveal">
-            <div className="kicker">06 — Ask<span className="tag-beta">Beta · coming soon</span></div>
-            <h2>A money coach that reads your numbers.</h2>
-            <p className="lede">
-              Ask anything in plain English and get an answer built from <b>your own</b> entries,
-              budgets and balances — not generic advice. It leads with the one thing worth changing,
-              compares this month against last, and tells you where the money actually went.
-            </p>
-            <p className="note">
-              <b>In beta, coming soon.</b> Ask is still being tested, so it is switched on by request
-              rather than shipped to everyone — if you want it, email me and I&apos;ll turn it on. It
-              arrives for everybody once enough people want it.
-            </p>
-          </div>
-          <div className="reveal">
-            <div className="demo">
-              <div className="chat">
-                <div className="bubble me">Where am I losing money?</div>
-                <div className="bubble ai">
-                  Gas is at <b>95% of your $90 budget</b> with nine days to go, and Dining is running
-                  $40 above last month. One fewer fill-up puts you back under.
-                </div>
-                <div className="bubble me">How much did I spend on cash this week?</div>
-                <div className="typing" aria-hidden="true"><i /><i /><i /></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ============ SHARING ============ */}
       <section id="together">
         <div className="wrap split flip">
           <div className="copy reveal">
-            <div className="kicker">07 — Together</div>
+            <div className="kicker">06 — Together</div>
             <h2>One budget, two people.</h2>
             <p className="lede">
               Invite the person you share money with straight from the share sheet. You both log into
@@ -518,7 +485,7 @@ export default function TapToTick() {
       {/* ============ SCREENS ============ */}
       <section id="screens" className="band" style={{ paddingBottom: 56 }}>
         <div className="wrap reveal" style={{ textAlign: 'center' }}>
-          <div className="kicker">08 — Every screen</div>
+          <div className="kicker">07 — Every screen</div>
           <h2>The whole app.</h2>
           <p className="lede" style={{ margin: '16px auto 0', textAlign: 'center' }}>
             There isn&apos;t much to it. That&apos;s the point.
@@ -556,8 +523,8 @@ export default function TapToTick() {
           <h2>Your money is nobody&apos;s business.</h2>
           <p className="lede" style={{ margin: '16px auto 0', textAlign: 'center' }}>
             There is no account to make and no budget database to hack, because there isn&apos;t one.
-            Every transaction lives on your phone and syncs through your own iCloud. The only thing
-            that ever leaves is a question you type into Ask — and only when you ask it.
+            Every transaction lives on your phone and syncs through your own iCloud — nothing about
+            your budget is sent to Tap to Tick servers, because there are none.
           </p>
           <div className="pills">
             <span className="pill">No sign-up</span>
@@ -578,7 +545,7 @@ export default function TapToTick() {
       {/* ============ DEMO ============ */}
       <section id="demo">
         <div className="wrap reveal" style={{ textAlign: 'center' }}>
-          <div className="kicker">09 — See it in action</div>
+          <div className="kicker">08 — See it in action</div>
           <h2>Watch it happen.</h2>
           <p className="lede" style={{ margin: '16px auto 28px', textAlign: 'center' }}>
             The whole flow, start to finish.
