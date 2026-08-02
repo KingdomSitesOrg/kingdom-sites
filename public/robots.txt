@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /dashboard
 Disallow: /login
+Disallow: /tap-to-tick
 
-Sitemap: https://kingdomsites.org/sitemap.xml
+Sitemap: https://kingdom-sites.com/sitemap.xml

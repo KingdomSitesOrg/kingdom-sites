@@ -4,19 +4,19 @@ import Link from 'next/link'
 export const metadata: Metadata = {
   title: 'Privacy Policy — Tap to Tick',
   description:
-    'How Tap to Tick handles your budget data: stored on your device and in your own iCloud account, with the optional Ask assistant the only feature that sends anything off-device.',
+    'How Tap to Tick handles your budget data: stored on your device and in your own iCloud account. Tap to Tick does not run its own servers.',
   alternates: { canonical: '/tap-to-tick/privacy' },
-  robots: { index: true, follow: true },
+  // App Store privacy URL — not listed in search or on the public site.
+  robots: { index: false, follow: false },
 }
 
 export default function TapToTickPrivacy() {
   return (
     <div className="doc">
       <h1>Privacy Policy</h1>
-      <p className="updated">Last updated: July 2026</p>
+      <p className="updated">Last updated: August 2026</p>
       <div className="banner">
-        Your ledger lives in your Apple iCloud account. The only feature that sends anything off your
-        device is the optional Ask assistant.
+        Your ledger lives in your Apple iCloud account. Tap to Tick does not run its own servers.
       </div>
 
       <h2>Summary</h2>
@@ -25,10 +25,6 @@ export default function TapToTickPrivacy() {
         personal expense tracker. There is no Tap to Tick account system, no analytics, and no advertising.
         Sign-in is your existing Apple ID / iCloud account at the system level. Tap to Tick does not operate
         a database that stores your budget.
-      </p>
-      <p>
-        One feature is an exception, and it is opt-in by use: the <strong>Ask</strong> assistant sends the parts
-        of your budget needed to answer your question to an AI model provider. That is described in detail below.
       </p>
 
       <h2>Where your budget data lives</h2>
@@ -51,43 +47,11 @@ export default function TapToTickPrivacy() {
 
       <h2>Sharing with another person</h2>
       <p>
-        You may invite a second person to the same ledger using Apple&apos;s
+        You may invite others to the same ledger using Apple&apos;s
         system share sheet (for example Messages). That person receives access through CloudKit sharing.
         Either of you can leave or stop sharing; when access ends, the participant&apos;s window onto the
         owner&apos;s records goes away. Export a CSV from Settings or History before leaving if you want a
         personal copy of the history.
-      </p>
-
-      <h2>Ask — the AI assistant</h2>
-      <p>
-        The Ask feature answers questions about your money using a large language model (Claude, from
-        Anthropic). This is the one part of the app where budget information leaves your device, and it only
-        happens when you send a message in Ask.
-      </p>
-      <p>When you send a question, the following is transmitted:</p>
-      <ul>
-        <li>the text of your question and the earlier messages in that conversation;</li>
-        <li>
-          the budget figures needed to answer it, requested by the model and assembled on your device:
-          spending, income and net totals for a period; expense totals per category with any monthly budget
-          you set; up to fifty recent entries (date, amount, type, category, note text, account name); and
-          your account balances.
-        </li>
-      </ul>
-      <p>
-        Requests go over HTTPS to a small service operated by Tap to Tick on Cloudflare Workers, which
-        forwards them to Anthropic&apos;s API. It does not log or store your questions or your budget
-        figures — the only thing it keeps is a running count of requests per day, used to limit abuse. It
-        does not receive your name, email address, Apple ID, device identifier, or location.
-      </p>
-      <p>
-        Anthropic processes the request to generate the reply under its commercial API terms, which do not
-        permit using API inputs or outputs to train its models. Your Ask conversation itself is kept only in
-        memory on your device while the app is open and is not saved to your ledger or your iCloud.
-      </p>
-      <p>
-        If you would rather nothing about your budget leave the device, do not use Ask. Every other feature in
-        the app works without it.
       </p>
 
       <h2>Optional location on purchases</h2>
@@ -98,7 +62,10 @@ export default function TapToTickPrivacy() {
       </p>
       <ul>
         <li>Location is used only for this optional place-on-purchase feature.</li>
-        <li>Location is never sent to Anthropic or to the service that forwards Ask requests. When iCloud sync is on, place fields sync with the entry inside your iCloud budget like other entry fields.</li>
+        <li>
+          Location is not sent to Tap to Tick servers — there are none. When iCloud sync is on, place fields
+          sync with the entry inside your iCloud budget like other entry fields.
+        </li>
         <li>If you deny location permission, or a fix is unavailable or slow, logging a purchase still works; the entry is simply saved without a place.</li>
         <li>Lock Screen widget and Apple Watch log paths do not require location for success.</li>
       </ul>
@@ -106,9 +73,7 @@ export default function TapToTickPrivacy() {
       <h2>Third parties</h2>
       <p>
         Tap to Tick does not use third-party analytics SDKs, crash reporters, or ad networks. Sync uses Apple
-        CloudKit. Maps shown for purchase places use Apple MapKit. Subscriptions are processed by Apple. The
-        Ask feature uses Cloudflare Workers (which forwards the request) and Anthropic (the AI model), and only for the
-        data described in the Ask section above.
+        CloudKit. Maps shown for purchase places use Apple MapKit.
       </p>
 
       <h2>Children&apos;s privacy</h2>

@@ -109,13 +109,9 @@ const AI_OFFER = [
 
 const SITE_STACK = ['Next.js', 'React', 'TypeScript', 'Tailwind', 'Vercel']
 
-/* Each product above has a page selling it — small sites in their own right. */
+/* Public product pages only. Tap to Tick’s marketing page stays unlisted
+   (App Store URL only) so it is not linked from the public site. */
 const PRODUCT_PAGES = [
-  {
-    name: 'Tap to Tick',
-    href: '/tap-to-tick',
-    desc: 'An expense tracker for iPhone and Apple Watch that logs a purchase in one tap, from the Lock Screen or your wrist.',
-  },
   {
     name: 'Latin practice game',
     href: '/latin-game',
@@ -404,18 +400,14 @@ export default function MyWork() {
               </div>
 
               <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-                <Link href="/tap-to-tick" className="btn-primary">See the product page</Link>
                 <a
                   href="https://apps.apple.com/us/app/tap-to-tick/id6791948663"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-white/70 underline underline-offset-4 hover:text-white sm:ml-2"
+                  className="btn-primary"
                 >
                   On the App Store
                 </a>
-                <Link href="/tap-to-tick/privacy" className="text-sm text-white/70 underline underline-offset-4 hover:text-white">
-                  Privacy policy
-                </Link>
               </div>
             </div>
 
@@ -508,9 +500,6 @@ export default function MyWork() {
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
             <Link href="/ruta" className="btn-primary">See the AI work in Ruta</Link>
-            <Link href="/tap-to-tick#ai" className="text-sm text-body underline underline-offset-4 hover:text-ink sm:ml-2">
-              How the Tap to Tick coach works
-            </Link>
           </div>
         </div>
       </section>
