@@ -268,7 +268,7 @@ export default function Home() {
                 {'I am a software engineer who also does the search work, and I sell both as a partnership rather than by the hour. An agency can market you but cannot build you anything. A developer can build you something but has no interest in whether anyone finds it. You need both, from someone whose own income depends on your business getting bigger.'}
               </p>
               <p className="mt-4 text-pretty text-base leading-relaxed text-body">
-                {'I have also worked behind the counter at a local bike shop, so I know what running a small business actually looks like — thin margins, long days, and no spare hour to spend working out what Google wants from you.'}
+                {'I have also worked behind the counter at a local bike shop here in Rochester, so I know what running a small business actually looks like — thin margins, long days, and no spare hour to spend working out what Google wants from you.'}
               </p>
 
               <div className="mt-8 space-y-4">

@@ -71,7 +71,7 @@ export const metadata: Metadata = {
   },
   /* Geo meta so crawlers and tools associate the site with Rochester, MN. */
   other: {
-    "geo.region": "US-MN",
+    "geo.region": `US-${SERVICE_REGION_CODE}`,
     "geo.placename": SERVICE_CITY,
     "geo.position": `${SERVICE_LAT};${SERVICE_LNG}`,
     ICBM: `${SERVICE_LAT}, ${SERVICE_LNG}`,
