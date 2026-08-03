@@ -14,12 +14,20 @@ const WORK_LINKS = [
   { to: '/ai-tooling',    label: 'AI tooling',    desc: 'Consultation for teams new to AI' },
 ]
 
+/* The local business side, shown in the menu under Grow My Business. */
+const GROW_LINKS = [
+  { to: '/grow',                   label: 'Overview',        desc: 'How I get a local business found and called' },
+  { to: '/local-business',         label: 'What you get',    desc: 'Everything covered, month by month' },
+  { to: '/local-business#pricing', label: 'Pricing',         desc: 'Three plans, from $199 a month' },
+  { to: '/get-started',            label: 'Free look',       desc: 'An honest read on how you show up today' },
+]
+
 const NAV_LINKS = [
-  { to: '/local-business',         label: 'What I Do' },
-  { to: '/local-business#pricing', label: 'Pricing' },
-  { to: '/my-work',                label: 'My Work', children: WORK_LINKS },
-  { to: '/about',                  label: 'About' },
-  { to: '/mission',                label: 'Mission' },
+  { to: '/grow',     label: 'Grow My Business', children: GROW_LINKS },
+  { to: '/software', label: 'Custom Software' },
+  { to: '/my-work',  label: 'My Work', children: WORK_LINKS },
+  { to: '/about',    label: 'About' },
+  { to: '/mission',  label: 'Mission' },
 ]
 
 function ChevronIcon({ open }: { open: boolean }) {
@@ -61,7 +69,9 @@ function CloseIcon() {
 export default function Header() {
   const pathname  = usePathname()
   const [menuOpen, setMenuOpen] = useState(false)
-  const [workOpen, setWorkOpen] = useState(false)
+  /* Which drop-down is showing, held by the nav item it belongs to — there is
+     more than one now, so a plain open/closed flag will not do. */
+  const [openMenu, setOpenMenu] = useState<string | null>(null)
   const [scrolled, setScrolled] = useState(false)
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -74,22 +84,24 @@ export default function Header() {
 
   useEffect(() => () => { if (closeTimer.current) clearTimeout(closeTimer.current) }, [])
 
-  const openWork = () => {
+  const open = (key: string) => {
     if (closeTimer.current) clearTimeout(closeTimer.current)
-    setWorkOpen(true)
+    setOpenMenu(key)
   }
 
   // A short delay so crossing the small gap between the link and the panel
   // doesn't dismiss it mid-movement.
-  const closeWork = () => {
+  const close = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current)
-    closeTimer.current = setTimeout(() => setWorkOpen(false), 140)
+    closeTimer.current = setTimeout(() => setOpenMenu(null), 140)
   }
 
   const isActive = (path: string) => pathname === path
 
-  // My Work stays highlighted while the visitor is on one of its projects.
-  const workActive = WORK_LINKS.some(({ to }) => pathname === to)
+  // A nav item with a menu stays highlighted while the visitor is on one of its
+  // pages — so My Work stays lit on a project, and Grow My Business on pricing.
+  const sectionActive = (children: { to: string }[]) =>
+    children.some(({ to }) => pathname === to.split('#')[0])
 
   return (
     <header className="sticky top-0 z-50">
@@ -113,29 +125,31 @@ export default function Header() {
                   <div
                     key={to}
                     className="relative"
-                    onMouseEnter={openWork}
-                    onMouseLeave={closeWork}
-                    onFocus={openWork}
+                    onMouseEnter={() => open(to)}
+                    onMouseLeave={close}
+                    onFocus={() => open(to)}
                     onBlur={(e) => {
-                      if (!e.currentTarget.contains(e.relatedTarget as Node)) setWorkOpen(false)
+                      if (!e.currentTarget.contains(e.relatedTarget as Node)) setOpenMenu(null)
                     }}
-                    onKeyDown={(e) => { if (e.key === 'Escape') setWorkOpen(false) }}
+                    onKeyDown={(e) => { if (e.key === 'Escape') setOpenMenu(null) }}
                   >
                     <Link
                       href={to}
-                      aria-expanded={workOpen}
+                      aria-expanded={openMenu === to}
                       className={`flex items-center gap-1.5 text-[13.5px] transition-colors duration-200 ${
-                        workActive || workOpen ? 'font-medium text-ink' : 'text-body hover:text-ink'
+                        sectionActive(children) || openMenu === to
+                          ? 'font-medium text-ink'
+                          : 'text-body hover:text-ink'
                       }`}
                     >
                       {label}
-                      <ChevronIcon open={workOpen} />
+                      <ChevronIcon open={openMenu === to} />
                     </Link>
 
                     {/* The padding is the hover bridge between the link and the panel. */}
                     <div
                       className={`absolute -left-3 top-full w-[286px] pt-3 transition-all duration-150 ${
-                        workOpen
+                        openMenu === to
                           ? 'visible translate-y-0 opacity-100'
                           : 'invisible -translate-y-1 opacity-0'
                       }`}
@@ -150,12 +164,12 @@ export default function Header() {
                           boxShadow: '0 16px 40px rgba(16,23,37,0.14)',
                         }}
                       >
-                        {WORK_LINKS.map((item) => (
+                        {children.map((item) => (
                           <Link
                             key={item.to}
                             href={item.to}
-                            tabIndex={workOpen ? 0 : -1}
-                            onClick={() => setWorkOpen(false)}
+                            tabIndex={openMenu === to ? 0 : -1}
+                            onClick={() => setOpenMenu(null)}
                             className={`block rounded-xl px-3 py-2.5 transition-colors ${
                               isActive(item.to) ? 'bg-surface-2' : 'hover:bg-surface-2'
                             }`}

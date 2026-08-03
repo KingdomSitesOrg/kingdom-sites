@@ -275,13 +275,13 @@ body {
 
    Each step moves the strip one panel: an eighth of its own width. */
 @keyframes scenes-pan {
-  0%       { transform: translate3d(0, 0, 0);      animation-timing-function: cubic-bezier(0.05, 0.85, 0.12, 1); }
-  14.2857% { transform: translate3d(-12.5%, 0, 0); animation-timing-function: cubic-bezier(0.05, 0.85, 0.12, 1); }
-  28.5714% { transform: translate3d(-25%, 0, 0);   animation-timing-function: cubic-bezier(0.05, 0.85, 0.12, 1); }
-  42.8571% { transform: translate3d(-37.5%, 0, 0); animation-timing-function: cubic-bezier(0.05, 0.85, 0.12, 1); }
-  57.1429% { transform: translate3d(-50%, 0, 0);   animation-timing-function: cubic-bezier(0.05, 0.85, 0.12, 1); }
-  71.4286% { transform: translate3d(-62.5%, 0, 0); animation-timing-function: cubic-bezier(0.05, 0.85, 0.12, 1); }
-  85.7143% { transform: translate3d(-75%, 0, 0);   animation-timing-function: cubic-bezier(0.05, 0.85, 0.12, 1); }
+  0%       { transform: translate3d(0, 0, 0);      animation-timing-function: cubic-bezier(0.12, 0.72, 0.2, 1); }
+  14.2857% { transform: translate3d(-12.5%, 0, 0); animation-timing-function: cubic-bezier(0.12, 0.72, 0.2, 1); }
+  28.5714% { transform: translate3d(-25%, 0, 0);   animation-timing-function: cubic-bezier(0.12, 0.72, 0.2, 1); }
+  42.8571% { transform: translate3d(-37.5%, 0, 0); animation-timing-function: cubic-bezier(0.12, 0.72, 0.2, 1); }
+  57.1429% { transform: translate3d(-50%, 0, 0);   animation-timing-function: cubic-bezier(0.12, 0.72, 0.2, 1); }
+  71.4286% { transform: translate3d(-62.5%, 0, 0); animation-timing-function: cubic-bezier(0.12, 0.72, 0.2, 1); }
+  85.7143% { transform: translate3d(-75%, 0, 0);   animation-timing-function: cubic-bezier(0.12, 0.72, 0.2, 1); }
   100%     { transform: translate3d(-87.5%, 0, 0); }
 }
 .scenes-pan {
