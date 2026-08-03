@@ -6,6 +6,11 @@ import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
 
 type Props = { params: Promise<{ slug: string }> }
 
+/* The picture shown when a post is shared, and the one search engines read as
+   the article's image. A page that sets its own share card replaces the site
+   default wholesale, so posts have to name it themselves or they go out bare. */
+const SHARE_IMAGE = 'https://kingdom-sites.com/share/kingdom-sites.jpg'
+
 export function generateStaticParams() {
   return getAllPosts().map((p) => ({ slug: p.slug }))
 }
@@ -28,11 +33,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: 'article',
       publishedTime: post.date,
       locale: 'en_US',
+      images: [{ url: SHARE_IMAGE, width: 1200, height: 630, alt: post.title }],
     },
     twitter: {
       card: 'summary_large_image',
       title: post.title,
       description: post.description,
+      images: [SHARE_IMAGE],
     },
   }
 }
@@ -86,10 +93,19 @@ export default async function BlogPostPage({ params }: Props) {
       name: 'Thomas Klein',
       url: 'https://kingdom-sites.com/about',
     },
+    /* Google will not consider an article for a rich result without an image,
+       so every post carries the site share picture at the least. */
+    image: [SHARE_IMAGE],
     publisher: {
       '@type': 'Organization',
       name: 'Kingdom Sites',
       url: 'https://kingdom-sites.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://kingdom-sites.com/marketing/logo-lockup.png',
+        width: 2400,
+        height: 600,
+      },
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
