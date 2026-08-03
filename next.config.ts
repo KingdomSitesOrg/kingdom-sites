@@ -5,15 +5,19 @@ const isDev = process.env.NODE_ENV === 'development'
 
 const csp = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''}`,
+  // Google Analytics 4 loads its tag from googletagmanager.com. Without it
+  // listed here the browser blocks the script and no visits are ever recorded.
+  `script-src 'self' 'unsafe-inline' https://www.googletagmanager.com${isDev ? " 'unsafe-eval'" : ''}`,
   // Sentry Session Replay compresses recordings on a background thread that it
   // starts from an in-memory blob: script. Without this it falls back to
   // script-src and gets blocked.
   "worker-src 'self' blob:",
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob:",
+  // Analytics still falls back to a tracking pixel in some browsers.
+  "img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com",
   "font-src 'self'",
-  "connect-src 'self' https://*.ingest.us.sentry.io https://*.ingest.sentry.io",
+  // Sentry reports errors; the Google hosts are where Analytics sends pageviews.
+  "connect-src 'self' https://*.ingest.us.sentry.io https://*.ingest.sentry.io https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com",
   "form-action 'none'",
   // Mission page embeds a YouTube player; links-only would not need this.
   // In development the site may also frame itself, which is how phone-width
