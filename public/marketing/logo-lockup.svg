@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 130" width="520" height="130" role="img" aria-label="Kingdom Sites">
+  <title>Kingdom Sites</title>
+  <!-- Mark plus wordmark. The text is live text so it can be edited; set in
+       Inter, the same face the site uses. -->
+  <g transform="translate(6 5) scale(1)">
+    <path
+      d="M60 113C60 113 19 76.5 19 49A41 41 0 0 1 101 49C101 76.5 60 113 60 113Z"
+      fill="#0a63c9"
+    />
+    <circle cx="60" cy="48" r="26" fill="#ffffff" />
+    <path d="M45.5 60V40.5l7.5 7.2L60 36l7 11.7 7.5-7.2V60Z" fill="#c05a2b" />
+    <circle cx="45.5" cy="37.5" r="3" fill="#c05a2b" />
+    <circle cx="60" cy="32.8" r="3.2" fill="#c05a2b" />
+    <circle cx="74.5" cy="37.5" r="3" fill="#c05a2b" />
+  </g>
+  <text
+    x="128"
+    y="79"
+    font-family="Inter, -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif"
+    font-size="52"
+    font-weight="600"
+    letter-spacing="-1.4"
+    fill="#15181d"
+  >Kingdom Sites</text>
+</svg>
