@@ -730,9 +730,17 @@ const SCENES: Scene[] = [
     this is the whole of a scene's time on screen rather than a hold. */
 const PER_SCENE_MS = 1800
 
-/* Two copies of the list, so the strip can slide half its width and land back
-   exactly where it began. */
-const PANELS = [...SCENES, ...SCENES]
+/** How far into a step the scene has effectively landed, as a fraction of that
+    step — set by the easing curve in `scenes-pan`. The caption switches here,
+    so the pill and the picture change together. */
+const ARRIVES_AT = 0.14
+
+/* The seven scenes plus one repeat of the first. When the strip has slid seven
+   panels along, the repeat is filling the screen — identical to the start — so
+   the animation can loop with no visible jump. One spare panel is all that
+   takes: a second full copy would be seven more screen-sized layers for the
+   browser to hold and rasterise, for no visible gain. */
+const PANELS = [...SCENES, SCENES[0]]
 
 export default function WorkScenes({ children }: { children: React.ReactNode }) {
   const [index, setIndex] = useState(0)
@@ -749,9 +757,11 @@ export default function WorkScenes({ children }: { children: React.ReactNode }) 
     const tick = () => {
       const animation = track.current?.getAnimations?.()[0]
       const elapsed = Number(animation?.currentTime ?? 0)
-      /* Rounding rather than flooring means the name changes as the join
-         between two scenes passes the middle of the screen. */
-      const current = Math.round(elapsed / PER_SCENE_MS) % SCENES.length
+      /* The pan covers nearly all of each step in its first fraction and then
+         crawls, so the new business is in place long before the step is over.
+         The name changes with that arrival — not at the halfway point, which
+         would leave the pill naming a business that landed half a second ago. */
+      const current = Math.floor(elapsed / PER_SCENE_MS + 1 - ARRIVES_AT) % SCENES.length
       if (current !== shown) {
         shown = current
         setIndex(current)
@@ -768,13 +778,13 @@ export default function WorkScenes({ children }: { children: React.ReactNode }) 
       <div className="absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
         <div
           ref={track}
-          className="scenes-pan flex h-full w-[1400%]"
+          className="scenes-pan flex h-full w-[800%]"
           style={{ ['--pan-duration' as string]: `${(PER_SCENE_MS * SCENES.length) / 1000}s` }}
         >
           {PANELS.map((scene, i) => (
             <div
               key={`${scene.id}-${i}`}
-              className="h-full w-[calc(100%/14)] shrink-0 border-r border-ink/15"
+              className="h-full w-[calc(100%/8)] shrink-0 border-r border-ink/15"
             >
               <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid slice" className="h-full w-full">
                 {scene.draw}
