@@ -157,6 +157,20 @@ body {
 .eyebrow-blue { color: var(--color-accent); }
 .band-dark .eyebrow { color: #f0b48c; }
 
+/* ---------- the menu on a phone ---------- */
+/* It takes the whole screen under the bar and scrolls inside itself, so no strip
+   of the page shows beneath it and the last few links are never left under the
+   phone browser's own toolbar. 100dvh is the height actually visible, which
+   shrinks and grows as that toolbar comes and goes. */
+.mobile-menu-panel {
+  /* The bar above it is 3.5rem tall and carries a 1px edge. */
+  height: calc(100vh - 3.5rem - 1px);
+  height: calc(100dvh - 3.5rem - 1px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
 
 .reveal-card {
   opacity: 0;
@@ -233,6 +247,21 @@ body {
 @keyframes mock-tab {
   0%, 26%   { opacity: 1; }
   34%, 100% { opacity: 0.25; }
+}
+
+/* The site and app drawings are laid out once at their own fixed size and then
+   scaled whole, so a phone stays phone-shaped at every screen width. Sizes come
+   from the component, --mock-scale from whichever page is showing it. */
+.mock-scale {
+  flex: none;
+  width: calc(var(--mock-w) * var(--mock-scale, 1) * 1px);
+  height: calc(var(--mock-h) * var(--mock-scale, 1) * 1px);
+}
+.mock-scale > * {
+  width: calc(var(--mock-w) * 1px);
+  height: calc(var(--mock-h) * 1px);
+  transform: scale(var(--mock-scale, 1));
+  transform-origin: top left;
 }
 
 .mock-bar     { transform-origin: left; animation: mock-fill 5s ease-in-out infinite; }

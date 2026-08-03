@@ -105,9 +105,9 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="flex items-center justify-center gap-4 sm:gap-5">
-            <WebMock className="w-[168px] sm:w-[210px] lg:w-[240px]" />
-            <PhoneMock className="w-[80px] sm:w-[104px] lg:w-[118px]" />
+          <div className="flex items-center justify-center gap-2 [--mock-scale:0.64] sm:gap-5 sm:[--mock-scale:0.82] lg:[--mock-scale:0.94]">
+            <WebMock />
+            <PhoneMock />
           </div>
         </div>
       </section>

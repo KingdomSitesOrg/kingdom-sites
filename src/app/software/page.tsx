@@ -57,7 +57,7 @@ export default function Software() {
       <section id="services" aria-label="What I build" className="band-dark overflow-hidden px-5 py-20 sm:px-8 sm:py-24">
         <div className="mx-auto grid w-full max-w-6xl items-center gap-12 lg:grid-cols-[1fr_auto_1fr] lg:gap-8">
           <div className="hidden justify-end lg:flex">
-            <WebMock className="w-[300px]" />
+            <WebMock className="[--mock-scale:0.82]" />
           </div>
 
           <div className="min-w-0 text-center">
@@ -90,14 +90,14 @@ export default function Software() {
           </div>
 
           <div className="hidden justify-start lg:flex">
-            <PhoneMock className="w-[136px]" />
+            <PhoneMock className="[--mock-scale:0.82]" />
           </div>
 
           {/* On a phone there is no room for a column either side, so the site
               sits above the app rather than beside it. */}
-          <div className="flex min-w-0 flex-col items-center gap-8 lg:hidden">
-            <WebMock className="w-full max-w-[300px]" />
-            <PhoneMock className="w-[136px]" />
+          <div className="flex min-w-0 flex-col items-center gap-8 [--mock-scale:0.78] lg:hidden">
+            <WebMock />
+            <PhoneMock />
           </div>
         </div>
       </section>

@@ -86,6 +86,16 @@ export default function Header() {
 
   useEffect(() => () => { if (closeTimer.current) clearTimeout(closeTimer.current) }, [])
 
+  /* While the phone menu is open the page underneath must not move: it is a
+     full screen of its own, not a panel resting on top of a page you can still
+     scroll away behind it. */
+  useEffect(() => {
+    if (!menuOpen) return
+    const previous = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = previous }
+  }, [menuOpen])
+
   const open = (key: string) => {
     if (closeTimer.current) clearTimeout(closeTimer.current)
     setOpenMenu(key)
@@ -235,7 +245,7 @@ export default function Header() {
 
       {menuOpen && (
         <div
-          className="lg:hidden"
+          className="mobile-menu-panel lg:hidden"
           style={{
             background: 'rgba(255, 255, 255, 0.97)',
             backdropFilter: 'saturate(180%) blur(20px)',
@@ -243,7 +253,7 @@ export default function Header() {
             boxShadow: '0 12px 28px rgba(16,23,37,0.10)',
           }}
         >
-          <div className="mx-auto max-w-6xl px-5 pb-5 pt-2 sm:px-8">
+          <div className="mx-auto max-w-6xl px-5 pb-10 pt-2 sm:px-8">
             <nav className="flex flex-col gap-1">
               {NAV_LINKS.map(({ to, label, children }) => (
                 <div key={to}>
