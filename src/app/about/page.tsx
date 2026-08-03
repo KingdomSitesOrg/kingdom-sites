@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: 'About — Kingdom Sites',
   description:
     'Meet Thomas Klein — the software engineer behind Kingdom Sites, working with small service businesses as a long-term partner rather than a one-off website vendor.',
+  alternates: { canonical: '/about' },
 }
 
 export default function About() {

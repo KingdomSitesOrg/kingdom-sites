@@ -2,6 +2,7 @@ import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
 
 export const metadata = {
   title: 'Privacy Policy — Kingdom Sites',
+  alternates: { canonical: '/privacy' },
 }
 
 export default function PrivacyPage() {

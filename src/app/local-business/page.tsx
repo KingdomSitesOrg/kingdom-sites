@@ -55,19 +55,18 @@ const ONGOING = [
   {
     when: 'Every month',
     items: [
-      'New job photos posted to your site and your Google listing',
-      'Fresh posts and updates on the listing so it stays active',
-      'A check on what people searched to find you, and what they did next',
-      'Any changes you have asked for',
+      'The blog posts and SEO hours on your plan',
+      'Google listing kept current — photos and simple updates',
+      'The small site changes you have asked for',
+      'A plain note on what we did (Growth and Everything)',
     ],
   },
   {
     when: 'As it makes sense',
     items: [
-      'A new page for a service you have started offering',
-      'A new page for a town you have started covering',
-      'Seasonal offers put up and taken down at the right time',
-      'Chasing the reviews that keep you ahead of the business next door',
+      'A new page when you add a service or town (plan limits apply)',
+      'Seasonal offers put up and taken down',
+      'Extra SEO focus on what is already working',
     ],
   },
 ]
@@ -177,7 +176,7 @@ export default function LocalBusiness() {
               {'Counted work, not vague promises.'}
             </h2>
             <p className="mt-5 text-pretty text-base leading-relaxed text-body">
-              {'Each plan names the number of pages, posts and changes you get every month. That is deliberate: it is the only way you can tell whether you are getting your money’s worth, and the only way I can keep doing this for years without quietly cutting corners.'}
+              {'Each plan is simple on purpose: how many pages, how many posts, and how many hours of SEO work you get each month. That is how you know what you are buying — and how I keep doing this without cutting corners.'}
             </p>
           </div>
 
@@ -191,10 +190,10 @@ export default function LocalBusiness() {
               {'What this normally costs'}
             </h3>
             <p className="mt-4 text-[15px] leading-relaxed text-body">
-              {'Worth knowing before you talk to anyone else. A managed website on its own runs about $95 to $195 a month. Having somebody look after your Google listing is another $125 to $475. Agencies quote home service businesses roughly $1,000 to $3,500 a month for search work, and landscaping retainers commonly land between $2,500 and $6,000.'}
+              {'Worth knowing before you talk to anyone else. A managed website alone often runs $95 to $195 a month. A Google listing manager is another few hundred. Full agency retainers for home services commonly land at $1,000 to $3,500 a month.'}
             </p>
             <p className="mt-4 text-[15px] leading-relaxed text-body">
-              {'The other thing they will not tell you: below about $500 a month there is not enough time in the budget to move you up the search results. That is why Foundation does not pretend to be a ranking campaign — it makes you exist properly, for less than the website care plan alone costs elsewhere. Growth is where the search work genuinely starts.'}
+              {'Foundation is honest about the hours: one post and one hour of SEO keeps you present. Growth roughly doubles that work. Everything is the partner plan — weekly posts and two to three hours of SEO a month — for owners who want the phone to ring more, not a prettier brochure.'}
             </p>
           </div>
         </div>

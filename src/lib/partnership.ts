@@ -1,20 +1,9 @@
 /**
  * The offer, in one place.
  *
- * Everything the site says about who we work with, what each plan delivers, and
- * what it costs is defined here — so changing a price or a deliverable is a
- * one-line edit rather than a hunt through the pages.
- *
- * The plans are deliberately specific. "Ask and it gets done" is fine at the top
- * of the range where the fee covers it, but at the entry price a vague promise
- * is one the business ends up losing money on — so Foundation and Growth commit
- * to counted deliverables instead.
- *
- * The numbers are set against what agencies actually charge in 2026: website
- * care plans land at $95–$195/month, Google Business Profile management at
- * $125–$475/month, and local SEO below roughly $499/month is widely accepted as
- * too thin to move rankings. Home service businesses are quoted $1,000–$3,500 a
- * month for what Growth and Everything cover.
+ * Plans stay simple on purpose: pages, blog posts, and hours of SEO each month.
+ * Foundation = exist properly. Growth ≈ 50–60% more of the same work.
+ * Everything = partner-level: weekly posts, unlimited changes, real SEO time.
  */
 
 /** Two months free when a year is paid up front — the price of ten months. */
@@ -51,19 +40,18 @@ export const TIERS: Tier[] = [
     price: 299,
     tagline: 'Exist properly',
     bestFor: 'A business with no website, or one that has gone stale.',
-    promise: 'A real website and a Google listing that is actually filled in, kept current every month.',
+    promise: 'A clean site, a proper Google listing, and steady monthly work so you stay present.',
     features: [
-      'Website built free — up to 5 pages, live in about two weeks',
-      'Hosting, domain, security, backups and speed all handled',
-      'Google Business Profile claimed and filled in properly: categories, services, service areas, hours, questions answered',
-      '2 Google posts a month, plus your job photos put up',
-      '2 changes a month — new price, new service, a photo, a typo',
-      'A review link and QR card so customers can be asked on the spot',
-      'A one-page report each month in plain English',
+      'Website built free — up to 4 pages, live in about two weeks',
+      'Hosting, domain, security and backups handled',
+      'Google listing set up the right way',
+      'Initial search setup so you show up correctly',
+      '1 blog post a month',
+      '1 hour a month of SEO',
+      'Small updates when you need them (prices, photos, typos)',
     ],
     limits: [
-      'No ongoing search campaign — this keeps you present and current, it does not chase rankings',
-      'No new pages each month',
+      'Steady presence — not a full ranking push every month',
     ],
   },
   {
@@ -72,39 +60,34 @@ export const TIERS: Tier[] = [
     price: 599,
     tagline: 'Get found',
     bestFor: 'A business that wants the phone to ring more than it does now.',
-    promise: 'The month-after-month search work that actually moves you up — this is where results start.',
+    promise: 'More pages, more posts, more SEO time — this is where search results start to move.',
     featured: true,
     features: [
       'Everything in Foundation',
-      'Up to 20 pages — a page for each service and each town you cover',
-      '2 new pages or posts every month, written properly, not padded',
-      'A Google post every week',
-      '20 directory listings built and kept accurate',
-      'Review requests sent automatically after a job, and replies written for you',
-      'On-page search work every month against a tracked list of search terms',
-      'Unlimited* text and photo changes, done within 2 working days',
-      'A monthly report and a 20-minute call if you want one',
+      'Up to 7 pages — room for your main services and towns',
+      '2 blog posts a month',
+      'About 2 hours a month of SEO',
+      'Google listing kept active (posts and job photos)',
+      'More updates each month when something changes',
+      'A short monthly note on what we did and what is next',
     ],
-    limits: ['No paid advertising management — that is a separate conversation'],
+    limits: ['Paid ads are separate if you want them later'],
   },
   {
     id: 'everything',
     name: 'Everything',
     price: 999,
-    tagline: 'Own your market',
-    bestFor: 'A business that wants to be the obvious first call in its area.',
-    promise: 'Unlimited* work, every month, until you are the one everybody else is competing with.',
+    tagline: 'Business partner',
+    bestFor: 'A business that wants a real partner on growth — not a set-and-forget site.',
+    promise: 'Unlimited* changes, weekly content, and serious monthly SEO time until you are the obvious call.',
     features: [
-      'Everything in Growth',
-      'Unlimited* pages — every service in every town, as far as it is worth going',
-      '4 to 6 new pages or posts every month',
-      'Link building — local sponsorships, suppliers, associations, press',
-      'Rank tracking and competitor watching, reported to you',
-      'Landing pages built for seasonal offers and ad campaigns',
-      'Reviews managed across every platform, not just Google',
-      'Unlimited* changes, same or next working day',
-      'My phone number — text me directly',
-      'A strategy call every month',
+      'Everything in Growth — treated as a partnership, not a ticket queue',
+      'Unlimited* pages as your market needs them',
+      '1 to 2 blog posts a week',
+      '2 to 3 hours a month on search and optimization',
+      'Unlimited* changes — text me, it gets done',
+      'Strategy check-in every month',
+      'My number — you talk to me, not a helpdesk',
     ],
     limits: [],
   },
@@ -148,7 +131,7 @@ export const PILLARS = [
 export const SEO_EXPLAINER = [
   {
     title: 'Google can only show what you have given it',
-    desc: 'A one-page website tells Google one thing about you. Twenty pages — one for each service, one for each town — give it twenty different ways to match what somebody typed. This is the whole reason the page count on each plan matters.',
+    desc: 'A thin site tells Google almost nothing. Real pages for what you do and where you work give it something to match when someone types a search. That is why page count on each plan matters.',
   },
   {
     title: 'People search in questions, not keywords',
@@ -160,7 +143,7 @@ export const SEO_EXPLAINER = [
   },
   {
     title: 'Google can tell the difference between an active business and an abandoned one',
-    desc: 'A site that gains a page or two every month and a listing that gets posted to weekly reads as a real, trading business. A site untouched since 2021 reads as one that may have closed — and Google would rather not send a customer to a business that has closed.',
+    desc: 'A site that gets a fresh post and real SEO time each month reads as open for business. A site untouched since 2021 reads as one that may have closed — and Google would rather not send a customer there.',
   },
   {
     title: 'The posts earn their keep off Google as well',
@@ -243,11 +226,11 @@ export const STEPS = [
 export const FAQS = [
   {
     q: 'Which plan do I actually need?',
-    a: 'If you have nothing online, or something embarrassing, start at Foundation — it gets you existing properly for less than most people pay for website hosting alone. If you want the phone to ring more than it does today, that is Growth: below about $500 a month there is not enough hours in it to move you up the search results, and anyone telling you otherwise is selling you something. Everything is for when you want to take the whole area.',
+    a: 'Foundation is for existing properly: a real site, a proper listing, one post and one hour of SEO a month. Growth is more of the same work — more pages, two posts, about two hours of SEO — for owners who want the phone to ring more. Everything is the partner plan: weekly posts, 2–3 hours of SEO, unlimited changes, and a monthly strategy check-in.',
   },
   {
-    q: 'Why is Foundation so specific about the number of changes?',
-    a: 'Because being vague at that price is how these arrangements quietly fall apart. Two changes a month at $299 is honest and I can keep doing it for years. Unlimited at $299 would mean either saying no to you constantly or resenting the work — neither of which is any use to you. Unlimited is real on Growth and Everything, where the fee covers it.',
+    q: 'What does "hours of SEO" actually mean?',
+    a: 'Time spent improving how you show up when people search: the right words on pages, fixing what Google already sees, checking what is working, and nudging the things that are not. Foundation is one focused hour. Growth is about two. Everything is two to three — enough to compound month after month.',
   },
   {
     q: 'What does the asterisk on unlimited mean?',
@@ -255,7 +238,7 @@ export const FAQS = [
   },
   {
     q: 'I already have a website. It just does not do anything.',
-    a: 'That is the usual situation. Most of the sites I take over were built once, years ago, and never touched again — no Google listing, no service pages, no reviews. I will tell you whether yours is worth rebuilding or worth improving, and either way it is the same monthly price.',
+    a: 'That is the usual situation. Most of the sites I take over were built once, years ago, and never touched again. I will tell you whether yours is worth rebuilding or worth improving, and either way it is the same monthly price.',
   },
   {
     q: 'I am not a computer person.',
@@ -267,15 +250,15 @@ export const FAQS = [
   },
   {
     q: 'What is a blog post going to do for a pressure washing business?',
-    a: 'Fair question, and most people selling them never answer it. Customers search in questions — "how much to pressure wash a driveway", "will soft washing hurt my siding". A post is you answering that question, and the business that answered it is the one they call. It also keeps working: a post written in March still brings calls in December, unlike an advert, which stops the day you stop paying for it.',
+    a: 'Fair question. Customers search in questions — "how much to pressure wash a driveway", "will soft washing hurt my siding". A post is you answering that question, and the business that answered it is the one they call. It also keeps working: a post written in March still brings calls in December, unlike an advert.',
   },
   {
     q: 'Why monthly instead of paying once?',
-    a: 'Because a website built once and abandoned stops working within a year, and that is what most small businesses have been sold. Getting found on Google is not a build, it is an ongoing job. Paying monthly means I am still working on it in month eighteen, and it means you are not handing over thousands of dollars up front.',
+    a: 'Because a website built once and abandoned stops working within a year. Getting found on Google is ongoing work — posts, SEO hours, listing updates. Paying monthly means I am still on it in month eighteen, and you are not handing over thousands up front.',
   },
   {
     q: 'How long before I see anything?',
-    a: 'The site is usually live inside two weeks. The Google listing work shows up in a few weeks. Ranking for the searches that matter is a few months of steady work on Growth or Everything — anyone who promises you page one by next Tuesday is lying.',
+    a: 'The site is usually live inside two weeks. Listing work shows up in a few weeks. Real movement in search takes a few months of steady posts and SEO time on Growth or Everything — anyone who promises page one by next Tuesday is lying.',
   },
   {
     q: 'What if I want to stop?',

@@ -1,5 +1,6 @@
 export const metadata = {
   title: 'Terms of Service — Kingdom Sites',
+  alternates: { canonical: '/terms' },
 }
 
 export default function TermsPage() {
@@ -50,9 +51,8 @@ export default function TermsPage() {
             </p>
             <p>
               <span className="font-medium text-ink">Mandatory Service Integration:</span>{' '}
-              To ensure ongoing security and high-performance hosting, all projects require enrollment
-              in the $49/month Maintenance &amp; Hosting Plan (or the $199/month Managed Growth Plan)
-              as a condition of service.
+              Ongoing hosting and care are included in the monthly plans (Foundation, Growth, or
+              Everything) described on the site at the time of agreement.
             </p>
             <p>
               <span className="font-medium text-ink">Refund Eligibility:</span> Fees (minus

@@ -18,7 +18,7 @@ const WORK_LINKS = [
 const GROW_LINKS = [
   { to: '/',                       label: 'Overview',        desc: 'How I get a local business found and called' },
   { to: '/local-business',         label: 'What you get',    desc: 'Everything covered, month by month' },
-  { to: '/local-business#pricing', label: 'Pricing',         desc: 'Three plans, from $299 a month' },
+  { to: '/local-business#pricing', label: 'Pricing',         desc: 'Three simple plans — pages, posts, SEO hours' },
   { to: '/rochester-mn',           label: 'Rochester, MN',   desc: 'Local growth for businesses here at home' },
   { to: '/blog',                   label: 'Blog',            desc: 'Local notes on clients, search and events' },
   { to: '/get-started',            label: 'Free look',       desc: 'An honest read on how you show up today' },

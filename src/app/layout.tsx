@@ -28,9 +28,10 @@ export const metadata: Metadata = {
   },
   description: DESCRIPTION,
   metadataBase: new URL("https://kingdom-sites.com"),
-  alternates: {
-    canonical: "/",
-  },
+  /* Deliberately no site-wide `alternates.canonical`. A canonical set here is
+     inherited by every page that does not set its own, which told search
+     engines that pages like /about and /my-work were the home page and had
+     them dropped as duplicates. Each page declares its own instead. */
   keywords: [
     "local business website",
     "small business website",

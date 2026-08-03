@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import type { Metadata } from 'next'
 import ToolTicker from '@/components/ToolTicker'
 import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
 import shotOverview from '../../../public/tap-to-tick/overview.jpg'
@@ -8,6 +9,13 @@ import jwlHome from '../../../public/latin-game/home.jpg'
 import jwlMap from '../../../public/latin-game/map.jpg'
 import rutaQueue from '../../../public/ruta/crew-queue.jpg'
 import rutaVisit from '../../../public/ruta/crew-visit.jpg'
+
+export const metadata: Metadata = {
+  title: 'My work — apps and software I have designed and shipped',
+  description:
+    'Ruta, a Latin practice game, Tap to Tick and AI tooling — real software I designed, built and still support, so you can judge the work before hiring me.',
+  alternates: { canonical: '/my-work' },
+}
 
 const TTT_STACK = ['Swift', 'SwiftUI', 'WidgetKit', 'watchOS', 'CloudKit']
 
