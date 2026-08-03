@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 /**
  * The opening screen of the home page: one small business at a time, drawn
@@ -726,53 +726,62 @@ const SCENES: Scene[] = [
   { id: 'shop', label: 'shops and local retail', draw: <LocalShop /> },
 ]
 
-/** How long a business holds the screen before the next slides in. Short on
-    purpose: it arrives, stands still for a beat, and the next one is already
-    coming. */
-const HOLD_MS = 1360
+/** How long one business takes to cross the screen. The pan never pauses, so
+    this is the whole of a scene's time on screen rather than a hold. */
+const PER_SCENE_MS = 1800
+
+/* Two copies of the list, so the strip can slide half its width and land back
+   exactly where it began. */
+const PANELS = [...SCENES, ...SCENES]
 
 export default function WorkScenes({ children }: { children: React.ReactNode }) {
   const [index, setIndex] = useState(0)
-  const [prev, setPrev] = useState<number | null>(null)
+  const track = useRef<HTMLDivElement>(null)
 
+  /* The caption is read off the pan itself rather than off a timer of its own.
+     A separate timer drifts out of step — the animation does not start at the
+     same instant the component mounts — and the name of the business then
+     changes while the wrong one is still on screen. */
   useEffect(() => {
-    const id = setInterval(() => {
-      setIndex((i) => {
-        setPrev(i)
-        return (i + 1) % SCENES.length
-      })
-    }, HOLD_MS)
-    return () => clearInterval(id)
+    let frame = 0
+    let shown = -1
+
+    const tick = () => {
+      const animation = track.current?.getAnimations?.()[0]
+      const elapsed = Number(animation?.currentTime ?? 0)
+      /* Rounding rather than flooring means the name changes as the join
+         between two scenes passes the middle of the screen. */
+      const current = Math.round(elapsed / PER_SCENE_MS) % SCENES.length
+      if (current !== shown) {
+        shown = current
+        setIndex(current)
+      }
+      frame = requestAnimationFrame(tick)
+    }
+
+    frame = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(frame)
   }, [])
 
   return (
     <>
       <div className="absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
-        {SCENES.map((scene, i) => {
-          /* The one on screen sits at rest; the one it replaced slides off to
-             the left; everything else waits off to the right — and gets there
-             without a transition, so it never slides across the screen on its
-             way back to the queue. */
-          const state = i === index ? 'in' : i === prev ? 'out' : 'waiting'
-          return (
+        <div
+          ref={track}
+          className="scenes-pan flex h-full w-[1400%]"
+          style={{ ['--pan-duration' as string]: `${(PER_SCENE_MS * SCENES.length) / 1000}s` }}
+        >
+          {PANELS.map((scene, i) => (
             <div
-              key={scene.id}
-              className={`absolute inset-0 ${
-                state === 'in'
-                  ? 'translate-x-0 transition-transform duration-[270ms] ease-out'
-                  : state === 'out'
-                    ? '-translate-x-full transition-transform duration-[270ms] ease-in'
-                    : 'translate-x-full'
-              } motion-reduce:translate-x-0 motion-reduce:transition-none ${
-                state === 'in' ? 'motion-reduce:opacity-100' : 'motion-reduce:opacity-0'
-              }`}
+              key={`${scene.id}-${i}`}
+              className="h-full w-[calc(100%/14)] shrink-0 border-r border-ink/15"
             >
               <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid slice" className="h-full w-full">
                 {scene.draw}
               </svg>
             </div>
-          )
-        })}
+          ))}
+        </div>
       </div>
 
       {/* A soft wash of the page colour behind the words, so the headline stays

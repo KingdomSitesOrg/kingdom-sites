@@ -263,9 +263,23 @@ body {
   .mock-sweep::after { animation: none; opacity: 0; }
 }
 
-/* The scroll cue under the opening screen. The scenes themselves are stills —
-   the only motion on that screen is the slide from one business to the next,
-   which lives in the component. */
+/* The opening screen pans continuously through the businesses — it never comes
+   to a stop. The strip holds two copies of the seven scenes, so sliding it half
+   its own width lands exactly back where it started and the loop is seamless.
+   Each scene is a still; the only movement is the pan itself. */
+@keyframes scenes-pan {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+.scenes-pan {
+  animation: scenes-pan var(--pan-duration, 13.3s) linear infinite;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .scenes-pan { animation: none; }
+}
+
+/* The scroll cue under the opening screen. */
 @keyframes scroll-nudge {
   0%, 100% { transform: translateY(0); opacity: 0.55; }
   50%      { transform: translateY(5px); opacity: 1; }
