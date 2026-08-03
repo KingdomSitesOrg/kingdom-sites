@@ -729,7 +729,7 @@ const SCENES: Scene[] = [
 /** How long a business holds the screen before the next slides in. Short on
     purpose: it arrives, stands still for a beat, and the next one is already
     coming. */
-const HOLD_MS = 1700
+const HOLD_MS = 1360
 
 export default function WorkScenes({ children }: { children: React.ReactNode }) {
   const [index, setIndex] = useState(0)
@@ -759,9 +759,9 @@ export default function WorkScenes({ children }: { children: React.ReactNode }) 
               key={scene.id}
               className={`absolute inset-0 ${
                 state === 'in'
-                  ? 'translate-x-0 transition-transform duration-[340ms] ease-out'
+                  ? 'translate-x-0 transition-transform duration-[270ms] ease-out'
                   : state === 'out'
-                    ? '-translate-x-full transition-transform duration-[340ms] ease-in'
+                    ? '-translate-x-full transition-transform duration-[270ms] ease-in'
                     : 'translate-x-full'
               } motion-reduce:translate-x-0 motion-reduce:transition-none ${
                 state === 'in' ? 'motion-reduce:opacity-100' : 'motion-reduce:opacity-0'
