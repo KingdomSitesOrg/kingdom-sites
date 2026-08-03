@@ -64,14 +64,23 @@ export default function Home() {
     <div className="w-full overflow-x-hidden">
       {/* The opening screen: seven trades quietly at work, one lit at a time. */}
       <section
-        aria-label="Grow your business"
+        aria-label="Grow your business in Rochester, MN"
         className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-5 pb-24 pt-14 text-center sm:px-8"
       >
+        {/* The headline names the town on purpose. The page is aimed at
+            Rochester searches, and both a customer and a search engine decide
+            in the first screen whether this is a local business or a national
+            template. Sized down a step from the old one-line version so three
+            balanced lines still fill the screen rather than overflow it. */}
         <WorkScenes>
-          <h1 className="max-w-full text-balance text-[2.6rem] font-semibold leading-[1.05] tracking-tight text-ink sm:text-6xl lg:text-[5.5rem]">
-            Grow your <span className="text-accent">business.</span>
+          <h1 className="max-w-full text-balance text-[2.4rem] font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl lg:text-[4.25rem]">
+            Grow your <span className="text-accent">business</span> in Rochester, MN.
           </h1>
         </WorkScenes>
+
+        <p className="relative z-10 mt-7 max-w-xl text-pretty text-[15px] leading-relaxed text-body sm:text-base">
+          {'Websites, Google listings and local search for small businesses in Rochester, Minnesota — and across Olmsted County and Southeast Minnesota.'}
+        </p>
 
         <a
           href="#start"
@@ -133,7 +142,7 @@ export default function Home() {
               You do the work. I make sure <span className="text-accent">the phone rings.</span>
             </h2>
             <p className="mt-6 text-pretty text-base leading-relaxed text-body sm:text-lg">
-              {'I am Thomas. I partner with local business owners — pressure washers, window cleaners, or any small business customers find by searching. One monthly fee, and I run everything that gets you found and called. Not a website you buy once and never hear about again.'}
+              {'I am Thomas, and I work with owners here in Rochester, MN — pressure washers, window cleaners, or any small business customers find by searching. One monthly fee, and I run everything that gets you found and called across Rochester and Southeast Minnesota. Not a website you buy once and never hear about again.'}
             </p>
 
             <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
@@ -160,7 +169,7 @@ export default function Home() {
       <section aria-label="Who I work with" className="border-t border-line px-5 py-14 sm:px-8 sm:py-16">
         <div className="mx-auto max-w-5xl text-center">
           <p className="text-sm font-medium text-body">
-            {'Sharpest in the trades, where customers search, call and book the same day'}
+            {'Sharpest in the Rochester trades, where customers search, call and book the same day'}
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5">
             {AUDIENCE_TRADES.map((trade) => (
@@ -195,7 +204,7 @@ export default function Home() {
               {'Nobody doubts your work. They just cannot find you.'}
             </h2>
             <p className="mt-5 text-pretty text-base leading-relaxed text-body">
-              {'The business that wins a job is almost never the best one in town. It is the one that turned up when somebody reached for their phone and searched.'}
+              {'The business that wins a job is almost never the best one in town. It is the one that turned up when somebody in Rochester reached for their phone and searched.'}
             </p>
           </div>
 
