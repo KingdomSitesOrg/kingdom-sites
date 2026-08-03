@@ -1,12 +1,23 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
+import PricingTiers from '@/components/PricingTiers'
 import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
-import { FAQS, INCLUDED, MONTHLY_PRICE_LABEL, STEPS, TRADES } from '@/lib/partnership'
+import {
+  AUDIENCE_OTHER,
+  AUDIENCE_TRADES,
+  ENTRY_PRICE_LABEL,
+  FAQS,
+  FIRST_MONTH_FREE_SHORT,
+  PILLARS,
+  SEO_EXPLAINER,
+  SOFTWARE_ANGLE,
+  STEPS,
+} from '@/lib/partnership'
 
 export const metadata: Metadata = {
-  title: 'For local businesses',
+  title: 'Plans for local businesses',
   description:
-    `Websites, Google listings and local SEO for pressure washing, window cleaning, landscaping and other home service businesses — one monthly fee, no setup cost, cancel any time.`,
+    `Websites, Google listings and local SEO for pressure washing, window cleaning, landscaping, restaurants, salons and any local business — three monthly plans from $199, build free, no contract.`,
   alternates: { canonical: '/local-business' },
 }
 
@@ -73,14 +84,19 @@ export default function LocalBusiness() {
             <span className="text-accent">handled for you.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-body sm:text-lg">
-            {'One monthly fee covers the website, your Google listing, the searching, the photos, the reviews, and every change you ask for along the way. You will not get an invoice for any of it.'}
+            {'One monthly fee covers the website, your Google listing, the search work, the photos and the reviews. Three plans, each one specific about what it delivers — so you know exactly what you are buying.'}
           </p>
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link href="/get-started" className="btn-primary">
-              See how you look online — free
+            <Link href="#pricing" className="btn-primary">
+              {'See the plans — from ' + ENTRY_PRICE_LABEL + '/month'}
             </Link>
-            <a href={CONTACT_MAILTO} className="btn-ghost">Email me instead</a>
+            <Link href="/get-started" className="btn-ghost">
+              Free look at your business
+            </Link>
           </div>
+          <p className="mt-6 text-[13.5px] leading-relaxed text-muted">
+            {FIRST_MONTH_FREE_SHORT + ' · The build is included · No contract'}
+          </p>
         </div>
       </section>
 
@@ -88,14 +104,17 @@ export default function LocalBusiness() {
       <section aria-label="What is included" className="border-t border-line px-5 py-20 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-6xl">
           <div className="mx-auto max-w-2xl text-center">
-            <p className="eyebrow eyebrow-blue">{'In the ' + MONTHLY_PRICE_LABEL + ' a month'}</p>
+            <p className="eyebrow eyebrow-blue">On every plan</p>
             <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-              {'All of this, all of the time.'}
+              {'What the partnership covers.'}
             </h2>
+            <p className="mt-5 text-pretty text-base leading-relaxed text-body">
+              {'Every plan does all five of these. What changes between them is how much of each you get every month.'}
+            </p>
           </div>
 
           <div className="mt-12 grid gap-4 sm:grid-cols-2 sm:gap-5">
-            {INCLUDED.map((item) => (
+            {PILLARS.map((item) => (
               <div key={item.title} className="tile flex gap-4 p-7">
                 <span className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/12">
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
@@ -108,6 +127,75 @@ export default function LocalBusiness() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How getting found actually works */}
+      <section
+        id="how-it-works"
+        aria-label="How getting found works"
+        className="scroll-mt-20 border-t border-line px-5 py-20 sm:px-8 sm:py-24"
+      >
+        <div className="mx-auto max-w-5xl">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="eyebrow">In plain English</p>
+            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+              {'What a blog post has to do with your phone ringing.'}
+            </h2>
+            <p className="mt-5 text-pretty text-base leading-relaxed text-body">
+              {'The plans below count pages and posts. Before you pay for either, you should understand exactly why they are worth anything — most people selling them never explain it, which is precisely why so many owners think it is a con.'}
+            </p>
+          </div>
+
+          <div className="mt-12 space-y-5">
+            {SEO_EXPLAINER.map((item, i) => (
+              <div key={item.title} className="tile flex gap-5 p-7 sm:gap-7 sm:p-8">
+                <span className="text-2xl font-semibold tracking-tight text-line-strong sm:text-3xl" aria-hidden="true">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <div className="min-w-0">
+                  <h3 className="text-lg font-semibold tracking-tight text-ink">{item.title}</h3>
+                  <p className="mt-2.5 text-[15px] leading-relaxed text-body">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <p className="mx-auto mt-10 max-w-2xl text-center text-[15px] leading-relaxed text-body">
+            {'None of this is fast, and anyone telling you otherwise is selling you something. It is steady work that stacks up — which is exactly why it is sold as a monthly partnership and not a one-off build.'}
+          </p>
+        </div>
+      </section>
+
+      {/* The plans */}
+      <section id="pricing" aria-label="Plans and pricing" className="scroll-mt-20 border-t border-line px-5 py-20 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="eyebrow">The plans</p>
+            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+              {'Counted work, not vague promises.'}
+            </h2>
+            <p className="mt-5 text-pretty text-base leading-relaxed text-body">
+              {'Each plan names the number of pages, posts and changes you get every month. That is deliberate: it is the only way you can tell whether you are getting your money’s worth, and the only way I can keep doing this for years without quietly cutting corners.'}
+            </p>
+          </div>
+
+          <div className="mt-14">
+            <PricingTiers />
+          </div>
+
+          {/* Honesty about where these prices sit in the market. */}
+          <div className="tile-elevated mt-12 p-7 sm:p-10">
+            <h3 className="text-xl font-semibold tracking-tight text-ink">
+              {'What this normally costs'}
+            </h3>
+            <p className="mt-4 text-[15px] leading-relaxed text-body">
+              {'Worth knowing before you talk to anyone else. A managed website on its own runs about $95 to $195 a month. Having somebody look after your Google listing is another $125 to $475. Agencies quote home service businesses roughly $1,000 to $3,500 a month for search work, and landscaping retainers commonly land between $2,500 and $6,000.'}
+            </p>
+            <p className="mt-4 text-[15px] leading-relaxed text-body">
+              {'The other thing they will not tell you: below about $500 a month there is not enough time in the budget to move you up the search results. That is why Foundation does not pretend to be a ranking campaign — it makes you exist properly, for less than the website care plan alone costs elsewhere. Growth is where the search work genuinely starts.'}
+            </p>
           </div>
         </div>
       </section>
@@ -174,6 +262,36 @@ export default function LocalBusiness() {
         </div>
       </section>
 
+      {/* Software as well as search */}
+      <section aria-label="Software and search" className="band-dark px-5 py-20 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="eyebrow">The other half</p>
+            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              {'I do software as well as search.'}
+            </h2>
+            <p className="mt-5 text-pretty text-base leading-relaxed text-white/65">
+              {'This is the part no agency can match. A marketing company can promote you but cannot build you anything; a developer can build you something but does not care whether anyone finds it. You are getting one person who does both, as a partner in the business rather than an hourly contractor.'}
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-5 md:grid-cols-3">
+            {SOFTWARE_ANGLE.map((s) => (
+              <div key={s.title} className="tile-dark p-7 sm:p-8">
+                <h3 className="text-base font-semibold tracking-tight text-white">{s.title}</h3>
+                <p className="mt-2.5 text-sm leading-relaxed text-white/60">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-10 text-center">
+            <Link href="/my-work" className="btn-primary">
+              See the software I have built
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Steps */}
       <section aria-label="How it works" className="border-t border-line px-5 py-20 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-6xl">
@@ -197,22 +315,33 @@ export default function LocalBusiness() {
         </div>
       </section>
 
-      {/* Trades */}
-      <section aria-label="Trades I work with" className="border-t border-line px-5 py-16 sm:px-8 sm:py-20">
+      {/* Who this is for */}
+      <section aria-label="Who I work with" className="border-t border-line px-5 py-16 sm:px-8 sm:py-20">
         <div className="mx-auto max-w-5xl text-center">
           <h2 className="text-balance text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
-            {'Trades this is built for'}
+            {'Who this is built for'}
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-pretty text-[15px] leading-relaxed text-body">
-            {'If your customers find you by searching and decide by calling, this fits. If your trade is not listed, ask anyway.'}
+            {'If your customers find you by searching and decide by calling, this fits. I work with any business — the trades are simply where I am sharpest, because I know the work from the inside.'}
           </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-2.5">
-            {TRADES.map((trade) => (
+
+          <p className="mt-10 text-sm font-medium text-body">The trades</p>
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-2.5">
+            {AUDIENCE_TRADES.map((trade) => (
               <span
                 key={trade}
                 className="rounded-full border border-line bg-surface px-4 py-2 text-[13.5px] font-medium text-body"
               >
                 {trade}
+              </span>
+            ))}
+          </div>
+
+          <p className="mt-10 text-sm font-medium text-body">And every other local business</p>
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-2.5">
+            {AUDIENCE_OTHER.map((kind) => (
+              <span key={kind} className="rounded-full bg-surface-2 px-4 py-2 text-[13.5px] text-body">
+                {kind}
               </span>
             ))}
           </div>

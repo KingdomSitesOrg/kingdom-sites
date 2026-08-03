@@ -263,6 +263,85 @@ body {
   .mock-sweep::after { animation: none; opacity: 0; }
 }
 
+/* ---------- the working scenes behind the top of the home page ----------
+   Seven trades drawn as stick figures, each with one small thing moving on a
+   loop: a spray fan sweeping a wall, a wheel turning, a mower crossing the
+   grass, a line arriving on a chalkboard. Everything here is CSS on inline SVG
+   — no video, no image files, nothing to download. */
+
+@keyframes scene-spray {
+  0%, 100% { opacity: 0.15; transform: translateX(-1px); }
+  50%      { opacity: 1;    transform: translateX(2px); }
+}
+@keyframes scene-spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes scene-push {
+  0%, 100% { transform: translateX(-6px); }
+  50%      { transform: translateX(10px); }
+}
+@keyframes scene-write {
+  0%       { stroke-dashoffset: 1; }
+  40%, 80% { stroke-dashoffset: 0; }
+  100%     { stroke-dashoffset: 1; }
+}
+@keyframes scene-steam {
+  0%       { opacity: 0; transform: translateY(2px); }
+  40%      { opacity: 0.9; }
+  100%     { opacity: 0; transform: translateY(-8px); }
+}
+@keyframes scene-swing {
+  0%, 100% { transform: rotate(-5deg); }
+  50%      { transform: rotate(5deg); }
+}
+@keyframes scene-wipe {
+  0%       { transform: translateX(-14px); opacity: 0; }
+  30%, 60% { opacity: 0.9; }
+  100%     { transform: translateX(14px); opacity: 0; }
+}
+@keyframes scene-clean {
+  0%, 100% { transform: scaleX(0.05); }
+  55%, 85% { transform: scaleX(1); }
+}
+@keyframes scene-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-2px); }
+}
+
+.scene-spray { animation: scene-spray 1.6s ease-in-out infinite; }
+.scene-spin  { animation: scene-spin 3.4s linear infinite; }
+.scene-push  { animation: scene-push 4.4s ease-in-out infinite; }
+.scene-write { stroke-dasharray: 1; animation: scene-write 5s ease-in-out infinite; }
+.scene-steam { animation: scene-steam 2.8s ease-out infinite; }
+.scene-swing { animation: scene-swing 3.6s ease-in-out infinite; }
+.scene-wipe  { animation: scene-wipe 3.2s ease-in-out infinite; }
+.scene-clean { transform-origin: left; animation: scene-clean 5.5s ease-in-out infinite; }
+.scene-bob   { animation: scene-bob 3s ease-in-out infinite; }
+
+/* SVG needs telling that transforms are about the shape, not the whole canvas. */
+.scene-spin, .scene-swing, .scene-bob, .scene-clean, .scene-push, .scene-wipe, .scene-spray {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.scene-clean { transform-origin: left center; }
+.scene-swing { transform-origin: top center; }
+
+/* The scroll cue under the opening screen. */
+@keyframes scroll-nudge {
+  0%, 100% { transform: translateY(0); opacity: 0.55; }
+  50%      { transform: translateY(5px); opacity: 1; }
+}
+.scroll-nudge { animation: scroll-nudge 2.2s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .scene-spray, .scene-spin, .scene-push, .scene-write, .scene-steam,
+  .scene-swing, .scene-wipe, .scene-clean, .scene-bob, .scroll-nudge {
+    animation: none;
+  }
+  .scene-write { stroke-dashoffset: 0; }
+  .scene-clean { transform: scaleX(1); }
+}
+
 /* Mission page: on the line about never meeting a Christian, two figures are
    drawn and the second one fades away and does not come back. */
 @keyframes figure-vanish {

@@ -3,8 +3,19 @@ import Link from 'next/link'
 import aboutImage from '../../public/Photos/about.jpg'
 import MissionPreview from '@/components/MissionPreview'
 import LeadMock from '@/components/LeadMock'
+import PricingTiers from '@/components/PricingTiers'
+import WorkScenes from '@/components/WorkScenes'
 import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
-import { INCLUDED, MONTHLY_PRICE_LABEL, STEPS, TRADES } from '@/lib/partnership'
+import {
+  AUDIENCE_OTHER,
+  AUDIENCE_TRADES,
+  ENTRY_PRICE_LABEL,
+  FIRST_MONTH_FREE_SHORT,
+  PILLARS,
+  SEO_EXPLAINER,
+  SOFTWARE_ANGLE,
+  STEPS,
+} from '@/lib/partnership'
 
 /* The reasons a good local business stays invisible. Named plainly, because the
    owner reading this already knows which ones are true of him. */
@@ -42,29 +53,52 @@ const PROOF = [
 export default function Home() {
   return (
     <div className="w-full overflow-x-hidden">
+      {/* The opening screen: seven trades quietly at work, one lit at a time. */}
+      <section
+        aria-label="Grow your business"
+        className="relative flex min-h-[100svh] flex-col items-center justify-center px-5 pb-24 pt-14 text-center sm:px-8"
+      >
+        <div className="flex flex-col items-center">
+          <h1 className="text-balance text-5xl font-semibold leading-[1.02] tracking-tight text-ink sm:text-7xl lg:text-[6rem]">
+            Grow your <span className="text-accent">business.</span>
+          </h1>
+          <WorkScenes />
+        </div>
+
+        <a
+          href="#start"
+          className="absolute bottom-8 flex flex-col items-center gap-1.5 text-[13px] font-medium text-body transition-colors hover:text-ink"
+        >
+          <span>See how</span>
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true" className="scroll-nudge">
+            <path d="M10 4v11M5 11l5 5 5-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </a>
+      </section>
+
       {/* Hero */}
-      <section className="hero-wash px-5 pb-24 pt-14 sm:px-8 sm:pb-28 sm:pt-20">
+      <section id="start" className="hero-wash scroll-mt-14 px-5 pb-24 pt-14 sm:px-8 sm:pb-28 sm:pt-20">
         <div className="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
           <div className="text-center lg:text-left">
-            <p className="eyebrow">For local service businesses</p>
-            <h1 className="mt-5 text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl lg:text-[3.4rem]">
+            <p className="eyebrow">For local businesses</p>
+            <h2 className="mt-5 text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl lg:text-[3.4rem]">
               You do the work. I make sure <span className="text-accent">the phone rings.</span>
-            </h1>
+            </h2>
             <p className="mt-6 text-pretty text-base leading-relaxed text-body sm:text-lg">
-              {'I am Thomas. I partner with pressure washers, window cleaners, landscapers and the like — one monthly fee, and I run everything that gets you found and called online. Not a website you buy once and never hear about again.'}
+              {'I am Thomas. I partner with local business owners — pressure washers, window cleaners and landscapers most of all, but any business customers find by searching. One monthly fee, and I run everything that gets you found and called. Not a website you buy once and never hear about again.'}
             </p>
 
             <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
               <Link href="/get-started" className="btn-primary">
                 See how you look online — free
               </Link>
-              <Link href="/local-business" className="btn-ghost">
-                {'What you get for ' + MONTHLY_PRICE_LABEL + '/month'}
+              <Link href="/local-business#pricing" className="btn-ghost">
+                {'Plans from ' + ENTRY_PRICE_LABEL + '/month'}
               </Link>
             </div>
 
             <p className="mt-6 text-[13.5px] leading-relaxed text-muted">
-              Nothing to pay until it is live · No setup fee · Cancel any time
+              {FIRST_MONTH_FREE_SHORT + ' · The build is included · No contract'}
             </p>
           </div>
 
@@ -78,15 +112,26 @@ export default function Home() {
       <section aria-label="Who I work with" className="border-t border-line px-5 py-14 sm:px-8 sm:py-16">
         <div className="mx-auto max-w-5xl text-center">
           <p className="text-sm font-medium text-body">
-            {'Built for the trades where customers search, call, and book the same day'}
+            {'Sharpest in the trades, where customers search, call and book the same day'}
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5">
-            {TRADES.map((trade) => (
+            {AUDIENCE_TRADES.map((trade) => (
               <span
                 key={trade}
                 className="rounded-full border border-line bg-surface px-4 py-2 text-[13.5px] font-medium text-body"
               >
                 {trade}
+              </span>
+            ))}
+          </div>
+
+          <p className="mt-10 text-sm font-medium text-body">
+            {'And the same work for any local business people find by searching'}
+          </p>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5">
+            {AUDIENCE_OTHER.map((kind) => (
+              <span key={kind} className="rounded-full bg-surface-2 px-4 py-2 text-[13.5px] text-body">
+                {kind}
               </span>
             ))}
           </div>
@@ -130,8 +175,8 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 sm:gap-5">
-            {INCLUDED.map((item) => (
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+            {PILLARS.map((item) => (
               <div key={item.title} className="tile-dark p-7">
                 <h3 className="text-base font-semibold tracking-tight text-white">{item.title}</h3>
                 <p className="mt-2.5 text-sm leading-relaxed text-white/60">{item.desc}</p>
@@ -141,50 +186,65 @@ export default function Home() {
 
           <div className="mt-10 text-center">
             <Link href="/local-business" className="btn-primary">
-              See the whole thing in detail
+              See exactly what each plan delivers
             </Link>
           </div>
         </div>
       </section>
 
-      {/* The price */}
-      <section aria-label="What it costs" className="px-5 py-20 sm:px-8 sm:py-24">
-        <div className="mx-auto max-w-3xl">
-          <div className="tile-elevated px-7 py-12 text-center sm:px-14 sm:py-14">
-            <p className="eyebrow eyebrow-blue">What it costs</p>
-            <p className="mt-6 text-6xl font-semibold tracking-tight text-ink sm:text-7xl">
-              {MONTHLY_PRICE_LABEL}
-              <span className="text-2xl font-medium text-muted sm:text-3xl">/month</span>
-            </p>
-            <p className="mx-auto mt-5 max-w-lg text-pretty text-base leading-relaxed text-body">
-              {'That is the whole price. The build is free, hosting is in it, changes are in it, and there is no contract holding you there.'}
-            </p>
-
-            <div className="mt-9 grid gap-3 text-left sm:grid-cols-3">
-              {[
-                { label: 'To get started', value: 'Nothing' },
-                { label: 'Contract length', value: 'None' },
-                { label: 'Extra fees', value: 'None' },
-              ].map((f) => (
-                <div key={f.label} className="rounded-2xl bg-surface-2 px-5 py-4 text-center">
-                  <p className="text-xs font-medium uppercase tracking-wider text-muted">{f.label}</p>
-                  <p className="mt-1.5 text-lg font-semibold tracking-tight text-ink">{f.value}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-10">
-              <Link href="/get-started" className="btn-primary">
-                Start with a free look at your business
-              </Link>
-            </div>
-            <p className="mt-4 text-[13.5px] text-muted">
-              {'Ministries, churches and missionaries: the site is free. '}
-              <Link href="/mission" className="link-accent">
-                Here is why <span aria-hidden="true">›</span>
-              </Link>
+      {/* Why the page and post counts matter */}
+      <section aria-label="How getting found works" className="px-5 py-20 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="eyebrow eyebrow-blue">In plain English</p>
+            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+              {'Why pages and posts are what you are really buying.'}
+            </h2>
+            <p className="mt-5 text-pretty text-base leading-relaxed text-body">
+              {'Every plan below counts pages and posts, and most people have no idea why that should matter to a pressure washing business. Here is the whole thing, without the jargon.'}
             </p>
           </div>
+
+          <div className="mt-12 grid gap-5 md:grid-cols-3">
+            {SEO_EXPLAINER.slice(0, 3).map((item) => (
+              <div key={item.title} className="tile flex flex-col p-7 sm:p-8">
+                <h3 className="text-lg font-semibold tracking-tight text-ink">{item.title}</h3>
+                <p className="mt-3 text-[15px] leading-relaxed text-body">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <p className="mt-8 text-center text-sm">
+            <Link href="/local-business#how-it-works" className="link-accent">
+              The rest of how this works <span aria-hidden="true">›</span>
+            </Link>
+          </p>
+        </div>
+      </section>
+
+      {/* The plans */}
+      <section id="pricing" aria-label="Plans and pricing" className="scroll-mt-20 border-t border-line px-5 py-20 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="eyebrow eyebrow-blue">What it costs</p>
+            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+              {'Three plans. Counted work, not vague promises.'}
+            </h2>
+            <p className="mt-5 text-pretty text-base leading-relaxed text-body">
+              {'Every plan says exactly how many pages, posts and changes you get, so you can hold me to it. The build is free on all three and nothing is owed until your site is live.'}
+            </p>
+          </div>
+
+          <div className="mt-12">
+            <PricingTiers />
+          </div>
+
+          <p className="mt-8 text-center text-[13.5px] text-muted">
+            {'Ministries, churches and missionaries: the site is free. '}
+            <Link href="/mission" className="link-accent">
+              Here is why <span aria-hidden="true">›</span>
+            </Link>
+          </p>
         </div>
       </section>
 
@@ -219,11 +279,21 @@ export default function Home() {
             <div>
               <p className="eyebrow eyebrow-blue">Who you are working with</p>
               <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-                {'Not a marketing agency. A software engineer who happens to like small businesses.'}
+                {'Software and search — the two halves of growing a business online.'}
               </h2>
               <p className="mt-5 text-pretty text-base leading-relaxed text-body">
-                {'Most of what gets sold to local businesses is a template and a monthly invoice. I build real software for a living — including the platform a landscaping company runs its entire operation on. You get the same person doing your site, and you have his phone number.'}
+                {'I am a software engineer who also does the search work, and I sell both as a partnership rather than by the hour. An agency can market you but cannot build you anything. A developer can build you something but has no interest in whether anyone finds it. You need both, from someone whose own income depends on your business getting bigger.'}
               </p>
+
+              <div className="mt-8 space-y-4">
+                {SOFTWARE_ANGLE.map((s) => (
+                  <div key={s.title}>
+                    <h3 className="text-base font-semibold tracking-tight text-ink">{s.title}</h3>
+                    <p className="mt-1.5 text-sm leading-relaxed text-body">{s.desc}</p>
+                  </div>
+                ))}
+              </div>
+
               <Link href="/my-work" className="link-accent mt-7 inline-block text-sm">
                 See everything I have built <span aria-hidden="true">›</span>
               </Link>

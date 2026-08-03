@@ -6,7 +6,8 @@ const YOUTUBE_URL = 'https://www.youtube.com/@tkklein/videos'
 
 const PAGE_LINKS = [
   { href: '/',               label: 'Home' },
-  { href: '/local-business', label: 'For Local Businesses' },
+  { href: '/local-business', label: 'What I Do' },
+  { href: '/local-business#pricing', label: 'Pricing' },
   { href: '/get-started',    label: 'Free Look' },
   { href: '/my-work',        label: 'My Work' },
   { href: '/about',          label: 'About' },

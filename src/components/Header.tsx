@@ -15,10 +15,11 @@ const WORK_LINKS = [
 ]
 
 const NAV_LINKS = [
-  { to: '/local-business', label: 'For Local Businesses' },
-  { to: '/my-work',        label: 'My Work', children: WORK_LINKS },
-  { to: '/about',          label: 'About' },
-  { to: '/mission',        label: 'Mission' },
+  { to: '/local-business',         label: 'What I Do' },
+  { to: '/local-business#pricing', label: 'Pricing' },
+  { to: '/my-work',                label: 'My Work', children: WORK_LINKS },
+  { to: '/about',                  label: 'About' },
+  { to: '/mission',                label: 'Mission' },
 ]
 
 function ChevronIcon({ open }: { open: boolean }) {
@@ -200,7 +201,7 @@ export default function Header() {
               Prayer
               <ArrowOutIcon />
             </a>
-            <Link href="/get-started" className="btn-sm">Free look at your business</Link>
+            <Link href="/get-started" className="btn-sm">Get a free look</Link>
           </div>
 
           <button

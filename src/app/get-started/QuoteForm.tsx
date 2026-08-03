@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { CONTACT_EMAIL } from '@/lib/contact'
-import { TRADES } from '@/lib/partnership'
+import { AUDIENCE_OTHER, AUDIENCE_TRADES, TIERS } from '@/lib/partnership'
 
 /* The site has no database and no email service on purpose. So this form does
    not post anywhere: it writes the message for the visitor and hands it to
@@ -17,6 +17,7 @@ type Fields = {
   name: string
   phone: string
   trade: string
+  plan: string
   areas: string
   website: string
   notes: string
@@ -27,6 +28,7 @@ const EMPTY: Fields = {
   name: '',
   phone: '',
   trade: '',
+  plan: '',
   areas: '',
   website: '',
   notes: '',
@@ -37,6 +39,7 @@ const LABELS: Record<keyof Fields, string> = {
   name: 'Your name',
   phone: 'Best number to reach you',
   trade: 'What you do',
+  plan: 'Plan they have in mind',
   areas: 'Towns or areas you cover',
   website: 'Website you have now (if any)',
   notes: 'Anything else worth knowing',
@@ -159,18 +162,42 @@ export default function QuoteForm() {
             />
           </Field>
 
-          <Field id="trade" label={LABELS.trade}>
+          <Field id="trade" label="What you do">
             <select id="trade" className={inputClass} value={fields.trade} onChange={set('trade')} required>
               <option value="">Choose one…</option>
-              {TRADES.map((t) => (
-                <option key={t} value={t}>
-                  {t}
-                </option>
-              ))}
+              <optgroup label="Trades">
+                {AUDIENCE_TRADES.map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
+                ))}
+              </optgroup>
+              <optgroup label="Other local businesses">
+                {AUDIENCE_OTHER.map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
+                ))}
+              </optgroup>
               <option value="Something else">Something else</option>
             </select>
           </Field>
         </div>
+
+        <Field
+          id="plan"
+          label="Plan you have in mind"
+          hint="Only if you already know — otherwise leave it and I will recommend one."
+        >
+          <select id="plan" className={inputClass} value={fields.plan} onChange={set('plan')}>
+            <option value="">Not sure yet — tell me what fits</option>
+            {TIERS.map((t) => (
+              <option key={t.id} value={`${t.name} ($${t.price}/month)`}>
+                {`${t.name} — $${t.price}/month`}
+              </option>
+            ))}
+          </select>
+        </Field>
 
         <Field
           id="areas"

@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import QuoteForm from './QuoteForm'
 import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
-import { MONTHLY_PRICE_LABEL } from '@/lib/partnership'
+import { ENTRY_PRICE_LABEL, TIERS } from '@/lib/partnership'
 
 export const metadata: Metadata = {
   title: 'Get a free look at your business online',
@@ -66,14 +66,25 @@ export default function GetStarted() {
             <div className="mt-8 rounded-[22px] bg-dark p-7 text-white">
               <p className="text-xs font-semibold uppercase tracking-wider text-white/45">If you want to go ahead</p>
               <p className="mt-3 text-2xl font-semibold tracking-tight text-white">
-                {MONTHLY_PRICE_LABEL}
+                {'From ' + ENTRY_PRICE_LABEL}
                 <span className="text-base font-medium text-white/50">/month</span>
               </p>
-              <p className="mt-3 text-sm leading-relaxed text-white/65">
-                {'The build is free and nothing is owed until the site is live. No contract, cancel any time.'}
+              <ul className="mt-5 space-y-2.5">
+                {TIERS.map((t) => (
+                  <li key={t.id} className="flex items-baseline justify-between gap-4 text-sm">
+                    <span className="text-white/75">
+                      {t.name}
+                      <span className="text-white/40"> — {t.tagline}</span>
+                    </span>
+                    <span className="shrink-0 font-semibold text-white">${t.price}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-5 text-sm leading-relaxed text-white/65">
+                {'The build is free on every plan and nothing is owed until the site is live. No contract, and you can move between plans whenever you like.'}
               </p>
-              <Link href="/local-business" className="mt-5 inline-block text-sm font-medium text-white underline underline-offset-4">
-                {'See exactly what that covers ›'}
+              <Link href="/local-business#pricing" className="mt-5 inline-block text-sm font-medium text-white underline underline-offset-4">
+                {'Compare what each plan delivers ›'}
               </Link>
             </div>
 
