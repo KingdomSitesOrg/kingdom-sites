@@ -10,8 +10,6 @@ import WorkScenes from '@/components/WorkScenes'
 import EvenGrid from '@/components/EvenGrid'
 import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
 import {
-  AUDIENCE_OTHER,
-  AUDIENCE_TRADES,
   ENTRY_PRICE_LABEL,
   FIRST_MONTH_FREE_SHORT,
   PILLARS,
@@ -19,23 +17,6 @@ import {
   SOFTWARE_ANGLE,
   STEPS,
 } from '@/lib/partnership'
-
-/* The reasons a good local business stays invisible. Named plainly, because the
-   owner reading this already knows which ones are true of him. */
-const PROBLEMS = [
-  {
-    title: 'You are relying on word of mouth',
-    desc: 'It works, until the season turns or a big customer moves. Meanwhile the people searching for exactly what you do are calling somebody else.',
-  },
-  {
-    title: 'Your Google listing is half empty',
-    desc: 'No hours, no service areas, three photos from 2019, no reviews asked for. This is the first thing a customer sees, and usually the only thing.',
-  },
-  {
-    title: 'Your site was built once and left',
-    desc: 'One page, no services listed, no towns named, a contact form that goes nowhere. Google has nothing to show anyone, so it shows them your competitor.',
-  },
-]
 
 /* Proof that the person doing this builds serious software, not just brochures. */
 const PROOF = [
@@ -159,60 +140,6 @@ export default function Home() {
 
           <div className="mx-auto w-full max-w-[400px] lg:mx-0">
             <LeadMock />
-          </div>
-        </div>
-      </section>
-
-      {/* Who this is for */}
-      <section aria-label="Who I work with" className="border-t border-line px-5 py-14 sm:px-8 sm:py-16">
-        <div className="mx-auto max-w-5xl text-center">
-          <p className="text-sm font-medium text-body">
-            {'Sharpest in the trades, where customers search, call and book the same day'}
-          </p>
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5">
-            {AUDIENCE_TRADES.map((trade) => (
-              <span
-                key={trade}
-                className="rounded-full border border-line bg-surface px-4 py-2 text-[13.5px] font-medium text-body"
-              >
-                {trade}
-              </span>
-            ))}
-          </div>
-
-          <p className="mt-10 text-sm font-medium text-body">
-            {'And the same work for any local business people find by searching'}
-          </p>
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5">
-            {AUDIENCE_OTHER.map((kind) => (
-              <span key={kind} className="rounded-full bg-surface-2 px-4 py-2 text-[13.5px] text-body">
-                {kind}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* The problem */}
-      <section aria-label="Why good businesses stay invisible" className="border-t border-line px-5 py-20 sm:px-8 sm:py-24">
-        <div className="mx-auto max-w-6xl">
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="eyebrow">The honest problem</p>
-            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-              {'Nobody doubts your work. They just cannot find you.'}
-            </h2>
-            <p className="mt-5 text-pretty text-base leading-relaxed text-body">
-              {'The business that wins a job is almost never the best one in town. It is the one that turned up when somebody nearby reached for their phone and searched.'}
-            </p>
-          </div>
-
-          <div className="mt-12 grid gap-5 md:grid-cols-3">
-            {PROBLEMS.map((p) => (
-              <div key={p.title} className="tile flex flex-col p-7 sm:p-8">
-                <h3 className="text-lg font-semibold tracking-tight text-ink">{p.title}</h3>
-                <p className="mt-3 text-[15px] leading-relaxed text-body">{p.desc}</p>
-              </div>
-            ))}
           </div>
         </div>
       </section>
