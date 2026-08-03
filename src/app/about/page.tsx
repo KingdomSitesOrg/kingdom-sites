@@ -42,6 +42,11 @@ export default function About() {
             Google.
           </p>
           <p className="mt-4 text-pretty text-[15px] leading-relaxed text-body sm:text-base">
+            I have worked behind the counter at a local bike shop here in Rochester, so I know what
+            running a small business actually looks like from the inside — thin margins, long days,
+            and no spare hour for working out what Google wants from you.
+          </p>
+          <p className="mt-4 text-pretty text-[15px] leading-relaxed text-body sm:text-base">
             My wife Monisha and I take on a small number of these partnerships at a time, on purpose.
             When you call, you get the person who built it.
           </p>

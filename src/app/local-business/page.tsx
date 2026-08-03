@@ -17,7 +17,7 @@ import {
 export const metadata: Metadata = {
   title: 'Plans for local businesses',
   description:
-    `Websites, Google listings and local SEO for pressure washing, window cleaning, landscaping, restaurants, salons and any local business — three monthly plans from $199, build free, no contract.`,
+    `Websites, Google listings and local SEO for pressure washing, window cleaning, landscaping, restaurants, salons and any local business — three monthly plans from $299, build free, no contract.`,
   alternates: { canonical: '/local-business' },
 }
 

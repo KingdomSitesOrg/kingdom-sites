@@ -16,7 +16,9 @@ const csp = [
   "connect-src 'self' https://*.ingest.us.sentry.io https://*.ingest.sentry.io",
   "form-action 'none'",
   // Mission page embeds a YouTube player; links-only would not need this.
-  "frame-src https://www.youtube.com https://www.youtube-nocookie.com",
+  // In development the site may also frame itself, which is how phone-width
+  // layouts get checked in a desktop browser. Never allowed in production.
+  `frame-src https://www.youtube.com https://www.youtube-nocookie.com${isDev ? " 'self'" : ''}`,
   "base-uri 'self'",
   "object-src 'none'",
 ].join('; ')
@@ -52,6 +54,8 @@ const nextConfig: NextConfig = {
       { source: '/latin', destination: '/latin-game', permanent: true },
       { source: '/latingame', destination: '/latin-game', permanent: true },
       { source: '/why-us', destination: '/mission', permanent: true },
+      // The local business pitch used to live at /grow; it is the home page now.
+      { source: '/grow', destination: '/', permanent: true },
       { source: '/taptotick', destination: '/tap-to-tick', permanent: true },
       { source: '/aitooling', destination: '/ai-tooling', permanent: true },
     ]

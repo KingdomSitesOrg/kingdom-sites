@@ -16,16 +16,16 @@ const WORK_LINKS = [
 
 /* The local business side, shown in the menu under Grow My Business. */
 const GROW_LINKS = [
-  { to: '/grow',                   label: 'Overview',        desc: 'How I get a local business found and called' },
+  { to: '/',                       label: 'Overview',        desc: 'How I get a local business found and called' },
   { to: '/local-business',         label: 'What you get',    desc: 'Everything covered, month by month' },
-  { to: '/local-business#pricing', label: 'Pricing',         desc: 'Three plans, from $199 a month' },
+  { to: '/local-business#pricing', label: 'Pricing',         desc: 'Three plans, from $299 a month' },
   { to: '/rochester-mn',           label: 'Rochester, MN',   desc: 'Local growth for businesses here at home' },
   { to: '/blog',                   label: 'Blog',            desc: 'Local notes on clients, search and events' },
   { to: '/get-started',            label: 'Free look',       desc: 'An honest read on how you show up today' },
 ]
 
 const NAV_LINKS = [
-  { to: '/grow',     label: 'Grow My Business', children: GROW_LINKS },
+  { to: '/',         label: 'Grow My Business', children: GROW_LINKS },
   { to: '/software', label: 'Custom Software' },
   { to: '/my-work',  label: 'My Work', children: WORK_LINKS },
   { to: '/about',    label: 'About' },

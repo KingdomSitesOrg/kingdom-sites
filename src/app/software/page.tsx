@@ -57,7 +57,7 @@ export default function Software() {
       <section id="services" aria-label="What I build" className="band-dark overflow-hidden px-5 py-20 sm:px-8 sm:py-24">
         <div className="mx-auto grid w-full max-w-6xl items-center gap-12 lg:grid-cols-[1fr_auto_1fr] lg:gap-8">
           <div className="hidden justify-end lg:flex">
-            <WebMock />
+            <WebMock className="w-[300px]" />
           </div>
 
           <div className="min-w-0 text-center">
@@ -90,14 +90,14 @@ export default function Software() {
           </div>
 
           <div className="hidden justify-start lg:flex">
-            <PhoneMock />
+            <PhoneMock className="w-[136px]" />
           </div>
 
           {/* On a phone there is no room for a column either side, so the site
               sits above the app rather than beside it. */}
           <div className="flex min-w-0 flex-col items-center gap-8 lg:hidden">
             <WebMock className="w-full max-w-[300px]" />
-            <PhoneMock />
+            <PhoneMock className="w-[136px]" />
           </div>
         </div>
       </section>
@@ -135,7 +135,7 @@ export default function Software() {
               {'If you need customers to find you and call you rather than a piece of software built, I run all of that for a monthly fee instead — website, Google listing, local search, reviews. The build is free and the first month is too.'}
             </p>
           </div>
-          <Link href="/grow" className="btn-primary shrink-0">
+          <Link href="/" className="btn-primary shrink-0">
             See how that works
           </Link>
         </div>

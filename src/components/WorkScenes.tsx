@@ -180,7 +180,7 @@ function Birds({ x, y }: { x: number; y: number }) {
 
 /* ---------------------------------------------------------------- scenes -- */
 
-function PressureWash() {
+export function PressureWash() {
   return (
     <g>
       <Sky />

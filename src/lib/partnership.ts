@@ -48,7 +48,7 @@ export const TIERS: Tier[] = [
   {
     id: 'foundation',
     name: 'Foundation',
-    price: 199,
+    price: 299,
     tagline: 'Exist properly',
     bestFor: 'A business with no website, or one that has gone stale.',
     promise: 'A real website and a Google listing that is actually filled in, kept current every month.',
@@ -69,7 +69,7 @@ export const TIERS: Tier[] = [
   {
     id: 'growth',
     name: 'Growth',
-    price: 499,
+    price: 599,
     tagline: 'Get found',
     bestFor: 'A business that wants the phone to ring more than it does now.',
     promise: 'The month-after-month search work that actually moves you up — this is where results start.',
@@ -247,7 +247,7 @@ export const FAQS = [
   },
   {
     q: 'Why is Foundation so specific about the number of changes?',
-    a: 'Because being vague at that price is how these arrangements quietly fall apart. Two changes a month at $199 is honest and I can keep doing it for years. Unlimited at $199 would mean either saying no to you constantly or resenting the work — neither of which is any use to you. Unlimited is real on Growth and Everything, where the fee covers it.',
+    a: 'Because being vague at that price is how these arrangements quietly fall apart. Two changes a month at $299 is honest and I can keep doing it for years. Unlimited at $299 would mean either saying no to you constantly or resenting the work — neither of which is any use to you. Unlimited is real on Growth and Everything, where the fee covers it.',
   },
   {
     q: 'What does the asterisk on unlimited mean?',

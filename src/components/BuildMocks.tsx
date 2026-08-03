@@ -3,10 +3,13 @@
    built for a dark background — they appear on the software side of the site and
    on the chooser at the front door. */
 
+/* No width of their own: every caller sets one. A width baked in here fought
+   with the width passed in, and which one won came down to stylesheet order —
+   which is how these ended up cut off on a phone. */
 export function WebMock({ className = '' }: { className?: string }) {
   return (
     <div
-      className={`w-[300px] overflow-hidden rounded-xl border border-white/12 bg-white/[0.04] shadow-[0_24px_60px_rgba(0,0,0,0.45)] ${className}`}
+      className={`overflow-hidden rounded-xl border border-white/12 bg-white/[0.04] shadow-[0_24px_60px_rgba(0,0,0,0.45)] ${className}`}
       aria-hidden="true"
     >
       <div className="flex items-center gap-1.5 border-b border-white/10 bg-white/[0.04] px-3 py-2">
@@ -51,7 +54,7 @@ export function WebMock({ className = '' }: { className?: string }) {
 export function PhoneMock({ className = '' }: { className?: string }) {
   return (
     <div
-      className={`flex w-[136px] flex-col overflow-hidden rounded-[26px] border-[3px] border-white/25 bg-[#0f1626] shadow-[0_24px_60px_rgba(0,0,0,0.5)] ${className}`}
+      className={`flex flex-col overflow-hidden rounded-[26px] border-[3px] border-white/25 bg-[#0f1626] shadow-[0_24px_60px_rgba(0,0,0,0.5)] ${className}`}
       aria-hidden="true"
     >
       <div className="relative bg-white/[0.05] px-3 pb-2 pt-3.5">
