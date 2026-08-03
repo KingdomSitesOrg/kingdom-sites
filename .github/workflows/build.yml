@@ -28,6 +28,13 @@ jobs:
       - name: Check code style
         run: npm run lint
 
+      # Next.js writes the type definitions that make an imported image or a
+      # route a known thing to TypeScript. They are generated, not kept in the
+      # repository, so a fresh checkout has none and every image import looks
+      # like a missing file until this runs.
+      - name: Generate the types Next.js writes
+        run: npx next typegen
+
       - name: Check types
         run: npx tsc --noEmit
 
