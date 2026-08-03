@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import ToolTicker from '@/components/ToolTicker'
 import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
 import shotOverview from '../../../public/tap-to-tick/overview.jpg'
 import shotLog from '../../../public/tap-to-tick/log.jpg'
@@ -206,15 +207,22 @@ export default function MyWork() {
     <div className="w-full overflow-x-hidden">
       {/* Hero */}
       <section className="hero-wash px-5 pb-16 pt-16 text-center sm:px-8 sm:pb-20 sm:pt-24">
-        <p className="eyebrow">Portfolio</p>
+        <p className="eyebrow">Who you are hiring</p>
         <h1 className="mx-auto mt-5 max-w-3xl text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
-          My <span className="text-accent">favorite projects</span>{' '}
-          that I&apos;ve worked on.
+          {'The proof that I am '}
+          <span className="text-accent">not just a website guy.</span>
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-body sm:text-lg">
-          Some of these I scoped, designed, built, and shipped front to back — my own products and
-          client projects. One, Ruta, is a live platform I helped build with a team.
+          {'Plenty of people will sell a small business a template. This page is here so you can see what I do the rest of the time: real software, in production, that companies and customers use every day. It is the same person and the same standard behind your site.'}
         </p>
+        <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <Link href="/local-business" className="btn-primary">
+            What I do for local businesses
+          </Link>
+          <Link href="/get-started" className="btn-ghost">
+            Get a free look at yours
+          </Link>
+        </div>
       </section>
 
       {/* Featured project — Ruta */}
@@ -623,19 +631,42 @@ export default function MyWork() {
         </div>
       </section>
 
+      {/* My tools — the rotating strips */}
+      <section aria-label="My tools" className="overflow-hidden border-t border-line py-16 sm:py-20">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8">
+          <div className="max-w-2xl">
+            <p className="eyebrow eyebrow-blue">My tools</p>
+            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+              The kit I build with.
+            </h2>
+            <p className="mt-4 text-[15px] leading-relaxed text-body sm:text-base">
+              Languages and platforms, the cloud services behind them, and the AI work — for
+              developers, and just as much for anyone doing marketing, email, SEO, or day-to-day
+              task management who wants a hand getting AI genuinely useful.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-10">
+          <ToolTicker />
+        </div>
+      </section>
+
       {/* CTA */}
       <section aria-label="Contact" className="border-t border-line px-5 py-16 sm:px-8 sm:py-20">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-            Want something like this <span className="text-accent">for your business?</span>
+            Want this kind of attention <span className="text-accent">on your business?</span>
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-relaxed text-body">
-            Tell me what you have in mind and I&apos;ll scope it and send a quote. Free, fast, no obligation.
+            {'Most of my clients are local service businesses on a monthly partnership — I run everything that gets them found and called. Start with a free look at where you stand.'}
           </p>
-          <div className="mt-8">
-            <a href={CONTACT_MAILTO} className="btn-primary">Email me</a>
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Link href="/get-started" className="btn-primary">Get my free look</Link>
+            <Link href="/local-business" className="btn-ghost">See what is included</Link>
           </div>
-          <p className="mt-4 text-sm text-body">
+          <p className="mt-5 text-sm text-body">
+            {'Bigger build in mind? Email me at '}
             <a href={CONTACT_MAILTO} className="link-accent">{CONTACT_EMAIL}</a>
           </p>
         </div>

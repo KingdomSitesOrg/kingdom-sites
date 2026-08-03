@@ -8,16 +8,17 @@ import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
 /* The individual projects, shown in the menu that opens under My Work. */
 const WORK_LINKS = [
   { to: '/my-work',       label: 'All my work',   desc: 'Everything I’ve designed and shipped' },
-  { to: '/ruta',          label: 'Ruta',          desc: 'Service management platform · case study' },
+  { to: '/ruta',          label: 'Ruta',          desc: 'Software that runs landscaping companies' },
   { to: '/tap-to-tick',   label: 'Tap to Tick',   desc: 'A frictionless expense tracker for iPhone' },
   { to: '/latin-game',    label: 'Latin practice game',desc: 'Classical Latin as a Roman quest' },
   { to: '/ai-tooling',    label: 'AI tooling',    desc: 'Consultation for teams new to AI' },
 ]
 
 const NAV_LINKS = [
-  { to: '/my-work',  label: 'My Work', children: WORK_LINKS },
-  { to: '/about',    label: 'About' },
-  { to: '/mission',  label: 'Mission' },
+  { to: '/local-business', label: 'For Local Businesses' },
+  { to: '/my-work',        label: 'My Work', children: WORK_LINKS },
+  { to: '/about',          label: 'About' },
+  { to: '/mission',        label: 'Mission' },
 ]
 
 function ChevronIcon({ open }: { open: boolean }) {
@@ -105,7 +106,7 @@ export default function Header() {
             <Link href="/" className="text-[15px] font-semibold tracking-tight text-ink">
               Kingdom Sites
             </Link>
-            <nav className="hidden items-center gap-7 md:flex">
+            <nav className="hidden items-center gap-6 lg:flex">
               {NAV_LINKS.map(({ to, label, children }) =>
                 children ? (
                   <div
@@ -179,7 +180,7 @@ export default function Header() {
             </nav>
           </div>
 
-          <div className="hidden items-center gap-5 md:flex">
+          <div className="hidden items-center gap-5 lg:flex">
             {/* Their own tabs — ministry and prayer are their own places. */}
             <a
               href="/ministry"
@@ -199,11 +200,11 @@ export default function Header() {
               Prayer
               <ArrowOutIcon />
             </a>
-            <a href={CONTACT_MAILTO} className="btn-sm">Email me</a>
+            <Link href="/get-started" className="btn-sm">Free look at your business</Link>
           </div>
 
           <button
-            className="flex h-10 w-10 items-center justify-center text-ink md:hidden"
+            className="flex h-10 w-10 items-center justify-center text-ink lg:hidden"
             onClick={() => setMenuOpen((o) => !o)}
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           >
@@ -214,7 +215,7 @@ export default function Header() {
 
       {menuOpen && (
         <div
-          className="md:hidden"
+          className="lg:hidden"
           style={{
             background: 'rgba(255, 255, 255, 0.97)',
             backdropFilter: 'saturate(180%) blur(20px)',
@@ -285,14 +286,16 @@ export default function Header() {
             </a>
 
             <div className="mt-3 border-t border-line pt-4">
-              <a
-                href={CONTACT_MAILTO}
+              <Link
+                href="/get-started"
                 onClick={() => setMenuOpen(false)}
                 className="btn-primary w-full"
               >
-                Email me
-              </a>
-              <p className="mt-3 text-center text-xs text-muted">{CONTACT_EMAIL}</p>
+                Free look at your business
+              </Link>
+              <p className="mt-3 text-center text-xs text-muted">
+                <a href={CONTACT_MAILTO}>{CONTACT_EMAIL}</a>
+              </p>
             </div>
           </div>
         </div>

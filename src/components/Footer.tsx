@@ -5,12 +5,14 @@ const FACEBOOK_URL = 'https://www.facebook.com/share/1EzdtfSCs3/?mibextid=wwXIfr
 const YOUTUBE_URL = 'https://www.youtube.com/@tkklein/videos'
 
 const PAGE_LINKS = [
-  { href: '/',        label: 'Home' },
-  { href: '/my-work', label: 'My Work' },
-  { href: '/about',   label: 'About' },
-  { href: '/mission', label: 'Mission' },
-  { href: '/privacy', label: 'Privacy Policy' },
-  { href: '/terms',   label: 'Terms' },
+  { href: '/',               label: 'Home' },
+  { href: '/local-business', label: 'For Local Businesses' },
+  { href: '/get-started',    label: 'Free Look' },
+  { href: '/my-work',        label: 'My Work' },
+  { href: '/about',          label: 'About' },
+  { href: '/mission',        label: 'Mission' },
+  { href: '/privacy',        label: 'Privacy Policy' },
+  { href: '/terms',          label: 'Terms' },
 ]
 
 export default function Footer() {
@@ -20,14 +22,14 @@ export default function Footer() {
         <div className="grid gap-10 sm:grid-cols-2 sm:items-start">
           <div>
             <p className="text-xl font-semibold tracking-tight text-white sm:text-2xl">
-              Have a project in mind?
+              Want more calls coming in?
             </p>
             <p className="mt-2 max-w-sm text-sm leading-relaxed text-white/65">
-              Send me a note about what you need. I read every message myself and reply with a
-              scoped quote.
+              Start with a free, honest look at how your business shows up online. I read every
+              message myself and reply within a day.
             </p>
             <div className="mt-6 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-5">
-              <a href={CONTACT_MAILTO} className="btn-primary">Email me</a>
+              <Link href="/get-started" className="btn-primary">Get my free look</Link>
               <a href={CONTACT_MAILTO} className="text-sm text-white/75 underline underline-offset-4 hover:text-white">
                 {CONTACT_EMAIL}
               </a>
@@ -100,8 +102,9 @@ export default function Footer() {
 
         <div className="mt-12 border-t border-white/12 pt-6">
           <p className="text-xs leading-relaxed text-white/45">
-            Kingdom Sites — websites, mobile apps, and custom software, quoted to your project.
-            Copyright © {new Date().getFullYear()} Kingdom Sites. All rights reserved.
+            Kingdom Sites — websites, Google listings, and local search for small service
+            businesses, for one monthly fee. Copyright © {new Date().getFullYear()} Kingdom Sites.
+            All rights reserved.
           </p>
         </div>
       </div>

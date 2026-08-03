@@ -247,8 +247,18 @@ body {
   animation: mock-sweep 4.2s ease-in-out infinite;
 }
 
+/* The call button and the incoming call on the home page drawing: a slow, quiet
+   heartbeat so the eye lands on the part that matters. */
+@keyframes mock-pulse {
+  0%, 62%, 100% { transform: scale(1); }
+  70%           { transform: scale(1.07); }
+  78%           { transform: scale(1); }
+  86%           { transform: scale(1.05); }
+}
+.mock-pulse { animation: mock-pulse 3.6s ease-in-out infinite; }
+
 @media (prefers-reduced-motion: reduce) {
-  .mock-bar, .mock-row, .mock-tab { animation: none; }
+  .mock-bar, .mock-row, .mock-tab, .mock-pulse { animation: none; }
   .mock-bar { transform: scaleX(1); }
   .mock-sweep::after { animation: none; opacity: 0; }
 }

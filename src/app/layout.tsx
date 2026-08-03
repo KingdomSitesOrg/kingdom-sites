@@ -7,29 +7,34 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"] });
 
+const DESCRIPTION =
+  "Websites, Google listings and local search for pressure washing, window cleaning, landscaping and other small service businesses — one monthly fee, no setup cost, cancel any time.";
+
 export const metadata: Metadata = {
   title: {
-    default: "Kingdom Sites",
+    default: "Kingdom Sites — get your local business found and called",
     template: "%s | Kingdom Sites",
   },
-  description: "Websites, mobile apps, and custom software for any project — competitive pricing, every engagement individually quoted.",
+  description: DESCRIPTION,
   metadataBase: new URL("https://kingdom-sites.com"),
   alternates: {
     canonical: "/",
   },
   keywords: [
-    "custom software",
-    "web development",
-    "mobile app development",
-    "app development",
-    "custom websites",
-    "software solutions",
-    "freelance developer",
-    "small business software",
+    "local business website",
+    "small business website",
+    "pressure washing website",
+    "window cleaning website",
+    "landscaping website",
+    "home services marketing",
+    "local SEO",
+    "Google Business Profile",
+    "get more leads",
+    "monthly website service",
   ],
   openGraph: {
-    title: "Kingdom Sites",
-    description: "Websites, mobile apps, and custom software for any project — competitive pricing, every engagement individually quoted.",
+    title: "Kingdom Sites — get your local business found and called",
+    description: DESCRIPTION,
     url: "https://kingdom-sites.com",
     siteName: "Kingdom Sites",
     locale: "en_US",
@@ -37,8 +42,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kingdom Sites",
-    description: "Websites, mobile apps, and custom software for any project — competitive pricing, every engagement individually quoted.",
+    title: "Kingdom Sites — get your local business found and called",
+    description: DESCRIPTION,
   },
   robots: {
     index: true,
@@ -50,6 +55,27 @@ export const metadata: Metadata = {
   },
 };
 
+/* Tells search engines in their own language what this business is and who it
+   serves. Facts only — no address, no ratings, nothing that is not true. */
+const STRUCTURED_DATA = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: "Kingdom Sites",
+  url: "https://kingdom-sites.com",
+  description: DESCRIPTION,
+  email: "thomas@kingdom-sites.com",
+  founder: { "@type": "Person", name: "Thomas Klein" },
+  serviceType: [
+    "Website design and hosting",
+    "Local SEO",
+    "Google Business Profile management",
+  ],
+  audience: {
+    "@type": "BusinessAudience",
+    name: "Local home service businesses",
+  },
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -58,6 +84,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(STRUCTURED_DATA) }}
+        />
         <AppShell>{children}</AppShell>
         <Analytics />
         <SpeedInsights />

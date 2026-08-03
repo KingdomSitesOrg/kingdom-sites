@@ -2,11 +2,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import aboutImage from '../../../public/Photos/about.jpg'
-import ContactCta from '@/components/ContactCta'
+import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
 
 export const metadata: Metadata = {
   title: 'About — Kingdom Sites',
-  description: 'Meet Thomas Klein — the developer behind Kingdom Sites.',
+  description:
+    'Meet Thomas Klein — the software engineer behind Kingdom Sites, working with small service businesses as a long-term partner rather than a one-off website vendor.',
 }
 
 export default function About() {
@@ -34,8 +35,15 @@ export default function About() {
             A little bit <span className="text-accent">about us.</span>
           </h1>
           <p className="mt-5 text-pretty text-base leading-relaxed text-body sm:text-lg">
-            My name is Thomas Klein — a software developer passionate about building great products for great people.
-            My wife Monisha and I love working directly with clients to understand their needs and deliver solutions that actually move the needle.
+            My name is Thomas Klein — a software engineer who would rather work with a handful of
+            small business owners for years than sell a hundred websites once. Most of the people I
+            work with run service businesses: pressure washing, window cleaning, landscaping. They
+            are excellent at the job and were never meant to spend their evenings fighting with
+            Google.
+          </p>
+          <p className="mt-4 text-pretty text-[15px] leading-relaxed text-body sm:text-base">
+            My wife Monisha and I take on a small number of these partnerships at a time, on purpose.
+            When you call, you get the person who built it.
           </p>
           <p className="mt-4 text-pretty text-[15px] leading-relaxed text-body sm:text-base">
             We are currently in the Philippines at IGSL — the International Graduate School of
@@ -45,16 +53,31 @@ export default function About() {
 
           <div className="mt-8 grid gap-4">
             <div className="tile p-6">
-              <h2 className="text-sm font-semibold tracking-tight text-ink">What I focus on</h2>
+              <h2 className="text-sm font-semibold tracking-tight text-ink">What I actually do for you</h2>
               <p className="mt-2 text-sm leading-relaxed text-body">
-                Custom software for any project — websites, mobile apps, platforms, and everything in between. Fast, clean, and built to solve real problems, at competitive pricing with every engagement individually quoted.
+                {'Everything that gets a local business found and called: the website, the Google listing, the local search work, the photos, the reviews. One monthly fee, no build cost, and changes whenever you need them. '}
+                <Link href="/local-business" className="link-accent">
+                  See what is included <span aria-hidden="true">›</span>
+                </Link>
               </p>
             </div>
 
             <div className="tile p-6">
-              <h2 className="text-sm font-semibold tracking-tight text-ink">{'Why "Kingdom Sites"'}</h2>
+              <h2 className="text-sm font-semibold tracking-tight text-ink">A partner, not a vendor</h2>
               <p className="mt-2 text-sm leading-relaxed text-body">
-                {"You're not just getting a product — you're getting a development partner who's invested in your success. I want to see your business thrive, and I believe great software can be the difference maker."}
+                {'A website handed over on launch day and never touched again is worth almost nothing — and it is what most owners have already paid for once. I would rather be the person still working on your business in year three, paid a little each month, with every reason to keep your phone ringing.'}
+              </p>
+            </div>
+
+            <div className="tile p-6">
+              <h2 className="text-sm font-semibold tracking-tight text-ink">
+                I build serious software too
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-body">
+                {'Alongside this I build real products — including Ruta, the platform a landscaping company runs its whole operation on, and apps on the App Store. It is why I understand your trade, and why the technical side of your site is in good hands. '}
+                <Link href="/my-work" className="link-accent">
+                  My work <span aria-hidden="true">›</span>
+                </Link>
               </p>
             </div>
 
@@ -77,7 +100,15 @@ export default function About() {
             </div>
 
             <div className="mt-2">
-              <ContactCta label="Get a Quote" />
+              <Link href="/get-started" className="btn-primary">
+                Get a free look at your business
+              </Link>
+              <p className="mt-4 text-sm text-body">
+                {'Or just email me — '}
+                <a href={CONTACT_MAILTO} className="link-accent">
+                  {CONTACT_EMAIL}
+                </a>
+              </p>
             </div>
           </div>
         </div>
