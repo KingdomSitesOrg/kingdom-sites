@@ -19,11 +19,11 @@ import {
 const inter = Inter({ subsets: ["latin"] });
 
 const DESCRIPTION =
-  "Websites, Google listings and local search for small businesses in Rochester, MN and beyond — get more clients, get found on Google, one monthly fee, first month free, cancel any time.";
+  "Websites, Google listings and local search for small businesses — get more clients, get found on Google, one monthly fee, first month free, cancel any time.";
 
 export const metadata: Metadata = {
   title: {
-    default: "Kingdom Sites — grow your local business in Rochester, MN",
+    default: "Kingdom Sites — grow your local business",
     template: "%s | Kingdom Sites",
   },
   description: DESCRIPTION,
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     ...LOCAL_KEYWORDS,
   ],
   openGraph: {
-    title: "Kingdom Sites — grow your local business in Rochester, MN",
+    title: "Kingdom Sites — grow your local business",
     description: DESCRIPTION,
     url: "https://kingdom-sites.com",
     siteName: "Kingdom Sites",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kingdom Sites — grow your local business in Rochester, MN",
+    title: "Kingdom Sites — grow your local business",
     description: DESCRIPTION,
   },
   robots: {

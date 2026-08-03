@@ -54,7 +54,7 @@ const PROOF = [
 ]
 
 export const metadata: Metadata = {
-  title: 'Kingdom Sites — grow your local business in Rochester, MN',
+  title: 'Kingdom Sites — grow your local business',
   description:
     'Websites, Google listings and local search for pressure washing, window cleaning, cafés, salons and any small business — one monthly fee, first month free, no contract. Custom software too.',
   alternates: { canonical: '/' },
@@ -65,22 +65,19 @@ export default function Home() {
     <div className="w-full overflow-x-hidden">
       {/* The opening screen: seven trades quietly at work, one lit at a time. */}
       <section
-        aria-label="Grow your business in Rochester, MN"
+        aria-label="Grow your business"
         className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-5 pb-24 pt-14 text-center sm:px-8"
       >
-        {/* The headline names the town on purpose. The page is aimed at
-            Rochester searches, and both a customer and a search engine decide
-            in the first screen whether this is a local business or a national
-            template. Sized down a step from the old one-line version so three
-            balanced lines still fill the screen rather than overflow it. */}
+        {/* Simple headline. Location targeting lives in blog and place pages —
+            not on the first screen. */}
         <WorkScenes>
           <h1 className="max-w-full text-balance text-[2.4rem] font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl lg:text-[4.25rem]">
-            Grow your <span className="text-accent">business</span> in Rochester, MN.
+            Grow your <span className="text-accent">business</span>
           </h1>
         </WorkScenes>
 
         <p className="relative z-10 mt-7 max-w-xl text-pretty text-[15px] leading-relaxed text-body sm:text-base">
-          {'Websites, Google listings and local search for small businesses in Rochester, Minnesota — and across Olmsted County and Southeast Minnesota.'}
+          {'Websites, Google listings and local search for small businesses — so customers find you when they need what you do.'}
         </p>
 
         <a
@@ -143,7 +140,7 @@ export default function Home() {
               You do the work. I make sure <span className="text-accent">the phone rings.</span>
             </h2>
             <p className="mt-6 text-pretty text-base leading-relaxed text-body sm:text-lg">
-              {'I am Thomas, and I work with owners here in Rochester, MN — pressure washers, window cleaners, or any small business customers find by searching. One monthly fee, and I run everything that gets you found and called across Rochester and Southeast Minnesota. Not a website you buy once and never hear about again.'}
+              {'I am Thomas, and I work with owners of local businesses — pressure washers, window cleaners, or any small business customers find by searching. One monthly fee, and I run everything that gets you found and called. Not a website you buy once and never hear about again.'}
             </p>
 
             <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
@@ -170,7 +167,7 @@ export default function Home() {
       <section aria-label="Who I work with" className="border-t border-line px-5 py-14 sm:px-8 sm:py-16">
         <div className="mx-auto max-w-5xl text-center">
           <p className="text-sm font-medium text-body">
-            {'Sharpest in the Rochester trades, where customers search, call and book the same day'}
+            {'Sharpest in the trades, where customers search, call and book the same day'}
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5">
             {AUDIENCE_TRADES.map((trade) => (
@@ -205,7 +202,7 @@ export default function Home() {
               {'Nobody doubts your work. They just cannot find you.'}
             </h2>
             <p className="mt-5 text-pretty text-base leading-relaxed text-body">
-              {'The business that wins a job is almost never the best one in town. It is the one that turned up when somebody in Rochester reached for their phone and searched.'}
+              {'The business that wins a job is almost never the best one in town. It is the one that turned up when somebody nearby reached for their phone and searched.'}
             </p>
           </div>
 
@@ -333,7 +330,8 @@ export default function Home() {
       {/* Proof — the person behind it builds real software */}
       <section aria-label="Who you are working with" className="border-t border-line px-5 py-20 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-6xl">
-          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+          {/* items-start: cards hug content — never stretch to match a tall sibling column. */}
+          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:gap-16">
             <div>
               <p className="eyebrow eyebrow-blue">Who you are working with</p>
               <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
@@ -343,7 +341,7 @@ export default function Home() {
                 {'I am a software engineer who also does the search work, and I sell both as a partnership rather than by the hour. An agency can market you but cannot build you anything. A developer can build you something but has no interest in whether anyone finds it. You need both, from someone whose own income depends on your business getting bigger.'}
               </p>
               <p className="mt-4 text-pretty text-base leading-relaxed text-body">
-                {'I have also worked behind the counter at a local bike shop here in Rochester, so I know what running a small business actually looks like — thin margins, long days, and no spare hour to spend working out what Google wants from you.'}
+                {'I have also worked behind the counter at a local bike shop, so I know what running a small business actually looks like — thin margins, long days, and no spare hour to spend working out what Google wants from you.'}
               </p>
 
               <div className="mt-8 space-y-4">
@@ -360,7 +358,7 @@ export default function Home() {
               </Link>
             </div>
 
-            <div className="grid gap-4 sm:gap-5">
+            <div className="grid gap-4 self-start sm:gap-5">
               {PROOF.map((p) => (
                 <Link
                   key={p.name}
