@@ -1,0 +1,41 @@
+name: Build
+
+# The check that decides whether a commit is good: does the site still pass its
+# own code checks and produce a complete production build? This is deliberately
+# the same work Vercel does on deploy, so a red mark here means the deploy would
+# have failed too — caught before it reaches the live site.
+
+on:
+  push:
+    branches: [dev, main]
+  pull_request:
+    branches: [dev, main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check code style
+        run: npm run lint
+
+      - name: Check types
+        run: npx tsc --noEmit
+
+      - name: Build the site
+        run: npm run build
+        env:
+          # Sentry only uploads debug files when it has credentials. Without
+          # them the build still succeeds, it just skips that upload.
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
