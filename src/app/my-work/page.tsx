@@ -436,7 +436,7 @@ export default function MyWork() {
       {/* What makes it work */}
       <section aria-label="How Tap to Tick works" className="px-5 py-16 sm:px-8 sm:py-20">
         <div className="mx-auto max-w-6xl">
-          <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
+          <div className="grid gap-4 sm:grid-cols-3 sm:gap-5">
             {TTT_HIGHLIGHTS.map((h) => (
               <div key={h.title} className="tile p-7">
                 <h3 className="text-base font-semibold tracking-tight text-ink">{h.title}</h3>
@@ -460,7 +460,7 @@ export default function MyWork() {
             in the loop — not just talk about them.
           </p>
 
-          <div className="mt-10 grid gap-5 lg:grid-cols-2">
+          <div className="mt-10 grid gap-5">
             {AI_SHIPPED.map((item) => (
               <div key={item.product} className="tile-elevated p-7 sm:p-9">
                 <h3 className="text-xl font-semibold tracking-tight text-ink">{item.product}</h3>
@@ -519,7 +519,8 @@ export default function MyWork() {
             Sites built the way I build them for clients
           </h2>
 
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+          {/* 3 site cards → sm:3 so no orphan between 2-col and 3-col. */}
+          <div className="mt-10 grid gap-4 sm:grid-cols-3 sm:gap-5">
             <div className="tile flex flex-col p-7 sm:p-9">
               <h3 className="text-xl font-semibold tracking-tight text-ink">kingdom-sites.com</h3>
               <p className="mt-1 text-xs font-medium uppercase tracking-wider text-muted">
@@ -577,7 +578,8 @@ export default function MyWork() {
           <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-body">
             Every product above gets its own page to sell it.
           </p>
-          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {/* 3 product pages → one full row of 3 from sm up (no 2-col intermediate). */}
+          <div className="mt-6 grid gap-4 sm:grid-cols-3">
             {PRODUCT_PAGES.map((p) => (
               <Link
                 key={p.name}

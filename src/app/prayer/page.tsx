@@ -36,6 +36,7 @@ const ORGS = [
   { name: 'International Mission Board', url: 'https://www.imb.org' },
 ]
 
+/* Keep this list even (2 / 4 / 6) for the multi-column grid — see /squareup skill. */
 const GUIDE_PARTS = [
   {
     num: '01',
@@ -64,13 +65,8 @@ const GUIDE_PARTS = [
   },
   {
     num: '06',
-    heading: 'Prayer points',
-    body: 'Specific asks for the night: a country, a people group, a church under pressure, our own boldness at home.',
-  },
-  {
-    num: '07',
-    heading: 'Action items',
-    body: 'One or two practical next steps — share a fact, pray daily for a nation, give, write a letter — so the night leaves the room.',
+    heading: 'Prayer points and action',
+    body: 'Specific asks for the night: a country, a people group, a church under pressure, our own boldness at home — plus one or two practical next steps so the night leaves the room.',
   },
 ]
 
@@ -226,7 +222,8 @@ export default function Prayer() {
             </p>
           </div>
 
-          <div className="grid3" style={{ marginTop: 28 }}>
+          {/* 4 materials → 2×2; grid3 would leave an orphan. See /squareup. */}
+          <div className="grid2" style={{ marginTop: 28 }}>
             {MATERIALS.map((m) => (
               <a key={m.title} href={m.href} className="tile" target="_blank" rel="noopener">
                 <p className="kicker" style={{ margin: 0 }}>{m.focus}</p>

@@ -120,7 +120,8 @@ export default function Mission() {
           </div>
 
           {/* Same plain-link grid on every width — no borders, no flip cards. */}
-          <ul className="mt-10 grid grid-cols-2 gap-x-6 gap-y-7 sm:grid-cols-3 lg:grid-cols-4">
+          {/* 8 orgs → 2×4 or 4×2 only; no 3-col (leaves 2 orphans). See /squareup. */}
+          <ul className="mt-10 grid grid-cols-2 gap-x-6 gap-y-7 lg:grid-cols-4">
             {ORGS.map((org) => (
               <li key={org.name}>
                 <a

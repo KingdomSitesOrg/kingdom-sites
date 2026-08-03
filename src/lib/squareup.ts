@@ -26,7 +26,8 @@ export function evenGridClass(cols: number): string {
     case 2:
       return 'grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5'
     case 3:
-      return 'grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3'
+      // No intermediate 2-col: 3 items would orphan at sm; 6 items fill 3×2 cleanly.
+      return 'grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-5'
     case 4:
       return 'grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4'
     default:
