@@ -263,29 +263,37 @@ body {
   .mock-sweep::after { animation: none; opacity: 0; }
 }
 
-/* The opening screen pans through the businesses and never comes to a stop. The
-   strip is the seven scenes plus a repeat of the first, so once it has slid
-   seven panels along it looks exactly as it did at the start and the loop is
-   seamless.
+/* The opening screen pans through the businesses. The strip is the seven scenes
+   plus a repeat of the first, so once it has slid seven panels along it looks
+   exactly as it did at the start and the loop is seamless.
 
-   Each business crosses quickly and then almost — but never quite — comes to
-   rest, drifting the last of the way while you look at it, before the next one
-   sweeps in. That rhythm is the easing below: it covers most of the distance in
-   the first fraction of each step, then crawls.
+   Each step holds still, then eases out into the next scene — no ease-in, no
+   continuous crawl. Hold and slide lengths are set in WorkScenes (1.5s hold,
+   then a short ease-out move).
 
    Each step moves the strip one panel: an eighth of its own width. */
 @keyframes scenes-pan {
-  0%       { transform: translate3d(0, 0, 0);      animation-timing-function: cubic-bezier(0.12, 0.72, 0.2, 1); }
-  14.2857% { transform: translate3d(-12.5%, 0, 0); animation-timing-function: cubic-bezier(0.12, 0.72, 0.2, 1); }
-  28.5714% { transform: translate3d(-25%, 0, 0);   animation-timing-function: cubic-bezier(0.12, 0.72, 0.2, 1); }
-  42.8571% { transform: translate3d(-37.5%, 0, 0); animation-timing-function: cubic-bezier(0.12, 0.72, 0.2, 1); }
-  57.1429% { transform: translate3d(-50%, 0, 0);   animation-timing-function: cubic-bezier(0.12, 0.72, 0.2, 1); }
-  71.4286% { transform: translate3d(-62.5%, 0, 0); animation-timing-function: cubic-bezier(0.12, 0.72, 0.2, 1); }
-  85.7143% { transform: translate3d(-75%, 0, 0);   animation-timing-function: cubic-bezier(0.12, 0.72, 0.2, 1); }
-  100%     { transform: translate3d(-87.5%, 0, 0); }
+  /* Hold ~68% of each step (1.5s), then ease-out the rest of the way. */
+  0%        { transform: translate3d(0, 0, 0); }
+  9.7403%   { transform: translate3d(0, 0, 0);      animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  14.2857%  { transform: translate3d(-12.5%, 0, 0); }
+  24.026%   { transform: translate3d(-12.5%, 0, 0); animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  28.5714%  { transform: translate3d(-25%, 0, 0); }
+  38.3117%  { transform: translate3d(-25%, 0, 0);   animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  42.8571%  { transform: translate3d(-37.5%, 0, 0); }
+  52.5974%  { transform: translate3d(-37.5%, 0, 0); animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  57.1429%  { transform: translate3d(-50%, 0, 0); }
+  66.8831%  { transform: translate3d(-50%, 0, 0);   animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  71.4286%  { transform: translate3d(-62.5%, 0, 0); }
+  81.1688%  { transform: translate3d(-62.5%, 0, 0); animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  85.7143%  { transform: translate3d(-75%, 0, 0); }
+  95.4545%  { transform: translate3d(-75%, 0, 0);   animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  100%      { transform: translate3d(-87.5%, 0, 0); }
 }
 .scenes-pan {
-  animation: scenes-pan var(--pan-duration, 12.6s) linear infinite;
+  animation: scenes-pan var(--pan-duration, 15.4s) linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 @media (prefers-reduced-motion: reduce) {
   .scenes-pan { animation: none; }

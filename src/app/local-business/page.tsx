@@ -2,6 +2,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import PricingTiers from '@/components/PricingTiers'
 import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
+import EvenGrid from '@/components/EvenGrid'
 import {
   AUDIENCE_OTHER,
   AUDIENCE_TRADES,
@@ -108,11 +109,11 @@ export default function LocalBusiness() {
               {'What the partnership covers.'}
             </h2>
             <p className="mt-5 text-pretty text-base leading-relaxed text-body">
-              {'Every plan does all five of these. What changes between them is how much of each you get every month.'}
+              {'Every plan does all four of these. What changes between them is how much of each you get every month.'}
             </p>
           </div>
 
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 sm:gap-5">
+          <EvenGrid surface="local-business-pillars" maxCols={2} className="mt-12">
             {PILLARS.map((item) => (
               <div key={item.title} className="tile flex gap-4 p-7">
                 <span className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/12">
@@ -126,7 +127,7 @@ export default function LocalBusiness() {
                 </div>
               </div>
             ))}
-          </div>
+          </EvenGrid>
         </div>
       </section>
 
@@ -274,14 +275,14 @@ export default function LocalBusiness() {
             </p>
           </div>
 
-          <div className="mt-12 grid gap-5 md:grid-cols-3">
+          <EvenGrid surface="local-business-software" maxCols={3} className="mt-12">
             {SOFTWARE_ANGLE.map((s) => (
               <div key={s.title} className="tile-dark p-7 sm:p-8">
                 <h3 className="text-base font-semibold tracking-tight text-white">{s.title}</h3>
                 <p className="mt-2.5 text-sm leading-relaxed text-white/60">{s.desc}</p>
               </div>
             ))}
-          </div>
+          </EvenGrid>
 
           <div className="mt-10 text-center">
             <Link href="/my-work" className="btn-primary">
@@ -300,7 +301,7 @@ export default function LocalBusiness() {
               {'From a phone call to a live site.'}
             </h2>
           </div>
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <EvenGrid surface="local-business-steps" maxCols={4} className="mt-12">
             {STEPS.map((s) => (
               <div key={s.step} className="tile flex flex-col p-7">
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-accent text-sm font-semibold text-white">
@@ -310,7 +311,7 @@ export default function LocalBusiness() {
                 <p className="mt-2.5 text-sm leading-relaxed text-body">{s.desc}</p>
               </div>
             ))}
-          </div>
+          </EvenGrid>
         </div>
       </section>
 

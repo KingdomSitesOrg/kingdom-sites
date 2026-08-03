@@ -101,7 +101,9 @@ export function annualPrice(tier: Tier) {
 /** The cheapest way in — used wherever the site says "from $X". */
 export const ENTRY_PRICE_LABEL = `$${TIERS[0].price}`
 
-/** What every plan covers, at the level an owner cares about. */
+/** What every plan covers, at the level an owner cares about.
+ *  Keep this list even (2 / 4 / 6) so card grids never leave an orphan tile.
+ *  See /squareup and EvenGrid. */
 export const PILLARS = [
   {
     title: 'A website built for one job: the phone ringing',
@@ -116,18 +118,15 @@ export const PILLARS = [
     desc: 'The words people type when they need you — the service plus the town — worked into real pages, one per service and one per area. This is the part that compounds month after month.',
   },
   {
-    title: 'Reviews, asked for properly',
-    desc: 'A way to put the review link in a customer’s hand the day the job is done, while they are still happy. More reviews is more calls, every time.',
-  },
-  {
-    title: 'Someone who answers when you call',
-    desc: 'No ticket system, no account manager, no waiting a week for a price change. You text the person who built it, and it gets done.',
+    title: 'Reviews, and a person who answers',
+    desc: 'A way to ask for a review while the customer is still happy — plus no ticket system when you need a change. You text the person who built it, and it gets done.',
   },
 ]
 
 /** Why pages and posts are worth paying for. Almost nobody buying this
     understands what a blog post has to do with the phone ringing, and a plan
     that sells "4 posts a month" without explaining it sounds like padding. */
+/** Four points — even grid on home (2×2) and a clean stack on local-business. */
 export const SEO_EXPLAINER = [
   {
     title: 'Google can only show what you have given it',
@@ -142,12 +141,8 @@ export const SEO_EXPLAINER = [
     desc: 'This is the part that separates it from advertising. Ads stop the day you stop paying. A page that ranks keeps bringing calls for years, which is why the work compounds and why month eighteen is worth more than month two.',
   },
   {
-    title: 'Google can tell the difference between an active business and an abandoned one',
-    desc: 'A site that gets a fresh post and real SEO time each month reads as open for business. A site untouched since 2021 reads as one that may have closed — and Google would rather not send a customer there.',
-  },
-  {
-    title: 'The posts earn their keep off Google as well',
-    desc: 'A written answer about soft washing is what you text the customer who asks. It is what a local Facebook group links to. Those links are themselves one of the strongest signals that you are the real thing in your area.',
+    title: 'Active businesses rank; abandoned ones do not',
+    desc: 'A site that gets a fresh post and real SEO time each month reads as open for business. Those posts also get shared in local groups and texted to customers — signals that you are the real thing in your area.',
   },
 ]
 

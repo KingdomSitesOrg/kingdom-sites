@@ -7,6 +7,7 @@ import LeadMock from '@/components/LeadMock'
 import { WebMock, PhoneMock } from '@/components/BuildMocks'
 import PricingTiers from '@/components/PricingTiers'
 import WorkScenes from '@/components/WorkScenes'
+import EvenGrid from '@/components/EvenGrid'
 import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
 import {
   AUDIENCE_OTHER,
@@ -232,14 +233,14 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+          <EvenGrid surface="home-pillars" maxCols={2} className="mt-12">
             {PILLARS.map((item) => (
               <div key={item.title} className="tile-dark p-7">
                 <h3 className="text-base font-semibold tracking-tight text-white">{item.title}</h3>
                 <p className="mt-2.5 text-sm leading-relaxed text-white/60">{item.desc}</p>
               </div>
             ))}
-          </div>
+          </EvenGrid>
 
           <div className="mt-10 text-center">
             <Link href="/local-business" className="btn-primary">
@@ -262,14 +263,14 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="mt-12 grid gap-5 md:grid-cols-3">
-            {SEO_EXPLAINER.slice(0, 3).map((item) => (
+          <EvenGrid surface="home-seo-explainer" maxCols={2} className="mt-12">
+            {SEO_EXPLAINER.map((item) => (
               <div key={item.title} className="tile flex flex-col p-7 sm:p-8">
                 <h3 className="text-lg font-semibold tracking-tight text-ink">{item.title}</h3>
                 <p className="mt-3 text-[15px] leading-relaxed text-body">{item.desc}</p>
               </div>
             ))}
-          </div>
+          </EvenGrid>
 
           <p className="mt-8 text-center text-sm">
             <Link href="/local-business#how-it-works" className="link-accent">
@@ -315,7 +316,7 @@ export default function Home() {
             </h2>
           </div>
 
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <EvenGrid surface="home-steps" maxCols={4} className="mt-12">
             {STEPS.map((s) => (
               <div key={s.step} className="tile flex flex-col p-7">
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-accent text-sm font-semibold text-white">
@@ -325,7 +326,7 @@ export default function Home() {
                 <p className="mt-2.5 text-sm leading-relaxed text-body">{s.desc}</p>
               </div>
             ))}
-          </div>
+          </EvenGrid>
         </div>
       </section>
 

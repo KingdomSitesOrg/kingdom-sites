@@ -726,14 +726,16 @@ const SCENES: Scene[] = [
   { id: 'shop', label: 'shops and local retail', draw: <LocalShop /> },
 ]
 
-/** How long one business takes to cross the screen. The pan never pauses, so
-    this is the whole of a scene's time on screen rather than a hold. */
-const PER_SCENE_MS = 1800
+/** One scene on screen: 1.5s still, then a short ease-out slide to the next.
+    Keep in step with the hold/move split on `scenes-pan` in globals.css. */
+const HOLD_MS = 1500
+const SLIDE_MS = 700
+const PER_SCENE_MS = HOLD_MS + SLIDE_MS
 
-/** How far into a step the scene has effectively landed, as a fraction of that
-    step — set by the easing curve in `scenes-pan`. The caption switches here,
-    so the pill and the picture change together. */
-const ARRIVES_AT = 0.14
+/** How far into a step the next scene has landed. Hold first, then ease-out —
+    by ~40% of the slide the new business is effectively in place, so the
+    caption switches there and stays with the picture. */
+const ARRIVES_AT = (HOLD_MS + SLIDE_MS * 0.4) / PER_SCENE_MS
 
 /* The seven scenes plus one repeat of the first. When the strip has slid seven
    panels along, the repeat is filling the screen — identical to the start — so
@@ -757,10 +759,7 @@ export default function WorkScenes({ children }: { children: React.ReactNode }) 
     const tick = () => {
       const animation = track.current?.getAnimations?.()[0]
       const elapsed = Number(animation?.currentTime ?? 0)
-      /* The pan covers nearly all of each step in its first fraction and then
-         crawls, so the new business is in place long before the step is over.
-         The name changes with that arrival — not at the halfway point, which
-         would leave the pill naming a business that landed half a second ago. */
+      /* Hold, then ease-out. Caption flips when the new scene has mostly landed. */
       const current = Math.floor(elapsed / PER_SCENE_MS + 1 - ARRIVES_AT) % SCENES.length
       if (current !== shown) {
         shown = current
