@@ -67,7 +67,7 @@ export default function LeadMock({ className = '' }: { className?: string }) {
       </div>
 
       {/* The point of all of it — a call coming in, tucked over the corner */}
-      <div className="absolute -bottom-5 -right-3 w-[188px] rounded-2xl border border-line bg-surface p-3.5 shadow-[0_20px_44px_rgba(16,23,37,0.18)] sm:-right-6">
+      <div className="absolute -bottom-5 -right-2 w-[188px] rounded-2xl border border-line bg-surface p-3.5 shadow-[0_20px_44px_rgba(16,23,37,0.18)] sm:-right-5">
         <div className="flex items-center gap-2.5">
           <span className="mock-pulse flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent/12">
             <svg width="14" height="14" viewBox="0 0 12 12" fill="currentColor" className="text-accent">
