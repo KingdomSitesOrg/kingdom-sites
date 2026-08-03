@@ -10,6 +10,8 @@ const PAGE_LINKS = [
   { href: '/software',       label: 'Custom Software' },
   { href: '/local-business', label: 'What I Do' },
   { href: '/local-business#pricing', label: 'Pricing' },
+  { href: '/rochester-mn',   label: 'Rochester, MN' },
+  { href: '/blog',           label: 'Blog' },
   { href: '/get-started',    label: 'Free Look' },
   { href: '/my-work',        label: 'My Work' },
   { href: '/about',          label: 'About' },

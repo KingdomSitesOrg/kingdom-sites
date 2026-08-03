@@ -1,18 +1,29 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 import AppShell from "@/components/AppShell";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { GA_MEASUREMENT_ID, isGaEnabled } from "@/lib/analytics";
+import {
+  AREA_SERVED,
+  LOCAL_KEYWORDS,
+  SERVICE_CITY,
+  SERVICE_LAT,
+  SERVICE_LNG,
+  SERVICE_REGION,
+  SERVICE_REGION_CODE,
+} from "@/lib/local";
 
 const inter = Inter({ subsets: ["latin"] });
 
 const DESCRIPTION =
-  "Websites, Google listings and local search for pressure washing, window cleaning, landscaping and other small service businesses — one monthly fee, no setup cost, cancel any time.";
+  "Websites, Google listings and local search for small businesses in Rochester, MN and beyond — get more clients, get found on Google, one monthly fee, first month free, cancel any time.";
 
 export const metadata: Metadata = {
   title: {
-    default: "Kingdom Sites — get your local business found and called",
+    default: "Kingdom Sites — grow your local business in Rochester, MN",
     template: "%s | Kingdom Sites",
   },
   description: DESCRIPTION,
@@ -30,10 +41,14 @@ export const metadata: Metadata = {
     "local SEO",
     "Google Business Profile",
     "get more leads",
+    "get more clients",
+    "grow local business",
+    "find customers",
     "monthly website service",
+    ...LOCAL_KEYWORDS,
   ],
   openGraph: {
-    title: "Kingdom Sites — get your local business found and called",
+    title: "Kingdom Sites — grow your local business in Rochester, MN",
     description: DESCRIPTION,
     url: "https://kingdom-sites.com",
     siteName: "Kingdom Sites",
@@ -42,7 +57,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kingdom Sites — get your local business found and called",
+    title: "Kingdom Sites — grow your local business in Rochester, MN",
     description: DESCRIPTION,
   },
   robots: {
@@ -53,10 +68,17 @@ export const metadata: Metadata = {
       follow: true,
     },
   },
+  /* Geo meta so crawlers and tools associate the site with Rochester, MN. */
+  other: {
+    "geo.region": "US-MN",
+    "geo.placename": SERVICE_CITY,
+    "geo.position": `${SERVICE_LAT};${SERVICE_LNG}`,
+    ICBM: `${SERVICE_LAT}, ${SERVICE_LNG}`,
+  },
 };
 
-/* Tells search engines in their own language what this business is and who it
-   serves. Facts only — no address, no ratings, nothing that is not true. */
+/* Tells search engines what this business is and where it serves.
+   Facts only — no fake street address or star ratings. */
 const STRUCTURED_DATA = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
@@ -69,10 +91,24 @@ const STRUCTURED_DATA = {
     "Website design and hosting",
     "Local SEO",
     "Google Business Profile management",
+    "Small business marketing",
+  ],
+  areaServed: AREA_SERVED,
+  knowsAbout: [
+    "Local SEO",
+    "Google Business Profile",
+    "Getting more clients",
+    "Growing a local business",
+    `${SERVICE_CITY} ${SERVICE_REGION} small business marketing`,
   ],
   audience: {
     "@type": "BusinessAudience",
-    name: "Local home service businesses",
+    name: "Local home service and small businesses",
+    geographicArea: {
+      "@type": "City",
+      name: SERVICE_CITY,
+      containedInPlace: { "@type": "State", name: SERVICE_REGION },
+    },
   },
 };
 
@@ -91,6 +127,8 @@ export default function RootLayout({
         <AppShell>{children}</AppShell>
         <Analytics />
         <SpeedInsights />
+        {/* Google Analytics 4 — only loads when NEXT_PUBLIC_GA_MEASUREMENT_ID is set. */}
+        {isGaEnabled() ? <GoogleAnalytics gaId={GA_MEASUREMENT_ID} /> : null}
       </body>
     </html>
   );

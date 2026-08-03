@@ -8,15 +8,20 @@ export default function PrivacyPage() {
   return (
     <main className="mx-auto max-w-3xl px-5 py-20 sm:px-8">
       <h1 className="mb-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">Privacy Policy</h1>
-      <p className="mb-10 text-sm text-muted">Last updated: July 25, 2026</p>
+      <p className="mb-10 text-sm text-muted">Last updated: August 3, 2026</p>
 
       <section className="space-y-8 text-[15px] leading-relaxed text-body">
         <div>
           <h2 className="mb-2 font-semibold text-ink">Information We Collect</h2>
           <p>
-            This website has no contact form, no sign-in, no accounts, and no customer database.
-            It does not ask you for your name, email address, or any other personal detail, and
-            nothing you do on these pages is stored by us.
+            There is no sign-in and no customer database on this website. The free-look form on
+            Get Started sends what you type — your name, business, email, phone if you give it, and
+            the rest of your answers — to our email inbox, and to a connected tool such as a
+            spreadsheet or CRM if one is in use. It is used only to reply to you and to discuss the
+            work, and it is never sold or passed to anyone else.
+          </p>
+          <p className="mt-3">
+            Nothing you type is kept on this website itself.
           </p>
           <p className="mt-3">
             If you email {CONTACT_EMAIL}, that message and your email address sit in the email
@@ -29,8 +34,14 @@ export default function PrivacyPage() {
           <p>
             The site uses Vercel Analytics and Speed Insights to count page views and measure
             loading speed. These are aggregate measurements without cookies, and they do not
-            identify individual visitors. Error reports from the site may be sent to Sentry so
-            faults can be diagnosed.
+            identify individual visitors.
+          </p>
+          <p className="mt-3">
+            The site also uses Google Analytics 4 to understand how pages are used — which pages
+            are visited, roughly where traffic comes from, and how people move through the site.
+            Google may set cookies or similar identifiers for this. You can limit this through your
+            browser settings or Google’s ad settings. Error reports may be sent to Sentry so faults
+            can be diagnosed.
           </p>
         </div>
 
@@ -38,8 +49,9 @@ export default function PrivacyPage() {
           <h2 className="mb-2 font-semibold text-ink">Third-Party Services</h2>
           <p>
             The site is hosted on Vercel, whose servers process requests in order to deliver these
-            pages. Payments for client projects are handled separately through Wise, which collects
-            what it needs to process a payment. Nothing about payments happens on this website.
+            pages. Analytics data is processed by Vercel and by Google (Google Analytics). Payments
+            for client projects are handled separately through Wise, which collects what it needs to
+            process a payment. Nothing about payments happens on this website.
           </p>
         </div>
 

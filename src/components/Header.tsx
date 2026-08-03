@@ -19,6 +19,8 @@ const GROW_LINKS = [
   { to: '/grow',                   label: 'Overview',        desc: 'How I get a local business found and called' },
   { to: '/local-business',         label: 'What you get',    desc: 'Everything covered, month by month' },
   { to: '/local-business#pricing', label: 'Pricing',         desc: 'Three plans, from $199 a month' },
+  { to: '/rochester-mn',           label: 'Rochester, MN',   desc: 'Local growth for businesses here at home' },
+  { to: '/blog',                   label: 'Blog',            desc: 'Local notes on clients, search and events' },
   { to: '/get-started',            label: 'Free look',       desc: 'An honest read on how you show up today' },
 ]
 
@@ -101,7 +103,10 @@ export default function Header() {
   // A nav item with a menu stays highlighted while the visitor is on one of its
   // pages — so My Work stays lit on a project, and Grow My Business on pricing.
   const sectionActive = (children: { to: string }[]) =>
-    children.some(({ to }) => pathname === to.split('#')[0])
+    children.some(({ to }) => {
+      const base = to.split('#')[0]
+      return pathname === base || (base !== '/' && pathname?.startsWith(base + '/'))
+    })
 
   return (
     <header className="sticky top-0 z-50">
