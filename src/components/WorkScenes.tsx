@@ -726,8 +726,10 @@ const SCENES: Scene[] = [
   { id: 'shop', label: 'shops and local retail', draw: <LocalShop /> },
 ]
 
-/** How long a business holds the screen before the next slides in. */
-const HOLD_MS = 2600
+/** How long a business holds the screen before the next slides in. Short on
+    purpose: it arrives, stands still for a beat, and the next one is already
+    coming. */
+const HOLD_MS = 1700
 
 export default function WorkScenes({ children }: { children: React.ReactNode }) {
   const [index, setIndex] = useState(0)
@@ -757,9 +759,9 @@ export default function WorkScenes({ children }: { children: React.ReactNode }) 
               key={scene.id}
               className={`absolute inset-0 ${
                 state === 'in'
-                  ? 'translate-x-0 transition-transform duration-[420ms] ease-out'
+                  ? 'translate-x-0 transition-transform duration-[340ms] ease-out'
                   : state === 'out'
-                    ? '-translate-x-full transition-transform duration-[420ms] ease-in'
+                    ? '-translate-x-full transition-transform duration-[340ms] ease-in'
                     : 'translate-x-full'
               } motion-reduce:translate-x-0 motion-reduce:transition-none ${
                 state === 'in' ? 'motion-reduce:opacity-100' : 'motion-reduce:opacity-0'
@@ -787,9 +789,11 @@ export default function WorkScenes({ children }: { children: React.ReactNode }) 
       <div className="relative z-10 flex flex-col items-center">
         {children}
 
-        <p className="mt-6 text-base font-medium text-body sm:text-lg">
+        {/* The trade currently on screen, in a dark pill so it reads over any
+            of the scenes rather than disappearing into the sky. */}
+        <p className="mt-7 inline-flex items-center rounded-full bg-ink px-5 py-2.5 text-[15px] font-medium text-white shadow-[0_10px_28px_rgba(16,23,37,0.28)] sm:px-6 sm:py-3 sm:text-lg">
           {'for '}
-          <span className="text-accent">{SCENES[index].label}</span>
+          <span className="ml-1.5 font-semibold text-[#f0b48c]">{SCENES[index].label}</span>
         </p>
       </div>
     </>
