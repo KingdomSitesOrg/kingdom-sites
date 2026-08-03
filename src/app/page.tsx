@@ -56,18 +56,17 @@ export default function Home() {
       {/* The opening screen: seven trades quietly at work, one lit at a time. */}
       <section
         aria-label="Grow your business"
-        className="relative flex min-h-[100svh] flex-col items-center justify-center px-5 pb-24 pt-14 text-center sm:px-8"
+        className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-5 pb-24 pt-14 text-center sm:px-8"
       >
-        <div className="flex flex-col items-center">
-          <h1 className="text-balance text-5xl font-semibold leading-[1.02] tracking-tight text-ink sm:text-7xl lg:text-[6rem]">
+        <WorkScenes>
+          <h1 className="max-w-full text-balance text-[2.6rem] font-semibold leading-[1.05] tracking-tight text-ink sm:text-6xl lg:text-[5.5rem]">
             Grow your <span className="text-accent">business.</span>
           </h1>
-          <WorkScenes />
-        </div>
+        </WorkScenes>
 
         <a
           href="#start"
-          className="absolute bottom-8 flex flex-col items-center gap-1.5 text-[13px] font-medium text-body transition-colors hover:text-ink"
+          className="absolute bottom-8 z-10 flex flex-col items-center gap-1.5 text-[13px] font-medium text-body transition-colors hover:text-ink"
         >
           <span>See how</span>
           <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true" className="scroll-nudge">
