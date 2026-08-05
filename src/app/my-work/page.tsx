@@ -217,11 +217,11 @@ export default function MyWork() {
       <section className="hero-wash px-5 pb-16 pt-16 text-center sm:px-8 sm:pb-20 sm:pt-24">
         <p className="eyebrow">Who you are hiring</p>
         <h1 className="mx-auto mt-5 max-w-3xl text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
-          {'The proof that I am '}
-          <span className="text-accent">not just a website guy.</span>
+          {'My '}
+          <span className="text-accent">portfolio</span>
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-body sm:text-lg">
-          {'Plenty of people will sell a small business a template. This page is here so you can see what I do the rest of the time: real software, in production, that companies and customers use every day. It is the same person and the same standard behind your site.'}
+          {'See what I have done.'}
         </p>
         <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Link href="/local-business" className="btn-primary">
