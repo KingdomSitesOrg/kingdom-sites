@@ -64,7 +64,7 @@ export const TIERS: Tier[] = [
     featured: true,
     features: [
       'Everything in Foundation',
-      'Up to 7 pages — room for your main services and towns',
+      'Up to 9 pages — room for your main services and towns',
       '2 blog posts a month',
       'About 2 hours a month of SEO',
       'Google listing kept active (posts and job photos)',
