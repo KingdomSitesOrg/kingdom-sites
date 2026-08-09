@@ -11,6 +11,7 @@ import {
   AI_PACKAGE,
   AI_PRICE_LABEL,
   ENTRY_PRICE_LABEL,
+  INTENSIVE_DESIGN_NOTE,
   NOTICE_LINE,
   OWNERSHIP_PILLARS,
   PREPAY_LINE,
@@ -197,7 +198,10 @@ export default function Software() {
             {PREPAY_LINE} {NOTICE_LINE}
           </p>
           <p className="mt-2 max-w-2xl text-[13px] leading-relaxed text-muted">
-            <span className="text-accent">*</span> {PRICING_ASTERISK}
+            {PRICING_ASTERISK}
+          </p>
+          <p className="mt-2 max-w-2xl text-[13px] leading-relaxed text-muted">
+            {INTENSIVE_DESIGN_NOTE}
           </p>
           <div className="mt-8">
             <Link href="/#services" className="btn-primary">

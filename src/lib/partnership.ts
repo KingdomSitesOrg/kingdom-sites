@@ -63,18 +63,31 @@ export const TIERS: ComplexityTier[] = [
     id: 'intensive',
     name: 'Intensive',
     priceAround: 3000,
-    tagline: 'High complexity or velocity',
-    bestFor: 'Platforms, multi-surface products, aggressive feature load, or AI as a core part of the product.',
-    promise: 'Senior ownership of a demanding product surface — continuous shipping at platform depth.',
-    example: 'Multi-surface platform with shared data and AI in the product (Ruta-shaped).',
+    tagline: 'Business partner, not only a developer',
+    bestFor:
+      'Founders who want product depth plus someone who will think with them about the business — strategy, priorities, and how the product should grow.',
+    promise:
+      'I own the product and help you strategize: what to build next, how it serves the business, and how to ship it — not ticket-taking alone.',
+    example:
+      'Multi-surface or high-velocity product where you need an owner who also thinks commercially (Ruta-shaped depth).',
     features: [
       'Everything in Full',
-      'Multi-surface / platform depth',
-      'High change velocity and complex systems',
+      'Business thinking and product strategy with you',
+      'Priorities, roadmap, and “what actually moves the needle”',
+      'Multi-surface / platform depth and high change velocity',
       'AI in the product when that is the work',
+      'Graphic design for the product and brand*',
     ],
   },
 ]
+
+/**
+ * Intensive graphic design note — shown under pricing and FAQs.
+ * Usually inside the ~$3k band; large or separate design campaigns may be extra.
+ */
+export const INTENSIVE_DESIGN_NOTE =
+  '* Graphic design on Intensive is usually included in the ~$3,000/month band (UI, product visuals, brand pieces that support the product). Unusually large design campaigns or work for a different brand may be a separate fee — I will say so up front before anything is billed.'
+
 
 /** Scorecard used on the call (also summarized on the site). */
 export const COMPLEXITY_FACTORS = [
@@ -189,7 +202,7 @@ export const OWNERSHIP_PILLARS = [
   },
   {
     title: 'Built for operators and founders',
-    desc: 'Internal tools, field apps, customer products that extend capability or save time. Not brochure sites. Not “anyone can make an app.”',
+    desc: 'Internal tools, field apps, customer products that extend capability or save time. Not brochure sites. Not “anyone can make an app.” On Intensive, that includes business strategy and graphic design* — not only code.',
   },
 ]
 
@@ -223,7 +236,14 @@ export const FAQS = [
   },
   {
     q: 'How do you pick Focused, Full, or Intensive?',
-    a: 'After a call, from complexity: users and roles, workflows and data, integrations, how often you need to ship, whether AI is in the product, and how many surfaces are involved. A single app can still be Full or Intensive.',
+    a: 'After a call, from complexity: users and roles, workflows and data, integrations, how often you need to ship, whether AI is in the product, and how many surfaces are involved. A single app can still be Full or Intensive. Intensive is also for founders who want a business-thinking partner — strategy and priorities, not only implementation.',
+  },
+  {
+    q: 'What is different about Intensive?',
+    a:
+      'Intensive is product ownership plus business help: strategizing what to build and why, not only coding what you already decided. It also includes graphic design for the product and brand in most cases — usually inside the ~$3,000/month average. Unusually large design work may be a separate fee; I will flag that before you pay.' +
+      ' ' +
+      '(See the design asterisk under pricing for the full note.)',
   },
   {
     q: 'Is there a contract or commitment?',
