@@ -31,7 +31,6 @@ export default function BlogIndex() {
   <div className="w-full overflow-x-hidden">
    <section className="hero-wash px-5 pb-14 pt-16 text-center sm:px-8 sm:pb-16 sm:pt-24">
     <div className="mx-auto max-w-3xl">
-     <p className="eyebrow">From {SERVICE_AREA_LABEL}</p>
      <h1 className="mt-5 text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
       {'Notes on getting found, '}
       <span className="text-accent">getting clients,</span>

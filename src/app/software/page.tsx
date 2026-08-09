@@ -52,7 +52,6 @@ export default function Software() {
       {/* Hero */}
       <section className="hero-wash px-5 pb-20 pt-16 sm:px-8 sm:pb-24 sm:pt-24">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="eyebrow">Product ownership retainers</p>
           <h1 className="mx-auto mt-5 max-w-3xl text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-6xl">
             Custom products <span className="text-accent">owned with you.</span>
           </h1>
@@ -88,7 +87,6 @@ export default function Software() {
       <section aria-label="What ownership means" className="border-t border-line px-5 py-16 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-6xl">
           <div className="max-w-2xl">
-            <p className="eyebrow eyebrow-blue">What you get</p>
             <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
               A product partner, not a handoff.
             </h2>
@@ -117,7 +115,6 @@ export default function Software() {
           </div>
 
           <div className="min-w-0 text-center">
-            <p className="eyebrow">Mobile-led · Systems · AI</p>
             <h2 className="mx-auto mt-4 max-w-xl text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
               Custom products people use — with the backend and tooling they need.
             </h2>
@@ -157,7 +154,6 @@ export default function Software() {
       <section aria-label="Ownership tiers" className="border-t border-line px-5 py-16 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-6xl">
           <div className="max-w-2xl">
-            <p className="eyebrow eyebrow-blue">Complexity bands</p>
             <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
               Focused, Full, or Intensive — after a call.
             </h2>
@@ -215,7 +211,6 @@ export default function Software() {
       <section aria-label="Shipped proof" className="border-t border-line px-5 py-16 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-6xl">
           <div className="max-w-2xl">
-            <p className="eyebrow eyebrow-blue">Proof, not products for sale</p>
             <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
               Work that shows how I own a product.
             </h2>
@@ -253,7 +248,6 @@ export default function Software() {
       <section aria-label="AI package" className="border-t border-line px-5 py-16 sm:px-8 sm:py-20">
         <div className="tile-elevated mx-auto flex max-w-5xl flex-col gap-6 p-7 sm:flex-row sm:items-center sm:justify-between sm:p-10">
           <div className="max-w-2xl">
-            <p className="eyebrow">Optional add-on · {AI_PRICE_LABEL}/month</p>
             <h2 className="mt-3 text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
               {AI_PACKAGE.name}
             </h2>
@@ -272,7 +266,6 @@ export default function Software() {
       <section aria-label="My tools" className="overflow-hidden border-t border-line py-16 sm:py-20">
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
           <div className="max-w-2xl">
-            <p className="eyebrow eyebrow-blue">My tools</p>
             <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
               The kit I build with.
             </h2>
@@ -303,7 +296,6 @@ export default function Software() {
           </div>
 
           <div>
-            <p className="eyebrow">Built with purpose</p>
             <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
               Your product becomes part of a bigger story.
             </h2>

@@ -32,7 +32,7 @@ const PROOF = [
 ]
 
 export const metadata: Metadata = {
-  title: 'Kingdom Sites — product ownership for custom software',
+  title: 'Kingdom Sites — custom products that advance your ideas and business',
   description:
     'Product ownership retainers for custom products — mobile-led software for product owners and founders. Focused, Full, or Intensive from complexity. Month to month; optional AI package.',
   alternates: { canonical: '/' },
@@ -48,11 +48,10 @@ export default function Home() {
       >
         <div className="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
           <div className="text-center lg:text-left">
-            <p className="eyebrow">{HERO.eyebrow}</p>
-            <h1 className="mt-5 text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl lg:text-[3.4rem]">
-              {HERO.titleLead} <span className="text-accent">{HERO.titleAccent}</span>
+            <h1 className="max-w-[18ch] text-balance text-[2.75rem] font-semibold leading-[1.02] tracking-tight text-ink sm:max-w-none sm:text-6xl lg:text-[4.5rem] xl:text-[5rem]">
+              {HERO.title}
             </h1>
-            <p className="mt-6 text-pretty text-base leading-relaxed text-body sm:text-lg">
+            <p className="mt-7 text-pretty text-base leading-relaxed text-body sm:text-lg">
               {HERO.sub}
             </p>
 
@@ -83,8 +82,7 @@ export default function Home() {
       <section aria-label="AI package" className="band-dark px-5 py-20 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-6xl">
           <div className="mx-auto max-w-2xl text-center">
-            <p className="eyebrow">{AI_PACKAGE.tagline}</p>
-            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+            <h2 className="text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
               {AI_PACKAGE.name}
               <span className="text-[#f0b48c]"> — {AI_PRICE_LABEL}/month</span>
             </h2>
@@ -136,8 +134,7 @@ export default function Home() {
       <section aria-label="Work shipped" className="border-t border-line px-5 py-20 sm:px-8 sm:pb-28 sm:pt-24">
         <div className="mx-auto max-w-6xl">
           <div className="mx-auto max-w-2xl text-center">
-            <p className="eyebrow eyebrow-blue">Proof</p>
-            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+            <h2 className="text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
               Products people already use.
             </h2>
             <p className="mt-5 text-pretty text-base leading-relaxed text-body">

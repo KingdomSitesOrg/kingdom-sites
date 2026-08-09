@@ -22,7 +22,6 @@ export default function PricingPage() {
     <div className="w-full overflow-x-hidden">
       <section className="hero-wash px-5 pb-12 pt-16 sm:px-8 sm:pb-16 sm:pt-24">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="eyebrow">Pricing</p>
           <h1 className="mt-5 text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
             Focused, Full, or Intensive —{' '}
             <span className="text-accent">from complexity, not a menu.</span>
@@ -47,7 +46,6 @@ export default function PricingPage() {
       >
         <div className="mx-auto max-w-6xl">
           <div className="mx-auto max-w-2xl text-center">
-            <p className="eyebrow">On the call</p>
             <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
               What decides Focused, Full, or Intensive.
             </h2>
@@ -68,7 +66,6 @@ export default function PricingPage() {
         className="border-t border-line px-5 py-16 sm:px-8 sm:py-20"
       >
         <div className="tile-elevated mx-auto max-w-3xl px-6 py-10 text-center sm:px-10">
-          <p className="eyebrow eyebrow-blue">{AI_PACKAGE.tagline}</p>
           <h2 className="mt-3 text-2xl font-semibold tracking-tight text-ink">
             {AI_PACKAGE.name} — {AI_PRICE_LABEL}/month
           </h2>

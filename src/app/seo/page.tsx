@@ -15,7 +15,6 @@ export default function SeoSidePage() {
     <div className="w-full overflow-x-hidden">
       <section className="hero-wash px-5 pb-12 pt-16 text-center sm:px-8 sm:pt-24">
         <div className="mx-auto max-w-2xl">
-          <p className="eyebrow">Side service</p>
           <h1 className="mt-5 text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
             Websites and local search{' '}
             <span className="text-accent">when useful.</span>

@@ -175,9 +175,8 @@ export const AI_PRICE_LABEL = `$${AI_PACKAGE.priceMonthly}`
 /* ─── Positioning ───────────────────────────────────────────────────────── */
 
 export const HERO = {
-  eyebrow: 'Product ownership retainers',
-  titleLead: 'Custom products',
-  titleAccent: 'owned with you.',
+  /** Full hero headline — no separate accent split. */
+  title: 'Custom products that advance your ideas and business',
   sub:
     'For product owners and business founders who have a long list of features and growth ahead — mobile-led software people actually use, with one person who owns the product after launch, not a project that ends.',
   ctaPrimary: INQUIRE_CTA,

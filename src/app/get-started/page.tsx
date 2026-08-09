@@ -37,7 +37,6 @@ export default function GetStarted() {
     <div className="w-full overflow-x-hidden">
       <section className="hero-wash px-5 pb-16 pt-16 sm:px-8 sm:pb-20 sm:pt-24">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="eyebrow">Free, no obligation</p>
           <h1 className="mt-5 text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
             Tell me what you are <span className="text-accent">building.</span>
           </h1>

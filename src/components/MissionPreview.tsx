@@ -77,7 +77,6 @@ export default function MissionPreview() {
         </div>
 
         <div>
-          <p className="eyebrow">The mission behind the work</p>
           <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
             Billions of people have never heard the gospel once.
           </h2>

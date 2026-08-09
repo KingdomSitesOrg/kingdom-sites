@@ -16,7 +16,6 @@ export default function About() {
   return (
     <div className="mx-auto max-w-5xl px-4 pb-16 pt-16 sm:px-6 sm:pb-24 sm:pt-24">
       <div className="max-w-2xl">
-        <p className="eyebrow">Team</p>
         <h1 className="mt-4 text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
           The <span className="text-accent">team.</span>
         </h1>

@@ -230,7 +230,6 @@ export default function AiTooling() {
    {/* Hero */}
    <section className="hero-wash px-5 pb-16 pt-16 sm:px-8 sm:pb-20 sm:pt-24">
     <div className="mx-auto max-w-3xl text-center">
-     <p className="eyebrow eyebrow-blue">Capability #2 · Optional with ownership</p>
      <h1 className="mx-auto mt-5 max-w-3xl text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
       AI that does the work, <span className="text-accent">not just the talking.</span>
      </h1>
@@ -251,7 +250,6 @@ export default function AiTooling() {
    <section aria-label="AI package offer" className="border-t border-line px-5 py-16 sm:px-8 sm:py-24">
     <div className="mx-auto max-w-6xl">
      <div className="max-w-2xl">
-      <p className="eyebrow eyebrow-blue">{AI_PACKAGE.tagline}</p>
       <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
        Free consult. Optional package.
       </h2>
@@ -318,7 +316,6 @@ export default function AiTooling() {
    <section aria-label="AI for your everyday work" className="border-t border-line px-5 py-16 sm:px-8 sm:py-24">
     <div className="mx-auto max-w-6xl">
      <div className="max-w-2xl">
-      <p className="eyebrow eyebrow-blue">In your work week</p>
       <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
        AI for your everyday work.
       </h2>
@@ -346,7 +343,6 @@ export default function AiTooling() {
    <section aria-label="AI in products and engineering" className="border-t border-line px-5 py-16 sm:px-8 sm:py-24">
     <div className="mx-auto max-w-6xl">
      <div className="max-w-2xl">
-      <p className="eyebrow eyebrow-blue">In the product</p>
       <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
        AI in products and engineering teams.
       </h2>

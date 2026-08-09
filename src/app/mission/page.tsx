@@ -79,7 +79,6 @@ export default function Mission() {
       <section aria-label="Why this exists" className="px-5 py-16 sm:px-8 sm:py-20">
         <div className="mx-auto max-w-6xl">
           <div className="max-w-3xl">
-            <p className="eyebrow">Why this exists</p>
             <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
               The software pays for the mission.
             </h2>
@@ -102,7 +101,6 @@ export default function Mission() {
       <section aria-label="Who we stand with" className="border-t border-white/10 px-5 py-16 sm:px-8 sm:py-20">
         <div className="mx-auto max-w-6xl">
           <div className="max-w-3xl">
-            <p className="eyebrow">Who we stand with</p>
             <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
               We stand with the persecuted church.
             </h2>
@@ -148,7 +146,6 @@ export default function Mission() {
       <section aria-label="Prayer for the unreached" className="border-t border-white/10 px-5 py-16 sm:px-8 sm:py-20">
         <div className="mx-auto max-w-6xl">
           <div className="max-w-3xl">
-            <p className="eyebrow">Prayer</p>
             <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
               A weekly prayer meeting for the unreached.
             </h2>
@@ -178,7 +175,6 @@ export default function Mission() {
       >
         <div className="mx-auto max-w-6xl">
           <div className="max-w-3xl">
-            <p className="eyebrow">Free of charge</p>
             <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
               I donate websites to ministries.
             </h2>
@@ -212,7 +208,6 @@ export default function Mission() {
       <section aria-label="Our mission work" className="border-t border-white/10 px-5 py-16 sm:px-8 sm:py-20">
         <div className="mx-auto max-w-6xl">
           <div className="max-w-3xl">
-            <p className="eyebrow">Our mission work</p>
             <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
               Mission work in the <span className="text-[#f0b48c]">unreached world.</span>
             </h2>
@@ -238,7 +233,6 @@ export default function Mission() {
         <div className="mx-auto max-w-6xl">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div className="max-w-2xl">
-              <p className="eyebrow">Watch</p>
               <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
                 A window into the work.
               </h2>

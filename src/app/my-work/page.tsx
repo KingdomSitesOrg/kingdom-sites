@@ -215,7 +215,6 @@ export default function MyWork() {
   <div className="w-full overflow-x-hidden">
    {/* Hero */}
    <section className="hero-wash px-5 pb-16 pt-16 text-center sm:px-8 sm:pb-20 sm:pt-24">
-    <p className="eyebrow">Proof for product ownership</p>
     <h1 className="mx-auto mt-5 max-w-3xl text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
      Shipped work you can <span className="text-accent">judge me by</span>
     </h1>
@@ -332,7 +331,6 @@ export default function MyWork() {
       </div>
 
       <div className="lg:order-1">
-       <p className="eyebrow eyebrow-blue">iPhone, iPad &amp; Android · Client project</p>
        <h2 className="mt-4 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
         Latin practice game
        </h2>
@@ -387,7 +385,6 @@ export default function MyWork() {
     <div className="mx-auto max-w-6xl">
      <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-14">
       <div>
-       <p className="eyebrow">iPhone · Apple Watch · Widgets</p>
        <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
         Tap to Tick
        </h2>
@@ -453,7 +450,6 @@ export default function MyWork() {
    {/* AI */}
    <section aria-label="AI" className="border-t border-line px-5 py-16 sm:px-8 sm:py-20">
     <div className="mx-auto max-w-6xl">
-     <p className="eyebrow eyebrow-blue">AI</p>
      <h2 className="mt-4 max-w-3xl text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
       AI that does the work, not just the talking
      </h2>
@@ -517,7 +513,6 @@ export default function MyWork() {
    {/* Websites */}
    <section id="websites" aria-label="Websites" className="scroll-mt-20 border-t border-line px-5 py-16 sm:px-8 sm:py-20">
     <div className="mx-auto max-w-6xl">
-     <p className="eyebrow eyebrow-blue">Websites</p>
      <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
       Sites built the way I build them for clients
      </h2>
@@ -604,7 +599,6 @@ export default function MyWork() {
    <section aria-label="How long it takes" className="border-t border-line px-5 py-16 sm:px-8 sm:py-20">
     <div className="mx-auto max-w-5xl">
      <div className="text-center">
-      <p className="eyebrow eyebrow-blue">How long it usually takes</p>
       <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
        From first email to launched.
       </h2>
@@ -648,7 +642,6 @@ export default function MyWork() {
    <section aria-label="My tools" className="overflow-hidden border-t border-line py-16 sm:py-20">
     <div className="mx-auto max-w-6xl px-5 sm:px-8">
      <div className="max-w-2xl">
-      <p className="eyebrow eyebrow-blue">My tools</p>
       <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
        The kit I build with.
       </h2>
