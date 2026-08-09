@@ -147,7 +147,7 @@ export default function Billing() {
       {'Not signed up yet? Ownership from '}
       {ENTRY_PRICE_LABEL}
       {'/month. '}
-      <Link href="/#services" className="link-accent">
+      <Link href="/#pricing" className="link-accent">
        See how ownership works <span aria-hidden="true">›</span>
       </Link>
      </p>

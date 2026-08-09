@@ -14,14 +14,8 @@ const WORK_LINKS = [
   { to: '/ai-tooling',    label: 'AI tooling',    desc: 'AI wired into real products and workflows' },
 ]
 
-/* Product ownership offer — services + software surface. */
-const OWNERSHIP_LINKS = [
-  { to: '/#services', label: 'Ownership & pricing', desc: 'Retainers from ~$1,000/month — Focused, Full, Intensive' },
-  { to: '/software',  label: 'Custom products',     desc: 'Mobile-led software owned with you after launch' },
-]
-
 const NAV_LINKS = [
-  { to: '/#services',   label: 'Ownership', children: OWNERSHIP_LINKS },
+  { to: '/#pricing',    label: 'Pricing' },
   { to: '/ai-tooling',  label: 'AI' },
   { to: '/my-work',     label: 'My Work', children: WORK_LINKS },
   { to: '/about',       label: 'Team' },
@@ -110,7 +104,7 @@ export default function Header() {
   }
 
   // A nav item with a menu stays highlighted while the visitor is on one of its
-  // pages — so My Work stays lit on a project, and Ownership on software.
+  // pages — so My Work stays lit on a project page.
   // Hash-only paths under `/` are not used as section roots (would light everything).
   const sectionActive = (children: { to: string }[]) =>
     children.some(({ to }) => {

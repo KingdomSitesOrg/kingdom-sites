@@ -225,7 +225,7 @@ export default function MyWork() {
     </p>
     <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
      <Link href={INQUIRE_PATH} className="btn-primary">{INQUIRE_CTA}</Link>
-     <Link href="/#services" className="btn-ghost">
+     <Link href="/#pricing" className="btn-ghost">
       See ownership pricing
      </Link>
     </div>
@@ -678,7 +678,7 @@ export default function MyWork() {
      </p>
      <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
       <Link href={INQUIRE_PATH} className="btn-primary">{INQUIRE_CTA}</Link>
-      <Link href="/#services" className="btn-ghost">
+      <Link href="/#pricing" className="btn-ghost">
        See ownership pricing
       </Link>
      </div>

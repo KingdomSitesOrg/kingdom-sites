@@ -66,7 +66,7 @@ export default function Software() {
             <Link href={INQUIRE_PATH} className="btn-primary">
               {INQUIRE_CTA}
             </Link>
-            <Link href="/#services" className="btn-ghost">
+            <Link href="/#pricing" className="btn-ghost">
               See pricing and how ownership works
             </Link>
           </div>
@@ -204,7 +204,7 @@ export default function Software() {
             {INTENSIVE_DESIGN_NOTE}
           </p>
           <div className="mt-8">
-            <Link href="/#services" className="btn-primary">
+            <Link href="/#pricing" className="btn-primary">
               Full pricing on the home page
             </Link>
           </div>
@@ -343,7 +343,7 @@ export default function Software() {
             <a href={CONTACT_MAILTO} className="link-accent text-sm">
               Or email {CONTACT_EMAIL}
             </a>
-            <Link href="/#services" className="text-sm text-muted underline underline-offset-4">
+            <Link href="/#pricing" className="text-sm text-muted underline underline-offset-4">
               Or see ownership pricing first
             </Link>
           </div>

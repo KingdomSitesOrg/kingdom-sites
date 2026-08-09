@@ -82,7 +82,7 @@ export default function BlogIndex() {
       <Link href={INQUIRE_PATH} className="btn-primary">
        {INQUIRE_CTA}
       </Link>
-      <Link href="/#services" className="link-accent text-sm">
+      <Link href="/#pricing" className="link-accent text-sm">
        See product ownership
       </Link>
      </div>

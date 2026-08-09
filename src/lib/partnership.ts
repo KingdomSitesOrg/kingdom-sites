@@ -182,8 +182,8 @@ export const HERO = {
     'For product owners and business founders who have a long list of features and growth ahead — mobile-led software people actually use, with one person who owns the product after launch, not a project that ends.',
   ctaPrimary: INQUIRE_CTA,
   ctaPrimaryHref: INQUIRE_PATH,
-  ctaSecondary: 'See how ownership works',
-  ctaSecondaryHref: '#services',
+  ctaSecondary: 'See pricing',
+  ctaSecondaryHref: '#pricing',
   priceHint: `Ownership from ${ENTRY_PRICE_LABEL}/month · AI from ${AI_PRICE_LABEL}/month`,
 }
 

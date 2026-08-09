@@ -176,7 +176,7 @@ export default async function BlogPostPage({ params }: Props) {
      </p>
      <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
       <Link href={INQUIRE_PATH} className="btn-primary">{INQUIRE_CTA}</Link>
-      <Link href="/#services" className="link-accent text-sm">
+      <Link href="/#pricing" className="link-accent text-sm">
        Product ownership
       </Link>
      </div>
