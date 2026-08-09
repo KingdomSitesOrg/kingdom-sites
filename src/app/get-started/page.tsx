@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import InquiryForm from '@/components/InquiryForm'
-import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
+import { CONTACT_EMAIL, CONTACT_MAILTO, SALES_EMAIL, SALES_MAILTO, SALES_NAME } from '@/lib/contact'
 import {
   AI_PRICE_LABEL,
   ENTRY_PRICE_LABEL,
@@ -97,7 +97,12 @@ export default function GetStarted() {
             </div>
 
             <p className="mt-8 text-sm leading-relaxed text-body">
-              Prefer email only?{' '}
+              Prefer email? Sales:{' '}
+              <a href={SALES_MAILTO} className="link-accent">
+                {SALES_NAME} · {SALES_EMAIL}
+              </a>
+              {' · '}
+              Engineering:{' '}
               <a href={CONTACT_MAILTO} className="link-accent">
                 {CONTACT_EMAIL}
               </a>

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
-import { CONTACT_EMAIL } from '@/lib/contact'
+import { INQUIRY_TO_EMAILS } from '@/lib/contact'
 
 /**
  * Product-ownership enquiries.
@@ -54,8 +54,12 @@ function looksLikeEmail(value: string): boolean {
 
 async function sendEmail(subject: string, body: string, replyTo: string) {
   const key = process.env.RESEND_API_KEY?.trim()
-  const to = process.env.LEAD_TO_EMAIL?.trim() || CONTACT_EMAIL
-  if (!key) return false
+  /* Optional LEAD_TO_EMAIL overrides (comma-separated ok). Default: Thomas + Jack (sales). */
+  const envTo = process.env.LEAD_TO_EMAIL?.trim()
+  const to = envTo
+    ? envTo.split(',').map((s) => s.trim()).filter(Boolean)
+    : [...INQUIRY_TO_EMAILS]
+  if (!key || to.length === 0) return false
 
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -65,7 +69,7 @@ async function sendEmail(subject: string, body: string, replyTo: string) {
     },
     body: JSON.stringify({
       from: process.env.LEAD_FROM_EMAIL?.trim() || 'Kingdom Sites <onboarding@resend.dev>',
-      to: [to],
+      to,
       reply_to: replyTo && looksLikeEmail(replyTo) ? replyTo : undefined,
       subject,
       text: body,

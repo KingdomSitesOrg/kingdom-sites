@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { trackEvent } from '@/lib/analytics'
-import { CONTACT_EMAIL, INQUIRE_API } from '@/lib/contact'
+import { CONTACT_EMAIL, INQUIRE_API, SALES_EMAIL } from '@/lib/contact'
 import { TIERS } from '@/lib/partnership'
 
 /**
@@ -121,7 +121,8 @@ export default function InquiryForm() {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   ) => setFields((f) => ({ ...f, [key]: e.target.value }))
 
-  const mailtoHref = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+  /* Fallback opens the visitor's mail app to sales (+ engineering on the To line when supported). */
+  const mailtoHref = `mailto:${SALES_EMAIL},${CONTACT_EMAIL}?subject=${encodeURIComponent(
     fields.product.trim()
       ? `Product ownership — ${fields.product.trim()}`
       : 'Product ownership enquiry',
@@ -188,7 +189,11 @@ export default function InquiryForm() {
           {' and whether ownership with me is a fit.'}
         </p>
         <p className="mt-4 text-[15px] leading-relaxed text-body">
-          {'Nothing to do in the meantime. If something urgent comes up, email me at '}
+          {'Nothing to do in the meantime. Sales is '}
+          <a href={`mailto:${SALES_EMAIL}`} className="link-accent">
+            {SALES_EMAIL}
+          </a>
+          {'; engineering is '}
           <a href={`mailto:${CONTACT_EMAIL}`} className="link-accent">
             {CONTACT_EMAIL}
           </a>
