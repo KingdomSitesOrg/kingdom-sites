@@ -285,8 +285,8 @@ export default function AiTooling() {
         <span className="text-base font-medium text-muted">/month</span>
        </p>
        <p className="mt-4 flex-1 text-[15px] leading-relaxed text-body">
-        Optional on any design, build, ship, and maintain tier. Implementation and tooling wired into real
-        products and workflows — not demos.
+        Included on Intensive. Optional add-on on Focused and Full. Implementation and tooling
+        wired into real products and workflows — not demos.
        </p>
        <ul className="mt-5 space-y-2.5 border-t border-line pt-5">
         {AI_PACKAGE.features.map((f) => (

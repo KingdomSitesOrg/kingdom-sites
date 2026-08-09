@@ -2,6 +2,7 @@ import Link from 'next/link'
 import {
   AI_PRICE_LABEL,
   ENTRY_PRICE_LABEL,
+  INTENSIVE_AI_NOTE,
   INTENSIVE_DESIGN_NOTE,
   NOTICE_LINE,
   PREPAY_LINE,
@@ -95,9 +96,12 @@ export default function PricingTiers() {
       <p className="mx-auto mt-3 max-w-3xl text-center text-[13.5px] leading-relaxed text-muted">
         {INTENSIVE_DESIGN_NOTE}
       </p>
+      <p className="mx-auto mt-3 max-w-3xl text-center text-[13.5px] leading-relaxed text-muted">
+        {INTENSIVE_AI_NOTE}
+      </p>
       <p className="mx-auto mt-4 max-w-3xl text-center text-[13.5px] leading-relaxed text-muted">
-        From {ENTRY_PRICE_LABEL}/month · optional AI package from {AI_PRICE_LABEL}/month.{' '}
-        {PREPAY_LINE} {NOTICE_LINE}
+        From {ENTRY_PRICE_LABEL}/month · AI package {AI_PRICE_LABEL}/month on Focused &amp; Full
+        (included on Intensive). {PREPAY_LINE} {NOTICE_LINE}
       </p>
     </div>
   )

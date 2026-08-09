@@ -8,6 +8,7 @@ import {
   AI_PRICE_LABEL,
   COMPLEXITY_FACTORS,
   ENTRY_PRICE_LABEL,
+  INTENSIVE_AI_NOTE,
 } from '@/lib/partnership'
 
 export const metadata: Metadata = {
@@ -70,9 +71,12 @@ export default function PricingPage() {
             {AI_PACKAGE.name} — {AI_PRICE_LABEL}/month
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-[15px] leading-relaxed text-body">
-            {AI_PACKAGE.promise} Free one-time consult included when you start the conversation.
+            {AI_PACKAGE.promise} Free one-time consult when you start the conversation.
           </p>
           <p className="mx-auto mt-3 max-w-lg text-[13px] leading-relaxed text-muted">
+            {INTENSIVE_AI_NOTE}
+          </p>
+          <p className="mx-auto mt-2 max-w-lg text-[13px] leading-relaxed text-muted">
             * {AI_PACKAGE.apiNote}
           </p>
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">

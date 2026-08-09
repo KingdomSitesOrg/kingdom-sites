@@ -77,7 +77,7 @@ export const TIERS: ComplexityTier[] = [
       'Business thinking and product strategy with you',
       'Priorities, roadmap, and “what actually moves the needle”',
       'Multi-surface / platform depth and high change velocity',
-      'AI in the product when that is the work',
+      'AI tooling included (connectors, tools, skills, loops — no extra $199)',
       'Graphic design for the product and brand*',
     ],
   },
@@ -89,6 +89,10 @@ export const TIERS: ComplexityTier[] = [
  */
 export const INTENSIVE_DESIGN_NOTE =
   '* Graphic design on Intensive is usually included in the ~$3,000/month band (UI, product visuals, brand pieces that support the product). Unusually large design campaigns or work for a different brand may be a separate fee — I will say so up front before anything is billed.'
+
+/** AI tooling is included on Intensive; optional paid package on other tiers. */
+export const INTENSIVE_AI_NOTE =
+  'AI tooling is included on Intensive (inside the ~$3,000/month band). On Focused and Full it is an optional add-on at $199/month. You still pay your own model and API costs either way.'
 
 
 /** Scorecard used on the call (also summarized on the site). */
@@ -157,17 +161,17 @@ export const PRICING_ASTERISK =
 export const AI_PACKAGE = {
   priceMonthly: 199,
   name: 'AI package',
-  tagline: 'Optional add-on',
+  tagline: 'Optional add-on — included on Intensive',
   promise:
-    'AI tooling and implementation wired into real products and workflows — not demos.',
+    'AI tooling and implementation wired into real products and workflows — not demos. Included on Intensive; optional add-on on Focused and Full.',
   freeConsult:
     'One free consultation (about one to two hours) on how to leverage AI: connectors, tools, skills, agent loops, and how they fit your work.',
   apiNote:
-    'You pay your own model and API costs. The package covers my work; usage fees stay with you.',
+    'You pay your own model and API costs. The package covers my work; usage fees stay with you. Intensive already includes AI tooling in the monthly retainer.',
   features: [
     'AI in your product or internal tooling',
     'Grounded in your data where that is the job',
-    'Optional on any pricing tier',
+    'Included on Intensive · optional +$199/mo on Focused and Full',
   ],
 }
 
@@ -241,9 +245,13 @@ export const FAQS = [
   {
     q: 'What is different about Intensive?',
     a:
-      'Intensive is full product work plus business help: strategizing what to build and why, not only coding what you already decided. It also includes graphic design for the product and brand in most cases — usually inside the ~$3,000/month average. Unusually large design work may be a separate fee; I will flag that before you pay.' +
+      'Intensive is full product work plus business help: strategizing what to build and why, not only coding what you already decided. AI tooling is included (no separate $199 package). Graphic design for the product and brand is usually included too — inside the ~$3,000/month average. Unusually large design work may be a separate fee; I will flag that before you pay.' +
       ' ' +
       '(See the design asterisk under pricing for the full note.)',
+  },
+  {
+    q: 'Is AI tooling included or extra?',
+    a: 'Included on Intensive. On Focused and Full it is an optional add-on at $199/month. The free consult (connectors, tools, skills, loops) is available either way. You pay your own model and API costs on every tier.',
   },
   {
     q: 'Is there a contract or commitment?',
@@ -255,7 +263,7 @@ export const FAQS = [
   },
   {
     q: 'What is the AI package?',
-    a: `Optional add-on at ${AI_PRICE_LABEL}/month for AI tooling and implementation. You get one free consult on how to leverage AI for your situation. You pay your own API and model usage costs.`,
+    a: `On Focused and Full, optional add-on at ${AI_PRICE_LABEL}/month for AI tooling and implementation. On Intensive it is already included in the retainer. Free consult covers connectors, tools, skills, and agent loops. You pay your own API and model usage costs.`,
   },
   {
     q: 'Who is this for?',
