@@ -21,7 +21,6 @@ const OWNERSHIP_LINKS = [
 ]
 
 const NAV_LINKS = [
-  { to: '/',            label: 'Home' },
   { to: '/#services',   label: 'Ownership', children: OWNERSHIP_LINKS },
   { to: '/ai-tooling',  label: 'AI' },
   { to: '/my-work',     label: 'My Work', children: WORK_LINKS },
