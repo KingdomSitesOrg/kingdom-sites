@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Noto_Sans_Bengali } from 'next/font/google'
-import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
+import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import MinistryNav from './MinistryNav'
 import MinistryPlayer, { type MinistryVideo } from './MinistryPlayer'
 
@@ -154,9 +154,9 @@ export default function Ministry() {
               }}
             >
               <Link href="/mission" className="btn">Read about the mission</Link>
-              <a href={CONTACT_MAILTO} className="inline-link" style={{ fontSize: 15 }}>
-                {CONTACT_EMAIL}
-              </a>
+              <Link href={INQUIRE_PATH} className="inline-link" style={{ fontSize: 15 }}>
+                {INQUIRE_CTA}
+              </Link>
             </div>
           </div>
         </div>

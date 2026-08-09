@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { CONTACT_EMAIL, CONTACT_MAILTO, INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
+import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 
 export const metadata: Metadata = {
   title: 'Websites & local search (side work)',
@@ -71,9 +71,7 @@ export default function SeoSidePage() {
 
             <div className="mt-8 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
               <Link href={INQUIRE_PATH} className="btn-primary">{INQUIRE_CTA}</Link>
-              <a href={CONTACT_MAILTO} className="link-accent text-sm">
-                {CONTACT_EMAIL}
-              </a>
+              <Link href={INQUIRE_PATH} className="link-accent text-sm">{INQUIRE_CTA}</Link>
             </div>
           </div>
         </div>

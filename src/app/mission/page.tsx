@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import persecutedImage from '../../../public/Photos/persecuted-church.jpg'
 import UnreachedScroll from '@/components/UnreachedScroll'
-import { CONTACT_MAILTO } from '@/lib/contact'
+import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 
 export const metadata: Metadata = {
   title: 'Our Mission — Kingdom Sites',
@@ -190,9 +190,9 @@ export default function Mission() {
             </p>
             <p className="mt-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
               If that is you,{' '}
-              <a href={CONTACT_MAILTO} className="text-white underline underline-offset-4 hover:text-[#f0b48c]">
-                email me what you need
-              </a>
+              <Link href={INQUIRE_PATH} className="text-white underline underline-offset-4 hover:text-[#f0b48c]">
+                {INQUIRE_CTA}
+              </Link>
               .
             </p>
             <p className="mt-6 text-[13px] leading-relaxed text-white/45">

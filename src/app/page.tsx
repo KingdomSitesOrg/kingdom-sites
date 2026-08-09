@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import { PhoneMock, WebMock } from '@/components/BuildMocks'
 import PricingTiers from '@/components/PricingTiers'
 import EvenGrid from '@/components/EvenGrid'
-import { CONTACT_MAILTO, INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
+import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import {
   AI_PACKAGE,
   AI_PRICE_LABEL,
@@ -191,10 +191,6 @@ export default function Home() {
               <Link href="/my-work" className="link-accent">
                 Full proof portfolio
               </Link>
-              {' · '}
-              <a href={CONTACT_MAILTO} className="link-accent">
-                Or email
-              </a>
             </p>
           </div>
         </div>

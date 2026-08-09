@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import EvenGrid from '@/components/EvenGrid'
-import { CONTACT_EMAIL, CONTACT_MAILTO, INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
+import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import {
  AI_PACKAGE,
  AI_PRICE_LABEL,
@@ -400,9 +400,7 @@ export default function AiTooling() {
       </Link>
      </div>
      <p className="mt-4 text-sm text-muted">
-      <a href={CONTACT_MAILTO} className="link-accent font-medium">
-       {CONTACT_EMAIL}
-      </a>
+      <Link href={INQUIRE_PATH} className="link-accent font-medium">{INQUIRE_CTA}</Link>
      </p>
      <p className="mx-auto mt-8 max-w-xl text-[13px] leading-relaxed text-muted">
       <span className="text-accent">*</span> {AI_PACKAGE.apiNote} Package is{' '}

@@ -1,13 +1,5 @@
 import Link from 'next/link'
-import {
-  CONTACT_EMAIL,
-  CONTACT_MAILTO,
-  INQUIRE_CTA,
-  INQUIRE_PATH,
-  SALES_EMAIL,
-  SALES_MAILTO,
-  SALES_NAME,
-} from '@/lib/contact'
+import { INQUIRE_CTA, INQUIRE_PATH, SALES_NAME } from '@/lib/contact'
 
 const FACEBOOK_URL = 'https://www.facebook.com/share/1EzdtfSCs3/?mibextid=wwXIfr'
 const YOUTUBE_URL = 'https://www.youtube.com/@tkklein/videos'
@@ -42,19 +34,7 @@ export default function Footer() {
               <Link href={INQUIRE_PATH} className="btn-primary">
                 {INQUIRE_CTA}
               </Link>
-              <a
-                href={SALES_MAILTO}
-                className="text-sm text-white/75 underline underline-offset-4 hover:text-white"
-              >
-                {SALES_EMAIL}
-              </a>
             </div>
-            <p className="mt-3 text-[13px] text-white/45">
-              Engineering:{' '}
-              <a href={CONTACT_MAILTO} className="underline underline-offset-2 hover:text-white/70">
-                {CONTACT_EMAIL}
-              </a>
-            </p>
 
             <div className="mt-5 flex flex-col items-start gap-3">
               <a

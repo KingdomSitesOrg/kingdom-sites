@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import ToolTicker from '@/components/ToolTicker'
-import { CONTACT_EMAIL, CONTACT_MAILTO, INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
+import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import shotOverview from '../../../public/tap-to-tick/overview.jpg'
 import shotLog from '../../../public/tap-to-tick/log.jpg'
 import jwlHome from '../../../public/latin-game/home.jpg'
@@ -673,7 +673,7 @@ export default function MyWork() {
      </h2>
      <p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-relaxed text-body">
       Product ownership retainers for custom products — apps, systems, and AI when that is the
-      job. Month to month is fine. Email me about what you are building, or read how ownership
+      job. Month to month is fine. Send an enquiry about what you are building, or read how ownership
       works first.
      </p>
      <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -687,9 +687,7 @@ export default function MyWork() {
        How product ownership works
       </Link>
       {' · '}
-      <a href={CONTACT_MAILTO} className="link-accent">
-       {CONTACT_EMAIL}
-      </a>
+      <Link href={INQUIRE_PATH} className="link-accent">{INQUIRE_CTA}</Link>
      </p>
     </div>
    </section>

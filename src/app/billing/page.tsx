@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { CONTACT_EMAIL, CONTACT_MAILTO, INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
+import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { PAYMENT_LINKS, PORTAL_URL, hasAnyLinks } from '@/lib/billing'
 import {
  AI_PACKAGE,
@@ -114,9 +114,7 @@ export default function Billing() {
         <span className="text-base font-medium text-muted">/month</span>
        </p>
       </div>
-      <a href={CONTACT_MAILTO} className="btn-ghost mt-5">
-       Ask about the AI package
-      </a>
+      <Link href={INQUIRE_PATH} className="btn-ghost mt-5">{INQUIRE_CTA}</Link>
      </div>
 
      <div className="tile-elevated mt-10 p-7 sm:p-9">
@@ -134,9 +132,7 @@ export default function Billing() {
       ) : (
        <p className="mt-3 text-[15px] leading-relaxed text-body">
         {'To change payment method, switch tier, or end the engagement, email '}
-        <a href={CONTACT_MAILTO} className="link-accent">
-         {CONTACT_EMAIL}
-        </a>
+        <Link href={INQUIRE_PATH} className="link-accent">{INQUIRE_CTA}</Link>
         {'. '}
         {NOTICE_LINE}
        </p>

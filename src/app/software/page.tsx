@@ -6,7 +6,7 @@ import ToolTicker from '@/components/ToolTicker'
 import MissionPreview from '@/components/MissionPreview'
 import EvenGrid from '@/components/EvenGrid'
 import { WebMock, PhoneMock } from '@/components/BuildMocks'
-import { CONTACT_EMAIL, CONTACT_MAILTO, INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
+import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import {
   AI_PACKAGE,
   AI_PRICE_LABEL,
@@ -330,7 +330,7 @@ export default function Software() {
       <section id="contact" aria-label="Contact" className="px-5 pb-24 pt-24 sm:px-8">
         <div className="tile-elevated mx-auto max-w-4xl px-6 py-14 text-center sm:px-12 sm:py-16">
           <h2 className="text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-            Email me about product ownership.
+            Tell me about product ownership.
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-pretty text-base leading-relaxed text-body">
             Tell me what you are building, who uses it, and how much product work is ahead. Honest
@@ -340,9 +340,6 @@ export default function Software() {
             <Link href={INQUIRE_PATH} className="btn-primary">
               {INQUIRE_CTA}
             </Link>
-            <a href={CONTACT_MAILTO} className="link-accent text-sm">
-              Or email {CONTACT_EMAIL}
-            </a>
             <Link href="/#pricing" className="text-sm text-muted underline underline-offset-4">
               Or see ownership pricing first
             </Link>

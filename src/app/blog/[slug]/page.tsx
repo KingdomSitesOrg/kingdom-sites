@@ -2,7 +2,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getAllPosts, getPost, formatPostDate, type BlogBlock } from '@/lib/blog'
-import { CONTACT_EMAIL, CONTACT_MAILTO, INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
+import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -181,9 +181,7 @@ export default async function BlogPostPage({ params }: Props) {
       </Link>
      </div>
      <p className="mt-4 text-sm text-body">
-      <a href={CONTACT_MAILTO} className="link-accent">
-       {CONTACT_EMAIL}
-      </a>
+      <Link href={INQUIRE_PATH} className="link-accent">{INQUIRE_CTA}</Link>
      </p>
     </div>
 

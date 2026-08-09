@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { CONTACT_EMAIL, CONTACT_MAILTO, INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
+import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 
 /* The individual projects, shown in the menu that opens under My Work. */
 const WORK_LINKS = [
@@ -318,9 +318,6 @@ export default function Header() {
               >
                 {INQUIRE_CTA}
               </Link>
-              <p className="mt-3 text-center text-xs text-muted">
-                <a href={CONTACT_MAILTO}>{CONTACT_EMAIL}</a>
-              </p>
             </div>
           </div>
         </div>

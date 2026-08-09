@@ -2,15 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import aboutImage from '../../../public/Photos/about.jpg'
-import {
-  CONTACT_EMAIL,
-  CONTACT_MAILTO,
-  INQUIRE_CTA,
-  INQUIRE_PATH,
-  SALES_EMAIL,
-  SALES_MAILTO,
-  SALES_NAME,
-} from '@/lib/contact'
+import { INQUIRE_CTA, INQUIRE_PATH, SALES_NAME } from '@/lib/contact'
 import { ENTRY_PRICE_LABEL } from '@/lib/partnership'
 
 export const metadata: Metadata = {
@@ -76,9 +68,7 @@ export default function About() {
             of Leadership — training in biblical studies and discipleship. Client work carries on
             from here, on the same timelines as always.
           </p>
-          <a href={CONTACT_MAILTO} className="link-accent mt-5 inline-block text-sm">
-            {CONTACT_EMAIL}
-          </a>
+          <Link href={INQUIRE_PATH} className="link-accent mt-5 inline-block text-sm">{INQUIRE_CTA}</Link>
 
           <div className="mt-8 grid gap-4">
             <div className="tile p-6">
@@ -160,9 +150,7 @@ export default function About() {
               Sales contact for product ownership. Reach out about fit, complexity band, and getting
               started — he will loop in engineering when it is time to build.
             </p>
-            <a href={SALES_MAILTO} className="link-accent mt-5 inline-block text-sm">
-              {SALES_EMAIL}
-            </a>
+            <Link href={INQUIRE_PATH} className="link-accent mt-5 inline-block text-sm">{INQUIRE_CTA}</Link>
           </div>
         </div>
       </section>
@@ -172,15 +160,7 @@ export default function About() {
           {INQUIRE_CTA}
         </Link>
         <p className="mt-4 text-sm text-body">
-          Sales:{' '}
-          <a href={SALES_MAILTO} className="link-accent">
-            {SALES_NAME} · {SALES_EMAIL}
-          </a>
-          {' · '}
-          Engineering:{' '}
-          <a href={CONTACT_MAILTO} className="link-accent">
-            {CONTACT_EMAIL}
-          </a>
+          Sales is {SALES_NAME}; engineering is Thomas — both receive every enquiry.
         </p>
         <p className="mt-3 text-sm text-muted">
           <Link href="/software" className="underline underline-offset-4">

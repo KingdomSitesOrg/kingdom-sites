@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { CONTACT_EMAIL, CONTACT_MAILTO, INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
+import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { BrowserMockup, PhonePortalMockup } from './Mockups'
 import shotQueue from '../../../public/ruta/crew-queue.jpg'
 import shotVisit from '../../../public/ruta/crew-visit.jpg'
@@ -389,9 +389,7 @@ export default function Ruta() {
        {INQUIRE_CTA}
       </Link>
       <p className="mt-3 text-sm text-muted">
-       <a href={CONTACT_MAILTO} className={`font-medium ${GREEN} hover:underline hover:underline-offset-4`}>
-        {CONTACT_EMAIL}
-       </a>
+       <Link href={INQUIRE_PATH} className={`font-medium ${GREEN} hover:underline hover:underline-offset-4`}>{INQUIRE_CTA}</Link>
       </p>
      </div>
      <p className="mt-8 text-sm text-body">
