@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
+import { CONTACT_EMAIL, CONTACT_MAILTO, INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 
 const FACEBOOK_URL = 'https://www.facebook.com/share/1EzdtfSCs3/?mibextid=wwXIfr'
 const YOUTUBE_URL = 'https://www.youtube.com/@tkklein/videos'
@@ -8,12 +8,12 @@ const PAGE_LINKS = [
   { href: '/', label: 'Home' },
   { href: '/#services', label: 'Ownership' },
   { href: '/software', label: 'Custom Software' },
+  { href: INQUIRE_PATH, label: 'Enquiry' },
   { href: '/my-work', label: 'My Work' },
   { href: '/ai-tooling', label: 'AI tooling' },
   { href: '/seo', label: 'Websites & SEO' },
   { href: '/about', label: 'About' },
   { href: '/mission', label: 'Mission' },
-  { href: '/blog', label: 'Blog' },
   { href: '/privacy', label: 'Privacy Policy' },
   { href: '/terms', label: 'Terms' },
 ]
@@ -28,13 +28,13 @@ export default function Footer() {
               Building a product that needs an owner?
             </p>
             <p className="mt-2 max-w-sm text-sm leading-relaxed text-white/65">
-              Product ownership retainers for custom software — email me about what you are
-              shipping. I read every message myself.
+              Product ownership retainers for custom software — send an enquiry about what you are
+              shipping. I read every one myself.
             </p>
             <div className="mt-6 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-5">
-              <a href={CONTACT_MAILTO} className="btn-primary">
-                Email about your product
-              </a>
+              <Link href={INQUIRE_PATH} className="btn-primary">
+                {INQUIRE_CTA}
+              </Link>
               <a
                 href={CONTACT_MAILTO}
                 className="text-sm text-white/75 underline underline-offset-4 hover:text-white"

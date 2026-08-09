@@ -9,7 +9,7 @@
  * Two months’ notice to end. See grill-me session decisions.
  */
 
-import { CONTACT_MAILTO } from './contact'
+import { INQUIRE_CTA, INQUIRE_PATH } from './contact'
 
 /* ─── Pricing ───────────────────────────────────────────────────────────── */
 
@@ -167,8 +167,8 @@ export const HERO = {
   titleAccent: 'owned with you.',
   sub:
     'For product owners and business founders who have a long list of features and growth ahead — mobile-led software people actually use, with one person who owns the product after launch, not a project that ends.',
-  ctaPrimary: 'Email me about your product',
-  ctaPrimaryHref: CONTACT_MAILTO,
+  ctaPrimary: INQUIRE_CTA,
+  ctaPrimaryHref: INQUIRE_PATH,
   ctaSecondary: 'See how ownership works',
   ctaSecondaryHref: '#services',
   priceHint: `Ownership from ${ENTRY_PRICE_LABEL}/month · AI from ${AI_PRICE_LABEL}/month`,

@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import {
   AI_PRICE_LABEL,
   ENTRY_PRICE_LABEL,
@@ -9,7 +10,7 @@ import {
   TIERS,
   prepaidMonthlyEquivalent,
 } from '@/lib/partnership'
-import { CONTACT_MAILTO } from '@/lib/contact'
+import { INQUIRE_PATH } from '@/lib/contact'
 
 function Check() {
   return (
@@ -29,7 +30,7 @@ function Check() {
 }
 
 /** Ownership complexity bands — Focused / Full / Intensive. */
-export default function PricingTiers({ showLimits: _showLimits = true }: { showLimits?: boolean }) {
+export default function PricingTiers() {
   return (
     <div>
       <div className="grid gap-5 lg:grid-cols-3">
@@ -76,12 +77,12 @@ export default function PricingTiers({ showLimits: _showLimits = true }: { showL
                 ))}
               </ul>
 
-              <a
-                href={CONTACT_MAILTO}
-                className={`mt-7 ${tier.featured ? 'btn-primary' : 'btn-ghost'} w-full`}
+              <Link
+                href={INQUIRE_PATH}
+                className={`mt-7 ${tier.featured ? 'btn-primary' : 'btn-ghost'} w-full text-center`}
               >
-                {tier.featured ? 'Email about Full' : `Email about ${tier.name}`}
-              </a>
+                {tier.featured ? 'Enquire about Full' : `Enquire about ${tier.name}`}
+              </Link>
             </div>
           )
         })}

@@ -5,7 +5,7 @@ import aboutImage from '../../public/Photos/about.jpg'
 import { PhoneMock, WebMock } from '@/components/BuildMocks'
 import PricingTiers from '@/components/PricingTiers'
 import EvenGrid from '@/components/EvenGrid'
-import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
+import { CONTACT_EMAIL, CONTACT_MAILTO, INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import {
   AI_PACKAGE,
   AI_PRICE_LABEL,
@@ -15,7 +15,6 @@ import {
   OWNERSHIP_PILLARS,
   PREPAY_LINE,
   NOTICE_LINE,
-  STEPS,
 } from '@/lib/partnership'
 
 /* Portfolio proof only — not the commercial offer. */
@@ -66,9 +65,9 @@ export default function Home() {
             </p>
 
             <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
-              <a href={HERO.ctaPrimaryHref} className="btn-primary">
+              <Link href={HERO.ctaPrimaryHref} className="btn-primary">
                 {HERO.ctaPrimary}
-              </a>
+              </Link>
               <a href={HERO.ctaSecondaryHref} className="btn-ghost">
                 {HERO.ctaSecondary}
               </a>
@@ -198,34 +197,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Steps */}
-      <section aria-label="How it works" className="border-t border-line px-5 py-20 sm:px-8 sm:py-24">
-        <div className="mx-auto max-w-6xl">
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="eyebrow">How it starts</p>
-            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-              Conversation, band, ownership.
-            </h2>
-          </div>
-
-          <EvenGrid surface="home-steps" maxCols={4} className="mt-12">
-            {STEPS.map((s) => (
-              <div key={s.step} className="tile flex flex-col p-7">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-accent text-sm font-semibold text-white">
-                  {s.step}
-                </span>
-                <h3 className="mt-5 text-base font-semibold tracking-tight text-ink">{s.title}</h3>
-                <p className="mt-2.5 text-sm leading-relaxed text-body">{s.desc}</p>
-              </div>
-            ))}
-          </EvenGrid>
-
-          <p className="mx-auto mt-10 max-w-2xl text-center text-[13.5px] leading-relaxed text-muted">
-            {PREPAY_LINE} {NOTICE_LINE}
-          </p>
-        </div>
-      </section>
-
       {/* FAQs */}
       <section aria-label="Common questions" className="border-t border-line px-5 py-20 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-6xl">
@@ -312,21 +283,22 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Contact — email, not free-look form */}
+      {/* Contact — enquiry form (same stack as production free-look) */}
       <section id="contact" aria-label="Contact" className="px-5 pb-24 pt-8 sm:px-8">
         <div className="tile-elevated mx-auto max-w-4xl px-6 py-14 text-center sm:px-12 sm:py-16">
           <h2 className="text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
             Tell me what you are building.
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-pretty text-base leading-relaxed text-body">
-            Product owners and founders with a real pipeline — email is enough. We will talk about complexity, fit, and whether ownership with me makes sense.
+            Product owners and founders with a real pipeline — send an enquiry and I will reply about
+            complexity, fit, and whether ownership with me makes sense. {PREPAY_LINE} {NOTICE_LINE}
           </p>
           <div className="mt-8 flex flex-col items-center gap-4">
-            <a href={CONTACT_MAILTO} className="btn-primary">
-              {HERO.ctaPrimary}
-            </a>
+            <Link href={INQUIRE_PATH} className="btn-primary">
+              {INQUIRE_CTA}
+            </Link>
             <a href={CONTACT_MAILTO} className="link-accent text-sm">
-              {CONTACT_EMAIL}
+              Or email {CONTACT_EMAIL}
             </a>
           </div>
         </div>

@@ -1,2 +1,2 @@
-/** Free-look form removed. Route redirects home; /api/free-look returns 410. */
-export {}
+/** @deprecated Use InquiryForm from @/components/InquiryForm — kept so old imports do not break. */
+export { default } from '@/components/InquiryForm'

@@ -6,7 +6,7 @@ import ToolTicker from '@/components/ToolTicker'
 import MissionPreview from '@/components/MissionPreview'
 import EvenGrid from '@/components/EvenGrid'
 import { WebMock, PhoneMock } from '@/components/BuildMocks'
-import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
+import { CONTACT_EMAIL, CONTACT_MAILTO, INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import {
   AI_PACKAGE,
   AI_PRICE_LABEL,
@@ -15,7 +15,6 @@ import {
   OWNERSHIP_PILLARS,
   PREPAY_LINE,
   PRICING_ASTERISK,
-  STEPS,
   TIERS,
 } from '@/lib/partnership'
 
@@ -63,9 +62,9 @@ export default function Software() {
           </p>
 
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <a href={CONTACT_MAILTO} className="btn-primary">
-              Email me about your product
-            </a>
+            <Link href={INQUIRE_PATH} className="btn-primary">
+              {INQUIRE_CTA}
+            </Link>
             <Link href="/#services" className="btn-ghost">
               See pricing and how ownership works
             </Link>
@@ -208,30 +207,6 @@ export default function Software() {
         </div>
       </section>
 
-      {/* How it works */}
-      <section aria-label="How ownership works" className="border-t border-line px-5 py-16 sm:px-8 sm:py-24">
-        <div className="mx-auto max-w-6xl">
-          <div className="max-w-2xl">
-            <p className="eyebrow eyebrow-blue">How it works</p>
-            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-              From first conversation to ownership.
-            </h2>
-          </div>
-
-          <EvenGrid surface="software-steps" maxCols={4} className="mt-12">
-            {STEPS.map((s) => (
-              <div key={s.step} className="tile p-7">
-                <span className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">
-                  Step {s.step}
-                </span>
-                <h3 className="mt-3 text-base font-semibold tracking-tight text-ink">{s.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-body">{s.desc}</p>
-              </div>
-            ))}
-          </EvenGrid>
-        </div>
-      </section>
-
       {/* Proof */}
       <section aria-label="Shipped proof" className="border-t border-line px-5 py-16 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-6xl">
@@ -358,11 +333,11 @@ export default function Software() {
             either way about whether I am the right owner for it.
           </p>
           <div className="mt-8 flex flex-col items-center gap-4">
-            <a href={CONTACT_MAILTO} className="btn-primary">
-              Email me about your product
-            </a>
+            <Link href={INQUIRE_PATH} className="btn-primary">
+              {INQUIRE_CTA}
+            </Link>
             <a href={CONTACT_MAILTO} className="link-accent text-sm">
-              {CONTACT_EMAIL}
+              Or email {CONTACT_EMAIL}
             </a>
             <Link href="/#services" className="text-sm text-muted underline underline-offset-4">
               Or see ownership pricing first

@@ -1,29 +1,30 @@
 import { NextResponse } from 'next/server'
 
 /**
- * Free-look funnel is retired. Product contact is email (see CONTACT_MAILTO).
- * Keep the route so old clients get a clear Gone response without breaking the build.
+ * Free-look funnel retired. Product enquiries use POST /api/inquiry.
+ * GET/POST here point people at the new path.
  */
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
-export async function POST() {
+const MESSAGE =
+  'The free-look form is no longer available. Use /get-started or POST /api/inquiry for a product-ownership enquiry.'
+
+export async function GET() {
   return NextResponse.json(
-    {
-      error: 'gone',
-      message:
-        'The free-look form is no longer available. Email thomas@kingdom-sites.com about your product or project.',
-    },
+    { ok: false, error: MESSAGE, inquiry: '/api/inquiry', page: '/get-started' },
     { status: 410 },
   )
 }
 
-export async function GET() {
+export async function POST() {
   return NextResponse.json(
     {
-      error: 'gone',
-      message: 'The free-look form is no longer available.',
+      ok: false,
+      error: MESSAGE,
+      inquiry: '/api/inquiry',
+      page: '/get-started',
     },
     { status: 410 },
   )

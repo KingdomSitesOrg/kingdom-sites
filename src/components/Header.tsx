@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
+import { CONTACT_EMAIL, CONTACT_MAILTO, INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 
 /* The individual projects, shown in the menu that opens under My Work. */
 const WORK_LINKS = [
@@ -232,7 +232,7 @@ export default function Header() {
               Prayer
               <ArrowOutIcon />
             </a>
-            <a href={CONTACT_MAILTO} className="btn-sm">Email me</a>
+            <Link href={INQUIRE_PATH} className="btn-sm">{INQUIRE_CTA}</Link>
           </div>
 
           <button
@@ -318,13 +318,13 @@ export default function Header() {
             </a>
 
             <div className="mt-3 border-t border-line pt-4">
-              <a
-                href={CONTACT_MAILTO}
+              <Link
+                href={INQUIRE_PATH}
                 onClick={() => setMenuOpen(false)}
                 className="btn-primary w-full"
               >
-                Talk about your product
-              </a>
+                {INQUIRE_CTA}
+              </Link>
               <p className="mt-3 text-center text-xs text-muted">
                 <a href={CONTACT_MAILTO}>{CONTACT_EMAIL}</a>
               </p>
