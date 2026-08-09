@@ -50,9 +50,10 @@ export default function TermsPage() {
               whichever comes first.
             </p>
             <p>
-              <span className="font-medium text-ink">Mandatory Service Integration:</span>{' '}
-              Ongoing hosting and care are included in the monthly plans (Foundation, Growth, or
-              Everything) described on the site at the time of agreement.
+              <span className="font-medium text-ink">Ongoing care:</span>{' '}
+              Product ownership retainers and any agreed hosting or care are as described in the
+              engagement terms at the time of agreement (complexity bands Focused, Full, or
+              Intensive — or project-specific quotes where that applies).
             </p>
             <p>
               <span className="font-medium text-ink">Refund Eligibility:</span> Fees (minus

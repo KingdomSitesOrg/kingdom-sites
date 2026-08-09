@@ -15,18 +15,13 @@ export default function PrivacyPage() {
         <div>
           <h2 className="mb-2 font-semibold text-ink">Information We Collect</h2>
           <p>
-            There is no sign-in and no customer database on this website. The free-look form on
-            Get Started sends what you type — your name, business, email, phone if you give it, and
-            the rest of your answers — to our email inbox, and to a connected tool such as a
-            spreadsheet or CRM if one is in use. It is used only to reply to you and to discuss the
-            work, and it is never sold or passed to anyone else.
+            There is no sign-in and no customer database on this website. Contact is by email
+            only. If you email {CONTACT_EMAIL}, that message and your email address sit in the
+            email inbox, as any email would, and are used only to reply to you and to discuss the
+            work. Messages are never sold or passed to anyone else.
           </p>
           <p className="mt-3">
             Nothing you type is kept on this website itself.
-          </p>
-          <p className="mt-3">
-            If you email {CONTACT_EMAIL}, that message and your email address sit in the email
-            inbox, as any email would, and are used only to reply to you and to discuss the work.
           </p>
         </div>
 

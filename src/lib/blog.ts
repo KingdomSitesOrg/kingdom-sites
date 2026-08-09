@@ -101,11 +101,11 @@ export const POSTS: BlogPost[] = [
       },
       {
         type: 'p',
-        text: 'I built Kingdom Sites for Rochester-area owners who want the phone to ring without learning SEO or logging into five dashboards. One monthly fee covers the website, the Google listing, the search work, photos, and reviews. First month free while everything is built. No contract.',
+        text: 'Kingdom Sites main work is product ownership for custom software — for founders who keep shipping features. Websites and local search still get help when useful, scoped after a conversation, not as a fixed SEO plan menu.',
       },
       {
         type: 'p',
-        text: 'If you want an honest read on how your business shows up today against the ones winning jobs in Rochester, start with a free look — no obligation.',
+        text: 'If that sounds useful, email thomas@kingdom-sites.com — no obligation, just an honest conversation about what you need.',
       },
     ],
   },
@@ -454,7 +454,7 @@ export const POSTS: BlogPost[] = [
       },
       {
         type: 'p',
-        text: 'If you want the online half handled while you work the room, Kingdom Sites is built for that: monthly partnership, first month free while the site and listing go live, no long contract.',
+        text: 'If you want help with a website or local search while you work the room — or ownership of a custom product — email thomas@kingdom-sites.com. Scope after a conversation, not a self-serve funnel.',
       },
     ],
   },

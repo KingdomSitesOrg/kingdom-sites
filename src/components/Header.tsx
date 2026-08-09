@@ -10,26 +10,23 @@ const WORK_LINKS = [
   { to: '/my-work',       label: 'All my work',   desc: 'Everything I’ve designed and shipped' },
   { to: '/ruta',          label: 'Ruta',          desc: 'Software that runs landscaping companies' },
   { to: '/tap-to-tick',   label: 'Tap to Tick',   desc: 'A frictionless expense tracker for iPhone' },
-  { to: '/latin-game',    label: 'Latin practice game',desc: 'Classical Latin as a Roman quest' },
-  { to: '/ai-tooling',    label: 'AI tooling',    desc: 'Consultation for teams new to AI' },
+  { to: '/latin-game',    label: 'Latin practice game', desc: 'Classical Latin as a Roman quest' },
+  { to: '/ai-tooling',    label: 'AI tooling',    desc: 'AI wired into real products and workflows' },
 ]
 
-/* The local business side, shown in the menu under Grow My Business. */
-const GROW_LINKS = [
-  { to: '/',                       label: 'Overview',        desc: 'How I get a local business found and called' },
-  { to: '/local-business',         label: 'What you get',    desc: 'Everything covered, month by month' },
-  { to: '/local-business#pricing', label: 'Pricing',         desc: 'Three simple plans — pages, posts, SEO hours' },
-  { to: '/rochester-mn',           label: 'Rochester, MN',   desc: 'Local growth for businesses here at home' },
-  { to: '/blog',                   label: 'Blog',            desc: 'Local notes on clients, search and events' },
-  { to: '/get-started',            label: 'Free look',       desc: 'An honest read on how you show up today' },
+/* Product ownership offer — services + software surface. */
+const OWNERSHIP_LINKS = [
+  { to: '/#services', label: 'Ownership & pricing', desc: 'Retainers from ~$1,000/month — Focused, Full, Intensive' },
+  { to: '/software',  label: 'Custom products',     desc: 'Mobile-led software owned with you after launch' },
 ]
 
 const NAV_LINKS = [
-  { to: '/',         label: 'Grow My Business', children: GROW_LINKS },
-  { to: '/software', label: 'Custom Software' },
-  { to: '/my-work',  label: 'My Work', children: WORK_LINKS },
-  { to: '/about',    label: 'About' },
-  { to: '/mission',  label: 'Mission' },
+  { to: '/',            label: 'Home' },
+  { to: '/#services',   label: 'Ownership', children: OWNERSHIP_LINKS },
+  { to: '/ai-tooling',  label: 'AI' },
+  { to: '/my-work',     label: 'My Work', children: WORK_LINKS },
+  { to: '/about',       label: 'About' },
+  { to: '/mission',     label: 'Mission' },
 ]
 
 function ChevronIcon({ open }: { open: boolean }) {
@@ -108,14 +105,19 @@ export default function Header() {
     closeTimer.current = setTimeout(() => setOpenMenu(null), 140)
   }
 
-  const isActive = (path: string) => pathname === path
+  const isActive = (path: string) => {
+    const base = path.split('#')[0]
+    return pathname === base
+  }
 
   // A nav item with a menu stays highlighted while the visitor is on one of its
-  // pages — so My Work stays lit on a project, and Grow My Business on pricing.
+  // pages — so My Work stays lit on a project, and Ownership on software.
+  // Hash-only paths under `/` are not used as section roots (would light everything).
   const sectionActive = (children: { to: string }[]) =>
     children.some(({ to }) => {
       const base = to.split('#')[0]
-      return pathname === base || (base !== '/' && pathname?.startsWith(base + '/'))
+      if (base === '/') return false
+      return pathname === base || pathname?.startsWith(base + '/')
     })
 
   return (
@@ -230,7 +232,7 @@ export default function Header() {
               Prayer
               <ArrowOutIcon />
             </a>
-            <Link href="/get-started" className="btn-sm">Get a free look</Link>
+            <a href={CONTACT_MAILTO} className="btn-sm">Email me</a>
           </div>
 
           <button
@@ -269,7 +271,7 @@ export default function Header() {
                     {label}
                   </Link>
 
-                  {/* No hover on a phone, so the projects sit under My Work openly. */}
+                  {/* No hover on a phone, so child links sit under the parent openly. */}
                   {children && (
                     <div className="mb-1 ml-4 flex flex-col gap-0.5 border-l border-line pl-3">
                       {children
@@ -316,13 +318,13 @@ export default function Header() {
             </a>
 
             <div className="mt-3 border-t border-line pt-4">
-              <Link
-                href="/get-started"
+              <a
+                href={CONTACT_MAILTO}
                 onClick={() => setMenuOpen(false)}
                 className="btn-primary w-full"
               >
-                Free look at your business
-              </Link>
+                Talk about your product
+              </a>
               <p className="mt-3 text-center text-xs text-muted">
                 <a href={CONTACT_MAILTO}>{CONTACT_EMAIL}</a>
               </p>

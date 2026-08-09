@@ -1,16 +1,22 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import EvenGrid from '@/components/EvenGrid'
 import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
+import {
+  AI_PACKAGE,
+  AI_PRICE_LABEL,
+  ENTRY_PRICE_LABEL,
+} from '@/lib/partnership'
 
 export const metadata: Metadata = {
-  title: 'AI tooling consultation — leverage AI workflows',
+  title: 'AI package — tooling and implementation',
   description:
-    'Two kinds of help: AI workflows for business owners and busy people — email, to-dos, admin, content — and AI tooling for software teams, including instruction files, skills, agent loops, and custom tools.',
+    'Optional AI package for real products and workflows: free one-time consult (about 1–2 hours), then $199/month if you want ongoing work. You pay your own model and API costs. Works with product ownership retainers.',
   alternates: { canonical: '/ai-tooling' },
   openGraph: {
-    title: 'AI tooling consultation',
+    title: 'AI package — tooling and implementation',
     description:
-      'AI workflows for busy people, and AI tooling for software teams. Free up your time and produce better work.',
+      'Free one-time AI consult, optional $199/month package. AI wired into real products and workflows — not demos. Client pays model and API costs.',
     url: 'https://kingdom-sites.com/ai-tooling',
     siteName: 'Kingdom Sites',
     locale: 'en_US',
@@ -180,8 +186,8 @@ const EVERYDAY = [
   },
   {
     View: ContentView,
-    title: 'Marketing, content, and SEO',
-    desc: 'Campaigns, landing pages, and search research drawn from your own brand and past results — first drafts you can actually use, not generic filler.',
+    title: 'Marketing, content, and research',
+    desc: 'Campaigns, landing pages, and research drawn from your own brand and past results — first drafts you can actually use, not generic filler.',
   },
 ]
 
@@ -215,23 +221,8 @@ const HONEST = [
   'Anything irreversible stays behind a person confirming it.',
   'If a job is better done by ordinary software, I will tell you that instead.',
   'You keep everything I set up, and I show you how it works rather than keeping it to myself.',
+  AI_PACKAGE.apiNote,
 ]
-
-function CardGrid({ items }: { items: { View: () => React.ReactElement; title: string; desc: string }[] }) {
-  return (
-    <div className="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-5">
-      {items.map(({ View, title, desc }) => (
-        <div key={title} className="tile flex flex-col gap-4 p-7 sm:flex-row sm:items-start sm:gap-5">
-          <View />
-          <div>
-            <h3 className="text-base font-semibold tracking-tight text-ink">{title}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-body">{desc}</p>
-          </div>
-        </div>
-      ))}
-    </div>
-  )
-}
 
 export default function AiTooling() {
   return (
@@ -239,17 +230,91 @@ export default function AiTooling() {
       {/* Hero */}
       <section className="hero-wash px-5 pb-16 pt-16 sm:px-8 sm:pb-20 sm:pt-24">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="eyebrow eyebrow-blue">AI tooling consultation</p>
+          <p className="eyebrow eyebrow-blue">Capability #2 · Optional with ownership</p>
           <h1 className="mx-auto mt-5 max-w-3xl text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
             AI that does the work, <span className="text-accent">not just the talking.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-body sm:text-lg">
-            Learn how to leverage AI workflows to free up your time and produce more quality work.
+            {AI_PACKAGE.promise} This is the second core capability of Kingdom Sites — and it pairs
+            with product ownership retainers when AI is part of the product or how you operate.
           </p>
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <a href={CONTACT_MAILTO} className="btn-primary">Email me about your team</a>
-            <Link href="/my-work" className="btn-ghost">See what I&apos;ve shipped</Link>
+            <a href={CONTACT_MAILTO} className="btn-primary">
+              Email me about AI
+            </a>
+            <Link href="/#services" className="btn-ghost">
+              Product ownership on the home page
+            </Link>
           </div>
+        </div>
+      </section>
+
+      {/* Offer — free consult + package */}
+      <section aria-label="AI package offer" className="border-t border-line px-5 py-16 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="max-w-2xl">
+            <p className="eyebrow eyebrow-blue">{AI_PACKAGE.tagline}</p>
+            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+              Free consult. Optional package.
+            </h2>
+            <p className="mt-4 text-[15px] leading-relaxed text-body sm:text-base">
+              Start with a free, one-time conversation. Continue only if ongoing AI work is worth it
+              for your situation — including as an add-on on any ownership tier.
+            </p>
+          </div>
+
+          <EvenGrid surface="ai-package-offer" maxCols={2} className="mt-12">
+            <div className="tile-elevated flex flex-col p-7 sm:p-9">
+              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-warm">Start here</p>
+              <h3 className="mt-2 text-2xl font-semibold tracking-tight text-ink">
+                Free one-time consult
+              </h3>
+              <p className="mt-1 text-sm font-medium text-muted">About 1–2 hours · no charge</p>
+              <p className="mt-4 flex-1 text-[15px] leading-relaxed text-body">
+                {AI_PACKAGE.freeConsult} We look at your product or workflows and decide what is
+                worth building — or whether ordinary software is the better answer.
+              </p>
+              <a href={CONTACT_MAILTO} className="btn-primary mt-7 w-full sm:w-auto">
+                Book the free consult by email
+              </a>
+            </div>
+
+            <div className="tile-elevated flex flex-col border-2 border-accent p-7 sm:p-9">
+              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-warm">
+                If you want ongoing work
+              </p>
+              <h3 className="mt-2 text-2xl font-semibold tracking-tight text-ink">
+                {AI_PACKAGE.name}
+              </h3>
+              <p className="mt-1 text-3xl font-semibold tracking-tight text-ink">
+                {AI_PRICE_LABEL}
+                <span className="text-base font-medium text-muted">/month</span>
+              </p>
+              <p className="mt-4 flex-1 text-[15px] leading-relaxed text-body">
+                Optional on any product ownership tier. Implementation and tooling wired into real
+                products and workflows — not demos.
+              </p>
+              <ul className="mt-5 space-y-2.5 border-t border-line pt-5">
+                {AI_PACKAGE.features.map((f) => (
+                  <li key={f} className="flex gap-3 text-sm leading-relaxed text-body">
+                    <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
+                    <span>{f}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-5 text-[13px] leading-relaxed text-muted">
+                <span className="text-accent">*</span> {AI_PACKAGE.apiNote}
+              </p>
+            </div>
+          </EvenGrid>
+
+          <p className="mt-8 max-w-2xl text-sm leading-relaxed text-body">
+            Main business is product ownership (from {ENTRY_PRICE_LABEL}/month). AI is optional on
+            top — or a focused conversation if you only need help leveraging AI right now.{' '}
+            <Link href="/software" className="link-accent">
+              How product ownership works <span aria-hidden="true">›</span>
+            </Link>
+          </p>
         </div>
       </section>
 
@@ -257,36 +322,56 @@ export default function AiTooling() {
       <section aria-label="AI for your everyday work" className="border-t border-line px-5 py-16 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-6xl">
           <div className="max-w-2xl">
-            <p className="eyebrow eyebrow-blue">One</p>
+            <p className="eyebrow eyebrow-blue">In your work week</p>
             <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
               AI for your everyday work.
             </h2>
             <p className="mt-4 text-[15px] leading-relaxed text-body sm:text-base">
-              For business owners and anyone with a full week. No code involved — we sit down with
-              the work you actually do and get AI carrying a real part of it.
+              For founders and operators with a full week. No code required — we sit down with the
+              work you actually do and get AI carrying a real part of it.
             </p>
           </div>
 
-          <CardGrid items={EVERYDAY} />
+          <EvenGrid surface="ai-everyday" maxCols={2} className="mt-10">
+            {EVERYDAY.map(({ View, title, desc }) => (
+              <div key={title} className="tile flex flex-col gap-4 p-7 sm:flex-row sm:items-start sm:gap-5">
+                <View />
+                <div>
+                  <h3 className="text-base font-semibold tracking-tight text-ink">{title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-body">{desc}</p>
+                </div>
+              </div>
+            ))}
+          </EvenGrid>
         </div>
       </section>
 
-      {/* Two: software teams */}
-      <section aria-label="AI tooling for software teams" className="border-t border-line px-5 py-16 sm:px-8 sm:py-24">
+      {/* Two: software / product */}
+      <section aria-label="AI in products and engineering" className="border-t border-line px-5 py-16 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-6xl">
           <div className="max-w-2xl">
-            <p className="eyebrow eyebrow-blue">Two</p>
+            <p className="eyebrow eyebrow-blue">In the product</p>
             <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-              AI tooling for software teams.
+              AI in products and engineering teams.
             </h2>
             <p className="mt-4 text-[15px] leading-relaxed text-body sm:text-base">
               The deeper end, and where most of my own time goes: instruction files, packaged
-              procedures, custom tools, and agents that carry real work in your repository. You keep
-              all of it — it lives in your codebase, not in an account I control.
+              procedures, custom tools, and agents that carry real work in your repository or product.
+              You keep all of it — it lives in your codebase, not in an account I control.
             </p>
           </div>
 
-          <CardGrid items={SOFTWARE} />
+          <EvenGrid surface="ai-software" maxCols={2} className="mt-10">
+            {SOFTWARE.map(({ View, title, desc }) => (
+              <div key={title} className="tile flex flex-col gap-4 p-7 sm:flex-row sm:items-start sm:gap-5">
+                <View />
+                <div>
+                  <h3 className="text-base font-semibold tracking-tight text-ink">{title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-body">{desc}</p>
+                </div>
+              </div>
+            ))}
+          </EvenGrid>
 
           <div className="tile mt-5 p-7 sm:p-9">
             <h3 className="text-lg font-semibold tracking-tight text-ink">What I will tell you straight</h3>
@@ -299,7 +384,6 @@ export default function AiTooling() {
               ))}
             </ul>
           </div>
-
         </div>
       </section>
 
@@ -307,19 +391,28 @@ export default function AiTooling() {
       <section aria-label="Contact" className="border-t border-line px-5 py-16 text-center sm:px-8 sm:py-24">
         <div className="mx-auto max-w-3xl">
           <h2 className="text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-            Want to get set up <span className="text-accent">properly?</span>
+            Start with the free consult — <span className="text-accent">or ownership first.</span>
           </h2>
-          <div className="mt-8">
-            <a href={CONTACT_MAILTO} className="btn-primary">Email me</a>
-            <p className="mt-3 text-sm text-muted">
-              <a href={CONTACT_MAILTO} className="link-accent font-medium">{CONTACT_EMAIL}</a>
-            </p>
+          <p className="mx-auto mt-5 max-w-xl text-pretty text-[15px] leading-relaxed text-body">
+            {AI_PACKAGE.freeConsult} If you need a product owner who ships features every month,
+            that is the main offer — AI is optional on any tier.
+          </p>
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <a href={CONTACT_MAILTO} className="btn-primary">
+              Email me about AI
+            </a>
+            <Link href="/#services" className="btn-ghost">
+              See ownership retainers
+            </Link>
           </div>
-
-          <p className="mx-auto mt-10 max-w-xl text-[13px] leading-relaxed text-muted">
-            Consultation hourly fee: $75/hr, booked in two-hour blocks — over your choice of Zoom,
-            Google Meet, FaceTime, or whatever you already use. Build work is scoped and quoted per
-            project instead.
+          <p className="mt-4 text-sm text-muted">
+            <a href={CONTACT_MAILTO} className="link-accent font-medium">
+              {CONTACT_EMAIL}
+            </a>
+          </p>
+          <p className="mx-auto mt-8 max-w-xl text-[13px] leading-relaxed text-muted">
+            <span className="text-accent">*</span> {AI_PACKAGE.apiNote} Package is{' '}
+            {AI_PRICE_LABEL}/month for my work.
           </p>
         </div>
       </section>

@@ -375,14 +375,18 @@ export default function Ruta() {
       <section aria-label="Contact" className="border-t border-line px-5 py-16 text-center sm:px-8 sm:py-20">
         <div className="mx-auto max-w-3xl">
           <h2 className="text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-            Have software that needs <span className={GREEN}>another pair of hands?</span>
+            Need product ownership <span className={GREEN}>like this?</span>
           </h2>
+          <p className="mx-auto mt-4 max-w-xl text-pretty text-[15px] leading-relaxed text-body">
+            Ruta is proof of depth — not a product Kingdom Sites sells. Hire me to own your custom
+            product the same way.
+          </p>
           <div className="mt-9">
             <a
               href={CONTACT_MAILTO}
               className="inline-flex min-h-[44px] items-center justify-center rounded-full bg-[#15803d] px-7 py-3 text-[15px] font-medium text-white transition-colors hover:bg-[#166534]"
             >
-              Email me
+              Email me about product ownership
             </a>
             <p className="mt-3 text-sm text-muted">
               <a href={CONTACT_MAILTO} className={`font-medium ${GREEN} hover:underline hover:underline-offset-4`}>
@@ -392,7 +396,11 @@ export default function Ruta() {
           </div>
           <p className="mt-8 text-sm text-body">
             <Link href="/my-work" className={`font-medium ${GREEN} hover:underline hover:underline-offset-4`}>
-              See my other work
+              Proof portfolio
+            </Link>
+            {' · '}
+            <Link href="/#services" className={`font-medium ${GREEN} hover:underline hover:underline-offset-4`}>
+              Ownership pricing
             </Link>
           </p>
         </div>

@@ -5,18 +5,17 @@ const FACEBOOK_URL = 'https://www.facebook.com/share/1EzdtfSCs3/?mibextid=wwXIfr
 const YOUTUBE_URL = 'https://www.youtube.com/@tkklein/videos'
 
 const PAGE_LINKS = [
-  { href: '/',               label: 'Home' },
-    { href: '/software',       label: 'Custom Software' },
-  { href: '/local-business', label: 'What I Do' },
-  { href: '/local-business#pricing', label: 'Pricing' },
-  { href: '/rochester-mn',   label: 'Rochester, MN' },
-  { href: '/blog',           label: 'Blog' },
-  { href: '/get-started',    label: 'Free Look' },
-  { href: '/my-work',        label: 'My Work' },
-  { href: '/about',          label: 'About' },
-  { href: '/mission',        label: 'Mission' },
-  { href: '/privacy',        label: 'Privacy Policy' },
-  { href: '/terms',          label: 'Terms' },
+  { href: '/', label: 'Home' },
+  { href: '/#services', label: 'Ownership' },
+  { href: '/software', label: 'Custom Software' },
+  { href: '/my-work', label: 'My Work' },
+  { href: '/ai-tooling', label: 'AI tooling' },
+  { href: '/seo', label: 'Websites & SEO' },
+  { href: '/about', label: 'About' },
+  { href: '/mission', label: 'Mission' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/privacy', label: 'Privacy Policy' },
+  { href: '/terms', label: 'Terms' },
 ]
 
 export default function Footer() {
@@ -26,15 +25,20 @@ export default function Footer() {
         <div className="grid gap-10 sm:grid-cols-2 sm:items-start">
           <div>
             <p className="text-xl font-semibold tracking-tight text-white sm:text-2xl">
-              Want more calls coming in?
+              Building a product that needs an owner?
             </p>
             <p className="mt-2 max-w-sm text-sm leading-relaxed text-white/65">
-              Start with a free, honest look at how your business shows up online. I read every
-              message myself and reply within a day.
+              Product ownership retainers for custom software — email me about what you are
+              shipping. I read every message myself.
             </p>
             <div className="mt-6 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-5">
-              <Link href="/get-started" className="btn-primary">Get my free look</Link>
-              <a href={CONTACT_MAILTO} className="text-sm text-white/75 underline underline-offset-4 hover:text-white">
+              <a href={CONTACT_MAILTO} className="btn-primary">
+                Email about your product
+              </a>
+              <a
+                href={CONTACT_MAILTO}
+                className="text-sm text-white/75 underline underline-offset-4 hover:text-white"
+              >
                 {CONTACT_EMAIL}
               </a>
             </div>
@@ -106,9 +110,8 @@ export default function Footer() {
 
         <div className="mt-12 border-t border-white/12 pt-6">
           <p className="text-xs leading-relaxed text-white/45">
-            Kingdom Sites — websites, Google listings, and local search for small service
-            businesses, for one monthly fee. Copyright © {new Date().getFullYear()} Kingdom Sites.
-            All rights reserved.
+            Kingdom Sites — product ownership for custom software. Copyright ©{' '}
+            {new Date().getFullYear()} Kingdom Sites. All rights reserved.
           </p>
         </div>
       </div>

@@ -3,11 +3,12 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import aboutImage from '../../../public/Photos/about.jpg'
 import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
+import { ENTRY_PRICE_LABEL } from '@/lib/partnership'
 
 export const metadata: Metadata = {
   title: 'About — Kingdom Sites',
   description:
-    'Meet Thomas Klein — the software engineer behind Kingdom Sites, working with small service businesses as a long-term partner rather than a one-off website vendor.',
+    'Thomas Klein — software engineer and product ownership partner for founders and product owners. Shipped proof: Ruta, Jam with Latin, and Tap to Tick.',
   alternates: { canonical: '/about' },
 }
 
@@ -36,53 +37,44 @@ export default function About() {
             A little bit <span className="text-accent">about us.</span>
           </h1>
           <p className="mt-5 text-pretty text-base leading-relaxed text-body sm:text-lg">
-            My name is Thomas Klein — a software engineer who would rather work with a handful of
-            small business owners for years than sell a hundred websites once. Most of the people I
-            work with run service businesses: pressure washing, window cleaning, landscaping. They
-            are excellent at the job and were never meant to spend their evenings fighting with
-            Google.
+            My name is Thomas Klein — a software engineer and product ownership partner for product
+            owners and business founders. I would rather own a handful of custom products with you
+            for years than ship a one-off project and disappear after launch.
           </p>
           <p className="mt-4 text-pretty text-[15px] leading-relaxed text-body sm:text-base">
-            I have worked behind the counter at a local bike shop here in Rochester, so I know what
-            running a small business actually looks like from the inside — thin margins, long days,
-            and no spare hour for working out what Google wants from you.
+            The work is mobile-led software people actually use, plus the systems and AI that make it
+            real. When you email, you get the person who builds it.
           </p>
           <p className="mt-4 text-pretty text-[15px] leading-relaxed text-body sm:text-base">
-            My wife Monisha and I take on a small number of these partnerships at a time, on purpose.
-            When you call, you get the person who built it.
-          </p>
-          <p className="mt-4 text-pretty text-[15px] leading-relaxed text-body sm:text-base">
-            We are currently in the Philippines at IGSL — the International Graduate School of
-            Leadership — training in biblical studies and discipleship. Client work carries on from
-            here, on the same timelines as always.
+            My wife Monisha and I take on a small number of ownership relationships at a time, on
+            purpose. We are currently in the Philippines at IGSL — the International Graduate School
+            of Leadership — training in biblical studies and discipleship. Client work carries on
+            from here, on the same timelines as always.
           </p>
 
           <div className="mt-8 grid gap-4">
             <div className="tile p-6">
-              <h2 className="text-sm font-semibold tracking-tight text-ink">What I actually do for you</h2>
+              <h2 className="text-sm font-semibold tracking-tight text-ink">
+                Product ownership, not a handoff
+              </h2>
               <p className="mt-2 text-sm leading-relaxed text-body">
-                {'Everything that gets a local business found and called: the website, the Google listing, the local search work, the photos, the reviews. One monthly fee, no build cost, and changes whenever you need them. '}
-                <Link href="/local-business" className="link-accent">
-                  See what is included <span aria-hidden="true">›</span>
+                A retainer relationship: roadmap with you, design, build, release, support. Month to
+                month is fine; prepay discounts if you want them. From about {ENTRY_PRICE_LABEL}/month
+                after a call places your product on Focused, Full, or Intensive.{' '}
+                <Link href="/#services" className="link-accent">
+                  How ownership works <span aria-hidden="true">›</span>
                 </Link>
               </p>
             </div>
 
             <div className="tile p-6">
-              <h2 className="text-sm font-semibold tracking-tight text-ink">A partner, not a vendor</h2>
+              <h2 className="text-sm font-semibold tracking-tight text-ink">Shipped proof</h2>
               <p className="mt-2 text-sm leading-relaxed text-body">
-                {'A website handed over on launch day and never touched again is worth almost nothing — and it is what most owners have already paid for once. I would rather be the person still working on your business in year three, paid a little each month, with every reason to keep your phone ringing.'}
-              </p>
-            </div>
-
-            <div className="tile p-6">
-              <h2 className="text-sm font-semibold tracking-tight text-ink">
-                I build serious software too
-              </h2>
-              <p className="mt-2 text-sm leading-relaxed text-body">
-                {'Alongside this I build real products — including Ruta, the platform a landscaping company runs its whole operation on, and apps on the App Store. It is why I understand your trade, and why the technical side of your site is in good hands. '}
+                Ruta (service-management platform — web, mobile, AI), Jam with Latin (mobile learning
+                product on a retainer), and Tap to Tick (personal iOS expense app). Proof of how I
+                work — not products Kingdom Sites sells off the shelf.{' '}
                 <Link href="/my-work" className="link-accent">
-                  My work <span aria-hidden="true">›</span>
+                  Proof portfolio <span aria-hidden="true">›</span>
                 </Link>
               </p>
             </div>
@@ -91,7 +83,7 @@ export default function About() {
               <h2 className="text-sm font-semibold tracking-tight text-ink">Free websites for ministries</h2>
               <p className="mt-2 text-sm leading-relaxed text-body">
                 Ministries, missionaries raising support, and churches get the site built for free
-                <span className="align-super text-[0.6em] text-accent">*</span> — the same work a
+                <span className="align-super text-[0.6em] text-accent">*</span> — the same care a
                 paying client gets. It is one of the ways this business goes toward the advance of
                 the gospel.{' '}
                 <Link href="/mission" className="link-accent">
@@ -106,14 +98,23 @@ export default function About() {
             </div>
 
             <div className="mt-2">
-              <Link href="/get-started" className="btn-primary">
-                Get a free look at your business
-              </Link>
+              <a href={CONTACT_MAILTO} className="btn-primary">
+                Email me about product ownership
+              </a>
               <p className="mt-4 text-sm text-body">
-                {'Or just email me — '}
+                {'Or write directly — '}
                 <a href={CONTACT_MAILTO} className="link-accent">
                   {CONTACT_EMAIL}
                 </a>
+              </p>
+              <p className="mt-3 text-sm text-muted">
+                <Link href="/software" className="underline underline-offset-4">
+                  Custom product ownership
+                </Link>
+                {' · '}
+                <Link href="/#services" className="underline underline-offset-4">
+                  Pricing
+                </Link>
               </p>
             </div>
           </div>

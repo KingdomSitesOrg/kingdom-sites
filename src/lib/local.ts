@@ -1,7 +1,7 @@
 /**
- * Rochester, MN is the home market for Kingdom Sites local-business work.
- * Used in structured data, meta tags, blog defaults, and the Rochester hub page.
- * This is SEO geo-targeting (where the business serves) — not GPS ad geofencing.
+ * Rochester, MN geo helpers (blog, schema where still used).
+ * Local SEO is no longer the main product — see /seo for the quiet side page.
+ * This is place naming for content/geo meta — not a commercial funnel.
  */
 
 export const SERVICE_CITY = 'Rochester'

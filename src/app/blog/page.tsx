@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { getAllPosts, formatPostDate } from '@/lib/blog'
+import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
 import { SERVICE_AREA_LABEL } from '@/lib/local'
 
 export const metadata: Metadata = {
@@ -71,15 +72,25 @@ export default function BlogIndex() {
 
         <div className="tile-elevated mx-auto mt-14 max-w-3xl px-6 py-10 text-center sm:px-10">
           <h2 className="text-balance text-2xl font-semibold tracking-tight text-ink">
-            Want this done for your business?
+            Building a product that needs an owner?
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-pretty text-[15px] leading-relaxed text-body">
-            Free look at how you show up in Rochester search — website, Google listing, and who is
-            above you today.
+            Main work is product ownership for custom software. For a simple website or local
+            search help, email works — scoped after a conversation.
           </p>
-          <Link href="/get-started" className="btn-primary mt-6 inline-flex">
-            Get my free look
-          </Link>
+          <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+            <a href={CONTACT_MAILTO} className="btn-primary">
+              Email me
+            </a>
+            <Link href="/#services" className="link-accent text-sm">
+              See product ownership
+            </Link>
+          </div>
+          <p className="mt-4 text-sm text-body">
+            <a href={CONTACT_MAILTO} className="link-accent">
+              {CONTACT_EMAIL}
+            </a>
+          </p>
         </div>
       </section>
     </div>

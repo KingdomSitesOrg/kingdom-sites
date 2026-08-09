@@ -8,7 +8,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { GA_MEASUREMENT_ID, isGaEnabled } from "@/lib/analytics";
 import {
   AREA_SERVED,
-  LOCAL_KEYWORDS,
   SERVICE_CITY,
   SERVICE_LAT,
   SERVICE_LNG,
@@ -19,11 +18,11 @@ import {
 const inter = Inter({ subsets: ["latin"] });
 
 const DESCRIPTION =
-  "Websites, Google listings and local search for small businesses — get more clients, get found on Google, one monthly fee, first month free, cancel any time.";
+  "Product ownership retainers for custom, mobile-led software. One engineer owns your product with you — roadmap, build, ship, and care. For product owners and founders. From ~$1,000/month.";
 
 export const metadata: Metadata = {
   title: {
-    default: "Kingdom Sites — grow your local business",
+    default: "Kingdom Sites — product ownership for custom software",
     template: "%s | Kingdom Sites",
   },
   description: DESCRIPTION,
@@ -33,23 +32,22 @@ export const metadata: Metadata = {
      engines that pages like /about and /my-work were the home page and had
      them dropped as duplicates. Each page declares its own instead. */
   keywords: [
-    "local business website",
-    "small business website",
-    "pressure washing website",
-    "window cleaning website",
-    "landscaping website",
-    "home services marketing",
-    "local SEO",
-    "Google Business Profile",
-    "get more leads",
-    "get more clients",
-    "grow local business",
-    "find customers",
-    "monthly website service",
-    ...LOCAL_KEYWORDS,
+    "product ownership retainer",
+    "custom software development",
+    "mobile app development",
+    "product engineer retainer",
+    "fractional CTO",
+    "custom product development",
+    "software for founders",
+    "AI tooling",
+    "ongoing product development",
+    "software ownership",
+    "custom mobile products",
+    SERVICE_CITY,
+    SERVICE_REGION,
   ],
   openGraph: {
-    title: "Kingdom Sites — grow your local business",
+    title: "Kingdom Sites — product ownership for custom software",
     description: DESCRIPTION,
     url: "https://kingdom-sites.com",
     siteName: "Kingdom Sites",
@@ -58,7 +56,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kingdom Sites — grow your local business",
+    title: "Kingdom Sites — product ownership for custom software",
     description: DESCRIPTION,
   },
   robots: {
@@ -89,27 +87,22 @@ const STRUCTURED_DATA = {
   email: "thomas@kingdom-sites.com",
   founder: { "@type": "Person", name: "Thomas Klein" },
   serviceType: [
-    "Website design and hosting",
-    "Local SEO",
-    "Google Business Profile management",
-    "Small business marketing",
+    "Product ownership retainers",
+    "Custom software development",
+    "Mobile product development",
+    "AI tooling and implementation",
   ],
   areaServed: AREA_SERVED,
   knowsAbout: [
-    "Local SEO",
-    "Google Business Profile",
-    "Getting more clients",
-    "Growing a local business",
-    `${SERVICE_CITY} ${SERVICE_REGION} small business marketing`,
+    "Product ownership",
+    "Custom mobile software",
+    "Software product development",
+    "AI tooling",
+    "Ongoing product engineering for founders",
   ],
   audience: {
     "@type": "BusinessAudience",
-    name: "Local home service and small businesses",
-    geographicArea: {
-      "@type": "City",
-      name: SERVICE_CITY,
-      containedInPlace: { "@type": "State", name: SERVICE_REGION },
-    },
+    name: "Product owners and business founders",
   },
 };
 

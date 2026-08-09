@@ -1,266 +1,280 @@
 /**
- * The offer, in one place.
+ * The commercial offer, in one place.
  *
- * Plans stay simple on purpose: pages, blog posts, and hours of SEO each month.
- * Foundation = exist properly. Growth ≈ 50–60% more of the same work.
- * Everything = partner-level: weekly posts, unlimited changes, real SEO time.
+ * Product ownership retainers for custom products (mobile-led proof)
+ * for product owners and business founders. Complexity tiers assigned
+ * after a call. Optional AI package. Quiet SEO page exists separately.
+ *
+ * No long-term commitment. Prepay discounts for 6 months or 1 year.
+ * Two months’ notice to end. See grill-me session decisions.
  */
 
-/** Two months free when a year is paid up front — the price of ten months. */
-export const ANNUAL_MONTHS_CHARGED = 10
+import { CONTACT_MAILTO } from './contact'
 
-/** The first month costs nothing — it is the month everything gets built and
-    put live. Said the same way everywhere it appears. */
-export const FIRST_MONTH_FREE_SHORT = 'First month free'
-export const FIRST_MONTH_FREE_LONG =
-  'Your first month is free. That is the month I build the site, set up your Google listing and put the whole thing live — so you have seen it, used it and shown it to your wife before a single dollar leaves your account.'
+/* ─── Pricing ───────────────────────────────────────────────────────────── */
 
-/** The one line that keeps "unlimited" honest. */
-export const UNLIMITED_NOTE =
-  'Unlimited means what it says — ask and it gets done. It stops being reasonable when it turns into a second full-time job: a complete rebrand, a brand new site every month, or work for a different business you own. If we ever get near that line I will say so plainly, before doing anything about it.'
-
-export type Tier = {
-  id: string
+/** Typical monthly averages — final band is assigned after a conversation. */
+export type ComplexityTier = {
+  id: 'focused' | 'full' | 'intensive'
   name: string
-  price: number
+  /** Typical monthly average in USD (before prepay discount). */
+  priceAround: number
   tagline: string
   bestFor: string
-  /** Shown as the headline promise for the plan. */
   promise: string
+  example: string
   features: string[]
-  /** What this plan honestly does not do. Empty on the top plan. */
-  limits: string[]
   featured?: boolean
 }
 
-export const TIERS: Tier[] = [
+export const TIERS: ComplexityTier[] = [
   {
-    id: 'foundation',
-    name: 'Foundation',
-    price: 299,
-    tagline: 'Exist properly',
-    bestFor: 'A business with no website, or one that has gone stale.',
-    promise: 'A clean site, a proper Google listing, and steady monthly work so you stay present.',
+    id: 'focused',
+    name: 'Focused',
+    priceAround: 1000,
+    tagline: 'One clear product',
+    bestFor: 'A single product surface with a steady feature flow and limited roles or integrations.',
+    promise: 'I own your product end-to-end: next features, bug fixes, releases, and ongoing care.',
+    example: 'Single-purpose mobile product with a clear workflow (e.g. a learning app).',
     features: [
-      'Website built free — up to 4 pages, live in about two weeks',
-      'Hosting, domain, security and backups handled',
-      'Google listing set up the right way',
-      'Initial search setup so you show up correctly',
-      '1 blog post a month',
-      '1 hour a month of SEO',
-      'Small updates when you need them (prices, photos, typos)',
-    ],
-    limits: [
-      'Steady presence — not a full ranking push every month',
+      'Product ownership — roadmap, build, ship, fix',
+      'Mobile-led custom product work',
+      'Ongoing features and improvements',
+      'You talk to the person who builds it',
     ],
   },
   {
-    id: 'growth',
-    name: 'Growth',
-    price: 599,
-    tagline: 'Get found',
-    bestFor: 'A business that wants the phone to ring more than it does now.',
-    promise: 'More pages, more posts, more SEO time — this is where search results start to move.',
+    id: 'full',
+    name: 'Full',
+    priceAround: 2000,
+    tagline: 'Real product depth',
+    bestFor: 'Deeper product work: more roles, data, integrations, or a supporting surface alongside the app.',
+    promise: 'Same ownership relationship at the capacity a growing product actually needs.',
+    example: 'Business product with real ops behind the phone — multiple user types, serious backend.',
     featured: true,
     features: [
-      'Everything in Foundation',
-      'Up to 9 pages — room for your main services and towns',
-      '2 blog posts a month',
-      'About 2 hours a month of SEO',
-      'Google listing kept active (posts and job photos)',
-      'More updates each month when something changes',
-      'A short monthly note on what we did and what is next',
+      'Everything in Focused',
+      'Multi-role workflows and deeper data',
+      'Integrations and supporting systems as needed',
+      'Higher monthly build capacity',
     ],
-    limits: ['Paid ads are separate if you want them later'],
   },
   {
-    id: 'everything',
-    name: 'Everything',
-    price: 999,
-    tagline: 'Business partner',
-    bestFor: 'A business that wants a real partner on growth — not a set-and-forget site.',
-    promise: 'Unlimited* changes, weekly content, and serious monthly SEO time until you are the obvious call.',
+    id: 'intensive',
+    name: 'Intensive',
+    priceAround: 3000,
+    tagline: 'High complexity or velocity',
+    bestFor: 'Platforms, multi-surface products, aggressive feature load, or AI as a core part of the product.',
+    promise: 'Senior ownership of a demanding product surface — continuous shipping at platform depth.',
+    example: 'Multi-surface platform with shared data and AI in the product (Ruta-shaped).',
     features: [
-      'Everything in Growth — treated as a partnership, not a ticket queue',
-      'Unlimited* pages as your market needs them',
-      '1 to 2 blog posts a week',
-      '2 to 3 hours a month on search and optimization',
-      'Unlimited* changes — text me, it gets done',
-      'Strategy check-in every month',
-      'My number — you talk to me, not a helpdesk',
+      'Everything in Full',
+      'Multi-surface / platform depth',
+      'High change velocity and complex systems',
+      'AI in the product when that is the work',
     ],
-    limits: [],
   },
 ]
 
-/** Twelve months for the price of ten. */
-export function annualPrice(tier: Tier) {
-  return tier.price * ANNUAL_MONTHS_CHARGED
+/** Scorecard used on the call (also summarized on the site). */
+export const COMPLEXITY_FACTORS = [
+  { title: 'Users and roles', desc: 'One role vs crew, office, customer, and more.' },
+  { title: 'Data and workflows', desc: 'Simple log vs money, scheduling, offline field work.' },
+  { title: 'Integrations', desc: 'None vs payments, maps, identity, third-party APIs.' },
+  { title: 'Release pressure', desc: 'Occasional ships vs a continuous feature pipeline.' },
+  { title: 'AI in product or ops', desc: 'None, light assist, or core to how the product works.' },
+  { title: 'Surfaces', desc: 'A factor — single app can still be Full or Intensive.' },
+]
+
+export const ENTRY_PRICE_AROUND = TIERS[0].priceAround
+export const ENTRY_PRICE_LABEL = `~$${ENTRY_PRICE_AROUND.toLocaleString()}`
+
+/** Prepay discounts — no commitment required to start month-to-month. */
+export const PREPAY_SIX_MONTHS_OFF = 0.1
+export const PREPAY_YEAR_OFF = 0.2
+
+export const PREPAY_OPTIONS = [
+  {
+    id: 'monthly' as const,
+    label: 'Month to month',
+    discount: 0,
+    blurb: 'Start anytime. Two months’ notice to end.',
+  },
+  {
+    id: 'six' as const,
+    label: 'Pay 6 months ahead',
+    discount: PREPAY_SIX_MONTHS_OFF,
+    blurb: '10% off the typical monthly rate.',
+  },
+  {
+    id: 'year' as const,
+    label: 'Pay 1 year ahead',
+    discount: PREPAY_YEAR_OFF,
+    blurb: '20% off the typical monthly rate.',
+  },
+]
+
+export function prepaidMonthlyEquivalent(priceAround: number, discount: number) {
+  return Math.round(priceAround * (1 - discount))
 }
 
-/** The cheapest way in — used wherever the site says "from $X". */
-export const ENTRY_PRICE_LABEL = `$${TIERS[0].price}`
+export function sixMonthTotal(priceAround: number) {
+  return prepaidMonthlyEquivalent(priceAround, PREPAY_SIX_MONTHS_OFF) * 6
+}
 
-/** What every plan covers, at the level an owner cares about.
- *  Keep this list even (2 / 4 / 6) so card grids never leave an orphan tile.
- *  See /squareup and EvenGrid. */
-export const PILLARS = [
+export function yearTotal(priceAround: number) {
+  return prepaidMonthlyEquivalent(priceAround, PREPAY_YEAR_OFF) * 12
+}
+
+/** Notice period once engaged. */
+export const NOTICE_MONTHS = 2
+export const NOTICE_LINE =
+  'Two months’ notice to change tier or end the engagement. No long-term lock-in.'
+
+export const PREPAY_LINE =
+  'No commitment required. Pay six months ahead for 10% off, or a year ahead for 20% off.'
+
+export const PRICING_ASTERISK =
+  'Figures are typical averages. After a short call I place your product on Focused, Full, or Intensive from complexity — not a self-serve menu.'
+
+/* ─── AI package ────────────────────────────────────────────────────────── */
+
+export const AI_PACKAGE = {
+  priceMonthly: 199,
+  name: 'AI package',
+  tagline: 'Optional add-on',
+  promise:
+    'AI tooling and implementation wired into real products and workflows — not demos.',
+  freeConsult:
+    'One free consultation (about one to two hours) on how to leverage AI for your situation.',
+  apiNote:
+    'You pay your own model and API costs. The package covers my work; usage fees stay with you.',
+  features: [
+    'AI in your product or internal tooling',
+    'Grounded in your data where that is the job',
+    'Person-in-the-loop for irreversible actions',
+    'Optional on any ownership tier',
+  ],
+}
+
+export const AI_PRICE_LABEL = `$${AI_PACKAGE.priceMonthly}`
+
+/* ─── Positioning ───────────────────────────────────────────────────────── */
+
+export const HERO = {
+  eyebrow: 'Product ownership retainers',
+  titleLead: 'Custom products',
+  titleAccent: 'owned with you.',
+  sub:
+    'For product owners and business founders who have a long list of features and growth ahead — mobile-led software people actually use, with one person who owns the product after launch, not a project that ends.',
+  ctaPrimary: 'Email me about your product',
+  ctaPrimaryHref: CONTACT_MAILTO,
+  ctaSecondary: 'See how ownership works',
+  ctaSecondaryHref: '#services',
+  priceHint: `Ownership from ${ENTRY_PRICE_LABEL}/month · AI from ${AI_PRICE_LABEL}/month`,
+}
+
+export const OWNERSHIP_PILLARS = [
   {
-    title: 'A website built for one job: the phone ringing',
-    desc: 'Your services, your area, your prices if you want them shown, and an obvious way to call or ask for a quote on every screen. Fast on a phone, because that is where nearly every customer will find you.',
+    title: 'You keep shipping',
+    desc: 'Lots of ideas, lots of features, real growth. I am the person who builds the next thing and fixes what breaks — every month, not only until launch day.',
   },
   {
-    title: 'Your Google listing sorted out',
-    desc: 'Claimed, filled in properly, categories and service areas right, hours correct, photos posted, questions answered. For most local businesses this is the single biggest thing being left on the table.',
+    title: 'I own the surface',
+    desc: 'Roadmap with you, design, build, release, support. You are not managing freelancers or a ticket queue. You have a product partner.',
   },
   {
-    title: 'Getting found for what people actually search',
-    desc: 'The words people type when they need you — the service plus the town — worked into real pages, one per service and one per area. This is the part that compounds month after month.',
+    title: 'Mobile-led, systems included',
+    desc: 'The proof is apps people use on a phone. The work includes what makes them real — backend, web console, data, and AI when that is the job.',
   },
   {
-    title: 'Reviews, and a person who answers',
-    desc: 'A way to ask for a review while the customer is still happy — plus no ticket system when you need a change. You text the person who built it, and it gets done.',
+    title: 'Built for operators and founders',
+    desc: 'Internal tools, field apps, customer products that extend capability or save time. Not brochure sites. Not “anyone can make an app.”',
   },
 ]
 
-/** Why pages and posts are worth paying for. Almost nobody buying this
-    understands what a blog post has to do with the phone ringing, and a plan
-    that sells "4 posts a month" without explaining it sounds like padding. */
-/** Four points — even grid on home (2×2) and a clean stack on local-business. */
-export const SEO_EXPLAINER = [
-  {
-    title: 'Google can only show what you have given it',
-    desc: 'A thin site tells Google almost nothing. Real pages for what you do and where you work give it something to match when someone types a search. That is why page count on each plan matters.',
-  },
-  {
-    title: 'People search in questions, not keywords',
-    desc: 'Nobody types "pressure washing". They type "how much to pressure wash a driveway" or "will soft washing damage vinyl siding". A blog post is simply you answering that exact question — and the business that answered it is the one whose number they end up calling.',
-  },
-  {
-    title: 'A post you wrote in March is still working in December',
-    desc: 'This is the part that separates it from advertising. Ads stop the day you stop paying. A page that ranks keeps bringing calls for years, which is why the work compounds and why month eighteen is worth more than month two.',
-  },
-  {
-    title: 'Active businesses rank; abandoned ones do not',
-    desc: 'A site that gets a fresh post and real SEO time each month reads as open for business. Those posts also get shared in local groups and texted to customers — signals that you are the real thing in your area.',
-  },
-]
-
-/** The half of the business that is not marketing. This is the differentiator
-    against every agency the owner has been cold-called by. */
-export const SOFTWARE_ANGLE = [
-  {
-    title: 'Your site is built, not assembled',
-    desc: 'Most small business sites are page-builder templates that take eight seconds to load on a phone. I write them properly, so they load instantly — which matters both to Google and to the customer deciding whether to wait.',
-  },
-  {
-    title: 'Software you cannot buy off a shelf',
-    desc: 'Online booking that matches how you actually schedule. A quote calculator that turns square footage into a price while the customer is still on the page. Automatic follow-ups to last year’s customers when the season turns. Quoted separately when you want it — but you already have the person who can build it.',
-  },
-  {
-    title: 'I have built the software your industry runs on',
-    desc: 'Ruta is a platform that carries a landscaping company from the first quote to the final payment — scheduling, crews in the field, billing. I helped build it. That is why I understand your business rather than just your website.',
-  },
-]
-
-/** Who this is for. The trades lead because that is where I am most useful,
-    but the same work fits any business that lives on being found locally. */
-export const AUDIENCE_TRADES = [
-  'Pressure washing',
-  'Window cleaning',
-  'Landscaping & lawn care',
-  'Gutter cleaning',
-  'Handyman & repairs',
-  'Roofing',
-  'Painting',
-  'Junk removal',
-  'Pool service',
-  'Concrete & driveways',
-  'HVAC & plumbing',
-  'Moving & hauling',
-]
-
-export const AUDIENCE_OTHER = [
-  'Restaurants & cafés',
-  'Salons & barbers',
-  'Gyms & studios',
-  'Dentists & clinics',
-  'Auto repair',
-  'Photographers',
-  'Accountants & lawyers',
-  'Shops & retail',
-  'Churches & ministries',
-  'Anything else local',
-]
-
-/** How an engagement runs, start to finish. */
 export const STEPS = [
   {
     step: '1',
-    title: 'A conversation, not a sales call',
-    desc: 'Tell me what you do, where you work, and where the jobs come from now. Twenty minutes on the phone. I will tell you honestly whether I think I can help, and which plan actually fits.',
+    title: 'A working conversation',
+    desc: 'What you are building, who uses it, how hard the product is, and whether I am the right owner for it. Honest either way.',
   },
   {
     step: '2',
-    title: 'Your first month is free',
-    desc: 'That first month is when I build the site, claim and fill in your Google listing, and put it all live. It costs you nothing. If you do not like what you see, you walk away owing me nothing at all.',
+    title: 'Complexity band, not a guess',
+    desc: 'I place you on Focused, Full, or Intensive from a simple scorecard — roles, data, integrations, velocity, AI, surfaces.',
   },
   {
     step: '3',
-    title: 'Month two, the plan starts',
-    desc: 'From then on I am the person who runs your online presence — adding pages, posting, chasing reviews, improving what is there, and answering the phone when you call.',
+    title: 'Ownership starts',
+    desc: 'Retainer from day one. The product is built and grown inside that relationship — not a giant handoff after a one-off project.',
   },
   {
     step: '4',
-    title: 'Move or leave any time',
-    desc: 'Change plan whenever you like, up or down. No contract and no exit fee, and the domain name is yours either way.',
+    title: 'Stay or leave cleanly',
+    desc: NOTICE_LINE + ' Prepay only if you want the discount.',
   },
 ]
 
-/** The objections these owners actually have, answered straight. */
 export const FAQS = [
   {
-    q: 'Which plan do I actually need?',
-    a: 'Foundation is for existing properly: a real site, a proper listing, one post and one hour of SEO a month. Growth is more of the same work — more pages, two posts, about two hours of SEO — for owners who want the phone to ring more. Everything is the partner plan: weekly posts, 2–3 hours of SEO, unlimited changes, and a monthly strategy check-in.',
+    q: 'What am I actually buying?',
+    a: 'A product ownership retainer: I own a defined product surface with you — next features, bugs, releases, and care. Not a pile of hours and not a site you never hear about again.',
   },
   {
-    q: 'What does "hours of SEO" actually mean?',
-    a: 'Time spent improving how you show up when people search: the right words on pages, fixing what Google already sees, checking what is working, and nudging the things that are not. Foundation is one focused hour. Growth is about two. Everything is two to three — enough to compound month after month.',
+    q: 'How do you pick Focused, Full, or Intensive?',
+    a: 'After a call, from complexity: users and roles, workflows and data, integrations, how often you need to ship, whether AI is in the product, and how many surfaces are involved. A single app can still be Full or Intensive.',
   },
   {
-    q: 'What does the asterisk on unlimited mean?',
-    a: UNLIMITED_NOTE,
+    q: 'Is there a contract or commitment?',
+    a: 'No long-term lock-in. Month to month is fine. If you pay six months ahead you get 10% off; a year ahead, 20% off. Two months’ notice to end or change tier.',
   },
   {
-    q: 'I already have a website. It just does not do anything.',
-    a: 'That is the usual situation. Most of the sites I take over were built once, years ago, and never touched again. I will tell you whether yours is worth rebuilding or worth improving, and either way it is the same monthly price.',
+    q: 'Do you only build mobile apps?',
+    a: 'Mobile is the lead proof. Custom products often need backend, web, and AI too — that work is part of ownership when the product needs it.',
   },
   {
-    q: 'I am not a computer person.',
-    a: 'You do not need to be. There is nothing for you to log into, nothing to update, and no software to learn. You text me photos and tell me what changed. That is the whole job on your end.',
+    q: 'What is the AI package?',
+    a: `Optional add-on at ${AI_PRICE_LABEL}/month for AI tooling and implementation. You get one free consult on how to leverage AI for your situation. You pay your own API and model usage costs.`,
   },
   {
-    q: 'What does "first month free" actually mean?',
-    a: FIRST_MONTH_FREE_LONG + ' There is no card taken up front and nothing to cancel if you change your mind — billing simply starts in month two, once the thing exists and you have seen it.',
+    q: 'Who is this for?',
+    a: 'Product owners and business founders with ongoing features and growth — people who want one engineer owning the product, not a project shop that disappears after launch.',
   },
   {
-    q: 'What is a blog post going to do for a pressure washing business?',
-    a: 'Fair question. Customers search in questions — "how much to pressure wash a driveway", "will soft washing hurt my siding". A post is you answering that question, and the business that answered it is the one they call. It also keeps working: a post written in March still brings calls in December, unlike an advert.',
+    q: 'Do you still do SEO or local websites?',
+    a: 'Yes, as a side service when it is useful — see the quiet SEO page. It is not the main business. The main business is product ownership for custom software.',
   },
   {
-    q: 'Why monthly instead of paying once?',
-    a: 'Because a website built once and abandoned stops working within a year. Getting found on Google is ongoing work — posts, SEO hours, listing updates. Paying monthly means I am still on it in month eighteen, and you are not handing over thousands up front.',
-  },
-  {
-    q: 'How long before I see anything?',
-    a: 'The site is usually live inside two weeks. Listing work shows up in a few weeks. Real movement in search takes a few months of steady posts and SEO time on Growth or Everything — anyone who promises page one by next Tuesday is lying.',
-  },
-  {
-    q: 'What if I want to stop?',
-    a: 'You stop. Cancel any time from your billing page, and the domain name transfers to you. I would rather you leave easily than feel stuck.',
-  },
-  {
-    q: 'Is this only for the trades?',
-    a: 'No — I work with any business. The trades lead the list because the playbook there is well worn and I know the work from the inside, but a salon, a restaurant, a dental practice or an accountant is found the same way and served by the same plans.',
+    q: 'What have you shipped?',
+    a: 'Ruta (service-management platform, web and mobile, with AI), Jam with Latin (mobile learning product on a retainer), Tap to Tick (personal iOS expense app), and AI tooling inside real products.',
   },
 ]
+
+/** Homepage “who this is for” chips — even count for grids. */
+export const AUDIENCE = [
+  'Product owners',
+  'Business founders',
+  'Operators shipping internal tools',
+  'Teams that need mobile-led software',
+  'Founders with a long feature pipeline',
+  'Anyone who wants product ownership, not a handoff',
+]
+
+/** @deprecated Prefer TIERS / OWNERSHIP_PILLARS — kept only if old imports linger during migration. */
+export const PILLARS = OWNERSHIP_PILLARS
+export const FIRST_MONTH_FREE_SHORT = PREPAY_LINE
+export const FIRST_MONTH_FREE_LONG = PREPAY_LINE + ' ' + NOTICE_LINE
+export const UNLIMITED_NOTE =
+  'Ownership means continuous product work inside the retainer. It is not unlimited free work for every business you own or a second full-time job without adjusting the tier.'
+export const SOFTWARE_ANGLE = OWNERSHIP_PILLARS.slice(0, 3)
+export const SEO_EXPLAINER: { title: string; desc: string }[] = []
+export const AUDIENCE_TRADES = AUDIENCE
+export const AUDIENCE_OTHER: string[] = []
+export const ANNUAL_MONTHS_CHARGED = 12
+
+/** @deprecated use prepaid helpers */
+export function annualPrice(tier: { priceAround?: number; price?: number }) {
+  const p = tier.priceAround ?? tier.price ?? ENTRY_PRICE_AROUND
+  return yearTotal(p)
+}

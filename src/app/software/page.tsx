@@ -4,24 +4,46 @@ import type { Metadata } from 'next'
 import aboutImage from '../../../public/Photos/about.jpg'
 import ToolTicker from '@/components/ToolTicker'
 import MissionPreview from '@/components/MissionPreview'
+import EvenGrid from '@/components/EvenGrid'
 import { WebMock, PhoneMock } from '@/components/BuildMocks'
 import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
+import {
+  AI_PACKAGE,
+  AI_PRICE_LABEL,
+  ENTRY_PRICE_LABEL,
+  NOTICE_LINE,
+  OWNERSHIP_PILLARS,
+  PREPAY_LINE,
+  PRICING_ASTERISK,
+  STEPS,
+  TIERS,
+} from '@/lib/partnership'
 
 export const metadata: Metadata = {
-  title: 'Custom software',
+  title: 'Product ownership for custom products',
   description:
-    'Websites, mobile apps, and custom internal software built and supported by one developer — plus AI built into your platform. Every project individually quoted.',
+    'Month-to-month product ownership retainers for custom apps, systems, and AI — for product owners and business founders. One engineer who owns the product after launch, not a project that ends.',
   alternates: { canonical: '/software' },
 }
 
 const STACK = ['Next.js', 'React', 'TypeScript', 'React Native', 'Swift', 'Node.js', 'PostgreSQL', 'AWS', 'Vercel']
 
-/* The four kinds of work, each pointing at the page that shows it. */
-const BUILDS = [
-  { label: 'Websites', href: '/my-work#websites' },
-  { label: 'Apps', href: '/my-work#apps' },
-  { label: 'Custom internal software', href: '/my-work#platforms' },
-  { label: 'AI in your platform', href: '/ai-tooling' },
+const PROOF = [
+  {
+    name: 'Ruta',
+    what: 'Service-management platform — web, mobile, AI',
+    href: '/ruta',
+  },
+  {
+    name: 'Jam with Latin',
+    what: 'Mobile learning product on a retainer',
+    href: '/latin-game',
+  },
+  {
+    name: 'Tap to Tick',
+    what: 'Personal iOS expense app on the App Store',
+    href: '/tap-to-tick',
+  },
 ]
 
 export default function Software() {
@@ -30,30 +52,64 @@ export default function Software() {
       {/* Hero */}
       <section className="hero-wash px-5 pb-20 pt-16 sm:px-8 sm:pb-24 sm:pt-24">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="eyebrow">Custom software, quoted to your project</p>
+          <p className="eyebrow">Product ownership retainers</p>
           <h1 className="mx-auto mt-5 max-w-3xl text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-6xl">
-            Software that moves your business <span className="text-accent">forward.</span>
+            Custom products <span className="text-accent">owned with you.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-body sm:text-lg">
-            {"I'm Thomas — a full-stack developer building websites, mobile apps, and platforms. Designed, built, and supported by one person who actually cares how it turns out."}
+            For product owners and business founders with a long list of features and growth ahead —
+            mobile-led software people actually use, with one person who owns the product after
+            launch, not a project that ends.
           </p>
 
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <a href={CONTACT_MAILTO} className="btn-primary">Email me about your project</a>
-            <Link href="/my-work" className="btn-ghost">See my work</Link>
+            <a href={CONTACT_MAILTO} className="btn-primary">
+              Email me about your product
+            </a>
+            <Link href="/#services" className="btn-ghost">
+              See pricing and how ownership works
+            </Link>
           </div>
+          <p className="mt-5 text-sm text-muted">
+            Ownership from {ENTRY_PRICE_LABEL}/month · AI from {AI_PRICE_LABEL}/month
+          </p>
         </div>
 
-        {/* Stack strip */}
         <div className="mx-auto mt-14 flex max-w-3xl flex-wrap items-center justify-center gap-x-6 gap-y-2">
           {STACK.map((t) => (
-            <span key={t} className="text-xs font-medium tracking-wide text-muted">{t}</span>
+            <span key={t} className="text-xs font-medium tracking-wide text-muted">
+              {t}
+            </span>
           ))}
         </div>
       </section>
 
-      {/* What I build — a site and an app running quietly on either side of it,
-          with a way through to each kind of work. */}
+      {/* What ownership means */}
+      <section aria-label="What ownership means" className="border-t border-line px-5 py-16 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="max-w-2xl">
+            <p className="eyebrow eyebrow-blue">What you get</p>
+            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+              A product partner, not a handoff.
+            </h2>
+            <p className="mt-4 text-[15px] leading-relaxed text-body sm:text-base">
+              Apps, systems, and AI when that is the job — owned end-to-end: roadmap, build, ship,
+              fix, and ongoing care. You talk to the person who builds it.
+            </p>
+          </div>
+
+          <EvenGrid surface="software-pillars" maxCols={2} className="mt-12">
+            {OWNERSHIP_PILLARS.map((p) => (
+              <div key={p.title} className="tile p-7 sm:p-8">
+                <h3 className="text-base font-semibold tracking-tight text-ink">{p.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-body">{p.desc}</p>
+              </div>
+            ))}
+          </EvenGrid>
+        </div>
+      </section>
+
+      {/* Builds + mockups */}
       <section id="services" aria-label="What I build" className="band-dark overflow-hidden px-5 py-20 sm:px-8 sm:py-24">
         <div className="mx-auto grid w-full max-w-6xl items-center gap-12 lg:grid-cols-[1fr_auto_1fr] lg:gap-8">
           <div className="hidden justify-end lg:flex">
@@ -61,30 +117,27 @@ export default function Software() {
           </div>
 
           <div className="min-w-0 text-center">
-            <p className="eyebrow">Websites · Apps · Platforms</p>
+            <p className="eyebrow">Mobile-led · Systems · AI</p>
             <h2 className="mx-auto mt-4 max-w-xl text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              I build websites, apps, and custom internal software — and integrate AI into your
-              platform.
+              Custom products people use — with the backend and tooling they need.
             </h2>
+            <p className="mx-auto mt-5 max-w-md text-[15px] leading-relaxed text-white/65">
+              Proof is mobile-led. The work includes what makes products real: backend, web console,
+              data, and AI when that is part of the product.
+            </p>
 
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              {BUILDS.map((b) => (
-                <Link
-                  key={b.label}
-                  href={b.href}
-                  className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-white/20 px-5 py-2.5 text-[15px] font-medium text-white transition-colors hover:border-white/40 hover:bg-white/10"
-                >
-                  {b.label} <span aria-hidden="true" className="ml-1.5 text-white/60">›</span>
-                </Link>
-              ))}
-            </div>
-
-            <div className="mt-8">
               <Link
                 href="/my-work"
-                className="inline-flex min-h-[64px] items-center justify-center rounded-full bg-white px-12 py-4 text-xl font-semibold tracking-tight text-dark transition-transform hover:-translate-y-0.5 sm:min-h-[72px] sm:px-16 sm:text-2xl"
+                className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-white/20 px-5 py-2.5 text-[15px] font-medium text-white transition-colors hover:border-white/40 hover:bg-white/10"
               >
-                My work
+                Proof portfolio <span aria-hidden="true" className="ml-1.5 text-white/60">›</span>
+              </Link>
+              <Link
+                href="/ai-tooling"
+                className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-white/20 px-5 py-2.5 text-[15px] font-medium text-white transition-colors hover:border-white/40 hover:bg-white/10"
+              >
+                AI package <span aria-hidden="true" className="ml-1.5 text-white/60">›</span>
               </Link>
             </div>
           </div>
@@ -93,8 +146,6 @@ export default function Software() {
             <PhoneMock className="[--mock-scale:0.82]" />
           </div>
 
-          {/* On a phone there is no room for a column either side, so the site
-              sits above the app rather than beside it. */}
           <div className="flex min-w-0 flex-col items-center gap-8 [--mock-scale:0.78] lg:hidden">
             <WebMock />
             <PhoneMock />
@@ -102,7 +153,143 @@ export default function Software() {
         </div>
       </section>
 
-      {/* My tools — the rotating strips */}
+      {/* Complexity tiers summary */}
+      <section aria-label="Ownership tiers" className="border-t border-line px-5 py-16 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="max-w-2xl">
+            <p className="eyebrow eyebrow-blue">Complexity bands</p>
+            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+              Focused, Full, or Intensive — after a call.
+            </h2>
+            <p className="mt-4 text-[15px] leading-relaxed text-body sm:text-base">
+              Typical monthly averages. I place your product on a band from complexity — roles,
+              data, integrations, velocity, AI, surfaces — not a self-serve menu.
+            </p>
+          </div>
+
+          <EvenGrid surface="software-tiers" maxCols={3} className="mt-12">
+            {TIERS.map((tier) => (
+              <div
+                key={tier.id}
+                className={`tile flex flex-col p-7 sm:p-8 ${
+                  tier.featured ? 'border-2 border-accent' : ''
+                }`}
+              >
+                {tier.featured && (
+                  <span className="mb-3 self-start rounded-full bg-accent/12 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-accent">
+                    Common starting band
+                  </span>
+                )}
+                <p className="text-xs font-semibold uppercase tracking-[0.08em] text-warm">
+                  {tier.tagline}
+                </p>
+                <h3 className="mt-2 text-2xl font-semibold tracking-tight text-ink">{tier.name}</h3>
+                <p className="mt-4 text-3xl font-semibold tracking-tight text-ink">
+                  ~${tier.priceAround.toLocaleString()}
+                  <span className="text-base font-medium text-muted">/month</span>
+                </p>
+                <p className="mt-4 text-sm leading-relaxed text-body">{tier.promise}</p>
+                <p className="mt-2 text-[13px] leading-relaxed text-muted">{tier.bestFor}</p>
+              </div>
+            ))}
+          </EvenGrid>
+
+          <p className="mt-8 max-w-2xl text-[13.5px] leading-relaxed text-muted">
+            {PREPAY_LINE} {NOTICE_LINE}
+          </p>
+          <p className="mt-2 max-w-2xl text-[13px] leading-relaxed text-muted">
+            <span className="text-accent">*</span> {PRICING_ASTERISK}
+          </p>
+          <div className="mt-8">
+            <Link href="/#services" className="btn-primary">
+              Full pricing on the home page
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* How it works */}
+      <section aria-label="How ownership works" className="border-t border-line px-5 py-16 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="max-w-2xl">
+            <p className="eyebrow eyebrow-blue">How it works</p>
+            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+              From first conversation to ownership.
+            </h2>
+          </div>
+
+          <EvenGrid surface="software-steps" maxCols={4} className="mt-12">
+            {STEPS.map((s) => (
+              <div key={s.step} className="tile p-7">
+                <span className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">
+                  Step {s.step}
+                </span>
+                <h3 className="mt-3 text-base font-semibold tracking-tight text-ink">{s.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-body">{s.desc}</p>
+              </div>
+            ))}
+          </EvenGrid>
+        </div>
+      </section>
+
+      {/* Proof */}
+      <section aria-label="Shipped proof" className="border-t border-line px-5 py-16 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="max-w-2xl">
+            <p className="eyebrow eyebrow-blue">Proof, not products for sale</p>
+            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+              Work that shows how I own a product.
+            </h2>
+            <p className="mt-4 text-[15px] leading-relaxed text-body sm:text-base">
+              These are shipped examples — the kind of depth you hire for under a product ownership
+              retainer. They are not Kingdom Sites products you buy off the shelf.
+            </p>
+          </div>
+
+          <EvenGrid surface="software-proof" maxCols={3} className="mt-12">
+            {PROOF.map((p) => (
+              <Link
+                key={p.name}
+                href={p.href}
+                className="tile flex flex-col p-7 transition-colors hover:border-accent"
+              >
+                <h3 className="text-lg font-semibold tracking-tight text-ink">{p.name}</h3>
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-body">{p.what}</p>
+                <span className="link-accent mt-5 text-sm">
+                  See the product page <span aria-hidden="true">›</span>
+                </span>
+              </Link>
+            ))}
+          </EvenGrid>
+
+          <div className="mt-8">
+            <Link href="/my-work" className="link-accent text-sm">
+              Full proof portfolio <span aria-hidden="true">›</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* AI package callout */}
+      <section aria-label="AI package" className="border-t border-line px-5 py-16 sm:px-8 sm:py-20">
+        <div className="tile-elevated mx-auto flex max-w-5xl flex-col gap-6 p-7 sm:flex-row sm:items-center sm:justify-between sm:p-10">
+          <div className="max-w-2xl">
+            <p className="eyebrow">Optional add-on · {AI_PRICE_LABEL}/month</p>
+            <h2 className="mt-3 text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+              {AI_PACKAGE.name}
+            </h2>
+            <p className="mt-3 text-[15px] leading-relaxed text-body">{AI_PACKAGE.promise}</p>
+            <p className="mt-2 text-sm leading-relaxed text-muted">
+              {AI_PACKAGE.freeConsult} {AI_PACKAGE.apiNote}
+            </p>
+          </div>
+          <Link href="/ai-tooling" className="btn-primary shrink-0">
+            AI tooling details
+          </Link>
+        </div>
+      </section>
+
+      {/* My tools */}
       <section aria-label="My tools" className="overflow-hidden border-t border-line py-16 sm:py-20">
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
           <div className="max-w-2xl">
@@ -111,33 +298,14 @@ export default function Software() {
               The kit I build with.
             </h2>
             <p className="mt-4 text-[15px] leading-relaxed text-body sm:text-base">
-              Languages and platforms, the cloud services behind them, and the AI work — for
-              developers, and just as much for anyone doing marketing, email, SEO, or day-to-day
-              task management who wants a hand getting AI genuinely useful.
+              Languages and platforms, the cloud services behind them, and the AI work that goes into
+              real products — not demos.
             </p>
           </div>
         </div>
 
         <div className="mt-10">
           <ToolTicker />
-        </div>
-      </section>
-
-      {/* The other side of the business */}
-      <section aria-label="Local businesses" className="border-t border-line px-5 py-16 sm:px-8 sm:py-20">
-        <div className="tile-elevated mx-auto flex max-w-5xl flex-col gap-6 p-7 sm:flex-row sm:items-center sm:justify-between sm:p-10">
-          <div className="max-w-2xl">
-            <p className="eyebrow">Running a local business instead?</p>
-            <h2 className="mt-3 text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
-              {'There is a simpler way in for that.'}
-            </h2>
-            <p className="mt-3 text-[15px] leading-relaxed text-body">
-              {'If you need customers to find you and call you rather than a piece of software built, I run all of that for a monthly fee instead — website, Google listing, local search, reviews. The build is free and the first month is too.'}
-            </p>
-          </div>
-          <Link href="/" className="btn-primary shrink-0">
-            See how that works
-          </Link>
         </div>
       </section>
 
@@ -158,12 +326,12 @@ export default function Software() {
           <div>
             <p className="eyebrow">Built with purpose</p>
             <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-              Your project becomes part of a bigger story.
+              Your product becomes part of a bigger story.
             </h2>
             <p className="mt-5 text-pretty text-base leading-relaxed text-body">
-              Kingdom Sites is more than a business. Every project also helps support the long-term
-              mission work my wife Monisha and I are part of. You get great software — and it goes
-              further than your launch day.
+              Kingdom Sites is more than a business. Client work also supports the long-term mission
+              work my wife Monisha and I are part of. You get serious product ownership — and it goes
+              further than your next release.
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-6">
               <Link href="/about" className="link-accent text-sm">
@@ -177,21 +345,28 @@ export default function Software() {
         </div>
       </section>
 
-      {/* Mission — the countries cycle through, drawn one at a time */}
       <MissionPreview />
 
       {/* Contact */}
       <section id="contact" aria-label="Contact" className="px-5 pb-24 pt-24 sm:px-8">
         <div className="tile-elevated mx-auto max-w-4xl px-6 py-14 text-center sm:px-12 sm:py-16">
           <h2 className="text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-            {"Let's talk about your project."}
+            Email me about product ownership.
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-pretty text-base leading-relaxed text-body">
-            {"Email me what you're building and I'll put together a quote. Free, fast, no obligation."}
+            Tell me what you are building, who uses it, and how much product work is ahead. Honest
+            either way about whether I am the right owner for it.
           </p>
           <div className="mt-8 flex flex-col items-center gap-4">
-            <a href={CONTACT_MAILTO} className="btn-primary">Email me</a>
-            <a href={CONTACT_MAILTO} className="link-accent text-sm">{CONTACT_EMAIL}</a>
+            <a href={CONTACT_MAILTO} className="btn-primary">
+              Email me about your product
+            </a>
+            <a href={CONTACT_MAILTO} className="link-accent text-sm">
+              {CONTACT_EMAIL}
+            </a>
+            <Link href="/#services" className="text-sm text-muted underline underline-offset-4">
+              Or see ownership pricing first
+            </Link>
           </div>
         </div>
       </section>

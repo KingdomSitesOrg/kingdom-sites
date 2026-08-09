@@ -11,9 +11,9 @@ import rutaQueue from '../../../public/ruta/crew-queue.jpg'
 import rutaVisit from '../../../public/ruta/crew-visit.jpg'
 
 export const metadata: Metadata = {
-  title: 'My work — apps and software I have designed and shipped',
+  title: 'Proof portfolio — shipped work for product ownership',
   description:
-    'Ruta, a Latin practice game, Tap to Tick and AI tooling — real software I designed, built and still support, so you can judge the work before hiring me.',
+    'Ruta, Jam with Latin, Tap to Tick, and AI in production — proof of product ownership work for founders and product owners hiring a long-term product partner, not products for sale.',
   alternates: { canonical: '/my-work' },
 }
 
@@ -103,7 +103,7 @@ const AI_OFFER = [
 
 const SITE_STACK = ['Next.js', 'React', 'TypeScript', 'Tailwind', 'Vercel']
 
-/* Each product above has a page selling it — small sites in their own right. */
+/* Detail pages for each proof project — not products Kingdom Sites sells. */
 const PRODUCT_PAGES = [
   {
     name: 'Tap to Tick',
@@ -215,22 +215,27 @@ export default function MyWork() {
     <div className="w-full overflow-x-hidden">
       {/* Hero */}
       <section className="hero-wash px-5 pb-16 pt-16 text-center sm:px-8 sm:pb-20 sm:pt-24">
-        <p className="eyebrow">Who you are hiring</p>
+        <p className="eyebrow">Proof for product ownership</p>
         <h1 className="mx-auto mt-5 max-w-3xl text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
-          {'My '}
-          <span className="text-accent">portfolio</span>
+          Shipped work you can <span className="text-accent">judge me by</span>
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-body sm:text-lg">
-          {'See what I have done.'}
+          These projects show how I own custom products — mobile, systems, and AI. They are proof for
+          hiring a product ownership partner, not Kingdom Sites products you buy off the shelf.
         </p>
         <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <Link href="/local-business" className="btn-primary">
-            What I do for local businesses
-          </Link>
-          <Link href="/get-started" className="btn-ghost">
-            Get a free look at yours
+          <a href={CONTACT_MAILTO} className="btn-primary">
+            Email me about product ownership
+          </a>
+          <Link href="/#services" className="btn-ghost">
+            See ownership pricing
           </Link>
         </div>
+        <p className="mt-4 text-sm text-muted">
+          <Link href="/software" className="underline underline-offset-4">
+            How product ownership works
+          </Link>
+        </p>
       </section>
 
       {/* Featured project — Ruta */}
@@ -573,10 +578,10 @@ export default function MyWork() {
           {/* The pages for the products above are site work in their own right —
               two of them with a look of their own, nothing like this site. */}
           <h3 className="mt-14 text-2xl font-semibold tracking-tight text-ink">
-            And a product page for everything I ship
+            Detail pages for each proof project
           </h3>
           <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-body">
-            Every product above gets its own page to sell it.
+            Deeper write-ups of the work above — still portfolio context, not a product store.
           </p>
           {/* 3 product pages → one full row of 3 from sm up (no 2-col intermediate). */}
           <div className="mt-6 grid gap-4 sm:grid-cols-3">
@@ -666,18 +671,29 @@ export default function MyWork() {
       <section aria-label="Contact" className="border-t border-line px-5 py-16 sm:px-8 sm:py-20">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-            Want this kind of attention <span className="text-accent">on your business?</span>
+            Want this kind of ownership <span className="text-accent">on your product?</span>
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-relaxed text-body">
-            {'Most of my clients are local service businesses on a monthly partnership — I run everything that gets them found and called. Start with a free look at where you stand.'}
+            Product ownership retainers for custom products — apps, systems, and AI when that is the
+            job. Month to month is fine. Email me about what you are building, or read how ownership
+            works first.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link href="/get-started" className="btn-primary">Get my free look</Link>
-            <Link href="/local-business" className="btn-ghost">See what is included</Link>
+            <a href={CONTACT_MAILTO} className="btn-primary">
+              Email me about product ownership
+            </a>
+            <Link href="/#services" className="btn-ghost">
+              See ownership pricing
+            </Link>
           </div>
           <p className="mt-5 text-sm text-body">
-            {'Bigger build in mind? Email me at '}
-            <a href={CONTACT_MAILTO} className="link-accent">{CONTACT_EMAIL}</a>
+            <Link href="/software" className="link-accent">
+              How product ownership works
+            </Link>
+            {' · '}
+            <a href={CONTACT_MAILTO} className="link-accent">
+              {CONTACT_EMAIL}
+            </a>
           </p>
         </div>
       </section>
