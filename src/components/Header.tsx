@@ -15,7 +15,7 @@ const WORK_LINKS = [
 ]
 
 const NAV_LINKS = [
-  { to: '/#pricing',    label: 'Pricing' },
+  { to: '/pricing',     label: 'Pricing' },
   { to: '/ai-tooling',  label: 'AI' },
   { to: '/my-work',     label: 'My Work', children: WORK_LINKS },
   { to: '/about',       label: 'Team' },

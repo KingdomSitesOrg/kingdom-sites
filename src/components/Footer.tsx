@@ -5,7 +5,7 @@ const FACEBOOK_URL = 'https://www.facebook.com/share/1EzdtfSCs3/?mibextid=wwXIfr
 const YOUTUBE_URL = 'https://www.youtube.com/@tkklein/videos'
 
 const PAGE_LINKS = [
-  { href: '/#pricing', label: 'Pricing' },
+  { href: '/pricing', label: 'Pricing' },
   { href: '/software', label: 'Custom Software' },
   { href: INQUIRE_PATH, label: 'Enquiry' },
   { href: '/my-work', label: 'My Work' },

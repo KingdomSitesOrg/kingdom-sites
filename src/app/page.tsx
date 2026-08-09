@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { PhoneMock, WebMock } from '@/components/BuildMocks'
-import PricingTiers from '@/components/PricingTiers'
 import EvenGrid from '@/components/EvenGrid'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import {
@@ -61,9 +60,9 @@ export default function Home() {
               <Link href={HERO.ctaPrimaryHref} className="btn-primary">
                 {HERO.ctaPrimary}
               </Link>
-              <a href={HERO.ctaSecondaryHref} className="btn-ghost">
+              <Link href={HERO.ctaSecondaryHref} className="btn-ghost">
                 {HERO.ctaSecondary}
-              </a>
+              </Link>
             </div>
 
             <p className="mt-6 text-[13.5px] leading-relaxed text-muted">{HERO.priceHint}</p>
@@ -80,7 +79,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2 — AI */}
+      {/* 2 — AI: one list, not two cards */}
       <section aria-label="AI package" className="band-dark px-5 py-20 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-6xl">
           <div className="mx-auto max-w-2xl text-center">
@@ -94,22 +93,26 @@ export default function Home() {
             </p>
           </div>
 
-          <EvenGrid surface="home-ai" maxCols={2} className="mt-12">
+          <div className="mx-auto mt-12 max-w-2xl">
             <div className="tile-dark p-7 sm:p-8">
-              <h3 className="text-base font-semibold tracking-tight text-white">Free one-time consult</h3>
-              <p className="mt-2.5 text-sm leading-relaxed text-white/60">{AI_PACKAGE.freeConsult}</p>
-            </div>
-            <div className="tile-dark p-7 sm:p-8">
-              <h3 className="text-base font-semibold tracking-tight text-white">What the package covers</h3>
-              <ul className="mt-3 space-y-2.5">
+              <ul className="space-y-3.5">
+                <li className="flex gap-3 text-sm leading-relaxed text-white/70">
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#f0b48c]" aria-hidden="true" />
+                  <span>
+                    <span className="font-medium text-white">Free one-time consult</span>
+                    {' — '}
+                    {AI_PACKAGE.freeConsult}
+                  </span>
+                </li>
                 {AI_PACKAGE.features.map((f) => (
-                  <li key={f} className="text-sm leading-relaxed text-white/60">
-                    {f}
+                  <li key={f} className="flex gap-3 text-sm leading-relaxed text-white/70">
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-white/35" aria-hidden="true" />
+                    <span>{f}</span>
                   </li>
                 ))}
               </ul>
             </div>
-          </EvenGrid>
+          </div>
 
           <p className="mx-auto mt-8 max-w-2xl text-center text-[13.5px] leading-relaxed text-white/45">
             <span className="text-[#f0b48c]">*</span> {AI_PACKAGE.apiNote}
@@ -129,31 +132,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3 — Pricing */}
-      <section
-        id="pricing"
-        aria-label="Complexity tiers and pricing"
-        className="scroll-mt-20 px-5 py-20 sm:px-8 sm:py-24"
-      >
-        <div className="mx-auto max-w-6xl">
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="eyebrow eyebrow-blue">Pricing</p>
-            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-              Focused, Full, or Intensive — from complexity, not a menu.
-            </h2>
-            <p className="mt-5 text-pretty text-base leading-relaxed text-body">
-              Product ownership retainers. Typical monthly averages — after a short call I place
-              your product on a band. Month to month is fine; prepay only if you want the discount.
-            </p>
-          </div>
-
-          <div className="mt-12">
-            <PricingTiers />
-          </div>
-        </div>
-      </section>
-
-      {/* 4 — Proof */}
+      {/* 3 — Proof */}
       <section aria-label="Work shipped" className="border-t border-line px-5 py-20 sm:px-8 sm:pb-28 sm:pt-24">
         <div className="mx-auto max-w-6xl">
           <div className="mx-auto max-w-2xl text-center">
@@ -183,16 +162,19 @@ export default function Home() {
             ))}
           </EvenGrid>
 
-          <div className="mt-14 text-center">
+          <div className="mt-14 flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-center">
             <Link href={INQUIRE_PATH} className="btn-primary">
               {INQUIRE_CTA}
             </Link>
-            <p className="mt-4 text-sm text-muted">
-              <Link href="/my-work" className="link-accent">
-                Full proof portfolio
-              </Link>
-            </p>
+            <Link href="/pricing" className="btn-ghost">
+              See pricing
+            </Link>
           </div>
+          <p className="mt-4 text-center text-sm text-muted">
+            <Link href="/my-work" className="link-accent">
+              Full proof portfolio
+            </Link>
+          </p>
         </div>
       </section>
     </div>

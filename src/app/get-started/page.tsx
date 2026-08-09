@@ -89,7 +89,7 @@ export default function GetStarted() {
                 band after we talk.
               </p>
               <Link
-                href="/#pricing"
+                href="/pricing"
                 className="mt-5 inline-block text-sm font-medium text-white underline underline-offset-4"
               >
                 Compare ownership bands ›

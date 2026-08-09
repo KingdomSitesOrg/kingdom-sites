@@ -26,7 +26,7 @@ export default function SeoSidePage() {
             is the right next step, that can still be scoped.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link href="/#pricing" className="btn-ghost">
+            <Link href="/pricing" className="btn-ghost">
               Product ownership
             </Link>
             <Link href="/software" className="btn-ghost">

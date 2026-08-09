@@ -79,7 +79,7 @@ export default function About() {
                 A retainer relationship: roadmap with you, design, build, release, support. Month to
                 month is fine; prepay discounts if you want them. From about {ENTRY_PRICE_LABEL}/month
                 after a call places your product on Focused, Full, or Intensive.{' '}
-                <Link href="/#pricing" className="link-accent">
+                <Link href="/pricing" className="link-accent">
                   How ownership works <span aria-hidden="true">›</span>
                 </Link>
               </p>
@@ -167,7 +167,7 @@ export default function About() {
             Custom product ownership
           </Link>
           {' · '}
-          <Link href="/#pricing" className="underline underline-offset-4">
+          <Link href="/pricing" className="underline underline-offset-4">
             Pricing
           </Link>
         </p>

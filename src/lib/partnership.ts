@@ -183,7 +183,7 @@ export const HERO = {
   ctaPrimary: INQUIRE_CTA,
   ctaPrimaryHref: INQUIRE_PATH,
   ctaSecondary: 'See pricing',
-  ctaSecondaryHref: '#pricing',
+  ctaSecondaryHref: '/pricing',
   priceHint: `Ownership from ${ENTRY_PRICE_LABEL}/month · AI from ${AI_PRICE_LABEL}/month`,
 }
 

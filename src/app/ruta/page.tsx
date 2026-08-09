@@ -397,7 +397,7 @@ export default function Ruta() {
        Proof portfolio
       </Link>
       {' · '}
-      <Link href="/#pricing" className={`font-medium ${GREEN} hover:underline hover:underline-offset-4`}>
+      <Link href="/pricing" className={`font-medium ${GREEN} hover:underline hover:underline-offset-4`}>
        Ownership pricing
       </Link>
      </p>
