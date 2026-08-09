@@ -1,12 +1,10 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import PricingTiers from '@/components/PricingTiers'
-import EvenGrid from '@/components/EvenGrid'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import {
   AI_PACKAGE,
   AI_PRICE_LABEL,
-  COMPLEXITY_FACTORS,
   ENTRY_PRICE_LABEL,
   INTENSIVE_AI_NOTE,
 } from '@/lib/partnership'
@@ -38,27 +36,6 @@ export default function PricingPage() {
       <section aria-label="Plans" className="px-5 pb-16 sm:px-8 sm:pb-20">
         <div className="mx-auto max-w-6xl">
           <PricingTiers />
-        </div>
-      </section>
-
-      <section
-        aria-label="What drives the tier"
-        className="border-t border-line px-5 py-16 sm:px-8 sm:py-20"
-      >
-        <div className="mx-auto max-w-6xl">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-              What decides Focused, Full, or Intensive.
-            </h2>
-          </div>
-          <EvenGrid surface="pricing-complexity" maxCols={3} className="mt-12">
-            {COMPLEXITY_FACTORS.map((f) => (
-              <div key={f.title} className="tile flex flex-col p-7">
-                <h3 className="text-base font-semibold tracking-tight text-ink">{f.title}</h3>
-                <p className="mt-2.5 text-sm leading-relaxed text-body">{f.desc}</p>
-              </div>
-            ))}
-          </EvenGrid>
         </div>
       </section>
 
