@@ -78,22 +78,26 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2 — AI: one list, not two cards */}
-      <section aria-label="AI package" className="band-dark px-5 py-20 sm:px-8 sm:py-24">
+      {/* 2 — Add-ons: AI + SEO side by side */}
+      <section aria-label="Add-ons" className="band-dark px-5 py-20 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-6xl">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              {AI_PACKAGE.name}
-              <span className="text-[#f0b48c]"> — {AI_PRICE_LABEL}/month</span>
+              Optional add-ons
             </h2>
             <p className="mt-5 text-pretty text-base leading-relaxed text-white/65">
-              {AI_PACKAGE.promise}
+              Layer these on product ownership — or start with one when it is what you need first.
             </p>
           </div>
 
-          <div className="mx-auto mt-12 max-w-2xl">
-            <div className="tile-dark p-7 sm:p-8">
-              <ul className="space-y-3.5">
+          <EvenGrid surface="home-addons" maxCols={2} className="mt-12">
+            <div className="tile-dark flex flex-col p-7 sm:p-8">
+              <h3 className="text-xl font-semibold tracking-tight text-white">
+                {AI_PACKAGE.name}
+                <span className="text-[#f0b48c]"> — {AI_PRICE_LABEL}/month</span>
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-white/65">{AI_PACKAGE.promise}</p>
+              <ul className="mt-6 flex-1 space-y-3">
                 <li className="flex gap-3 text-sm leading-relaxed text-white/70">
                   <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#f0b48c]" aria-hidden="true" />
                   <span>
@@ -109,24 +113,51 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
+              <p className="mt-5 text-[12.5px] leading-relaxed text-white/40">
+                <span className="text-[#f0b48c]">*</span> {AI_PACKAGE.apiNote}
+              </p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <Link href="/ai-tooling" className="btn-primary">
+                  How AI tooling works
+                </Link>
+                <Link
+                  href={INQUIRE_PATH}
+                  className="text-sm font-medium text-white/75 underline underline-offset-4 hover:text-white"
+                >
+                  {INQUIRE_CTA}
+                </Link>
+              </div>
             </div>
-          </div>
 
-          <p className="mx-auto mt-8 max-w-2xl text-center text-[13.5px] leading-relaxed text-white/45">
-            <span className="text-[#f0b48c]">*</span> {AI_PACKAGE.apiNote}
-          </p>
-
-          <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-            <Link href="/ai-tooling" className="btn-primary">
-              How AI tooling works
-            </Link>
             <Link
-              href={INQUIRE_PATH}
-              className="text-sm font-medium text-white/75 underline underline-offset-4 hover:text-white"
+              href="/seo"
+              className="tile-dark flex flex-col p-7 transition-colors hover:border-white/25 sm:p-8"
             >
-              {INQUIRE_CTA}
+              <h3 className="text-xl font-semibold tracking-tight text-white">
+                Websites &amp; local SEO
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-white/65">
+                A clean site, a proper Google listing, and local search work so customers find you
+                when they need what you do.
+              </p>
+              <ul className="mt-6 flex-1 space-y-3">
+                {[
+                  'Website built for calls and enquiries',
+                  'Google Business Profile set up and kept right',
+                  'Local search pages and posts that compound',
+                  'Scoped after a short conversation',
+                ].map((f) => (
+                  <li key={f} className="flex gap-3 text-sm leading-relaxed text-white/70">
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-white/35" aria-hidden="true" />
+                    <span>{f}</span>
+                  </li>
+                ))}
+              </ul>
+              <span className="mt-6 text-sm font-medium text-[#f0b48c]">
+                See websites &amp; SEO <span aria-hidden="true">›</span>
+              </span>
             </Link>
-          </div>
+          </EvenGrid>
         </div>
       </section>
 
