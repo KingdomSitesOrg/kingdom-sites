@@ -215,15 +215,6 @@ const SOFTWARE = [
  },
 ]
 
-/* Honest limits, stated up front — the part most AI pitches leave out. */
-const HONEST = [
- 'It will not replace your developers, and I will not pretend otherwise.',
- 'Anything irreversible stays behind a person confirming it.',
- 'If a job is better done by ordinary software, I will tell you that instead.',
- 'You keep everything I set up, and I show you how it works rather than keeping it to myself.',
- AI_PACKAGE.apiNote,
-]
-
 export default function AiTooling() {
  return (
   <div className="w-full overflow-x-hidden">
@@ -364,18 +355,6 @@ export default function AiTooling() {
        </div>
       ))}
      </EvenGrid>
-
-     <div className="tile mt-5 p-7 sm:p-9">
-      <h3 className="text-lg font-semibold tracking-tight text-ink">What I will tell you straight</h3>
-      <ul className="mt-5 grid gap-2.5 sm:grid-cols-2">
-       {HONEST.map((line) => (
-        <li key={line} className="flex gap-3 text-sm leading-relaxed text-body">
-         <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
-         <span>{line}</span>
-        </li>
-       ))}
-      </ul>
-     </div>
     </div>
    </section>
 
