@@ -77,7 +77,7 @@ export const TIERS: ComplexityTier[] = [
       'Business thinking and product strategy with you',
       'Priorities, roadmap, and “what actually moves the needle”',
       'Multi-surface / platform depth and high change velocity',
-      'AI tooling included (connectors, tools, skills, loops — no extra $199)',
+      'AI integration — included',
       'Graphic design for the product and brand*',
     ],
   },
