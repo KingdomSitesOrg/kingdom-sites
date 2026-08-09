@@ -375,7 +375,7 @@ export default function Ruta() {
    <section aria-label="Contact" className="border-t border-line px-5 py-16 text-center sm:px-8 sm:py-20">
     <div className="mx-auto max-w-3xl">
      <h2 className="text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-      Need product ownership <span className={GREEN}>like this?</span>
+      Need design, build, ship, and maintain <span className={GREEN}>like this?</span>
      </h2>
      <p className="mx-auto mt-4 max-w-xl text-pretty text-[15px] leading-relaxed text-body">
       Ruta is proof of depth — not a product Kingdom Sites sells. Hire me to own your custom
@@ -398,7 +398,7 @@ export default function Ruta() {
       </Link>
       {' · '}
       <Link href="/pricing" className={`font-medium ${GREEN} hover:underline hover:underline-offset-4`}>
-       Ownership pricing
+       Pricing
       </Link>
      </p>
     </div>

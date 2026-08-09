@@ -19,7 +19,7 @@ import {
 /* Utility page for people setting up or managing a retainer — not a primary SEO target. */
 export const metadata: Metadata = {
  title: 'Billing',
- description: 'Product ownership retainers — billing setup for Kingdom Sites.',
+ description: 'Monthly product retainers — billing setup for Kingdom Sites.',
  robots: { index: false, follow: false },
 }
 
@@ -31,7 +31,7 @@ export default function Billing() {
    <section className="hero-wash px-5 pb-12 pt-16 text-center sm:px-8 sm:pt-24">
     <div className="mx-auto max-w-2xl">
      <h1 className="mt-5 text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
-      Product ownership retainers
+      Monthly product retainers
      </h1>
      <p className="mx-auto mt-6 text-pretty text-base leading-relaxed text-body sm:text-lg">
       Complexity is assigned after a conversation — Focused, Full, or
@@ -44,7 +44,7 @@ export default function Billing() {
     </div>
    </section>
 
-   <section aria-label="Ownership tiers" className="px-5 pb-12 sm:px-8">
+   <section aria-label="Pricing tiers" className="px-5 pb-12 sm:px-8">
     <div className="mx-auto max-w-5xl">
      <div className="grid gap-5 md:grid-cols-3">
       {TIERS.map((tier) => {
@@ -139,11 +139,11 @@ export default function Billing() {
      </div>
 
      <p className="mt-8 text-center text-sm text-body">
-      {'Not signed up yet? Ownership from '}
+      {'Not signed up yet? From '}
       {ENTRY_PRICE_LABEL}
       {'/month. '}
       <Link href="/pricing" className="link-accent">
-       See how ownership works <span aria-hidden="true">›</span>
+       See how we work <span aria-hidden="true">›</span>
       </Link>
      </p>
     </div>

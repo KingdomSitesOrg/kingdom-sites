@@ -87,7 +87,7 @@ export default function Footer() {
 
         <div className="mt-12 border-t border-white/12 pt-6">
           <p className="text-xs leading-relaxed text-white/45">
-            Kingdom Sites — product ownership for custom software. Copyright ©{' '}
+            Kingdom Sites — custom products designed, built, shipped, and maintained. Copyright ©{' '}
             {new Date().getFullYear()} Kingdom Sites. All rights reserved.
           </p>
         </div>

@@ -26,7 +26,7 @@ const PROOF = [
   {
     name: 'Tap to Tick',
     what: 'Personal iOS expense app',
-    desc: 'A focused mobile product shipped and maintained — proof of clean product ownership at a smaller surface.',
+    desc: 'A focused mobile product shipped and maintained — proof of clean design, build, ship, and maintain at a smaller surface.',
     href: '/tap-to-tick',
   },
 ]
@@ -34,7 +34,7 @@ const PROOF = [
 export const metadata: Metadata = {
   title: 'Kingdom Sites — custom products that advance your ideas and business',
   description:
-    'Product ownership retainers for custom products — mobile-led software for product owners and founders. Focused, Full, or Intensive from complexity. Month to month; optional AI package.',
+    'Monthly retainers to design, build, ship, and maintain custom products — mobile-led software for product owners and founders. Focused, Full, or Intensive from complexity. Month to month; optional AI package.',
   alternates: { canonical: '/' },
 }
 
@@ -43,7 +43,7 @@ export default function Home() {
     <div className="w-full overflow-x-hidden">
       {/* 1 — Hero */}
       <section
-        aria-label="Product ownership"
+        aria-label="Design, build, ship, and maintain"
         className="hero-wash px-5 pb-20 pt-16 sm:px-8 sm:pb-28 sm:pt-24"
       >
         <div className="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
@@ -86,7 +86,7 @@ export default function Home() {
               Optional add-ons
             </h2>
             <p className="mt-5 text-pretty text-base leading-relaxed text-white/65">
-              Layer these on product ownership — or start with one when it is what you need first.
+              Layer these on a product retainer — or start with one when it is what you need first.
             </p>
           </div>
 

@@ -11,9 +11,9 @@ import rutaQueue from '../../../public/ruta/crew-queue.jpg'
 import rutaVisit from '../../../public/ruta/crew-visit.jpg'
 
 export const metadata: Metadata = {
- title: 'Proof portfolio — shipped work for product ownership',
+ title: 'Proof portfolio — shipped work for design, build, ship, and maintain',
  description:
-  'Ruta, Jam with Latin, Tap to Tick, and AI in production — proof of product ownership work for founders and product owners hiring a long-term product partner, not products for sale.',
+  'Ruta, Jam with Latin, Tap to Tick, and AI in production — proof of design, build, ship, and maintain work for founders and product owners hiring a long-term product partner, not products for sale.',
  alternates: { canonical: '/my-work' },
 }
 
@@ -220,17 +220,17 @@ export default function MyWork() {
     </h1>
     <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-body sm:text-lg">
      These projects show how I own custom products — mobile, systems, and AI. They are proof for
-     hiring a product ownership partner, not Kingdom Sites products you buy off the shelf.
+     hiring a product partner who designs, builds, ships, and maintains, not Kingdom Sites products you buy off the shelf.
     </p>
     <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
      <Link href={INQUIRE_PATH} className="btn-primary">{INQUIRE_CTA}</Link>
      <Link href="/pricing" className="btn-ghost">
-      See ownership pricing
+      See pricing
      </Link>
     </div>
     <p className="mt-4 text-sm text-muted">
      <Link href="/software" className="underline underline-offset-4">
-      How product ownership works
+      How we work
      </Link>
     </p>
    </section>
@@ -662,22 +662,22 @@ export default function MyWork() {
    <section aria-label="Contact" className="border-t border-line px-5 py-16 sm:px-8 sm:py-20">
     <div className="mx-auto max-w-3xl text-center">
      <h2 className="text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-      Want this kind of ownership <span className="text-accent">on your product?</span>
+      Want this kind of product work <span className="text-accent">on your product?</span>
      </h2>
      <p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-relaxed text-body">
-      Product ownership retainers for custom products — apps, systems, and AI when that is the
-      job. Month to month is fine. Send an enquiry about what you are building, or read how ownership
-      works first.
+      Monthly retainers to design, build, ship, and maintain custom products — apps, systems, and AI when that is the
+      job. Month to month is fine. Send an enquiry about what you are building, or see pricing
+      first.
      </p>
      <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
       <Link href={INQUIRE_PATH} className="btn-primary">{INQUIRE_CTA}</Link>
       <Link href="/pricing" className="btn-ghost">
-       See ownership pricing
+       See pricing
       </Link>
      </div>
      <p className="mt-5 text-sm text-body">
       <Link href="/software" className="link-accent">
-       How product ownership works
+       How we work
       </Link>
       {' · '}
       <Link href={INQUIRE_PATH} className="link-accent">{INQUIRE_CTA}</Link>

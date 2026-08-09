@@ -20,9 +20,9 @@ import {
 } from '@/lib/partnership'
 
 export const metadata: Metadata = {
-  title: 'Product ownership for custom products',
+  title: 'Retainers to design, build, ship, and maintain  custom products',
   description:
-    'Month-to-month product ownership retainers for custom apps, systems, and AI — for product owners and business founders. One engineer who owns the product after launch, not a project that ends.',
+    'Month-to-month monthly retainers to design, build, ship, and maintain custom apps, systems, and AI — for product owners and business founders. One engineer who designs, builds, ships, and maintains after launch, not a project that ends.',
   alternates: { canonical: '/software' },
 }
 
@@ -57,7 +57,7 @@ export default function Software() {
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-body sm:text-lg">
             For product owners and business founders with a long list of features and growth ahead —
-            mobile-led software people actually use, with one person who owns the product after
+            mobile-led software people actually use, with one person who designs, builds, ships, and maintains the product after
             launch, not a project that ends.
           </p>
 
@@ -66,11 +66,11 @@ export default function Software() {
               {INQUIRE_CTA}
             </Link>
             <Link href="/pricing" className="btn-ghost">
-              See pricing and how ownership works
+              See pricing and how we work
             </Link>
           </div>
           <p className="mt-5 text-sm text-muted">
-            Ownership from {ENTRY_PRICE_LABEL}/month · AI from {AI_PRICE_LABEL}/month
+            From {ENTRY_PRICE_LABEL}/month · AI from {AI_PRICE_LABEL}/month
           </p>
         </div>
 
@@ -83,8 +83,8 @@ export default function Software() {
         </div>
       </section>
 
-      {/* What ownership means */}
-      <section aria-label="What ownership means" className="border-t border-line px-5 py-16 sm:px-8 sm:py-24">
+      {/* What the work covers */}
+      <section aria-label="What the work covers" className="border-t border-line px-5 py-16 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-6xl">
           <div className="max-w-2xl">
             <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
@@ -151,7 +151,7 @@ export default function Software() {
       </section>
 
       {/* Complexity tiers summary */}
-      <section aria-label="Ownership tiers" className="border-t border-line px-5 py-16 sm:px-8 sm:py-24">
+      <section aria-label="Pricing tiers" className="border-t border-line px-5 py-16 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-6xl">
           <div className="max-w-2xl">
             <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
@@ -215,7 +215,7 @@ export default function Software() {
               Work that shows how I own a product.
             </h2>
             <p className="mt-4 text-[15px] leading-relaxed text-body sm:text-base">
-              These are shipped examples — the kind of depth you hire for under a product ownership
+              These are shipped examples — the kind of depth you hire for under a design, build, ship, and maintain
               retainer. They are not Kingdom Sites products you buy off the shelf.
             </p>
           </div>
@@ -301,7 +301,7 @@ export default function Software() {
             </h2>
             <p className="mt-5 text-pretty text-base leading-relaxed text-body">
               Kingdom Sites is more than a business. Client work also supports the long-term mission
-              work my wife Monisha and I are part of. You get serious product ownership — and it goes
+              work my wife Monisha and I are part of. You get serious design, build, ship, and maintain — and it goes
               further than your next release.
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-6">
@@ -322,7 +322,7 @@ export default function Software() {
       <section id="contact" aria-label="Contact" className="px-5 pb-24 pt-24 sm:px-8">
         <div className="tile-elevated mx-auto max-w-4xl px-6 py-14 text-center sm:px-12 sm:py-16">
           <h2 className="text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-            Tell me about product ownership.
+            Tell me about design, build, ship, and maintain work.
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-pretty text-base leading-relaxed text-body">
             Tell me what you are building, who uses it, and how much product work is ahead. Honest
@@ -333,7 +333,7 @@ export default function Software() {
               {INQUIRE_CTA}
             </Link>
             <Link href="/pricing" className="text-sm text-muted underline underline-offset-4">
-              Or see ownership pricing first
+              Or see pricing first
             </Link>
           </div>
         </div>

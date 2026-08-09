@@ -101,7 +101,7 @@ export const POSTS: BlogPost[] = [
       },
       {
         type: 'p',
-        text: 'Kingdom Sites main work is product ownership for custom software — for founders who keep shipping features. Websites and local search still get help when useful, scoped after a conversation, not as a fixed SEO plan menu.',
+        text: 'Kingdom Sites main work is custom product work — design, build, ship, and maintain software — for founders who keep shipping features. Websites and local search still get help when useful, scoped after a conversation, not as a fixed SEO plan menu.',
       },
       {
         type: 'p',
@@ -454,7 +454,7 @@ export const POSTS: BlogPost[] = [
       },
       {
         type: 'p',
-        text: 'If you want help with a website or local search while you work the room — or ownership of a custom product — email thomas@kingdom-sites.com. Scope after a conversation, not a self-serve funnel.',
+        text: 'If you want help with a website or local search while you work the room — or someone to design, build, ship, and maintain a custom product — start an enquiry at kingdom-sites.com/get-started. Scope after a conversation, not a self-serve funnel.',
       },
     ],
   },

@@ -11,7 +11,7 @@ import {
 export const metadata: Metadata = {
  title: 'AI package — tooling and implementation',
  description:
-  'Optional AI package for real products and workflows: free one-time consult (about 1–2 hours), then $199/month if you want ongoing work. You pay your own model and API costs. Works with product ownership retainers.',
+  'Optional AI package for real products and workflows: free one-time consult (about 1–2 hours), then $199/month if you want ongoing work. You pay your own model and API costs. Works with monthly product retainers.',
  alternates: { canonical: '/ai-tooling' },
  openGraph: {
   title: 'AI package — tooling and implementation',
@@ -235,12 +235,12 @@ export default function AiTooling() {
      </h1>
      <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-body sm:text-lg">
       {AI_PACKAGE.promise} This is the second core capability of Kingdom Sites — and it pairs
-      with product ownership retainers when AI is part of the product or how you operate.
+      with monthly product retainers when AI is part of the product or how you operate.
      </p>
      <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
       <Link href={INQUIRE_PATH} className="btn-primary">{INQUIRE_CTA}</Link>
       <Link href="/pricing" className="btn-ghost">
-       Product ownership on the home page
+       Custom products on the home page
       </Link>
      </div>
     </div>
@@ -255,7 +255,7 @@ export default function AiTooling() {
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-body sm:text-base">
        Start with a free, one-time conversation. Continue only if ongoing AI work is worth it
-       for your situation — including as an add-on on any ownership tier.
+       for your situation — including as an add-on on any pricing tier.
       </p>
      </div>
 
@@ -285,7 +285,7 @@ export default function AiTooling() {
         <span className="text-base font-medium text-muted">/month</span>
        </p>
        <p className="mt-4 flex-1 text-[15px] leading-relaxed text-body">
-        Optional on any product ownership tier. Implementation and tooling wired into real
+        Optional on any design, build, ship, and maintain tier. Implementation and tooling wired into real
         products and workflows — not demos.
        </p>
        <ul className="mt-5 space-y-2.5 border-t border-line pt-5">
@@ -303,10 +303,10 @@ export default function AiTooling() {
      </EvenGrid>
 
      <p className="mt-8 max-w-2xl text-sm leading-relaxed text-body">
-      Main business is product ownership (from {ENTRY_PRICE_LABEL}/month). AI is optional on
+      Main business is design, build, ship, and maintain (from {ENTRY_PRICE_LABEL}/month). AI is optional on
       top — or a focused conversation if you only need help leveraging AI right now.{' '}
       <Link href="/software" className="link-accent">
-       How product ownership works <span aria-hidden="true">›</span>
+       How we work <span aria-hidden="true">›</span>
       </Link>
      </p>
     </div>
@@ -383,7 +383,7 @@ export default function AiTooling() {
    <section aria-label="Contact" className="border-t border-line px-5 py-16 text-center sm:px-8 sm:py-24">
     <div className="mx-auto max-w-3xl">
      <h2 className="text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-      Start with the free consult — <span className="text-accent">or ownership first.</span>
+      Start with the free consult — <span className="text-accent">or a product retainer first.</span>
      </h2>
      <p className="mx-auto mt-5 max-w-xl text-pretty text-[15px] leading-relaxed text-body">
       {AI_PACKAGE.freeConsult} If you need a product owner who ships features every month,
@@ -392,7 +392,7 @@ export default function AiTooling() {
      <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
       <Link href={INQUIRE_PATH} className="btn-primary">{INQUIRE_CTA}</Link>
       <Link href="/pricing" className="btn-ghost">
-       See ownership retainers
+       See pricing
       </Link>
      </div>
      <p className="mt-4 text-sm text-muted">

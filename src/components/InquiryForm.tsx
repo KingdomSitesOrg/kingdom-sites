@@ -6,7 +6,7 @@ import { CONTACT_EMAIL, INQUIRE_API, SALES_EMAIL } from '@/lib/contact'
 import { TIERS } from '@/lib/partnership'
 
 /**
- * Product-ownership enquiry form.
+ * Product enquiry form.
  *
  * Posts to /api/inquiry (Resend + optional webhook) — same delivery path as
  * the production free-look form. On failure, falls back to mailto so nothing
@@ -68,7 +68,7 @@ function buildMessage(f: Fields) {
   return [
     'Hi Thomas,',
     '',
-    'I would like to talk about product ownership for my product.',
+    'I would like to talk about retainers to design, build, ship, and maintain my product.',
     '',
     ...lines,
     '',
@@ -124,8 +124,8 @@ export default function InquiryForm() {
   /* Fallback opens the visitor's mail app to sales (+ engineering on the To line when supported). */
   const mailtoHref = `mailto:${SALES_EMAIL},${CONTACT_EMAIL}?subject=${encodeURIComponent(
     fields.product.trim()
-      ? `Product ownership — ${fields.product.trim()}`
-      : 'Product ownership enquiry',
+      ? `Design, build, ship, and maintain — ${fields.product.trim()}`
+      : 'Design, build, ship, and maintain enquiry',
   )}&body=${encodeURIComponent(buildMessage(fields))}`
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -186,7 +186,7 @@ export default function InquiryForm() {
         <p className="mt-3 text-[15px] leading-relaxed text-body">
           {'Your enquiry is in my inbox. I read every one myself and reply within a day — usually sooner — about '}
           <span className="font-medium text-ink">{fields.product.trim() || 'your product'}</span>
-          {' and whether ownership with me is a fit.'}
+          {' and whether working with me is a fit.'}
         </p>
         <p className="mt-4 text-[15px] leading-relaxed text-body">
           {'Nothing to do in the meantime. Sales is '}

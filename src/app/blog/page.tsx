@@ -73,7 +73,7 @@ export default function BlogIndex() {
       Building a product that needs an owner?
      </h2>
      <p className="mx-auto mt-3 max-w-lg text-pretty text-[15px] leading-relaxed text-body">
-      Main work is product ownership for custom software. For a simple website or local
+      Main work is custom product work — design, build, ship, and maintain software. For a simple website or local
       search help, email works — scoped after a conversation.
      </p>
      <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
@@ -81,7 +81,7 @@ export default function BlogIndex() {
        {INQUIRE_CTA}
       </Link>
       <Link href="/pricing" className="link-accent text-sm">
-       See product ownership
+       See pricing
       </Link>
      </div>
      <p className="mt-4 text-sm text-body">

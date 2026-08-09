@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/nextjs'
 import { INQUIRY_TO_EMAILS } from '@/lib/contact'
 
 /**
- * Product-ownership enquiries.
+ * Product enquiries.
  *
  * The form posts here; this route delivers by email (Resend) and optionally a
  * webhook. Same stack as the former free-look funnel — nothing stored in a DB.
@@ -147,9 +147,9 @@ export async function POST(request: Request) {
       )
     }
 
-    const subject = `Product ownership enquiry — ${values.product}`
+    const subject = `Design, build, ship, and maintain enquiry — ${values.product}`
     const body = [
-      'A new product-ownership enquiry from kingdom-sites.com',
+      'A new product-retainer enquiry from kingdom-sites.com',
       '',
       ...FIELDS.filter(([key]) => values[key] !== '').map(
         ([key, label]) => `${label}: ${values[key]}`,
@@ -160,12 +160,12 @@ export async function POST(request: Request) {
 
     const [emailed, hooked] = await Promise.all([
       sendEmail(subject, body, values.email),
-      sendWebhook({ ...values, receivedAt: new Date().toISOString(), kind: 'product-ownership' }),
+      sendWebhook({ ...values, receivedAt: new Date().toISOString(), kind: 'product-retainer' }),
     ])
 
     if (!emailed && !hooked) {
       Sentry.captureMessage(
-        'Product-ownership enquiry could not be delivered — no destination succeeded',
+        'Product enquiry could not be delivered — no destination succeeded',
         'error',
       )
       return NextResponse.json(

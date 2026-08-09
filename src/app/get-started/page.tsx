@@ -11,9 +11,9 @@ import {
 } from '@/lib/partnership'
 
 export const metadata: Metadata = {
-  title: 'Start an enquiry — product ownership',
+  title: 'Start an enquiry — design, build, ship, and maintain',
   description:
-    'Tell me what you are building. I will reply within a day about product ownership fit, complexity band, and next steps — free, no obligation.',
+    'Tell me what you are building. I will reply within a day about design, build, ship, and maintain fit, complexity band, and next steps — free, no obligation.',
   alternates: { canonical: '/get-started' },
 }
 
@@ -24,7 +24,7 @@ const SIDE = [
   },
   {
     title: 'What you are asking for',
-    desc: 'A product ownership retainer — someone who owns the product surface with you: features, fixes, releases, and ongoing care.',
+    desc: 'A monthly product retainer — someone who designs, builds, ships, and maintains the product surface with you: features, fixes, releases, and ongoing care.',
   },
   {
     title: 'No long lock-in',
@@ -47,7 +47,7 @@ export default function GetStarted() {
         </div>
       </section>
 
-      <section aria-label="Product ownership enquiry" className="px-5 pb-20 sm:px-8 sm:pb-24">
+      <section aria-label="Design, build, ship, and maintain enquiry" className="px-5 pb-20 sm:px-8 sm:pb-24">
         <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-14">
           <InquiryForm />
 
@@ -91,7 +91,7 @@ export default function GetStarted() {
                 href="/pricing"
                 className="mt-5 inline-block text-sm font-medium text-white underline underline-offset-4"
               >
-                Compare ownership bands ›
+                Compare pricing bands ›
               </Link>
             </div>
 

@@ -47,7 +47,7 @@ export default function SeoPage() {
               {INQUIRE_CTA}
             </Link>
             <Link href="/pricing" className="btn-ghost">
-              Product ownership pricing
+              Product pricing
             </Link>
           </div>
         </div>

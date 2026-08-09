@@ -1,7 +1,7 @@
 /**
  * Where the money actually gets collected.
  *
- * Stripe payment links — one per ownership tier / billing period when used.
+ * Stripe payment links — one per pricing tier / billing period when used.
  * Until a link is filled in, the billing page falls back to email rather than
  * a button that goes nowhere.
  *

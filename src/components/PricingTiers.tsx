@@ -30,7 +30,7 @@ function Check() {
   )
 }
 
-/** Ownership complexity bands — Focused / Full / Intensive. */
+/** Pricing complexity bands — Focused / Full / Intensive. */
 export default function PricingTiers() {
   return (
     <div>
@@ -96,7 +96,7 @@ export default function PricingTiers() {
         {INTENSIVE_DESIGN_NOTE}
       </p>
       <p className="mx-auto mt-4 max-w-3xl text-center text-[13.5px] leading-relaxed text-muted">
-        Ownership from {ENTRY_PRICE_LABEL}/month · optional AI package from {AI_PRICE_LABEL}/month.{' '}
+        From {ENTRY_PRICE_LABEL}/month · optional AI package from {AI_PRICE_LABEL}/month.{' '}
         {PREPAY_LINE} {NOTICE_LINE}
       </p>
     </div>

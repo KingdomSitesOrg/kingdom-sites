@@ -18,11 +18,11 @@ import {
 const inter = Inter({ subsets: ["latin"] });
 
 const DESCRIPTION =
-  "Product ownership retainers for custom, mobile-led software. One engineer owns your product with you — roadmap, build, ship, and care. For product owners and founders. From ~$1,000/month.";
+  "Custom products designed, built, shipped, and maintained on a monthly retainer. Mobile-led software for product owners and founders. From ~$1,000/month.";
 
 export const metadata: Metadata = {
   title: {
-    default: "Kingdom Sites — product ownership for custom software",
+    default: "Kingdom Sites — design, build, ship, and maintain custom products",
     template: "%s | Kingdom Sites",
   },
   description: DESCRIPTION,
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
      engines that pages like /about and /my-work were the home page and had
      them dropped as duplicates. Each page declares its own instead. */
   keywords: [
-    "product ownership retainer",
+    "monthly product retainer",
     "custom software development",
     "mobile app development",
     "product engineer retainer",
@@ -41,13 +41,12 @@ export const metadata: Metadata = {
     "software for founders",
     "AI tooling",
     "ongoing product development",
-    "software ownership",
     "custom mobile products",
     SERVICE_CITY,
     SERVICE_REGION,
   ],
   openGraph: {
-    title: "Kingdom Sites — product ownership for custom software",
+    title: "Kingdom Sites — design, build, ship, and maintain custom products",
     description: DESCRIPTION,
     url: "https://kingdom-sites.com",
     siteName: "Kingdom Sites",
@@ -56,7 +55,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kingdom Sites — product ownership for custom software",
+    title: "Kingdom Sites — design, build, ship, and maintain custom products",
     description: DESCRIPTION,
   },
   robots: {
@@ -87,14 +86,14 @@ const STRUCTURED_DATA = {
   email: "thomas@kingdom-sites.com",
   founder: { "@type": "Person", name: "Thomas Klein" },
   serviceType: [
-    "Product ownership retainers",
+    "Monthly product retainers",
     "Custom software development",
     "Mobile product development",
     "AI tooling and implementation",
   ],
   areaServed: AREA_SERVED,
   knowsAbout: [
-    "Product ownership",
+    "Design, build, ship, and maintain",
     "Custom mobile software",
     "Software product development",
     "AI tooling",

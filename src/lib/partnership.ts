@@ -1,12 +1,12 @@
 /**
  * The commercial offer, in one place.
  *
- * Product ownership retainers for custom products (mobile-led proof)
- * for product owners and business founders. Complexity tiers assigned
- * after a call. Optional AI package. Quiet SEO page exists separately.
+ * Retainers to design, build, ship, and maintain custom products (mobile-led
+ * proof) for product owners and business founders. Complexity tiers assigned
+ * after a call. Optional AI package. SEO page exists separately.
  *
  * No long-term commitment. Prepay discounts for 6 months or 1 year.
- * Two months’ notice to end. See grill-me session decisions.
+ * Two months’ notice to end.
  */
 
 import { INQUIRE_CTA, INQUIRE_PATH } from './contact'
@@ -34,10 +34,11 @@ export const TIERS: ComplexityTier[] = [
     priceAround: 1000,
     tagline: 'One clear product',
     bestFor: 'A single product surface with a steady feature flow and limited roles or integrations.',
-    promise: 'I own your product end-to-end: next features, bug fixes, releases, and ongoing care.',
+    promise:
+      'I design, build, ship, and maintain your product — next features, bug fixes, releases, and ongoing care.',
     example: 'Single-purpose mobile product with a clear workflow (e.g. a learning app).',
     features: [
-      'Product ownership — roadmap, build, ship, fix',
+      'Design, build, ship, and maintain — end to end',
       'Mobile-led custom product work',
       'Ongoing features and improvements',
       'You talk to the person who builds it',
@@ -49,7 +50,8 @@ export const TIERS: ComplexityTier[] = [
     priceAround: 2000,
     tagline: 'Real product depth',
     bestFor: 'Deeper product work: more roles, data, integrations, or a supporting surface alongside the app.',
-    promise: 'Same ownership relationship at the capacity a growing product actually needs.',
+    promise:
+      'Same design–build–ship–maintain relationship at the capacity a growing product actually needs.',
     example: 'Business product with real ops behind the phone — multiple user types, serious backend.',
     featured: true,
     features: [
@@ -67,9 +69,9 @@ export const TIERS: ComplexityTier[] = [
     bestFor:
       'Founders who want product depth plus someone who will think with them about the business — strategy, priorities, and how the product should grow.',
     promise:
-      'I own the product and help you strategize: what to build next, how it serves the business, and how to ship it — not ticket-taking alone.',
+      'I design, build, ship, and maintain the product — and help you strategize: what to build next, how it serves the business, and how to ship it.',
     example:
-      'Multi-surface or high-velocity product where you need an owner who also thinks commercially (Ruta-shaped depth).',
+      'Multi-surface or high-velocity product where you need a partner who also thinks commercially (Ruta-shaped depth).',
     features: [
       'Everything in Full',
       'Business thinking and product strategy with you',
@@ -166,7 +168,7 @@ export const AI_PACKAGE = {
     'AI in your product or internal tooling',
     'Grounded in your data where that is the job',
     'Person-in-the-loop for irreversible actions',
-    'Optional on any ownership tier',
+    'Optional on any pricing tier',
   ],
 }
 
@@ -178,12 +180,12 @@ export const HERO = {
   /** Full hero headline — no separate accent split. */
   title: 'Custom products that advance your ideas and business',
   sub:
-    'For product owners and business founders who have a long list of features and growth ahead — mobile-led software people actually use, with one person who owns the product after launch, not a project that ends.',
+    'For product owners and business founders who have a long list of features and growth ahead — mobile-led software people actually use, with one person who designs, builds, ships, and maintains it with you, not a project that ends at launch.',
   ctaPrimary: INQUIRE_CTA,
   ctaPrimaryHref: INQUIRE_PATH,
   ctaSecondary: 'See pricing',
   ctaSecondaryHref: '/pricing',
-  priceHint: `Ownership from ${ENTRY_PRICE_LABEL}/month · AI from ${AI_PRICE_LABEL}/month`,
+  priceHint: `From ${ENTRY_PRICE_LABEL}/month · AI from ${AI_PRICE_LABEL}/month`,
 }
 
 export const OWNERSHIP_PILLARS = [
@@ -192,8 +194,8 @@ export const OWNERSHIP_PILLARS = [
     desc: 'Lots of ideas, lots of features, real growth. I am the person who builds the next thing and fixes what breaks — every month, not only until launch day.',
   },
   {
-    title: 'I own the surface',
-    desc: 'Roadmap with you, design, build, release, support. You are not managing freelancers or a ticket queue. You have a product partner.',
+    title: 'Design, build, ship, maintain',
+    desc: 'Roadmap with you, design, build, release, and ongoing care. You are not managing freelancers or a ticket queue. You have a product partner.',
   },
   {
     title: 'Mobile-led, systems included',
@@ -209,7 +211,7 @@ export const STEPS = [
   {
     step: '1',
     title: 'A working conversation',
-    desc: 'What you are building, who uses it, how hard the product is, and whether I am the right owner for it. Honest either way.',
+    desc: 'What you are building, who uses it, how hard the product is, and whether I am the right partner for it. Honest either way.',
   },
   {
     step: '2',
@@ -218,8 +220,8 @@ export const STEPS = [
   },
   {
     step: '3',
-    title: 'Ownership starts',
-    desc: 'Retainer from day one. The product is built and grown inside that relationship — not a giant handoff after a one-off project.',
+    title: 'Work starts',
+    desc: 'Retainer from day one. The product is designed, built, shipped, and maintained inside that relationship — not a giant handoff after a one-off project.',
   },
   {
     step: '4',
@@ -231,7 +233,7 @@ export const STEPS = [
 export const FAQS = [
   {
     q: 'What am I actually buying?',
-    a: 'A product ownership retainer: I own a defined product surface with you — next features, bugs, releases, and care. Not a pile of hours and not a site you never hear about again.',
+    a: 'A monthly retainer to design, build, ship, and maintain a defined product with you — next features, bugs, releases, and care. Not a pile of hours and not a site you never hear about again.',
   },
   {
     q: 'How do you pick Focused, Full, or Intensive?',
@@ -240,7 +242,7 @@ export const FAQS = [
   {
     q: 'What is different about Intensive?',
     a:
-      'Intensive is product ownership plus business help: strategizing what to build and why, not only coding what you already decided. It also includes graphic design for the product and brand in most cases — usually inside the ~$3,000/month average. Unusually large design work may be a separate fee; I will flag that before you pay.' +
+      'Intensive is full product work plus business help: strategizing what to build and why, not only coding what you already decided. It also includes graphic design for the product and brand in most cases — usually inside the ~$3,000/month average. Unusually large design work may be a separate fee; I will flag that before you pay.' +
       ' ' +
       '(See the design asterisk under pricing for the full note.)',
   },
@@ -250,7 +252,7 @@ export const FAQS = [
   },
   {
     q: 'Do you only build mobile apps?',
-    a: 'Mobile is the lead proof. Custom products often need backend, web, and AI too — that work is part of ownership when the product needs it.',
+    a: 'Mobile is the lead proof. Custom products often need backend, web, and AI too — that work is part of the retainer when the product needs it.',
   },
   {
     q: 'What is the AI package?',
@@ -258,11 +260,11 @@ export const FAQS = [
   },
   {
     q: 'Who is this for?',
-    a: 'Product owners and business founders with ongoing features and growth — people who want one engineer owning the product, not a project shop that disappears after launch.',
+    a: 'Product owners and business founders with ongoing features and growth — people who want one engineer to design, build, ship, and maintain the product, not a project shop that disappears after launch.',
   },
   {
     q: 'Do you still do SEO or local websites?',
-    a: 'Yes, as a side service when it is useful — see the quiet SEO page. It is not the main business. The main business is product ownership for custom software.',
+    a: 'Yes when it is useful — see the websites & SEO page. The main work is custom products designed, built, shipped, and maintained on a monthly retainer.',
   },
   {
     q: 'What have you shipped?',
@@ -277,7 +279,7 @@ export const AUDIENCE = [
   'Operators shipping internal tools',
   'Teams that need mobile-led software',
   'Founders with a long feature pipeline',
-  'Anyone who wants product ownership, not a handoff',
+  'Anyone who wants a partner who ships and stays, not a handoff',
 ]
 
 /** @deprecated Prefer TIERS / OWNERSHIP_PILLARS — kept only if old imports linger during migration. */
@@ -285,7 +287,7 @@ export const PILLARS = OWNERSHIP_PILLARS
 export const FIRST_MONTH_FREE_SHORT = PREPAY_LINE
 export const FIRST_MONTH_FREE_LONG = PREPAY_LINE + ' ' + NOTICE_LINE
 export const UNLIMITED_NOTE =
-  'Ownership means continuous product work inside the retainer. It is not unlimited free work for every business you own or a second full-time job without adjusting the tier.'
+  'The retainer covers continuous product work (design, build, ship, maintain). It is not unlimited free work for every business you own or a second full-time job without adjusting the tier.'
 export const SOFTWARE_ANGLE = OWNERSHIP_PILLARS.slice(0, 3)
 export const SEO_EXPLAINER: { title: string; desc: string }[] = []
 export const AUDIENCE_TRADES = AUDIENCE

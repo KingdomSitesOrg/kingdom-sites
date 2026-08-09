@@ -8,7 +8,7 @@ import { ENTRY_PRICE_LABEL } from '@/lib/partnership'
 export const metadata: Metadata = {
   title: 'Team — Kingdom Sites',
   description:
-    'Meet the Kingdom Sites team — Thomas Klein (product ownership & engineering) and Jack (sales).',
+    'Meet the Kingdom Sites team — Thomas Klein (engineering — design, build, ship, maintain) and Jack (sales).',
   alternates: { canonical: '/about' },
 }
 
@@ -20,7 +20,7 @@ export default function About() {
           The <span className="text-accent">team.</span>
         </h1>
         <p className="mt-5 text-pretty text-base leading-relaxed text-body sm:text-lg">
-          Product ownership and engineering on one side, sales on the other — a small team on
+          Engineering (design, build, ship, maintain) on one side, sales on the other — a small team on
           purpose so you always know who you are talking to.
         </p>
       </div>
@@ -47,22 +47,22 @@ export default function About() {
 
         <div className="lg:col-span-7">
           <p className="text-xs font-semibold uppercase tracking-[0.08em] text-warm">
-            Product ownership &amp; engineering
+            Engineering — design, build, ship, maintain
           </p>
           <h2 className="mt-2 text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
             Thomas Klein
           </h2>
           <p className="mt-5 text-pretty text-base leading-relaxed text-body sm:text-lg">
-            My name is Thomas Klein — a software engineer and product ownership partner for product
-            owners and business founders. I would rather own a handful of custom products with you
-            for years than ship a one-off project and disappear after launch.
+            My name is Thomas Klein — a software engineer who designs, builds, ships, and maintains
+            custom products for product owners and business founders. I would rather stay with a
+            handful of products for years than ship a one-off project and disappear after launch.
           </p>
           <p className="mt-4 text-pretty text-[15px] leading-relaxed text-body sm:text-base">
             The work is mobile-led software people actually use, plus the systems and AI that make
             it real. When you email, you get the person who builds it.
           </p>
           <p className="mt-4 text-pretty text-[15px] leading-relaxed text-body sm:text-base">
-            My wife Monisha and I take on a small number of ownership relationships at a time, on
+            My wife Monisha and I take on a small number of retainer relationships at a time, on
             purpose. We are currently in the Philippines at IGSL — the International Graduate School
             of Leadership — training in biblical studies and discipleship. Client work carries on
             from here, on the same timelines as always.
@@ -72,14 +72,14 @@ export default function About() {
           <div className="mt-8 grid gap-4">
             <div className="tile p-6">
               <h3 className="text-sm font-semibold tracking-tight text-ink">
-                Product ownership, not a handoff
+                Design, build, ship, maintain — not a handoff
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-body">
                 A retainer relationship: roadmap with you, design, build, release, support. Month to
                 month is fine; prepay discounts if you want them. From about {ENTRY_PRICE_LABEL}/month
                 after a call places your product on Focused, Full, or Intensive.{' '}
                 <Link href="/pricing" className="link-accent">
-                  How ownership works <span aria-hidden="true">›</span>
+                  How we work <span aria-hidden="true">›</span>
                 </Link>
               </p>
             </div>
@@ -146,7 +146,7 @@ export default function About() {
               {SALES_NAME}
             </h2>
             <p className="mt-5 text-pretty text-base leading-relaxed text-body sm:text-lg">
-              Sales contact for product ownership. Reach out about fit, complexity band, and getting
+              Sales contact for design, build, ship, and maintain work. Reach out about fit, complexity band, and getting
               started — he will loop in engineering when it is time to build.
             </p>
             <Link href={INQUIRE_PATH} className="link-accent mt-5 inline-block text-sm">{INQUIRE_CTA}</Link>
@@ -163,7 +163,7 @@ export default function About() {
         </p>
         <p className="mt-3 text-sm text-muted">
           <Link href="/software" className="underline underline-offset-4">
-            Custom product ownership
+            Custom design, build, ship, and maintain
           </Link>
           {' · '}
           <Link href="/pricing" className="underline underline-offset-4">

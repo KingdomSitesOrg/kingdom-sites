@@ -11,9 +11,9 @@ import {
 } from '@/lib/partnership'
 
 export const metadata: Metadata = {
-  title: 'Pricing — product ownership retainers',
+  title: 'Pricing — monthly product retainers',
   description:
-    'Focused, Full, or Intensive product ownership retainers — typical averages from about $1,000/month. Optional AI package. Month to month; prepay discounts available.',
+    'Focused, Full, or Intensive monthly product retainers — typical averages from about $1,000/month. Optional AI package. Month to month; prepay discounts available.',
   alternates: { canonical: '/pricing' },
 }
 
@@ -27,9 +27,9 @@ export default function PricingPage() {
             <span className="text-accent">from complexity, not a menu.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-body sm:text-lg">
-            Product ownership retainers. Typical monthly averages from about {ENTRY_PRICE_LABEL} —
-            after a short call I place your product on a band. Month to month is fine; prepay only
-            if you want the discount.
+            Monthly retainers to design, build, ship, and maintain your product. Typical averages
+            from about {ENTRY_PRICE_LABEL} — after a short call I place your product on a band.
+            Month to month is fine; prepay only if you want the discount.
           </p>
         </div>
       </section>

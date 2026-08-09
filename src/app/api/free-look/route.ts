@@ -9,7 +9,7 @@ export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
 const MESSAGE =
-  'The free-look form is no longer available. Use /get-started or POST /api/inquiry for a product-ownership enquiry.'
+  'The free-look form is no longer available. Use /get-started or POST /api/inquiry for a product-retainer enquiry.'
 
 export async function GET() {
   return NextResponse.json(

@@ -51,7 +51,7 @@ export default function TermsPage() {
             </p>
             <p>
               <span className="font-medium text-ink">Ongoing care:</span>{' '}
-              Product ownership retainers and any agreed hosting or care are as described in the
+              Monthly product retainers (design, build, ship, and maintain) and any agreed hosting or care are as described in the
               engagement terms at the time of agreement (complexity bands Focused, Full, or
               Intensive — or project-specific quotes where that applies).
             </p>
