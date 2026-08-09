@@ -161,13 +161,12 @@ export const AI_PACKAGE = {
   promise:
     'AI tooling and implementation wired into real products and workflows — not demos.',
   freeConsult:
-    'One free consultation (about one to two hours) on how to leverage AI for your situation.',
+    'One free consultation (about one to two hours) on how to leverage AI: connectors, tools, skills, agent loops, and how they fit your work.',
   apiNote:
     'You pay your own model and API costs. The package covers my work; usage fees stay with you.',
   features: [
     'AI in your product or internal tooling',
     'Grounded in your data where that is the job',
-    'Person-in-the-loop for irreversible actions',
     'Optional on any pricing tier',
   ],
 }
