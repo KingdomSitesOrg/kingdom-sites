@@ -78,6 +78,7 @@ export const TIERS: ComplexityTier[] = [
       'Priorities, roadmap, and “what actually moves the needle”',
       'Multi-surface / platform depth and high change velocity',
       'AI integration — included',
+      'Websites & local SEO — included',
       'Graphic design for the product and brand*',
     ],
   },
@@ -247,7 +248,7 @@ export const FAQS = [
   {
     q: 'What is different about Intensive?',
     a:
-      'Intensive is full product work plus business help: strategizing what to build and why, not only coding what you already decided. AI tooling is included (no separate $199 package). Graphic design for the product and brand is usually included too — inside the ~$3,000/month average. Unusually large design work may be a separate fee; I will flag that before you pay.' +
+      'Intensive is full product work plus business help: strategizing what to build and why, not only coding what you already decided. AI integration and websites & local SEO are included. Graphic design for the product and brand is usually included too — inside the ~$3,000/month average. Unusually large design work may be a separate fee; I will flag that before you pay.' +
       ' ' +
       '(See the design asterisk under pricing for the full note.)',
   },
