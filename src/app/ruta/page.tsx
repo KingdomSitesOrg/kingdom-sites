@@ -382,12 +382,12 @@ export default function Ruta() {
       product the same way.
      </p>
      <div className="mt-9">
-      <a
-       href={CONTACT_MAILTO}
+      <Link
+       href={INQUIRE_PATH}
        className="inline-flex min-h-[44px] items-center justify-center rounded-full bg-[#15803d] px-7 py-3 text-[15px] font-medium text-white transition-colors hover:bg-[#166534]"
       >
-       Email me about product ownership
-      </a>
+       {INQUIRE_CTA}
+      </Link>
       <p className="mt-3 text-sm text-muted">
        <a href={CONTACT_MAILTO} className={`font-medium ${GREEN} hover:underline hover:underline-offset-4`}>
         {CONTACT_EMAIL}
