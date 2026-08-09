@@ -284,7 +284,7 @@ export default function InquiryForm() {
               className={`${inputClass} resize-y`}
               value={fields.building}
               onChange={set('building')}
-              placeholder="A mobile app for our crews plus a light office console. We have a prototype; we need someone who owns shipping and the feature list."
+              placeholder="A mobile app for our crews plus a light office console. We have a prototype; we need someone to design, build, ship, and maintain the feature list with us."
               required
             />
           </Field>
