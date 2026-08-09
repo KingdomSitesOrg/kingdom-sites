@@ -2,7 +2,6 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { getAllPosts, formatPostDate } from '@/lib/blog'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
-import { SERVICE_AREA_LABEL } from '@/lib/local'
 
 export const metadata: Metadata = {
  title: 'Blog — growing local businesses in Rochester, MN',
