@@ -244,7 +244,7 @@ export default function Home() {
                 Our mission <span aria-hidden="true">›</span>
               </Link>
               <Link href="/about" className="link-accent text-sm">
-                About us <span aria-hidden="true">›</span>
+                Team <span aria-hidden="true">›</span>
               </Link>
             </div>
           </div>
