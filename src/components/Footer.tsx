@@ -20,7 +20,7 @@ const PAGE_LINKS = [
   { href: '/my-work', label: 'My Work' },
   { href: '/ai-tooling', label: 'AI tooling' },
   { href: '/seo', label: 'Websites & SEO' },
-  { href: '/about', label: 'About' },
+  { href: '/about', label: 'Team' },
   { href: '/mission', label: 'Mission' },
   { href: '/privacy', label: 'Privacy Policy' },
   { href: '/terms', label: 'Terms' },

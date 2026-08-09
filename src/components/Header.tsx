@@ -25,7 +25,7 @@ const NAV_LINKS = [
   { to: '/#services',   label: 'Ownership', children: OWNERSHIP_LINKS },
   { to: '/ai-tooling',  label: 'AI' },
   { to: '/my-work',     label: 'My Work', children: WORK_LINKS },
-  { to: '/about',       label: 'About' },
+  { to: '/about',       label: 'Team' },
   { to: '/mission',     label: 'Mission' },
 ]
 
