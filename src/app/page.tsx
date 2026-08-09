@@ -113,9 +113,6 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-              <p className="mt-5 text-[12.5px] leading-relaxed text-white/40">
-                <span className="text-[#f0b48c]">*</span> {AI_PACKAGE.apiNote}
-              </p>
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link href="/ai-tooling" className="btn-primary">
                   How AI tooling works

@@ -90,9 +90,12 @@ export const TIERS: ComplexityTier[] = [
 export const INTENSIVE_DESIGN_NOTE =
   '* Graphic design on Intensive is usually included in the ~$3,000/month band (UI, product visuals, brand pieces that support the product). Unusually large design campaigns or work for a different brand may be a separate fee — I will say so up front before anything is billed.'
 
-/** AI tooling is included on Intensive; optional paid package on other tiers. */
+/**
+ * Single AI pricing note (tiers + API costs) — place outside the AI package card,
+ * not inside the feature list.
+ */
 export const INTENSIVE_AI_NOTE =
-  'AI tooling is included on Intensive (inside the ~$3,000/month band). On Focused and Full it is an optional add-on at $199/month. You still pay your own model and API costs either way.'
+  'AI tooling is included on Intensive (inside the ~$3,000/month band). On Focused and Full it is an optional add-on at $199/month. The package covers my work; you pay your own model and API costs either way.'
 
 
 /** Scorecard used on the call (also summarized on the site). */
@@ -161,17 +164,16 @@ export const PRICING_ASTERISK =
 export const AI_PACKAGE = {
   priceMonthly: 199,
   name: 'AI package',
-  tagline: 'Optional add-on — included on Intensive',
+  tagline: 'Optional add-on',
   promise:
-    'AI tooling and implementation wired into real products and workflows — not demos. Included on Intensive; optional add-on on Focused and Full.',
+    'AI tooling and implementation wired into real products and workflows — not demos.',
   freeConsult:
     'One free consultation (about one to two hours) on how to leverage AI: connectors, tools, skills, agent loops, and how they fit your work.',
-  apiNote:
-    'You pay your own model and API costs. The package covers my work; usage fees stay with you. Intensive already includes AI tooling in the monthly retainer.',
+  /** Short card footnote when the full INTENSIVE_AI_NOTE sits outside the card. */
+  apiNote: 'You pay your own model and API costs. The package covers my work; usage fees stay with you.',
   features: [
     'AI in your product or internal tooling',
     'Grounded in your data where that is the job',
-    'Included on Intensive · optional +$199/mo on Focused and Full',
   ],
 }
 

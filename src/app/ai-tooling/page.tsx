@@ -6,6 +6,7 @@ import {
  AI_PACKAGE,
  AI_PRICE_LABEL,
  ENTRY_PRICE_LABEL,
+ INTENSIVE_AI_NOTE,
 } from '@/lib/partnership'
 
 export const metadata: Metadata = {
@@ -276,8 +277,7 @@ export default function AiTooling() {
         <span className="text-base font-medium text-muted">/month</span>
        </p>
        <p className="mt-4 flex-1 text-[15px] leading-relaxed text-body">
-        Included on Intensive. Optional add-on on Focused and Full. Implementation and tooling
-        wired into real products and workflows — not demos.
+        Implementation and tooling wired into real products and workflows — not demos.
        </p>
        <ul className="mt-5 space-y-2.5 border-t border-line pt-5">
         {AI_PACKAGE.features.map((f) => (
@@ -287,11 +287,12 @@ export default function AiTooling() {
          </li>
         ))}
        </ul>
-       <p className="mt-5 text-[13px] leading-relaxed text-muted">
-        <span className="text-accent">*</span> {AI_PACKAGE.apiNote}
-       </p>
       </div>
      </EvenGrid>
+
+     <p className="mx-auto mt-6 max-w-2xl text-center text-[13.5px] leading-relaxed text-muted">
+      {INTENSIVE_AI_NOTE}
+     </p>
 
      <p className="mt-8 max-w-2xl text-sm leading-relaxed text-body">
       Main business is design, build, ship, and maintain (from {ENTRY_PRICE_LABEL}/month). AI is optional on

@@ -43,27 +43,27 @@ export default function PricingPage() {
         aria-label="AI package"
         className="border-t border-line px-5 py-16 sm:px-8 sm:py-20"
       >
-        <div className="tile-elevated mx-auto max-w-3xl px-6 py-10 text-center sm:px-10">
-          <h2 className="mt-3 text-2xl font-semibold tracking-tight text-ink">
-            {AI_PACKAGE.name} — {AI_PRICE_LABEL}/month
-          </h2>
-          <p className="mx-auto mt-3 max-w-lg text-[15px] leading-relaxed text-body">
-            {AI_PACKAGE.promise} Free one-time consult when you start the conversation.
-          </p>
-          <p className="mx-auto mt-3 max-w-lg text-[13px] leading-relaxed text-muted">
+        <div className="mx-auto max-w-3xl">
+          <div className="tile-elevated px-6 py-10 text-center sm:px-10">
+            <h2 className="text-2xl font-semibold tracking-tight text-ink">
+              {AI_PACKAGE.name} — {AI_PRICE_LABEL}/month
+            </h2>
+            <p className="mx-auto mt-3 max-w-lg text-[15px] leading-relaxed text-body">
+              {AI_PACKAGE.promise} Free one-time consult when you start the conversation.
+            </p>
+            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+              <Link href={INQUIRE_PATH} className="btn-primary">
+                {INQUIRE_CTA}
+              </Link>
+              <Link href="/ai-tooling" className="btn-ghost">
+                AI tooling detail
+              </Link>
+            </div>
+          </div>
+
+          <p className="mx-auto mt-6 max-w-2xl text-center text-[13.5px] leading-relaxed text-muted">
             {INTENSIVE_AI_NOTE}
           </p>
-          <p className="mx-auto mt-2 max-w-lg text-[13px] leading-relaxed text-muted">
-            * {AI_PACKAGE.apiNote}
-          </p>
-          <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-            <Link href={INQUIRE_PATH} className="btn-primary">
-              {INQUIRE_CTA}
-            </Link>
-            <Link href="/ai-tooling" className="btn-ghost">
-              AI tooling detail
-            </Link>
-          </div>
         </div>
       </section>
     </div>
