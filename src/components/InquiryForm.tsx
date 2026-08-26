@@ -3,102 +3,22 @@
 import { useEffect, useRef, useState } from 'react'
 import { trackEvent } from '@/lib/analytics'
 import { CONTACT_EMAIL, INQUIRE_API, SALES_EMAIL } from '@/lib/contact'
-import { TIERS } from '@/lib/partnership'
 
 /**
- * Product enquiry form.
- *
- * Posts to /api/inquiry (Resend + optional webhook) — same delivery path as
- * the production free-look form. On failure, falls back to mailto so nothing
- * is silently lost.
+ * Enquiry form — name, email, optional message.
+ * Posts to /api/inquiry. On failure, falls back to mailto.
  */
 
 type Fields = {
-  product: string
   name: string
   email: string
-  phone: string
-  role: string
-  building: string
-  tier: string
-  ai: string
-  url: string
-  notes: string
+  message: string
 }
 
 const EMPTY: Fields = {
-  product: '',
   name: '',
   email: '',
-  phone: '',
-  role: '',
-  building: '',
-  tier: '',
-  ai: '',
-  url: '',
-  notes: '',
-}
-
-const LABELS: Record<keyof Fields, string> = {
-  product: 'Product or company name',
-  name: 'Your name',
-  email: 'Email',
-  phone: 'Best number to reach you',
-  role: 'Your role',
-  building: 'What you are building',
-  tier: 'Band you have in mind',
-  ai: 'AI package interest',
-  url: 'Current product or site (if any)',
-  notes: 'Anything else worth knowing',
-}
-
-const ROLES = [
-  'Product owner',
-  'Business founder',
-  'Operator / owner',
-  'Engineering lead',
-  'Something else',
-]
-
-function buildMessage(f: Fields) {
-  const lines = (Object.keys(LABELS) as (keyof Fields)[])
-    .filter((key) => f[key].trim() !== '')
-    .map((key) => `${LABELS[key]}: ${f[key].trim()}`)
-
-  return [
-    'Hi Thomas,',
-    '',
-    'I would like to talk about retainers to design, build, ship, and maintain my product.',
-    '',
-    ...lines,
-    '',
-    'Thanks,',
-    f.name.trim(),
-  ]
-    .join('\n')
-    .trim()
-}
-
-function Field({
-  id,
-  label,
-  hint,
-  children,
-}: {
-  id: string
-  label: string
-  hint?: string
-  children: React.ReactNode
-}) {
-  return (
-    <div>
-      <label htmlFor={id} className="block text-sm font-medium text-ink">
-        {label}
-      </label>
-      {hint && <p className="mt-1 text-[13px] leading-relaxed text-muted">{hint}</p>}
-      <div className="mt-2">{children}</div>
-    </div>
-  )
+  message: '',
 }
 
 const inputClass =
@@ -118,15 +38,12 @@ export default function InquiryForm() {
   }, [])
 
   const set = (key: keyof Fields) => (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => setFields((f) => ({ ...f, [key]: e.target.value }))
 
-  /* Fallback opens the visitor's mail app to sales (+ engineering on the To line when supported). */
   const mailtoHref = `mailto:${SALES_EMAIL},${CONTACT_EMAIL}?subject=${encodeURIComponent(
-    fields.product.trim()
-      ? `Design, build, ship, and maintain — ${fields.product.trim()}`
-      : 'Design, build, ship, and maintain enquiry',
-  )}&body=${encodeURIComponent(buildMessage(fields))}`
+    fields.name.trim() ? `Enquiry from ${fields.name.trim()}` : 'Kingdom Sites enquiry',
+  )}&body=${encodeURIComponent(fields.message.trim() || '(no message)')}`
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -154,10 +71,7 @@ export default function InquiryForm() {
         return
       }
 
-      trackEvent('inquiry_submit', {
-        tier: fields.tier || 'not_sure',
-        ai: fields.ai || 'not_sure',
-      })
+      trackEvent('inquiry_submit', { has_message: fields.message.trim() ? 'yes' : 'no' })
       setStatus('sent')
     } catch {
       setError('Could not reach the server. Your connection may have dropped.')
@@ -184,12 +98,11 @@ export default function InquiryForm() {
           {'Got it, ' + (fields.name.trim().split(' ')[0] || 'thanks') + '.'}
         </h2>
         <p className="mt-3 text-[15px] leading-relaxed text-body">
-          {'Your enquiry is in my inbox. I read every one myself and reply within a day — usually sooner — about '}
-          <span className="font-medium text-ink">{fields.product.trim() || 'your product'}</span>
-          {' and whether working with me is a fit.'}
+          Your note is in my inbox. I read every one and reply within a day — usually sooner — about
+          whether working together is a fit.
         </p>
         <p className="mt-4 text-[15px] leading-relaxed text-body">
-          {'Nothing to do in the meantime. Sales is '}
+          {'Sales is '}
           <a href={`mailto:${SALES_EMAIL}`} className="link-accent">
             {SALES_EMAIL}
           </a>
@@ -209,130 +122,54 @@ export default function InquiryForm() {
     <div className="tile-elevated p-7 sm:p-10">
       <form onSubmit={handleSubmit} className="grid gap-6">
         <fieldset disabled={sending} className="grid gap-6 border-0 p-0">
-          <div className="grid gap-6 sm:grid-cols-2">
-            <Field id="product" label={LABELS.product}>
-              <input
-                id="product"
-                className={inputClass}
-                value={fields.product}
-                onChange={set('product')}
-                placeholder="Acme Field App"
-                autoComplete="organization"
-                required
-              />
-            </Field>
-
-            <Field id="name" label={LABELS.name}>
-              <input
-                id="name"
-                className={inputClass}
-                value={fields.name}
-                onChange={set('name')}
-                placeholder="Alex Rivera"
-                autoComplete="name"
-                required
-              />
-            </Field>
-          </div>
-
-          <div className="grid gap-6 sm:grid-cols-2">
-            <Field id="email" label={LABELS.email}>
-              <input
-                id="email"
-                type="email"
-                className={inputClass}
-                value={fields.email}
-                onChange={set('email')}
-                placeholder="alex@acme.com"
-                autoComplete="email"
-                required
-              />
-            </Field>
-
-            <Field id="phone" label={LABELS.phone}>
-              <input
-                id="phone"
-                type="tel"
-                className={inputClass}
-                value={fields.phone}
-                onChange={set('phone')}
-                placeholder="(555) 123 4567"
-                autoComplete="tel"
-              />
-            </Field>
-          </div>
-
-          <Field id="role" label={LABELS.role}>
-            <select id="role" className={inputClass} value={fields.role} onChange={set('role')} required>
-              <option value="">Choose one…</option>
-              {ROLES.map((r) => (
-                <option key={r} value={r}>
-                  {r}
-                </option>
-              ))}
-            </select>
-          </Field>
-
-          <Field
-            id="building"
-            label={LABELS.building}
-            hint="Who uses it, what problem it solves, and how far along you are."
-          >
-            <textarea
-              id="building"
-              rows={4}
-              className={`${inputClass} resize-y`}
-              value={fields.building}
-              onChange={set('building')}
-              placeholder="A mobile app for our crews plus a light office console. We have a prototype; we need someone to design, build, ship, and maintain the feature list with us."
+          <div>
+            <label htmlFor="name" className="block text-sm font-medium text-ink">
+              Your name
+            </label>
+            <input
+              id="name"
+              className={`${inputClass} mt-2`}
+              value={fields.name}
+              onChange={set('name')}
+              placeholder="Alex Rivera"
+              autoComplete="name"
               required
             />
-          </Field>
+          </div>
 
-          <Field
-            id="tier"
-            label={LABELS.tier}
-            hint="Only if you already know — otherwise leave it and I will recommend a band after we talk."
-          >
-            <select id="tier" className={inputClass} value={fields.tier} onChange={set('tier')}>
-              <option value="">Not sure yet — tell me what fits</option>
-              {TIERS.map((t) => (
-                <option key={t.id} value={`${t.name} (~$${t.priceAround.toLocaleString()}/month)`}>
-                  {`${t.name} — ~$${t.priceAround.toLocaleString()}/month · ${t.tagline}`}
-                </option>
-              ))}
-            </select>
-          </Field>
-
-          <Field id="ai" label={LABELS.ai}>
-            <select id="ai" className={inputClass} value={fields.ai} onChange={set('ai')}>
-              <option value="">Not sure yet</option>
-              <option value="Yes — interested in the AI package">Yes — interested in the AI package</option>
-              <option value="Maybe later">Maybe later</option>
-              <option value="No">No</option>
-            </select>
-          </Field>
-
-          <Field id="url" label={LABELS.url} hint="App Store link, staging site, or leave blank.">
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-ink">
+              Email
+            </label>
             <input
-              id="url"
-              className={inputClass}
-              value={fields.url}
-              onChange={set('url')}
-              placeholder="https://…"
+              id="email"
+              type="email"
+              className={`${inputClass} mt-2`}
+              value={fields.email}
+              onChange={set('email')}
+              placeholder="alex@example.com"
+              autoComplete="email"
+              required
             />
-          </Field>
+          </div>
 
-          <Field id="notes" label={LABELS.notes}>
+          <div>
+            <label htmlFor="message" className="block text-sm font-medium text-ink">
+              Message
+              <span className="ml-1 font-normal text-muted">(optional)</span>
+            </label>
+            <p className="mt-1 text-[13px] leading-relaxed text-muted">
+              An idea, a tool, something you want to work through — whatever you have.
+            </p>
             <textarea
-              id="notes"
-              rows={3}
-              className={`${inputClass} resize-y`}
-              value={fields.notes}
-              onChange={set('notes')}
-              placeholder="Timeline, team around you, what success looks like in six months."
+              id="message"
+              rows={6}
+              className={`${inputClass} mt-2 resize-y`}
+              value={fields.message}
+              onChange={set('message')}
+              placeholder="I have an idea for an app…"
             />
-          </Field>
+          </div>
 
           <div className="absolute left-[-9999px] top-0 h-0 w-0 overflow-hidden" aria-hidden="true">
             <label htmlFor="company">Company</label>
@@ -350,7 +187,7 @@ export default function InquiryForm() {
 
         <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
           <button type="submit" className="btn-primary" disabled={sending}>
-            {sending ? 'Sending…' : 'Send enquiry'}
+            {sending ? 'Sending…' : 'Send'}
           </button>
           <span className="text-[13px] text-muted">I reply within a day.</span>
         </div>

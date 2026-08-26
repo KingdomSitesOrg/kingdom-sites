@@ -52,8 +52,8 @@ export default function TermsPage() {
             <p>
               <span className="font-medium text-ink">Ongoing care:</span>{' '}
               Monthly product retainers (design, build, ship, and maintain) and any agreed hosting or care are as described in the
-              engagement terms at the time of agreement (complexity bands Focused, Full, or
-              Intensive — or project-specific quotes where that applies).
+              engagement terms at the time of agreement (a quoted monthly retainer, or a
+              separate AI consultation invoice).
             </p>
             <p>
               <span className="font-medium text-ink">Refund Eligibility:</span> Fees (minus

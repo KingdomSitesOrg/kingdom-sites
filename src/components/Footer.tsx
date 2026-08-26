@@ -1,16 +1,12 @@
 import Link from 'next/link'
-import { INQUIRE_PATH } from '@/lib/contact'
+import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 
 const FACEBOOK_URL = 'https://www.facebook.com/share/1EzdtfSCs3/?mibextid=wwXIfr'
 const YOUTUBE_URL = 'https://www.youtube.com/@tkklein/videos'
 
 const PAGE_LINKS = [
-  { href: '/pricing', label: 'Pricing' },
-  { href: '/software', label: 'Custom Software' },
-  { href: INQUIRE_PATH, label: 'Enquiry' },
   { href: '/my-work', label: 'My Work' },
-  { href: '/ai-tooling', label: 'AI tooling' },
-  { href: '/seo', label: 'Websites & SEO' },
+  { href: '/ai-tooling', label: 'AI' },
   { href: '/about', label: 'Team' },
   { href: '/mission', label: 'Mission' },
   { href: '/privacy', label: 'Privacy Policy' },
@@ -22,7 +18,10 @@ export default function Footer() {
     <footer className="band-dark">
       <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8 sm:py-16">
         <div className="grid gap-10 sm:grid-cols-2 sm:items-start">
-          <div className="flex flex-col items-start gap-3">
+          <div className="flex flex-col items-start gap-4">
+            <Link href={INQUIRE_PATH} className="btn-primary">
+              {INQUIRE_CTA}
+            </Link>
             <a
               href={FACEBOOK_URL}
               target="_blank"
@@ -87,7 +86,7 @@ export default function Footer() {
 
         <div className="mt-12 border-t border-white/12 pt-6">
           <p className="text-xs leading-relaxed text-white/45">
-            Kingdom Sites — custom products designed, built, shipped, and maintained. Copyright ©{' '}
+            Kingdom Sites — mobile application solutions. Copyright ©{' '}
             {new Date().getFullYear()} Kingdom Sites. All rights reserved.
           </p>
         </div>

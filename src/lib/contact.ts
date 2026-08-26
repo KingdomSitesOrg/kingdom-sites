@@ -1,8 +1,9 @@
 /**
  * Who to reach at Kingdom Sites.
  *
- * Enquiries go through the form first (INQUIRE_PATH → /api/inquiry).
- * Sales contact is Jack; Thomas designs, builds, ships, and maintains the product work.
+ * Enquiries go through the form and/or a free Calendly talk (INQUIRE_PATH).
+ * AI consultation uses a separate Calendly event on /ai-tooling.
+ * Sales contact is Jack; Thomas does the product work.
  */
 
 export const CONTACT_EMAIL = 'thomas@kingdom-sites.com'
@@ -20,10 +21,17 @@ export const SALES_NAME = 'Jack'
  */
 export const INQUIRY_TO_EMAILS = [CONTACT_EMAIL, SALES_EMAIL] as const
 
-/** Product enquiry form (same delivery stack as the old free-look). */
+/** Product enquiry form + free talk. */
 export const INQUIRE_PATH = '/get-started'
-export const INQUIRE_CTA = 'Start an enquiry'
+export const INQUIRE_CTA = 'Start a conversation'
 export const INQUIRE_API = '/api/inquiry'
+
+/**
+ * One Calendly account, two event types.
+ * Set the public event URLs in Vercel / .env.local.
+ */
+export const CALENDLY_FIT_URL = process.env.NEXT_PUBLIC_CALENDLY_FIT_URL?.trim() || ''
+export const CALENDLY_AI_URL = process.env.NEXT_PUBLIC_CALENDLY_AI_URL?.trim() || ''
 
 export type TeamMember = {
   id: 'thomas' | 'jack'
@@ -47,7 +55,7 @@ export const TEAM: TeamMember[] = [
     photoSrc: '/Photos/about.jpg',
     photoAlt: 'Thomas and Monisha',
     blurb:
-      'Software engineer who designs, builds, ships, and maintains mobile-led custom products, systems, and AI — the person who does the work and stays after launch.',
+      'Software engineer who designs, builds, ships, and maintains mobile apps and the systems behind them — the person who does the work and stays after launch.',
   },
   {
     id: 'jack',
@@ -59,6 +67,6 @@ export const TEAM: TeamMember[] = [
     photoSrc: null,
     photoAlt: 'Jack',
     blurb:
-      'Sales contact. Reach out about fit, complexity band, and getting started — he will loop in engineering when it is time to build.',
+      'Sales contact. Reach out about an idea or a fit conversation — he will loop in engineering when it is time to build.',
   },
 ]

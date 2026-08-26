@@ -1,7 +1,6 @@
 /**
- * Rochester, MN geo helpers (blog, schema where still used).
- * Local SEO is no longer the main product — see /seo for the quiet side page.
- * This is place naming for content/geo meta — not a commercial funnel.
+ * Rochester, MN geo helpers (blog, schema).
+ * Place naming for content/geo meta — not a commercial funnel.
  */
 
 export const SERVICE_CITY = 'Rochester'

@@ -18,11 +18,11 @@ import {
 const inter = Inter({ subsets: ["latin"] });
 
 const DESCRIPTION =
-  "Custom products designed, built, shipped, and maintained on a monthly retainer. Mobile-led software for product owners and founders. From ~$1,000/month.";
+  "I design, build, ship, and maintain mobile apps — and stay after launch. Monthly retainer, quoted after a conversation. Separate AI consultation available.";
 
 export const metadata: Metadata = {
   title: {
-    default: "Kingdom Sites — design, build, ship, and maintain custom products",
+    default: "Kingdom Sites — mobile application solutions",
     template: "%s | Kingdom Sites",
   },
   description: DESCRIPTION,
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     SERVICE_REGION,
   ],
   openGraph: {
-    title: "Kingdom Sites — design, build, ship, and maintain custom products",
+    title: "Kingdom Sites — mobile application solutions",
     description: DESCRIPTION,
     url: "https://kingdom-sites.com",
     siteName: "Kingdom Sites",
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kingdom Sites — design, build, ship, and maintain custom products",
+    title: "Kingdom Sites — mobile application solutions",
     description: DESCRIPTION,
   },
   robots: {

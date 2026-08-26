@@ -168,21 +168,14 @@ export default async function BlogPostPage({ params }: Props) {
 
     <div className="tile-elevated mx-auto mt-14 max-w-2xl px-6 py-10 text-center sm:px-10">
      <h2 className="text-balance text-xl font-semibold tracking-tight text-ink sm:text-2xl">
-      Custom products, owned with you
+      Have an app idea?
      </h2>
      <p className="mx-auto mt-3 max-w-md text-pretty text-sm leading-relaxed text-body">
-      Main work is monthly product retainers for software people actually use. Email if
-      that sounds like what you need — or for light website / local search help.
+      I build mobile apps and stay after launch. Reach out — we will decide if it is a fit.
      </p>
      <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
       <Link href={INQUIRE_PATH} className="btn-primary">{INQUIRE_CTA}</Link>
-      <Link href="/pricing" className="link-accent text-sm">
-       Design, build, ship, and maintain
-      </Link>
      </div>
-     <p className="mt-4 text-sm text-body">
-      <Link href={INQUIRE_PATH} className="link-accent">{INQUIRE_CTA}</Link>
-     </p>
     </div>
 
     {others.length > 0 && (

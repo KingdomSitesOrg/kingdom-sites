@@ -3,7 +3,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import aboutImage from '../../../public/Photos/about.jpg'
 import { INQUIRE_CTA, INQUIRE_PATH, SALES_NAME } from '@/lib/contact'
-import { ENTRY_PRICE_LABEL } from '@/lib/partnership'
+import { RETAINER } from '@/lib/partnership'
 
 export const metadata: Metadata = {
   title: 'Team — Kingdom Sites',
@@ -54,8 +54,8 @@ export default function About() {
           </h2>
           <p className="mt-5 text-pretty text-base leading-relaxed text-body sm:text-lg">
             My name is Thomas Klein — a software engineer who designs, builds, ships, and maintains
-            custom products for product owners and business founders. I would rather stay with a
-            handful of products for years than ship a one-off project and disappear after launch.
+            mobile apps for people with an idea and more to do after launch. I would rather stay
+            with a handful of products for years than ship a one-off and disappear.
           </p>
           <p className="mt-4 text-pretty text-[15px] leading-relaxed text-body sm:text-base">
             The work is mobile-led software people actually use, plus the systems and AI that make
@@ -75,11 +75,10 @@ export default function About() {
                 Design, build, ship, maintain — not a handoff
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-body">
-                A retainer relationship: roadmap with you, design, build, release, support. Month to
-                month is fine; prepay discounts if you want them. From about {ENTRY_PRICE_LABEL}/month
-                after a call places your product on Focused, Full, or Intensive.{' '}
-                <Link href="/pricing" className="link-accent">
-                  How we work <span aria-hidden="true">›</span>
+                {RETAINER.line} I design, build, ship, and stay — features, fixes, and the next
+                version.{' '}
+                <Link href={INQUIRE_PATH} className="link-accent">
+                  {INQUIRE_CTA} <span aria-hidden="true">›</span>
                 </Link>
               </p>
             </div>
@@ -146,8 +145,8 @@ export default function About() {
               {SALES_NAME}
             </h2>
             <p className="mt-5 text-pretty text-base leading-relaxed text-body sm:text-lg">
-              Sales contact for design, build, ship, and maintain work. Reach out about fit, complexity band, and getting
-              started — he will loop in engineering when it is time to build.
+              Sales contact. Reach out about an idea or a fit conversation — he will loop in
+              engineering when it is time to build.
             </p>
             <Link href={INQUIRE_PATH} className="link-accent mt-5 inline-block text-sm">{INQUIRE_CTA}</Link>
           </div>
@@ -162,12 +161,12 @@ export default function About() {
           Sales is {SALES_NAME}; engineering is Thomas — both receive every enquiry.
         </p>
         <p className="mt-3 text-sm text-muted">
-          <Link href="/software" className="underline underline-offset-4">
-            Custom design, build, ship, and maintain
+          <Link href="/my-work" className="underline underline-offset-4">
+            My work
           </Link>
           {' · '}
-          <Link href="/pricing" className="underline underline-offset-4">
-            Pricing
+          <Link href="/ai-tooling" className="underline underline-offset-4">
+            AI consultation
           </Link>
         </p>
       </div>

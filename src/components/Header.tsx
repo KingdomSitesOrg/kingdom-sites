@@ -8,14 +8,12 @@ import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 /* The individual projects, shown in the menu that opens under My Work. */
 const WORK_LINKS = [
   { to: '/my-work',       label: 'All my work',   desc: 'Everything I’ve designed and shipped' },
-  { to: '/ruta',          label: 'Ruta',          desc: 'Software that runs landscaping companies' },
+  { to: '/ruta',          label: 'Ruta',          desc: 'The crew app and the system behind it' },
   { to: '/tap-to-tick',   label: 'Tap to Tick',   desc: 'A frictionless expense tracker for iPhone' },
   { to: '/latin-game',    label: 'Latin practice game', desc: 'Classical Latin as a Roman quest' },
-  { to: '/ai-tooling',    label: 'AI tooling',    desc: 'AI wired into real products and workflows' },
 ]
 
 const NAV_LINKS = [
-  { to: '/pricing',     label: 'Pricing' },
   { to: '/ai-tooling',  label: 'AI' },
   { to: '/my-work',     label: 'My Work', children: WORK_LINKS },
   { to: '/about',       label: 'Team' },

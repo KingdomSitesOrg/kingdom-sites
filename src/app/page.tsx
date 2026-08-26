@@ -1,73 +1,36 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { PhoneMock, WebMock } from '@/components/BuildMocks'
-import EvenGrid from '@/components/EvenGrid'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
-import {
-  AI_PACKAGE,
-  AI_PRICE_LABEL,
-  HERO,
-} from '@/lib/partnership'
-
-/* Portfolio proof only — not the commercial offer. */
-const PROOF = [
-  {
-    name: 'Ruta',
-    what: 'Service-management platform · web and mobile',
-    desc: 'Quoting, scheduling, crews in the field, billing, and AI in a real product used daily by a service business.',
-    href: '/ruta',
-  },
-  {
-    name: 'Jam with Latin',
-    what: 'Mobile learning product on a retainer',
-    desc: 'iPhone, iPad and Android — built end-to-end for a small business owner with a long feature pipeline and no technical team.',
-    href: '/latin-game',
-  },
-  {
-    name: 'Tap to Tick',
-    what: 'Personal iOS expense app',
-    desc: 'A focused mobile product shipped and maintained — proof of clean design, build, ship, and maintain at a smaller surface.',
-    href: '/tap-to-tick',
-  },
-]
+import { AI_CONSULT, APP_OFFER, APP_PROOF, HERO } from '@/lib/partnership'
 
 export const metadata: Metadata = {
-  title: 'Kingdom Sites — custom products that advance your ideas and business',
+  title: 'Kingdom Sites — mobile application solutions',
   description:
-    'Monthly retainers to design, build, ship, and maintain custom products — mobile-led software for product owners and founders. Focused, Full, or Intensive from complexity. Month to month; optional AI package.',
+    'I design, build, ship, and maintain mobile apps — and the software behind them. Have an idea? Start a conversation. Monthly retainer, quoted after we talk. No pressure.',
   alternates: { canonical: '/' },
 }
 
 export default function Home() {
   return (
     <div className="w-full overflow-x-hidden">
-      {/* 1 — Hero */}
-      <section
-        aria-label="Design, build, ship, and maintain"
-        className="hero-wash px-5 pb-20 pt-16 sm:px-8 sm:pb-28 sm:pt-24"
-      >
-        <div className="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+      {/* 1 — Hero: the app offer. No CTA. */}
+      <section aria-label="Mobile apps" className="hero-wash px-5 pb-20 pt-16 sm:px-8 sm:pb-28 sm:pt-24">
+        <div className="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-16">
           <div className="text-center lg:text-left">
-            <h1 className="max-w-[18ch] text-balance text-[2.75rem] font-semibold leading-[1.02] tracking-tight text-ink sm:max-w-none sm:text-6xl lg:text-[4.5rem] xl:text-[5rem]">
+            <h1 className="text-balance text-[2.15rem] font-semibold leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-[3.5rem] xl:text-[3.85rem]">
               {HERO.title}
+              <span className="mt-3 block text-[0.72em] font-medium leading-snug text-accent sm:mt-4">
+                {HERO.accent}
+              </span>
             </h1>
             <p className="mt-7 text-pretty text-base leading-relaxed text-body sm:text-lg">
               {HERO.sub}
             </p>
-
-            <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
-              <Link href={HERO.ctaPrimaryHref} className="btn-primary">
-                {HERO.ctaPrimary}
-              </Link>
-              <Link href={HERO.ctaSecondaryHref} className="btn-ghost">
-                {HERO.ctaSecondary}
-              </Link>
-            </div>
-
-            <p className="mt-6 text-[13.5px] leading-relaxed text-muted">{HERO.priceHint}</p>
           </div>
 
-          <div className="flex items-center justify-center gap-2 [--mock-scale:0.64] sm:gap-5 sm:[--mock-scale:0.82] lg:[--mock-scale:0.94]">
+          <div className="flex items-center justify-center [--mock-scale:0.48] sm:[--mock-scale:0.72] lg:[--mock-scale:0.94]">
             <div className="band-dark rounded-[28px] p-6 sm:p-8">
               <div className="flex items-center justify-center gap-2 sm:gap-5">
                 <WebMock />
@@ -78,128 +41,92 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2 — Add-ons: AI + SEO side by side */}
-      <section aria-label="Add-ons" className="band-dark px-5 py-20 sm:px-8 sm:py-24">
+      {/* 2 — Apps I build + shots + My Work + inquire */}
+      <section aria-label="Apps I build" className="border-t border-line px-5 py-20 sm:px-8 sm:py-28">
         <div className="mx-auto max-w-6xl">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              Optional add-ons
+            <h2 className="text-balance text-3xl font-semibold tracking-tight text-ink sm:text-5xl">
+              {APP_OFFER.title}
             </h2>
-            <p className="mt-5 text-pretty text-base leading-relaxed text-white/65">
-              Layer these on a product retainer — or start with one when it is what you need first.
+            <p className="mt-5 text-pretty text-base leading-relaxed text-body sm:text-lg">
+              {APP_OFFER.sub}
             </p>
           </div>
 
-          <EvenGrid surface="home-addons" maxCols={2} className="mt-12">
-            <div className="tile-dark flex flex-col p-7 sm:p-8">
-              <h3 className="text-xl font-semibold tracking-tight text-white">
-                {AI_PACKAGE.name}
-                <span className="text-[#f0b48c]"> — {AI_PRICE_LABEL}/month</span>
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-white/65">{AI_PACKAGE.promise}</p>
-              <ul className="mt-6 flex-1 space-y-3">
-                <li className="flex gap-3 text-sm leading-relaxed text-white/70">
-                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#f0b48c]" aria-hidden="true" />
-                  <span>
-                    <span className="font-medium text-white">Free one-time consult</span>
-                    {' — '}
-                    {AI_PACKAGE.freeConsult}
-                  </span>
-                </li>
-                {AI_PACKAGE.features.map((f) => (
-                  <li key={f} className="flex gap-3 text-sm leading-relaxed text-white/70">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-white/35" aria-hidden="true" />
-                    <span>{f}</span>
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <Link href="/ai-tooling" className="btn-primary">
-                  How AI tooling works
-                </Link>
+          {/* One staggered cluster: Tap to Tick · Ruta · Latin */}
+          <div className="mx-auto mt-14 flex max-w-lg items-end justify-center pb-6 sm:max-w-xl">
+            {(['/tap-to-tick', '/ruta', '/latin-game'] as const).map((href, i) => {
+              const app = APP_PROOF.find((a) => a.href === href)
+              if (!app) return null
+              const shot = app.shots[0]
+              const middle = i === 1
+              return (
                 <Link
-                  href={INQUIRE_PATH}
-                  className="text-sm font-medium text-white/75 underline underline-offset-4 hover:text-white"
+                  key={app.name}
+                  href={app.href}
+                  className={`relative block overflow-hidden rounded-[26px] shadow-[0_16px_40px_rgba(16,23,37,0.16)] ${
+                    middle
+                      ? 'z-10 w-[42%] max-w-[200px]'
+                      : `w-[30%] max-w-[148px] translate-y-5 ${i === 0 ? '-mr-4 sm:-mr-6' : '-ml-4 sm:-ml-6'}`
+                  }`}
                 >
-                  {INQUIRE_CTA}
+                  <Image
+                    src={shot.src}
+                    alt={shot.alt}
+                    width={360}
+                    height={780}
+                    className="h-auto w-full"
+                  />
                 </Link>
-              </div>
-            </div>
+              )
+            })}
+          </div>
+          <p className="mt-8 text-center text-sm font-medium text-ink">
+            {(['/tap-to-tick', '/ruta', '/latin-game'] as const).map((href, i) => {
+              const app = APP_PROOF.find((a) => a.href === href)
+              if (!app) return null
+              return (
+                <span key={app.name}>
+                  {i > 0 && <span className="mx-2 text-muted">·</span>}
+                  <Link href={app.href} className="hover:text-accent">
+                    {app.name}
+                  </Link>
+                </span>
+              )
+            })}
+          </p>
 
-            <Link
-              href="/seo"
-              className="tile-dark flex flex-col p-7 transition-colors hover:border-white/25 sm:p-8"
-            >
-              <h3 className="text-xl font-semibold tracking-tight text-white">
-                Websites &amp; local SEO
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-white/65">
-                A clean site, a proper Google listing, and local search work so customers find you
-                when they need what you do.
-              </p>
-              <ul className="mt-6 flex-1 space-y-3">
-                {[
-                  'Website built for calls and enquiries',
-                  'Google Business Profile set up and kept right',
-                  'Local search pages and posts that compound',
-                  'Scoped after a short conversation',
-                ].map((f) => (
-                  <li key={f} className="flex gap-3 text-sm leading-relaxed text-white/70">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-white/35" aria-hidden="true" />
-                    <span>{f}</span>
-                  </li>
-                ))}
-              </ul>
-              <span className="mt-6 text-sm font-medium text-[#f0b48c]">
-                See websites &amp; SEO <span aria-hidden="true">›</span>
-              </span>
+          <div className="mt-14 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Link href="/my-work" className="btn-primary">
+              My work
             </Link>
-          </EvenGrid>
+            <Link href={INQUIRE_PATH} className="btn-ghost">
+              {INQUIRE_CTA}
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* 3 — Proof */}
-      <section aria-label="Work shipped" className="border-t border-line px-5 py-20 sm:px-8 sm:pb-28 sm:pt-24">
-        <div className="mx-auto max-w-6xl">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-              Products people already use.
-            </h2>
-            <p className="mt-5 text-pretty text-base leading-relaxed text-body">
-              Mobile-led custom software with real backend and product depth — not brochure demos.
-            </p>
-          </div>
-
-          <EvenGrid surface="home-proof" maxCols={3} className="mt-12">
-            {PROOF.map((p) => (
-              <Link
-                key={p.name}
-                href={p.href}
-                className="tile flex flex-col p-7 transition-colors hover:border-accent sm:p-8"
-              >
-                <h3 className="text-lg font-semibold tracking-tight text-ink">{p.name}</h3>
-                <p className="mt-1 text-xs font-medium uppercase tracking-wider text-warm">{p.what}</p>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-body">{p.desc}</p>
-                <span className="link-accent mt-5 text-sm">
-                  Have a look <span aria-hidden="true">›</span>
-                </span>
-              </Link>
-            ))}
-          </EvenGrid>
-
-          <div className="mt-14 flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-center">
-            <Link href={INQUIRE_PATH} className="btn-primary">
+      {/* 3 — AI consultation (no dollar amount here) */}
+      <section aria-label="AI consultation" className="band-dark px-5 py-20 sm:px-8 sm:py-28">
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="text-balance text-3xl font-semibold tracking-tight text-white sm:text-5xl">
+            {AI_CONSULT.homeTitle}
+          </h2>
+          <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-white/70 sm:text-lg">
+            {AI_CONSULT.homeSub}
+          </p>
+          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Link href="/ai-tooling" className="btn-primary">
+              AI consultation
+            </Link>
+            <Link
+              href={INQUIRE_PATH}
+              className="text-sm font-medium text-white/75 underline underline-offset-4 hover:text-white"
+            >
               {INQUIRE_CTA}
             </Link>
-            <Link href="/pricing" className="btn-ghost">
-              See pricing
-            </Link>
           </div>
-          <p className="mt-4 text-center text-sm text-muted">
-            <Link href="/my-work" className="link-accent">
-              Full proof portfolio
-            </Link>
-          </p>
         </div>
       </section>
     </div>

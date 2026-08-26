@@ -394,11 +394,11 @@ export default function Ruta() {
      </div>
      <p className="mt-8 text-sm text-body">
       <Link href="/my-work" className={`font-medium ${GREEN} hover:underline hover:underline-offset-4`}>
-       Proof portfolio
+       My work
       </Link>
       {' · '}
-      <Link href="/pricing" className={`font-medium ${GREEN} hover:underline hover:underline-offset-4`}>
-       Pricing
+      <Link href={INQUIRE_PATH} className={`font-medium ${GREEN} hover:underline hover:underline-offset-4`}>
+       {INQUIRE_CTA}
       </Link>
      </p>
     </div>

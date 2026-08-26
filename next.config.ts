@@ -7,22 +7,22 @@ const csp = [
   "default-src 'self'",
   // Google Analytics 4 loads its tag from googletagmanager.com. Without it
   // listed here the browser blocks the script and no visits are ever recorded.
-  `script-src 'self' 'unsafe-inline' https://www.googletagmanager.com${isDev ? " 'unsafe-eval'" : ''}`,
+  `script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://assets.calendly.com https://calendly.com${isDev ? " 'unsafe-eval'" : ''}`,
   // Sentry Session Replay compresses recordings on a background thread that it
   // starts from an in-memory blob: script. Without this it falls back to
   // script-src and gets blocked.
   "worker-src 'self' blob:",
   "style-src 'self' 'unsafe-inline'",
   // Analytics still falls back to a tracking pixel in some browsers.
-  "img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com",
-  "font-src 'self'",
+  "img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com https://*.calendly.com https://calendly.com",
+  "font-src 'self' https://assets.calendly.com",
   // Sentry reports errors; the Google hosts are where Analytics sends pageviews.
-  "connect-src 'self' https://*.ingest.us.sentry.io https://*.ingest.sentry.io https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com",
+  "connect-src 'self' https://*.ingest.us.sentry.io https://*.ingest.sentry.io https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://calendly.com https://*.calendly.com",
   "form-action 'none'",
   // Mission page embeds a YouTube player; links-only would not need this.
   // In development the site may also frame itself, which is how phone-width
   // layouts get checked in a desktop browser. Never allowed in production.
-  `frame-src https://www.youtube.com https://www.youtube-nocookie.com${isDev ? " 'self'" : ''}`,
+  `frame-src https://www.youtube.com https://www.youtube-nocookie.com https://calendly.com https://*.calendly.com${isDev ? " 'self'" : ''}`,
   "base-uri 'self'",
   "object-src 'none'",
 ].join('; ')
@@ -62,6 +62,10 @@ const nextConfig: NextConfig = {
       { source: '/grow', destination: '/', permanent: true },
       { source: '/taptotick', destination: '/tap-to-tick', permanent: true },
       { source: '/aitooling', destination: '/ai-tooling', permanent: true },
+      { source: '/pricing', destination: '/get-started', permanent: true },
+      { source: '/seo', destination: '/', permanent: true },
+      { source: '/software', destination: '/', permanent: true },
+      { source: '/rochester-mn', destination: '/', permanent: true },
     ]
   },
 }
