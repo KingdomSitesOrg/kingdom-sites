@@ -1,21 +1,21 @@
 /**
  * Where the money actually gets collected.
  *
- * Stripe payment links — one per pricing tier / billing period when used.
- * Until a link is filled in, the billing page falls back to email rather than
- * a button that goes nowhere.
- *
- * Keys match partnership ComplexityTier ids: focused | full | intensive.
- * Legacy SEO plan keys (foundation / growth / everything) are gone.
- *
- * PORTAL_URL is the Stripe customer portal for existing customers.
+ * PAY_URL: one-time custom-amount invoice.
+ * RETAINER_300 / RETAINER_800: monthly subscription links.
+ * PORTAL_URL: Stripe customer portal (not activated yet).
  */
 
 export type PlanLinks = { monthly: string; annual: string }
 
+export const PAY_URL = 'https://buy.stripe.com/4gM14n4tC6bde3i6bn5Ne00'
+
+export const RETAINER_300 = 'https://buy.stripe.com/7sY3cvbW42Z12kA6bn5Ne01'
+export const RETAINER_800 = 'https://buy.stripe.com/28EcN55xG1UX2kA57j5Ne02'
+
 export const PAYMENT_LINKS: Record<string, PlanLinks> = {
-  focused: { monthly: '', annual: '' },
-  full: { monthly: '', annual: '' },
+  focused: { monthly: RETAINER_300, annual: '' },
+  full: { monthly: RETAINER_800, annual: '' },
   intensive: { monthly: '', annual: '' },
 }
 
