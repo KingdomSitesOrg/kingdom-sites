@@ -42,6 +42,8 @@ export const AI_CONSULT = {
 export const RETAINER = {
   line: 'App work is a monthly retainer. No one-time build fee. I quote after we talk.',
   short: 'Monthly retainer, quoted after a conversation.',
+  calendarTitle: 'Schedule a conversation',
+  calendarHint: 'Pick a time that works for you — no pressure, just a chat.',
 }
 
 export const INQUIRY = {
