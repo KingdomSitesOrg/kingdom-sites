@@ -47,10 +47,8 @@ export const RETAINER = {
 export const INQUIRY = {
   heading: 'Tell me what you have in mind.',
   sub:
-    'Name and email are enough. Add a message if you want, or book a free talk. No pressure — we will decide together if it is a fit.',
+    'Name and email are enough. Add a message if you want. No pressure — we will decide together if it is a fit.',
   formTitle: 'Send a note',
-  calendarTitle: 'Book a free talk',
-  calendarHint: 'A conversation about your idea. Not the paid AI consultation.',
 }
 
 /* Three apps. Home shows shots[0] only (three screenshots total). My Work can use the rest. */
@@ -84,6 +82,12 @@ export const APP_PROOF = [
       { src: '/tap-to-tick/log.jpg', alt: 'Tap to Tick log' },
       { src: '/tap-to-tick/accounts.jpg', alt: 'Tap to Tick accounts' },
     ],
+  },
+  {
+    name: 'Delta Development Project',
+    href: 'https://deltadevelopmentproject.com',
+    line: 'A development project website for communities in northern Bangladesh and Dhaka.',
+    shots: [],
   },
 ] as const
 

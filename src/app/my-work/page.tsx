@@ -28,30 +28,32 @@ export default function MyWork() {
         <div className="mx-auto grid max-w-6xl gap-16">
           {APP_PROOF.map((app) => (
             <div key={app.name} className="grid items-start gap-10 lg:grid-cols-2 lg:gap-14">
-              <div className="flex items-end justify-center self-start pb-4">
-                {app.shots.map((shot, i) => (
-                  <div
-                    key={shot.src}
-                    className={`overflow-hidden rounded-[26px] shadow-[0_18px_44px_rgba(16,23,37,0.16)] ${
-                      i === 1
-                        ? 'z-10 w-[46%] max-w-[200px]'
-                        : `w-[34%] max-w-[150px] translate-y-4 ${i === 0 ? '-mr-3' : '-ml-3'}`
-                    }`}
-                  >
-                    <Image
-                      src={shot.src}
-                      alt={shot.alt}
-                      width={360}
-                      height={780}
-                      className="h-auto w-full"
-                    />
-                  </div>
-                ))}
-              </div>
+              {app.shots && (
+                <div className="flex items-end justify-center self-start pb-4">
+                  {app.shots.map((shot, i) => (
+                    <div
+                      key={shot.src}
+                      className={`overflow-hidden rounded-[26px] shadow-[0_18px_44px_rgba(16,23,37,0.16)] ${
+                        i === 1
+                          ? 'z-10 w-[46%] max-w-[200px]'
+                          : `w-[34%] max-w-[150px] translate-y-4 ${i === 0 ? '-mr-3' : '-ml-3'}`
+                      }`}
+                    >
+                      <Image
+                        src={shot.src}
+                        alt={shot.alt}
+                        width={360}
+                        height={780}
+                        className="h-auto w-full"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
               <div className="self-start lg:pt-6">
                 <h2 className="text-3xl font-semibold tracking-tight text-ink">{app.name}</h2>
                 <p className="mt-4 text-[15px] leading-relaxed text-body">{app.line}</p>
-                <Link href={app.href} className="btn-primary mt-7">
+                <Link href={app.href} className="btn-primary mt-7" target="_blank" rel="noopener noreferrer">
                   See the page
                 </Link>
               </div>

@@ -57,7 +57,7 @@ export default function Home() {
           <div className="mx-auto mt-14 flex max-w-lg items-end justify-center pb-6 sm:max-w-xl">
             {(['/tap-to-tick', '/ruta', '/latin-game'] as const).map((href, i) => {
               const app = APP_PROOF.find((a) => a.href === href)
-              if (!app) return null
+              if (!app || !app.shots?.[0]) return null
               const shot = app.shots[0]
               const middle = i === 1
               return (
