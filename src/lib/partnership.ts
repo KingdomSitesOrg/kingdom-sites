@@ -51,6 +51,8 @@ export const INQUIRY = {
   sub:
     'Name and email are enough. Add a message if you want. No pressure — we will decide together if it is a fit.',
   formTitle: 'Send a note',
+  calendarTitle: 'Schedule a conversation',
+  calendarHint: 'Pick a time that works for you — no pressure, just a chat.',
 }
 
 /* Three apps. Home shows shots[0] only (three screenshots total). My Work can use the rest. */
