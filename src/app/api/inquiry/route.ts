@@ -13,6 +13,10 @@ import { INQUIRY_TO_EMAILS } from '@/lib/contact'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
+export const maxDuration = 15
+
+const EMAIL_TIMEOUT_MS = 8_000
+const WEBHOOK_TIMEOUT_MS = 4_000
 
 function clean(value: unknown, max = 300): string {
   if (typeof value !== 'string') return ''
@@ -49,30 +53,36 @@ async function sendEmail(subject: string, body: string, replyTo: string) {
     : [...INQUIRY_TO_EMAILS]
   if (!key || to.length === 0) return false
 
-  const response = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${key}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      from: process.env.LEAD_FROM_EMAIL?.trim() || 'Kingdom Sites <onboarding@resend.dev>',
-      to,
-      reply_to: replyTo && looksLikeEmail(replyTo) ? replyTo : undefined,
-      subject,
-      text: body,
-    }),
-  })
+  try {
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${key}`,
+        'Content-Type': 'application/json',
+      },
+      signal: AbortSignal.timeout(EMAIL_TIMEOUT_MS),
+      body: JSON.stringify({
+        from: process.env.LEAD_FROM_EMAIL?.trim() || 'Kingdom Sites <onboarding@resend.dev>',
+        to,
+        reply_to: replyTo && looksLikeEmail(replyTo) ? replyTo : undefined,
+        subject,
+        text: body,
+      }),
+    })
 
-  if (!response.ok) {
-    const detail = await response.text().catch(() => '')
-    Sentry.captureMessage(
-      `Inquiry email rejected (${response.status}): ${detail.slice(0, 400)}`,
-      'error',
-    )
+    if (!response.ok) {
+      const detail = await response.text().catch(() => '')
+      Sentry.captureMessage(
+        `Inquiry email rejected (${response.status}): ${detail.slice(0, 400)}`,
+        'error',
+      )
+      return false
+    }
+    return true
+  } catch (error) {
+    Sentry.captureException(error)
     return false
   }
-  return true
 }
 
 async function sendWebhook(payload: Record<string, string>) {
@@ -82,6 +92,7 @@ async function sendWebhook(payload: Record<string, string>) {
     const response = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      signal: AbortSignal.timeout(WEBHOOK_TIMEOUT_MS),
       body: JSON.stringify(payload),
     })
     return response.ok

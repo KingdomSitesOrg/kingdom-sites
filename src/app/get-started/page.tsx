@@ -1,13 +1,11 @@
 import type { Metadata } from 'next'
-import CalendlyEmbed from '@/components/CalendlyEmbed'
 import InquiryForm from '@/components/InquiryForm'
-import { CALENDLY_FIT_URL } from '@/lib/contact'
 import { INQUIRY, RETAINER } from '@/lib/partnership'
 
 export const metadata: Metadata = {
   title: 'Start a conversation',
   description:
-    'Tell me what you have in mind, or book a free talk. Mobile apps and related software on a monthly retainer, quoted after we talk. No pressure.',
+    'Tell me what you have in mind. Mobile apps and related software on a monthly retainer, quoted after we talk. No pressure.',
   alternates: { canonical: '/get-started' },
 }
 
@@ -29,19 +27,9 @@ export default function GetStarted() {
       </section>
 
       <section aria-label="Enquiry" className="px-5 pb-20 sm:px-8 sm:pb-24">
-        <div className="mx-auto grid max-w-6xl items-start gap-10 lg:grid-cols-2 lg:gap-12">
-          <div className="self-start">
-            <h2 className="mb-4 text-lg font-semibold tracking-tight text-ink">{INQUIRY.formTitle}</h2>
-            <InquiryForm />
-          </div>
-
-          <div className="self-start">
-            <h2 className="mb-2 text-lg font-semibold tracking-tight text-ink">
-              {INQUIRY.calendarTitle}
-            </h2>
-            <p className="mb-4 text-sm leading-relaxed text-muted">{INQUIRY.calendarHint}</p>
-            <CalendlyEmbed url={CALENDLY_FIT_URL} title="Book a free talk" />
-          </div>
+        <div className="mx-auto max-w-xl">
+          <h2 className="mb-4 text-lg font-semibold tracking-tight text-ink">{INQUIRY.formTitle}</h2>
+          <InquiryForm />
         </div>
       </section>
     </div>

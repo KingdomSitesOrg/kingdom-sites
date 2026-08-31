@@ -26,6 +26,8 @@ const inputClass =
 
 type Status = 'idle' | 'sending' | 'sent' | 'error'
 
+const SUBMIT_TIMEOUT_MS = 12_000
+
 export default function InquiryForm() {
   const [fields, setFields] = useState<Fields>(EMPTY)
   const [status, setStatus] = useState<Status>('idle')
@@ -56,6 +58,7 @@ export default function InquiryForm() {
       const response = await fetch(INQUIRE_API, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        signal: AbortSignal.timeout(SUBMIT_TIMEOUT_MS),
         body: JSON.stringify({
           ...fields,
           company,
@@ -73,8 +76,15 @@ export default function InquiryForm() {
 
       trackEvent('inquiry_submit', { has_message: fields.message.trim() ? 'yes' : 'no' })
       setStatus('sent')
-    } catch {
-      setError('Could not reach the server. Your connection may have dropped.')
+    } catch (error) {
+      const timedOut =
+        error instanceof DOMException &&
+        (error.name === 'TimeoutError' || error.name === 'AbortError')
+      setError(
+        timedOut
+          ? 'That took too long. Try again, or send it by email instead.'
+          : 'Could not reach the server. Your connection may have dropped.',
+      )
       setStatus('error')
     }
   }
