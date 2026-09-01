@@ -1,14 +1,14 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Ruta — what I built in a live service-management platform',
+  title: 'Ruta — contract work',
   description:
-    'A case study: Ruta is service-management software for landscaping and maintenance businesses. I have shipped across its office web app, crew app for iPhone and Android, customer portal, and AWS backend.',
+    'Ruta is service-management software for landscaping businesses. I work as a contractor on the team. This page notes the areas I have participated in. The product belongs to Ruta.',
   alternates: { canonical: '/ruta' },
   openGraph: {
-    title: 'Ruta — a case study',
+    title: 'Ruta — contract work',
     description:
-      'What I have shipped inside Ruta: billing, the field app, the office web app, the customer portal, and the AWS backend behind them.',
+      'A short note on contract work I have participated in at Ruta. I did not start the company, and the product is not mine.',
     url: 'https://kingdom-sites.com/ruta',
     siteName: 'Kingdom Sites',
     locale: 'en_US',
@@ -17,7 +17,5 @@ export const metadata: Metadata = {
 }
 
 export default function RutaLayout({ children }: { children: React.ReactNode }) {
-  // Unlike the two standalone product pages, this one is a case study
-  // rather than a product page, so it keeps the Kingdom Sites look and chrome.
   return <>{children}</>
 }

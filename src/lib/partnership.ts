@@ -55,22 +55,22 @@ export const INQUIRY = {
   calendarHint: 'Pick a time that works for you — no pressure, just a chat.',
 }
 
-/* Three apps. Home shows shots[0] only (three screenshots total). My Work can use the rest. */
+/* Three apps on the home cluster. Those are CSS phone drawings, not photos.
+   My Work uses `phones` (CSS) or `shots` (photos of Thomas's own apps). */
 export const APP_PROOF = [
   {
     name: 'Ruta',
     href: '/ruta',
-    line: 'The crew app for people in the field — plus the office system behind it.',
-    shots: [
-      { src: '/ruta/time.jpg', alt: 'Ruta time clock on a phone' },
-      { src: '/ruta/templates.jpg', alt: 'Ruta service templates on a phone' },
-      { src: '/ruta/ruta-ai.jpg', alt: 'Ruta AI on a phone' },
-    ],
+    line: 'Contract work on a live service-management platform for landscaping businesses.',
+    phone: 'queue' as const,
+    phones: ['spend', 'queue', 'cards'] as const,
+    shots: [] as const,
   },
   {
     name: 'Jam with Latin',
     href: '/latin-game',
     line: 'A Latin learning app — curriculum, game, and a reason to come back.',
+    phone: 'cards' as const,
     shots: [
       { src: '/latin-game/home.jpg', alt: 'Jam with Latin home screen' },
       { src: '/latin-game/map.jpg', alt: 'Jam with Latin campaign map' },
@@ -81,6 +81,7 @@ export const APP_PROOF = [
     name: 'Tap to Tick',
     href: '/tap-to-tick',
     line: 'A focused iPhone expense app — log a purchase in one tap.',
+    phone: 'spend' as const,
     shots: [
       { src: '/tap-to-tick/overview.jpg', alt: 'Tap to Tick overview' },
       { src: '/tap-to-tick/log.jpg', alt: 'Tap to Tick log' },
@@ -91,8 +92,14 @@ export const APP_PROOF = [
     name: 'Delta Development Project',
     href: 'https://deltadevelopmentproject.com',
     line: 'A development project website for communities in northern Bangladesh and Dhaka.',
-    shots: [],
+    shots: [] as const,
   },
+] as const
+
+export const HOME_APP_PHONES = [
+  { href: '/tap-to-tick', name: 'Tap to Tick', variant: 'spend' as const },
+  { href: '/ruta', name: 'Ruta', variant: 'queue' as const },
+  { href: '/latin-game', name: 'Jam with Latin', variant: 'cards' as const },
 ] as const
 
 export const AI_CONSULT_TOPICS = [

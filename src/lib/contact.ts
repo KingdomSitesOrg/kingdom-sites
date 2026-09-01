@@ -62,8 +62,7 @@ export const TEAM: TeamMember[] = [
     role: 'Sales',
     email: SALES_EMAIL,
     mailto: SALES_MAILTO,
-    /* Drop the file at public/Photos/jack.jpg when ready; About will pick it up. */
-    photoSrc: null,
+    photoSrc: '/Photos/jack.jpg',
     photoAlt: 'Jack',
     blurb:
       'Sales contact. Reach out about an idea or a fit conversation — he will loop in engineering when it is time to build.',

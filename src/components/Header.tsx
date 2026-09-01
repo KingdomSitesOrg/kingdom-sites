@@ -7,8 +7,8 @@ import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 
 /* The individual projects, shown in the menu that opens under My Work. */
 const WORK_LINKS = [
-  { to: '/my-work',       label: 'All my work',   desc: 'Everything I’ve designed and shipped' },
-  { to: '/ruta',          label: 'Ruta',          desc: 'The crew app and the system behind it' },
+  { to: '/my-work',       label: 'All my work',   desc: 'Portfolio — contract work and my own apps' },
+  { to: '/ruta',          label: 'Ruta',          desc: 'Contract work on the Ruta team' },
   { to: '/tap-to-tick',   label: 'Tap to Tick',   desc: 'A frictionless expense tracker for iPhone' },
   { to: '/latin-game',    label: 'Latin practice game', desc: 'Classical Latin as a Roman quest' },
 ]

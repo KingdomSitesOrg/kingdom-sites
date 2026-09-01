@@ -1,13 +1,14 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import type { Metadata } from 'next'
+import { PhoneShotCluster } from '@/components/BuildMocks'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { APP_PROOF } from '@/lib/partnership'
 
 export const metadata: Metadata = {
   title: 'My portfolio',
   description:
-    'Ruta, Jam with Latin, and Tap to Tick — mobile apps I design, build, ship, and maintain. Not products for sale off the shelf.',
+    'Contract work on Ruta, plus Jam with Latin and Tap to Tick. Not products for sale off this site.',
   alternates: { canonical: '/my-work' },
 }
 
@@ -28,7 +29,9 @@ export default function MyWork() {
         <div className="mx-auto grid max-w-6xl gap-16">
           {APP_PROOF.map((app) => (
             <div key={app.name} className="grid items-start gap-10 lg:grid-cols-2 lg:gap-14">
-              {app.shots && (
+              {'phones' in app && app.phones.length > 0 ? (
+                <PhoneShotCluster items={app.phones.map((variant) => ({ variant }))} />
+              ) : app.shots.length > 0 ? (
                 <div className="flex items-end justify-center self-start pb-4">
                   {app.shots.map((shot, i) => (
                     <div
@@ -49,7 +52,7 @@ export default function MyWork() {
                     </div>
                   ))}
                 </div>
-              )}
+              ) : null}
               <div className="self-start lg:pt-6">
                 <h2 className="text-3xl font-semibold tracking-tight text-ink">{app.name}</h2>
                 <p className="mt-4 text-[15px] leading-relaxed text-body">{app.line}</p>
@@ -68,9 +71,9 @@ export default function MyWork() {
             AI when the product needs it.
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-pretty text-[15px] leading-relaxed text-body">
-            Ruta has AI wired into the real product — answers from the company&apos;s own records,
-            with a person in the loop. That kind of work sits inside an app retainer. Separate AI
-            consultation is on its own page.
+            Some of the contract work includes AI inside a live product — answers from a
+            company&apos;s own records, with a person in the loop. That kind of work sits inside an
+            app retainer. Separate AI consultation is on its own page.
           </p>
           <Link href="/ai-tooling" className="btn-ghost mt-8">
             AI consultation

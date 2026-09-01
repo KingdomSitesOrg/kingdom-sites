@@ -84,13 +84,12 @@ export default function About() {
             </div>
 
             <div className="tile p-6">
-              <h3 className="text-sm font-semibold tracking-tight text-ink">Shipped proof</h3>
+              <h3 className="text-sm font-semibold tracking-tight text-ink">Work</h3>
               <p className="mt-2 text-sm leading-relaxed text-body">
-                Ruta (service-management platform — web, mobile, AI), Jam with Latin (mobile learning
-                product on a retainer), and Tap to Tick (personal iOS expense app). Proof of how I
-                work — not products Kingdom Sites sells off the shelf.{' '}
+                Contract work on Ruta, plus Jam with Latin (a Latin learning app on a retainer) and
+                Tap to Tick (a personal iOS expense app). Not products Kingdom Sites sells.{' '}
                 <Link href="/my-work" className="link-accent">
-                  Proof portfolio <span aria-hidden="true">›</span>
+                  My work <span aria-hidden="true">›</span>
                 </Link>
               </p>
             </div>
@@ -126,15 +125,15 @@ export default function About() {
         <div className="grid items-start gap-10 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-5">
             <div className="relative mx-auto w-full max-w-md">
-              <div
-                className="tile-elevated flex aspect-[4/5] w-full flex-col items-center justify-center bg-surface-2 px-6 text-center"
-                aria-label={`${SALES_NAME} — photo coming soon`}
-              >
-                <span className="flex h-20 w-20 items-center justify-center rounded-full bg-accent/12 text-3xl font-semibold text-accent">
-                  J
-                </span>
-                <p className="mt-5 text-sm font-medium text-ink">{SALES_NAME}</p>
-                <p className="mt-1 text-[13px] text-muted">Photo coming soon</p>
+              <div className="tile-elevated">
+                <Image
+                  src="/Photos/jack.jpg"
+                  alt="Jack"
+                  width={305}
+                  height={306}
+                  quality={75}
+                  className="h-auto w-full object-contain"
+                />
               </div>
             </div>
           </div>
