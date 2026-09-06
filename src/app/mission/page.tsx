@@ -8,7 +8,7 @@ import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 export const metadata: Metadata = {
   title: 'Our Mission — Kingdom Sites',
   description:
-    'How your project supports gospel work in the unreached world, the organizations we stand with and give to, and who I build software for.',
+    'How your project supports gospel work in the unreached world, and the organizations we stand with and give to.',
   alternates: { canonical: '/mission' },
 }
 
@@ -73,28 +73,6 @@ export default function Mission() {
         </div>
 
         <UnreachedScroll />
-      </section>
-
-      {/* ---------- why this exists ---------- */}
-      <section aria-label="Why this exists" className="px-5 py-16 sm:px-8 sm:py-20">
-        <div className="mx-auto max-w-6xl">
-          <div className="max-w-3xl">
-            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              The software pays for the mission.
-            </h2>
-            <div className="mt-6 space-y-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
-              <p>
-                Kingdom Sites is not a side project that happens to have a cause attached. It is how
-                the ministry is funded. Every website, app, and platform I am paid to build supports
-                training now and long-term work among people with almost no access to the gospel.
-              </p>
-              <p>
-                A percentage of everything I earn goes to the organizations below, on top of what
-                funds our own training and work.
-              </p>
-            </div>
-          </div>
-        </div>
       </section>
 
       {/* ---------- the persecuted church ---------- */}
