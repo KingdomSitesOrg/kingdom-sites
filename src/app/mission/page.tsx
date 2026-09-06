@@ -10,6 +10,20 @@ export const metadata: Metadata = {
   description:
     'How your project supports gospel work in the unreached world, and the organizations we stand with and give to.',
   alternates: { canonical: '/mission' },
+  openGraph: {
+    title: 'Our Mission — Kingdom Sites',
+    description:
+      'How your project supports gospel work in the unreached world, and the organizations we stand with and give to.',
+    url: 'https://kingdom-sites.com/mission',
+    siteName: 'Kingdom Sites',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Our Mission — Kingdom Sites',
+    description:
+      'How your project supports gospel work in the unreached world, and the organizations we stand with and give to.',
+  },
 }
 
 /* Organizations we stand with. Every link was checked; a couple of these sites
