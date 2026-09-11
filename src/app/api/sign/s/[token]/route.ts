@@ -1,8 +1,9 @@
-import { NextResponse } from 'next/server'
+import { after, NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
 import { appendAudit } from '@/lib/sign/audit'
 import { sendCompletedPdfEmail } from '@/lib/sign/email'
 import { signerPublicView, stampEnvelopePdf } from '@/lib/sign/pdf'
+import type { Envelope } from '@/lib/sign/types'
 import {
   findEnvelopeBySignerToken,
   getEnvelope,
@@ -131,65 +132,80 @@ export async function POST(request: Request, ctx: Ctx) {
     }
     envelope = appendAudit(envelope, 'signed', signer.email)
 
-    // Persist signed state BEFORE PDF stamp/email so Client magic-link UI and admin
-    // poll see "Signed" within seconds. Stamp can take a long time and used to block
-    // this response (and race admin autosave while the write was still pending).
+    // Persist signed state BEFORE PDF stamp/email so Client/Provider magic-link UI
+    // and admin poll see "Signed" within ~2s. Stamp+email must not block this response
+    // (second signer used to hang the tab awaiting stamp; admin looked stuck).
     envelope = await saveEnvelope(envelope)
     const allSigned = envelope.signers.every((s) => s.status === 'signed')
     const signedView = signerPublicView(envelope, signerId)
 
     if (allSigned) {
-      try {
-        const original = await readPdf(envelope.originalPdfKey)
-        const stamped = await stampEnvelopePdf(original, envelope)
-        const completedKey = await savePdf(`pdfs/${envelope.id}-completed.pdf`, stamped)
-        envelope = {
-          ...envelope,
-          status: 'completed',
-          completedPdfKey: completedKey,
+      const envelopeId = envelope.id
+      // Run stamp/email after the response so the last signer returns immediately.
+      after(async () => {
+        try {
+          await completeEnvelopeAfterAllSigned(envelopeId)
+        } catch (stampError) {
+          // Signed state already durable — stamp/email failures must not affect the UI.
+          Sentry.captureException(stampError)
         }
-        envelope = appendAudit(envelope, 'completed', 'system', 'All parties signed')
-
-        const recipients = Array.from(
-          new Set([
-            ...envelope.signers.map((s) => s.email),
-            process.env.ADMIN_EMAIL?.trim() || '',
-            process.env.LEAD_TO_EMAIL?.trim() || '',
-          ]),
-        ).filter(Boolean)
-
-        if (process.env.RESEND_API_KEY?.trim() && recipients.length) {
-          const filename = `${envelope.title.replace(/[^\w.\- ]+/g, '').slice(0, 60) || 'document'}-signed.pdf`
-          await sendCompletedPdfEmail({
-            to: recipients,
-            title: envelope.title,
-            pdf: Buffer.from(stamped),
-            filename,
-          })
-        }
-
-        envelope = await saveEnvelope(envelope)
-      } catch (stampError) {
-        // Signed state already durable — do not fail the signer UI if stamp/email lags.
-        Sentry.captureException(stampError)
-        return NextResponse.json({
-          ok: true,
-          view: signedView,
-          completed: false,
-          completing: true,
-        })
-      }
+      })
+      return NextResponse.json({
+        ok: true,
+        view: signedView,
+        completed: false,
+        completing: true,
+      })
     }
 
     return NextResponse.json({
       ok: true,
-      view: signerPublicView(envelope, signerId),
-      completed: envelope.status === 'completed',
+      view: signedView,
+      completed: false,
     })
   } catch (error) {
     Sentry.captureException(error)
     return NextResponse.json({ ok: false, error: 'Could not submit signature.' }, { status: 500 })
   }
+}
+
+
+/** Stamp PDF, mark completed, email parties — runs off the sign request path via after(). */
+async function completeEnvelopeAfterAllSigned(envelopeId: string): Promise<void> {
+  let envelope: Envelope | null = await getEnvelope(envelopeId)
+  if (!envelope) return
+  if (envelope.status === 'completed' && envelope.completedPdfKey) return
+  if (!envelope.signers.every((s) => s.status === 'signed')) return
+
+  const original = await readPdf(envelope.originalPdfKey)
+  const stamped = await stampEnvelopePdf(original, envelope)
+  const completedKey = await savePdf(`pdfs/${envelope.id}-completed.pdf`, stamped)
+  envelope = {
+    ...envelope,
+    status: 'completed',
+    completedPdfKey: completedKey,
+  }
+  envelope = appendAudit(envelope, 'completed', 'system', 'All parties signed')
+
+  const recipients = Array.from(
+    new Set([
+      ...envelope.signers.map((s) => s.email),
+      process.env.ADMIN_EMAIL?.trim() || '',
+      process.env.LEAD_TO_EMAIL?.trim() || '',
+    ]),
+  ).filter(Boolean)
+
+  if (process.env.RESEND_API_KEY?.trim() && recipients.length) {
+    const filename = `${envelope.title.replace(/[^\w.\- ]+/g, '').slice(0, 60) || 'document'}-signed.pdf`
+    await sendCompletedPdfEmail({
+      to: recipients,
+      title: envelope.title,
+      pdf: Buffer.from(stamped),
+      filename,
+    })
+  }
+
+  await saveEnvelope(envelope)
 }
 
 /** Minimal 1×1 transparent PNG — stamp path falls back to drawing the typed name. */

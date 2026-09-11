@@ -811,6 +811,81 @@ describe('Provider page-3 stickiness vs dragged page-1 default size', () => {
   })
 })
 
+
+describe('signed save before stamp (completing)', () => {
+  // POST /api/sign/s/[token] saves both parties as signed and returns completing:true
+  // before stampEnvelopePdf / email. Admin poll (2s) must show Signed from that durable
+  // write — not wait for status=completed.
+  it('both signers signed while status still sent: views allSigned, merge keeps both', () => {
+    const client = signer({
+      id: 'sig_client',
+      name: 'Thomas Client',
+      email: 'client@example.com',
+      role: 'Client',
+      token: 'tok_client',
+      status: 'signed',
+      signedAt: '2026-01-01T03:00:00.000Z',
+      signaturePng: 'data:image/png;base64,CLIENT',
+      signedDateText: 'January 1, 2026',
+    })
+    const provider = signer({
+      id: 'sig_provider',
+      name: 'Thomas Provider',
+      email: 'provider@example.com',
+      role: 'Provider',
+      token: 'tok_provider',
+      status: 'signed',
+      signedAt: '2026-01-01T03:05:00.000Z',
+      signaturePng: 'data:image/png;base64,PROVIDER',
+      signedDateText: 'January 1, 2026',
+    })
+    const fields = [
+      field({ id: 'fld_c', signerId: 'sig_client', page: 3, x: 0.1, y: 0.7 }),
+      field({ id: 'fld_p', signerId: 'sig_provider', page: 3, x: 0.55, y: 0.7 }),
+    ]
+    // Durable post-sign pre-stamp state (completing)
+    const completing = envelope({
+      status: 'sent',
+      updatedAt: '2026-01-01T03:05:00.000Z',
+      signers: [client, provider],
+      fields,
+      audit: [
+        { at: '2026-01-01T03:00:00.000Z', action: 'signed', actor: 'client@example.com' },
+        { at: '2026-01-01T03:05:00.000Z', action: 'signed', actor: 'provider@example.com' },
+      ],
+    })
+    expect(completing.status).toBe('sent')
+    expect(completing.signers.every((s) => s.status === 'signed')).toBe(true)
+
+    const providerView = signerPublicView(completing, 'sig_provider')
+    expect(providerView?.allSigned).toBe(true)
+    expect(providerView?.signer.status).toBe('signed')
+    expect(providerView?.parties.every((p) => p.status === 'signed')).toBe(true)
+
+    // Stale admin autosave still holding Provider pending must not wipe Provider signed
+    const adminAutosave = envelope({
+      status: 'sent',
+      updatedAt: '2026-01-01T03:05:05.000Z',
+      signers: [
+        client,
+        {
+          ...provider,
+          status: 'pending',
+          signedAt: undefined,
+          signaturePng: undefined,
+          signedDateText: undefined,
+        },
+      ],
+      fields,
+    })
+    const merged = mergeEnvelope(adminAutosave, completing)
+    expect(merged.status).toBe('sent')
+    expect(merged.signers.find((s) => s.id === 'sig_provider')?.status).toBe('signed')
+    expect(merged.signers.find((s) => s.id === 'sig_client')?.status).toBe('signed')
+    expect(signerPublicView(merged, 'sig_provider')?.allSigned).toBe(true)
+  })
+})
+
 describe('placementAtPointer (cross-page drag)', () => {
   const pages = [
     { page: 1, left: 0, top: 0, width: 100, height: 200 },
