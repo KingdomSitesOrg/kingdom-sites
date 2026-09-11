@@ -72,7 +72,7 @@ function partySignedDate(party: Party | undefined, fallbackDone = false): string
   return undefined
 }
 
-function boxWidthFrac(fieldWidth: number, _fieldX?: number, _hasDate?: boolean): number {
+function boxWidthFrac(fieldWidth: number): number {
   return fieldWidth
 }
 
@@ -210,7 +210,7 @@ export default function SignerClient({ token }: { token: string }) {
                   const partyName = party?.name || ''
                   const partySigned = party?.status === 'signed' || (isMine && done)
                   const dateText = partySignedDate(party, isMine && done)
-                  const widthFrac = boxWidthFrac(f.width, f.x, Boolean(dateText))
+                  const widthFrac = boxWidthFrac(f.width)
                   if (isMine) {
                     return (
                       <button
