@@ -1,11 +1,10 @@
 'use client'
 
-import { useId, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 export default function NewEnvelopeForm() {
   const router = useRouter()
-  const fileInputId = useId()
   const fileRef = useRef<HTMLInputElement>(null)
   const [title, setTitle] = useState('')
   const [clientName, setClientName] = useState('Client')
@@ -15,6 +14,28 @@ export default function NewEnvelopeForm() {
   const [file, setFile] = useState<File | null>(null)
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
+
+  function onFilePicked(list: FileList | null) {
+    const next = list?.[0] || null
+    if (!next) {
+      setFile(null)
+      return
+    }
+    const looksPdf =
+      next.type === 'application/pdf' ||
+      next.type === 'application/x-pdf' ||
+      /\.pdf$/i.test(next.name) ||
+      // iOS sometimes reports empty type for Files app PDFs
+      next.type === ''
+    if (!looksPdf) {
+      setError('Please choose a PDF file.')
+      setFile(null)
+      if (fileRef.current) fileRef.current.value = ''
+      return
+    }
+    setError('')
+    setFile(next)
+  }
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -65,36 +86,31 @@ export default function NewEnvelopeForm() {
 
       <div className="block text-sm">
         <span className="mb-1 block text-muted">PDF</span>
-        {/* Visually hidden but still in the label hit-target chain for iOS Safari */}
-        <input
-          id={fileInputId}
-          ref={fileRef}
-          type="file"
-          accept="application/pdf,.pdf"
-          capture={undefined}
-          className="sr-only"
-          onChange={(e) => {
-            const next = e.target.files?.[0] || null
-            setFile(next)
-            if (next) setError('')
-          }}
-        />
         <div className="flex flex-wrap items-center gap-3">
-          <label htmlFor={fileInputId} className="btn-primary !min-h-11 !px-4 !py-2 !text-sm cursor-pointer">
-            {file ? 'Change PDF' : 'Attach PDF'}
-          </label>
-          <button
-            type="button"
-            className="btn-ghost-sm sm:hidden"
-            onClick={() => fileRef.current?.click()}
-          >
-            Browse files
-          </button>
+          {/*
+            iOS Safari: do NOT use display:none / sr-only / clip on file inputs.
+            Overlay a real opacity-0 input on the button; keep accept loose so the picker opens.
+          */}
+          <div className="relative inline-flex">
+            <span className="btn-primary pointer-events-none !min-h-11 !px-4 !py-2 !text-sm">
+              {file ? 'Change PDF' : 'Attach PDF'}
+            </span>
+            <input
+              ref={fileRef}
+              type="file"
+              accept=".pdf,application/pdf,image/*"
+              className="absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0"
+              style={{ fontSize: 16 }}
+              onChange={(e) => onFilePicked(e.target.files)}
+            />
+          </div>
           <span className="min-w-0 flex-1 truncate text-xs text-body">
             {file ? file.name : 'No file selected'}
           </span>
         </div>
-        <p className="mt-1 text-xs text-muted">PDF only, under 12 MB.</p>
+        <p className="mt-1 text-xs text-muted">
+          PDF only, under 12 MB. On iPhone use Browse / Files if Photos opens first.
+        </p>
       </div>
 
       <div className="rounded-xl border border-line p-3 space-y-3">
