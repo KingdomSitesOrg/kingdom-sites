@@ -1,10 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useId, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 export default function NewEnvelopeForm() {
   const router = useRouter()
+  const fileInputId = useId()
+  const fileRef = useRef<HTMLInputElement>(null)
   const [title, setTitle] = useState('')
   const [clientName, setClientName] = useState('Client')
   const [clientEmail, setClientEmail] = useState('')
@@ -60,16 +62,40 @@ export default function NewEnvelopeForm() {
           className="w-full rounded-xl border border-line bg-surface px-3 py-2 text-ink outline-none focus:border-accent"
         />
       </label>
-      <label className="block text-sm">
+
+      <div className="block text-sm">
         <span className="mb-1 block text-muted">PDF</span>
+        {/* Visually hidden but still in the label hit-target chain for iOS Safari */}
         <input
+          id={fileInputId}
+          ref={fileRef}
           type="file"
           accept="application/pdf,.pdf"
-          required
-          onChange={(e) => setFile(e.target.files?.[0] || null)}
-          className="w-full text-sm"
+          capture={undefined}
+          className="sr-only"
+          onChange={(e) => {
+            const next = e.target.files?.[0] || null
+            setFile(next)
+            if (next) setError('')
+          }}
         />
-      </label>
+        <div className="flex flex-wrap items-center gap-3">
+          <label htmlFor={fileInputId} className="btn-primary !min-h-11 !px-4 !py-2 !text-sm cursor-pointer">
+            {file ? 'Change PDF' : 'Attach PDF'}
+          </label>
+          <button
+            type="button"
+            className="btn-ghost-sm sm:hidden"
+            onClick={() => fileRef.current?.click()}
+          >
+            Browse files
+          </button>
+          <span className="min-w-0 flex-1 truncate text-xs text-body">
+            {file ? file.name : 'No file selected'}
+          </span>
+        </div>
+        <p className="mt-1 text-xs text-muted">PDF only, under 12 MB.</p>
+      </div>
 
       <div className="rounded-xl border border-line p-3 space-y-3">
         <h2 className="text-sm font-semibold text-ink">Signature: Client</h2>
@@ -122,11 +148,7 @@ export default function NewEnvelopeForm() {
       </div>
 
       {error ? <p className="text-sm text-warm">{error}</p> : null}
-      <button
-        type="submit"
-        disabled={busy}
-        className="btn-primary w-full"
-      >
+      <button type="submit" disabled={busy || !file} className="btn-primary w-full">
         {busy ? 'Uploading…' : 'Continue'}
       </button>
     </form>
