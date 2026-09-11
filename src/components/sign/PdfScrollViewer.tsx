@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState, type ReactNode, type MouseEvent } from 'react'
+import { useEffect, useRef, useState, type ReactNode, type MouseEvent, type PointerEvent } from 'react'
 
 type Props = {
   url: string
@@ -10,6 +10,7 @@ type Props = {
   renderPageOverlay?: (page: number) => ReactNode
   onPageClick?: (page: number, e: MouseEvent<HTMLDivElement>) => void
   placeMode?: boolean
+  onFocusPageChange?: (page: number) => void
 }
 
 export default function PdfScrollViewer({
@@ -20,6 +21,7 @@ export default function PdfScrollViewer({
   renderPageOverlay,
   onPageClick,
   placeMode,
+  onFocusPageChange,
 }: Props) {
   const [pages, setPages] = useState(pageCount)
   const [ready, setReady] = useState(false)
@@ -28,10 +30,11 @@ export default function PdfScrollViewer({
   const canvasRefs = useRef<(HTMLCanvasElement | null)[]>([])
   const pageRefs = useRef<(HTMLDivElement | null)[]>([])
   const docRef = useRef<import('pdfjs-dist').PDFDocumentProxy | null>(null)
+  const lastFocusScrollRef = useRef<number | null>(null)
+  const tapRef = useRef<{ page: number; x: number; y: number; moved: boolean } | null>(null)
 
   useEffect(() => {
     let cancelled = false
-    // Defer reset so the effect body does not sync-setState (react-hooks/set-state-in-effect).
     const resetTimer = window.setTimeout(() => {
       if (cancelled) return
       setReady(false)
@@ -62,14 +65,20 @@ export default function PdfScrollViewer({
         const total = pdf.numPages
         setPages(total)
 
-        // Wait for React to mount one canvas per page
-        await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())))
+        await new Promise<void>((resolve) =>
+          requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+        )
         if (cancelled) return
+
+        // Prefer the scroll container width so off-screen pages still render at full size on mobile.
+        const containerWidth =
+          pageRefs.current[0]?.parentElement?.clientWidth ||
+          pageRefs.current[0]?.clientWidth ||
+          720
 
         for (let i = 1; i <= total; i++) {
           const page = await pdf.getPage(i)
           if (cancelled) return
-          // Retry briefly if ref not ready yet
           let canvas = canvasRefs.current[i - 1]
           for (let attempt = 0; attempt < 10 && !canvas; attempt++) {
             await new Promise((r) => setTimeout(r, 16))
@@ -78,8 +87,8 @@ export default function PdfScrollViewer({
           if (!canvas) continue
 
           const base = page.getViewport({ scale: 1 })
-          const parentWidth = canvas.parentElement?.clientWidth || 720
-          const targetWidth = Math.max(280, Math.min(720, parentWidth))
+          const parentWidth = canvas.parentElement?.clientWidth || containerWidth || 720
+          const targetWidth = Math.max(280, Math.min(720, parentWidth || containerWidth))
           const scale = targetWidth / base.width
           const viewport = page.getViewport({ scale })
           const ratio = window.devicePixelRatio || 1
@@ -117,19 +126,69 @@ export default function PdfScrollViewer({
     }
   }, [url])
 
+  // Only scroll when focusPage actually changes — not every time `ready` flips,
+  // which was yanking mobile users back to page 1 while they tried to reach page 2+.
   useEffect(() => {
     if (!focusPage || !ready) return
+    if (lastFocusScrollRef.current === focusPage) return
+    lastFocusScrollRef.current = focusPage
     const el = pageRefs.current[focusPage - 1]
     el?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }, [focusPage, ready])
 
   const pageList = Array.from({ length: pages }, (_, i) => i + 1)
 
+  function onOverlayPointerDown(page: number, e: PointerEvent<HTMLDivElement>) {
+    if (!placeMode || !onPageClick) return
+    if ((e.target as HTMLElement).closest('[data-field-id]')) return
+    tapRef.current = { page, x: e.clientX, y: e.clientY, moved: false }
+  }
+
+  function onOverlayPointerMove(e: PointerEvent<HTMLDivElement>) {
+    const tap = tapRef.current
+    if (!tap) return
+    if (Math.abs(e.clientX - tap.x) > 10 || Math.abs(e.clientY - tap.y) > 10) {
+      tap.moved = true
+    }
+  }
+
+  function onOverlayPointerUp(page: number, e: PointerEvent<HTMLDivElement>) {
+    const tap = tapRef.current
+    tapRef.current = null
+    if (!placeMode || !onPageClick) return
+    if (!tap || tap.page !== page || tap.moved) return
+    if ((e.target as HTMLElement).closest('[data-field-id]')) return
+    // Synthesize a mouse-like event shape for existing onPlace handler.
+    onPageClick(page, e as unknown as MouseEvent<HTMLDivElement>)
+  }
+
   return (
     <div className={className}>
       {error ? <p className="p-4 text-sm text-warm">{error}</p> : null}
       {loading ? <p className="p-4 text-sm text-muted">Loading document…</p> : null}
-      <div className={`mx-auto flex max-w-3xl flex-col gap-4 ${loading && !ready ? 'min-h-[40vh]' : ''}`}>
+      {pages > 1 ? (
+        <div className="mb-3 flex flex-wrap gap-2 px-1">
+          {pageList.map((page) => (
+            <button
+              key={`jump-${page}`}
+              type="button"
+              className={`btn-ghost-sm ${focusPage === page ? 'is-active' : ''}`}
+              onClick={() => {
+                lastFocusScrollRef.current = null
+                onFocusPageChange?.(page)
+                const el = pageRefs.current[page - 1]
+                el?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                lastFocusScrollRef.current = page
+              }}
+            >
+              Page {page}
+            </button>
+          ))}
+        </div>
+      ) : null}
+      <div
+        className={`mx-auto flex max-w-3xl flex-col gap-4 ${loading && !ready ? 'min-h-[40vh]' : ''}`}
+      >
         {pageList.map((page) => (
           <div
             key={`${url}-p${page}`}
@@ -146,10 +205,17 @@ export default function PdfScrollViewer({
               className="block h-auto w-full"
             />
             <div
-              className={`absolute inset-0 ${
-                placeMode ? 'cursor-crosshair' : ''
-              }`}
+              className={`absolute inset-0 ${placeMode ? 'cursor-crosshair' : ''}`}
+              style={{ touchAction: placeMode ? 'pan-y' : 'auto' }}
+              onPointerDown={(e) => onOverlayPointerDown(page, e)}
+              onPointerMove={onOverlayPointerMove}
+              onPointerUp={(e) => onOverlayPointerUp(page, e)}
+              onPointerCancel={() => {
+                tapRef.current = null
+              }}
+              // Keep click for desktop mice that do not go through the pointer-up path cleanly.
               onClick={(e) => {
+                if (placeMode) return // handled by pointer up (avoids double-place)
                 if ((e.target as HTMLElement).closest('[data-field-id]')) return
                 onPageClick?.(page, e)
               }}

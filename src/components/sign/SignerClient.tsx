@@ -72,9 +72,8 @@ function partySignedDate(party: Party | undefined, fallbackDone = false): string
   return undefined
 }
 
-function boxWidthFrac(fieldWidth: number, fieldX: number, hasDate: boolean): number {
-  if (!hasDate) return fieldWidth
-  return Math.min(fieldWidth + 0.22, Math.max(fieldWidth, 1 - fieldX))
+function boxWidthFrac(fieldWidth: number, _fieldX?: number, _hasDate?: boolean): number {
+  return fieldWidth
 }
 
 export default function SignerClient({ token }: { token: string }) {
@@ -200,6 +199,7 @@ export default function SignerClient({ token }: { token: string }) {
             url={pdfUrl}
             pageCount={view.pageCount}
             focusPage={focusPage}
+            onFocusPageChange={setFocusPage}
             renderPageOverlay={(page) =>
               sigFields
                 .filter((f) => f.page === page)

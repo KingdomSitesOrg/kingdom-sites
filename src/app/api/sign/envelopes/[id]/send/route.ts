@@ -11,7 +11,7 @@ export const maxDuration = 60
 
 type Ctx = { params: Promise<{ id: string }> }
 
-export async function POST(_request: Request, ctx: Ctx) {
+export async function POST(request: Request, ctx: Ctx) {
   try {
     const session = await getAdminSession()
     if (!session) throw new AuthError()
@@ -38,6 +38,11 @@ export async function POST(_request: Request, ctx: Ctx) {
     envelope = appendAudit(envelope, 'sent', session.email, 'opened for signing')
     await saveEnvelope(envelope)
 
+    const body = (await request.json().catch(() => null)) as { email?: boolean } | null
+    // Default true for the "Email magic links" button. Admin self-sign passes email:false
+    // so opening the envelope does not spam invites before the admin hits Send.
+    const shouldEmail = body?.email !== false
+
     const hasResend = Boolean(process.env.RESEND_API_KEY?.trim())
     const results: { email: string; sent: boolean; link: string }[] = []
 
@@ -47,7 +52,7 @@ export async function POST(_request: Request, ctx: Ctx) {
         results.push({ email: signer.email, sent: true, link })
         continue
       }
-      if (!hasResend) {
+      if (!shouldEmail || !hasResend) {
         results.push({ email: signer.email, sent: false, link })
         continue
       }
@@ -65,7 +70,9 @@ export async function POST(_request: Request, ctx: Ctx) {
       envelope,
       'sent',
       session.email,
-      results.map((r) => `${r.email}:${r.sent ? 'emailed' : 'link-only'}`).join(', '),
+      shouldEmail
+        ? results.map((r) => `${r.email}:${r.sent ? 'emailed' : 'link-only'}`).join(', ')
+        : 'opened without email',
     )
     await saveEnvelope(envelope)
 

@@ -47,16 +47,19 @@ function envelope(partial: Partial<Envelope> & Pick<Envelope, 'signers' | 'field
 }
 
 describe('defaultSignatureField', () => {
-  it('lands on page 1 near the top, stacked by slot (not last-page bottom)', () => {
+  it('lands on page 1 near the top in separate columns (not mashed / not last-page bottom)', () => {
     const client = defaultSignatureField('sig_client', 0)
     const provider = defaultSignatureField('sig_provider', 1)
     expect(client.page).toBe(1)
     expect(provider.page).toBe(1)
-    expect(client.y).toBeLessThan(0.25)
-    expect(provider.y).toBeGreaterThan(client.y)
-    expect(provider.y).toBeLessThan(0.45)
+    expect(client.y).toBeLessThan(0.3)
+    expect(provider.y).toBeLessThan(0.3)
+    // Side-by-side columns — boxes must not share the same x (mash)
+    expect(Math.abs(client.x - provider.x)).toBeGreaterThan(0.2)
+    expect(client.x + client.width).toBeLessThanOrEqual(provider.x + 0.01)
     // Must not look like the old last-page bottom defaults
-    expect(client.y).toBeLessThan(0.68)
+    expect(client.y).toBeLessThan(0.5)
+    expect(provider.y).toBeLessThan(0.5)
   })
 })
 
@@ -262,5 +265,24 @@ describe('signerPublicView signed dates', () => {
       'September 11, 2026',
     )
     expect(view!.parties.find((p) => p.id === 'sig_p')?.signedDateText).toBeUndefined()
+  })
+})
+
+describe('multi-page placements', () => {
+  it('keeps a custom box on page 2 (not forced back to page 1)', () => {
+    const ids = new Set(['sig_a'])
+    const raw = {
+      id: 'fld_sig_a_sig',
+      type: 'signature',
+      signerId: 'sig_a',
+      page: 2,
+      x: 0.2,
+      y: 0.25,
+      width: 0.42,
+      height: 0.11,
+    }
+    const out = sanitizeField(raw, ids, 3)
+    expect(out?.page).toBe(2)
+    expect(out?.y).toBeCloseTo(0.25)
   })
 })

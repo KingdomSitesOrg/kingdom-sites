@@ -16,16 +16,21 @@ function clamp(n: number, min: number, max: number) {
  * (0 = Client upper, 1 = Provider below, …). Avoids last-page bottom defaults.
  */
 export function defaultSignatureField(signerId: string, slot = 0): FieldPlacement {
-  const height = 0.11
-  const y = Math.min(0.08 + slot * 0.13, 0.7)
+  const height = 0.12
+  const width = 0.38
+  // Alternate left/right columns so Client + Provider never share one mashed stack.
+  const col = slot % 2
+  const row = Math.floor(slot / 2)
+  const x = col === 0 ? 0.08 : 0.54
+  const y = Math.min(0.1 + row * 0.16, 0.72)
   return {
     id: `fld_${signerId}_sig`,
     type: 'signature',
     signerId,
     page: 1,
-    x: 0.12,
+    x,
     y,
-    width: 0.42,
+    width,
     height,
   }
 }

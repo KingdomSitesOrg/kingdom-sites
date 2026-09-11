@@ -410,7 +410,12 @@ export default function EnvelopeEditor({ initial }: Props) {
       const saved = await save()
       if (!saved) return
       setBusy(true)
-      const sendRes = await fetch(`/api/sign/envelopes/${envelope.id}/send`, { method: 'POST' })
+      const sendRes = await fetch(`/api/sign/envelopes/${envelope.id}/send`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        // Open for signing only — do NOT email until "Email magic links" is clicked.
+        body: JSON.stringify({ email: false }),
+      })
       const sendData = await sendRes.json().catch(() => null)
       setBusy(false)
       if (!sendRes.ok || !sendData?.ok) {
@@ -718,6 +723,7 @@ export default function EnvelopeEditor({ initial }: Props) {
             pageCount={envelope.pageCount}
             focusPage={page}
             placeMode={Boolean(placeSignerId) && envelope.status !== 'completed'}
+            onFocusPageChange={setPage}
             onPageClick={onPlace}
             renderPageOverlay={(pageNum) =>
               fields
@@ -736,9 +742,6 @@ export default function EnvelopeEditor({ initial }: Props) {
                             })
                           : undefined)
                       : undefined
-                  const widthFrac = signedDate
-                    ? Math.min(f.width + 0.22, Math.max(f.width, 1 - f.x))
-                    : f.width
                   return (
                     <button
                       key={f.id}
@@ -760,7 +763,7 @@ export default function EnvelopeEditor({ initial }: Props) {
                       style={{
                         left: `${f.x * 100}%`,
                         top: `${f.y * 100}%`,
-                        width: `${widthFrac * 100}%`,
+                        width: `${f.width * 100}%`,
                         height: `${f.height * 100}%`,
                       }}
                     >
