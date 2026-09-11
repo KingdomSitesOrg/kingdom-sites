@@ -80,6 +80,17 @@ export default function Footer() {
                   <path d="M4 8 8 4M8 4H4.8M8 4v3.2" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </a>
+              <a
+                href="/sign"
+                target="_blank"
+                rel="noopener"
+                className="flex items-center gap-1.5 text-sm text-white/65 transition-colors hover:text-white"
+              >
+                Sign
+                <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                  <path d="M4 8 8 4M8 4H4.8M8 4v3.2" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </a>
             </div>
           </div>
         </div>

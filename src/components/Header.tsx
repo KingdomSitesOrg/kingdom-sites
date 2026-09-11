@@ -204,7 +204,7 @@ export default function Header() {
           </div>
 
           <div className="hidden items-center gap-5 lg:flex">
-            {/* Their own tabs — ministry and prayer are their own places. */}
+            {/* Their own tabs — ministry, prayer, and sign are their own places. */}
             <a
               href="/ministry"
               target="_blank"
@@ -221,6 +221,15 @@ export default function Header() {
               className="flex items-center gap-1.5 text-[13.5px] text-body transition-colors duration-200 hover:text-ink"
             >
               Prayer
+              <ArrowOutIcon />
+            </a>
+            <a
+              href="/sign"
+              target="_blank"
+              rel="noopener"
+              className="flex items-center gap-1.5 text-[13.5px] text-body transition-colors duration-200 hover:text-ink"
+            >
+              Sign
               <ArrowOutIcon />
             </a>
             <Link href={INQUIRE_PATH} className="btn-sm">{INQUIRE_CTA}</Link>
@@ -305,6 +314,16 @@ export default function Header() {
               className="flex items-center gap-2 rounded-xl px-4 py-3 text-[15px] text-body transition hover:bg-surface-2 hover:text-ink"
             >
               Prayer
+              <ArrowOutIcon />
+            </a>
+            <a
+              href="/sign"
+              target="_blank"
+              rel="noopener"
+              onClick={() => setMenuOpen(false)}
+              className="flex items-center gap-2 rounded-xl px-4 py-3 text-[15px] text-body transition hover:bg-surface-2 hover:text-ink"
+            >
+              Sign
               <ArrowOutIcon />
             </a>
 
