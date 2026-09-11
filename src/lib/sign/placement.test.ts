@@ -3,8 +3,10 @@ import {
   dateOverlayBesideSignature,
   defaultSignatureField,
   formatSignedDateText,
+  maxPageInRawFields,
   mergeEnvelope,
   mergeSigner,
+  placementAtPointer,
   sanitizeField,
   signerPublicView,
 } from './placement'
@@ -384,5 +386,127 @@ describe('multi-page placements', () => {
     const out = sanitizeField(raw, ids, 3)
     expect(out?.page).toBe(2)
     expect(out?.y).toBeCloseTo(0.25)
+  })
+})
+
+describe('stale pageCount must not drop last-page placements', () => {
+  it('sanitizeField keeps page 3 even when stored pageCount is 1', () => {
+    const ids = new Set(['sig_a'])
+    const out = sanitizeField(
+      {
+        id: 'fld_a',
+        type: 'signature',
+        signerId: 'sig_a',
+        page: 3,
+        x: 0.2,
+        y: 0.55,
+        width: 0.42,
+        height: 0.11,
+      },
+      ids,
+      1,
+    )
+    expect(out?.page).toBe(3)
+    expect(out?.y).toBeCloseTo(0.55)
+  })
+
+  it('maxPageInRawFields discovers last page for bumping', () => {
+    expect(
+      maxPageInRawFields([
+        { page: 1 },
+        { page: 3, x: 0.1 },
+        { page: '2' },
+        null,
+      ]),
+    ).toBe(3)
+  })
+
+  it('mergeEnvelope keeps both boxes on page 3 and bumps pageCount from 1 → 3', () => {
+    const client = signer({
+      id: 'sig_c',
+      name: 'Client',
+      email: 'c@example.com',
+      role: 'Client',
+      token: 'tok_c',
+    })
+    const provider = signer({
+      id: 'sig_p',
+      name: 'Provider',
+      email: 'p@example.com',
+      role: 'Provider',
+      token: 'tok_p',
+    })
+    const clientLast = field({ id: 'fld_c', signerId: 'sig_c', page: 3, x: 0.1, y: 0.6 })
+    const providerLast = field({ id: 'fld_p', signerId: 'sig_p', page: 3, x: 0.55, y: 0.6 })
+    // Stored envelope wrongly still says pageCount: 1 (pdf.js showed 3 in the UI).
+    const previous = envelope({
+      signers: [client, provider],
+      fields: [defaultSignatureField('sig_c', 0), defaultSignatureField('sig_p', 1)],
+      pageCount: 1,
+      updatedAt: '2026-01-01T00:00:00.000Z',
+    })
+    const incoming = envelope({
+      signers: [client, provider],
+      fields: [clientLast, providerLast],
+      pageCount: 1,
+      updatedAt: '2026-01-01T01:00:00.000Z',
+    })
+    const merged = mergeEnvelope(incoming, previous)
+    const bySigner = Object.fromEntries(
+      merged.fields.filter((f) => f.type === 'signature').map((f) => [f.signerId, f]),
+    )
+    expect(bySigner.sig_c.page).toBe(3)
+    expect(bySigner.sig_p.page).toBe(3)
+    expect(bySigner.sig_c.y).toBeCloseTo(0.6)
+    expect(bySigner.sig_p.y).toBeCloseTo(0.6)
+    expect(merged.pageCount).toBe(3)
+  })
+
+  it('signerPublicView preserves last-page placements for the Client link', () => {
+    const client = signer({
+      id: 'sig_c',
+      name: 'Client',
+      email: 'c@example.com',
+      role: 'Client',
+      token: 'tok_c',
+    })
+    const provider = signer({
+      id: 'sig_p',
+      name: 'Provider',
+      email: 'p@example.com',
+      role: 'Provider',
+      token: 'tok_p',
+    })
+    const fields = [
+      field({ id: 'fld_c', signerId: 'sig_c', page: 3, x: 0.1, y: 0.62 }),
+      field({ id: 'fld_p', signerId: 'sig_p', page: 3, x: 0.54, y: 0.62 }),
+    ]
+    const view = signerPublicView(
+      envelope({ signers: [client, provider], fields, pageCount: 3 }),
+      'sig_c',
+    )
+    expect(view!.fields).toHaveLength(2)
+    expect(view!.fields.every((f) => f.page === 3)).toBe(true)
+    expect(view!.fields.every((f) => f.y > 0.5)).toBe(true)
+  })
+})
+
+describe('placementAtPointer (cross-page drag)', () => {
+  const pages = [
+    { page: 1, left: 0, top: 0, width: 100, height: 200 },
+    { page: 2, left: 0, top: 220, width: 100, height: 200 },
+    { page: 3, left: 0, top: 440, width: 100, height: 200 },
+  ]
+
+  it('maps pointer on page 3 to pageNum 3 with local y', () => {
+    const out = placementAtPointer(50, 540, pages, 0.42, 0.11, 0.21, 0.055)
+    expect(out?.page).toBe(3)
+    expect(out!.y).toBeGreaterThan(0.2)
+    expect(out!.y).toBeLessThan(0.8)
+  })
+
+  it('does not stay stuck on page 1 when pointer is over page 2', () => {
+    const out = placementAtPointer(40, 300, pages, 0.42, 0.11, 0.21, 0.055)
+    expect(out?.page).toBe(2)
   })
 })

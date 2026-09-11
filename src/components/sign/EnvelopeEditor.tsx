@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import type { Envelope, FieldPlacement } from '@/lib/sign/types'
+import { placementAtPointer, type PageRect } from '@/lib/sign/placement'
 import PdfScrollViewer from './PdfScrollViewer'
 import SignatureLineBox from './SignatureLineBox'
 
@@ -62,8 +63,10 @@ export default function EnvelopeEditor({ initial }: Props) {
     id: string
     startX: number
     startY: number
-    origX: number
-    origY: number
+    grabOffsetX: number
+    grabOffsetY: number
+    width: number
+    height: number
     moved: boolean
   } | null>(null)
   const [draggingId, setDraggingId] = useState<string | null>(null)
@@ -92,6 +95,21 @@ export default function EnvelopeEditor({ initial }: Props) {
   // Bumped on every local fields edit so a slow PATCH response cannot clobber a newer drag.
   const fieldsEpochRef = useRef(0)
   const draggingIdRef = useRef<string | null>(null)
+
+  const dragListenersRef = useRef<{
+    move: (e: PointerEvent) => void
+    up: () => void
+  } | null>(null)
+
+  useEffect(() => {
+    return () => {
+      const listeners = dragListenersRef.current
+      if (!listeners) return
+      window.removeEventListener('pointermove', listeners.move)
+      window.removeEventListener('pointerup', listeners.up)
+      dragListenersRef.current = null
+    }
+  }, [])
 
   // Poll so admin status catches magic-link signatures without a full reload.
   useEffect(() => {
@@ -365,60 +383,152 @@ export default function EnvelopeEditor({ initial }: Props) {
     setMessage(`Signing as ${signer.name}. Type the name, then Save.`)
   }
 
-  function onFieldPointerDown(e: React.PointerEvent<HTMLButtonElement>, field: FieldPlacement) {
-    if (envelope.status === 'completed') return
-    e.stopPropagation()
-    e.currentTarget.setPointerCapture(e.pointerId)
-    dragRef.current = {
-      id: field.id,
-      startX: e.clientX,
-      startY: e.clientY,
-      origX: field.x,
-      origY: field.y,
-      moved: false,
-    }
-    draggingIdRef.current = field.id
-    setDraggingId(field.id)
-  }
-
-  function onFieldPointerMove(e: React.PointerEvent<HTMLButtonElement>, field: FieldPlacement) {
-    const drag = dragRef.current
-    if (!drag || drag.id !== field.id) return
-    const board = e.currentTarget.parentElement
-    if (!board) return
-    const rect = board.getBoundingClientRect()
-    if (rect.width <= 0 || rect.height <= 0) return
-    const dx = (e.clientX - drag.startX) / rect.width
-    const dy = (e.clientY - drag.startY) / rect.height
-    if (Math.abs(dx) > 0.004 || Math.abs(dy) > 0.004) drag.moved = true
-    if (!drag.moved) return
-    const nextX = Math.min(Math.max(drag.origX + dx, 0), 1 - field.width)
-    const nextY = Math.min(Math.max(drag.origY + dy, 0), 1 - field.height)
-    setFields((prev) => {
-      const next = prev.map((f) => (f.id === field.id ? { ...f, x: nextX, y: nextY } : f))
-      fieldsEpochRef.current += 1
-      fieldsRef.current = next
-      return next
+  function collectPageRects(): PageRect[] {
+    const nodes = document.querySelectorAll<HTMLElement>('[data-page]')
+    const out: PageRect[] = []
+    nodes.forEach((el) => {
+      const page = Number(el.dataset.page)
+      if (!Number.isFinite(page) || page < 1) return
+      const r = el.getBoundingClientRect()
+      out.push({ page, left: r.left, top: r.top, width: r.width, height: r.height })
     })
+    return out
   }
 
-  function onFieldPointerUp(e: React.PointerEvent<HTMLButtonElement>, field: FieldPlacement) {
+  function applyDragPointer(clientX: number, clientY: number) {
+    const drag = dragRef.current
+    if (!drag) return
+    const pages = collectPageRects()
+    const next = placementAtPointer(
+      clientX,
+      clientY,
+      pages,
+      drag.width,
+      drag.height,
+      drag.grabOffsetX,
+      drag.grabOffsetY,
+    )
+    if (!next) return
+    if (Math.abs(clientX - drag.startX) > 3 || Math.abs(clientY - drag.startY) > 3) {
+      drag.moved = true
+    }
+    if (!drag.moved) return
+    setFields((prev) => {
+      const mapped = prev.map((f) =>
+        f.id === drag.id ? { ...f, page: next.page, x: next.x, y: next.y } : f,
+      )
+      fieldsEpochRef.current += 1
+      fieldsRef.current = mapped
+      return mapped
+    })
+    // Do not setPage here — focusPage scrollIntoView would yank mid-drag.
+  }
+
+  function detachDragListeners() {
+    const listeners = dragListenersRef.current
+    if (!listeners) return
+    window.removeEventListener('pointermove', listeners.move)
+    window.removeEventListener('pointerup', listeners.up)
+    dragListenersRef.current = null
+  }
+
+  function endFieldDrag(field: FieldPlacement) {
     const drag = dragRef.current
     const wasDrag = Boolean(drag?.moved)
-    if (e.currentTarget.hasPointerCapture(e.pointerId)) {
-      e.currentTarget.releasePointerCapture(e.pointerId)
-    }
     dragRef.current = null
     draggingIdRef.current = null
     setDraggingId(null)
+    detachDragListeners()
     if (wasDrag) {
       const current = fieldsRef.current.map((f) => ({ ...f }))
+      const moved = current.find((f) => f.id === field.id)
+      if (moved) setPage(moved.page)
       void save({ fields: current }).then((env) => {
         if (env) setMessage('Signature line moved and saved.')
       })
       return
     }
     openSignBox(field)
+  }
+
+  function onFieldPointerDown(e: React.PointerEvent<HTMLButtonElement>, field: FieldPlacement) {
+    if (envelope.status === 'completed') return
+    e.stopPropagation()
+    e.preventDefault()
+    const board = e.currentTarget.parentElement
+    if (!board) return
+    const rect = board.getBoundingClientRect()
+    if (rect.width <= 0 || rect.height <= 0) return
+    const grabOffsetX = (e.clientX - rect.left) / rect.width - field.x
+    const grabOffsetY = (e.clientY - rect.top) / rect.height - field.y
+    detachDragListeners()
+    dragRef.current = {
+      id: field.id,
+      startX: e.clientX,
+      startY: e.clientY,
+      grabOffsetX,
+      grabOffsetY,
+      width: field.width,
+      height: field.height,
+      moved: false,
+    }
+    draggingIdRef.current = field.id
+    setDraggingId(field.id)
+    // Window listeners keep tracking when the box remounts onto another page overlay.
+    // Do not listen for pointercancel — React remounting the box on a new page can
+    // synthesize cancel and would abort a cross-page drag.
+    const move = (ev: PointerEvent) => {
+      if (!dragRef.current) return
+      ev.preventDefault()
+      applyDragPointer(ev.clientX, ev.clientY)
+    }
+    const up = () => {
+      const drag = dragRef.current
+      if (!drag) {
+        detachDragListeners()
+        return
+      }
+      const live = fieldsRef.current.find((f) => f.id === drag.id)
+      if (!live) {
+        dragRef.current = null
+        draggingIdRef.current = null
+        setDraggingId(null)
+        detachDragListeners()
+        return
+      }
+      endFieldDrag(live)
+    }
+    dragListenersRef.current = { move, up }
+    window.addEventListener('pointermove', move, { passive: false })
+    window.addEventListener('pointerup', up)
+  }
+
+  function onFieldPointerUp(e: React.PointerEvent<HTMLButtonElement>, field: FieldPlacement) {
+    // Prefer window pointerup; this is a fallback if the button still receives up.
+    if (!dragRef.current || dragRef.current.id !== field.id) return
+    e.stopPropagation()
+    endFieldDrag(field)
+  }
+
+  function onDocumentPages(total: number) {
+    if (!Number.isFinite(total) || total < 1) return
+    const current = envelopeRef.current.pageCount
+    if (total <= current) return
+    setEnvelope((prev) => ({ ...prev, pageCount: total }))
+    envelopeRef.current = { ...envelopeRef.current, pageCount: total }
+    // Persist so later sanitize/magic-link views agree with pdf.js page count.
+    void fetch(`/api/sign/envelopes/${envelopeRef.current.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ pageCount: total }),
+    }).then(async (res) => {
+      const data = await res.json().catch(() => null)
+      if (res.ok && data?.ok && data.envelope) {
+        const env = data.envelope as Envelope
+        setEnvelope(env)
+        envelopeRef.current = env
+      }
+    })
   }
 
   async function saveSignature() {
@@ -756,6 +866,7 @@ export default function EnvelopeEditor({ initial }: Props) {
             focusPage={page}
             placeMode={Boolean(placeSignerId) && envelope.status !== 'completed'}
             onFocusPageChange={setPage}
+            onDocumentPages={onDocumentPages}
             onPageClick={onPlace}
             renderPageOverlay={(pageNum) =>
               fields
@@ -780,9 +891,7 @@ export default function EnvelopeEditor({ initial }: Props) {
                       type="button"
                       data-field-id={f.id}
                       onPointerDown={(e) => onFieldPointerDown(e, f)}
-                      onPointerMove={(e) => onFieldPointerMove(e, f)}
                       onPointerUp={(e) => onFieldPointerUp(e, f)}
-                      onPointerCancel={(e) => onFieldPointerUp(e, f)}
                       className={`pointer-events-auto absolute touch-none overflow-hidden rounded-md border-2 text-left shadow-sm ${
                         draggingId === f.id
                           ? 'border-accent bg-white/95 cursor-grabbing z-10'

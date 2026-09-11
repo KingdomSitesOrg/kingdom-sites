@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
 import { AuthError, getAdminSession, newId, newSignerToken } from '@/lib/sign/auth'
 import { appendAudit } from '@/lib/sign/audit'
-import { defaultSignatureField, sanitizeField } from '@/lib/sign/placement'
+import { defaultSignatureField, maxPageInRawFields, sanitizeField } from '@/lib/sign/placement'
 import { deleteEnvelope, getEnvelope, saveEnvelope } from '@/lib/sign/store'
 import type { FieldPlacement, Signer } from '@/lib/sign/types'
 
@@ -57,6 +57,7 @@ export async function PATCH(request: Request, ctx: Ctx) {
       title?: string
       signers?: { name: string; email: string; role?: string; id?: string }[]
       fields?: unknown[]
+      pageCount?: number
     } | null
     if (!body) {
       return NextResponse.json({ ok: false, error: 'Invalid body' }, { status: 400 })
@@ -65,6 +66,11 @@ export async function PATCH(request: Request, ctx: Ctx) {
     let envelope = { ...existing }
     if (typeof body.title === 'string' && body.title.trim()) {
       envelope.title = body.title.trim()
+    }
+
+    if (typeof body.pageCount === 'number' && Number.isFinite(body.pageCount)) {
+      const n = Math.round(body.pageCount)
+      if (n > envelope.pageCount) envelope.pageCount = n
     }
 
     if (Array.isArray(body.signers)) {
@@ -98,11 +104,20 @@ export async function PATCH(request: Request, ctx: Ctx) {
 
     if (Array.isArray(body.fields)) {
       const signerIds = new Set(envelope.signers.map((s) => s.id))
+      // PdfScrollViewer may show more pages than a stale envelope.pageCount.
+      // Expand first so sanitize cannot drop last-page placements.
+      const discovered = maxPageInRawFields(body.fields)
+      if (discovered > envelope.pageCount) {
+        envelope.pageCount = discovered
+      }
       const sanitized: FieldPlacement[] = []
       for (const raw of body.fields) {
         const field = sanitizeField(raw, signerIds, envelope.pageCount)
         if (field) sanitized.push(field)
       }
+      // Also expand from sanitized pages (belt-and-suspenders).
+      const maxSaved = sanitized.reduce((m, f) => Math.max(m, f.page), envelope.pageCount)
+      if (maxSaved > envelope.pageCount) envelope.pageCount = maxSaved
       envelope.fields = sanitized
     }
 

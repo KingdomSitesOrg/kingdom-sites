@@ -11,6 +11,8 @@ type Props = {
   onPageClick?: (page: number, e: MouseEvent<HTMLDivElement>) => void
   placeMode?: boolean
   onFocusPageChange?: (page: number) => void
+  /** Fired when pdf.js reports numPages (may exceed a stale envelope.pageCount). */
+  onDocumentPages?: (pages: number) => void
 }
 
 export default function PdfScrollViewer({
@@ -22,6 +24,7 @@ export default function PdfScrollViewer({
   onPageClick,
   placeMode,
   onFocusPageChange,
+  onDocumentPages,
 }: Props) {
   const [pages, setPages] = useState(pageCount)
   const [ready, setReady] = useState(false)
@@ -32,6 +35,11 @@ export default function PdfScrollViewer({
   const docRef = useRef<import('pdfjs-dist').PDFDocumentProxy | null>(null)
   const lastFocusScrollRef = useRef<number | null>(null)
   const tapRef = useRef<{ page: number; x: number; y: number; moved: boolean } | null>(null)
+  const onDocumentPagesRef = useRef(onDocumentPages)
+
+  useEffect(() => {
+    onDocumentPagesRef.current = onDocumentPages
+  }, [onDocumentPages])
 
   useEffect(() => {
     let cancelled = false
@@ -64,6 +72,7 @@ export default function PdfScrollViewer({
         docRef.current = pdf
         const total = pdf.numPages
         setPages(total)
+        onDocumentPagesRef.current?.(total)
 
         await new Promise<void>((resolve) =>
           requestAnimationFrame(() => requestAnimationFrame(() => resolve())),

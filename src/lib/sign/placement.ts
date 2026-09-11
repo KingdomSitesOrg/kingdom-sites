@@ -35,6 +35,68 @@ export function defaultSignatureField(signerId: string, slot = 0): FieldPlacemen
   }
 }
 
+/**
+ * Highest page index mentioned in raw field payloads (ignores invalid pages).
+ * Used to expand a stale/wrong envelope.pageCount before sanitize.
+ */
+export function maxPageInRawFields(rawFields: unknown[]): number {
+  let max = 0
+  for (const raw of rawFields) {
+    if (!raw || typeof raw !== 'object') continue
+    const page = Math.round(Number((raw as Record<string, unknown>).page))
+    if (Number.isFinite(page) && page >= 1) max = Math.max(max, page)
+  }
+  return max
+}
+
+export type PageRect = {
+  page: number
+  left: number
+  top: number
+  width: number
+  height: number
+}
+
+/**
+ * Map a pointer to page-local fractional coords (origin top-left).
+ * Prefers the page whose rect contains the point; otherwise nearest by vertical center.
+ */
+export function placementAtPointer(
+  clientX: number,
+  clientY: number,
+  pages: PageRect[],
+  boxWidth: number,
+  boxHeight: number,
+  grabOffsetX = boxWidth / 2,
+  grabOffsetY = boxHeight / 2,
+): { page: number; x: number; y: number } | null {
+  if (!pages.length) return null
+  const containing = pages.filter(
+    (p) =>
+      p.width > 0 &&
+      p.height > 0 &&
+      clientX >= p.left &&
+      clientX <= p.left + p.width &&
+      clientY >= p.top &&
+      clientY <= p.top + p.height,
+  )
+  let target: PageRect
+  if (containing.length) {
+    // Prefer the topmost match if overlays overlap.
+    target = containing.reduce((a, b) => (a.page <= b.page ? a : b))
+  } else {
+    target = pages.reduce((best, p) => {
+      const bestMid = best.top + best.height / 2
+      const mid = p.top + p.height / 2
+      return Math.abs(clientY - mid) < Math.abs(clientY - bestMid) ? p : best
+    })
+  }
+  if (target.width <= 0 || target.height <= 0) return null
+  const x = clamp((clientX - target.left) / target.width - grabOffsetX, 0, Math.max(0, 1 - boxWidth))
+  const y = clamp((clientY - target.top) / target.height - grabOffsetY, 0, Math.max(0, 1 - boxHeight))
+  return { page: target.page, x, y }
+}
+
 /** Coerce coords so custom placements survive JSON quirks; never drop valid boxes. */
 export function sanitizeField(
   raw: unknown,
@@ -49,7 +111,12 @@ export function sanitizeField(
   if (!id || !type || !signerId || !signerIds.has(signerId)) return null
 
   const page = Math.round(Number(f.page))
-  if (!Number.isFinite(page) || page < 1 || page > pageCount) return null
+  // Reject only page < 1 (and absurd pages). Do NOT drop page > stored pageCount —
+  // a stale/wrong envelope.pageCount (e.g. 1 while the PDF has 3 pages) must not
+  // erase last-page placements. Callers should bump pageCount with maxPageInRawFields.
+  if (!Number.isFinite(page) || page < 1) return null
+  const softMax = Math.max(pageCount || 0, 1) + 100
+  if (page > softMax) return null
 
   const width = clamp(Number(f.width), 0.05, 1)
   const height = clamp(Number(f.height), 0.03, 1)
@@ -195,15 +262,17 @@ export function mergeEnvelope(incoming: Envelope, previous: Envelope | null): En
     if (!signerIndex.has(s.id)) signerIndex.set(s.id, i)
   }
 
-  const pageCount = previous.pageCount || incoming.pageCount
+  const basePageCount = Math.max(previous.pageCount || 0, incoming.pageCount || 0)
   const allowIncoming = STATUS_RANK[previous.status] <= STATUS_RANK[incoming.status]
   const fields = mergeFields(
     previous.fields,
     incoming.fields,
     signerIndex,
-    pageCount,
+    basePageCount || 1,
     allowIncoming,
   )
+  const maxFieldPage = fields.reduce((m, f) => Math.max(m, f.page || 0), 0)
+  const pageCount = Math.max(basePageCount, maxFieldPage)
 
   const audit = mergeAudit(previous.audit || [], incoming.audit || [])
   const updatedAt =
@@ -215,6 +284,7 @@ export function mergeEnvelope(incoming: Envelope, previous: Envelope | null): En
     completedPdfKey,
     signers,
     fields,
+    pageCount,
     audit,
     updatedAt,
   }
