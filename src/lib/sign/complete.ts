@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/nextjs'
 import { appendAudit } from '@/lib/sign/audit'
 import { sendCompletedPdfEmail } from '@/lib/sign/email'
-import { allSignersSigned, mergeSigner, needsCompletedPdf } from '@/lib/sign/placement'
+import { allSignersSigned, mergeSigner } from '@/lib/sign/placement'
 import { stampEnvelopePdf } from '@/lib/sign/pdf'
 import { getEnvelope, readPdf, saveEnvelope, savePdf } from '@/lib/sign/store'
 import type { Envelope } from '@/lib/sign/types'
