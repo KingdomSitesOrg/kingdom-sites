@@ -36,7 +36,7 @@ export async function POST(request: Request, ctx: Ctx) {
       envelope = { ...envelope, status: 'sent' }
     }
     envelope = appendAudit(envelope, 'sent', session.email, 'opened for signing')
-    await saveEnvelope(envelope)
+    envelope = await saveEnvelope(envelope)
 
     const body = (await request.json().catch(() => null)) as { email?: boolean } | null
     // Default true for the "Email magic links" button. Admin self-sign passes email:false
@@ -74,7 +74,7 @@ export async function POST(request: Request, ctx: Ctx) {
         ? results.map((r) => `${r.email}:${r.sent ? 'emailed' : 'link-only'}`).join(', ')
         : 'opened without email',
     )
-    await saveEnvelope(envelope)
+    envelope = await saveEnvelope(envelope)
 
     const base = process.env.SIGN_APP_URL?.trim() || ''
     const localLinks = /localhost|127\.0\.0\.1/i.test(base)

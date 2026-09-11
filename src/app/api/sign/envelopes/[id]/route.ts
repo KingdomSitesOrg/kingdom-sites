@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
 import { AuthError, getAdminSession, newId, newSignerToken } from '@/lib/sign/auth'
 import { appendAudit } from '@/lib/sign/audit'
-import { defaultSignatureField, maxPageInRawFields, sanitizeField } from '@/lib/sign/placement'
+import { defaultSignatureField, maxPageInRawFields, mergeSigner, sanitizeField } from '@/lib/sign/placement'
 import { deleteEnvelope, getEnvelope, saveEnvelope } from '@/lib/sign/store'
 import type { FieldPlacement, Signer } from '@/lib/sign/types'
 
@@ -85,7 +85,14 @@ export async function PATCH(request: Request, ctx: Ctx) {
           : prevByEmail.get(email.toLowerCase())
         const role = normalizeRole(raw.role, prev?.role || 'Signer')
         if (prev) {
-          nextSigners.push({ ...prev, name, email, role: role || prev.role || 'Signer' })
+          // Preserve signed/token from existing — admin drafts omit status and must
+          // never downgrade a Client who signed via magic link while autosave runs.
+          nextSigners.push(
+            mergeSigner(
+              { ...prev, name, email, role: role || prev.role || 'Signer' },
+              prev,
+            ),
+          )
         } else {
           nextSigners.push({
             id: newId('sig'),
@@ -144,7 +151,8 @@ export async function PATCH(request: Request, ctx: Ctx) {
     }))
 
     envelope = appendAudit(envelope, 'updated', session.email)
-    await saveEnvelope(envelope)
+    // Return merged blob state so admin UI does not flash pending over a durable Client signature.
+    envelope = await saveEnvelope(envelope)
     return NextResponse.json({ ok: true, envelope })
   } catch (error) {
     if (error instanceof AuthError) {

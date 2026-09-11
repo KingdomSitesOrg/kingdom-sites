@@ -131,14 +131,23 @@ export async function readPdf(key: string): Promise<Buffer> {
   return fs.readFile(pdfLocalPath(key))
 }
 
-export async function saveEnvelope(envelope: Envelope): Promise<void> {
-  // Retry read-merge-write so two concurrent saves cannot both merge against the
-  // same snapshot and lose the other's placements (Client kept page 3, Provider
-  // reverted to a dragged page-1 default in production).
+function signedPreserved(expected: Envelope, actual: Envelope): boolean {
+  for (const s of expected.signers) {
+    if (s.status !== 'signed') continue
+    const live = actual.signers.find((x) => x.id === s.id)
+    if (!live || live.status !== 'signed') return false
+  }
+  return true
+}
+
+export async function saveEnvelope(envelope: Envelope): Promise<Envelope> {
+  // Read-merge-write so concurrent admin autosave cannot wipe a magic-link signature
+  // or snap placements. Keep this fast: Blob get-after-put is often stale, and the
+  // old 4-round updatedAt verify burned maxDuration so Client sign never stuck.
   const incoming = envelope
   let previous: Envelope | null = null
   let merged = incoming
-  for (let attempt = 0; attempt < 4; attempt++) {
+  for (let attempt = 0; attempt < 2; attempt++) {
     previous = await getEnvelope(incoming.id)
     merged = mergeEnvelope(incoming, previous)
     const json = JSON.stringify(merged, null, 2)
@@ -153,19 +162,26 @@ export async function saveEnvelope(envelope: Envelope): Promise<void> {
       await ensureLocal()
       await fs.writeFile(envelopePath(merged.id), json, 'utf8')
     }
-    // If nothing else wrote mid-flight, the stored updatedAt/fields match merged.
     const verify = await getEnvelope(incoming.id)
-    if (
-      verify &&
-      verify.updatedAt === merged.updatedAt &&
-      JSON.stringify(verify.fields) === JSON.stringify(merged.fields) &&
-      verify.status === merged.status
-    ) {
+    if (!verify) {
       await syncTokenIndexes(merged, previous)
-      return
+      return merged
     }
+    const fieldsMatch =
+      JSON.stringify(verify.fields) === JSON.stringify(merged.fields)
+    const statusMatch = verify.status === merged.status
+    const signedOk = signedPreserved(merged, verify)
+    // Do NOT require updatedAt equality — stale Blob reads fail that check even when
+    // our write landed, which used to force 4 full RMW cycles and timeout Client POST.
+    if (statusMatch && (fieldsMatch || signedOk)) {
+      const best = mergeEnvelope(merged, verify)
+      await syncTokenIndexes(best, previous)
+      return best
+    }
+    // Concurrent writer diverged (lost our signed state or fields) — merge once more.
   }
   await syncTokenIndexes(merged, previous)
+  return merged
 }
 
 export async function getEnvelope(id: string): Promise<Envelope | null> {

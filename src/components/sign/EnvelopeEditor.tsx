@@ -125,17 +125,23 @@ export default function EnvelopeEditor({ initial }: Props) {
         const local = envelopeRef.current
         const remoteSigned = env.signers.filter((s) => s.status === 'signed').length
         const localSigned = local.signers.filter((s) => s.status === 'signed').length
+        const localMissingRemoteSigned = env.signers.some(
+          (s) =>
+            s.status === 'signed' &&
+            local.signers.find((l) => l.id === s.id)?.status !== 'signed',
+        )
         if (
           env.updatedAt <= local.updatedAt &&
           env.status === local.status &&
-          remoteSigned <= localSigned
+          remoteSigned <= localSigned &&
+          !localMissingRemoteSigned
         ) {
           return
         }
         // Don't clobber in-flight placement edits with an older field set unless status advanced.
         const statusRank = { draft: 0, sent: 1, completed: 2 } as const
         const statusAdvanced = statusRank[env.status] > statusRank[local.status]
-        const signedAdvanced = remoteSigned > localSigned
+        const signedAdvanced = remoteSigned > localSigned || localMissingRemoteSigned
         setEnvelope(env)
         setSigners(draftFromEnvelope(env))
         if (statusAdvanced || signedAdvanced || env.status === 'completed') {

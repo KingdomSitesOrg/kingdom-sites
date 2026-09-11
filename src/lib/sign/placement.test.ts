@@ -296,6 +296,144 @@ describe('mergeSigner', () => {
   })
 })
 
+describe('first signer signed survives concurrent admin save', () => {
+  it('keeps Client signed when admin autosave merges a pending snapshot; both public views agree', () => {
+    const clientPending = signer({
+      id: 'sig_client',
+      name: 'Thomas Client',
+      email: 'client@example.com',
+      role: 'Client',
+      token: 'tok_client',
+      status: 'pending',
+    })
+    const provider = signer({
+      id: 'sig_provider',
+      name: 'Thomas Provider',
+      email: 'provider@example.com',
+      role: 'Provider',
+      token: 'tok_provider',
+      status: 'pending',
+    })
+    const clientField = field({
+      id: 'fld_sig_client_sig',
+      signerId: 'sig_client',
+      page: 3,
+      x: 0.1,
+      y: 0.7,
+      width: 0.42,
+      height: 0.11,
+    })
+    const providerField = field({
+      id: 'fld_sig_provider_sig',
+      signerId: 'sig_provider',
+      page: 3,
+      x: 0.55,
+      y: 0.7,
+      width: 0.42,
+      height: 0.11,
+    })
+
+    // Durable state after Client magic-link Save signature
+    const afterClientSign = envelope({
+      updatedAt: '2026-01-01T03:00:00.000Z',
+      signers: [
+        {
+          ...clientPending,
+          status: 'signed',
+          signedAt: '2026-01-01T03:00:00.000Z',
+          signaturePng: 'data:image/png;base64,CLIENT',
+          signedDateText: 'January 1, 2026',
+        },
+        provider,
+      ],
+      fields: [clientField, providerField],
+      audit: [
+        {
+          at: '2026-01-01T03:00:00.000Z',
+          action: 'signed',
+          actor: 'client@example.com',
+        },
+      ],
+    })
+
+    // Admin autosave still holding Client as pending (stale React state)
+    const adminAutosave = envelope({
+      updatedAt: '2026-01-01T03:00:05.000Z',
+      signers: [clientPending, provider],
+      fields: [clientField, providerField],
+      audit: [
+        {
+          at: '2026-01-01T03:00:05.000Z',
+          action: 'updated',
+          actor: 'admin@example.com',
+        },
+      ],
+    })
+
+    const merged = mergeEnvelope(adminAutosave, afterClientSign)
+    const client = merged.signers.find((s) => s.id === 'sig_client')
+    const prov = merged.signers.find((s) => s.id === 'sig_provider')
+    expect(client?.status).toBe('signed')
+    expect(client?.signaturePng).toBe('data:image/png;base64,CLIENT')
+    expect(prov?.status).toBe('pending')
+    // Placement merge must not regress Client page-3 box
+    expect(merged.fields.find((f) => f.signerId === 'sig_client')?.page).toBe(3)
+
+    const clientView = signerPublicView(merged, 'sig_client')
+    const providerView = signerPublicView(merged, 'sig_provider')
+    expect(clientView?.signer.status).toBe('signed')
+    expect(providerView?.parties.find((p) => p.id === 'sig_client')?.status).toBe('signed')
+    expect(clientView?.parties.find((p) => p.id === 'sig_client')?.status).toBe('signed')
+    expect(providerView?.signer.status).toBe('pending')
+  })
+
+  it('Client sign incoming wins over unsigned previous (first write path)', () => {
+    const client = signer({
+      id: 'sig_client',
+      name: 'Client',
+      email: 'c@example.com',
+      role: 'Client',
+      token: 'tok_c',
+    })
+    const provider = signer({
+      id: 'sig_provider',
+      name: 'Provider',
+      email: 'p@example.com',
+      role: 'Provider',
+      token: 'tok_p',
+    })
+    const previous = envelope({
+      updatedAt: '2026-01-01T02:00:00.000Z',
+      signers: [client, provider],
+      fields: [
+        field({ id: 'fld_c', signerId: 'sig_client', page: 3 }),
+        field({ id: 'fld_p', signerId: 'sig_provider', page: 3 }),
+      ],
+    })
+    const incoming = envelope({
+      updatedAt: '2026-01-01T02:30:00.000Z',
+      signers: [
+        {
+          ...client,
+          status: 'signed',
+          signedAt: '2026-01-01T02:30:00.000Z',
+          signaturePng: 'data:image/png;base64,C',
+          signedDateText: 'January 1, 2026',
+        },
+        provider,
+      ],
+      fields: previous.fields,
+    })
+    const merged = mergeEnvelope(incoming, previous)
+    expect(merged.signers.find((s) => s.id === 'sig_client')?.status).toBe('signed')
+    expect(signerPublicView(merged, 'sig_client')?.signer.status).toBe('signed')
+    expect(
+      signerPublicView(merged, 'sig_provider')?.parties.find((p) => p.id === 'sig_client')
+        ?.status,
+    ).toBe('signed')
+  })
+})
+
 describe('formatSignedDateText + dateOverlayBesideSignature', () => {
   it('returns null for unsigned parties (no date placeholder required)', () => {
     const pending = signer({

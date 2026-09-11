@@ -91,7 +91,7 @@ export async function POST(request: Request) {
       audit: [],
     }
     envelope = appendAudit(envelope, 'created', session.email, title)
-    await saveEnvelope(envelope)
+    envelope = await saveEnvelope(envelope)
 
     return NextResponse.json({ ok: true, envelope })
   } catch (error) {

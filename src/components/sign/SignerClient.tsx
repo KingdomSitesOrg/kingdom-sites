@@ -131,6 +131,10 @@ export default function SignerClient({ token }: { token: string }) {
     }
     setBusy(true)
     setError('')
+    // Optimistic: show Signed immediately so a slow stamp/email on the last signer
+    // cannot leave the magic-link spinner up after the durable write already landed.
+    setDone(true)
+    setEditing(false)
     try {
       const signaturePng = renderCursivePng(name)
       const res = await fetch(`/api/sign/s/${token}`, {
@@ -140,6 +144,8 @@ export default function SignerClient({ token }: { token: string }) {
       })
       const data = await res.json().catch(() => null)
       if (!res.ok || !data?.ok) {
+        setDone(false)
+        setEditing(true)
         setError(data?.error || 'Could not submit signature.')
         return
       }
@@ -147,6 +153,8 @@ export default function SignerClient({ token }: { token: string }) {
       setDone(true)
       setEditing(false)
     } catch {
+      setDone(false)
+      setEditing(true)
       setError('Network error.')
     } finally {
       setBusy(false)
