@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { PhoneShotCluster } from '@/components/BuildMocks'
+import { RutaPhoneCluster } from '@/components/BuildMocks'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { APP_PROOF } from '@/lib/partnership'
 
@@ -30,7 +30,7 @@ export default function MyWork() {
           {APP_PROOF.map((app) => (
             <div key={app.name} className="grid items-start gap-10 lg:grid-cols-2 lg:gap-14">
               {'phones' in app && app.phones.length > 0 ? (
-                <PhoneShotCluster items={app.phones.map((variant) => ({ variant }))} />
+                <RutaPhoneCluster />
               ) : app.shots.length > 0 ? (
                 <div className="flex items-end justify-center self-start pb-4">
                   {app.shots.map((shot, i) => (

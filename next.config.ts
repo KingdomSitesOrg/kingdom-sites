@@ -11,18 +11,16 @@ const csp = [
   // Sentry Session Replay compresses recordings on a background thread that it
   // starts from an in-memory blob: script. Without this it falls back to
   // script-src and gets blocked.
-  "worker-src 'self' blob:",
+  "worker-src 'self' blob: https://unpkg.com",
   "style-src 'self' 'unsafe-inline'",
   // Analytics still falls back to a tracking pixel in some browsers.
-  "img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com https://*.calendly.com https://calendly.com",
+  "img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com https://*.calendly.com https://unpkg.com https://calendly.com",
   "font-src 'self' https://assets.calendly.com",
   // Sentry reports errors; the Google hosts are where Analytics sends pageviews.
-  "connect-src 'self' https://*.ingest.us.sentry.io https://*.ingest.sentry.io https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://calendly.com https://*.calendly.com",
+  "connect-src 'self' https://unpkg.com https://*.ingest.us.sentry.io https://*.ingest.sentry.io https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://calendly.com https://*.calendly.com",
   "form-action 'none'",
-  // Mission page embeds a YouTube player; links-only would not need this.
-  // In development the site may also frame itself, which is how phone-width
-  // layouts get checked in a desktop browser. Never allowed in production.
-  `frame-src https://www.youtube.com https://www.youtube-nocookie.com https://calendly.com https://*.calendly.com${isDev ? " 'self'" : ''}`,
+  // Mission page embeds YouTube; /sign embeds same-origin PDF previews (and blob:).
+  `frame-src 'self' blob: https://www.youtube.com https://www.youtube-nocookie.com https://calendly.com https://*.calendly.com`,
   "base-uri 'self'",
   "object-src 'none'",
 ].join('; ')

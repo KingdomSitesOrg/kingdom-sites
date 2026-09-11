@@ -55,8 +55,8 @@ export const INQUIRY = {
   calendarHint: 'Pick a time that works for you — no pressure, just a chat.',
 }
 
-/* Three apps on the home cluster. Those are CSS phone drawings, not photos.
-   My Work uses `phones` (CSS) or `shots` (photos of Thomas's own apps). */
+/* Home cluster: photos of Thomas’s own apps, CSS drawing for Ruta.
+   My Work uses `phones` (CSS) or `shots` (photos). */
 export const APP_PROOF = [
   {
     name: 'Ruta',
@@ -96,10 +96,22 @@ export const APP_PROOF = [
   },
 ] as const
 
-export const HOME_APP_PHONES = [
-  { href: '/tap-to-tick', name: 'Tap to Tick', variant: 'spend' as const },
-  { href: '/ruta', name: 'Ruta', variant: 'queue' as const },
-  { href: '/latin-game', name: 'Jam with Latin', variant: 'cards' as const },
+export const HOME_CLUSTER = [
+  {
+    href: '/tap-to-tick',
+    name: 'Tap to Tick',
+    shot: { src: '/tap-to-tick/overview.jpg', alt: 'Tap to Tick overview' },
+  },
+  {
+    href: '/ruta',
+    name: 'Ruta',
+    mock: 'portal' as const,
+  },
+  {
+    href: '/latin-game',
+    name: 'Jam with Latin',
+    shot: { src: '/latin-game/home.jpg', alt: 'Jam with Latin home screen' },
+  },
 ] as const
 
 export const AI_CONSULT_TOPICS = [

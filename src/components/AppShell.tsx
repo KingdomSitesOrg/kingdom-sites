@@ -19,7 +19,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   // Kingdom Sites header and footer. The front door is bare for a different
   // reason: it asks one question, and a menu offering ten other answers would
   // rather defeat the point.
-  const standalone = ['/tap-to-tick', '/latin-game', '/ministry', '/prayer', '/marketing-frame'].some(
+  const standalone = ['/tap-to-tick', '/latin-game', '/ministry', '/prayer', '/marketing-frame', '/sign'].some(
     (p) => pathname?.startsWith(p),
   )
 

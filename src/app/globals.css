@@ -131,6 +131,82 @@ body {
 }
 .btn-sm:hover { background: var(--color-accent-hover); }
 
+.btn-primary:disabled,
+.btn-ghost:disabled,
+.btn-sm:disabled,
+.btn-danger:disabled,
+.btn-ghost-sm:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+.btn-ghost-sm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 6px 14px;
+  border-radius: 980px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  text-decoration: none;
+  background: var(--color-surface);
+  color: var(--color-ink);
+  border: 1px solid var(--color-line-strong);
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+.btn-ghost-sm:hover:not(:disabled) { border-color: var(--color-ink); background: var(--color-surface-2); }
+.btn-ghost-sm.is-active {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #fff;
+}
+.btn-ghost-sm.is-active:hover:not(:disabled) { background: var(--color-accent-hover); border-color: var(--color-accent-hover); }
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 12px 26px;
+  border-radius: 980px;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  text-decoration: none;
+  background: var(--color-surface);
+  color: var(--color-warm);
+  border: 1px solid color-mix(in srgb, var(--color-warm) 35%, var(--color-line-strong));
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+.btn-danger:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--color-warm) 10%, var(--color-surface));
+  border-color: var(--color-warm);
+  transform: translateY(-1px);
+}
+.btn-danger-sm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 6px 14px;
+  border-radius: 980px;
+  font-size: 13px;
+  font-weight: 500;
+  background: var(--color-surface);
+  color: var(--color-warm);
+  border: 1px solid color-mix(in srgb, var(--color-warm) 35%, var(--color-line-strong));
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+.btn-danger-sm:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--color-warm) 10%, var(--color-surface));
+  border-color: var(--color-warm);
+}
+
 /* On a dark band the primary button inverts. */
 .band-dark .btn-primary {
   background: #fff;
@@ -278,6 +354,10 @@ body {
 /* Same sweep on a light phone screen — a blue sheen instead of white on white. */
 .mock-sweep.on-light::after {
   background: linear-gradient(100deg, transparent 32%, rgba(10, 99, 201, 0.16) 50%, transparent 68%);
+}
+/* Ruta’s green — same family as getruta.com’s product mocks. */
+.mock-sweep.on-ruta::after {
+  background: linear-gradient(100deg, transparent 32%, rgba(255, 255, 255, 0.28) 50%, transparent 68%);
 }
 
 /* The call button and the incoming call on the home page drawing: a slow, quiet
