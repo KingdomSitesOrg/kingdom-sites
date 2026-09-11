@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
-import { AuthError, getAdminSession, newId, newSignerToken } from '@/lib/sign/auth'
+import { AuthError, newId, newSignerToken } from '@/lib/sign/auth'
+import { ForbiddenError, requireSignAccess } from '@/lib/sign/access'
 import { appendAudit } from '@/lib/sign/audit'
 import { defaultSignatureField, lockedEnvelopeStructuralError, maxPageInRawFields, mergeSigner, sanitizeField } from '@/lib/sign/placement'
 import { deleteEnvelope, getEnvelope, saveEnvelope } from '@/lib/sign/store'
@@ -12,11 +13,6 @@ export const maxDuration = 60
 
 type Ctx = { params: Promise<{ id: string }> }
 
-async function requireAdmin() {
-  const session = await getAdminSession()
-  if (!session) throw new AuthError()
-  return session
-}
 
 function normalizeRole(raw: unknown, fallback = 'Signer'): string {
   const role = String(raw ?? fallback).trim().slice(0, 60)
@@ -25,7 +21,7 @@ function normalizeRole(raw: unknown, fallback = 'Signer'): string {
 
 export async function GET(_request: Request, ctx: Ctx) {
   try {
-    await requireAdmin()
+    await requireSignAccess()
     const { id } = await ctx.params
     const envelope = await getEnvelope(id)
     if (!envelope) {
@@ -36,6 +32,12 @@ export async function GET(_request: Request, ctx: Ctx) {
     if (error instanceof AuthError) {
       return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 })
     }
+    if (error instanceof ForbiddenError) {
+      return NextResponse.json(
+        { ok: false, error: error.message, code: error.code, upgradeUrl: '/sign/pricing' },
+        { status: 403 },
+      )
+    }
     Sentry.captureException(error)
     return NextResponse.json({ ok: false, error: 'Could not load envelope.' }, { status: 500 })
   }
@@ -43,7 +45,7 @@ export async function GET(_request: Request, ctx: Ctx) {
 
 export async function PATCH(request: Request, ctx: Ctx) {
   try {
-    const session = await requireAdmin()
+    const { session } = await requireSignAccess()
     const { id } = await ctx.params
     let existing = await getEnvelope(id)
     if (!existing) {
@@ -165,6 +167,12 @@ export async function PATCH(request: Request, ctx: Ctx) {
     if (error instanceof AuthError) {
       return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 })
     }
+    if (error instanceof ForbiddenError) {
+      return NextResponse.json(
+        { ok: false, error: error.message, code: error.code, upgradeUrl: '/sign/pricing' },
+        { status: 403 },
+      )
+    }
     Sentry.captureException(error)
     return NextResponse.json({ ok: false, error: 'Could not update envelope.' }, { status: 500 })
   }
@@ -172,13 +180,19 @@ export async function PATCH(request: Request, ctx: Ctx) {
 
 export async function DELETE(_request: Request, ctx: Ctx) {
   try {
-    await requireAdmin()
+    await requireSignAccess()
     const { id } = await ctx.params
     await deleteEnvelope(id)
     return NextResponse.json({ ok: true })
   } catch (error) {
     if (error instanceof AuthError) {
       return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 })
+    }
+    if (error instanceof ForbiddenError) {
+      return NextResponse.json(
+        { ok: false, error: error.message, code: error.code, upgradeUrl: '/sign/pricing' },
+        { status: 403 },
+      )
     }
     Sentry.captureException(error)
     return NextResponse.json({ ok: false, error: 'Could not delete envelope.' }, { status: 500 })

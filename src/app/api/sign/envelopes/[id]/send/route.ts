@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
-import { AuthError, getAdminSession } from '@/lib/sign/auth'
+import { AuthError } from '@/lib/sign/auth'
+import { ForbiddenError, requireSignAccess } from '@/lib/sign/access'
 import { appendAudit } from '@/lib/sign/audit'
 import { protectSignedSigners } from '@/lib/sign/complete'
 import { sendMagicLinkEmail, signerLink } from '@/lib/sign/email'
@@ -26,8 +27,7 @@ async function loadEnvelopeForSend(id: string): Promise<Envelope | null> {
 
 export async function POST(request: Request, ctx: Ctx) {
   try {
-    const session = await getAdminSession()
-    if (!session) throw new AuthError()
+    const { session } = await requireSignAccess()
     const { id } = await ctx.params
     let envelope = await loadEnvelopeForSend(id)
     if (!envelope) {
@@ -133,6 +133,12 @@ export async function POST(request: Request, ctx: Ctx) {
   } catch (error) {
     if (error instanceof AuthError) {
       return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 })
+    }
+    if (error instanceof ForbiddenError) {
+      return NextResponse.json(
+        { ok: false, error: error.message, code: error.code, upgradeUrl: '/sign/pricing' },
+        { status: 403 },
+      )
     }
     Sentry.captureException(error)
     return NextResponse.json({ ok: false, error: 'Could not send invites.' }, { status: 500 })

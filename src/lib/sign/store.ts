@@ -206,7 +206,7 @@ export async function getEnvelope(id: string): Promise<Envelope | null> {
   }
 }
 
-export async function listEnvelopes(): Promise<EnvelopeSummary[]> {
+async function loadAllEnvelopes(): Promise<Envelope[]> {
   const envelopes: Envelope[] = []
   if (blobEnabled()) {
     const { blobs } = await list({ prefix: 'sign/envelopes/', limit: 200 })
@@ -236,19 +236,42 @@ export async function listEnvelopes(): Promise<EnvelopeSummary[]> {
       }
     }
   }
-
   return envelopes
-    .map((e) => ({
-      id: e.id,
-      title: e.title,
-      status: e.status,
-      createdAt: e.createdAt,
-      updatedAt: e.updatedAt,
-      pageCount: e.pageCount,
-      signerCount: e.signers.length,
-      signedCount: e.signers.filter((s) => s.status === 'signed').length,
-    }))
+}
+
+function toSummary(e: Envelope): EnvelopeSummary {
+  return {
+    id: e.id,
+    title: e.title,
+    status: e.status,
+    createdAt: e.createdAt,
+    updatedAt: e.updatedAt,
+    pageCount: e.pageCount,
+    signerCount: e.signers.length,
+    signedCount: e.signers.filter((s) => s.status === 'signed').length,
+  }
+}
+
+export async function listEnvelopes(): Promise<EnvelopeSummary[]> {
+  const envelopes = await loadAllEnvelopes()
+  return envelopes
+    .map(toSummary)
     .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
+}
+
+export async function listEnvelopesForOwner(ownerEmail: string): Promise<EnvelopeSummary[]> {
+  const email = ownerEmail.trim().toLowerCase()
+  const envelopes = await loadAllEnvelopes()
+  return envelopes
+    .filter((e) => (e.ownerEmail || '').trim().toLowerCase() === email)
+    .map(toSummary)
+    .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
+}
+
+export async function countEnvelopesForOwner(ownerEmail: string): Promise<number> {
+  const email = ownerEmail.trim().toLowerCase()
+  const envelopes = await loadAllEnvelopes()
+  return envelopes.filter((e) => (e.ownerEmail || '').trim().toLowerCase() === email).length
 }
 
 export async function findEnvelopeBySignerToken(

@@ -57,6 +57,8 @@ export type Envelope = {
   /** Storage keys (local path segment or blob pathname) */
   originalPdfKey: string
   completedPdfKey?: string
+  /** Subscriber / admin email that created the envelope (for plan limits). */
+  ownerEmail?: string
   signers: Signer[]
   fields: FieldPlacement[]
   audit: AuditEntry[]
