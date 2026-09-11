@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
 import { AuthError, getAdminSession, newId, newSignerToken } from '@/lib/sign/auth'
 import { appendAudit } from '@/lib/sign/audit'
-import { defaultDateField, defaultSignatureField } from '@/lib/sign/pdf'
+import { defaultSignatureField } from '@/lib/sign/pdf'
 import { deleteEnvelope, getEnvelope, saveEnvelope } from '@/lib/sign/store'
 import type { FieldPlacement, Signer } from '@/lib/sign/types'
 
@@ -85,30 +85,36 @@ export async function PATCH(request: Request, ctx: Ctx) {
         }
       }
       envelope.signers = nextSigners
-      // Drop fields for removed signers; ensure defaults for new ones
       const signerIds = new Set(nextSigners.map((s) => s.id))
       envelope.fields = envelope.fields.filter((f) => signerIds.has(f.signerId))
-      for (const s of nextSigners) {
-        if (!envelope.fields.some((f) => f.signerId === s.id)) {
-          envelope.fields.push(
-            defaultSignatureField(s.id, envelope.pageCount),
-            defaultDateField(s.id, envelope.pageCount),
-          )
-        }
-      }
     }
 
     if (Array.isArray(body.fields)) {
+      const signerIds = new Set(envelope.signers.map((s) => s.id))
       envelope.fields = body.fields.filter(
         (f) =>
           f &&
           typeof f.id === 'string' &&
           (f.type === 'signature' || f.type === 'date') &&
           typeof f.signerId === 'string' &&
+          signerIds.has(f.signerId) &&
           typeof f.page === 'number' &&
           f.page >= 1 &&
           f.page <= envelope.pageCount,
       )
+    }
+
+    // After signers + fields merge: every signer gets a signature box (defaults if missing).
+    {
+      const list = envelope.signers
+      for (let i = 0; i < list.length; i++) {
+        const s = list[i]
+        if (!envelope.fields.some((f) => f.signerId === s.id && f.type === 'signature')) {
+          envelope.fields.push(defaultSignatureField(s.id, envelope.pageCount, i))
+        }
+      }
+      const keep = new Set(list.map((s) => s.id))
+      envelope.fields = envelope.fields.filter((f) => keep.has(f.signerId))
     }
 
     envelope = appendAudit(envelope, 'updated', session.email)

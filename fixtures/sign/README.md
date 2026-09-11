@@ -1,8 +1,8 @@
-# Sign test PDFs
+# Sign fixtures
 
-Sample contract PDFs for local Kingdom Sites Sign testing:
+Canonical contract PDF for Jam with Latin (Sept 2026):
 
-- `MSA_Kingdom_Sites_Jam_with_Latin_Sept2026.pdf`
-- `SOW2_Jam_with_Latin_Web_App_Sept2026.pdf`
+- `MSA_and_SOW2_Jam_with_Latin_Sept2026.pdf` — 3 pages (full MSA + SOW #2)
 
-Upload them from `/sign/new` after signing in with `ADMIN_EMAIL` / `ADMIN_PASSWORD`.
+Split MSA-only / SOW-only drafts were moved to
+`~/Documents/Jam-contracts-archive-Sept2026/`.

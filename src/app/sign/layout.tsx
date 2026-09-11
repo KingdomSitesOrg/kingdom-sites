@@ -15,9 +15,14 @@ export default function SignLayout({ children }: { children: React.ReactNode }) 
           <Link href="/sign" className="text-sm font-semibold tracking-tight text-ink">
             Kingdom Sites <span className="text-accent">Sign</span>
           </Link>
-          <Link href="/" className="text-xs text-muted hover:text-ink">
-            kingdom-sites.com
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link href="/sign/pricing" className="btn-ghost-sm">
+              Plans
+            </Link>
+            <Link href="/" className="btn-ghost-sm">
+              kingdom-sites.com
+            </Link>
+          </div>
         </div>
       </header>
       <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6">{children}</main>

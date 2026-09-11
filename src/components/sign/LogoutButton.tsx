@@ -16,9 +16,9 @@ export default function LogoutButton() {
         router.replace('/sign/login')
         router.refresh()
       }}
-      className="rounded-full border border-line px-3 py-2 text-xs text-body hover:bg-surface-2"
+      className="btn-ghost-sm"
     >
-      Log out
+      {busy ? 'Logging out…' : 'Log out'}
     </button>
   )
 }

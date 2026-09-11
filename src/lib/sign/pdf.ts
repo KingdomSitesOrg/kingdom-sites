@@ -94,16 +94,22 @@ export async function stampEnvelopePdf(
   return doc.save()
 }
 
-export function defaultSignatureField(signerId: string, page: number): FieldPlacement {
+export function defaultSignatureField(
+  signerId: string,
+  page: number,
+  /** 0 = Client (upper), 1 = Provider (lower), … */
+  slot = 0,
+): FieldPlacement {
+  const y = Math.min(0.72 + slot * 0.12, 0.88)
   return {
     id: `fld_${signerId}_sig`,
     type: 'signature',
     signerId,
     page,
-    x: 0.55,
-    y: 0.82,
-    width: 0.35,
-    height: 0.08,
+    x: 0.12,
+    y,
+    width: 0.42,
+    height: 0.09,
   }
 }
 

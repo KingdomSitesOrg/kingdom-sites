@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import SignaturePad from './SignaturePad'
+import PdfScrollViewer from './PdfScrollViewer'
 
 type View = {
   envelopeId: string
@@ -27,16 +27,30 @@ type View = {
   allSigned: boolean
 }
 
+function renderCursivePng(name: string): string {
+  const canvas = document.createElement('canvas')
+  canvas.width = 900
+  canvas.height = 220
+  const ctx = canvas.getContext('2d')
+  if (!ctx) return ''
+  ctx.fillStyle = '#ffffff'
+  ctx.fillRect(0, 0, canvas.width, canvas.height)
+  ctx.fillStyle = '#15181d'
+  ctx.font = 'italic 96px "Segoe Script", "Brush Script MT", "Apple Chancery", cursive'
+  ctx.textBaseline = 'middle'
+  ctx.fillText(name.trim(), 36, canvas.height / 2)
+  return canvas.toDataURL('image/png')
+}
+
 export default function SignerClient({ token }: { token: string }) {
   const [view, setView] = useState<View | null>(null)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(true)
-  const [mode, setMode] = useState<'draw' | 'type'>('draw')
   const [typedName, setTypedName] = useState('')
-  const [signaturePng, setSignaturePng] = useState<string | null>(null)
+  const [editing, setEditing] = useState(false)
   const [busy, setBusy] = useState(false)
   const [done, setDone] = useState(false)
-  const [page, setPage] = useState(1)
+  const [focusPage, setFocusPage] = useState(1)
 
   useEffect(() => {
     let cancelled = false
@@ -52,6 +66,7 @@ export default function SignerClient({ token }: { token: string }) {
           setView(data.view)
           setTypedName(data.view.signer.name || '')
           if (data.view.signer.status === 'signed') setDone(true)
+          setFocusPage(1)
         }
       } catch {
         if (!cancelled) setError('Could not load this document.')
@@ -66,22 +81,24 @@ export default function SignerClient({ token }: { token: string }) {
 
   const pdfUrl = useMemo(() => {
     if (!view) return ''
-    return `/api/sign/envelopes/${view.envelopeId}/pdf?token=${encodeURIComponent(token)}&which=original#page=${page}`
-  }, [view, token, page])
+    return `/api/sign/envelopes/${view.envelopeId}/pdf?token=${encodeURIComponent(token)}&which=original`
+  }, [view, token])
 
   async function submit() {
     if (!view) return
+    const name = typedName.trim()
+    if (!name) {
+      setError('Type your name to sign.')
+      return
+    }
     setBusy(true)
     setError('')
     try {
-      const payload: Record<string, string> = {
-        typedName: typedName.trim() || view.signer.name,
-      }
-      if (mode === 'draw' && signaturePng) payload.signaturePng = signaturePng
+      const signaturePng = renderCursivePng(name)
       const res = await fetch(`/api/sign/s/${token}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ typedName: name, signaturePng }),
       })
       const data = await res.json().catch(() => null)
       if (!res.ok || !data?.ok) {
@@ -90,6 +107,7 @@ export default function SignerClient({ token }: { token: string }) {
       }
       setView(data.view)
       setDone(true)
+      setEditing(false)
     } catch {
       setError('Network error.')
     } finally {
@@ -110,6 +128,8 @@ export default function SignerClient({ token }: { token: string }) {
   }
   if (!view) return null
 
+  const myFields = view.fields.filter((f) => f.type === 'signature')
+
   return (
     <div className="space-y-6">
       <div>
@@ -119,112 +139,114 @@ export default function SignerClient({ token }: { token: string }) {
         </p>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
-        <div className="tile overflow-hidden p-2">
-          <div className="mb-2 flex items-center gap-2 text-sm">
-            <span className="text-muted">Page</span>
-            <select
-              value={page}
-              onChange={(e) => setPage(Number(e.target.value))}
-              className="rounded-lg border border-line px-2 py-1"
-            >
-              {Array.from({ length: view.pageCount }, (_, i) => i + 1).map((n) => (
-                <option key={n} value={n}>
-                  {n}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="relative aspect-[8.5/11] w-full bg-surface-2">
-            <iframe title="Document" src={pdfUrl} className="absolute inset-0 h-full w-full" />
-            {view.fields
-              .filter((f) => f.page === page)
-              .map((f) => (
-                <div
-                  key={f.id}
-                  className={`pointer-events-none absolute rounded border-2 ${
-                    f.type === 'signature'
-                      ? 'border-accent bg-accent/10'
-                      : 'border-warm bg-warm/10'
-                  }`}
-                  style={{
-                    left: `${f.x * 100}%`,
-                    top: `${f.y * 100}%`,
-                    width: `${f.width * 100}%`,
-                    height: `${f.height * 100}%`,
-                  }}
-                />
-              ))}
-          </div>
+      <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
+        <div className="tile max-h-[75vh] overflow-auto p-3">
+          <PdfScrollViewer
+            url={pdfUrl}
+            pageCount={view.pageCount}
+            focusPage={focusPage}
+            renderPageOverlay={(page) =>
+              myFields
+                .filter((f) => f.page === page)
+                .map((f) => (
+                  <button
+                    key={f.id}
+                    type="button"
+                    data-field-id={f.id}
+                    disabled={done}
+                    onClick={() => {
+                      setFocusPage(page)
+                      setEditing(true)
+                    }}
+                    className={`absolute rounded-md border-2 text-left ${
+                      done
+                        ? 'border-emerald-600 bg-emerald-50'
+                        : editing
+                          ? 'border-accent bg-white'
+                          : 'border-accent bg-accent/20 hover:bg-accent/30'
+                    }`}
+                    style={{
+                      left: `${f.x * 100}%`,
+                      top: `${f.y * 100}%`,
+                      width: `${f.width * 100}%`,
+                      height: `${f.height * 100}%`,
+                    }}
+                  >
+                    <span className="block truncate px-2 pt-1 text-[11px] font-semibold text-ink">
+                      Signature: {view.signer.name}
+                    </span>
+                    {done ? (
+                      <span
+                        className="block truncate px-2 text-lg italic"
+                        style={{
+                          fontFamily:
+                            '"Segoe Script", "Brush Script MT", "Apple Chancery", cursive',
+                        }}
+                      >
+                        {view.signer.name}
+                      </span>
+                    ) : (
+                      <span className="block px-2 text-[10px] text-muted">Click to sign</span>
+                    )}
+                  </button>
+                ))
+            }
+          />
         </div>
 
-        <div className="tile space-y-4 p-4">
+        <div className="tile h-fit space-y-4 p-4 lg:sticky lg:top-4">
           {done ? (
             <div>
               <h2 className="text-lg font-semibold text-emerald-800">Signed</h2>
               <p className="mt-2 text-sm text-body">
-                Thank you. {view.allSigned
+                Thank you.{' '}
+                {view.allSigned
                   ? 'All parties have signed — a completed PDF will be emailed shortly.'
                   : 'We will email the completed PDF once everyone has signed.'}
               </p>
             </div>
-          ) : (
+          ) : editing ? (
             <>
-              <h2 className="text-sm font-semibold text-ink">Your signature</h2>
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={() => setMode('draw')}
-                  className={`rounded-full px-3 py-1.5 text-xs ${
-                    mode === 'draw' ? 'bg-accent text-white' : 'border border-line'
-                  }`}
-                >
-                  Draw
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setMode('type')}
-                  className={`rounded-full px-3 py-1.5 text-xs ${
-                    mode === 'type' ? 'bg-accent text-white' : 'border border-line'
-                  }`}
-                >
-                  Type
-                </button>
-              </div>
-              {mode === 'draw' ? (
-                <SignaturePad onChange={setSignaturePng} />
-              ) : (
-                <label className="block text-sm">
-                  <span className="mb-1 block text-muted">Type your full name</span>
-                  <input
-                    value={typedName}
-                    onChange={(e) => setTypedName(e.target.value)}
-                    className="w-full rounded-xl border border-line px-3 py-2 outline-none focus:border-accent"
-                  />
-                </label>
-              )}
-              {mode === 'draw' ? (
-                <label className="block text-sm">
-                  <span className="mb-1 block text-muted">Printed name</span>
-                  <input
-                    value={typedName}
-                    onChange={(e) => setTypedName(e.target.value)}
-                    className="w-full rounded-xl border border-line px-3 py-2 outline-none focus:border-accent"
-                  />
-                </label>
-              ) : null}
+              <h2 className="text-sm font-semibold text-ink">Type your name</h2>
+              <input
+                autoFocus
+                value={typedName}
+                onChange={(e) => setTypedName(e.target.value)}
+                className="w-full rounded-xl border border-line px-3 py-3 text-2xl italic outline-none focus:border-accent"
+                style={{
+                  fontFamily: '"Segoe Script", "Brush Script MT", "Apple Chancery", cursive',
+                }}
+              />
               {error ? <p className="text-sm text-warm">{error}</p> : null}
               <button
                 type="button"
-                disabled={busy || (mode === 'draw' ? !signaturePng : !typedName.trim())}
+                disabled={busy || !typedName.trim()}
                 onClick={submit}
-                className="w-full rounded-full bg-accent px-4 py-2.5 text-sm font-medium text-white hover:bg-accent-hover disabled:opacity-50"
+                className="btn-primary w-full"
               >
-                {busy ? 'Submitting…' : 'Agree & sign'}
+                {busy ? 'Saving…' : 'Save signature'}
               </button>
               <p className="text-xs text-muted">
-                By signing you confirm you are authorized to sign this document.
+                By saving you confirm you are authorized to sign this document.
               </p>
+            </>
+          ) : (
+            <>
+              <h2 className="text-sm font-semibold text-ink">Your turn</h2>
+              <p className="text-sm text-body">
+                Scroll the document, then click your signature box, type your name, and hit Save.
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  const first = myFields[0]
+                  if (first) setFocusPage(first.page)
+                  setEditing(true)
+                }}
+                className="btn-primary w-full"
+              >
+                Sign now
+              </button>
             </>
           )}
         </div>

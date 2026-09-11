@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import { getAdminSession } from '@/lib/sign/auth'
 import { listEnvelopes } from '@/lib/sign/store'
 import LogoutButton from '@/components/sign/LogoutButton'
+import DocumentList from '@/components/sign/DocumentList'
 
 export const dynamic = 'force-dynamic'
 
@@ -22,53 +23,16 @@ export default async function SignDashboardPage() {
           <LogoutButton />
           <Link
             href="/sign/new"
-            className="rounded-full bg-accent px-4 py-2 text-sm font-medium text-white hover:bg-accent-hover"
+            className="btn-primary !min-h-10 !px-4 !py-2 !text-sm"
           >
             New document
           </Link>
         </div>
       </div>
 
-      <div className="mt-8 space-y-3">
-        {envelopes.length === 0 ? (
-          <div className="tile p-6 text-sm text-body">
-            No documents yet. Upload a PDF to create your first signing request.
-          </div>
-        ) : (
-          envelopes.map((env) => (
-            <Link
-              key={env.id}
-              href={`/sign/envelopes/${env.id}`}
-              className="tile block p-4 transition hover:border-line-strong"
-            >
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <div>
-                  <div className="font-medium text-ink">{env.title}</div>
-                  <div className="mt-1 text-xs text-muted">
-                    {env.signedCount}/{env.signerCount} signed · {env.pageCount} page
-                    {env.pageCount === 1 ? '' : 's'} · updated{' '}
-                    {new Date(env.updatedAt).toLocaleString()}
-                  </div>
-                </div>
-                <StatusPill status={env.status} />
-              </div>
-            </Link>
-          ))
-        )}
+      <div className="mt-8">
+        <DocumentList initial={envelopes} />
       </div>
     </div>
-  )
-}
-
-function StatusPill({ status }: { status: string }) {
-  const styles: Record<string, string> = {
-    draft: 'bg-surface-2 text-body',
-    sent: 'bg-blue-50 text-accent',
-    completed: 'bg-emerald-50 text-emerald-800',
-  }
-  return (
-    <span className={`rounded-full px-3 py-1 text-xs font-medium capitalize ${styles[status] || styles.draft}`}>
-      {status}
-    </span>
   )
 }

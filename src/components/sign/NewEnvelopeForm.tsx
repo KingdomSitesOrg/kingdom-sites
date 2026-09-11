@@ -6,8 +6,10 @@ import { useRouter } from 'next/navigation'
 export default function NewEnvelopeForm() {
   const router = useRouter()
   const [title, setTitle] = useState('')
-  const [signerName, setSignerName] = useState('')
-  const [signerEmail, setSignerEmail] = useState('')
+  const [clientName, setClientName] = useState('Client')
+  const [clientEmail, setClientEmail] = useState('')
+  const [providerName, setProviderName] = useState('Provider')
+  const [providerEmail, setProviderEmail] = useState('')
   const [file, setFile] = useState<File | null>(null)
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
@@ -18,16 +20,20 @@ export default function NewEnvelopeForm() {
       setError('Choose a PDF.')
       return
     }
+    if (!clientEmail.trim() || !providerEmail.trim()) {
+      setError('Client and Provider both need an email.')
+      return
+    }
     setBusy(true)
     setError('')
     try {
       const form = new FormData()
       form.set('title', title || file.name.replace(/\.pdf$/i, ''))
       form.set('pdf', file)
-      if (signerName && signerEmail) {
-        form.set('signerName', signerName)
-        form.set('signerEmail', signerEmail)
-      }
+      form.set('clientName', clientName.trim() || 'Client')
+      form.set('clientEmail', clientEmail.trim())
+      form.set('providerName', providerName.trim() || 'Provider')
+      form.set('providerEmail', providerEmail.trim())
       const res = await fetch('/api/sign/envelopes', { method: 'POST', body: form })
       const data = await res.json().catch(() => null)
       if (!res.ok || !data?.ok) {
@@ -64,30 +70,62 @@ export default function NewEnvelopeForm() {
           className="w-full text-sm"
         />
       </label>
-      <div className="grid gap-3 sm:grid-cols-2">
-        <label className="block text-sm">
-          <span className="mb-1 block text-muted">First signer name</span>
-          <input
-            value={signerName}
-            onChange={(e) => setSignerName(e.target.value)}
-            className="w-full rounded-xl border border-line bg-surface px-3 py-2 text-ink outline-none focus:border-accent"
-          />
-        </label>
-        <label className="block text-sm">
-          <span className="mb-1 block text-muted">First signer email</span>
-          <input
-            type="email"
-            value={signerEmail}
-            onChange={(e) => setSignerEmail(e.target.value)}
-            className="w-full rounded-xl border border-line bg-surface px-3 py-2 text-ink outline-none focus:border-accent"
-          />
-        </label>
+
+      <div className="rounded-xl border border-line p-3 space-y-3">
+        <h2 className="text-sm font-semibold text-ink">Signature: Client</h2>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <label className="block text-sm">
+            <span className="mb-1 block text-muted">Name</span>
+            <input
+              value={clientName}
+              onChange={(e) => setClientName(e.target.value)}
+              className="w-full rounded-xl border border-line bg-surface px-3 py-2 text-ink outline-none focus:border-accent"
+            />
+          </label>
+          <label className="block text-sm">
+            <span className="mb-1 block text-muted">Email</span>
+            <input
+              type="email"
+              required
+              value={clientEmail}
+              onChange={(e) => setClientEmail(e.target.value)}
+              placeholder="jamwithlatin@gmail.com"
+              className="w-full rounded-xl border border-line bg-surface px-3 py-2 text-ink outline-none focus:border-accent"
+            />
+          </label>
+        </div>
       </div>
+
+      <div className="rounded-xl border border-line p-3 space-y-3">
+        <h2 className="text-sm font-semibold text-ink">Signature: Provider</h2>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <label className="block text-sm">
+            <span className="mb-1 block text-muted">Name</span>
+            <input
+              value={providerName}
+              onChange={(e) => setProviderName(e.target.value)}
+              className="w-full rounded-xl border border-line bg-surface px-3 py-2 text-ink outline-none focus:border-accent"
+            />
+          </label>
+          <label className="block text-sm">
+            <span className="mb-1 block text-muted">Email</span>
+            <input
+              type="email"
+              required
+              value={providerEmail}
+              onChange={(e) => setProviderEmail(e.target.value)}
+              placeholder="thomas@kingdom-sites.com"
+              className="w-full rounded-xl border border-line bg-surface px-3 py-2 text-ink outline-none focus:border-accent"
+            />
+          </label>
+        </div>
+      </div>
+
       {error ? <p className="text-sm text-warm">{error}</p> : null}
       <button
         type="submit"
         disabled={busy}
-        className="w-full rounded-full bg-accent px-4 py-2.5 text-sm font-medium text-white hover:bg-accent-hover disabled:opacity-60"
+        className="btn-primary w-full"
       >
         {busy ? 'Uploading…' : 'Continue'}
       </button>

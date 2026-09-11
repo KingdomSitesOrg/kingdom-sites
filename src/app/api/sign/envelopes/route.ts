@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
 import { AuthError, getAdminSession, newId, newSignerToken } from '@/lib/sign/auth'
 import { appendAudit } from '@/lib/sign/audit'
-import { countPdfPages, defaultDateField, defaultSignatureField } from '@/lib/sign/pdf'
+import { countPdfPages, defaultSignatureField } from '@/lib/sign/pdf'
 import { listEnvelopes, saveEnvelope, savePdf } from '@/lib/sign/store'
 import type { Envelope, Signer } from '@/lib/sign/types'
 
@@ -51,15 +51,24 @@ export async function POST(request: Request) {
     const id = newId('env')
     const pdfKey = await savePdf(`pdfs/${id}-original.pdf`, bytes)
 
-    const signerName = String(form.get('signerName') || '').trim()
-    const signerEmail = String(form.get('signerEmail') || '').trim()
+    const pairs: { name: string; email: string }[] = [
+      {
+        name: String(form.get('clientName') || form.get('signerName') || 'Client').trim() || 'Client',
+        email: String(form.get('clientEmail') || form.get('signerEmail') || '').trim(),
+      },
+      {
+        name: String(form.get('providerName') || 'Provider').trim() || 'Provider',
+        email: String(form.get('providerEmail') || '').trim(),
+      },
+    ]
+
     const signers: Signer[] = []
-    if (signerName && signerEmail) {
-      const signerId = newId('sig')
+    for (const pair of pairs) {
+      if (!pair.email) continue
       signers.push({
-        id: signerId,
-        name: signerName,
-        email: signerEmail,
+        id: newId('sig'),
+        name: pair.name,
+        email: pair.email,
         token: newSignerToken(),
         status: 'pending',
       })
@@ -75,10 +84,7 @@ export async function POST(request: Request) {
       pageCount,
       originalPdfKey: pdfKey,
       signers,
-      fields: signers.flatMap((s) => [
-        defaultSignatureField(s.id, pageCount),
-        defaultDateField(s.id, pageCount),
-      ]),
+      fields: signers.map((s, i) => defaultSignatureField(s.id, pageCount, i)),
       audit: [],
     }
     envelope = appendAudit(envelope, 'created', session.email, title)

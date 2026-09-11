@@ -24,3 +24,41 @@ export const PORTAL_URL = ''
 export function hasAnyLinks() {
   return Object.values(PAYMENT_LINKS).some((p) => p.monthly !== '' || p.annual !== '')
 }
+
+
+/** Kingdom Sites Sign — SaaS plans (Payment Links). */
+export type SignPlanId = 'starter' | 'growth'
+
+export type SignPlan = {
+  id: SignPlanId
+  name: string
+  priceMonthly: number
+  contractLimit: number
+  /** Stripe Payment Link — set after creating products in Stripe Dashboard */
+  paymentLink: string
+}
+
+export const SIGN_STARTER_LINK =
+  process.env.NEXT_PUBLIC_SIGN_STARTER_LINK?.trim() ||
+  'https://buy.stripe.com/aFa00j3pygPRgbqarD5Ne07'
+
+export const SIGN_GROWTH_LINK =
+  process.env.NEXT_PUBLIC_SIGN_GROWTH_LINK?.trim() ||
+  'https://buy.stripe.com/dRm4gzgckfLN7EU2Zb5Ne06'
+
+export const SIGN_PLANS: SignPlan[] = [
+  {
+    id: 'starter',
+    name: 'Sign Starter',
+    priceMonthly: 1,
+    contractLimit: 5,
+    paymentLink: SIGN_STARTER_LINK,
+  },
+  {
+    id: 'growth',
+    name: 'Sign Growth',
+    priceMonthly: 10,
+    contractLimit: 20,
+    paymentLink: SIGN_GROWTH_LINK,
+  },
+]
