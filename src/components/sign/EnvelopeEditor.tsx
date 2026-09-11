@@ -148,24 +148,35 @@ export default function EnvelopeEditor({ initial }: Props) {
           // Stale draft snapshot — ignore entirely.
           return
         }
+        // Never regress signed→pending (stale Blob / completing race).
+        const mergedSigners = env.signers.map((s) => {
+          const loc = local.signers.find((l) => l.id === s.id)
+          if (s.status === 'signed') return s
+          if (loc?.status === 'signed') return loc
+          return s
+        })
         const nextEnv = statusRegressed
           ? {
               ...env,
               status: local.status,
-              // Keep local lock; still take newer signer signatures from remote.
-              signers: env.signers.map((s) => {
-                const loc = local.signers.find((l) => l.id === s.id)
-                if (s.status === 'signed') return s
-                if (loc?.status === 'signed') return loc
-                return s
-              }),
+              signers: mergedSigners,
+              // Prefer remote completedPdfKey if present.
+              completedPdfKey: env.completedPdfKey || local.completedPdfKey,
             }
-          : env
+          : {
+              ...env,
+              signers: mergedSigners,
+            }
         setEnvelope(nextEnv)
         envelopeRef.current = nextEnv
         setSigners(draftFromEnvelope(nextEnv))
         if (statusAdvanced || signedAdvanced || nextEnv.status === 'completed') {
-          setFields(nextEnv.fields.filter((f) => f.type === 'signature'))
+          const nextFields = nextEnv.fields.filter((f) => f.type === 'signature')
+          // Never wipe overlays with an empty / partial snapshot.
+          if (nextFields.length > 0) {
+            setFields(nextFields)
+            fieldsRef.current = nextFields
+          }
         }
       } catch {
         /* ignore transient poll errors */
@@ -568,30 +579,36 @@ export default function EnvelopeEditor({ initial }: Props) {
     if (!Number.isFinite(total) || total < 1) return
     const current = envelopeRef.current.pageCount
     if (total <= current) return
+    // Local bump only — do not setEnvelope(full PATCH) (that remounted/raced signed state).
     setEnvelope((prev) => ({ ...prev, pageCount: total }))
     envelopeRef.current = { ...envelopeRef.current, pageCount: total }
     // Skip PATCH when locked — API allows pageCount-only, but local display bump is enough.
     if (isEnvelopeLocked(envelopeRef.current.status)) return
     // Persist so later sanitize/magic-link views agree with pdf.js page count.
-    void fetch(`/api/sign/envelopes/${envelopeRef.current.id}`, {
+    const id = envelopeRef.current.id
+    void fetch(`/api/sign/envelopes/${id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ pageCount: total }),
     }).then(async (res) => {
       const data = await res.json().catch(() => null)
-      if (res.ok && data?.ok && data.envelope) {
-        const env = data.envelope as Envelope
-        setEnvelope(env)
-        envelopeRef.current = env
-      }
+      if (!res.ok || !data?.ok || !data.envelope) return
+      const env = data.envelope as Envelope
+      // Only absorb a higher pageCount; never regress signers/fields from this echo.
+      setEnvelope((prev) => {
+        const pageCount = Math.max(prev.pageCount, env.pageCount || 0, total)
+        const next = { ...prev, pageCount }
+        envelopeRef.current = next
+        return next
+      })
     })
   }
 
   async function saveSignature() {
     if (!activeFieldId) return
-    const field = fields.find((f) => f.id === activeFieldId)
+    const field = fieldsRef.current.find((f) => f.id === activeFieldId) || fields.find((f) => f.id === activeFieldId)
     if (!field) return
-    const signer = envelope.signers.find((s) => s.id === field.signerId)
+    const signer = envelopeRef.current.signers.find((s) => s.id === field.signerId)
     if (!signer) {
       setError('Unknown signer — save the document first.')
       return
@@ -603,12 +620,12 @@ export default function EnvelopeEditor({ initial }: Props) {
     }
 
     // Ensure envelope is sent so signing API accepts it
-    let env = envelope
+    let env = envelopeRef.current
     if (env.status === 'draft') {
       const saved = await save()
       if (!saved) return
       setBusy(true)
-      const sendRes = await fetch(`/api/sign/envelopes/${envelope.id}/send`, {
+      const sendRes = await fetch(`/api/sign/envelopes/${envelopeRef.current.id}/send`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         // Open for signing only — do NOT email until "Email magic links" is clicked.
@@ -622,6 +639,7 @@ export default function EnvelopeEditor({ initial }: Props) {
       }
       env = sendData.envelope as Envelope
       setEnvelope(env)
+      envelopeRef.current = env
     }
 
     const live = env.signers.find((s) => s.id === field.signerId)
@@ -641,21 +659,89 @@ export default function EnvelopeEditor({ initial }: Props) {
       })
       const data = await res.json().catch(() => null)
       if (!res.ok || !data?.ok) {
+        // Keep Save signature panel + fields on failure.
         setError(data?.error || 'Could not save signature.')
         return
       }
-      // Refresh full envelope for admin view
-      const refresh = await fetch(`/api/sign/envelopes/${envelope.id}`)
+
+      const signedAt = new Date().toISOString()
+      const signedDateText = new Date(signedAt).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })
+      // Optimistic: mark this signer signed so admin shows Signed even if refresh/poll lags
+      // (Provider-as-2nd returns completing:true before status flips to completed).
+      const optimistic: Envelope = {
+        ...envelopeRef.current,
+        updatedAt: signedAt,
+        status:
+          data.completed || data.completing
+            ? 'completed'
+            : envelopeRef.current.status === 'draft'
+              ? 'sent'
+              : envelopeRef.current.status,
+        signers: envelopeRef.current.signers.map((s) =>
+          s.id === live.id
+            ? {
+                ...s,
+                status: 'signed' as const,
+                signedAt,
+                signedDateText,
+                name: name || s.name,
+                signaturePng,
+              }
+            : s,
+        ),
+      }
+      if (
+        (data.completed || data.completing) &&
+        optimistic.signers.every((s) => s.status === 'signed')
+      ) {
+        optimistic.status = 'completed'
+      }
+      setEnvelope(optimistic)
+      envelopeRef.current = optimistic
+      setSigners(draftFromEnvelope(optimistic))
+
+      // Refresh full envelope for admin view — never blank fields from a partial snapshot.
+      const refresh = await fetch(`/api/sign/envelopes/${envelopeRef.current.id}`, {
+        cache: 'no-store',
+      })
       const refreshed = await refresh.json().catch(() => null)
       if (refreshed?.ok && refreshed.envelope) {
-        setEnvelope(refreshed.envelope)
-        setSigners(draftFromEnvelope(refreshed.envelope))
-        setFields(refreshed.envelope.fields.filter((f: FieldPlacement) => f.type === 'signature'))
+        const remote = refreshed.envelope as Envelope
+        const remoteFields = remote.fields.filter((f: FieldPlacement) => f.type === 'signature')
+        const mergedSigners = remote.signers.map((s) => {
+          const loc = optimistic.signers.find((l) => l.id === s.id)
+          if (s.status === 'signed') return s
+          if (loc?.status === 'signed') return loc
+          return s
+        })
+        const merged: Envelope = {
+          ...remote,
+          signers: mergedSigners,
+          status:
+            remote.status === 'completed' || optimistic.status === 'completed'
+              ? 'completed'
+              : remote.status,
+          completedPdfKey: remote.completedPdfKey || optimistic.completedPdfKey,
+          fields: remoteFields.length > 0 ? remote.fields : optimistic.fields,
+        }
+        setEnvelope(merged)
+        envelopeRef.current = merged
+        setSigners(draftFromEnvelope(merged))
+        if (remoteFields.length > 0) {
+          setFields(remoteFields)
+          fieldsRef.current = remoteFields
+        }
       }
+
+      // Clear panel only on success.
       setActiveFieldId(null)
       setTypedName('')
       setMessage(
-        data.completed
+        data.completed || data.completing
           ? 'All parties signed — document complete.'
           : `Saved signature for ${name}.`,
       )
@@ -963,6 +1049,7 @@ export default function EnvelopeEditor({ initial }: Props) {
             )}
           </div>
           <PdfScrollViewer
+            key={pdfUrl}
             url={pdfUrl}
             pageCount={envelope.pageCount}
             focusPage={page}
@@ -994,16 +1081,16 @@ export default function EnvelopeEditor({ initial }: Props) {
                       data-field-id={f.id}
                       onPointerDown={(e) => onFieldPointerDown(e, f)}
                       onPointerUp={(e) => onFieldPointerUp(e, f)}
-                      className={`pointer-events-auto absolute touch-none overflow-hidden rounded-md border-2 text-left shadow-sm ${
+                      className={`pointer-events-auto absolute z-[5] touch-none overflow-hidden rounded-md border-2 bg-white text-left shadow-sm ${
                         draggingId === f.id
-                          ? 'border-accent bg-white/95 cursor-grabbing z-10'
+                          ? 'border-accent cursor-grabbing z-10'
                           : activeFieldId === f.id
-                            ? 'border-accent bg-white/95 cursor-pointer'
+                            ? 'border-accent cursor-pointer ring-2 ring-accent/30'
                             : signed
-                              ? 'border-emerald-600 bg-white/90 cursor-default'
+                              ? 'border-emerald-600 cursor-default'
                               : locked
-                                ? 'border-accent bg-accent/15 hover:bg-accent/25 cursor-pointer'
-                                : 'border-accent bg-accent/15 hover:bg-accent/25 cursor-grab'
+                                ? 'border-accent cursor-pointer hover:ring-2 hover:ring-accent/20'
+                                : 'border-accent cursor-grab hover:ring-2 hover:ring-accent/20'
                       }`}
                       style={{
                         left: `${f.x * 100}%`,

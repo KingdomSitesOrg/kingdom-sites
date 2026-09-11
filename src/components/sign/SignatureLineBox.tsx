@@ -14,7 +14,7 @@ export default function SignatureLineBox({ role, name, signed, signedDate, hint 
   const label = (role || 'Signer').trim() || 'Signer'
   const showDate = Boolean(signed && signedDate)
   return (
-    <div className="flex h-full min-h-0 w-full flex-col justify-between px-2 py-1">
+    <div className="relative flex h-full min-h-0 w-full flex-col justify-between bg-white px-2 py-1">
       <span className="truncate text-[9px] font-medium uppercase tracking-wide text-muted">
         {label}
       </span>

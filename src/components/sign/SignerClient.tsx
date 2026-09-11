@@ -204,6 +204,7 @@ export default function SignerClient({ token }: { token: string }) {
       <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
         <div className="tile max-h-[75vh] overflow-auto p-3">
           <PdfScrollViewer
+            key={pdfUrl}
             url={pdfUrl}
             pageCount={view.pageCount}
             focusPage={focusPage}
@@ -230,12 +231,12 @@ export default function SignerClient({ token }: { token: string }) {
                           setFocusPage(page)
                           setEditing(true)
                         }}
-                        className={`absolute overflow-hidden rounded-md border-2 text-left ${
+                        className={`absolute z-[5] overflow-hidden rounded-md border-2 bg-white text-left shadow-sm ${
                           done
-                            ? 'border-emerald-600 bg-white/90'
+                            ? 'border-emerald-600'
                             : editing
-                              ? 'border-accent bg-white/95'
-                              : 'border-accent bg-accent/15 hover:bg-accent/25'
+                              ? 'border-accent ring-2 ring-accent/30'
+                              : 'border-accent hover:ring-2 hover:ring-accent/20'
                         }`}
                         style={{
                           left: `${f.x * 100}%`,
@@ -258,10 +259,10 @@ export default function SignerClient({ token }: { token: string }) {
                     <div
                       key={f.id}
                       data-field-id={f.id}
-                      className={`absolute overflow-hidden rounded-md border-2 ${
+                      className={`absolute z-[5] overflow-hidden rounded-md border-2 bg-white shadow-sm ${
                         partySigned
-                          ? 'border-emerald-600/80 bg-white/90'
-                          : 'border-line bg-white/80'
+                          ? 'border-emerald-600'
+                          : 'border-line'
                       }`}
                       style={{
                         left: `${f.x * 100}%`,
