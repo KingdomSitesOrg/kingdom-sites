@@ -35,6 +35,8 @@ export type Signer = {
   id: string
   name: string
   email: string
+  /** Display role under the signature line (e.g. Client, Provider). */
+  role: string
   token: string
   status: 'pending' | 'signed'
   signedAt?: string

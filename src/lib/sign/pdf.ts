@@ -34,36 +34,83 @@ export async function stampEnvelopePdf(
     if (!page) continue
     const { width: pageWidth, height: pageHeight } = page.getSize()
     const box = fieldRect(pageWidth, pageHeight, field)
+    const role = (signer.role || 'Signer').trim() || 'Signer'
 
-    if (field.type === 'signature' && signer.signaturePng) {
-      const raw = signer.signaturePng.replace(/^data:image\/\w+;base64,/, '')
-      const pngBytes = Buffer.from(raw, 'base64')
+    if (field.type === 'signature') {
+      // Layout (PDF bottom-left origin within box):
+      //   top: role label
+      //   middle: signature ink sitting on horizontal rule
+      //   bottom: printed name + role under the line
+      const lineY = box.y + box.height * 0.4
+      page.drawLine({
+        start: { x: box.x + 2, y: lineY },
+        end: { x: box.x + box.width - 2, y: lineY },
+        thickness: 0.75,
+        color: rgb(0.12, 0.12, 0.16),
+      })
+
+      // Soft role label near top of box
+      const roleSize = Math.min(8, box.height * 0.12)
+      page.drawText(role, {
+        x: box.x + 3,
+        y: box.y + box.height - roleSize - 2,
+        size: roleSize,
+        font,
+        color: rgb(0.4, 0.4, 0.45),
+        maxWidth: box.width - 6,
+      })
+
       let drewImage = false
-      try {
-        const image = await doc.embedPng(pngBytes)
-        // Skip near-empty placeholder PNGs (typed-name fallback)
-        if (image.width > 2 && image.height > 2) {
-          page.drawImage(image, {
-            x: box.x,
-            y: box.y,
-            width: box.width,
-            height: box.height,
-          })
-          drewImage = true
+      if (signer.signaturePng) {
+        const raw = signer.signaturePng.replace(/^data:image\/\w+;base64,/, '')
+        const pngBytes = Buffer.from(raw, 'base64')
+        try {
+          const image = await doc.embedPng(pngBytes)
+          if (image.width > 2 && image.height > 2) {
+            const sigH = box.height * 0.42
+            const sigW = Math.min(box.width - 4, sigH * (image.width / Math.max(1, image.height)))
+            // Sit ON / just above the line
+            page.drawImage(image, {
+              x: box.x + 2,
+              y: lineY + 1,
+              width: sigW,
+              height: sigH,
+            })
+            drewImage = true
+          }
+        } catch {
+          drewImage = false
         }
-      } catch {
-        drewImage = false
       }
       if (!drewImage) {
+        const typedSize = Math.min(14, box.height * 0.28)
         page.drawText(signer.name || 'Signed', {
           x: box.x + 4,
-          y: box.y + box.height / 3,
-          size: Math.min(16, box.height * 0.5),
+          y: lineY + 4,
+          size: typedSize,
           font,
           color: rgb(0.1, 0.1, 0.15),
           maxWidth: box.width - 8,
         })
       }
+
+      const nameSize = Math.min(9, box.height * 0.14)
+      page.drawText(signer.name || '', {
+        x: box.x + 3,
+        y: lineY - nameSize - 3,
+        size: nameSize,
+        font,
+        color: rgb(0.1, 0.1, 0.15),
+        maxWidth: box.width - 6,
+      })
+      page.drawText(role, {
+        x: box.x + 3,
+        y: lineY - nameSize * 2 - 5,
+        size: Math.max(6, nameSize - 1),
+        font,
+        color: rgb(0.4, 0.4, 0.45),
+        maxWidth: box.width - 6,
+      })
     } else if (field.type === 'date') {
       const text = signer.signedDateText || new Date(signer.signedAt || Date.now()).toLocaleDateString('en-US')
       page.drawText(text, {
@@ -100,7 +147,9 @@ export function defaultSignatureField(
   /** 0 = Client (upper), 1 = Provider (lower), … */
   slot = 0,
 ): FieldPlacement {
-  const y = Math.min(0.72 + slot * 0.12, 0.88)
+  // Taller box for role + signature-on-line + printed name
+  const height = 0.11
+  const y = Math.min(0.68 + slot * 0.13, 0.86)
   return {
     id: `fld_${signerId}_sig`,
     type: 'signature',
@@ -109,7 +158,7 @@ export function defaultSignatureField(
     x: 0.12,
     y,
     width: 0.42,
-    height: 0.09,
+    height,
   }
 }
 
@@ -139,6 +188,7 @@ export function signerPublicView(envelope: Envelope, signerId: string) {
       id: signer.id,
       name: signer.name,
       email: signer.email,
+      role: signer.role || 'Signer',
       status: signer.status,
       signedAt: signer.signedAt,
     },

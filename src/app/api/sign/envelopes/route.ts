@@ -51,14 +51,16 @@ export async function POST(request: Request) {
     const id = newId('env')
     const pdfKey = await savePdf(`pdfs/${id}-original.pdf`, bytes)
 
-    const pairs: { name: string; email: string }[] = [
+    const pairs: { name: string; email: string; role: string }[] = [
       {
         name: String(form.get('clientName') || form.get('signerName') || 'Client').trim() || 'Client',
         email: String(form.get('clientEmail') || form.get('signerEmail') || '').trim(),
+        role: 'Client',
       },
       {
         name: String(form.get('providerName') || 'Provider').trim() || 'Provider',
         email: String(form.get('providerEmail') || '').trim(),
+        role: 'Provider',
       },
     ]
 
@@ -69,6 +71,7 @@ export async function POST(request: Request) {
         id: newId('sig'),
         name: pair.name,
         email: pair.email,
+        role: pair.role,
         token: newSignerToken(),
         status: 'pending',
       })

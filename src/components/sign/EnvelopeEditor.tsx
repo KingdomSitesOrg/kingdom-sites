@@ -5,10 +5,14 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import type { Envelope, FieldPlacement } from '@/lib/sign/types'
 import PdfScrollViewer from './PdfScrollViewer'
+import SignatureLineBox from './SignatureLineBox'
 
-type SignerDraft = { id?: string; name: string; email: string }
+type SignerDraft = { id?: string; name: string; email: string; role: string }
 
 type Props = { initial: Envelope }
+
+const PLACE_WIDTH = 0.42
+const PLACE_HEIGHT = 0.11
 
 function renderCursivePng(name: string): string {
   const canvas = document.createElement('canvas')
@@ -16,13 +20,22 @@ function renderCursivePng(name: string): string {
   canvas.height = 220
   const ctx = canvas.getContext('2d')
   if (!ctx) return ''
-  ctx.fillStyle = '#ffffff'
-  ctx.fillRect(0, 0, canvas.width, canvas.height)
+  // Transparent background so stamped ink sits cleanly on the signature line
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
   ctx.fillStyle = '#15181d'
   ctx.font = 'italic 96px "Segoe Script", "Brush Script MT", "Apple Chancery", cursive'
   ctx.textBaseline = 'middle'
   ctx.fillText(name.trim(), 36, canvas.height / 2)
   return canvas.toDataURL('image/png')
+}
+
+function draftFromEnvelope(env: Envelope): SignerDraft[] {
+  return env.signers.map((s) => ({
+    id: s.id,
+    name: s.name,
+    email: s.email,
+    role: s.role || 'Signer',
+  }))
 }
 
 export default function EnvelopeEditor({ initial }: Props) {
@@ -31,10 +44,10 @@ export default function EnvelopeEditor({ initial }: Props) {
   const [title, setTitle] = useState(initial.title)
   const [signers, setSigners] = useState<SignerDraft[]>(
     initial.signers.length
-      ? initial.signers.map((s) => ({ id: s.id, name: s.name, email: s.email }))
+      ? draftFromEnvelope(initial)
       : [
-          { name: 'Client', email: '' },
-          { name: 'Provider', email: '' },
+          { name: 'Client', email: '', role: 'Client' },
+          { name: 'Provider', email: '', role: 'Provider' },
         ],
   )
   const [fields, setFields] = useState<FieldPlacement[]>(
@@ -67,8 +80,13 @@ export default function EnvelopeEditor({ initial }: Props) {
   const signerLabel = (id: string) =>
     signers.find((s) => s.id === id)?.name || id.slice(0, 6)
 
+  const signerRole = (id: string) =>
+    signers.find((s) => s.id === id)?.role ||
+    envelope.signers.find((s) => s.id === id)?.role ||
+    'Signer'
+
   function addSignerRow() {
-    setSigners((prev) => [...prev, { name: '', email: '' }])
+    setSigners((prev) => [...prev, { name: '', email: '', role: 'Signer' }])
   }
 
   function removeSignerRow(idx: number) {
@@ -100,7 +118,12 @@ export default function EnvelopeEditor({ initial }: Props) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           title: next?.title ?? title,
-          signers: draft,
+          signers: draft.map((s) => ({
+            id: s.id,
+            name: s.name,
+            email: s.email,
+            role: (s.role || 'Signer').trim().slice(0, 60) || 'Signer',
+          })),
           fields: (next?.fields ?? fields).filter((f) => f.type === 'signature'),
         }),
       })
@@ -111,7 +134,7 @@ export default function EnvelopeEditor({ initial }: Props) {
       }
       const env = data.envelope as Envelope
       setEnvelope(env)
-      setSigners(env.signers.map((s) => ({ id: s.id, name: s.name, email: s.email })))
+      setSigners(draftFromEnvelope(env))
       setFields(env.fields.filter((f) => f.type === 'signature'))
       const keepPlace =
         placeSignerId && env.signers.some((s) => s.id === placeSignerId)
@@ -172,14 +195,14 @@ export default function EnvelopeEditor({ initial }: Props) {
     if (dragRef.current?.moved) return
     if ((e.target as HTMLElement).closest('[data-field-id]')) return
     if (!placeSignerId) {
-      setError('Choose Place signature box for a signer first.')
+      setError('Choose Place signature line for a signer first.')
       return
     }
     const rect = e.currentTarget.getBoundingClientRect()
     const x = (e.clientX - rect.left) / rect.width
     const y = (e.clientY - rect.top) / rect.height
-    const width = 0.42
-    const height = 0.09
+    const width = PLACE_WIDTH
+    const height = PLACE_HEIGHT
     const nextField: FieldPlacement = {
       id: `fld_${placeSignerId}_sig`,
       type: 'signature',
@@ -190,17 +213,24 @@ export default function EnvelopeEditor({ initial }: Props) {
       width,
       height,
     }
-    setFields((prev) => {
-      const cleaned = prev.filter(
-        (f) => !(f.signerId === placeSignerId && f.type === 'signature'),
-      )
-      return [...cleaned, nextField]
-    })
+    const nextFields = [
+      ...fields.filter((f) => !(f.signerId === placeSignerId && f.type === 'signature')),
+      nextField,
+    ]
+    setFields(nextFields)
     setPage(pageNum)
     setError('')
     setMessage(
-      `Placed signature box for ${signerLabel(placeSignerId)} on page ${pageNum}. Drag to fine-tune, then Save document.`,
+      `Placed signature line for ${signerLabel(placeSignerId)} on page ${pageNum}. Saving…`,
     )
+    // Pass next fields so React state lag cannot send stale boxes
+    void save({ fields: nextFields }).then((env) => {
+      if (env) {
+        setMessage(
+          `Placed and saved signature line for ${signerLabel(placeSignerId)} on page ${pageNum}.`,
+        )
+      }
+    })
   }
 
   function openSignBox(field: FieldPlacement) {
@@ -263,7 +293,13 @@ export default function EnvelopeEditor({ initial }: Props) {
     dragRef.current = null
     setDraggingId(null)
     if (wasDrag) {
-      setMessage('Box moved — click Save document to keep the new spot.')
+      // Read latest placements from state updater so we don't save stale coords
+      setFields((current) => {
+        void save({ fields: current }).then((env) => {
+          if (env) setMessage('Signature line moved and saved.')
+        })
+        return current
+      })
       return
     }
     openSignBox(field)
@@ -326,13 +362,7 @@ export default function EnvelopeEditor({ initial }: Props) {
       const refreshed = await refresh.json().catch(() => null)
       if (refreshed?.ok && refreshed.envelope) {
         setEnvelope(refreshed.envelope)
-        setSigners(
-          refreshed.envelope.signers.map((s: { id: string; name: string; email: string }) => ({
-            id: s.id,
-            name: s.name,
-            email: s.email,
-          })),
-        )
+        setSigners(draftFromEnvelope(refreshed.envelope))
         setFields(refreshed.envelope.fields.filter((f: FieldPlacement) => f.type === 'signature'))
       }
       setActiveFieldId(null)
@@ -348,7 +378,6 @@ export default function EnvelopeEditor({ initial }: Props) {
       setBusy(false)
     }
   }
-
 
   async function removeDoc() {
     if (!window.confirm(`Delete “${envelope.title}”? This cannot be undone.`)) return
@@ -438,8 +467,8 @@ export default function EnvelopeEditor({ initial }: Props) {
               </button>
             </div>
             <p className="text-xs text-body">
-              Edit name and email, then hit Save document. Use Place box to put their signature on
-              the PDF.
+              Edit name, role, and email. Placements auto-save when you place or drag a signature
+              line on the PDF.
             </p>
             {signers.map((s, idx) => {
               const live = s.id ? envelope.signers.find((x) => x.id === s.id) : undefined
@@ -452,6 +481,17 @@ export default function EnvelopeEditor({ initial }: Props) {
                     onChange={(e) => {
                       const next = [...signers]
                       next[idx] = { ...next[idx], name: e.target.value }
+                      setSigners(next)
+                    }}
+                    className="w-full rounded-lg border border-line px-2 py-1.5 text-sm"
+                  />
+                  <input
+                    placeholder="Role (e.g. Client / Provider)"
+                    value={s.role}
+                    disabled={envelope.status === 'completed'}
+                    onChange={(e) => {
+                      const next = [...signers]
+                      next[idx] = { ...next[idx], role: e.target.value }
                       setSigners(next)
                     }}
                     className="w-full rounded-lg border border-line px-2 py-1.5 text-sm"
@@ -476,7 +516,7 @@ export default function EnvelopeEditor({ initial }: Props) {
                         className={`btn-ghost-sm ${placeSignerId === s.id ? 'is-active' : ''}`}
                         onClick={() => setPlaceSignerId(s.id!)}
                       >
-                        {placeSignerId === s.id ? 'Placing box…' : 'Place signature box'}
+                        {placeSignerId === s.id ? 'Placing line…' : 'Place signature line'}
                       </button>
                     ) : (
                       <span className="text-xs text-muted">Fill name + email, then Save document</span>
@@ -502,9 +542,12 @@ export default function EnvelopeEditor({ initial }: Props) {
           <div className="tile space-y-3 p-4">
             <h2 className="text-sm font-semibold text-ink">How to sign</h2>
             <ol className="list-decimal space-y-1 pl-4 text-xs text-body">
-              <li>Add/edit signers (name + email) and Save document.</li>
-              <li>Click Place signature box (plus cursor), click the PDF to drop it, then “Done placing” to browse again. Drag boxes anytime.</li>
-              <li>Click a box to sign: type the name (cursive), hit Save.</li>
+              <li>Add/edit signers (name, role, email) and Save document.</li>
+              <li>
+                Click Place signature line, click the PDF to drop it (auto-saves). Drag anytime to
+                fine-tune (also auto-saves).
+              </li>
+              <li>Click a line to sign: type the name (cursive), hit Save.</li>
             </ol>
           </div>
 
@@ -564,7 +607,7 @@ export default function EnvelopeEditor({ initial }: Props) {
           </div>
         </div>
 
-                <div className="tile max-h-[78vh] overflow-auto p-3">
+        <div className="tile max-h-[78vh] overflow-auto p-3">
           <div className="mb-3 flex flex-wrap items-center gap-2 text-sm">
             {placeSignerId && envelope.status !== 'completed' ? (
               <>
@@ -581,7 +624,8 @@ export default function EnvelopeEditor({ initial }: Props) {
               </>
             ) : (
               <span className="text-xs text-muted">
-                Scroll normally — boxes stay on their page. Use Place signature box to drop a new one.
+                Scroll normally — signature lines stay on their page. Use Place signature line to
+                drop a new one.
               </span>
             )}
           </div>
@@ -606,14 +650,14 @@ export default function EnvelopeEditor({ initial }: Props) {
                       onPointerMove={(e) => onFieldPointerMove(e, f)}
                       onPointerUp={(e) => onFieldPointerUp(e, f)}
                       onPointerCancel={(e) => onFieldPointerUp(e, f)}
-                      className={`pointer-events-auto absolute touch-none rounded-md border-2 text-left shadow-sm ${
+                      className={`pointer-events-auto absolute touch-none overflow-hidden rounded-md border-2 text-left shadow-sm ${
                         draggingId === f.id
-                          ? 'border-accent bg-white cursor-grabbing z-10'
+                          ? 'border-accent bg-white/95 cursor-grabbing z-10'
                           : activeFieldId === f.id
-                            ? 'border-accent bg-white cursor-grab'
+                            ? 'border-accent bg-white/95 cursor-grab'
                             : signed
-                              ? 'border-emerald-600 bg-emerald-50 cursor-default'
-                              : 'border-accent bg-accent/20 hover:bg-accent/30 cursor-grab'
+                              ? 'border-emerald-600 bg-white/90 cursor-default'
+                              : 'border-accent bg-accent/15 hover:bg-accent/25 cursor-grab'
                       }`}
                       style={{
                         left: `${f.x * 100}%`,
@@ -622,29 +666,12 @@ export default function EnvelopeEditor({ initial }: Props) {
                         height: `${f.height * 100}%`,
                       }}
                     >
-                      <span
-                        className={`block truncate px-2 pt-1 text-[11px] font-semibold ${
-                          signed ? 'text-emerald-800' : 'text-ink'
-                        }`}
-                      >
-                        Signature: {signerLabel(f.signerId)}
-                        {signed ? ' ✓' : ''}
-                      </span>
-                      {signed && live?.name ? (
-                        <span
-                          className="block truncate px-2 text-lg italic text-ink"
-                          style={{
-                            fontFamily:
-                              '"Segoe Script", "Brush Script MT", "Apple Chancery", cursive',
-                          }}
-                        >
-                          {live.name}
-                        </span>
-                      ) : (
-                        <span className="block px-2 text-[10px] text-muted">
-                          Drag to move · click to sign
-                        </span>
-                      )}
+                      <SignatureLineBox
+                        role={signerRole(f.signerId)}
+                        name={live?.name || signerLabel(f.signerId)}
+                        signed={signed}
+                        hint="Drag to move · click to sign"
+                      />
                     </button>
                   )
                 })

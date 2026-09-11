@@ -18,6 +18,41 @@ async function requireAdmin() {
   return session
 }
 
+function clamp(n: number, min: number, max: number) {
+  if (!Number.isFinite(n)) return min
+  return Math.min(Math.max(n, min), max)
+}
+
+/** Coerce coords so custom placements survive JSON quirks; never drop valid boxes. */
+function sanitizeField(
+  raw: unknown,
+  signerIds: Set<string>,
+  pageCount: number,
+): FieldPlacement | null {
+  if (!raw || typeof raw !== 'object') return null
+  const f = raw as Record<string, unknown>
+  const id = typeof f.id === 'string' ? f.id : ''
+  const type = f.type === 'signature' || f.type === 'date' ? f.type : null
+  const signerId = typeof f.signerId === 'string' ? f.signerId : ''
+  if (!id || !type || !signerId || !signerIds.has(signerId)) return null
+
+  const page = Math.round(Number(f.page))
+  if (!Number.isFinite(page) || page < 1 || page > pageCount) return null
+
+  const width = clamp(Number(f.width), 0.05, 1)
+  const height = clamp(Number(f.height), 0.03, 1)
+  const x = clamp(Number(f.x), 0, Math.max(0, 1 - width))
+  const y = clamp(Number(f.y), 0, Math.max(0, 1 - height))
+  if (![width, height, x, y].every(Number.isFinite)) return null
+
+  return { id, type, signerId, page, x, y, width, height }
+}
+
+function normalizeRole(raw: unknown, fallback = 'Signer'): string {
+  const role = String(raw ?? fallback).trim().slice(0, 60)
+  return role || fallback
+}
+
 export async function GET(_request: Request, ctx: Ctx) {
   try {
     await requireAdmin()
@@ -50,8 +85,8 @@ export async function PATCH(request: Request, ctx: Ctx) {
 
     const body = (await request.json().catch(() => null)) as {
       title?: string
-      signers?: { name: string; email: string; id?: string }[]
-      fields?: FieldPlacement[]
+      signers?: { name: string; email: string; role?: string; id?: string }[]
+      fields?: unknown[]
     } | null
     if (!body) {
       return NextResponse.json({ ok: false, error: 'Invalid body' }, { status: 400 })
@@ -72,13 +107,15 @@ export async function PATCH(request: Request, ctx: Ctx) {
         const prev = raw.id
           ? existing.signers.find((s) => s.id === raw.id)
           : prevByEmail.get(email.toLowerCase())
+        const role = normalizeRole(raw.role, prev?.role || 'Signer')
         if (prev) {
-          nextSigners.push({ ...prev, name, email })
+          nextSigners.push({ ...prev, name, email, role: role || prev.role || 'Signer' })
         } else {
           nextSigners.push({
             id: newId('sig'),
             name,
             email,
+            role,
             token: newSignerToken(),
             status: 'pending',
           })
@@ -91,20 +128,15 @@ export async function PATCH(request: Request, ctx: Ctx) {
 
     if (Array.isArray(body.fields)) {
       const signerIds = new Set(envelope.signers.map((s) => s.id))
-      envelope.fields = body.fields.filter(
-        (f) =>
-          f &&
-          typeof f.id === 'string' &&
-          (f.type === 'signature' || f.type === 'date') &&
-          typeof f.signerId === 'string' &&
-          signerIds.has(f.signerId) &&
-          typeof f.page === 'number' &&
-          f.page >= 1 &&
-          f.page <= envelope.pageCount,
-      )
+      const sanitized: FieldPlacement[] = []
+      for (const raw of body.fields) {
+        const field = sanitizeField(raw, signerIds, envelope.pageCount)
+        if (field) sanitized.push(field)
+      }
+      envelope.fields = sanitized
     }
 
-    // After signers + fields merge: every signer gets a signature box (defaults if missing).
+    // Only add a default box for a signer who has NO signature field — never replace placements.
     {
       const list = envelope.signers
       for (let i = 0; i < list.length; i++) {
@@ -116,6 +148,12 @@ export async function PATCH(request: Request, ctx: Ctx) {
       const keep = new Set(list.map((s) => s.id))
       envelope.fields = envelope.fields.filter((f) => keep.has(f.signerId))
     }
+
+    // Normalize missing roles on older envelopes
+    envelope.signers = envelope.signers.map((s) => ({
+      ...s,
+      role: normalizeRole(s.role, 'Signer'),
+    }))
 
     envelope = appendAudit(envelope, 'updated', session.email)
     await saveEnvelope(envelope)

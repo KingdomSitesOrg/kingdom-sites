@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import PdfScrollViewer from './PdfScrollViewer'
+import SignatureLineBox from './SignatureLineBox'
 
 type View = {
   envelopeId: string
@@ -12,6 +13,7 @@ type View = {
     id: string
     name: string
     email: string
+    role?: string
     status: string
     signedAt?: string
   }
@@ -33,8 +35,8 @@ function renderCursivePng(name: string): string {
   canvas.height = 220
   const ctx = canvas.getContext('2d')
   if (!ctx) return ''
-  ctx.fillStyle = '#ffffff'
-  ctx.fillRect(0, 0, canvas.width, canvas.height)
+  // Transparent background so stamped ink sits cleanly on the signature line
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
   ctx.fillStyle = '#15181d'
   ctx.font = 'italic 96px "Segoe Script", "Brush Script MT", "Apple Chancery", cursive'
   ctx.textBaseline = 'middle'
@@ -66,7 +68,10 @@ export default function SignerClient({ token }: { token: string }) {
           setView(data.view)
           setTypedName(data.view.signer.name || '')
           if (data.view.signer.status === 'signed') setDone(true)
-          setFocusPage(1)
+          const firstSig = (data.view.fields || []).find(
+            (f: { type: string; page: number }) => f.type === 'signature',
+          )
+          setFocusPage(firstSig?.page || 1)
         }
       } catch {
         if (!cancelled) setError('Could not load this document.')
@@ -129,13 +134,15 @@ export default function SignerClient({ token }: { token: string }) {
   if (!view) return null
 
   const myFields = view.fields.filter((f) => f.type === 'signature')
+  const role = (view.signer.role || 'Signer').trim() || 'Signer'
 
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-semibold tracking-tight text-ink">{view.title}</h1>
         <p className="mt-1 text-sm text-body">
-          Signing as {view.signer.name} ({view.signer.email})
+          Signing as {view.signer.name}
+          {role ? ` · ${role}` : ''} ({view.signer.email})
         </p>
       </div>
 
@@ -158,12 +165,12 @@ export default function SignerClient({ token }: { token: string }) {
                       setFocusPage(page)
                       setEditing(true)
                     }}
-                    className={`absolute rounded-md border-2 text-left ${
+                    className={`absolute overflow-hidden rounded-md border-2 text-left ${
                       done
-                        ? 'border-emerald-600 bg-emerald-50'
+                        ? 'border-emerald-600 bg-white/90'
                         : editing
-                          ? 'border-accent bg-white'
-                          : 'border-accent bg-accent/20 hover:bg-accent/30'
+                          ? 'border-accent bg-white/95'
+                          : 'border-accent bg-accent/15 hover:bg-accent/25'
                     }`}
                     style={{
                       left: `${f.x * 100}%`,
@@ -172,22 +179,12 @@ export default function SignerClient({ token }: { token: string }) {
                       height: `${f.height * 100}%`,
                     }}
                   >
-                    <span className="block truncate px-2 pt-1 text-[11px] font-semibold text-ink">
-                      Signature: {view.signer.name}
-                    </span>
-                    {done ? (
-                      <span
-                        className="block truncate px-2 text-lg italic"
-                        style={{
-                          fontFamily:
-                            '"Segoe Script", "Brush Script MT", "Apple Chancery", cursive',
-                        }}
-                      >
-                        {view.signer.name}
-                      </span>
-                    ) : (
-                      <span className="block px-2 text-[10px] text-muted">Click to sign</span>
-                    )}
+                    <SignatureLineBox
+                      role={role}
+                      name={view.signer.name}
+                      signed={done}
+                      hint="Click to sign"
+                    />
                   </button>
                 ))
             }
@@ -208,6 +205,7 @@ export default function SignerClient({ token }: { token: string }) {
           ) : editing ? (
             <>
               <h2 className="text-sm font-semibold text-ink">Type your name</h2>
+              <p className="text-xs text-muted">Signing as {role}</p>
               <input
                 autoFocus
                 value={typedName}
@@ -234,7 +232,7 @@ export default function SignerClient({ token }: { token: string }) {
             <>
               <h2 className="text-sm font-semibold text-ink">Your turn</h2>
               <p className="text-sm text-body">
-                Scroll the document, then click your signature box, type your name, and hit Save.
+                Scroll the document, then click your signature line, type your name, and hit Save.
               </p>
               <button
                 type="button"
