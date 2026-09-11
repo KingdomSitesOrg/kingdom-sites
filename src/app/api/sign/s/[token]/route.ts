@@ -1,7 +1,7 @@
 import { after, NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
 import { appendAudit } from '@/lib/sign/audit'
-import { completeEnvelopeAfterAllSigned } from '@/lib/sign/complete'
+import { emailCompletedEnvelope, stampAndPersistCompleted } from '@/lib/sign/complete'
 import { signerPublicView } from '@/lib/sign/pdf'
 import {
   findEnvelopeBySignerToken,
@@ -129,29 +129,42 @@ export async function POST(request: Request, ctx: Ctx) {
     }
     envelope = appendAudit(envelope, 'signed', signer.email)
 
-    // Persist signed state BEFORE PDF stamp/email so Client/Provider magic-link UI
-    // and admin poll see "Signed" within ~2s. Stamp+email must not block this response
-    // (second signer used to hang the tab awaiting stamp; admin looked stuck).
+    // Persist signed state first so Client/Provider UI and admin poll see "Signed"
+    // even if stamp fails. On allSigned we then await stamp+save on this request
+    // (after() alone was flaky); completed-PDF delivery stays in after().
     envelope = await saveEnvelope(envelope)
     const allSigned = envelope.signers.every((s) => s.status === 'signed')
     const signedView = signerPublicView(envelope, signerId)
 
     if (allSigned) {
-      const envelopeId = envelope.id
-      // Run stamp/email after the response so the last signer returns immediately.
-      after(async () => {
-        try {
-          await completeEnvelopeAfterAllSigned(envelopeId)
-        } catch (stampError) {
-          // Signed state already durable — stamp/email failures must not affect the UI.
-          Sentry.captureException(stampError)
-        }
-      })
+      // Await stamp+save on the request path — after() alone is flaky on some runtimes.
+      // Email stays in after()/waitUntil so Resend latency does not block the signer.
+      let completedEnv: Awaited<ReturnType<typeof stampAndPersistCompleted>> = null
+      try {
+        completedEnv = await stampAndPersistCompleted(envelope.id)
+      } catch (stampError) {
+        Sentry.captureException(stampError)
+      }
+      if (completedEnv) {
+        envelope = completedEnv
+      }
+      const finalView = signerPublicView(envelope, signerId)
+      const completedOk = Boolean(completedEnv?.completedPdfKey)
+      if (completedEnv) {
+        const toEmail = completedEnv
+        after(async () => {
+          try {
+            await emailCompletedEnvelope(toEmail)
+          } catch (emailError) {
+            Sentry.captureException(emailError)
+          }
+        })
+      }
       return NextResponse.json({
         ok: true,
-        view: signedView,
-        completed: false,
-        completing: true,
+        view: finalView || signedView,
+        completed: completedOk,
+        completing: !completedOk,
       })
     }
 

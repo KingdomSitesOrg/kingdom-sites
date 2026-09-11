@@ -149,13 +149,13 @@ export async function saveEnvelope(envelope: Envelope): Promise<Envelope> {
   let merged = incoming
   for (let attempt = 0; attempt < 2; attempt++) {
     previous = await getEnvelope(incoming.id)
-    merged = mergeEnvelope(incoming, previous)
-    // Second read: if Send just flipped draft→sent, don't put a stale draft over it.
+    // Triple-read protect: a single stale pending snapshot must not overwrite a
+    // durable signed signer (admin signed → Email magic links race).
+    const mid = await getEnvelope(incoming.id)
+    if (mid) previous = mergeEnvelope(mid, previous)
     const latest = await getEnvelope(incoming.id)
-    if (latest) {
-      previous = latest
-      merged = mergeEnvelope(merged, latest)
-    }
+    if (latest) previous = mergeEnvelope(latest, previous)
+    merged = mergeEnvelope(incoming, previous)
     const json = JSON.stringify(merged, null, 2)
     if (blobEnabled()) {
       await put(`sign/envelopes/${merged.id}.json`, json, {

@@ -13,6 +13,9 @@ import {
   placementAtPointer,
   sanitizeField,
   signerPublicView,
+  snapPlacementXY,
+  snapToGrid,
+  PLACEMENT_SNAP_GRID,
 } from './placement'
 import type { Envelope, FieldPlacement, Signer } from './types'
 
@@ -51,6 +54,28 @@ function envelope(partial: Partial<Envelope> & Pick<Envelope, 'signers' | 'field
     ...partial,
   }
 }
+
+
+describe('snapToGrid / snapPlacementXY', () => {
+  it('snaps to the fine grid', () => {
+    expect(snapToGrid(0.012)).toBeCloseTo(0.0, 5)
+    expect(snapToGrid(0.013)).toBeCloseTo(PLACEMENT_SNAP_GRID, 5)
+    expect(snapToGrid(0.05)).toBeCloseTo(0.05, 5)
+  })
+
+  it('aligns to a peer column/row when within tolerance', () => {
+    const peers = [{ x: 0.1, y: 0.2 }]
+    const out = snapPlacementXY(0.112, 0.21, 0.42, 0.11, peers)
+    expect(out.x).toBeCloseTo(0.1, 5)
+    expect(out.y).toBeCloseTo(0.2, 5)
+  })
+
+  it('keeps boxes inside the page', () => {
+    const out = snapPlacementXY(0.95, 0.95, 0.42, 0.11, [])
+    expect(out.x).toBeLessThanOrEqual(1 - 0.42 + 1e-9)
+    expect(out.y).toBeLessThanOrEqual(1 - 0.11 + 1e-9)
+  })
+})
 
 describe('defaultSignatureField', () => {
   it('lands on page 1 near the top in separate columns (not mashed / not last-page bottom)', () => {

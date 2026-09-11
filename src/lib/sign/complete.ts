@@ -51,11 +51,11 @@ export async function loadEnvelopeReadyToComplete(
 }
 
 /**
- * Stamp PDF, persist status=completed FIRST, then email parties.
- * Proceeds when every signer is signed even if status is still `sent` or wrongly `draft`.
- * Email failures are caught — completed state stays durable.
+ * Stamp PDF and persist status=completed (no email).
+ * Await this on the last-signer request path so completed PDF is durable
+ * even when after()/waitUntil is flaky.
  */
-export async function completeEnvelopeAfterAllSigned(
+export async function stampAndPersistCompleted(
   envelopeId: string,
 ): Promise<Envelope | null> {
   let envelope = await loadEnvelopeReadyToComplete(envelopeId)
@@ -78,7 +78,12 @@ export async function completeEnvelopeAfterAllSigned(
   // Durable completed write before email so a Resend failure cannot leave parties unsigned-looking.
   // saveEnvelope mergeEnvelope must not replace custom fields with factory defaults.
   envelope = await saveEnvelope(envelope)
+  return envelope
+}
 
+/** Email the completed PDF to parties + admin. Safe to run in after()/waitUntil. */
+export async function emailCompletedEnvelope(envelope: Envelope): Promise<void> {
+  if (!envelope.completedPdfKey) return
   try {
     const recipients = Array.from(
       new Set([
@@ -88,18 +93,31 @@ export async function completeEnvelopeAfterAllSigned(
       ]),
     ).filter(Boolean)
 
-    if (process.env.RESEND_API_KEY?.trim() && recipients.length) {
-      const filename = `${envelope.title.replace(/[^\w.\- ]+/g, '').slice(0, 60) || 'document'}-signed.pdf`
-      await sendCompletedPdfEmail({
-        to: recipients,
-        title: envelope.title,
-        pdf: Buffer.from(stamped),
-        filename,
-      })
-    }
+    if (!process.env.RESEND_API_KEY?.trim() || !recipients.length) return
+
+    const stamped = await readPdf(envelope.completedPdfKey)
+    const filename = `${envelope.title.replace(/[^\w.\- ]+/g, '').slice(0, 60) || 'document'}-signed.pdf`
+    await sendCompletedPdfEmail({
+      to: recipients,
+      title: envelope.title,
+      pdf: Buffer.from(stamped),
+      filename,
+    })
   } catch (emailError) {
     Sentry.captureException(emailError)
   }
+}
 
+/**
+ * Stamp PDF, persist status=completed FIRST, then email parties.
+ * Proceeds when every signer is signed even if status is still `sent` or wrongly `draft`.
+ * Email failures are caught — completed state stays durable.
+ */
+export async function completeEnvelopeAfterAllSigned(
+  envelopeId: string,
+): Promise<Envelope | null> {
+  const envelope = await stampAndPersistCompleted(envelopeId)
+  if (!envelope) return null
+  await emailCompletedEnvelope(envelope)
   return envelope
 }

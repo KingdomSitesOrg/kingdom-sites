@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import type { Envelope, FieldPlacement } from '@/lib/sign/types'
-import { isEnvelopeLocked, mergeSignatureFields, needsCompletedPdf, placementAtPointer, type PageRect } from '@/lib/sign/placement'
+import { isEnvelopeLocked, mergeSignatureFields, needsCompletedPdf, placementAtPointer, snapPlacementXY, type PageRect } from '@/lib/sign/placement'
 import PdfScrollViewer from './PdfScrollViewer'
 import SignatureLineBox from './SignatureLineBox'
 
@@ -92,6 +92,7 @@ export default function EnvelopeEditor({ initial }: Props) {
 
   const saveChainRef = useRef(Promise.resolve<void>(undefined))
   const saveGenRef = useRef(0)
+  const autoCompleteAttemptedRef = useRef(false)
   // Bumped on every local fields edit so a slow PATCH response cannot clobber a newer drag.
   const fieldsEpochRef = useRef(0)
   const draggingIdRef = useRef<string | null>(null)
@@ -202,6 +203,51 @@ export default function EnvelopeEditor({ initial }: Props) {
       window.removeEventListener('focus', onFocus)
     }
   }, [envelope.id])
+
+  useEffect(() => {
+    autoCompleteAttemptedRef.current = false
+  }, [envelope.id])
+
+  // If all signed but completed PDF missing (flaky after()), POST /complete once.
+  useEffect(() => {
+    if (!needsCompletedPdf(envelope)) return
+    if (autoCompleteAttemptedRef.current) return
+    autoCompleteAttemptedRef.current = true
+    const id = envelope.id
+    void (async () => {
+      try {
+        const res = await fetch(`/api/sign/envelopes/${id}/complete`, { method: 'POST' })
+        const data = await res.json().catch(() => null)
+        if (!res.ok || !data?.ok || !data.envelope) return
+        const env = data.envelope as Envelope
+        setEnvelope((prev) => {
+          const mergedSigners = env.signers.map((s) => {
+            const loc = prev.signers.find((l) => l.id === s.id)
+            if (s.status === 'signed') return s
+            if (loc?.status === 'signed') return loc
+            return s
+          })
+          const next = {
+            ...env,
+            signers: mergedSigners,
+            completedPdfKey: env.completedPdfKey || prev.completedPdfKey,
+            status:
+              env.status === 'completed' || prev.status === 'completed'
+                ? ('completed' as const)
+                : env.status,
+          }
+          envelopeRef.current = next
+          return next
+        })
+        setSigners(draftFromEnvelope(env))
+        if (env.completedPdfKey) {
+          setMessage('Completed PDF ready — download link is available.')
+        }
+      } catch {
+        /* manual Generate remains as backup */
+      }
+    })()
+  }, [envelope])
 
   const locked = isEnvelopeLocked(envelope.status)
 
@@ -367,19 +413,42 @@ export default function EnvelopeEditor({ initial }: Props) {
         return
       }
       const sentEnv = data.envelope as Envelope
-      setEnvelope(sentEnv)
-      envelopeRef.current = sentEnv
+      // Never let a stale send snapshot wipe admin-signed parties.
+      const local = envelopeRef.current
+      const mergedSigners = sentEnv.signers.map((s) => {
+        const loc = local.signers.find((l) => l.id === s.id)
+        if (s.status === 'signed') return s
+        if (loc?.status === 'signed') return loc
+        return s
+      })
+      const protectedEnv: Envelope = {
+        ...sentEnv,
+        signers: mergedSigners,
+        status:
+          local.status === 'completed' || sentEnv.status === 'completed'
+            ? 'completed'
+            : sentEnv.status === 'sent' || local.status === 'sent'
+              ? 'sent'
+              : sentEnv.status,
+        completedPdfKey: sentEnv.completedPdfKey || local.completedPdfKey,
+      }
+      setEnvelope(protectedEnv)
+      envelopeRef.current = protectedEnv
+      setSigners(draftFromEnvelope(protectedEnv))
       // Drop any in-flight draft autosaves so they cannot unlock the editor.
       saveGenRef.current += 1
+      const skipped = Number(data.skippedAlreadySigned || 0)
+      const skipMsg = skipped > 0 ? `Skipped ${skipped} already signed. ` : ''
       const links = (data.results || [])
+        .filter((r: { skippedAlreadySigned?: boolean }) => !r.skippedAlreadySigned)
         .map((r: { email: string; link: string; sent: boolean }) =>
           `${r.email}: ${r.link}${r.sent ? '' : ' (email not sent — use link)'}`,
         )
         .join(' | ')
       setMessage(
         data.emailed
-          ? 'Magic links emailed. You can also sign boxes here.'
-          : `Opened for signing. ${links || data.notice || 'Use Sign boxes here or copy links from the audit log.'}`,
+          ? `${skipMsg}Magic links emailed. You can also sign boxes here.`
+          : `${skipMsg}Opened for signing. ${links || data.notice || 'Use Sign boxes here or copy links from the audit log.'}`,
       )
     } catch {
       setError('Network error.')
@@ -401,13 +470,17 @@ export default function EnvelopeEditor({ initial }: Props) {
     const y = (e.clientY - rect.top) / rect.height
     const width = PLACE_WIDTH
     const height = PLACE_HEIGHT
+    const peers = fieldsRef.current
+      .filter((f) => f.type === 'signature' && f.signerId !== placeSignerId)
+      .map((f) => ({ x: f.x, y: f.y }))
+    const snapped = snapPlacementXY(x - width / 2, y - height / 2, width, height, peers)
     const nextField: FieldPlacement = {
       id: `fld_${placeSignerId}_sig`,
       type: 'signature',
       signerId: placeSignerId,
       page: pageNum,
-      x: Math.min(Math.max(x - width / 2, 0), 1 - width),
-      y: Math.min(Math.max(y - height / 2, 0), 1 - height),
+      x: snapped.x,
+      y: snapped.y,
       width,
       height,
     }
@@ -484,8 +557,14 @@ export default function EnvelopeEditor({ initial }: Props) {
     }
     if (!drag.moved) return
     setFields((prev) => {
+      const peers = prev
+        .filter((f) => f.id !== drag.id && f.type === 'signature')
+        .map((f) => ({ x: f.x, y: f.y }))
+      const snapped = snapPlacementXY(next.x, next.y, drag.width, drag.height, peers)
       const mapped = prev.map((f) =>
-        f.id === drag.id ? { ...f, page: next.page, x: next.x, y: next.y } : f,
+        f.id === drag.id
+          ? { ...f, page: next.page, x: snapped.x, y: snapped.y }
+          : f,
       )
       fieldsEpochRef.current += 1
       fieldsRef.current = mapped
@@ -511,8 +590,19 @@ export default function EnvelopeEditor({ initial }: Props) {
     detachDragListeners()
     if (wasDrag) {
       const current = fieldsRef.current.map((f) => ({ ...f }))
-      const moved = current.find((f) => f.id === field.id)
-      if (moved) setPage(moved.page)
+      const movedIdx = current.findIndex((f) => f.id === field.id)
+      if (movedIdx >= 0) {
+        const moved = current[movedIdx]!
+        const peers = current
+          .filter((f) => f.id !== moved.id && f.type === 'signature')
+          .map((f) => ({ x: f.x, y: f.y }))
+        const snapped = snapPlacementXY(moved.x, moved.y, moved.width, moved.height, peers)
+        current[movedIdx] = { ...moved, x: snapped.x, y: snapped.y }
+        fieldsEpochRef.current += 1
+        fieldsRef.current = current
+        setFields(current)
+        setPage(current[movedIdx]!.page)
+      }
       void save({ fields: current }).then((env) => {
         if (env) setMessage('Signature line moved and saved.')
       })

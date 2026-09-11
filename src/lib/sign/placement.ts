@@ -54,6 +54,41 @@ function clamp(n: number, min: number, max: number) {
   return Math.min(Math.max(n, min), max)
 }
 
+/** Fine grid for admin Place/drag so boxes align straight (fraction of page). */
+export const PLACEMENT_SNAP_GRID = 0.025
+
+/** Snap a fractional coord to the placement grid. */
+export function snapToGrid(value: number, grid = PLACEMENT_SNAP_GRID): number {
+  if (!Number.isFinite(value) || grid <= 0) return Number.isFinite(value) ? value : 0
+  return Math.round(value / grid) * grid
+}
+
+/**
+ * Snap x/y to the fine grid, then optionally align to a peer box's x or y
+ * when within one grid step (perfect columns/rows).
+ */
+export function snapPlacementXY(
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  peers: Pick<FieldPlacement, 'x' | 'y'>[] = [],
+  opts?: { grid?: number; alignTol?: number },
+): { x: number; y: number } {
+  const grid = opts?.grid ?? PLACEMENT_SNAP_GRID
+  const alignTol = opts?.alignTol ?? grid
+  let sx = snapToGrid(x, grid)
+  let sy = snapToGrid(y, grid)
+  for (const p of peers) {
+    if (Math.abs(sx - p.x) <= alignTol) sx = p.x
+    if (Math.abs(sy - p.y) <= alignTol) sy = p.y
+  }
+  return {
+    x: clamp(sx, 0, Math.max(0, 1 - width)),
+    y: clamp(sy, 0, Math.max(0, 1 - height)),
+  }
+}
+
 /**
  * Default signature box: page 1 near the top, stacked by slot
  * (0 = Client upper, 1 = Provider below, …). Avoids last-page bottom defaults.

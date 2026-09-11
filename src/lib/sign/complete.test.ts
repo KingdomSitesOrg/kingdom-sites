@@ -1,9 +1,12 @@
 import { describe, expect, it, vi } from 'vitest'
 import {
   allSignersSigned,
+  completeEnvelopeAfterAllSigned,
+  emailCompletedEnvelope,
   loadEnvelopeReadyToComplete,
   needsCompletedPdf,
   protectSignedSigners,
+  stampAndPersistCompleted,
 } from './complete'
 import type { Envelope, FieldPlacement, Signer } from './types'
 
@@ -170,5 +173,13 @@ describe('loadEnvelopeReadyToComplete', () => {
     })
     expect(allSignersSigned(result!)).toBe(true)
     expect(get).toHaveBeenCalledTimes(1)
+  })
+})
+
+describe('complete API surface', () => {
+  it('exports stamp/persist split helpers', () => {
+    expect(typeof stampAndPersistCompleted).toBe('function')
+    expect(typeof emailCompletedEnvelope).toBe('function')
+    expect(typeof completeEnvelopeAfterAllSigned).toBe('function')
   })
 })
