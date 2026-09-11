@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import type { Envelope, FieldPlacement } from '@/lib/sign/types'
@@ -72,6 +72,60 @@ export default function EnvelopeEditor({ initial }: Props) {
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
 
+  // Keep latest drafts in refs so queued saves never send stale Provider/Client boxes.
+  const fieldsRef = useRef(fields)
+  const signersRef = useRef(signers)
+  const titleRef = useRef(title)
+  const placeSignerIdRef = useRef(placeSignerId)
+  const envelopeRef = useRef(envelope)
+  fieldsRef.current = fields
+  signersRef.current = signers
+  titleRef.current = title
+  placeSignerIdRef.current = placeSignerId
+  envelopeRef.current = envelope
+
+  const saveChainRef = useRef(Promise.resolve<void>(undefined))
+  const saveGenRef = useRef(0)
+
+  // Poll so admin status catches magic-link signatures without a full reload.
+  useEffect(() => {
+    let cancelled = false
+    const tick = async () => {
+      try {
+        const res = await fetch(`/api/sign/envelopes/${envelopeRef.current.id}`, {
+          cache: 'no-store',
+        })
+        const data = await res.json().catch(() => null)
+        if (cancelled || !res.ok || !data?.ok || !data.envelope) return
+        const env = data.envelope as Envelope
+        const local = envelopeRef.current
+        if (env.updatedAt <= local.updatedAt && env.status === local.status) return
+        // Don't clobber in-flight placement edits with an older field set unless status advanced.
+        const statusRank = { draft: 0, sent: 1, completed: 2 } as const
+        const statusAdvanced = statusRank[env.status] > statusRank[local.status]
+        const signedAdvanced =
+          env.signers.filter((s) => s.status === 'signed').length >
+          local.signers.filter((s) => s.status === 'signed').length
+        setEnvelope(env)
+        setSigners(draftFromEnvelope(env))
+        if (statusAdvanced || signedAdvanced || env.status === 'completed') {
+          setFields(env.fields.filter((f) => f.type === 'signature'))
+        }
+      } catch {
+        /* ignore transient poll errors */
+      }
+    }
+    const id = window.setInterval(tick, 4000)
+    const onFocus = () => void tick()
+    window.addEventListener('focus', onFocus)
+    void tick()
+    return () => {
+      cancelled = true
+      window.clearInterval(id)
+      window.removeEventListener('focus', onFocus)
+    }
+  }, [envelope.id])
+
   const pdfUrl = useMemo(
     () => `/api/sign/envelopes/${envelope.id}/pdf?which=original`,
     [envelope.id],
@@ -103,56 +157,75 @@ export default function EnvelopeEditor({ initial }: Props) {
     signers?: SignerDraft[]
     fields?: FieldPlacement[]
   }) {
-    const draft = next?.signers ?? signers
-    const incomplete = draft.filter((s) => !s.name.trim() || !s.email.trim())
-    if (incomplete.length) {
-      setError('Every signer needs a name and email before Save can unlock Place box.')
-      return null
-    }
-    setBusy(true)
-    setError('')
-    setMessage('')
-    try {
-      const res = await fetch(`/api/sign/envelopes/${envelope.id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title: next?.title ?? title,
-          signers: draft.map((s) => ({
-            id: s.id,
-            name: s.name,
-            email: s.email,
-            role: (s.role || 'Signer').trim().slice(0, 60) || 'Signer',
-          })),
-          fields: (next?.fields ?? fields).filter((f) => f.type === 'signature'),
-        }),
-      })
-      const data = await res.json().catch(() => null)
-      if (!res.ok || !data?.ok) {
-        setError(data?.error || 'Save failed.')
+    const run = async (): Promise<Envelope | null> => {
+      const draft = next?.signers ?? signersRef.current
+      const incomplete = draft.filter((s) => !s.name.trim() || !s.email.trim())
+      if (incomplete.length) {
+        setError('Every signer needs a name and email before Save can unlock Place box.')
         return null
       }
-      const env = data.envelope as Envelope
-      setEnvelope(env)
-      setSigners(draftFromEnvelope(env))
-      setFields(env.fields.filter((f) => f.type === 'signature'))
-      const keepPlace =
-        placeSignerId && env.signers.some((s) => s.id === placeSignerId)
-          ? placeSignerId
-          : env.signers[0]?.id || null
-      setPlaceSignerId(keepPlace)
-      setMessage(
-        env.signers.length
-          ? `Saved. Place box is ready — pick a signer and click/drag on the PDF.`
-          : 'Saved.',
-      )
-      return env
-    } catch {
-      setError('Network error.')
-      return null
-    } finally {
-      setBusy(false)
+      if (next?.fields) fieldsRef.current = next.fields
+      if (next?.signers) signersRef.current = next.signers
+      if (next?.title != null) titleRef.current = next.title
+
+      const myGen = ++saveGenRef.current
+      setBusy(true)
+      setError('')
+      try {
+        const res = await fetch(`/api/sign/envelopes/${envelopeRef.current.id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title: next?.title ?? titleRef.current,
+            signers: draft.map((s) => ({
+              id: s.id,
+              name: s.name,
+              email: s.email,
+              role: (s.role || 'Signer').trim().slice(0, 60) || 'Signer',
+            })),
+            fields: (next?.fields ?? fieldsRef.current).filter((f) => f.type === 'signature'),
+          }),
+        })
+        const data = await res.json().catch(() => null)
+        if (!res.ok || !data?.ok) {
+          setError(data?.error || 'Save failed.')
+          return null
+        }
+        const env = data.envelope as Envelope
+        // Ignore outdated responses so a slow Client save cannot snap Provider back.
+        if (myGen !== saveGenRef.current) return env
+        setEnvelope(env)
+        setSigners(draftFromEnvelope(env))
+        setFields(env.fields.filter((f) => f.type === 'signature'))
+        fieldsRef.current = env.fields.filter((f) => f.type === 'signature')
+        signersRef.current = draftFromEnvelope(env)
+        const keepPlace =
+          placeSignerIdRef.current &&
+          env.signers.some((s) => s.id === placeSignerIdRef.current)
+            ? placeSignerIdRef.current
+            : env.signers[0]?.id || null
+        setPlaceSignerId(keepPlace)
+        setMessage(
+          env.signers.length
+            ? `Saved. Place box is ready — pick a signer and click/drag on the PDF.`
+            : 'Saved.',
+        )
+        return env
+      } catch {
+        setError('Network error.')
+        return null
+      } finally {
+        if (myGen === saveGenRef.current) setBusy(false)
+      }
     }
+
+    // Serialize saves — overlapping PATCHes were why Provider snapped to the bottom.
+    const queued = saveChainRef.current.then(run, run)
+    saveChainRef.current = queued.then(
+      () => undefined,
+      () => undefined,
+    )
+    return queued
   }
 
   async function send() {
@@ -214,9 +287,12 @@ export default function EnvelopeEditor({ initial }: Props) {
       height,
     }
     const nextFields = [
-      ...fields.filter((f) => !(f.signerId === placeSignerId && f.type === 'signature')),
+      ...fieldsRef.current.filter(
+        (f) => !(f.signerId === placeSignerId && f.type === 'signature'),
+      ),
       nextField,
     ]
+    fieldsRef.current = nextFields
     setFields(nextFields)
     setPage(pageNum)
     setError('')
@@ -279,9 +355,11 @@ export default function EnvelopeEditor({ initial }: Props) {
     if (!drag.moved) return
     const nextX = Math.min(Math.max(drag.origX + dx, 0), 1 - field.width)
     const nextY = Math.min(Math.max(drag.origY + dy, 0), 1 - field.height)
-    setFields((prev) =>
-      prev.map((f) => (f.id === field.id ? { ...f, x: nextX, y: nextY } : f)),
-    )
+    setFields((prev) => {
+      const next = prev.map((f) => (f.id === field.id ? { ...f, x: nextX, y: nextY } : f))
+      fieldsRef.current = next
+      return next
+    })
   }
 
   function onFieldPointerUp(e: React.PointerEvent<HTMLButtonElement>, field: FieldPlacement) {
@@ -293,12 +371,9 @@ export default function EnvelopeEditor({ initial }: Props) {
     dragRef.current = null
     setDraggingId(null)
     if (wasDrag) {
-      // Read latest placements from state updater so we don't save stale coords
-      setFields((current) => {
-        void save({ fields: current }).then((env) => {
-          if (env) setMessage('Signature line moved and saved.')
-        })
-        return current
+      const current = fieldsRef.current
+      void save({ fields: current }).then((env) => {
+        if (env) setMessage('Signature line moved and saved.')
       })
       return
     }

@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { EnvelopeSummary } from '@/lib/sign/types'
 
 export default function DocumentList({ initial }: { initial: EnvelopeSummary[] }) {
@@ -10,6 +10,28 @@ export default function DocumentList({ initial }: { initial: EnvelopeSummary[] }
   const [items, setItems] = useState(initial)
   const [busyId, setBusyId] = useState<string | null>(null)
   const [error, setError] = useState('')
+
+  useEffect(() => {
+    let cancelled = false
+    const tick = async () => {
+      try {
+        const res = await fetch('/api/sign/envelopes', { cache: 'no-store' })
+        const data = await res.json().catch(() => null)
+        if (cancelled || !res.ok || !data?.ok || !Array.isArray(data.envelopes)) return
+        setItems(data.envelopes as EnvelopeSummary[])
+      } catch {
+        /* ignore */
+      }
+    }
+    const id = window.setInterval(tick, 5000)
+    const onFocus = () => void tick()
+    window.addEventListener('focus', onFocus)
+    return () => {
+      cancelled = true
+      window.clearInterval(id)
+      window.removeEventListener('focus', onFocus)
+    }
+  }, [])
 
   async function remove(id: string, title: string) {
     if (!window.confirm(`Delete “${title}”? This cannot be undone.`)) return

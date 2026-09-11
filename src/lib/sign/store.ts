@@ -1,7 +1,8 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 import { put, list, del, get } from '@vercel/blob'
-import type { Envelope, EnvelopeStatus, EnvelopeSummary } from './types'
+import type { Envelope, EnvelopeStatus, EnvelopeSummary, FieldPlacement, Signer } from './types'
+import { defaultSignatureField } from './pdf'
 
 const LOCAL_ROOT = path.join(process.cwd(), '.data', 'sign')
 
@@ -11,16 +12,114 @@ const STATUS_RANK: Record<EnvelopeStatus, number> = {
   completed: 2,
 }
 
-/** Never let a stale write regress draft ← sent ← completed. */
-function withMonotonicStatus(incoming: Envelope, previous: Envelope | null): Envelope {
+
+/**
+ * Merge a write with whatever is already stored so concurrent auto-saves cannot:
+ * - regress status (draft ← sent ← completed)
+ * - wipe signatures / completed PDF
+ * - replace newer placements with a stale fields array after signing progressed
+ */
+function mergeAudit(
+  a: Envelope['audit'],
+  b: Envelope['audit'],
+): Envelope['audit'] {
+  const key = (e: (typeof a)[number]) => `${e.at}|${e.action}|${e.actor}|${e.detail || ''}`
+  const map = new Map<string, (typeof a)[number]>()
+  for (const e of [...a, ...b]) map.set(key(e), e)
+  return Array.from(map.values()).sort((x, y) => x.at.localeCompare(y.at))
+}
+
+function mergeSigner(incoming: Signer, previous: Signer | undefined): Signer {
   if (!previous) return incoming
-  if (STATUS_RANK[previous.status] <= STATUS_RANK[incoming.status]) {
-    return incoming
+  // First successful signature wins — never allow a second sign to replace it.
+  if (previous.status === 'signed') {
+    return {
+      ...incoming,
+      token: previous.token,
+      status: 'signed',
+      signedAt: previous.signedAt,
+      signaturePng: previous.signaturePng,
+      signedDateText: previous.signedDateText,
+      // Allow admin name/role/email edits on top of a locked signature
+      name: incoming.name || previous.name,
+      email: incoming.email || previous.email,
+      role: incoming.role || previous.role,
+    }
+  }
+  if (incoming.status === 'signed') {
+    return { ...incoming, token: incoming.token || previous.token }
   }
   return {
     ...incoming,
-    status: previous.status,
-    completedPdfKey: incoming.completedPdfKey || previous.completedPdfKey,
+    token: incoming.token || previous.token,
+  }
+}
+
+function mergeEnvelope(incoming: Envelope, previous: Envelope | null): Envelope {
+  if (!previous) return incoming
+
+  const status =
+    STATUS_RANK[previous.status] > STATUS_RANK[incoming.status]
+      ? previous.status
+      : incoming.status
+
+  const completedPdfKey =
+    incoming.completedPdfKey || previous.completedPdfKey || undefined
+
+  const prevById = new Map(previous.signers.map((s) => [s.id, s]))
+  const signers: Signer[] = incoming.signers.map((s) => mergeSigner(s, prevById.get(s.id)))
+  for (const prev of previous.signers) {
+    if (!signers.some((s) => s.id === prev.id)) signers.push(prev)
+  }
+
+  // Fields: keep previous placements; overlay incoming unless incoming looks like a
+  // bottom default replacing a custom placement (stale Client save vs Provider place).
+  const signerIndex = new Map(incoming.signers.map((s, i) => [s.id, i]))
+  for (const [i, s] of previous.signers.entries()) {
+    if (!signerIndex.has(s.id)) signerIndex.set(s.id, i)
+  }
+  const isDefaultish = (f: FieldPlacement) => {
+    const slot = signerIndex.get(f.signerId) ?? 0
+    const d = defaultSignatureField(f.signerId, previous.pageCount || incoming.pageCount, slot)
+    return (
+      f.page === d.page &&
+      Math.abs(f.x - d.x) < 0.03 &&
+      Math.abs(f.y - d.y) < 0.03
+    )
+  }
+
+  const fieldMap = new Map<string, FieldPlacement>()
+  for (const f of previous.fields) {
+    if (f.type === 'signature') fieldMap.set(f.signerId, f)
+    else fieldMap.set(`${f.type}:${f.signerId}:${f.id}`, f)
+  }
+  if (STATUS_RANK[previous.status] <= STATUS_RANK[incoming.status]) {
+    for (const f of incoming.fields) {
+      if (f.type === 'signature') {
+        const prev = fieldMap.get(f.signerId)
+        if (prev && isDefaultish(f) && !isDefaultish(prev)) {
+          continue // do not snap a custom box back to the bottom default
+        }
+        fieldMap.set(f.signerId, f)
+      } else {
+        fieldMap.set(`${f.type}:${f.signerId}:${f.id}`, f)
+      }
+    }
+  }
+  const fields: FieldPlacement[] = Array.from(fieldMap.values())
+
+  const audit = mergeAudit(previous.audit || [], incoming.audit || [])
+  const updatedAt =
+    incoming.updatedAt > previous.updatedAt ? incoming.updatedAt : previous.updatedAt
+
+  return {
+    ...incoming,
+    status,
+    completedPdfKey,
+    signers,
+    fields,
+    audit,
+    updatedAt,
   }
 }
 
@@ -87,7 +186,7 @@ export async function readPdf(key: string): Promise<Buffer> {
 export async function saveEnvelope(envelope: Envelope): Promise<void> {
   // Re-read so a concurrent PATCH cannot clobber status back to draft after send.
   const previous = await getEnvelope(envelope.id)
-  envelope = withMonotonicStatus(envelope, previous)
+  envelope = mergeEnvelope(envelope, previous)
   const json = JSON.stringify(envelope, null, 2)
   if (blobEnabled()) {
     await put(`sign/envelopes/${envelope.id}.json`, json, {

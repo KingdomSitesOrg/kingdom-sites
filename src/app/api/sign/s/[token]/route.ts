@@ -5,6 +5,7 @@ import { sendCompletedPdfEmail } from '@/lib/sign/email'
 import { signerPublicView, stampEnvelopePdf } from '@/lib/sign/pdf'
 import {
   findEnvelopeBySignerToken,
+  getEnvelope,
   readPdf,
   saveEnvelope,
   savePdf,
@@ -66,6 +67,22 @@ export async function POST(request: Request, ctx: Ctx) {
         alreadySigned: true,
         view: signerPublicView(envelope, signerId),
       })
+    }
+
+    // Re-read right before mutating so a parallel sign/admin save cannot double-sign.
+    {
+      const latest = await getEnvelope(envelope.id)
+      if (latest) {
+        envelope = latest
+        const live = envelope.signers.find((s) => s.id === signerId)
+        if (live?.status === 'signed') {
+          return NextResponse.json({
+            ok: true,
+            alreadySigned: true,
+            view: signerPublicView(envelope, signerId),
+          })
+        }
+      }
     }
 
     const body = (await request.json().catch(() => null)) as {

@@ -136,8 +136,9 @@ export async function PATCH(request: Request, ctx: Ctx) {
       envelope.fields = sanitized
     }
 
-    // Only add a default box for a signer who has NO signature field — never replace placements.
-    {
+    // Only backfill defaults when the client omitted fields (e.g. signer-only save).
+    // If fields were sent, trust sanitize — do not re-inject bottom defaults.
+    if (!Array.isArray(body.fields)) {
       const list = envelope.signers
       for (let i = 0; i < list.length; i++) {
         const s = list[i]
@@ -145,7 +146,9 @@ export async function PATCH(request: Request, ctx: Ctx) {
           envelope.fields.push(defaultSignatureField(s.id, envelope.pageCount, i))
         }
       }
-      const keep = new Set(list.map((s) => s.id))
+    }
+    {
+      const keep = new Set(envelope.signers.map((s) => s.id))
       envelope.fields = envelope.fields.filter((f) => keep.has(f.signerId))
     }
 
