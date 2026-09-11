@@ -63,11 +63,12 @@ describe('snapToGrid / snapPlacementXY', () => {
     expect(snapToGrid(0.05)).toBeCloseTo(0.05, 5)
   })
 
-  it('aligns to a peer column/row when within tolerance', () => {
-    const peers = [{ x: 0.1, y: 0.2 }]
-    const out = snapPlacementXY(0.112, 0.21, 0.42, 0.11, peers)
+  it('does not magnet-align to a nearby peer', () => {
+    const peers = [{ x: 0.08, y: 0.2 }]
+    const out = snapPlacementXY(0.11, 0.21, 0.42, 0.11, peers)
+    // 0.11 → 0.10 grid; must NOT jump to peer 0.08
     expect(out.x).toBeCloseTo(0.1, 5)
-    expect(out.y).toBeCloseTo(0.2, 5)
+    expect(out.x).not.toBeCloseTo(0.08, 5)
   })
 
   it('keeps boxes inside the page', () => {

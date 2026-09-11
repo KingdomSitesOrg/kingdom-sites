@@ -181,9 +181,10 @@ export default function EnvelopeEditor({ initial }: Props) {
         setEnvelope(nextEnv)
         envelopeRef.current = nextEnv
         setSigners(draftFromEnvelope(nextEnv))
-        if (statusAdvanced || signedAdvanced || nextEnv.status === 'completed') {
+        // Do not move boxes from poll — that was live-shifting overlays while idle/saving.
+        // Only take remote fields when a NEW party signed (dates/ink), and still merge.
+        if (signedAdvanced) {
           const nextFields = nextEnv.fields.filter((f) => f.type === 'signature')
-          // Never wipe overlays with an empty / partial snapshot.
           if (nextFields.length > 0) {
             setFields(nextFields)
             fieldsRef.current = nextFields
@@ -356,9 +357,9 @@ export default function EnvelopeEditor({ initial }: Props) {
         const fieldsStale =
           fieldsEpochAtQueue !== fieldsEpochRef.current || Boolean(draggingIdRef.current)
         if (!fieldsStale) {
-          const savedFields = env.fields.filter((f) => f.type === 'signature')
-          setFields(savedFields)
-          fieldsRef.current = savedFields
+          // Keep the coords we just sent — server merge/snap must not walk boxes around.
+          setFields(queuedFields.filter((f) => f.type === 'signature'))
+          fieldsRef.current = queuedFields.filter((f) => f.type === 'signature')
         }
         signersRef.current = draftFromEnvelope(env)
         const keepPlace =
@@ -557,13 +558,10 @@ export default function EnvelopeEditor({ initial }: Props) {
     }
     if (!drag.moved) return
     setFields((prev) => {
-      const peers = prev
-        .filter((f) => f.id !== drag.id && f.type === 'signature')
-        .map((f) => ({ x: f.x, y: f.y }))
-      const snapped = snapPlacementXY(next.x, next.y, drag.width, drag.height, peers)
+      // Follow the pointer live — snap only on drop so the box isn't glued to an edge.
       const mapped = prev.map((f) =>
         f.id === drag.id
-          ? { ...f, page: next.page, x: snapped.x, y: snapped.y }
+          ? { ...f, page: next.page, x: next.x, y: next.y }
           : f,
       )
       fieldsEpochRef.current += 1
