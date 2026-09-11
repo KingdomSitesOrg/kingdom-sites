@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
 import { AuthError, getAdminSession, newId, newSignerToken } from '@/lib/sign/auth'
 import { appendAudit } from '@/lib/sign/audit'
-import { defaultSignatureField, maxPageInRawFields, mergeSigner, sanitizeField } from '@/lib/sign/placement'
+import { defaultSignatureField, lockedEnvelopeStructuralError, maxPageInRawFields, mergeSigner, sanitizeField } from '@/lib/sign/placement'
 import { deleteEnvelope, getEnvelope, saveEnvelope } from '@/lib/sign/store'
 import type { FieldPlacement, Signer } from '@/lib/sign/types'
 
@@ -49,10 +49,6 @@ export async function PATCH(request: Request, ctx: Ctx) {
     if (!existing) {
       return NextResponse.json({ ok: false, error: 'Not found' }, { status: 404 })
     }
-    if (existing.status === 'completed') {
-      return NextResponse.json({ ok: false, error: 'Completed envelopes cannot be edited.' }, { status: 400 })
-    }
-
     const body = (await request.json().catch(() => null)) as {
       title?: string
       signers?: { name: string; email: string; role?: string; id?: string }[]
@@ -61,6 +57,13 @@ export async function PATCH(request: Request, ctx: Ctx) {
     } | null
     if (!body) {
       return NextResponse.json({ ok: false, error: 'Invalid body' }, { status: 400 })
+    }
+
+    // Once sent/completed: reject title/signers/fields (race with magic-link signatures).
+    // pageCount-only bumps from pdf.js remain allowed for display consistency.
+    const lockError = lockedEnvelopeStructuralError(existing.status, body)
+    if (lockError) {
+      return NextResponse.json({ ok: false, error: lockError }, { status: 400 })
     }
 
     let envelope = { ...existing }

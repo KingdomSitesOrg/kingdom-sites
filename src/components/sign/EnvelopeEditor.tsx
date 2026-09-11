@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import type { Envelope, FieldPlacement } from '@/lib/sign/types'
-import { placementAtPointer, type PageRect } from '@/lib/sign/placement'
+import { isEnvelopeLocked, placementAtPointer, type PageRect } from '@/lib/sign/placement'
 import PdfScrollViewer from './PdfScrollViewer'
 import SignatureLineBox from './SignatureLineBox'
 
@@ -162,6 +162,8 @@ export default function EnvelopeEditor({ initial }: Props) {
     }
   }, [envelope.id])
 
+  const locked = isEnvelopeLocked(envelope.status)
+
   const pdfUrl = useMemo(
     () => `/api/sign/envelopes/${envelope.id}/pdf?which=original`,
     [envelope.id],
@@ -176,10 +178,12 @@ export default function EnvelopeEditor({ initial }: Props) {
     'Signer'
 
   function addSignerRow() {
+    if (isEnvelopeLocked(envelopeRef.current.status)) return
     setSigners((prev) => [...prev, { name: '', email: '', role: 'Signer' }])
   }
 
   function removeSignerRow(idx: number) {
+    if (isEnvelopeLocked(envelopeRef.current.status)) return
     const target = signers[idx]
     setSigners((prev) => prev.filter((_, i) => i !== idx))
     if (target?.id) {
@@ -198,6 +202,10 @@ export default function EnvelopeEditor({ initial }: Props) {
     signers?: SignerDraft[]
     fields?: FieldPlacement[]
   }) {
+    // Never autosave/structural-save once sent — would 400 and race magic-link signatures.
+    if (isEnvelopeLocked(envelopeRef.current.status)) {
+      return envelopeRef.current
+    }
     // Capture gen + snapshots at queue time (not when the chain runs). Otherwise a slow
     // Client PATCH can finish while Provider is queued, apply stale fields, and the
     // Provider autosave then persists the default top box again.
@@ -290,8 +298,13 @@ export default function EnvelopeEditor({ initial }: Props) {
   }
 
   async function send() {
-    const saved = await save()
-    if (!saved) return
+    // Resend magic links on an already-sent envelope must not PATCH fields/signers.
+    let saved = envelopeRef.current
+    if (!isEnvelopeLocked(saved.status)) {
+      const result = await save()
+      if (!result) return
+      saved = result
+    }
     if (saved.signers.some((s) => !s.email)) {
       setError('Every signer needs a name and email before sending.')
       return
@@ -300,7 +313,7 @@ export default function EnvelopeEditor({ initial }: Props) {
     setError('')
     setMessage('')
     try {
-      const res = await fetch(`/api/sign/envelopes/${envelope.id}/send`, { method: 'POST' })
+      const res = await fetch(`/api/sign/envelopes/${saved.id}/send`, { method: 'POST' })
       const data = await res.json().catch(() => null)
       if (!res.ok || !data?.ok) {
         setError(data?.error || 'Send failed.')
@@ -325,7 +338,7 @@ export default function EnvelopeEditor({ initial }: Props) {
   }
 
   function onPlace(pageNum: number, e: React.MouseEvent<HTMLDivElement>) {
-    if (envelope.status === 'completed') return
+    if (isEnvelopeLocked(envelope.status)) return
     if (dragRef.current?.moved) return
     if ((e.target as HTMLElement).closest('[data-field-id]')) return
     if (!placeSignerId) {
@@ -461,6 +474,11 @@ export default function EnvelopeEditor({ initial }: Props) {
     if (envelope.status === 'completed') return
     e.stopPropagation()
     e.preventDefault()
+    // Locked for signing: click still opens the sign box; drag/place are disabled.
+    if (isEnvelopeLocked(envelope.status)) {
+      openSignBox(field)
+      return
+    }
     const board = e.currentTarget.parentElement
     if (!board) return
     const rect = board.getBoundingClientRect()
@@ -522,6 +540,8 @@ export default function EnvelopeEditor({ initial }: Props) {
     if (total <= current) return
     setEnvelope((prev) => ({ ...prev, pageCount: total }))
     envelopeRef.current = { ...envelopeRef.current, pageCount: total }
+    // Skip PATCH when locked — API allows pageCount-only, but local display bump is enough.
+    if (isEnvelopeLocked(envelopeRef.current.status)) return
     // Persist so later sanitize/magic-link views agree with pdf.js page count.
     void fetch(`/api/sign/envelopes/${envelopeRef.current.id}`, {
       method: 'PATCH',
@@ -649,7 +669,7 @@ export default function EnvelopeEditor({ initial }: Props) {
         <div className="flex flex-wrap gap-2">
           <button
             type="button"
-            disabled={busy || envelope.status === 'completed'}
+            disabled={busy || locked}
             onClick={() => save()}
             className="btn-ghost !min-h-10 !px-4 !py-2 !text-sm"
           >
@@ -676,6 +696,14 @@ export default function EnvelopeEditor({ initial }: Props) {
 
       {message ? <p className="text-sm text-emerald-700">{message}</p> : null}
       {error ? <p className="text-sm text-warm">{error}</p> : null}
+      {locked ? (
+        <div
+          role="status"
+          className="rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-950"
+        >
+          Locked for signing — placements and signers can’t be edited.
+        </div>
+      ) : null}
 
       <div className="grid gap-6 lg:grid-cols-[340px_1fr]">
         <div className="space-y-4">
@@ -684,7 +712,7 @@ export default function EnvelopeEditor({ initial }: Props) {
               <span className="mb-1 block text-muted">Title</span>
               <input
                 value={title}
-                disabled={envelope.status === 'completed'}
+                disabled={locked}
                 onChange={(e) => setTitle(e.target.value)}
                 className="w-full rounded-xl border border-line px-3 py-2 text-ink outline-none focus:border-accent"
               />
@@ -696,7 +724,7 @@ export default function EnvelopeEditor({ initial }: Props) {
               <h2 className="text-sm font-semibold text-ink">Signers</h2>
               <button
                 type="button"
-                disabled={envelope.status === 'completed'}
+                disabled={locked}
                 onClick={addSignerRow}
                 className="btn-ghost-sm"
               >
@@ -704,8 +732,9 @@ export default function EnvelopeEditor({ initial }: Props) {
               </button>
             </div>
             <p className="text-xs text-body">
-              Edit name, role, and email. Placements auto-save when you place or drag a signature
-              line on the PDF.
+              {locked
+                ? 'Document is locked while signing is in progress. Viewing and signing boxes still work.'
+                : 'Edit name, role, and email. Placements auto-save when you place or drag a signature line on the PDF.'}
             </p>
             {signers.map((s, idx) => {
               const live = s.id ? envelope.signers.find((x) => x.id === s.id) : undefined
@@ -714,7 +743,7 @@ export default function EnvelopeEditor({ initial }: Props) {
                   <input
                     placeholder="Name"
                     value={s.name}
-                    disabled={envelope.status === 'completed'}
+                    disabled={locked}
                     onChange={(e) => {
                       const next = [...signers]
                       next[idx] = { ...next[idx], name: e.target.value }
@@ -725,7 +754,7 @@ export default function EnvelopeEditor({ initial }: Props) {
                   <input
                     placeholder="Role (e.g. Client / Provider)"
                     value={s.role}
-                    disabled={envelope.status === 'completed'}
+                    disabled={locked}
                     onChange={(e) => {
                       const next = [...signers]
                       next[idx] = { ...next[idx], role: e.target.value }
@@ -737,7 +766,7 @@ export default function EnvelopeEditor({ initial }: Props) {
                     placeholder="Email"
                     type="email"
                     value={s.email}
-                    disabled={envelope.status === 'completed'}
+                    disabled={locked}
                     onChange={(e) => {
                       const next = [...signers]
                       next[idx] = { ...next[idx], email: e.target.value }
@@ -749,7 +778,7 @@ export default function EnvelopeEditor({ initial }: Props) {
                     {s.id ? (
                       <button
                         type="button"
-                        disabled={envelope.status === 'completed'}
+                        disabled={locked}
                         className={`btn-ghost-sm ${placeSignerId === s.id ? 'is-active' : ''}`}
                         onClick={() => setPlaceSignerId(s.id!)}
                       >
@@ -761,7 +790,7 @@ export default function EnvelopeEditor({ initial }: Props) {
                     {live?.status === 'signed' ? (
                       <span className="text-xs font-medium text-emerald-700">Signed</span>
                     ) : null}
-                    {signers.length > 1 && envelope.status !== 'completed' ? (
+                    {signers.length > 1 && !locked ? (
                       <button
                         type="button"
                         className="btn-danger-sm ml-auto"
@@ -846,7 +875,7 @@ export default function EnvelopeEditor({ initial }: Props) {
 
         <div className="tile max-h-[78vh] overflow-auto p-3">
           <div className="mb-3 flex flex-wrap items-center gap-2 text-sm">
-            {placeSignerId && envelope.status !== 'completed' ? (
+            {placeSignerId && !locked ? (
               <>
                 <span className="rounded-full bg-accent/15 px-2.5 py-1 text-xs font-medium text-accent">
                   Place mode: click a page for {signerLabel(placeSignerId)}
@@ -870,7 +899,7 @@ export default function EnvelopeEditor({ initial }: Props) {
             url={pdfUrl}
             pageCount={envelope.pageCount}
             focusPage={page}
-            placeMode={Boolean(placeSignerId) && envelope.status !== 'completed'}
+            placeMode={Boolean(placeSignerId) && !locked}
             onFocusPageChange={setPage}
             onDocumentPages={onDocumentPages}
             onPageClick={onPlace}
@@ -902,10 +931,12 @@ export default function EnvelopeEditor({ initial }: Props) {
                         draggingId === f.id
                           ? 'border-accent bg-white/95 cursor-grabbing z-10'
                           : activeFieldId === f.id
-                            ? 'border-accent bg-white/95 cursor-grab'
+                            ? 'border-accent bg-white/95 cursor-pointer'
                             : signed
                               ? 'border-emerald-600 bg-white/90 cursor-default'
-                              : 'border-accent bg-accent/15 hover:bg-accent/25 cursor-grab'
+                              : locked
+                                ? 'border-accent bg-accent/15 hover:bg-accent/25 cursor-pointer'
+                                : 'border-accent bg-accent/15 hover:bg-accent/25 cursor-grab'
                       }`}
                       style={{
                         left: `${f.x * 100}%`,
@@ -919,7 +950,7 @@ export default function EnvelopeEditor({ initial }: Props) {
                         name={live?.name || signerLabel(f.signerId)}
                         signed={signed}
                         signedDate={signedDate}
-                        hint="Drag to move · click to sign"
+                        hint={locked ? 'Click to sign' : 'Drag to move · click to sign'}
                       />
                     </button>
                   )

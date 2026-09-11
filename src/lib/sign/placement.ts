@@ -6,6 +6,36 @@ const STATUS_RANK: Record<EnvelopeStatus, number> = {
   completed: 2,
 }
 
+/** True once magic links / open-for-signing — placements, signers, and title must not change. */
+export function isEnvelopeLocked(status: EnvelopeStatus): boolean {
+  return status === 'sent' || status === 'completed'
+}
+
+export type EnvelopePatchBody = {
+  title?: unknown
+  signers?: unknown
+  fields?: unknown
+  pageCount?: unknown
+}
+
+/**
+ * If the envelope is locked and the PATCH tries to change title/signers/fields,
+ * return a clear 400 message. pageCount-only bumps are allowed.
+ */
+export function lockedEnvelopeStructuralError(
+  status: EnvelopeStatus,
+  body: EnvelopePatchBody,
+): string | null {
+  if (!isEnvelopeLocked(status)) return null
+  const wantsTitle = typeof body.title === 'string'
+  const wantsSigners = Array.isArray(body.signers)
+  const wantsFields = Array.isArray(body.fields)
+  if (wantsTitle || wantsSigners || wantsFields) {
+    return 'Locked for signing — placements, signers, and title can’t be edited.'
+  }
+  return null
+}
+
 function clamp(n: number, min: number, max: number) {
   if (!Number.isFinite(n)) return min
   return Math.min(Math.max(n, min), max)

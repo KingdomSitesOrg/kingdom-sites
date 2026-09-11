@@ -3,6 +3,8 @@ import {
   dateOverlayBesideSignature,
   defaultSignatureField,
   formatSignedDateText,
+  isEnvelopeLocked,
+  lockedEnvelopeStructuralError,
   maxPageInRawFields,
   mergeEnvelope,
   mergeSigner,
@@ -903,5 +905,99 @@ describe('placementAtPointer (cross-page drag)', () => {
   it('does not stay stuck on page 1 when pointer is over page 2', () => {
     const out = placementAtPointer(40, 300, pages, 0.42, 0.11, 0.21, 0.055)
     expect(out?.page).toBe(2)
+  })
+})
+
+
+describe('isEnvelopeLocked + lockedEnvelopeStructuralError', () => {
+  it('locks sent and completed, not draft', () => {
+    expect(isEnvelopeLocked('draft')).toBe(false)
+    expect(isEnvelopeLocked('sent')).toBe(true)
+    expect(isEnvelopeLocked('completed')).toBe(true)
+  })
+
+  it('rejects fields PATCH when sent (clear error)', () => {
+    const err = lockedEnvelopeStructuralError('sent', {
+      fields: [{ id: 'fld_a', type: 'signature', signerId: 'sig_a' }],
+    })
+    expect(err).toMatch(/Locked for signing/i)
+    expect(err).toMatch(/placements/i)
+  })
+
+  it('rejects signers and title when sent or completed', () => {
+    expect(
+      lockedEnvelopeStructuralError('sent', {
+        signers: [{ name: 'A', email: 'a@example.com' }],
+      }),
+    ).toMatch(/Locked for signing/i)
+    expect(lockedEnvelopeStructuralError('completed', { title: 'New title' })).toMatch(
+      /Locked for signing/i,
+    )
+  })
+
+  it('allows pageCount-only when locked', () => {
+    expect(lockedEnvelopeStructuralError('sent', { pageCount: 3 })).toBeNull()
+    expect(lockedEnvelopeStructuralError('completed', { pageCount: 4 })).toBeNull()
+  })
+
+  it('allows structural edits while draft', () => {
+    expect(
+      lockedEnvelopeStructuralError('draft', {
+        title: 'T',
+        signers: [],
+        fields: [],
+      }),
+    ).toBeNull()
+  })
+
+  it('merge/sign still works on a sent envelope (signed status preserved)', () => {
+    const client = signer({
+      id: 'sig_c',
+      name: 'Client',
+      email: 'c@example.com',
+      role: 'Client',
+      token: 'tok_c',
+    })
+    const provider = signer({
+      id: 'sig_p',
+      name: 'Provider',
+      email: 'p@example.com',
+      role: 'Provider',
+      token: 'tok_p',
+    })
+    const fields = [
+      field({ id: 'fld_c', signerId: 'sig_c', page: 2 }),
+      field({ id: 'fld_p', signerId: 'sig_p', page: 2 }),
+    ]
+    const previous = envelope({
+      status: 'sent',
+      signers: [client, provider],
+      fields,
+      updatedAt: '2026-01-01T01:00:00.000Z',
+    })
+    const incoming = envelope({
+      status: 'sent',
+      signers: [
+        {
+          ...client,
+          status: 'signed',
+          signedAt: '2026-01-01T02:00:00.000Z',
+          signaturePng: 'data:image/png;base64,AAA',
+          signedDateText: 'January 1, 2026',
+        },
+        provider,
+      ],
+      fields,
+      updatedAt: '2026-01-01T02:00:00.000Z',
+    })
+    // Magic-link sign path merges — not admin PATCH of fields
+    expect(isEnvelopeLocked(previous.status)).toBe(true)
+    expect(lockedEnvelopeStructuralError('sent', { fields })).toMatch(/Locked/)
+    const merged = mergeEnvelope(incoming, previous)
+    expect(merged.signers.find((s) => s.id === 'sig_c')?.status).toBe('signed')
+    expect(merged.fields.find((f) => f.signerId === 'sig_p')?.page).toBe(2)
+    expect(signerPublicView(merged, 'sig_p')?.parties.find((p) => p.id === 'sig_c')?.status).toBe(
+      'signed',
+    )
   })
 })
