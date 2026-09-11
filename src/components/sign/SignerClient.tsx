@@ -198,21 +198,12 @@ export default function SignerClient({ token }: { token: string }) {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight text-ink">{view.title}</h1>
-          <p className="mt-1 text-sm text-body">
-            Signing as {view.signer.name}
-            {role ? ` · ${role}` : ''} ({view.signer.email})
-          </p>
-        </div>
-        <a
-          href={pdfDownloadUrl}
-          download
-          className="btn-ghost inline-flex shrink-0 items-center justify-center !min-h-10 border border-line px-4 text-sm font-medium text-ink hover:bg-surface"
-        >
-          Download PDF
-        </a>
+      <div>
+        <h1 className="text-2xl font-semibold tracking-tight text-ink">{view.title}</h1>
+        <p className="mt-1 text-sm text-body">
+          Signing as {view.signer.name}
+          {role ? ` · ${role}` : ''} ({view.signer.email})
+        </p>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
