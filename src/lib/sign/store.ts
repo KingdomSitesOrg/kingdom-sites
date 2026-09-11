@@ -132,22 +132,40 @@ export async function readPdf(key: string): Promise<Buffer> {
 }
 
 export async function saveEnvelope(envelope: Envelope): Promise<void> {
-  // Re-read so a concurrent PATCH cannot clobber status back to draft after send.
-  const previous = await getEnvelope(envelope.id)
-  envelope = mergeEnvelope(envelope, previous)
-  const json = JSON.stringify(envelope, null, 2)
-  if (blobEnabled()) {
-    await put(`sign/envelopes/${envelope.id}.json`, json, {
-      access: 'private',
-      addRandomSuffix: false,
-      allowOverwrite: true,
-      contentType: 'application/json',
-    })
-  } else {
-    await ensureLocal()
-    await fs.writeFile(envelopePath(envelope.id), json, 'utf8')
+  // Retry read-merge-write so two concurrent saves cannot both merge against the
+  // same snapshot and lose the other's placements (Client kept page 3, Provider
+  // reverted to a dragged page-1 default in production).
+  const incoming = envelope
+  let previous: Envelope | null = null
+  let merged = incoming
+  for (let attempt = 0; attempt < 4; attempt++) {
+    previous = await getEnvelope(incoming.id)
+    merged = mergeEnvelope(incoming, previous)
+    const json = JSON.stringify(merged, null, 2)
+    if (blobEnabled()) {
+      await put(`sign/envelopes/${merged.id}.json`, json, {
+        access: 'private',
+        addRandomSuffix: false,
+        allowOverwrite: true,
+        contentType: 'application/json',
+      })
+    } else {
+      await ensureLocal()
+      await fs.writeFile(envelopePath(merged.id), json, 'utf8')
+    }
+    // If nothing else wrote mid-flight, the stored updatedAt/fields match merged.
+    const verify = await getEnvelope(incoming.id)
+    if (
+      verify &&
+      verify.updatedAt === merged.updatedAt &&
+      JSON.stringify(verify.fields) === JSON.stringify(merged.fields) &&
+      verify.status === merged.status
+    ) {
+      await syncTokenIndexes(merged, previous)
+      return
+    }
   }
-  await syncTokenIndexes(envelope, previous)
+  await syncTokenIndexes(merged, previous)
 }
 
 export async function getEnvelope(id: string): Promise<Envelope | null> {

@@ -462,7 +462,7 @@ describe('stale pageCount must not drop last-page placements', () => {
     expect(merged.pageCount).toBe(3)
   })
 
-  it('signerPublicView preserves last-page placements for the Client link', () => {
+  it('signerPublicView returns identical last-page fields for Client AND Provider links', () => {
     const client = signer({
       id: 'sig_c',
       name: 'Client',
@@ -478,16 +478,198 @@ describe('stale pageCount must not drop last-page placements', () => {
       token: 'tok_p',
     })
     const fields = [
-      field({ id: 'fld_c', signerId: 'sig_c', page: 3, x: 0.1, y: 0.62 }),
-      field({ id: 'fld_p', signerId: 'sig_p', page: 3, x: 0.54, y: 0.62 }),
+      field({
+        id: 'fld_c',
+        signerId: 'sig_c',
+        page: 3,
+        x: 0.1,
+        y: 0.62,
+        width: 0.42,
+        height: 0.11,
+      }),
+      field({
+        id: 'fld_p',
+        signerId: 'sig_p',
+        page: 3,
+        x: 0.54,
+        y: 0.62,
+        width: 0.42,
+        height: 0.11,
+      }),
     ]
-    const view = signerPublicView(
-      envelope({ signers: [client, provider], fields, pageCount: 3 }),
-      'sig_c',
+    const env = envelope({ signers: [client, provider], fields, pageCount: 3 })
+    const clientView = signerPublicView(env, 'sig_c')
+    const providerView = signerPublicView(env, 'sig_p')
+    expect(clientView).not.toBeNull()
+    expect(providerView).not.toBeNull()
+    expect(clientView!.fields).toHaveLength(2)
+    expect(providerView!.fields).toHaveLength(2)
+
+    const norm = (list: typeof fields) =>
+      [...list]
+        .map((f) => ({
+          signerId: f.signerId,
+          page: f.page,
+          x: f.x,
+          y: f.y,
+          width: f.width,
+          height: f.height,
+        }))
+        .sort((a, b) => a.signerId.localeCompare(b.signerId))
+
+    expect(norm(clientView!.fields)).toEqual(norm(providerView!.fields))
+    expect(norm(clientView!.fields)).toEqual(norm(fields))
+    expect(clientView!.fields.every((f) => f.page === 3)).toBe(true)
+    expect(providerView!.fields.every((f) => f.page === 3)).toBe(true)
+  })
+})
+
+describe('Provider page-3 stickiness vs dragged page-1 default size', () => {
+  it('keeps Provider page-3 Place box when incoming has mid-page page-1 factory size', () => {
+    // Live regression: Client Place (0.42×0.11 p3) survived; Provider was replaced by a
+    // dragged factory default (0.38×0.12 on page 1 mid) that was NOT defaultish by y alone.
+    const client = signer({
+      id: 'sig_c',
+      name: 'Client',
+      email: 'c@example.com',
+      role: 'Client',
+      token: 'tok_c',
+    })
+    const provider = signer({
+      id: 'sig_p',
+      name: 'Provider',
+      email: 'p@example.com',
+      role: 'Provider',
+      token: 'tok_p',
+    })
+    const clientPlaced = field({
+      id: 'fld_c',
+      signerId: 'sig_c',
+      page: 3,
+      x: 0.53,
+      y: 0.09,
+      width: 0.42,
+      height: 0.11,
+    })
+    const providerPlaced = field({
+      id: 'fld_p',
+      signerId: 'sig_p',
+      page: 3,
+      x: 0.08,
+      y: 0.72,
+      width: 0.42,
+      height: 0.11,
+    })
+    const draggedFactoryProvider: FieldPlacement = {
+      id: 'fld_p',
+      type: 'signature',
+      signerId: 'sig_p',
+      page: 1,
+      x: 0.2984,
+      y: 0.5671,
+      width: 0.38,
+      height: 0.12,
+    }
+    const previous = envelope({
+      signers: [client, provider],
+      fields: [clientPlaced, providerPlaced],
+      pageCount: 3,
+      updatedAt: '2026-01-01T01:00:00.000Z',
+    })
+    const incoming = envelope({
+      signers: [client, provider],
+      fields: [clientPlaced, draggedFactoryProvider],
+      pageCount: 3,
+      updatedAt: '2026-01-01T00:30:00.000Z',
+    })
+    const merged = mergeEnvelope(incoming, previous)
+    const bySigner = Object.fromEntries(
+      merged.fields.filter((f) => f.type === 'signature').map((f) => [f.signerId, f]),
     )
-    expect(view!.fields).toHaveLength(2)
-    expect(view!.fields.every((f) => f.page === 3)).toBe(true)
-    expect(view!.fields.every((f) => f.y > 0.5)).toBe(true)
+    expect(bySigner.sig_c.page).toBe(3)
+    expect(bySigner.sig_p.page).toBe(3)
+    expect(bySigner.sig_p.x).toBeCloseTo(0.08, 5)
+    expect(bySigner.sig_p.y).toBeCloseTo(0.72, 5)
+    expect(bySigner.sig_p.width).toBeCloseTo(0.42, 5)
+  })
+
+  it('Client sign POST merge does not rewrite Provider page-3 placement', () => {
+    const client = signer({
+      id: 'sig_c',
+      name: 'Client',
+      email: 'c@example.com',
+      role: 'Client',
+      token: 'tok_c',
+    })
+    const provider = signer({
+      id: 'sig_p',
+      name: 'Provider',
+      email: 'p@example.com',
+      role: 'Provider',
+      token: 'tok_p',
+    })
+    const fields = [
+      field({
+        id: 'fld_c',
+        signerId: 'sig_c',
+        page: 3,
+        x: 0.53,
+        y: 0.09,
+        width: 0.42,
+        height: 0.11,
+      }),
+      field({
+        id: 'fld_p',
+        signerId: 'sig_p',
+        page: 3,
+        x: 0.08,
+        y: 0.72,
+        width: 0.42,
+        height: 0.11,
+      }),
+    ]
+    const previous = envelope({
+      status: 'sent',
+      signers: [client, provider],
+      fields,
+      pageCount: 3,
+      updatedAt: '2026-01-01T01:00:00.000Z',
+    })
+    // Magic-link sign updates only the Client signer; fields must round-trip unchanged.
+    const incoming = envelope({
+      status: 'sent',
+      signers: [
+        {
+          ...client,
+          status: 'signed',
+          signedAt: '2026-01-01T02:00:00.000Z',
+          signaturePng: 'data:image/png;base64,AAA',
+          signedDateText: 'January 1, 2026',
+        },
+        provider,
+      ],
+      fields,
+      pageCount: 3,
+      updatedAt: '2026-01-01T02:00:00.000Z',
+    })
+    const merged = mergeEnvelope(incoming, previous)
+    const bySigner = Object.fromEntries(
+      merged.fields.filter((f) => f.type === 'signature').map((f) => [f.signerId, f]),
+    )
+    expect(bySigner.sig_c.page).toBe(3)
+    expect(bySigner.sig_p.page).toBe(3)
+    expect(bySigner.sig_p.x).toBeCloseTo(0.08, 5)
+    expect(bySigner.sig_p.y).toBeCloseTo(0.72, 5)
+    expect(merged.signers.find((s) => s.id === 'sig_c')?.status).toBe('signed')
+    expect(merged.signers.find((s) => s.id === 'sig_p')?.status).toBe('pending')
+
+    const clientView = signerPublicView(merged, 'sig_c')
+    const providerView = signerPublicView(merged, 'sig_p')
+    const coords = (v: NonNullable<typeof clientView>) =>
+      [...v.fields]
+        .map((f) => `${f.signerId}:${f.page}:${f.x}:${f.y}`)
+        .sort()
+    expect(coords(clientView!)).toEqual(coords(providerView!))
   })
 })
 

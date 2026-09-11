@@ -16,7 +16,14 @@ function fromAddress(): string {
 
 function appBaseUrl(): string {
   const explicit = process.env.SIGN_APP_URL?.trim() || process.env.NEXT_PUBLIC_SITE_URL?.trim()
-  if (explicit) return explicit.replace(/\/$/, '')
+  if (explicit) {
+    const base = explicit.replace(/\/$/, '')
+    // Deployed builds must never email localhost magic links (looks like a 404).
+    if (process.env.VERCEL && /localhost|127\.0\.0\.1/i.test(base)) {
+      return 'https://kingdom-sites.com'
+    }
+    return base
+  }
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL.replace(/\/$/, '')}`
   return 'http://localhost:3000'
 }

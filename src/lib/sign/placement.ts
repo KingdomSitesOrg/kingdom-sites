@@ -127,6 +127,15 @@ export function sanitizeField(
   return { id, type, signerId, page, x, y, width, height }
 }
 
+/** Place-mode boxes use 0.42×0.11; factory defaults use 0.38×0.12. */
+export function hasDefaultSignatureSize(f: Pick<FieldPlacement, 'width' | 'height'>): boolean {
+  return Math.abs(f.width - 0.38) < 0.02 && Math.abs(f.height - 0.12) < 0.02
+}
+
+export function hasPlacedSignatureSize(f: Pick<FieldPlacement, 'width' | 'height'>): boolean {
+  return Math.abs(f.width - 0.42) < 0.02 && Math.abs(f.height - 0.11) < 0.02
+}
+
 /** True when field matches current defaults or older default layouts. */
 export function isDefaultishPlacement(
   f: FieldPlacement,
@@ -158,6 +167,49 @@ export function isDefaultishPlacement(
     ) {
       return true
     }
+  }
+  // Dragged factory default still on page 1 (default w/h) — treat as defaultish so a
+  // stale autosave cannot overwrite a real Place-box on page 2+.
+  if (f.page === 1 && hasDefaultSignatureSize(f)) {
+    return true
+  }
+  return false
+}
+
+/**
+ * Prefer a clearly custom placement over a stale/defaultish one during merge.
+ * Live bug: Client Place (0.42×0.11 page 3) survived while Provider was replaced by a
+ * dragged page-1 default (0.38×0.12) because mid-page coords were not "defaultish".
+ */
+export function shouldKeepPreviousField(
+  previous: FieldPlacement,
+  incoming: FieldPlacement,
+  slot: number,
+  pageCount: number,
+): boolean {
+  if (
+    isDefaultishPlacement(incoming, slot, pageCount) &&
+    !isDefaultishPlacement(previous, slot, pageCount)
+  ) {
+    return true
+  }
+  // Placed size on a later page beats default-sized page-1 leftovers.
+  if (
+    previous.page > 1 &&
+    incoming.page === 1 &&
+    hasPlacedSignatureSize(previous) &&
+    hasDefaultSignatureSize(incoming)
+  ) {
+    return true
+  }
+  // Any non-page-1 placement beats a page-1 default-sized box.
+  if (
+    previous.page > 1 &&
+    incoming.page === 1 &&
+    hasDefaultSignatureSize(incoming) &&
+    !hasDefaultSignatureSize(previous)
+  ) {
+    return true
   }
   return false
 }
@@ -218,11 +270,7 @@ export function mergeFields(
       if (f.type === 'signature') {
         const prev = fieldMap.get(f.signerId)
         const slot = signerIndex.get(f.signerId) ?? 0
-        if (
-          prev &&
-          isDefaultishPlacement(f, slot, pageCount) &&
-          !isDefaultishPlacement(prev, slot, pageCount)
-        ) {
+        if (prev && shouldKeepPreviousField(prev, f, slot, pageCount)) {
           continue
         }
         fieldMap.set(f.signerId, f)
