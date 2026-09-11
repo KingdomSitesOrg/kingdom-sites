@@ -112,99 +112,6 @@ export default function EnvelopeEditor({ initial }: Props) {
     }
   }, [])
 
-  // Poll so admin status catches magic-link signatures without a full reload.
-  useEffect(() => {
-    let cancelled = false
-    const tick = async () => {
-      try {
-        const res = await fetch(`/api/sign/envelopes/${envelopeRef.current.id}`, {
-          cache: 'no-store',
-        })
-        const data = await res.json().catch(() => null)
-        if (cancelled || !res.ok || !data?.ok || !data.envelope) return
-        const env = data.envelope as Envelope
-        const local = envelopeRef.current
-        const remoteSigned = env.signers.filter((s) => s.status === 'signed').length
-        const localSigned = local.signers.filter((s) => s.status === 'signed').length
-        const localMissingRemoteSigned = env.signers.some(
-          (s) =>
-            s.status === 'signed' &&
-            local.signers.find((l) => l.id === s.id)?.status !== 'signed',
-        )
-        if (
-          env.updatedAt <= local.updatedAt &&
-          env.status === local.status &&
-          remoteSigned <= localSigned &&
-          !localMissingRemoteSigned
-        ) {
-          return
-        }
-        // Don't clobber in-flight placement edits with an older field set unless status advanced.
-        // Never regress sent/completed → draft (stale Blob poll was unlocking the editor ~2s after send).
-        const statusRank = { draft: 0, sent: 1, completed: 2 } as const
-        const statusAdvanced = statusRank[env.status] > statusRank[local.status]
-        const statusRegressed = statusRank[env.status] < statusRank[local.status]
-        const signedAdvanced = remoteSigned > localSigned || localMissingRemoteSigned
-        if (statusRegressed && !signedAdvanced && !statusAdvanced) {
-          // Stale draft snapshot — ignore entirely.
-          return
-        }
-        // Never regress signed→pending (stale Blob / completing race).
-        const mergedSigners = env.signers.map((s) => {
-          const loc = local.signers.find((l) => l.id === s.id)
-          if (s.status === 'signed') return s
-          if (loc?.status === 'signed') return loc
-          return s
-        })
-        // Prefer non-defaultish / higher-page local or remote — never apply factory tops over customs.
-        const pageCount = Math.max(local.pageCount || 0, env.pageCount || 0, 1)
-        const preferredFields = mergeSignatureFields(
-          fieldsRef.current.length ? fieldsRef.current : local.fields,
-          env.fields,
-          mergedSigners,
-          pageCount,
-        )
-        const nextEnv = statusRegressed
-          ? {
-              ...env,
-              status: local.status,
-              signers: mergedSigners,
-              fields: preferredFields.length > 0 ? preferredFields : local.fields,
-              // Prefer remote completedPdfKey if present.
-              completedPdfKey: env.completedPdfKey || local.completedPdfKey,
-            }
-          : {
-              ...env,
-              signers: mergedSigners,
-              fields: preferredFields.length > 0 ? preferredFields : env.fields,
-            }
-        setEnvelope(nextEnv)
-        envelopeRef.current = nextEnv
-        setSigners(draftFromEnvelope(nextEnv))
-        // Do not move boxes from poll — that was live-shifting overlays while idle/saving.
-        // Only take remote fields when a NEW party signed (dates/ink), and still merge.
-        if (signedAdvanced) {
-          const nextFields = nextEnv.fields.filter((f) => f.type === 'signature')
-          if (nextFields.length > 0) {
-            setFields(nextFields)
-            fieldsRef.current = nextFields
-          }
-        }
-      } catch {
-        /* ignore transient poll errors */
-      }
-    }
-    const id = window.setInterval(tick, 2000)
-    const onFocus = () => void tick()
-    window.addEventListener('focus', onFocus)
-    void tick()
-    return () => {
-      cancelled = true
-      window.clearInterval(id)
-      window.removeEventListener('focus', onFocus)
-    }
-  }, [envelope.id])
-
   useEffect(() => {
     autoCompleteAttemptedRef.current = false
   }, [envelope.id])
@@ -328,6 +235,7 @@ export default function EnvelopeEditor({ initial }: Props) {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             title: queuedTitle,
+            pageCount: envelopeRef.current.pageCount,
             signers: draft.map((s) => ({
               id: s.id,
               name: s.name,
@@ -497,16 +405,8 @@ export default function EnvelopeEditor({ initial }: Props) {
     setPage(pageNum)
     setError('')
     setMessage(
-      `Placed signature line for ${signerLabel(placeSignerId)} on page ${pageNum}. Saving…`,
+      `Placed signature line for ${signerLabel(placeSignerId)} on page ${pageNum}. Click Save document.`,
     )
-    // Pass next fields so React state lag cannot send stale boxes
-    void save({ fields: nextFields }).then((env) => {
-      if (env) {
-        setMessage(
-          `Placed and saved signature line for ${signerLabel(placeSignerId)} on page ${pageNum}.`,
-        )
-      }
-    })
   }
 
   function openSignBox(field: FieldPlacement) {
@@ -601,9 +501,7 @@ export default function EnvelopeEditor({ initial }: Props) {
         setFields(current)
         setPage(current[movedIdx]!.page)
       }
-      void save({ fields: current }).then((env) => {
-        if (env) setMessage('Signature line moved and saved.')
-      })
+      setMessage('Signature line moved. Click Save document.')
       return
     }
     openSignBox(field)
@@ -680,26 +578,6 @@ export default function EnvelopeEditor({ initial }: Props) {
     // Local bump only — do not setEnvelope(full PATCH) (that remounted/raced signed state).
     setEnvelope((prev) => ({ ...prev, pageCount: total }))
     envelopeRef.current = { ...envelopeRef.current, pageCount: total }
-    // Skip PATCH when locked — API allows pageCount-only, but local display bump is enough.
-    if (isEnvelopeLocked(envelopeRef.current.status)) return
-    // Persist so later sanitize/magic-link views agree with pdf.js page count.
-    const id = envelopeRef.current.id
-    void fetch(`/api/sign/envelopes/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ pageCount: total }),
-    }).then(async (res) => {
-      const data = await res.json().catch(() => null)
-      if (!res.ok || !data?.ok || !data.envelope) return
-      const env = data.envelope as Envelope
-      // Only absorb a higher pageCount; never regress signers/fields from this echo.
-      setEnvelope((prev) => {
-        const pageCount = Math.max(prev.pageCount, env.pageCount || 0, total)
-        const next = { ...prev, pageCount }
-        envelopeRef.current = next
-        return next
-      })
-    })
   }
 
   async function saveSignature() {
@@ -986,7 +864,7 @@ export default function EnvelopeEditor({ initial }: Props) {
             <p className="text-xs text-body">
               {locked
                 ? 'Document is locked while signing is in progress. Viewing and signing boxes still work.'
-                : 'Edit name, role, and email. Placements auto-save when you place or drag a signature line on the PDF.'}
+                : 'Edit name, role, and email. Place or drag signature lines, then Save document.'}
             </p>
             {signers.map((s, idx) => {
               const live = s.id ? envelope.signers.find((x) => x.id === s.id) : undefined
@@ -1062,8 +940,8 @@ export default function EnvelopeEditor({ initial }: Props) {
             <ol className="list-decimal space-y-1 pl-4 text-xs text-body">
               <li>Add/edit signers (name, role, email) and Save document.</li>
               <li>
-                Click Place signature line, click the PDF to drop it (auto-saves). Drag anytime to
-                fine-tune (also auto-saves).
+                Click Place signature line, click the PDF to drop it, drag to fine-tune, then Save
+                document.
               </li>
               <li>Click a line to sign: type the name (cursive), hit Save.</li>
             </ol>
