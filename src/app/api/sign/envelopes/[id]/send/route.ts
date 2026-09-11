@@ -30,6 +30,14 @@ export async function POST(_request: Request, ctx: Ctx) {
       )
     }
 
+    // Open for signing FIRST so magic links never arrive while status is still draft
+    // (and so a later field auto-save cannot race ahead of this write).
+    if (envelope.status !== 'completed') {
+      envelope = { ...envelope, status: 'sent' }
+    }
+    envelope = appendAudit(envelope, 'sent', session.email, 'opened for signing')
+    await saveEnvelope(envelope)
+
     const hasResend = Boolean(process.env.RESEND_API_KEY?.trim())
     const results: { email: string; sent: boolean; link: string }[] = []
 
@@ -52,11 +60,7 @@ export async function POST(_request: Request, ctx: Ctx) {
       results.push({ email: signer.email, sent, link })
     }
 
-    // Always open for signing. Emails are best-effort (local / missing Resend still works).
-    envelope = {
-      ...envelope,
-      status: envelope.status === 'completed' ? 'completed' : 'sent',
-    }
+    // Record email outcomes (status stays sent/completed via monotonic save).
     envelope = appendAudit(
       envelope,
       'sent',

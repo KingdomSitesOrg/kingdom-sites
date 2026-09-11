@@ -53,11 +53,12 @@ export async function POST(request: Request, ctx: Ctx) {
     if (!signer) {
       return NextResponse.json({ ok: false, error: 'Signer not found.' }, { status: 404 })
     }
+    // Valid magic link = invited. Promote draft → sent so links still work if a
+    // stale auto-save raced and wrote draft after emails went out.
     if (envelope.status === 'draft') {
-      return NextResponse.json(
-        { ok: false, error: 'This document has not been sent for signature yet.' },
-        { status: 400 },
-      )
+      envelope = { ...envelope, status: 'sent' }
+      envelope = appendAudit(envelope, 'sent', signer.email, 'auto-opened via magic link')
+      await saveEnvelope(envelope)
     }
     if (signer.status === 'signed') {
       return NextResponse.json({

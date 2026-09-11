@@ -1,9 +1,28 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 import { put, list, del, get } from '@vercel/blob'
-import type { Envelope, EnvelopeSummary } from './types'
+import type { Envelope, EnvelopeStatus, EnvelopeSummary } from './types'
 
 const LOCAL_ROOT = path.join(process.cwd(), '.data', 'sign')
+
+const STATUS_RANK: Record<EnvelopeStatus, number> = {
+  draft: 0,
+  sent: 1,
+  completed: 2,
+}
+
+/** Never let a stale write regress draft ← sent ← completed. */
+function withMonotonicStatus(incoming: Envelope, previous: Envelope | null): Envelope {
+  if (!previous) return incoming
+  if (STATUS_RANK[previous.status] <= STATUS_RANK[incoming.status]) {
+    return incoming
+  }
+  return {
+    ...incoming,
+    status: previous.status,
+    completedPdfKey: incoming.completedPdfKey || previous.completedPdfKey,
+  }
+}
 
 function blobEnabled(): boolean {
   return Boolean(process.env.BLOB_READ_WRITE_TOKEN?.trim())
@@ -66,6 +85,9 @@ export async function readPdf(key: string): Promise<Buffer> {
 }
 
 export async function saveEnvelope(envelope: Envelope): Promise<void> {
+  // Re-read so a concurrent PATCH cannot clobber status back to draft after send.
+  const previous = await getEnvelope(envelope.id)
+  envelope = withMonotonicStatus(envelope, previous)
   const json = JSON.stringify(envelope, null, 2)
   if (blobEnabled()) {
     await put(`sign/envelopes/${envelope.id}.json`, json, {
