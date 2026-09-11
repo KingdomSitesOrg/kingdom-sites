@@ -7,7 +7,9 @@ import {
   lockedEnvelopeStructuralError,
   maxPageInRawFields,
   mergeEnvelope,
+  mergeSignatureFields,
   mergeSigner,
+  preferFieldPlacement,
   placementAtPointer,
   sanitizeField,
   signerPublicView,
@@ -999,5 +1001,153 @@ describe('isEnvelopeLocked + lockedEnvelopeStructuralError', () => {
     expect(signerPublicView(merged, 'sig_p')?.parties.find((p) => p.id === 'sig_c')?.status).toBe(
       'signed',
     )
+  })
+})
+
+
+describe('page-3 y≈0.7 placements survive stale defaults + complete path', () => {
+  // Regression: boxes placed low on page 3 snapped to page-1 factory tops on Client magic link.
+  // mergeEnvelope + simulated complete save must keep customs; both public views agree.
+  it('keeps both boxes page=3 y≈0.7 after merge with stale defaults AND complete save path', () => {
+    const client = signer({
+      id: 'sig_c',
+      name: 'Client',
+      email: 'c@example.com',
+      role: 'Client',
+      token: 'tok_c',
+    })
+    const provider = signer({
+      id: 'sig_p',
+      name: 'Provider',
+      email: 'p@example.com',
+      role: 'Provider',
+      token: 'tok_p',
+    })
+    const clientLow = field({
+      id: 'fld_c',
+      signerId: 'sig_c',
+      page: 3,
+      x: 0.08,
+      y: 0.7,
+      width: 0.42,
+      height: 0.11,
+    })
+    const providerLow = field({
+      id: 'fld_p',
+      signerId: 'sig_p',
+      page: 3,
+      x: 0.54,
+      y: 0.7,
+      width: 0.42,
+      height: 0.11,
+    })
+    const stored = envelope({
+      status: 'sent',
+      signers: [client, provider],
+      fields: [clientLow, providerLow],
+      pageCount: 3,
+      updatedAt: '2026-01-01T02:00:00.000Z',
+    })
+    const staleDefaults = envelope({
+      status: 'sent',
+      signers: [client, provider],
+      fields: [defaultSignatureField('sig_c', 0), defaultSignatureField('sig_p', 1)],
+      pageCount: 3,
+      updatedAt: '2026-01-01T01:00:00.000Z',
+    })
+
+    const afterMerge = mergeEnvelope(staleDefaults, stored)
+    const bySigner = Object.fromEntries(
+      afterMerge.fields.filter((f) => f.type === 'signature').map((f) => [f.signerId, f]),
+    )
+    expect(bySigner.sig_c.page).toBe(3)
+    expect(bySigner.sig_p.page).toBe(3)
+    expect(bySigner.sig_c.y).toBeCloseTo(0.7, 5)
+    expect(bySigner.sig_p.y).toBeCloseTo(0.7, 5)
+
+    // Simulated completeEnvelopeAfterAllSigned → saveEnvelope(merge) with a stale default echo.
+    const completing: Envelope = {
+      ...afterMerge,
+      status: 'completed',
+      completedPdfKey: 'pdfs/env_1-completed.pdf',
+      updatedAt: '2026-01-01T03:00:00.000Z',
+      signers: [
+        {
+          ...client,
+          status: 'signed',
+          signedAt: '2026-01-01T02:30:00.000Z',
+          signaturePng: 'data:image/png;base64,AAA',
+          signedDateText: 'January 1, 2026',
+        },
+        {
+          ...provider,
+          status: 'signed',
+          signedAt: '2026-01-01T03:00:00.000Z',
+          signaturePng: 'data:image/png;base64,BBB',
+          signedDateText: 'January 1, 2026',
+        },
+      ],
+      fields: [clientLow, providerLow],
+    }
+    const staleDuringComplete = {
+      ...staleDefaults,
+      updatedAt: '2026-01-01T02:45:00.000Z',
+    }
+    const afterComplete = mergeEnvelope(completing, staleDuringComplete)
+    // Second RMW round like saveEnvelope(merged, latest) when latest is also stale defaults:
+    const afterVerify = mergeEnvelope(afterComplete, {
+      ...staleDefaults,
+      status: 'sent',
+      updatedAt: '2026-01-01T02:50:00.000Z',
+    })
+
+    const doneBy = Object.fromEntries(
+      afterVerify.fields.filter((f) => f.type === 'signature').map((f) => [f.signerId, f]),
+    )
+    expect(afterVerify.status).toBe('completed')
+    expect(doneBy.sig_c.page).toBe(3)
+    expect(doneBy.sig_p.page).toBe(3)
+    expect(doneBy.sig_c.y).toBeCloseTo(0.7, 5)
+    expect(doneBy.sig_p.y).toBeCloseTo(0.7, 5)
+
+    const clientView = signerPublicView(afterVerify, 'sig_c')
+    const providerView = signerPublicView(afterVerify, 'sig_p')
+    expect(clientView?.fields.every((f) => f.page === 3)).toBe(true)
+    expect(providerView?.fields.every((f) => f.page === 3)).toBe(true)
+    expect(clientView?.fields.find((f) => f.signerId === 'sig_c')?.y).toBeCloseTo(0.7, 5)
+    expect(providerView?.fields.find((f) => f.signerId === 'sig_p')?.y).toBeCloseTo(0.7, 5)
+  })
+
+  it('mergeSignatureFields (poll/refresh) prefers local page-3 over remote page-1 defaults', () => {
+    const signers = [
+      { id: 'sig_c' },
+      { id: 'sig_p' },
+    ]
+    const local = [
+      field({ id: 'fld_c', signerId: 'sig_c', page: 3, x: 0.08, y: 0.7, width: 0.42, height: 0.11 }),
+      field({ id: 'fld_p', signerId: 'sig_p', page: 3, x: 0.54, y: 0.7, width: 0.42, height: 0.11 }),
+    ]
+    const remote = [defaultSignatureField('sig_c', 0), defaultSignatureField('sig_p', 1)]
+    const merged = mergeSignatureFields(local, remote, signers, 3)
+    const bySigner = Object.fromEntries(merged.map((f) => [f.signerId, f]))
+    expect(bySigner.sig_c.page).toBe(3)
+    expect(bySigner.sig_p.page).toBe(3)
+    expect(bySigner.sig_c.y).toBeCloseTo(0.7, 5)
+    expect(bySigner.sig_p.y).toBeCloseTo(0.7, 5)
+  })
+
+  it('preferFieldPlacement picks higher page / farther from defaults', () => {
+    const custom = field({
+      id: 'fld_c',
+      signerId: 'sig_c',
+      page: 3,
+      x: 0.08,
+      y: 0.7,
+      width: 0.42,
+      height: 0.11,
+    })
+    const factory = defaultSignatureField('sig_c', 0)
+    expect(preferFieldPlacement(custom, factory, 0, 3)).toEqual(custom)
+    expect(preferFieldPlacement(factory, custom, 0, 3)).toEqual(custom)
   })
 })

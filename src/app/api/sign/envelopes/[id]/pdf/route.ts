@@ -37,12 +37,14 @@ export async function GET(request: Request, ctx: Ctx) {
         : envelope.originalPdfKey
     const bytes = await readPdf(key)
     const filename = `${envelope.title.replace(/[^\w.\- ]+/g, '').slice(0, 60) || 'document'}.pdf`
+    const asDownload = url.searchParams.get('download') === '1'
+    const disposition = asDownload ? 'attachment' : 'inline'
 
     return new NextResponse(new Uint8Array(bytes), {
       status: 200,
       headers: {
         'Content-Type': 'application/pdf',
-        'Content-Disposition': `inline; filename="${filename}"`,
+        'Content-Disposition': `${disposition}; filename="${filename}"`,
         'Cache-Control': 'private, no-store',
       },
     })

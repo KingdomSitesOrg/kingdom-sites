@@ -122,6 +122,11 @@ export default function SignerClient({ token }: { token: string }) {
     return `/api/sign/envelopes/${view.envelopeId}/pdf?token=${encodeURIComponent(token)}&which=original`
   }, [view, token])
 
+  const pdfDownloadUrl = useMemo(() => {
+    if (!pdfUrl) return ''
+    return `${pdfUrl}&download=1`
+  }, [pdfUrl])
+
   async function submit() {
     if (!view) return
     const name = typedName.trim()
@@ -193,12 +198,21 @@ export default function SignerClient({ token }: { token: string }) {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight text-ink">{view.title}</h1>
-        <p className="mt-1 text-sm text-body">
-          Signing as {view.signer.name}
-          {role ? ` · ${role}` : ''} ({view.signer.email})
-        </p>
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight text-ink">{view.title}</h1>
+          <p className="mt-1 text-sm text-body">
+            Signing as {view.signer.name}
+            {role ? ` · ${role}` : ''} ({view.signer.email})
+          </p>
+        </div>
+        <a
+          href={pdfDownloadUrl}
+          download
+          className="btn-ghost inline-flex shrink-0 items-center justify-center !min-h-10 border border-line px-4 text-sm font-medium text-ink hover:bg-surface"
+        >
+          Download PDF
+        </a>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
@@ -286,6 +300,16 @@ export default function SignerClient({ token }: { token: string }) {
         </div>
 
         <div className="tile h-fit space-y-4 p-4 lg:sticky lg:top-4">
+          <a
+            href={pdfDownloadUrl}
+            download
+            className="btn-ghost flex w-full items-center justify-center gap-2 !min-h-11 border border-line text-sm font-medium text-ink hover:bg-surface"
+          >
+            Download PDF
+          </a>
+          <p className="-mt-2 text-xs text-muted">
+            Original unsigned document — download to review or annotate offline.
+          </p>
           {done ? (
             <div>
               <h2 className="text-lg font-semibold text-emerald-800">Signed</h2>

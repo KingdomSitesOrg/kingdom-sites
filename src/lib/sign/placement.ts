@@ -220,6 +220,49 @@ export function isDefaultishPlacement(
 }
 
 /**
+ * Distance from the factory default for this signer slot (higher = more "custom").
+ * Used when neither side is cleanly defaultish so page-3 / low-y beats page-1 tops.
+ */
+export function placementCustomScore(
+  f: FieldPlacement,
+  slot: number,
+  pageCount: number,
+): number {
+  const d = defaultSignatureField(f.signerId, slot)
+  const pageBonus = Math.max(0, f.page - 1) * 2
+  const dist = Math.abs(f.y - d.y) + Math.abs(f.x - d.x)
+  const sizeBonus = hasPlacedSignatureSize(f) ? 0.5 : hasDefaultSignatureSize(f) ? 0 : 0.2
+  const defaultPenalty = isDefaultishPlacement(f, slot, pageCount) ? -10 : 0
+  // Prefer lower-on-page (higher y) when still on page 1 vs a top default.
+  const lowYBonus = f.page === 1 ? Math.max(0, f.y - d.y) : Math.max(0, f.y - 0.2)
+  void pageCount
+  return pageBonus + dist + sizeBonus + defaultPenalty + lowYBonus * 0.5
+}
+
+/**
+ * Pick the better of two placements for the same signer.
+ * Prefer non-defaultish, then higher page, then farther from factory defaults.
+ */
+export function preferFieldPlacement(
+  a: FieldPlacement,
+  b: FieldPlacement,
+  slot: number,
+  pageCount: number,
+): FieldPlacement {
+  const aDef = isDefaultishPlacement(a, slot, pageCount)
+  const bDef = isDefaultishPlacement(b, slot, pageCount)
+  if (aDef && !bDef) return b
+  if (bDef && !aDef) return a
+  const aScore = placementCustomScore(a, slot, pageCount)
+  const bScore = placementCustomScore(b, slot, pageCount)
+  if (Math.abs(aScore - bScore) > 0.05) return aScore >= bScore ? a : b
+  // Tie-break: higher page, then higher y (placed further down).
+  if (a.page !== b.page) return a.page >= b.page ? a : b
+  if (Math.abs(a.y - b.y) > 0.02) return a.y >= b.y ? a : b
+  return a
+}
+
+/**
  * Prefer a clearly custom placement over a stale/defaultish one during merge.
  * Live bug: Client Place (0.42×0.11 page 3) survived while Provider was replaced by a
  * dragged page-1 default (0.38×0.12) because mid-page coords were not "defaultish".
@@ -230,31 +273,29 @@ export function shouldKeepPreviousField(
   slot: number,
   pageCount: number,
 ): boolean {
-  if (
-    isDefaultishPlacement(incoming, slot, pageCount) &&
-    !isDefaultishPlacement(previous, slot, pageCount)
-  ) {
-    return true
-  }
-  // Placed size on a later page beats default-sized page-1 leftovers.
-  if (
-    previous.page > 1 &&
-    incoming.page === 1 &&
-    hasPlacedSignatureSize(previous) &&
-    hasDefaultSignatureSize(incoming)
-  ) {
-    return true
-  }
-  // Any non-page-1 placement beats a page-1 default-sized box.
-  if (
-    previous.page > 1 &&
-    incoming.page === 1 &&
-    hasDefaultSignatureSize(incoming) &&
-    !hasDefaultSignatureSize(previous)
-  ) {
-    return true
-  }
-  return false
+  return preferFieldPlacement(previous, incoming, slot, pageCount) === previous
+}
+
+
+/**
+ * UI helper: merge local overlays with a remote snapshot so poll/refresh cannot
+ * snap custom page-N boxes back to factory page-1 tops.
+ */
+export function mergeSignatureFields(
+  local: FieldPlacement[],
+  remote: FieldPlacement[],
+  signers: { id: string }[],
+  pageCount: number,
+): FieldPlacement[] {
+  const signerIndex = new Map(signers.map((s, i) => [s.id, i]))
+  const page = Math.max(pageCount || 1, 1)
+  return mergeFields(
+    local.filter((f) => f.type === 'signature'),
+    remote.filter((f) => f.type === 'signature'),
+    signerIndex,
+    page,
+    true,
+  )
 }
 
 export function mergeSigner(incoming: Signer, previous: Signer | undefined): Signer {
@@ -313,10 +354,11 @@ export function mergeFields(
       if (f.type === 'signature') {
         const prev = fieldMap.get(f.signerId)
         const slot = signerIndex.get(f.signerId) ?? 0
-        if (prev && shouldKeepPreviousField(prev, f, slot, pageCount)) {
-          continue
+        if (prev) {
+          fieldMap.set(f.signerId, preferFieldPlacement(prev, f, slot, pageCount))
+        } else {
+          fieldMap.set(f.signerId, f)
         }
-        fieldMap.set(f.signerId, f)
       } else {
         fieldMap.set(`${f.type}:${f.signerId}:${f.id}`, f)
       }

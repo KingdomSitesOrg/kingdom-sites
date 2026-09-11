@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import type { Envelope, FieldPlacement } from '@/lib/sign/types'
-import { isEnvelopeLocked, needsCompletedPdf, placementAtPointer, type PageRect } from '@/lib/sign/placement'
+import { isEnvelopeLocked, mergeSignatureFields, needsCompletedPdf, placementAtPointer, type PageRect } from '@/lib/sign/placement'
 import PdfScrollViewer from './PdfScrollViewer'
 import SignatureLineBox from './SignatureLineBox'
 
@@ -155,17 +155,27 @@ export default function EnvelopeEditor({ initial }: Props) {
           if (loc?.status === 'signed') return loc
           return s
         })
+        // Prefer non-defaultish / higher-page local or remote — never apply factory tops over customs.
+        const pageCount = Math.max(local.pageCount || 0, env.pageCount || 0, 1)
+        const preferredFields = mergeSignatureFields(
+          fieldsRef.current.length ? fieldsRef.current : local.fields,
+          env.fields,
+          mergedSigners,
+          pageCount,
+        )
         const nextEnv = statusRegressed
           ? {
               ...env,
               status: local.status,
               signers: mergedSigners,
+              fields: preferredFields.length > 0 ? preferredFields : local.fields,
               // Prefer remote completedPdfKey if present.
               completedPdfKey: env.completedPdfKey || local.completedPdfKey,
             }
           : {
               ...env,
               signers: mergedSigners,
+              fields: preferredFields.length > 0 ? preferredFields : env.fields,
             }
         setEnvelope(nextEnv)
         envelopeRef.current = nextEnv
@@ -711,13 +721,23 @@ export default function EnvelopeEditor({ initial }: Props) {
       const refreshed = await refresh.json().catch(() => null)
       if (refreshed?.ok && refreshed.envelope) {
         const remote = refreshed.envelope as Envelope
-        const remoteFields = remote.fields.filter((f: FieldPlacement) => f.type === 'signature')
         const mergedSigners = remote.signers.map((s) => {
           const loc = optimistic.signers.find((l) => l.id === s.id)
           if (s.status === 'signed') return s
           if (loc?.status === 'signed') return loc
           return s
         })
+        const pageCount = Math.max(
+          optimistic.pageCount || 0,
+          remote.pageCount || 0,
+          1,
+        )
+        const preferredFields = mergeSignatureFields(
+          fieldsRef.current.length ? fieldsRef.current : optimistic.fields,
+          remote.fields,
+          mergedSigners,
+          pageCount,
+        )
         const merged: Envelope = {
           ...remote,
           signers: mergedSigners,
@@ -726,14 +746,14 @@ export default function EnvelopeEditor({ initial }: Props) {
               ? 'completed'
               : remote.status,
           completedPdfKey: remote.completedPdfKey || optimistic.completedPdfKey,
-          fields: remoteFields.length > 0 ? remote.fields : optimistic.fields,
+          fields: preferredFields.length > 0 ? preferredFields : optimistic.fields,
         }
         setEnvelope(merged)
         envelopeRef.current = merged
         setSigners(draftFromEnvelope(merged))
-        if (remoteFields.length > 0) {
-          setFields(remoteFields)
-          fieldsRef.current = remoteFields
+        if (preferredFields.length > 0) {
+          setFields(preferredFields)
+          fieldsRef.current = preferredFields
         }
       }
 

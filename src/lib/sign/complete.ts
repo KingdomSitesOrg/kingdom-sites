@@ -66,13 +66,17 @@ export async function completeEnvelopeAfterAllSigned(
   const original = await readPdf(envelope.originalPdfKey)
   const stamped = await stampEnvelopePdf(original, envelope)
   const completedKey = await savePdf(`pdfs/${envelope.id}-completed.pdf`, stamped)
+  // Keep stored custom placements — never reinject defaultSignatureField tops here.
+  const fieldsToKeep = envelope.fields
   envelope = {
     ...envelope,
     status: 'completed',
     completedPdfKey: completedKey,
+    fields: fieldsToKeep,
   }
   envelope = appendAudit(envelope, 'completed', 'system', 'All parties signed')
   // Durable completed write before email so a Resend failure cannot leave parties unsigned-looking.
+  // saveEnvelope mergeEnvelope must not replace custom fields with factory defaults.
   envelope = await saveEnvelope(envelope)
 
   try {
