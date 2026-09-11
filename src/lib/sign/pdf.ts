@@ -1,5 +1,8 @@
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib'
 import type { Envelope, FieldPlacement, Signer } from './types'
+import { formatSignedDateText } from './placement'
+
+export { defaultSignatureField, signerPublicView } from './placement'
 
 export async function countPdfPages(bytes: Uint8Array | Buffer): Promise<number> {
   const doc = await PDFDocument.load(bytes)
@@ -111,8 +114,45 @@ export async function stampEnvelopePdf(
         color: rgb(0.4, 0.4, 0.45),
         maxWidth: box.width - 6,
       })
+
+      // Auto date to the right of the signature block (no separate placeable date field).
+      const dateText = formatSignedDateText(signer)
+      if (dateText) {
+        const dateX = box.x + box.width + 10
+        const dateW = Math.min(pageWidth - dateX - 24, Math.max(70, box.width * 0.55))
+        if (dateW > 40) {
+          const dateLabelSize = Math.min(8, box.height * 0.12)
+          page.drawText('Date', {
+            x: dateX,
+            y: box.y + box.height - dateLabelSize - 2,
+            size: dateLabelSize,
+            font,
+            color: rgb(0.4, 0.4, 0.45),
+            maxWidth: dateW,
+          })
+          page.drawLine({
+            start: { x: dateX, y: lineY },
+            end: { x: dateX + dateW, y: lineY },
+            thickness: 0.75,
+            color: rgb(0.12, 0.12, 0.16),
+          })
+          const dateSize = Math.min(11, box.height * 0.18)
+          page.drawText(dateText, {
+            x: dateX,
+            y: lineY - dateSize - 3,
+            size: dateSize,
+            font,
+            color: rgb(0.1, 0.1, 0.15),
+            maxWidth: dateW,
+          })
+        }
+      }
     } else if (field.type === 'date') {
-      const text = signer.signedDateText || new Date(signer.signedAt || Date.now()).toLocaleDateString('en-US')
+      // Legacy placeable date fields (if any remain) still stamp.
+      const text =
+        formatSignedDateText(signer) ||
+        signer.signedDateText ||
+        new Date(signer.signedAt || Date.now()).toLocaleDateString('en-US')
       page.drawText(text, {
         x: box.x + 2,
         y: box.y + Math.max(2, box.height * 0.25),
@@ -139,62 +179,6 @@ export async function stampEnvelopePdf(
   }
 
   return doc.save()
-}
-
-export function defaultSignatureField(
-  signerId: string,
-  page: number,
-  /** 0 = Client (upper), 1 = Provider (lower), … */
-  slot = 0,
-): FieldPlacement {
-  // Taller box for role + signature-on-line + printed name
-  const height = 0.11
-  const y = Math.min(0.68 + slot * 0.13, 0.86)
-  return {
-    id: `fld_${signerId}_sig`,
-    type: 'signature',
-    signerId,
-    page,
-    x: 0.12,
-    y,
-    width: 0.42,
-    height,
-  }
-}
-
-export function defaultDateField(signerId: string, page: number): FieldPlacement {
-  return {
-    id: `fld_${signerId}_date`,
-    type: 'date',
-    signerId,
-    page,
-    x: 0.55,
-    y: 0.91,
-    width: 0.2,
-    height: 0.035,
-  }
-}
-
-/** Public view of a signer (no other signers' signature images). */
-export function signerPublicView(envelope: Envelope, signerId: string) {
-  const signer = envelope.signers.find((s) => s.id === signerId)
-  if (!signer) return null
-  return {
-    envelopeId: envelope.id,
-    title: envelope.title,
-    status: envelope.status,
-    pageCount: envelope.pageCount,
-    signer: {
-      id: signer.id,
-      name: signer.name,
-      email: signer.email,
-      role: signer.role || 'Signer',
-      status: signer.status,
-      signedAt: signer.signedAt,
-    },
-    fields: envelope.fields.filter((f) => f.signerId === signerId),
-    allSigned: envelope.signers.every((s) => s.status === 'signed'),
-  }
 }
 
 export type { Signer }

@@ -4,6 +4,16 @@ import { useEffect, useMemo, useState } from 'react'
 import PdfScrollViewer from './PdfScrollViewer'
 import SignatureLineBox from './SignatureLineBox'
 
+type Party = {
+  id: string
+  name: string
+  email: string
+  role?: string
+  status: string
+  signedAt?: string
+  signedDateText?: string
+}
+
 type View = {
   envelopeId: string
   title: string
@@ -16,10 +26,13 @@ type View = {
     role?: string
     status: string
     signedAt?: string
+    signedDateText?: string
   }
+  parties: Party[]
   fields: {
     id: string
     type: 'signature' | 'date'
+    signerId: string
     page: number
     x: number
     y: number
@@ -44,6 +57,26 @@ function renderCursivePng(name: string): string {
   return canvas.toDataURL('image/png')
 }
 
+function partySignedDate(party: Party | undefined, fallbackDone = false): string | undefined {
+  if (!party) return undefined
+  if (party.status === 'signed' || fallbackDone) {
+    if (party.signedDateText) return party.signedDateText
+    if (party.signedAt) {
+      return new Date(party.signedAt).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })
+    }
+  }
+  return undefined
+}
+
+function boxWidthFrac(fieldWidth: number, fieldX: number, hasDate: boolean): number {
+  if (!hasDate) return fieldWidth
+  return Math.min(fieldWidth + 0.22, Math.max(fieldWidth, 1 - fieldX))
+}
+
 export default function SignerClient({ token }: { token: string }) {
   const [view, setView] = useState<View | null>(null)
   const [error, setError] = useState('')
@@ -65,13 +98,14 @@ export default function SignerClient({ token }: { token: string }) {
           return
         }
         if (!cancelled) {
-          setView(data.view)
-          setTypedName(data.view.signer.name || '')
-          if (data.view.signer.status === 'signed') setDone(true)
-          const firstSig = (data.view.fields || []).find(
-            (f: { type: string; page: number }) => f.type === 'signature',
+          const next = data.view as View
+          setView(next)
+          setTypedName(next.signer.name || '')
+          if (next.signer.status === 'signed') setDone(true)
+          const myFirst = (next.fields || []).find(
+            (f) => f.type === 'signature' && f.signerId === next.signer.id,
           )
-          setFocusPage(firstSig?.page || 1)
+          setFocusPage(myFirst?.page || 1)
         }
       } catch {
         if (!cancelled) setError('Could not load this document.')
@@ -133,7 +167,21 @@ export default function SignerClient({ token }: { token: string }) {
   }
   if (!view) return null
 
-  const myFields = view.fields.filter((f) => f.type === 'signature')
+  const parties = view.parties?.length
+    ? view.parties
+    : [
+        {
+          id: view.signer.id,
+          name: view.signer.name,
+          email: view.signer.email,
+          role: view.signer.role,
+          status: view.signer.status,
+          signedAt: view.signer.signedAt,
+        },
+      ]
+  const partyById = new Map(parties.map((p) => [p.id, p]))
+  const sigFields = view.fields.filter((f) => f.type === 'signature')
+  const myFields = sigFields.filter((f) => f.signerId === view.signer.id)
   const role = (view.signer.role || 'Signer').trim() || 'Signer'
 
   return (
@@ -153,40 +201,77 @@ export default function SignerClient({ token }: { token: string }) {
             pageCount={view.pageCount}
             focusPage={focusPage}
             renderPageOverlay={(page) =>
-              myFields
+              sigFields
                 .filter((f) => f.page === page)
-                .map((f) => (
-                  <button
-                    key={f.id}
-                    type="button"
-                    data-field-id={f.id}
-                    disabled={done}
-                    onClick={() => {
-                      setFocusPage(page)
-                      setEditing(true)
-                    }}
-                    className={`absolute overflow-hidden rounded-md border-2 text-left ${
-                      done
-                        ? 'border-emerald-600 bg-white/90'
-                        : editing
-                          ? 'border-accent bg-white/95'
-                          : 'border-accent bg-accent/15 hover:bg-accent/25'
-                    }`}
-                    style={{
-                      left: `${f.x * 100}%`,
-                      top: `${f.y * 100}%`,
-                      width: `${f.width * 100}%`,
-                      height: `${f.height * 100}%`,
-                    }}
-                  >
-                    <SignatureLineBox
-                      role={role}
-                      name={view.signer.name}
-                      signed={done}
-                      hint="Click to sign"
-                    />
-                  </button>
-                ))
+                .map((f) => {
+                  const party = partyById.get(f.signerId)
+                  const isMine = f.signerId === view.signer.id
+                  const partyRole = (party?.role || 'Signer').trim() || 'Signer'
+                  const partyName = party?.name || ''
+                  const partySigned = party?.status === 'signed' || (isMine && done)
+                  const dateText = partySignedDate(party, isMine && done)
+                  const widthFrac = boxWidthFrac(f.width, f.x, Boolean(dateText))
+                  if (isMine) {
+                    return (
+                      <button
+                        key={f.id}
+                        type="button"
+                        data-field-id={f.id}
+                        disabled={done}
+                        onClick={() => {
+                          setFocusPage(page)
+                          setEditing(true)
+                        }}
+                        className={`absolute overflow-hidden rounded-md border-2 text-left ${
+                          done
+                            ? 'border-emerald-600 bg-white/90'
+                            : editing
+                              ? 'border-accent bg-white/95'
+                              : 'border-accent bg-accent/15 hover:bg-accent/25'
+                        }`}
+                        style={{
+                          left: `${f.x * 100}%`,
+                          top: `${f.y * 100}%`,
+                          width: `${widthFrac * 100}%`,
+                          height: `${f.height * 100}%`,
+                        }}
+                      >
+                        <SignatureLineBox
+                          role={partyRole}
+                          name={partyName || view.signer.name}
+                          signed={done}
+                          signedDate={dateText}
+                          hint="Click to sign"
+                        />
+                      </button>
+                    )
+                  }
+                  return (
+                    <div
+                      key={f.id}
+                      data-field-id={f.id}
+                      className={`absolute overflow-hidden rounded-md border-2 ${
+                        partySigned
+                          ? 'border-emerald-600/80 bg-white/90'
+                          : 'border-line bg-white/80'
+                      }`}
+                      style={{
+                        left: `${f.x * 100}%`,
+                        top: `${f.y * 100}%`,
+                        width: `${widthFrac * 100}%`,
+                        height: `${f.height * 100}%`,
+                      }}
+                    >
+                      <SignatureLineBox
+                        role={partyRole}
+                        name={partyName}
+                        signed={partySigned}
+                        signedDate={dateText}
+                        hint="Waiting for signature"
+                      />
+                    </div>
+                  )
+                })
             }
           />
         </div>

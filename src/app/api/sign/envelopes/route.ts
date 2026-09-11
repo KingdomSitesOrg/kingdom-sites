@@ -87,7 +87,7 @@ export async function POST(request: Request) {
       pageCount,
       originalPdfKey: pdfKey,
       signers,
-      fields: signers.map((s, i) => defaultSignatureField(s.id, pageCount, i)),
+      fields: signers.map((s, i) => defaultSignatureField(s.id, i)),
       audit: [],
     }
     envelope = appendAudit(envelope, 'created', session.email, title)

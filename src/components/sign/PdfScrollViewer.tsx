@@ -31,9 +31,13 @@ export default function PdfScrollViewer({
 
   useEffect(() => {
     let cancelled = false
-    setReady(false)
-    setLoading(true)
-    setError('')
+    // Defer reset so the effect body does not sync-setState (react-hooks/set-state-in-effect).
+    const resetTimer = window.setTimeout(() => {
+      if (cancelled) return
+      setReady(false)
+      setLoading(true)
+      setError('')
+    }, 0)
 
     ;(async () => {
       try {
@@ -103,6 +107,7 @@ export default function PdfScrollViewer({
 
     return () => {
       cancelled = true
+      window.clearTimeout(resetTimer)
       try {
         docRef.current?.destroy()
       } catch {

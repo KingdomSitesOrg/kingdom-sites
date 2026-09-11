@@ -24,12 +24,9 @@ export async function GET(_request: Request, ctx: Ctx) {
     if (!found) {
       return NextResponse.json({ ok: false, error: 'Link not found or expired.' }, { status: 404 })
     }
-    let { envelope } = found
-    const { signerId } = found
-    const signer = envelope.signers.find((s) => s.id === signerId)!
-    envelope = appendAudit(envelope, 'viewed', signer.email)
-    await saveEnvelope(envelope)
-
+    const { envelope, signerId } = found
+    // Do not appendAudit/saveEnvelope on view — that write raced admin placements
+    // and could snap the other signature box back to defaults.
     return NextResponse.json({
       ok: true,
       view: signerPublicView(envelope, signerId),

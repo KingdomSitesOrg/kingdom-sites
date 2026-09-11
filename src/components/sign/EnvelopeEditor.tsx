@@ -78,11 +78,14 @@ export default function EnvelopeEditor({ initial }: Props) {
   const titleRef = useRef(title)
   const placeSignerIdRef = useRef(placeSignerId)
   const envelopeRef = useRef(envelope)
-  fieldsRef.current = fields
-  signersRef.current = signers
-  titleRef.current = title
-  placeSignerIdRef.current = placeSignerId
-  envelopeRef.current = envelope
+
+  useEffect(() => {
+    fieldsRef.current = fields
+    signersRef.current = signers
+    titleRef.current = title
+    placeSignerIdRef.current = placeSignerId
+    envelopeRef.current = envelope
+  })
 
   const saveChainRef = useRef(Promise.resolve<void>(undefined))
   const saveGenRef = useRef(0)
@@ -99,13 +102,19 @@ export default function EnvelopeEditor({ initial }: Props) {
         if (cancelled || !res.ok || !data?.ok || !data.envelope) return
         const env = data.envelope as Envelope
         const local = envelopeRef.current
-        if (env.updatedAt <= local.updatedAt && env.status === local.status) return
+        const remoteSigned = env.signers.filter((s) => s.status === 'signed').length
+        const localSigned = local.signers.filter((s) => s.status === 'signed').length
+        if (
+          env.updatedAt <= local.updatedAt &&
+          env.status === local.status &&
+          remoteSigned <= localSigned
+        ) {
+          return
+        }
         // Don't clobber in-flight placement edits with an older field set unless status advanced.
         const statusRank = { draft: 0, sent: 1, completed: 2 } as const
         const statusAdvanced = statusRank[env.status] > statusRank[local.status]
-        const signedAdvanced =
-          env.signers.filter((s) => s.status === 'signed').length >
-          local.signers.filter((s) => s.status === 'signed').length
+        const signedAdvanced = remoteSigned > localSigned
         setEnvelope(env)
         setSigners(draftFromEnvelope(env))
         if (statusAdvanced || signedAdvanced || env.status === 'completed') {
@@ -115,7 +124,7 @@ export default function EnvelopeEditor({ initial }: Props) {
         /* ignore transient poll errors */
       }
     }
-    const id = window.setInterval(tick, 4000)
+    const id = window.setInterval(tick, 2000)
     const onFocus = () => void tick()
     window.addEventListener('focus', onFocus)
     void tick()
@@ -716,6 +725,20 @@ export default function EnvelopeEditor({ initial }: Props) {
                 .map((f) => {
                   const live = envelope.signers.find((s) => s.id === f.signerId)
                   const signed = live?.status === 'signed'
+                  const signedDate =
+                    signed
+                      ? live?.signedDateText ||
+                        (live?.signedAt
+                          ? new Date(live.signedAt).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric',
+                            })
+                          : undefined)
+                      : undefined
+                  const widthFrac = signedDate
+                    ? Math.min(f.width + 0.22, Math.max(f.width, 1 - f.x))
+                    : f.width
                   return (
                     <button
                       key={f.id}
@@ -737,7 +760,7 @@ export default function EnvelopeEditor({ initial }: Props) {
                       style={{
                         left: `${f.x * 100}%`,
                         top: `${f.y * 100}%`,
-                        width: `${f.width * 100}%`,
+                        width: `${widthFrac * 100}%`,
                         height: `${f.height * 100}%`,
                       }}
                     >
@@ -745,6 +768,7 @@ export default function EnvelopeEditor({ initial }: Props) {
                         role={signerRole(f.signerId)}
                         name={live?.name || signerLabel(f.signerId)}
                         signed={signed}
+                        signedDate={signedDate}
                         hint="Drag to move · click to sign"
                       />
                     </button>

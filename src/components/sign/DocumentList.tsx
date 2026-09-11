@@ -23,7 +23,7 @@ export default function DocumentList({ initial }: { initial: EnvelopeSummary[] }
         /* ignore */
       }
     }
-    const id = window.setInterval(tick, 5000)
+    const id = window.setInterval(tick, 2000)
     const onFocus = () => void tick()
     window.addEventListener('focus', onFocus)
     return () => {

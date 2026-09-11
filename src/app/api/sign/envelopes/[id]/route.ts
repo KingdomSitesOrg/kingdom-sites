@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
 import { AuthError, getAdminSession, newId, newSignerToken } from '@/lib/sign/auth'
 import { appendAudit } from '@/lib/sign/audit'
-import { defaultSignatureField } from '@/lib/sign/pdf'
+import { defaultSignatureField, sanitizeField } from '@/lib/sign/placement'
 import { deleteEnvelope, getEnvelope, saveEnvelope } from '@/lib/sign/store'
 import type { FieldPlacement, Signer } from '@/lib/sign/types'
 
@@ -16,36 +16,6 @@ async function requireAdmin() {
   const session = await getAdminSession()
   if (!session) throw new AuthError()
   return session
-}
-
-function clamp(n: number, min: number, max: number) {
-  if (!Number.isFinite(n)) return min
-  return Math.min(Math.max(n, min), max)
-}
-
-/** Coerce coords so custom placements survive JSON quirks; never drop valid boxes. */
-function sanitizeField(
-  raw: unknown,
-  signerIds: Set<string>,
-  pageCount: number,
-): FieldPlacement | null {
-  if (!raw || typeof raw !== 'object') return null
-  const f = raw as Record<string, unknown>
-  const id = typeof f.id === 'string' ? f.id : ''
-  const type = f.type === 'signature' || f.type === 'date' ? f.type : null
-  const signerId = typeof f.signerId === 'string' ? f.signerId : ''
-  if (!id || !type || !signerId || !signerIds.has(signerId)) return null
-
-  const page = Math.round(Number(f.page))
-  if (!Number.isFinite(page) || page < 1 || page > pageCount) return null
-
-  const width = clamp(Number(f.width), 0.05, 1)
-  const height = clamp(Number(f.height), 0.03, 1)
-  const x = clamp(Number(f.x), 0, Math.max(0, 1 - width))
-  const y = clamp(Number(f.y), 0, Math.max(0, 1 - height))
-  if (![width, height, x, y].every(Number.isFinite)) return null
-
-  return { id, type, signerId, page, x, y, width, height }
 }
 
 function normalizeRole(raw: unknown, fallback = 'Signer'): string {
@@ -143,7 +113,7 @@ export async function PATCH(request: Request, ctx: Ctx) {
       for (let i = 0; i < list.length; i++) {
         const s = list[i]
         if (!envelope.fields.some((f) => f.signerId === s.id && f.type === 'signature')) {
-          envelope.fields.push(defaultSignatureField(s.id, envelope.pageCount, i))
+          envelope.fields.push(defaultSignatureField(s.id, i))
         }
       }
     }

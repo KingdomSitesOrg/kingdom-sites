@@ -1,127 +1,10 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 import { put, list, del, get } from '@vercel/blob'
-import type { Envelope, EnvelopeStatus, EnvelopeSummary, FieldPlacement, Signer } from './types'
-import { defaultSignatureField } from './pdf'
+import type { Envelope, EnvelopeSummary } from './types'
+import { mergeEnvelope } from './placement'
 
 const LOCAL_ROOT = path.join(process.cwd(), '.data', 'sign')
-
-const STATUS_RANK: Record<EnvelopeStatus, number> = {
-  draft: 0,
-  sent: 1,
-  completed: 2,
-}
-
-
-/**
- * Merge a write with whatever is already stored so concurrent auto-saves cannot:
- * - regress status (draft ← sent ← completed)
- * - wipe signatures / completed PDF
- * - replace newer placements with a stale fields array after signing progressed
- */
-function mergeAudit(
-  a: Envelope['audit'],
-  b: Envelope['audit'],
-): Envelope['audit'] {
-  const key = (e: (typeof a)[number]) => `${e.at}|${e.action}|${e.actor}|${e.detail || ''}`
-  const map = new Map<string, (typeof a)[number]>()
-  for (const e of [...a, ...b]) map.set(key(e), e)
-  return Array.from(map.values()).sort((x, y) => x.at.localeCompare(y.at))
-}
-
-function mergeSigner(incoming: Signer, previous: Signer | undefined): Signer {
-  if (!previous) return incoming
-  // First successful signature wins — never allow a second sign to replace it.
-  if (previous.status === 'signed') {
-    return {
-      ...incoming,
-      token: previous.token,
-      status: 'signed',
-      signedAt: previous.signedAt,
-      signaturePng: previous.signaturePng,
-      signedDateText: previous.signedDateText,
-      // Allow admin name/role/email edits on top of a locked signature
-      name: incoming.name || previous.name,
-      email: incoming.email || previous.email,
-      role: incoming.role || previous.role,
-    }
-  }
-  if (incoming.status === 'signed') {
-    return { ...incoming, token: incoming.token || previous.token }
-  }
-  return {
-    ...incoming,
-    token: incoming.token || previous.token,
-  }
-}
-
-function mergeEnvelope(incoming: Envelope, previous: Envelope | null): Envelope {
-  if (!previous) return incoming
-
-  const status =
-    STATUS_RANK[previous.status] > STATUS_RANK[incoming.status]
-      ? previous.status
-      : incoming.status
-
-  const completedPdfKey =
-    incoming.completedPdfKey || previous.completedPdfKey || undefined
-
-  const prevById = new Map(previous.signers.map((s) => [s.id, s]))
-  const signers: Signer[] = incoming.signers.map((s) => mergeSigner(s, prevById.get(s.id)))
-  for (const prev of previous.signers) {
-    if (!signers.some((s) => s.id === prev.id)) signers.push(prev)
-  }
-
-  // Fields: keep previous placements; overlay incoming unless incoming looks like a
-  // bottom default replacing a custom placement (stale Client save vs Provider place).
-  const signerIndex = new Map(incoming.signers.map((s, i) => [s.id, i]))
-  for (const [i, s] of previous.signers.entries()) {
-    if (!signerIndex.has(s.id)) signerIndex.set(s.id, i)
-  }
-  const isDefaultish = (f: FieldPlacement) => {
-    const slot = signerIndex.get(f.signerId) ?? 0
-    const d = defaultSignatureField(f.signerId, previous.pageCount || incoming.pageCount, slot)
-    return (
-      f.page === d.page &&
-      Math.abs(f.x - d.x) < 0.03 &&
-      Math.abs(f.y - d.y) < 0.03
-    )
-  }
-
-  const fieldMap = new Map<string, FieldPlacement>()
-  for (const f of previous.fields) {
-    if (f.type === 'signature') fieldMap.set(f.signerId, f)
-    else fieldMap.set(`${f.type}:${f.signerId}:${f.id}`, f)
-  }
-  if (STATUS_RANK[previous.status] <= STATUS_RANK[incoming.status]) {
-    for (const f of incoming.fields) {
-      if (f.type === 'signature') {
-        const prev = fieldMap.get(f.signerId)
-        if (prev && isDefaultish(f) && !isDefaultish(prev)) {
-          continue // do not snap a custom box back to the bottom default
-        }
-        fieldMap.set(f.signerId, f)
-      } else {
-        fieldMap.set(`${f.type}:${f.signerId}:${f.id}`, f)
-      }
-    }
-  }
-  const fields: FieldPlacement[] = Array.from(fieldMap.values())
-
-  const audit = mergeAudit(previous.audit || [], incoming.audit || [])
-  const updatedAt =
-    incoming.updatedAt > previous.updatedAt ? incoming.updatedAt : previous.updatedAt
-
-  return {
-    ...incoming,
-    status,
-    completedPdfKey,
-    signers,
-    fields,
-    audit,
-    updatedAt,
-  }
-}
 
 function blobEnabled(): boolean {
   return Boolean(process.env.BLOB_READ_WRITE_TOKEN?.trim())
@@ -130,10 +13,15 @@ function blobEnabled(): boolean {
 async function ensureLocal(): Promise<void> {
   await fs.mkdir(path.join(LOCAL_ROOT, 'envelopes'), { recursive: true })
   await fs.mkdir(path.join(LOCAL_ROOT, 'pdfs'), { recursive: true })
+  await fs.mkdir(path.join(LOCAL_ROOT, 'tokens'), { recursive: true })
 }
 
 function envelopePath(id: string): string {
   return path.join(LOCAL_ROOT, 'envelopes', `${id}.json`)
+}
+
+function tokenLocalPath(token: string): string {
+  return path.join(LOCAL_ROOT, 'tokens', `${token}.json`)
 }
 
 function pdfLocalPath(key: string): string {
@@ -145,6 +33,66 @@ function blobPdfPath(key: string): string {
   if (key.startsWith('sign/')) return key
   if (key.startsWith('pdfs/')) return `sign/${key}`
   return `sign/pdfs/${key}`
+}
+
+type TokenIndex = { envelopeId: string; signerId: string }
+
+async function writeTokenIndex(token: string, envelopeId: string, signerId: string): Promise<void> {
+  if (!token) return
+  const payload = JSON.stringify({ envelopeId, signerId } satisfies TokenIndex)
+  if (blobEnabled()) {
+    await put(`sign/tokens/${token}.json`, payload, {
+      access: 'private',
+      addRandomSuffix: false,
+      allowOverwrite: true,
+      contentType: 'application/json',
+    })
+    return
+  }
+  await ensureLocal()
+  await fs.writeFile(tokenLocalPath(token), payload, 'utf8')
+}
+
+async function readTokenIndex(token: string): Promise<TokenIndex | null> {
+  try {
+    if (blobEnabled()) {
+      const result = await get(`sign/tokens/${token}.json`, { access: 'private' })
+      if (!result || !('stream' in result) || !result.stream) return null
+      const text = await new Response(result.stream).text()
+      return JSON.parse(text) as TokenIndex
+    }
+    const raw = await fs.readFile(tokenLocalPath(token), 'utf8')
+    return JSON.parse(raw) as TokenIndex
+  } catch {
+    return null
+  }
+}
+
+async function deleteTokenIndex(token: string): Promise<void> {
+  if (!token) return
+  try {
+    if (blobEnabled()) {
+      await del(`sign/tokens/${token}.json`)
+      return
+    }
+    await fs.unlink(tokenLocalPath(token))
+  } catch {
+    /* ignore */
+  }
+}
+
+async function syncTokenIndexes(envelope: Envelope, previous: Envelope | null): Promise<void> {
+  const nextTokens = new Set(envelope.signers.map((s) => s.token).filter(Boolean))
+  if (previous) {
+    for (const s of previous.signers) {
+      if (s.token && !nextTokens.has(s.token)) {
+        await deleteTokenIndex(s.token)
+      }
+    }
+  }
+  for (const s of envelope.signers) {
+    if (s.token) await writeTokenIndex(s.token, envelope.id, s.id)
+  }
 }
 
 export async function savePdf(key: string, bytes: Uint8Array | Buffer): Promise<string> {
@@ -195,10 +143,11 @@ export async function saveEnvelope(envelope: Envelope): Promise<void> {
       allowOverwrite: true,
       contentType: 'application/json',
     })
-    return
+  } else {
+    await ensureLocal()
+    await fs.writeFile(envelopePath(envelope.id), json, 'utf8')
   }
-  await ensureLocal()
-  await fs.writeFile(envelopePath(envelope.id), json, 'utf8')
+  await syncTokenIndexes(envelope, previous)
 }
 
 export async function getEnvelope(id: string): Promise<Envelope | null> {
@@ -265,12 +214,28 @@ export async function listEnvelopes(): Promise<EnvelopeSummary[]> {
 export async function findEnvelopeBySignerToken(
   token: string,
 ): Promise<{ envelope: Envelope; signerId: string } | null> {
+  // Fast path: token index written on saveEnvelope
+  const indexed = await readTokenIndex(token)
+  if (indexed) {
+    const envelope = await getEnvelope(indexed.envelopeId)
+    if (envelope) {
+      const signer = envelope.signers.find((s) => s.id === indexed.signerId && s.token === token)
+      if (signer) return { envelope, signerId: signer.id }
+      const byToken = envelope.signers.find((s) => s.token === token)
+      if (byToken) return { envelope, signerId: byToken.id }
+    }
+  }
+
+  // Fallback for envelopes saved before the token index existed
   const summaries = await listEnvelopes()
   for (const summary of summaries) {
     const envelope = await getEnvelope(summary.id)
     if (!envelope) continue
     const signer = envelope.signers.find((s) => s.token === token)
-    if (signer) return { envelope, signerId: signer.id }
+    if (signer) {
+      await writeTokenIndex(token, envelope.id, signer.id)
+      return { envelope, signerId: signer.id }
+    }
   }
   return null
 }
@@ -278,6 +243,9 @@ export async function findEnvelopeBySignerToken(
 export async function deleteEnvelope(id: string): Promise<void> {
   const envelope = await getEnvelope(id)
   if (!envelope) return
+  for (const s of envelope.signers) {
+    if (s.token) await deleteTokenIndex(s.token)
+  }
   if (blobEnabled()) {
     const paths = [
       `sign/envelopes/${id}.json`,
