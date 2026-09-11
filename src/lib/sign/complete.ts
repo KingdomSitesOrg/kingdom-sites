@@ -1,22 +1,12 @@
 import * as Sentry from '@sentry/nextjs'
 import { appendAudit } from '@/lib/sign/audit'
 import { sendCompletedPdfEmail } from '@/lib/sign/email'
-import { mergeSigner } from '@/lib/sign/placement'
+import { allSignersSigned, mergeSigner, needsCompletedPdf } from '@/lib/sign/placement'
 import { stampEnvelopePdf } from '@/lib/sign/pdf'
 import { getEnvelope, readPdf, saveEnvelope, savePdf } from '@/lib/sign/store'
 import type { Envelope } from '@/lib/sign/types'
 
-export function allSignersSigned(envelope: Envelope): boolean {
-  return envelope.signers.length > 0 && envelope.signers.every((s) => s.status === 'signed')
-}
-
-/** Stuck after both parties signed: wrong status and/or missing stamped PDF. */
-export function needsCompletedPdf(envelope: Envelope): boolean {
-  return (
-    allSignersSigned(envelope) &&
-    (envelope.status !== 'completed' || !envelope.completedPdfKey)
-  )
-}
+export { allSignersSigned, needsCompletedPdf } from '@/lib/sign/placement'
 
 /** Keep first successful signatures when a concurrent re-read races a draft autosave. */
 export function protectSignedSigners(

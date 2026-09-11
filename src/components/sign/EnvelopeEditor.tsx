@@ -4,9 +4,8 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import type { Envelope, FieldPlacement } from '@/lib/sign/types'
-import { isEnvelopeLocked, placementAtPointer, type PageRect } from '@/lib/sign/placement'
+import { isEnvelopeLocked, needsCompletedPdf, placementAtPointer, type PageRect } from '@/lib/sign/placement'
 import PdfScrollViewer from './PdfScrollViewer'
-import { needsCompletedPdf } from '@/lib/sign/complete'
 import SignatureLineBox from './SignatureLineBox'
 
 type SignerDraft = { id?: string; name: string; email: string; role: string }

@@ -11,6 +11,19 @@ export function isEnvelopeLocked(status: EnvelopeStatus): boolean {
   return status === 'sent' || status === 'completed'
 }
 
+/** Pure helpers — safe for client components (no fs / blob). */
+export function allSignersSigned(envelope: Pick<Envelope, 'signers'>): boolean {
+  return envelope.signers.length > 0 && envelope.signers.every((s) => s.status === 'signed')
+}
+
+/** Stuck after both parties signed: wrong status and/or missing stamped PDF. */
+export function needsCompletedPdf(envelope: Envelope): boolean {
+  return (
+    allSignersSigned(envelope) &&
+    (envelope.status !== 'completed' || !envelope.completedPdfKey)
+  )
+}
+
 export type EnvelopePatchBody = {
   title?: unknown
   signers?: unknown
