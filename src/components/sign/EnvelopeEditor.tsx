@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import type { Envelope, FieldPlacement } from '@/lib/sign/types'
 import { isEnvelopeLocked, placementAtPointer, type PageRect } from '@/lib/sign/placement'
 import PdfScrollViewer from './PdfScrollViewer'
+import { needsCompletedPdf } from '@/lib/sign/complete'
 import SignatureLineBox from './SignatureLineBox'
 
 type SignerDraft = { id?: string; name: string; email: string; role: string }
@@ -666,6 +667,34 @@ export default function EnvelopeEditor({ initial }: Props) {
     }
   }
 
+
+  async function generateCompletedPdf() {
+    setBusy(true)
+    setError('')
+    setMessage('')
+    try {
+      const res = await fetch(`/api/sign/envelopes/${envelope.id}/complete`, { method: 'POST' })
+      const data = await res.json().catch(() => null)
+      if (!res.ok || !data?.ok || !data.envelope) {
+        setError(data?.error || 'Could not generate completed PDF.')
+        return
+      }
+      const env = data.envelope as Envelope
+      setEnvelope(env)
+      envelopeRef.current = env
+      setSigners(draftFromEnvelope(env))
+      setMessage(
+        data.alreadyCompleted
+          ? 'Completed PDF already available.'
+          : 'Completed PDF generated. Download link is ready — check email shortly.',
+      )
+    } catch {
+      setError('Network error generating completed PDF.')
+    } finally {
+      setBusy(false)
+    }
+  }
+
   async function removeDoc() {
     if (!window.confirm(`Delete “${envelope.title}”? This cannot be undone.`)) return
     setBusy(true)
@@ -888,6 +917,15 @@ export default function EnvelopeEditor({ initial }: Props) {
             >
               Download completed PDF
             </a>
+          ) : needsCompletedPdf(envelope) ? (
+            <button
+              type="button"
+              disabled={busy}
+              onClick={() => void generateCompletedPdf()}
+              className="btn-primary w-full !bg-amber-700 hover:!bg-amber-800"
+            >
+              {busy ? 'Generating…' : 'Generate completed PDF'}
+            </button>
           ) : null}
 
           <div className="tile p-4">

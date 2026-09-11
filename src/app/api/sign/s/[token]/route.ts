@@ -1,15 +1,12 @@
 import { after, NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
 import { appendAudit } from '@/lib/sign/audit'
-import { sendCompletedPdfEmail } from '@/lib/sign/email'
-import { signerPublicView, stampEnvelopePdf } from '@/lib/sign/pdf'
-import type { Envelope } from '@/lib/sign/types'
+import { completeEnvelopeAfterAllSigned } from '@/lib/sign/complete'
+import { signerPublicView } from '@/lib/sign/pdf'
 import {
   findEnvelopeBySignerToken,
   getEnvelope,
-  readPdf,
   saveEnvelope,
-  savePdf,
 } from '@/lib/sign/store'
 
 export const runtime = 'nodejs'
@@ -169,44 +166,6 @@ export async function POST(request: Request, ctx: Ctx) {
   }
 }
 
-
-/** Stamp PDF, mark completed, email parties — runs off the sign request path via after(). */
-async function completeEnvelopeAfterAllSigned(envelopeId: string): Promise<void> {
-  let envelope: Envelope | null = await getEnvelope(envelopeId)
-  if (!envelope) return
-  if (envelope.status === 'completed' && envelope.completedPdfKey) return
-  if (!envelope.signers.every((s) => s.status === 'signed')) return
-
-  const original = await readPdf(envelope.originalPdfKey)
-  const stamped = await stampEnvelopePdf(original, envelope)
-  const completedKey = await savePdf(`pdfs/${envelope.id}-completed.pdf`, stamped)
-  envelope = {
-    ...envelope,
-    status: 'completed',
-    completedPdfKey: completedKey,
-  }
-  envelope = appendAudit(envelope, 'completed', 'system', 'All parties signed')
-
-  const recipients = Array.from(
-    new Set([
-      ...envelope.signers.map((s) => s.email),
-      process.env.ADMIN_EMAIL?.trim() || '',
-      process.env.LEAD_TO_EMAIL?.trim() || '',
-    ]),
-  ).filter(Boolean)
-
-  if (process.env.RESEND_API_KEY?.trim() && recipients.length) {
-    const filename = `${envelope.title.replace(/[^\w.\- ]+/g, '').slice(0, 60) || 'document'}-signed.pdf`
-    await sendCompletedPdfEmail({
-      to: recipients,
-      title: envelope.title,
-      pdf: Buffer.from(stamped),
-      filename,
-    })
-  }
-
-  await saveEnvelope(envelope)
-}
 
 /** Minimal 1×1 transparent PNG — stamp path falls back to drawing the typed name. */
 async function textSignatureDataUrl(name: string): Promise<string> {
