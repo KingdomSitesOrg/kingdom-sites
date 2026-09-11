@@ -60,7 +60,7 @@ export function sanitizeField(
   return { id, type, signerId, page, x, y, width, height }
 }
 
-/** True when field matches current defaults or legacy last-page bottom defaults. */
+/** True when field matches current defaults or older default layouts. */
 export function isDefaultishPlacement(
   f: FieldPlacement,
   slot: number,
@@ -73,6 +73,13 @@ export function isDefaultishPlacement(
     Math.abs(f.y - d.y) < 0.03
   ) {
     return true
+  }
+  // Prior stacked page-1 defaults (same column, y = 0.08 + slot*0.13) before side-by-side columns.
+  if (f.page === 1) {
+    const stackedY = Math.min(0.08 + slot * 0.13, 0.7)
+    if (Math.abs(f.x - 0.12) < 0.03 && Math.abs(f.y - stackedY) < 0.03) {
+      return true
+    }
   }
   // Legacy defaults (pre-fix): last page, y near 0.68 + slot*0.13
   if (pageCount > 0) {

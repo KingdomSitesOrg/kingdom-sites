@@ -89,6 +89,9 @@ export default function EnvelopeEditor({ initial }: Props) {
 
   const saveChainRef = useRef(Promise.resolve<void>(undefined))
   const saveGenRef = useRef(0)
+  // Bumped on every local fields edit so a slow PATCH response cannot clobber a newer drag.
+  const fieldsEpochRef = useRef(0)
+  const draggingIdRef = useRef<string | null>(null)
 
   // Poll so admin status catches magic-link signatures without a full reload.
   useEffect(() => {
@@ -156,7 +159,12 @@ export default function EnvelopeEditor({ initial }: Props) {
     const target = signers[idx]
     setSigners((prev) => prev.filter((_, i) => i !== idx))
     if (target?.id) {
-      setFields((prev) => prev.filter((f) => f.signerId !== target.id))
+      setFields((prev) => {
+        const next = prev.filter((f) => f.signerId !== target.id)
+        fieldsEpochRef.current += 1
+        fieldsRef.current = next
+        return next
+      })
       if (placeSignerId === target.id) setPlaceSignerId(null)
     }
   }
@@ -166,18 +174,32 @@ export default function EnvelopeEditor({ initial }: Props) {
     signers?: SignerDraft[]
     fields?: FieldPlacement[]
   }) {
+    // Capture gen + snapshots at queue time (not when the chain runs). Otherwise a slow
+    // Client PATCH can finish while Provider is queued, apply stale fields, and the
+    // Provider autosave then persists the default top box again.
+    const myGen = ++saveGenRef.current
+    const queuedFields = (next?.fields ?? fieldsRef.current).map((f) => ({ ...f }))
+    const queuedSigners = (next?.signers ?? signersRef.current).map((s) => ({ ...s }))
+    const queuedTitle = next?.title ?? titleRef.current
+    const fieldsEpochAtQueue = fieldsEpochRef.current
+    if (next?.fields) {
+      fieldsRef.current = queuedFields
+    }
+    if (next?.signers) {
+      signersRef.current = queuedSigners
+    }
+    if (next?.title != null) {
+      titleRef.current = queuedTitle
+    }
+
     const run = async (): Promise<Envelope | null> => {
-      const draft = next?.signers ?? signersRef.current
+      const draft = queuedSigners
       const incomplete = draft.filter((s) => !s.name.trim() || !s.email.trim())
       if (incomplete.length) {
         setError('Every signer needs a name and email before Save can unlock Place box.')
         return null
       }
-      if (next?.fields) fieldsRef.current = next.fields
-      if (next?.signers) signersRef.current = next.signers
-      if (next?.title != null) titleRef.current = next.title
 
-      const myGen = ++saveGenRef.current
       setBusy(true)
       setError('')
       try {
@@ -185,14 +207,14 @@ export default function EnvelopeEditor({ initial }: Props) {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            title: next?.title ?? titleRef.current,
+            title: queuedTitle,
             signers: draft.map((s) => ({
               id: s.id,
               name: s.name,
               email: s.email,
               role: (s.role || 'Signer').trim().slice(0, 60) || 'Signer',
             })),
-            fields: (next?.fields ?? fieldsRef.current).filter((f) => f.type === 'signature'),
+            fields: queuedFields.filter((f) => f.type === 'signature'),
           }),
         })
         const data = await res.json().catch(() => null)
@@ -205,8 +227,14 @@ export default function EnvelopeEditor({ initial }: Props) {
         if (myGen !== saveGenRef.current) return env
         setEnvelope(env)
         setSigners(draftFromEnvelope(env))
-        setFields(env.fields.filter((f) => f.type === 'signature'))
-        fieldsRef.current = env.fields.filter((f) => f.type === 'signature')
+        // Never clobber a newer local drag/place, or an in-progress pointer drag.
+        const fieldsStale =
+          fieldsEpochAtQueue !== fieldsEpochRef.current || Boolean(draggingIdRef.current)
+        if (!fieldsStale) {
+          const savedFields = env.fields.filter((f) => f.type === 'signature')
+          setFields(savedFields)
+          fieldsRef.current = savedFields
+        }
         signersRef.current = draftFromEnvelope(env)
         const keepPlace =
           placeSignerIdRef.current &&
@@ -301,6 +329,7 @@ export default function EnvelopeEditor({ initial }: Props) {
       ),
       nextField,
     ]
+    fieldsEpochRef.current += 1
     fieldsRef.current = nextFields
     setFields(nextFields)
     setPage(pageNum)
@@ -348,6 +377,7 @@ export default function EnvelopeEditor({ initial }: Props) {
       origY: field.y,
       moved: false,
     }
+    draggingIdRef.current = field.id
     setDraggingId(field.id)
   }
 
@@ -366,6 +396,7 @@ export default function EnvelopeEditor({ initial }: Props) {
     const nextY = Math.min(Math.max(drag.origY + dy, 0), 1 - field.height)
     setFields((prev) => {
       const next = prev.map((f) => (f.id === field.id ? { ...f, x: nextX, y: nextY } : f))
+      fieldsEpochRef.current += 1
       fieldsRef.current = next
       return next
     })
@@ -378,9 +409,10 @@ export default function EnvelopeEditor({ initial }: Props) {
       e.currentTarget.releasePointerCapture(e.pointerId)
     }
     dragRef.current = null
+    draggingIdRef.current = null
     setDraggingId(null)
     if (wasDrag) {
-      const current = fieldsRef.current
+      const current = fieldsRef.current.map((f) => ({ ...f }))
       void save({ fields: current }).then((env) => {
         if (env) setMessage('Signature line moved and saved.')
       })

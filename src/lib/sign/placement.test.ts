@@ -128,6 +128,106 @@ describe('mergeEnvelope placements', () => {
     expect(bySigner.sig_p.y).toBeCloseTo(0.28, 5)
     expect(bySigner.sig_p.page).toBe(1)
   })
+  it('keeps both Client and Provider low y/page after merge with stale Provider default', () => {
+    const client = signer({
+      id: 'sig_c',
+      name: 'Client',
+      email: 'c@example.com',
+      role: 'Client',
+      token: 'tok_c',
+    })
+    const provider = signer({
+      id: 'sig_p',
+      name: 'Provider',
+      email: 'p@example.com',
+      role: 'Provider',
+      token: 'tok_p',
+    })
+    const clientLow = field({
+      id: 'fld_c',
+      signerId: 'sig_c',
+      page: 3,
+      x: 0.08,
+      y: 0.72,
+    })
+    const providerLow = field({
+      id: 'fld_p',
+      signerId: 'sig_p',
+      page: 3,
+      x: 0.54,
+      y: 0.72,
+    })
+    const previous = envelope({
+      signers: [client, provider],
+      fields: [clientLow, providerLow],
+      pageCount: 3,
+      updatedAt: '2026-01-01T01:00:00.000Z',
+    })
+    const incoming = envelope({
+      signers: [client, provider],
+      fields: [clientLow, defaultSignatureField('sig_p', 1)],
+      pageCount: 3,
+      updatedAt: '2026-01-01T00:30:00.000Z',
+    })
+    const merged = mergeEnvelope(incoming, previous)
+    const bySigner = Object.fromEntries(
+      merged.fields.filter((f) => f.type === 'signature').map((f) => [f.signerId, f]),
+    )
+    expect(bySigner.sig_c.y).toBeCloseTo(0.72, 5)
+    expect(bySigner.sig_p.y).toBeCloseTo(0.72, 5)
+    expect(bySigner.sig_c.page).toBe(3)
+    expect(bySigner.sig_p.page).toBe(3)
+  })
+
+  it('does not let an older stacked page-1 Provider default overwrite a custom low box', () => {
+    const client = signer({
+      id: 'sig_c',
+      name: 'Client',
+      email: 'c@example.com',
+      role: 'Client',
+      token: 'tok_c',
+    })
+    const provider = signer({
+      id: 'sig_p',
+      name: 'Provider',
+      email: 'p@example.com',
+      role: 'Provider',
+      token: 'tok_p',
+    })
+    const clientLow = field({ id: 'fld_c', signerId: 'sig_c', page: 2, x: 0.1, y: 0.7 })
+    const providerLow = field({ id: 'fld_p', signerId: 'sig_p', page: 2, x: 0.1, y: 0.7 })
+    // Pre-column-layout default: page 1, x=0.12, y=0.08+1*0.13
+    const staleStackedProvider: FieldPlacement = {
+      id: 'fld_p',
+      type: 'signature',
+      signerId: 'sig_p',
+      page: 1,
+      x: 0.12,
+      y: 0.21,
+      width: 0.42,
+      height: 0.11,
+    }
+    const previous = envelope({
+      signers: [client, provider],
+      fields: [clientLow, providerLow],
+      pageCount: 3,
+      updatedAt: '2026-01-01T01:00:00.000Z',
+    })
+    const incoming = envelope({
+      signers: [client, provider],
+      fields: [clientLow, staleStackedProvider],
+      pageCount: 3,
+      updatedAt: '2026-01-01T00:45:00.000Z',
+    })
+    const merged = mergeEnvelope(incoming, previous)
+    const bySigner = Object.fromEntries(
+      merged.fields.filter((f) => f.type === 'signature').map((f) => [f.signerId, f]),
+    )
+    expect(bySigner.sig_p.y).toBeCloseTo(0.7, 5)
+    expect(bySigner.sig_p.page).toBe(2)
+    expect(bySigner.sig_c.y).toBeCloseTo(0.7, 5)
+  })
+
 })
 
 describe('signerPublicView', () => {
