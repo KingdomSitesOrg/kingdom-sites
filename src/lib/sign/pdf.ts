@@ -97,7 +97,10 @@ export async function stampEnvelopePdf(
         })
       }
 
+      // Under the line: printed name, then date on its own line (no side column / no overlap).
       const nameSize = Math.min(9, box.height * 0.14)
+      const dateText = formatSignedDateText(signer)
+      const dateSize = Math.min(8, box.height * 0.12)
       page.drawText(signer.name || '', {
         x: box.x + 3,
         y: lineY - nameSize - 3,
@@ -106,46 +109,15 @@ export async function stampEnvelopePdf(
         color: rgb(0.1, 0.1, 0.15),
         maxWidth: box.width - 6,
       })
-      page.drawText(role, {
-        x: box.x + 3,
-        y: lineY - nameSize * 2 - 5,
-        size: Math.max(6, nameSize - 1),
-        font,
-        color: rgb(0.4, 0.4, 0.45),
-        maxWidth: box.width - 6,
-      })
-
-      // Auto date to the right of the signature block (no separate placeable date field).
-      const dateText = formatSignedDateText(signer)
       if (dateText) {
-        const dateX = box.x + box.width + 10
-        const dateW = Math.min(pageWidth - dateX - 24, Math.max(70, box.width * 0.55))
-        if (dateW > 40) {
-          const dateLabelSize = Math.min(8, box.height * 0.12)
-          page.drawText('Date', {
-            x: dateX,
-            y: box.y + box.height - dateLabelSize - 2,
-            size: dateLabelSize,
-            font,
-            color: rgb(0.4, 0.4, 0.45),
-            maxWidth: dateW,
-          })
-          page.drawLine({
-            start: { x: dateX, y: lineY },
-            end: { x: dateX + dateW, y: lineY },
-            thickness: 0.75,
-            color: rgb(0.12, 0.12, 0.16),
-          })
-          const dateSize = Math.min(11, box.height * 0.18)
-          page.drawText(dateText, {
-            x: dateX,
-            y: lineY - dateSize - 3,
-            size: dateSize,
-            font,
-            color: rgb(0.1, 0.1, 0.15),
-            maxWidth: dateW,
-          })
-        }
+        page.drawText(dateText, {
+          x: box.x + 3,
+          y: Math.max(box.y + 2, lineY - nameSize - dateSize - 6),
+          size: dateSize,
+          font,
+          color: rgb(0.25, 0.25, 0.3),
+          maxWidth: box.width - 6,
+        })
       }
     } else if (field.type === 'date') {
       // Legacy placeable date fields (if any remain) still stamp.
