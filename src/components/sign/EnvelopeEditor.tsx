@@ -139,13 +139,33 @@ export default function EnvelopeEditor({ initial }: Props) {
           return
         }
         // Don't clobber in-flight placement edits with an older field set unless status advanced.
+        // Never regress sent/completed → draft (stale Blob poll was unlocking the editor ~2s after send).
         const statusRank = { draft: 0, sent: 1, completed: 2 } as const
         const statusAdvanced = statusRank[env.status] > statusRank[local.status]
+        const statusRegressed = statusRank[env.status] < statusRank[local.status]
         const signedAdvanced = remoteSigned > localSigned || localMissingRemoteSigned
-        setEnvelope(env)
-        setSigners(draftFromEnvelope(env))
-        if (statusAdvanced || signedAdvanced || env.status === 'completed') {
-          setFields(env.fields.filter((f) => f.type === 'signature'))
+        if (statusRegressed && !signedAdvanced && !statusAdvanced) {
+          // Stale draft snapshot — ignore entirely.
+          return
+        }
+        const nextEnv = statusRegressed
+          ? {
+              ...env,
+              status: local.status,
+              // Keep local lock; still take newer signer signatures from remote.
+              signers: env.signers.map((s) => {
+                const loc = local.signers.find((l) => l.id === s.id)
+                if (s.status === 'signed') return s
+                if (loc?.status === 'signed') return loc
+                return s
+              }),
+            }
+          : env
+        setEnvelope(nextEnv)
+        envelopeRef.current = nextEnv
+        setSigners(draftFromEnvelope(nextEnv))
+        if (statusAdvanced || signedAdvanced || nextEnv.status === 'completed') {
+          setFields(nextEnv.fields.filter((f) => f.type === 'signature'))
         }
       } catch {
         /* ignore transient poll errors */
@@ -257,7 +277,13 @@ export default function EnvelopeEditor({ initial }: Props) {
         const env = data.envelope as Envelope
         // Ignore outdated responses so a slow Client save cannot snap Provider back.
         if (myGen !== saveGenRef.current) return env
+        const rank = { draft: 0, sent: 1, completed: 2 } as const
+        // Queued autosave can return/echo draft after send unlocked the UI — never regress.
+        if (rank[env.status] < rank[envelopeRef.current.status]) {
+          return envelopeRef.current
+        }
         setEnvelope(env)
+        envelopeRef.current = env
         setSigners(draftFromEnvelope(env))
         // Never clobber a newer local drag/place, or an in-progress pointer drag.
         const fieldsStale =
@@ -319,7 +345,11 @@ export default function EnvelopeEditor({ initial }: Props) {
         setError(data?.error || 'Send failed.')
         return
       }
-      setEnvelope(data.envelope)
+      const sentEnv = data.envelope as Envelope
+      setEnvelope(sentEnv)
+      envelopeRef.current = sentEnv
+      // Drop any in-flight draft autosaves so they cannot unlock the editor.
+      saveGenRef.current += 1
       const links = (data.results || [])
         .map((r: { email: string; link: string; sent: boolean }) =>
           `${r.email}: ${r.link}${r.sent ? '' : ' (email not sent — use link)'}`,

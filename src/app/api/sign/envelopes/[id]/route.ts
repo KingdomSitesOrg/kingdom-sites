@@ -45,7 +45,7 @@ export async function PATCH(request: Request, ctx: Ctx) {
   try {
     const session = await requireAdmin()
     const { id } = await ctx.params
-    const existing = await getEnvelope(id)
+    let existing = await getEnvelope(id)
     if (!existing) {
       return NextResponse.json({ ok: false, error: 'Not found' }, { status: 404 })
     }
@@ -58,6 +58,10 @@ export async function PATCH(request: Request, ctx: Ctx) {
     if (!body) {
       return NextResponse.json({ ok: false, error: 'Invalid body' }, { status: 400 })
     }
+
+    // Re-read before lock check — request-start get can miss a just-sent status.
+    const fresh = await getEnvelope(id)
+    if (fresh) existing = fresh
 
     // Once sent/completed: reject title/signers/fields (race with magic-link signatures).
     // pageCount-only bumps from pdf.js remain allowed for display consistency.

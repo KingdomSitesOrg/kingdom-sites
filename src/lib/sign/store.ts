@@ -150,6 +150,12 @@ export async function saveEnvelope(envelope: Envelope): Promise<Envelope> {
   for (let attempt = 0; attempt < 2; attempt++) {
     previous = await getEnvelope(incoming.id)
     merged = mergeEnvelope(incoming, previous)
+    // Second read: if Send just flipped draft→sent, don't put a stale draft over it.
+    const latest = await getEnvelope(incoming.id)
+    if (latest) {
+      previous = latest
+      merged = mergeEnvelope(merged, latest)
+    }
     const json = JSON.stringify(merged, null, 2)
     if (blobEnabled()) {
       await put(`sign/envelopes/${merged.id}.json`, json, {
