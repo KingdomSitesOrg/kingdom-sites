@@ -19,10 +19,8 @@ const csp = [
   // Sentry reports errors; the Google hosts are where Analytics sends pageviews.
   "connect-src 'self' https://*.ingest.us.sentry.io https://*.ingest.sentry.io https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://calendly.com https://*.calendly.com",
   "form-action 'none'",
-  // Mission page embeds a YouTube player; links-only would not need this.
-  // In development the site may also frame itself, which is how phone-width
-  // layouts get checked in a desktop browser. Never allowed in production.
-  `frame-src https://www.youtube.com https://www.youtube-nocookie.com https://calendly.com https://*.calendly.com${isDev ? " 'self'" : ''}`,
+  // Mission page embeds YouTube; /sign embeds same-origin PDF previews (and blob:).
+  `frame-src 'self' blob: https://www.youtube.com https://www.youtube-nocookie.com https://calendly.com https://*.calendly.com`,
   "base-uri 'self'",
   "object-src 'none'",
 ].join('; ')
