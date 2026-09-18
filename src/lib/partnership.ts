@@ -98,6 +98,7 @@ export const APP_PROOF = [
     name: 'KCUPG',
     href: 'https://kcupgs.com',
     line: 'Kansas City South Asian community dashboard — people, languages, and faith at a glance.',
+    tint: 'warm' as const,
     shots: [] as const,
   },
 ] as const

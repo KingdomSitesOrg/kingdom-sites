@@ -6,12 +6,14 @@ import { usePathname } from 'next/navigation'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 
 /* The individual projects, shown in the menu that opens under My Work. */
-const WORK_LINKS = [
+type WorkLink = { to: string; label: string; desc: string; tint?: 'warm' }
+
+const WORK_LINKS: WorkLink[] = [
   { to: '/my-work',       label: 'All my work',   desc: 'Portfolio — contract work and my own apps' },
   { to: '/ruta',          label: 'Ruta',          desc: 'Contract work on the Ruta team' },
   { to: '/tap-to-tick',   label: 'Tap to Tick',   desc: 'A frictionless expense tracker for iPhone' },
   { to: '/latin-game',    label: 'Latin practice game', desc: 'Classical Latin as a Roman quest' },
-  { to: 'https://kcupgs.com', label: 'KCUPG', desc: 'Kansas City South Asian community dashboard' },
+  { to: 'https://kcupgs.com', label: 'KCUPG', desc: 'Kansas City South Asian community dashboard', tint: 'warm' },
 ]
 
 const NAV_LINKS = [
@@ -176,12 +178,23 @@ export default function Header() {
                       >
                         {children.map((item) => {
                           const external = item.to.startsWith('http')
+                          /* One project carries the terracotta, so the eye finds it
+                             in a list that is otherwise all grey. */
+                          const tinted = item.tint === 'warm'
                           const className = `block rounded-xl px-3 py-2.5 transition-colors ${
-                            isActive(item.to) ? 'bg-surface-2' : 'hover:bg-surface-2'
+                            tinted
+                              ? 'bg-warm-soft hover:bg-warm-soft-hover'
+                              : isActive(item.to)
+                                ? 'bg-surface-2'
+                                : 'hover:bg-surface-2'
                           }`
                           const body = (
                             <>
-                              <span className="flex items-center gap-1.5 text-[13.5px] font-medium text-ink">
+                              <span
+                                className={`flex items-center gap-1.5 text-[13.5px] font-medium ${
+                                  tinted ? 'text-warm' : 'text-ink'
+                                }`}
+                              >
                                 {item.label}
                                 {external ? <ArrowOutIcon /> : null}
                               </span>
@@ -304,10 +317,13 @@ export default function Header() {
                         .filter((item) => item.to !== to)
                         .map((item) => {
                           const external = item.to.startsWith('http')
+                          const tinted = item.tint === 'warm'
                           const className = `rounded-lg px-3 py-2 text-[14px] transition ${
-                            isActive(item.to)
-                              ? 'bg-surface-2 font-medium text-ink'
-                              : 'text-body hover:bg-surface-2 hover:text-ink'
+                            tinted
+                              ? 'bg-warm-soft font-medium text-warm hover:bg-warm-soft-hover'
+                              : isActive(item.to)
+                                ? 'bg-surface-2 font-medium text-ink'
+                                : 'text-body hover:bg-surface-2 hover:text-ink'
                           }`
                           return external ? (
                             <a

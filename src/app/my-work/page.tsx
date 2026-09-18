@@ -56,7 +56,12 @@ export default function MyWork() {
               <div className="self-start lg:pt-6">
                 <h2 className="text-3xl font-semibold tracking-tight text-ink">{app.name}</h2>
                 <p className="mt-4 text-[15px] leading-relaxed text-body">{app.line}</p>
-                <Link href={app.href} className="btn-primary mt-7" target="_blank" rel="noopener noreferrer">
+                <Link
+                  href={app.href}
+                  className={`btn-primary mt-7 ${'tint' in app && app.tint === 'warm' ? 'btn-warm' : ''}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   See the page
                 </Link>
               </div>

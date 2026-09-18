@@ -19,6 +19,10 @@
   --color-accent-hover: #0a56ac;
 
   --color-warm:      #c05a2b;
+  --color-warm-hover: #a04a21;
+  /* The soft wash behind a link that is meant to stand out a little. */
+  --color-warm-soft:       #fdf2ec;
+  --color-warm-soft-hover: #fbe5d9;
 
   --color-dark:   #111827;
 }
@@ -130,6 +134,15 @@ body {
   transition: background 0.18s ease;
 }
 .btn-sm:hover { background: var(--color-accent-hover); }
+
+/* A primary button that carries the terracotta instead of the site blue — one
+   project gets it, so the eye lands on it in a row of otherwise identical
+   buttons. */
+.btn-primary.btn-warm {
+  background: var(--color-warm);
+  box-shadow: 0 1px 2px rgba(192, 90, 43, 0.2), 0 8px 20px rgba(192, 90, 43, 0.18);
+}
+.btn-primary.btn-warm:hover { background: var(--color-warm-hover); }
 
 .btn-primary:disabled,
 .btn-ghost:disabled,
