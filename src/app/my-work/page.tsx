@@ -8,7 +8,7 @@ import { APP_PROOF } from '@/lib/partnership'
 export const metadata: Metadata = {
   title: 'My portfolio',
   description:
-    'Contract work on Ruta, plus Jam with Latin and Tap to Tick. Not products for sale off this site.',
+    'Contract work on Ruta, plus Jam with Latin, Tap to Tick, and KCUPG. Not products for sale off this site.',
   alternates: { canonical: '/my-work' },
 }
 

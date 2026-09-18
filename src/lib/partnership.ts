@@ -94,6 +94,12 @@ export const APP_PROOF = [
     line: 'A development project website for communities in northern Bangladesh and Dhaka.',
     shots: [] as const,
   },
+  {
+    name: 'KCUPG',
+    href: 'https://kcupgs.com',
+    line: 'Kansas City South Asian community dashboard — people, languages, and faith at a glance.',
+    shots: [] as const,
+  },
 ] as const
 
 export const HOME_CLUSTER = [
