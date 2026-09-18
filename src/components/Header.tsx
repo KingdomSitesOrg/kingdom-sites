@@ -11,6 +11,7 @@ const WORK_LINKS = [
   { to: '/ruta',          label: 'Ruta',          desc: 'Contract work on the Ruta team' },
   { to: '/tap-to-tick',   label: 'Tap to Tick',   desc: 'A frictionless expense tracker for iPhone' },
   { to: '/latin-game',    label: 'Latin practice game', desc: 'Classical Latin as a Roman quest' },
+  { to: 'https://kcupgs.com', label: 'KCUPG', desc: 'Kansas City South Asian community dashboard' },
 ]
 
 const NAV_LINKS = [
@@ -106,6 +107,7 @@ export default function Header() {
   // Hash-only paths under `/` are not used as section roots (would light everything).
   const sectionActive = (children: { to: string }[]) =>
     children.some(({ to }) => {
+      if (to.startsWith('http')) return false
       const base = to.split('#')[0]
       if (base === '/') return false
       return pathname === base || pathname?.startsWith(base + '/')
@@ -172,20 +174,44 @@ export default function Header() {
                           boxShadow: '0 16px 40px rgba(16,23,37,0.14)',
                         }}
                       >
-                        {children.map((item) => (
-                          <Link
-                            key={item.to}
-                            href={item.to}
-                            tabIndex={openMenu === to ? 0 : -1}
-                            onClick={() => setOpenMenu(null)}
-                            className={`block rounded-xl px-3 py-2.5 transition-colors ${
-                              isActive(item.to) ? 'bg-surface-2' : 'hover:bg-surface-2'
-                            }`}
-                          >
-                            <span className="block text-[13.5px] font-medium text-ink">{item.label}</span>
-                            <span className="mt-0.5 block text-[12px] leading-snug text-muted">{item.desc}</span>
-                          </Link>
-                        ))}
+                        {children.map((item) => {
+                          const external = item.to.startsWith('http')
+                          const className = `block rounded-xl px-3 py-2.5 transition-colors ${
+                            isActive(item.to) ? 'bg-surface-2' : 'hover:bg-surface-2'
+                          }`
+                          const body = (
+                            <>
+                              <span className="flex items-center gap-1.5 text-[13.5px] font-medium text-ink">
+                                {item.label}
+                                {external ? <ArrowOutIcon /> : null}
+                              </span>
+                              <span className="mt-0.5 block text-[12px] leading-snug text-muted">{item.desc}</span>
+                            </>
+                          )
+                          return external ? (
+                            <a
+                              key={item.to}
+                              href={item.to}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              tabIndex={openMenu === to ? 0 : -1}
+                              onClick={() => setOpenMenu(null)}
+                              className={className}
+                            >
+                              {body}
+                            </a>
+                          ) : (
+                            <Link
+                              key={item.to}
+                              href={item.to}
+                              tabIndex={openMenu === to ? 0 : -1}
+                              onClick={() => setOpenMenu(null)}
+                              className={className}
+                            >
+                              {body}
+                            </Link>
+                          )
+                        })}
                       </div>
                     </div>
                   </div>
@@ -276,20 +302,36 @@ export default function Header() {
                     <div className="mb-1 ml-4 flex flex-col gap-0.5 border-l border-line pl-3">
                       {children
                         .filter((item) => item.to !== to)
-                        .map((item) => (
-                          <Link
-                            key={item.to}
-                            href={item.to}
-                            onClick={() => setMenuOpen(false)}
-                            className={`rounded-lg px-3 py-2 text-[14px] transition ${
-                              isActive(item.to)
-                                ? 'bg-surface-2 font-medium text-ink'
-                                : 'text-body hover:bg-surface-2 hover:text-ink'
-                            }`}
-                          >
-                            {item.label}
-                          </Link>
-                        ))}
+                        .map((item) => {
+                          const external = item.to.startsWith('http')
+                          const className = `rounded-lg px-3 py-2 text-[14px] transition ${
+                            isActive(item.to)
+                              ? 'bg-surface-2 font-medium text-ink'
+                              : 'text-body hover:bg-surface-2 hover:text-ink'
+                          }`
+                          return external ? (
+                            <a
+                              key={item.to}
+                              href={item.to}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={() => setMenuOpen(false)}
+                              className={`${className} inline-flex items-center gap-1.5`}
+                            >
+                              {item.label}
+                              <ArrowOutIcon />
+                            </a>
+                          ) : (
+                            <Link
+                              key={item.to}
+                              href={item.to}
+                              onClick={() => setMenuOpen(false)}
+                              className={className}
+                            >
+                              {item.label}
+                            </Link>
+                          )
+                        })}
                     </div>
                   )}
                 </div>
