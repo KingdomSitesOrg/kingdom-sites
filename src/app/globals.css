@@ -19,6 +19,9 @@
   --color-accent-hover: #0a56ac;
 
   --color-warm:      #c05a2b;
+  --color-warm-hover: #a04a21;
+  --color-warm-soft:       #fdf2ec;
+  --color-warm-soft-hover: #fbe5d9;
 
   --color-dark:   #111827;
 }
@@ -109,6 +112,17 @@ body {
   box-shadow: 0 1px 2px rgba(10, 99, 201, 0.2), 0 8px 20px rgba(10, 99, 201, 0.18);
 }
 .btn-primary:hover { background: var(--color-accent-hover); transform: translateY(-1px); }
+
+/* Warmer primary for one portfolio accent (KCUPG under My Work). */
+.btn-primary.btn-warm {
+  background: var(--color-warm);
+}
+.btn-primary.btn-warm:hover { background: var(--color-warm-hover); }
+
+.bg-warm-soft { background: var(--color-warm-soft); }
+.bg-warm-soft-hover:hover { background: var(--color-warm-soft-hover); }
+.text-warm { color: var(--color-warm); }
+
 .btn-ghost {
   background: var(--color-surface);
   color: var(--color-ink);
