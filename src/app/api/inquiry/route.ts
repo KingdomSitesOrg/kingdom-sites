@@ -18,6 +18,13 @@ export const maxDuration = 15
 const EMAIL_TIMEOUT_MS = 8_000
 const WEBHOOK_TIMEOUT_MS = 4_000
 
+/**
+ * Resend's own sending address only delivers to the account owner's inbox, so
+ * enquiries to anyone else are rejected outright. Sending has to come from the
+ * verified domain; LEAD_FROM_EMAIL overrides the address and the display name.
+ */
+const DEFAULT_FROM = 'Website Contact <contact@kingdom-sites.com>'
+
 function clean(value: unknown, max = 300): string {
   if (typeof value !== 'string') return ''
   return value.replace(/[\r\n]+/g, ' ').trim().slice(0, max)
@@ -62,7 +69,7 @@ async function sendEmail(subject: string, body: string, replyTo: string) {
       },
       signal: AbortSignal.timeout(EMAIL_TIMEOUT_MS),
       body: JSON.stringify({
-        from: process.env.LEAD_FROM_EMAIL?.trim() || 'Kingdom Sites <onboarding@resend.dev>',
+        from: process.env.LEAD_FROM_EMAIL?.trim() || DEFAULT_FROM,
         to,
         reply_to: replyTo && looksLikeEmail(replyTo) ? replyTo : undefined,
         subject,
