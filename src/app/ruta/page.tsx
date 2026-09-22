@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { RutaPhoneCluster } from '@/components/BuildMocks'
+import { RutaPhoneShot } from '@/components/BuildMocks'
 import { INQUIRE_PATH } from '@/lib/contact'
 
 const RUTA_SITE_URL = 'https://getruta.com'
@@ -18,7 +18,11 @@ export default function Ruta() {
     <div className="w-full overflow-x-hidden">
       <section className="hero-wash px-5 pb-16 pt-16 sm:px-8 sm:pb-20 sm:pt-24">
         <div className="mx-auto grid max-w-6xl items-start gap-10 lg:grid-cols-2 lg:gap-14">
-          <RutaPhoneCluster />
+          <div className="flex items-end justify-center self-start pb-4">
+            <div className="w-full max-w-[200px] overflow-hidden rounded-[26px] shadow-[0_18px_44px_rgba(16,23,37,0.16)]">
+              <RutaPhoneShot scene="portal" fill />
+            </div>
+          </div>
           <div className="self-start lg:pt-6">
             <p className="eyebrow eyebrow-blue">Contract work</p>
             <h1 className="mt-5 text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
