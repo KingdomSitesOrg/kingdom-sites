@@ -16,8 +16,7 @@ export const HERO = {
 
 export const APP_OFFER = {
   title: 'Apps I build.',
-  sub:
-    'Phone and tablet apps people actually use. The work includes whatever the app needs to be real — accounts, a backend, an office screen. I keep shipping features and fixes after launch. Not a handoff.',
+  sub: 'Here are some of the things I have built.',
 }
 
 export const AI_CONSULT = {
