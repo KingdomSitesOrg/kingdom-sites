@@ -56,7 +56,14 @@ export default function MyWork() {
               <div className="self-start lg:pt-6">
                 <h2 className="text-3xl font-semibold tracking-tight text-ink">{app.name}</h2>
                 <p className="mt-4 text-[15px] leading-relaxed text-body">{app.line}</p>
-                <Link href={app.href} className="btn-primary mt-7" target="_blank" rel="noopener noreferrer">
+                {/* Site pages open in place; external links open in a new tab. */}
+                <Link
+                  href={app.href}
+                  className="btn-primary mt-7"
+                  {...(app.href.startsWith('http')
+                    ? { target: '_blank', rel: 'noopener noreferrer' }
+                    : {})}
+                >
                   See the page
                 </Link>
               </div>
