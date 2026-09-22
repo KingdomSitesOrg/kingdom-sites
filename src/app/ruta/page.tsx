@@ -18,10 +18,13 @@ export default function Ruta() {
     <div className="w-full overflow-x-hidden">
       <section className="hero-wash px-5 pb-16 pt-16 sm:px-8 sm:pb-20 sm:pt-24">
         <div className="mx-auto grid max-w-6xl items-start gap-10 lg:grid-cols-2 lg:gap-14">
-          <div className="flex items-end justify-center self-start pb-4">
+          <div className="flex flex-col items-center self-start">
             <div className="w-full max-w-[300px] overflow-hidden rounded-[26px] shadow-[0_18px_44px_rgba(16,23,37,0.16)]">
               <RutaPhoneShot scene="portal" fill />
             </div>
+            <p className="mt-5 max-w-[300px] text-center text-sm leading-relaxed text-muted">
+              This is representing the app — just an animation, not the real product.
+            </p>
           </div>
           <div className="self-start lg:pt-6">
             <p className="eyebrow eyebrow-blue">Contract work</p>
