@@ -8,7 +8,7 @@ on:
 
 jobs:
   snyk:
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-2vcpu-ubuntu-2404
     # Snyk is an advisory scan, not a gate. A missing or expired Snyk account
     # token used to paint every commit red even though the site built and
     # deployed fine; the Build workflow is what actually decides pass or fail.
