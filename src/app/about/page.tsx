@@ -2,13 +2,13 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import aboutImage from '../../../public/Photos/about.jpg'
-import { INQUIRE_CTA, INQUIRE_PATH, SALES_NAME } from '@/lib/contact'
+import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { RETAINER } from '@/lib/partnership'
 
 export const metadata: Metadata = {
-  title: 'Team — Kingdom Sites',
+  title: 'About — Kingdom Sites',
   description:
-    'Meet the Kingdom Sites team — Thomas Klein (engineering — design, build, ship, maintain) and Jack (sales).',
+    'Meet Thomas Klein of Kingdom Sites — engineering: design, build, ship, and maintain.',
   alternates: { canonical: '/about' },
 }
 
@@ -17,11 +17,11 @@ export default function About() {
     <div className="mx-auto max-w-5xl px-4 pb-16 pt-16 sm:px-6 sm:pb-24 sm:pt-24">
       <div className="max-w-2xl">
         <h1 className="mt-4 text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
-          The <span className="text-accent">team.</span>
+          About <span className="text-accent">Kingdom Sites.</span>
         </h1>
         <p className="mt-5 text-pretty text-base leading-relaxed text-body sm:text-lg">
-          Engineering (design, build, ship, maintain) on one side, sales on the other — a small team on
-          purpose so you always know who you are talking to.
+          Design, build, ship, and maintain — one engineer, on purpose, so you always know who you are
+          talking to.
         </p>
       </div>
 
@@ -117,47 +117,12 @@ export default function About() {
         </div>
       </section>
 
-      {/* Jack — sales, photo placeholder */}
-      <section
-        aria-label={`${SALES_NAME} — sales`}
-        className="mt-16 border-t border-line pt-14"
-      >
-        <div className="grid items-start gap-10 lg:grid-cols-12 lg:gap-12">
-          <div className="lg:col-span-5">
-            <div className="relative mx-auto w-full max-w-md">
-              <div className="tile-elevated">
-                <Image
-                  src="/Photos/jack.jpg"
-                  alt="Jack"
-                  width={305}
-                  height={306}
-                  quality={75}
-                  className="h-auto w-full object-contain"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="lg:col-span-7">
-            <p className="text-xs font-semibold uppercase tracking-[0.08em] text-warm">Sales</p>
-            <h2 className="mt-2 text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
-              {SALES_NAME}
-            </h2>
-            <p className="mt-5 text-pretty text-base leading-relaxed text-body sm:text-lg">
-              Sales contact. Reach out about an idea or a fit conversation — he will loop in
-              engineering when it is time to build.
-            </p>
-            <Link href={INQUIRE_PATH} className="link-accent mt-5 inline-block text-sm">{INQUIRE_CTA}</Link>
-          </div>
-        </div>
-      </section>
-
       <div className="mt-14 border-t border-line pt-12">
         <Link href={INQUIRE_PATH} className="btn-primary">
           {INQUIRE_CTA}
         </Link>
         <p className="mt-4 text-sm text-body">
-          Sales is {SALES_NAME}; engineering is Thomas — both receive every enquiry.
+          Every enquiry goes to Thomas and gets a personal reply.
         </p>
         <p className="mt-3 text-sm text-muted">
           <Link href="/my-work" className="underline underline-offset-4">

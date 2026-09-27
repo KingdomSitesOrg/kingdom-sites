@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { trackEvent } from '@/lib/analytics'
-import { CONTACT_EMAIL, INQUIRE_API, SALES_EMAIL } from '@/lib/contact'
+import { CONTACT_EMAIL, INQUIRE_API } from '@/lib/contact'
 
 /**
  * Enquiry form — name, email, optional message.
@@ -43,7 +43,7 @@ export default function InquiryForm() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => setFields((f) => ({ ...f, [key]: e.target.value }))
 
-  const mailtoHref = `mailto:${SALES_EMAIL},${CONTACT_EMAIL}?subject=${encodeURIComponent(
+  const mailtoHref = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
     fields.name.trim() ? `Enquiry from ${fields.name.trim()}` : 'Kingdom Sites enquiry',
   )}&body=${encodeURIComponent(fields.message.trim() || '(no message)')}`
 
@@ -112,11 +112,7 @@ export default function InquiryForm() {
           whether working together is a fit.
         </p>
         <p className="mt-4 text-[15px] leading-relaxed text-body">
-          {'Sales is '}
-          <a href={`mailto:${SALES_EMAIL}`} className="link-accent">
-            {SALES_EMAIL}
-          </a>
-          {'; engineering is '}
+          Prefer email? Reach me at{' '}
           <a href={`mailto:${CONTACT_EMAIL}`} className="link-accent">
             {CONTACT_EMAIL}
           </a>
