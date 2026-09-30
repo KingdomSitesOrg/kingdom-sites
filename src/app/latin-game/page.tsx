@@ -16,7 +16,7 @@ const PLAY_STORE_URL = ''
 const FAQS = [
   {
     q: 'Can I have multiple accounts within one paid app?',
-    a: 'Yes. One purchase covers multiple accounts, so each student can keep their own progress.',
+    a: 'Yes. For a limited time, you can add as many accounts as you like under one paid app, so every student keeps their own progress. Soon the number of accounts per purchase will be capped, and anyone who joins before then keeps the accounts they already made.',
   },
 ]
 
@@ -202,7 +202,7 @@ export default function JamWithLatin() {
               <Image src={shotHome} alt="Home screen: your legionary, current city, XP, and the word of the day" sizes="264px" priority />
             </div>
             <div className="phone">
-              <Image src={shotCase} alt="A case challenge in the city of Rōma: choose the nominative singular of “earth, land”" sizes="228px" placeholder="blur" />
+              <Image src={shotCase} alt="A vocabulary card in Rōma: pick the English meaning of glōria" sizes="228px" placeholder="blur" />
             </div>
           </div>
         </div>
@@ -279,7 +279,7 @@ export default function JamWithLatin() {
           </div>
           <div className="reveal">
             <div className="phone lift" style={{ margin: '0 auto' }}>
-              <Image src={shotCase} alt="A case challenge with four declined Latin forms to choose between" sizes="264px" placeholder="blur" />
+              <Image src={shotCase} alt="A vocabulary card with four English choices for a Latin word" sizes="264px" placeholder="blur" />
             </div>
           </div>
         </div>
@@ -329,8 +329,8 @@ export default function JamWithLatin() {
             <div className="cap">The march — twelve real stops</div>
           </div>
           <div className="gshot">
-            <Image src={shotCase} alt="A case challenge in the city of Rōma" sizes="208px" placeholder="blur" />
-            <div className="cap">Cities — case challenges to clear</div>
+            <Image src={shotCase} alt="A vocabulary card in the city of Rōma" sizes="208px" placeholder="blur" />
+            <div className="cap">Cities — vocabulary to clear</div>
           </div>
           <div className="gshot">
             <Image src={shotLeaderboard} alt="Arena standings leaderboard" sizes="208px" placeholder="blur" />
