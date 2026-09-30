@@ -16,7 +16,7 @@ const PLAY_STORE_URL = ''
 const FAQS = [
   {
     q: 'Can I have multiple accounts within one paid app?',
-    a: 'Yes. For a limited time, you can add as many accounts as you like under one paid app, so every student keeps their own progress. Soon the number of accounts per purchase will be capped, and anyone who joins before then keeps the accounts they already made.',
+    a: 'Yes. For a limited time, you can add as many accounts as you like under one paid app, so every student keeps their own progress. Soon the number of accounts per purchase will be capped.',
   },
 ]
 
