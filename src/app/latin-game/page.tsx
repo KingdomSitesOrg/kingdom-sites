@@ -13,6 +13,13 @@ import shotMap from '../../../public/latin-game/map.jpg'
 const APP_STORE_URL = ''
 const PLAY_STORE_URL = ''
 
+const FAQS = [
+  {
+    q: 'Can I have multiple accounts within one paid app?',
+    a: 'Yes. One purchase covers multiple accounts, so each student can keep their own progress.',
+  },
+]
+
 const LEARNING = [
   { icon: '🃏', title: 'Vocabulary cards', desc: 'Match the Latin word to its English meaning. Correct macrons throughout, so students learn the word as it is actually written.' },
   { icon: '⚖️', title: 'Case challenges', desc: 'Pick the correct case form of a noun from real, correctly-declined options — not near-misses invented to trick you.' },
@@ -332,7 +339,21 @@ export default function JamWithLatin() {
         </div>
       </section>
 
-      {/* ============ SAFE ============ */}
+      {/* ============ FAQ ============ */}
+      <section id="faq">
+        <div className="wrap faq">
+          <div className="reveal" style={{ textAlign: 'center' }}>
+            <div className="kicker">Frequently asked questions</div>
+            <h2>Good questions.</h2>
+          </div>
+          {FAQS.map((f) => (
+            <details key={f.q} className="faq-item reveal">
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
 
       {/* ============ FINAL ============ */}
       <div className="final band-navy" id="get">
