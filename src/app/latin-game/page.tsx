@@ -202,7 +202,7 @@ export default function JamWithLatin() {
               <Image src={shotHome} alt="Home screen: your legionary, current city, XP, and the word of the day" sizes="264px" priority />
             </div>
             <div className="phone">
-              <Image src={shotCase} alt="A vocabulary card in Rōma: pick the English meaning of glōria" sizes="228px" placeholder="blur" />
+              <Image src={shotCase} alt="A matching challenge: pair each Latin preposition with its English meaning" sizes="228px" placeholder="blur" />
             </div>
           </div>
         </div>
@@ -279,7 +279,7 @@ export default function JamWithLatin() {
           </div>
           <div className="reveal">
             <div className="phone lift" style={{ margin: '0 auto' }}>
-              <Image src={shotCase} alt="A vocabulary card with four English choices for a Latin word" sizes="264px" placeholder="blur" />
+              <Image src={shotCase} alt="A matching challenge pairing Latin prepositions with English meanings" sizes="264px" placeholder="blur" />
             </div>
           </div>
         </div>
@@ -329,8 +329,8 @@ export default function JamWithLatin() {
             <div className="cap">The march — twelve real stops</div>
           </div>
           <div className="gshot">
-            <Image src={shotCase} alt="A vocabulary card in the city of Rōma" sizes="208px" placeholder="blur" />
-            <div className="cap">Cities — vocabulary to clear</div>
+            <Image src={shotCase} alt="A matching challenge: Latin prepositions and English meanings" sizes="208px" placeholder="blur" />
+            <div className="cap">Cities — matching challenges to clear</div>
           </div>
           <div className="gshot">
             <Image src={shotLeaderboard} alt="Arena standings leaderboard" sizes="208px" placeholder="blur" />
