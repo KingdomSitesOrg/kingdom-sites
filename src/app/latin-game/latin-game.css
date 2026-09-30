@@ -337,3 +337,8 @@
   .jwl .reveal { opacity: 1 !important; transform: none !important; }
   .jwl header { position: static; }
 }
+
+.jwl .faq { max-width: 720px; }
+.jwl .faq-item { border-bottom: 1px solid var(--stone-light); padding: 16px 0; }
+.jwl .faq-item summary { cursor: pointer; font-weight: 600; font-size: 17px; color: var(--navy); }
+.jwl .faq-item p { margin-top: 10px; font-size: 15px; color: var(--ink-2); line-height: 1.6; }
