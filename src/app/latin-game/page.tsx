@@ -10,7 +10,7 @@ import shotLeaderboard from '../../../public/latin-game/leaderboard.jpg'
 import shotMap from '../../../public/latin-game/map.jpg'
 
 /** Set these once each app is live and the buttons become real links. */
-const APP_STORE_URL = ''
+const APP_STORE_URL = 'https://apps.apple.com/us/app/jam-legio/id6797884645'
 const PLAY_STORE_URL = ''
 
 const FAQS = [
@@ -90,7 +90,7 @@ function AppStoreButton() {
 
 function PlayStoreButton() {
   if (!PLAY_STORE_URL) {
-    return <span className="btn"><PlayStoreIcon />Coming to Google Play</span>
+    return <span className="btn"><PlayStoreIcon />Coming soon to Google Play</span>
   }
   return <a href={PLAY_STORE_URL} className="btn"><PlayStoreIcon />Get it on Google Play</a>
 }
