@@ -367,7 +367,7 @@ export default function JamWithLatin() {
             <PlayStoreButton />
           </div>
           <p className="note" style={{ color: 'rgba(255,255,255,0.5)' }}>
-            Coming to iPhone, iPad, and Android. Education · Ages 4+.
+            On the App Store now for iPhone and iPad. Android coming soon to Google Play. Education · Ages 4+.
           </p>
         </div>
       </div>
