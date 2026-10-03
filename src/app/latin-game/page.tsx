@@ -24,26 +24,31 @@ const LEARNING = [
   { icon: '🃏', title: 'Vocabulary cards', desc: 'Match the Latin word to its English meaning. Correct macrons throughout, so students learn the word as it is actually written.' },
   { icon: '⚖️', title: 'Case challenges', desc: 'Pick the correct case form of a noun from real, correctly-declined options — not near-misses invented to trick you.' },
   { icon: '🔤', title: 'Verb endings', desc: 'Connect each personal ending — ō, s, t, mus, tis, nt — to its person and number until it is second nature.' },
-  { icon: '📖', title: 'Sentence reading', desc: 'Put the grammar together and read short, correct Latin sentences by the end of the march.' },
-  { icon: '⚔️', title: 'Training mode', desc: 'Quick matching rounds any time, for the days when a full city is more than you have time for.' },
+  { icon: '🏷️', title: 'Adjectives', desc: 'At Mediōlānum, learn the adjectives and drill their endings, then meet them again in the sentences at Genua.' },
+  { icon: '🔗', title: 'Prepositions, conjunctions & adverbs', desc: 'At Augusta Taurīnōrum, match the little words that join Latin together, then watch them join whole sentences at Rhodanus.' },
+  { icon: '📖', title: 'Sentence reading', desc: 'From Vērōna on, read short Latin sentences built only from words you have already learned, and pick what they mean.' },
+  { icon: '⚔️', title: 'Training mode', desc: 'Practice any time: word matching, noun and adjective endings, verb endings, parts of speech and sentences, for the days when a full city is more than you have time for.' },
   { icon: '🗓️', title: 'Word of the day', desc: 'One new word on the home screen every day, to keep vocabulary ticking over between sessions.' },
+  { icon: '🧭', title: 'The march home', desc: 'Reach Gallia and the road turns back: march every stop in reverse to Rōma, reviewing the whole journey on the way.' },
 ]
 
-/* The twelve stops of the march, in order, exactly as the app names them:
-   classical Latin nominatives with macrons. Two of them are camp rests
-   (Castra), not cities, and the last one is the goal. */
+/* The thirteen stops of the march, in order, exactly as the app names them:
+   classical Latin nominatives with macrons. Two of them are camp-outs
+   (Pīsae and Venetiae, where the legion learns its verbs), and the last one
+   is the goal. */
 const STOPS = [
   { name: 'Rōma' },
   { name: 'Vēiī' },
   { name: 'Clūsium' },
-  { name: 'Castra I', kind: 'camp rest' },
+  { name: 'Pīsae', kind: 'camp-out' },
   { name: 'Florentia' },
   { name: 'Bonōnia' },
+  { name: 'Venetiae', kind: 'camp-out' },
   { name: 'Vērōna' },
-  { name: 'Castra II', kind: 'camp rest' },
   { name: 'Mediōlānum' },
   { name: 'Genua' },
   { name: 'Augusta Taurīnōrum' },
+  { name: 'Rhodanus' },
   { name: 'Gallia', kind: 'the goal' },
 ]
 
@@ -199,10 +204,10 @@ export default function JamWithLatin() {
               <Image src={shotJourney} alt="The journey hub: next city to enter, the map, and training" sizes="228px" placeholder="blur" />
             </div>
             <div className="phone lift">
-              <Image src={shotHome} alt="Home screen: your legionary, current city, XP, and the word of the day" sizes="264px" priority />
+              <Image src={shotHome} alt="Home screen: your current city, coins, the leaderboard race, and the word of the day" sizes="264px" priority />
             </div>
             <div className="phone">
-              <Image src={shotCase} alt="A matching challenge: pair each Latin preposition with its English meaning" sizes="228px" placeholder="blur" />
+              <Image src={shotCase} alt="A case challenge: choose the dative plural form of portus, harbor" sizes="228px" placeholder="blur" />
             </div>
           </div>
         </div>
@@ -213,12 +218,13 @@ export default function JamWithLatin() {
         <div className="wrap split">
           <div className="copy reveal">
             <div className="kicker">The journey</div>
-            <h2>Twelve stops, north across Italy.</h2>
+            <h2>Thirteen stops, north across Italy.</h2>
             <p className="lede">
               Every city on the road teaches one piece of the classical curriculum, and the challenge
-              grows as the legion marches. Clear all six words in a city to move on. Between the
-              hard stretches, the <b>camp-outs</b> stop and review everything learned so far —
-              which is where the grammar actually sticks.
+              grows as the legion marches. Each city is split into levels, played a day at a time;
+              clear every level to march on. Twice on the road the legion makes camp, at Pīsae and
+              Venetiae. Each <b>camp-out</b> reviews the noun endings learned so far, then drills
+              the present-tense verbs — which is where the grammar actually sticks.
             </p>
             <p className="lede">
               The map is a real map of Italy, so students can see where Vēiī sits relative to Rōma,
@@ -237,7 +243,7 @@ export default function JamWithLatin() {
           </div>
           <div className="reveal">
             <div className="phone lift" style={{ margin: '0 auto' }}>
-              <Image src={shotMap} alt="The campaign map of Italy with twelve numbered stops from Rōma north to Gallia" sizes="264px" placeholder="blur" />
+              <Image src={shotMap} alt="The campaign map of Italy: the road from Rōma north to Gallia, with seven stops cleared and Vērōna next" sizes="264px" placeholder="blur" />
             </div>
           </div>
         </div>
@@ -248,7 +254,7 @@ export default function JamWithLatin() {
         <div className="wrap">
           <div className="reveal" style={{ textAlign: 'center' }}>
             <div className="kicker">How you learn</div>
-            <h2>Six ways to drill the same grammar.</h2>
+            <h2>Nine ways to drill the grammar.</h2>
             <p className="lede" style={{ margin: '16px auto 0', textAlign: 'center' }}>
               Enough variety that practice does not feel like a worksheet.
             </p>
@@ -279,7 +285,7 @@ export default function JamWithLatin() {
           </div>
           <div className="reveal">
             <div className="phone lift" style={{ margin: '0 auto' }}>
-              <Image src={shotCase} alt="A matching challenge pairing Latin prepositions with English meanings" sizes="264px" placeholder="blur" />
+              <Image src={shotCase} alt="A case challenge: four correctly-declined forms of portus to choose from" sizes="264px" placeholder="blur" />
             </div>
           </div>
         </div>
@@ -292,13 +298,15 @@ export default function JamWithLatin() {
             <div className="kicker">The Colosseum</div>
             <h2>Something to march for.</h2>
             <p className="lede">
-              Every correct answer earns XP, and the arena standings show who is furthest along the
-              road to Gallia. It turns solitary vocabulary practice into a friendly contest — the part
-              that keeps students coming back without any prompting from a parent.
+              Every level and city cleared earns coins, and the arena standings show who has earned
+              the most on the road to Gallia, and how many of the thirteen cities each legionary has
+              cleared. It turns solitary vocabulary practice into a friendly contest — the part that
+              keeps students coming back without any prompting from a parent.
             </p>
             <p className="lede">
-              The leaderboard shows usernames and scores. Nothing else, because the app never asks
-              for anything else.
+              The leaderboard shows the name each student chooses to show, a picture picked from the
+              app&rsquo;s own portraits, and their progress. Nothing else, because the app only asks
+              for a username, a six-digit PIN, and that name.
             </p>
           </div>
           <div className="reveal">
@@ -317,20 +325,20 @@ export default function JamWithLatin() {
         </div>
         <div className="gallery">
           <div className="gshot">
-            <Image src={shotHome} alt="Home screen with legionary, city progress and word of the day" sizes="208px" placeholder="blur" />
-            <div className="cap">Home — your legionary &amp; the word of the day</div>
+            <Image src={shotHome} alt="Home screen with city progress, coins, the leaderboard race and the word of the day" sizes="208px" placeholder="blur" />
+            <div className="cap">Home — your progress &amp; the word of the day</div>
           </div>
           <div className="gshot">
             <Image src={shotJourney} alt="Journey hub with the next city and training" sizes="208px" placeholder="blur" />
             <div className="cap">Journey — next city, map, training</div>
           </div>
           <div className="gshot">
-            <Image src={shotMap} alt="Map of Italy with the twelve numbered stops" sizes="208px" placeholder="blur" />
-            <div className="cap">The march — twelve real stops</div>
+            <Image src={shotMap} alt="Map of Italy with the thirteen stops from Rōma to Gallia" sizes="208px" placeholder="blur" />
+            <div className="cap">The march — thirteen real stops</div>
           </div>
           <div className="gshot">
-            <Image src={shotCase} alt="A matching challenge: Latin prepositions and English meanings" sizes="208px" placeholder="blur" />
-            <div className="cap">Cities — matching challenges to clear</div>
+            <Image src={shotCase} alt="A case challenge: pick the dative plural of portus" sizes="208px" placeholder="blur" />
+            <div className="cap">Cities — matching &amp; case challenges to clear</div>
           </div>
           <div className="gshot">
             <Image src={shotLeaderboard} alt="Arena standings leaderboard" sizes="208px" placeholder="blur" />
@@ -367,7 +375,7 @@ export default function JamWithLatin() {
             <PlayStoreButton />
           </div>
           <p className="note" style={{ color: 'rgba(255,255,255,0.5)' }}>
-            On the App Store now for iPhone and iPad. Android coming soon to Google Play. Education · Ages 4+.
+            On the App Store now for iPhone and iPad. Android coming soon to Google Play. Education · Ages 9+.
           </p>
         </div>
       </div>
