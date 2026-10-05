@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { PhoneMock, RutaPhoneShot, WebMock } from '@/components/BuildMocks'
+import { RutaPhoneShot } from '@/components/BuildMocks'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { AI_CONSULT, APP_OFFER, HOME_CLUSTER, HERO } from '@/lib/partnership'
 
@@ -15,11 +15,12 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <div className="w-full overflow-x-hidden">
-      {/* 1 — Hero: the app offer. No CTA. */}
-      <section aria-label="Mobile apps" className="hero-wash px-5 pb-20 pt-16 sm:px-8 sm:pb-28 sm:pt-24">
+      {/* 1 — Hero: the Jam with Latin launch, then an invitation to build yours. */}
+      <section aria-label="Jam with Latin is out now" className="hero-wash px-5 pb-20 pt-16 sm:px-8 sm:pb-28 sm:pt-24">
         <div className="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-16">
           <div className="text-center lg:text-left">
-            <h1 className="text-balance text-[2.15rem] font-semibold leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-[3.5rem] xl:text-[3.85rem]">
+            <p className="eyebrow eyebrow-blue">{HERO.eyebrow}</p>
+            <h1 className="mt-4 text-balance text-[2.15rem] font-semibold leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-[3.5rem] xl:text-[3.85rem]">
               {HERO.title}
               <span className="mt-3 block text-[0.72em] font-medium leading-snug text-accent sm:mt-4">
                 {HERO.accent}
@@ -28,14 +29,48 @@ export default function Home() {
             <p className="mt-7 text-pretty text-base leading-relaxed text-body sm:text-lg">
               {HERO.sub}
             </p>
+            <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
+              <Link href={INQUIRE_PATH} className="btn-primary">
+                {INQUIRE_CTA}
+              </Link>
+              <Link href={HERO.appHref} className="btn-ghost">
+                {HERO.appCta}
+              </Link>
+            </div>
           </div>
 
-          <div className="flex items-center justify-center [--mock-scale:0.48] sm:[--mock-scale:0.72] lg:[--mock-scale:0.94]">
-            <div className="band-dark rounded-[28px] p-6 sm:p-8">
-              <div className="flex items-center justify-center gap-2 sm:gap-5">
-                <WebMock />
-                <PhoneMock />
-              </div>
+          {/* Real screens from the shipped app, in the same dark frame the hero has always had. */}
+          <div className="flex items-center justify-center">
+            <div className="band-dark w-full max-w-[520px] rounded-[28px] px-5 pb-10 pt-8 sm:px-8 sm:pb-12 sm:pt-10">
+              <Link
+                href={HERO.appHref}
+                aria-label={HERO.appCta}
+                className="mx-auto flex max-w-[440px] items-end justify-center"
+              >
+                {HERO.shots.map((shot, i) => {
+                  const middle = i === 1
+                  return (
+                    <span
+                      key={shot.src}
+                      className={`relative block overflow-hidden rounded-[22px] border border-white/15 shadow-[0_24px_60px_rgba(0,0,0,0.45)] ${
+                        middle
+                          ? 'z-10 w-[40%]'
+                          : `w-[31%] translate-y-5 ${i === 0 ? '-mr-4 sm:-mr-5' : '-ml-4 sm:-ml-5'}`
+                      }`}
+                    >
+                      <Image
+                        src={shot.src}
+                        alt={shot.alt}
+                        width={360}
+                        height={780}
+                        priority={middle}
+                        sizes="(min-width: 1024px) 200px, 40vw"
+                        className="h-auto w-full"
+                      />
+                    </span>
+                  )
+                })}
+              </Link>
             </div>
           </div>
         </div>
