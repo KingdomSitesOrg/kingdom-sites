@@ -39,39 +39,37 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Real screens from the shipped app, in the same dark frame the hero has always had. */}
-          <div className="flex items-center justify-center">
-            <div className="band-dark w-full max-w-[520px] rounded-[28px] px-5 pb-10 pt-8 sm:px-8 sm:pb-12 sm:pt-10">
-              <Link
-                href={HERO.appHref}
-                aria-label={HERO.appCta}
-                className="mx-auto flex max-w-[440px] items-end justify-center"
-              >
-                {HERO.shots.map((shot, i) => {
-                  const middle = i === 1
-                  return (
-                    <span
-                      key={shot.src}
-                      className={`relative block overflow-hidden rounded-[22px] border border-white/15 shadow-[0_24px_60px_rgba(0,0,0,0.45)] ${
-                        middle
-                          ? 'z-10 w-[40%]'
-                          : `w-[31%] translate-y-5 ${i === 0 ? '-mr-4 sm:-mr-5' : '-ml-4 sm:-ml-5'}`
-                      }`}
-                    >
-                      <Image
-                        src={shot.src}
-                        alt={shot.alt}
-                        width={360}
-                        height={780}
-                        priority={middle}
-                        sizes="(min-width: 1024px) 200px, 40vw"
-                        className="h-auto w-full"
-                      />
-                    </span>
-                  )
-                })}
-              </Link>
-            </div>
+          {/* Real screens from the shipped app, straight on the page. */}
+          <div className="flex items-center justify-center pb-6">
+            <Link
+              href={HERO.appHref}
+              aria-label={HERO.appCta}
+              className="mx-auto flex w-full max-w-[480px] items-end justify-center"
+            >
+              {HERO.shots.map((shot, i) => {
+                const middle = i === 1
+                return (
+                  <span
+                    key={shot.src}
+                    className={`relative block overflow-hidden rounded-[26px] shadow-[0_16px_40px_rgba(16,23,37,0.16)] ${
+                      middle
+                        ? 'z-10 w-[40%]'
+                        : `w-[31%] translate-y-5 ${i === 0 ? '-mr-4 sm:-mr-5' : '-ml-4 sm:-ml-5'}`
+                    }`}
+                  >
+                    <Image
+                      src={shot.src}
+                      alt={shot.alt}
+                      width={360}
+                      height={780}
+                      priority={middle}
+                      sizes="(min-width: 1024px) 200px, 40vw"
+                      className="h-auto w-full"
+                    />
+                  </span>
+                )
+              })}
+            </Link>
           </div>
         </div>
       </section>
