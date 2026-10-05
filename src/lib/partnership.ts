@@ -7,11 +7,21 @@
 
 import { INQUIRE_CTA, INQUIRE_PATH } from './contact'
 
+/* The hero leads with the newest launch. Swap these back to the general app
+   offer once the announcement has run its course. */
 export const HERO = {
-  title: 'Mobile application solutions',
-  accent: 'to bring your business, idea, or tool needs to life',
+  eyebrow: 'Out now on the App Store',
+  title: 'Jam with Latin is out now.',
+  accent: 'Want an app like this? I can build yours.',
   sub:
-    'If you have an idea — a tool, a system, or a consumer app — and you want someone who will build it and stay after the first version, I would like to hear it. Other software is welcome too. No pressure. We will talk and decide if it is a fit.',
+    'A Latin learning game I built and shipped — live on the App Store and already in students’ hands. If you have an idea for an app, a tool, or a system for your business, I would like to hear it. No pressure. We will talk and decide if it is a fit.',
+  appHref: '/latin-game',
+  appCta: 'See Jam with Latin',
+  shots: [
+    { src: '/latin-game/map.jpg', alt: 'Jam with Latin campaign map' },
+    { src: '/latin-game/home.jpg', alt: 'Jam with Latin home screen' },
+    { src: '/latin-game/case-challenge.jpg', alt: 'Jam with Latin case challenge' },
+  ],
 }
 
 export const APP_OFFER = {
