@@ -1,11 +1,11 @@
 import type { Metadata } from 'next'
 import InquiryForm from '@/components/InquiryForm'
-import { INQUIRY, RETAINER } from '@/lib/partnership'
+import { INQUIRY, QUOTE_LINE } from '@/lib/partnership'
 
 export const metadata: Metadata = {
   title: 'Start a conversation',
   description:
-    'Tell me what you have in mind. Mobile apps and related software on a monthly retainer, quoted after we talk. No pressure.',
+    'Tell me what you have in mind — a mobile app, a tool, or a system for your business. We talk first; a quote comes once I understand the project. No pressure.',
   alternates: { canonical: '/get-started' },
 }
 
@@ -21,7 +21,7 @@ export default function GetStarted() {
             {INQUIRY.sub}
           </p>
           <p className="mx-auto mt-4 max-w-xl text-[15px] leading-relaxed text-muted">
-            {RETAINER.line}
+            {QUOTE_LINE}
           </p>
         </div>
       </section>

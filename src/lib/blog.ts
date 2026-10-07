@@ -259,7 +259,7 @@ export const POSTS: BlogPost[] = [
       },
       {
         type: 'p',
-        text: 'Kingdom Sites helps Rochester businesses stay “set up at the market” online every day of the week — listing, site, photos, and search work on a monthly plan so you can focus on the product or the job.',
+        text: 'Kingdom Sites helps Rochester businesses stay “set up at the market” online every day of the week — listing, site, photos, and search work, kept current so you can focus on the product or the job.',
       },
     ],
   },
@@ -323,7 +323,7 @@ export const POSTS: BlogPost[] = [
       },
       {
         type: 'p',
-        text: 'If your café’s online presence is a neglected Facebook page and a website that has not been touched since the last remodel, a monthly partnership that keeps the listing and site current is often cheaper than another slow Tuesday.',
+        text: 'If your café’s online presence is a neglected Facebook page and a website that has not been touched since the last remodel, keeping the listing and site current is worth more than another slow Tuesday.',
       },
     ],
   },

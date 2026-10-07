@@ -108,8 +108,8 @@ export default function InquiryForm() {
           {'Got it, ' + (fields.name.trim().split(' ')[0] || 'thanks') + '.'}
         </h2>
         <p className="mt-3 text-[15px] leading-relaxed text-body">
-          Your note is in my inbox. I read every one and reply within a day — usually sooner — about
-          whether working together is a fit.
+          Your note is in my inbox. I read each one and reply within a day about whether working
+          together is a fit.
         </p>
         <p className="mt-4 text-[15px] leading-relaxed text-body">
           Prefer email? Reach me at{' '}

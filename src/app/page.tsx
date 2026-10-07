@@ -3,12 +3,12 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { RutaPhoneShot } from '@/components/BuildMocks'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
-import { AI_CONSULT, APP_OFFER, HOME_CLUSTER, HERO } from '@/lib/partnership'
+import { AI_CONSULT, APP_OFFER, HOME_CLUSTER, HERO, PROCESS } from '@/lib/partnership'
 
 export const metadata: Metadata = {
   title: 'Kingdom Sites — mobile application solutions',
   description:
-    'I design, build, ship, and maintain mobile apps — and the software behind them. Have an idea? Start a conversation. Monthly retainer, quoted after we talk. No pressure.',
+    'I design, build, ship, and maintain mobile apps — and the software behind them. Have an idea? Start a conversation. No pressure.',
   alternates: { canonical: '/' },
 }
 
@@ -30,10 +30,10 @@ export default function Home() {
               {HERO.sub}
             </p>
             <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
-              <Link href={INQUIRE_PATH} className="btn-primary">
+              <Link href={INQUIRE_PATH} className="btn-primary w-full max-w-[280px] sm:w-auto">
                 {INQUIRE_CTA}
               </Link>
-              <Link href={HERO.appHref} className="btn-ghost">
+              <Link href={HERO.appHref} className="btn-ghost w-full max-w-[280px] sm:w-auto">
                 {HERO.appCta}
               </Link>
             </div>
@@ -127,18 +127,52 @@ export default function Home() {
             ))}
           </p>
 
-          <div className="mt-14 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link href="/my-work" className="btn-primary">
-              My work
+          <div className="mt-12 flex justify-center">
+            <Link href="/my-work" className="btn-ghost">
+              See all my work <span aria-hidden="true">→</span>
             </Link>
-            <Link href={INQUIRE_PATH} className="btn-ghost">
+          </div>
+        </div>
+      </section>
+
+      {/* 3 — How working together starts. No prices: a quote comes after the conversation. */}
+      <section aria-label="How it starts" className="border-t border-line px-5 py-20 sm:px-8 sm:py-28">
+        <div className="mx-auto max-w-6xl">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-balance text-3xl font-semibold tracking-tight text-ink sm:text-5xl">
+              {PROCESS.title}
+            </h2>
+            <p className="mt-5 text-pretty text-base leading-relaxed text-body sm:text-lg">
+              {PROCESS.sub}
+            </p>
+          </div>
+
+          <ol className="mx-auto mt-12 grid max-w-5xl gap-4 sm:mt-14 md:grid-cols-3 md:gap-5">
+            {PROCESS.steps.map((step, i) => (
+              <li key={step.title} className="tile flex gap-4 p-6 sm:p-7 md:block">
+                <span
+                  aria-hidden="true"
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent/10 text-sm font-semibold text-accent"
+                >
+                  {i + 1}
+                </span>
+                <div>
+                  <h3 className="mt-1.5 text-lg font-semibold tracking-tight text-ink md:mt-5">{step.title}</h3>
+                  <p className="mt-2 text-[15px] leading-relaxed text-body">{step.body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          <div className="mt-12 flex justify-center sm:mt-14">
+            <Link href={INQUIRE_PATH} className="btn-primary w-full max-w-[280px] sm:w-auto">
               {INQUIRE_CTA}
             </Link>
           </div>
         </div>
       </section>
 
-      {/* 3 — AI consultation (no dollar amount here) */}
+      {/* 4 — AI consultation (no dollar amount here) */}
       <section aria-label="AI consultation" className="band-dark px-5 py-20 sm:px-8 sm:py-28">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="text-balance text-3xl font-semibold tracking-tight text-white sm:text-5xl">

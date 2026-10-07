@@ -7,7 +7,7 @@ export default function TermsPage() {
   return (
     <main className="mx-auto max-w-3xl px-5 py-20 sm:px-8">
       <h1 className="mb-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">Terms of Service</h1>
-      <p className="mb-10 text-sm text-muted">Last updated: March 15, 2026</p>
+      <p className="mb-10 text-sm text-muted">Last updated: October 8, 2026</p>
 
       <section className="space-y-10 text-[15px] leading-relaxed text-body">
 
@@ -41,8 +41,8 @@ export default function TermsPage() {
           <h2 className="mb-3 text-base font-semibold text-ink">2. Payment Terms &amp; Service Integration</h2>
           <div className="space-y-3">
             <p>
-              <span className="font-medium text-ink">Deposit:</span> A non-refundable $100
-              commitment fee is required to secure your spot and begin architecture.
+              <span className="font-medium text-ink">Deposit:</span> A non-refundable deposit,
+              set out in your quote, secures your spot and begins architecture.
             </p>
             <p>
               <span className="font-medium text-ink">Final Payment:</span> The remaining
@@ -51,9 +51,9 @@ export default function TermsPage() {
             </p>
             <p>
               <span className="font-medium text-ink">Ongoing care:</span>{' '}
-              Monthly product retainers (design, build, ship, and maintain) and any agreed hosting or care are as described in the
-              engagement terms at the time of agreement (a quoted monthly retainer, or a
-              separate AI consultation invoice).
+              Ongoing work after launch (design, build, ship, and maintain), and any agreed hosting
+              or care, is as described in your quote and the engagement terms at the time of
+              agreement.
             </p>
             <p>
               <span className="font-medium text-ink">Refund Eligibility:</span> Fees (minus
@@ -65,7 +65,7 @@ export default function TermsPage() {
         </div>
 
         <div>
-          <h2 className="mb-3 text-base font-semibold text-ink">3. The Content Deadline </h2>
+          <h2 className="mb-3 text-base font-semibold text-ink">3. The Content Deadline</h2>
           <div className="space-y-3">
             <p>
               The client or agency must provide all text, branding assets, and photography within 14 days
@@ -85,17 +85,17 @@ export default function TermsPage() {
             <p>
               <span className="font-medium text-ink">Revisions:</span> Includes three rounds
               of revisions on the &ldquo;Beta&rdquo; version. Post-launch requests or changes
-              exceeding the initial scope will result in a $50 per hour billing fee. 
+              exceeding the initial scope are billed at the hourly rate set out in your quote.
             </p>
             <p>
               <span className="font-medium text-ink">Stability Period:</span> A 30-day
               Stability Period begins at launch. During this time, I focus exclusively on performance
-              monitoring and security. Routine content updates included in your monthly plan commence
+              monitoring and security. Routine content updates included in your plan commence
               after this 30-day window.
             </p>
             <p>
-              <span className="font-medium text-ink">Maintenance Definition:</span> Monthly
-              fees cover hosting, security monitoring, and up to two (1) hour minor content updates
+              <span className="font-medium text-ink">Maintenance Definition:</span> Ongoing
+              care covers hosting, security monitoring, and up to one hour of minor content updates
               (text swaps, image changes) per month.
             </p>
             <p>
@@ -115,12 +115,13 @@ export default function TermsPage() {
             </p>
             <p>
               <span className="font-medium text-ink">Technical Access:</span> If Kingdom Sites
-              host (preferred) Kingdom Sites retains administrative access to the hosting and
+              hosts the project (preferred), Kingdom Sites retains administrative access to the hosting and
               database environment to perform the mandatory maintenance and security updates.
             </p>
-             <p>
-              <span className="font-medium text-ink">Subject to Change</span> Kingdom Sites reserves the right to adjust the terms of service at any time. 
-              Kingdom Sites must notify all clients / agencies upon change. 
+            <p>
+              <span className="font-medium text-ink">Subject to Change:</span> Kingdom Sites reserves
+              the right to adjust these terms at any time and will notify all clients and agencies
+              of any change.
             </p>
             <p>
               <span className="font-medium text-ink">White Label Clause (If Applicable):</span> For
@@ -133,12 +134,12 @@ export default function TermsPage() {
         <div>
           <h2 className="mb-3 text-base font-semibold text-ink">Contact</h2>
           <p>
-            Please reach out if you have any questions: {' '}
+            Please reach out if you have any questions:{' '}
             <a
               href="mailto:thomas@kingdom-sites.com"
               className="underline underline-offset-2 hover:text-ink"
             >
-              thomas@kingdom-sites.com 
+              thomas@kingdom-sites.com
             </a>
           </p>
         </div>
