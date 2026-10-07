@@ -3,7 +3,6 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import aboutImage from '../../../public/Photos/about.jpg'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
-import { RETAINER } from '@/lib/partnership'
 
 export const metadata: Metadata = {
   title: 'About — Kingdom Sites',
@@ -14,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function About() {
   return (
-    <div className="mx-auto max-w-5xl px-4 pb-16 pt-16 sm:px-6 sm:pb-24 sm:pt-24">
+    <div className="mx-auto max-w-5xl px-5 pb-16 pt-16 sm:px-8 sm:pb-24 sm:pt-24">
       <div className="max-w-2xl">
         <h1 className="mt-4 text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
           About <span className="text-accent">Kingdom Sites.</span>
@@ -62,21 +61,18 @@ export default function About() {
             it real. When you email, you get the person who builds it.
           </p>
           <p className="mt-4 text-pretty text-[15px] leading-relaxed text-body sm:text-base">
-            My wife Monisha and I take on a small number of retainer relationships at a time, on
-            purpose. We are currently in the Philippines at IGSL — the International Graduate School
+            My wife Monisha and I take on a small number of projects at a time, on purpose. We are currently in the Philippines at IGSL — the International Graduate School
             of Leadership — training in biblical studies and discipleship. Client work carries on
             from here, on the same timelines as always.
           </p>
-          <Link href={INQUIRE_PATH} className="link-accent mt-5 inline-block text-sm">{INQUIRE_CTA}</Link>
-
           <div className="mt-8 grid gap-4">
             <div className="tile p-6">
               <h3 className="text-sm font-semibold tracking-tight text-ink">
                 Design, build, ship, maintain — not a handoff
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-body">
-                {RETAINER.line} I design, build, ship, and stay — features, fixes, and the next
-                version.{' '}
+                I design, build, ship, and stay — features, fixes, and the next version. Every
+                project is quoted once I understand it.{' '}
                 <Link href={INQUIRE_PATH} className="link-accent">
                   {INQUIRE_CTA} <span aria-hidden="true">›</span>
                 </Link>
@@ -86,8 +82,8 @@ export default function About() {
             <div className="tile p-6">
               <h3 className="text-sm font-semibold tracking-tight text-ink">Work</h3>
               <p className="mt-2 text-sm leading-relaxed text-body">
-                Contract work on Ruta, plus Jam with Latin (a Latin learning app on a retainer) and
-                Tap to Tick (a personal iOS expense app). Not products Kingdom Sites sells.{' '}
+                Contract work on Ruta, plus Jam with Latin (a Latin learning game, live on the App
+                Store) and Tap to Tick (a personal iOS expense app).{' '}
                 <Link href="/my-work" className="link-accent">
                   My work <span aria-hidden="true">›</span>
                 </Link>
@@ -100,8 +96,8 @@ export default function About() {
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-body">
                 Ministries, missionaries raising support, and churches get the site built for free
-                <span className="align-super text-[0.6em] text-accent">*</span> — the same care a
-                paying client gets. It is one of the ways this business goes toward the advance of
+                <span className="align-super text-[0.6em] text-accent">*</span> — the same care
+                every client gets. It is one of the ways this business goes toward the advance of
                 the gospel.{' '}
                 <Link href="/mission" className="link-accent">
                   Our mission <span aria-hidden="true">›</span>
@@ -109,8 +105,7 @@ export default function About() {
               </p>
               <p className="mt-3 text-xs leading-relaxed text-muted">
                 <span className="align-super text-[0.75em] text-accent">*</span> My time is the
-                donation. The running costs — the domain name, hosting, and any outside service the
-                site depends on — stay with you, billed to you directly.
+                donation. The domain name and hosting stay in your name.
               </p>
             </div>
           </div>

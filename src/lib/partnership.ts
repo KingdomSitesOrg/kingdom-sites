@@ -1,8 +1,9 @@
 /**
  * The commercial offer, in one place.
  *
- * Mobile apps (systems included) on a monthly retainer, quoted after a
- * conversation. No published app price. Separate AI consultation at $75/hour.
+ * Mobile apps and the systems behind them. No published prices anywhere on the
+ * site — every project is quoted once the work is understood. The goal of every
+ * page is one thing: start a conversation.
  */
 
 import { INQUIRE_CTA, INQUIRE_PATH } from './contact'
@@ -14,7 +15,7 @@ export const HERO = {
   title: 'Jam with Latin is out now.',
   accent: 'Want an app like this? I can build yours.',
   sub:
-    'A Latin learning game I built and shipped — live on the App Store and already in students’ hands. If you have an idea for an app, a tool, or a system for your business, I would like to hear it. No pressure. We will talk and decide if it is a fit.',
+    'A Latin learning game I designed, built, and shipped — live on the App Store and already in students’ hands. Have an idea for an app, a tool, or a system for your business? Tell me about it.',
   appHref: '/latin-game',
   appCta: 'See Jam with Latin',
   shots: [
@@ -25,40 +26,52 @@ export const HERO = {
 }
 
 export const APP_OFFER = {
-  title: 'Apps I build.',
-  sub: 'Here are some of the things I have built.',
+  title: 'Apps I have built.',
+  sub: 'Real products, live today — designed, built, shipped, and still looked after.',
 }
+
+/* How working together starts. No prices — a quote comes once the project is understood. */
+export const PROCESS = {
+  title: 'How it starts.',
+  sub: 'Simple, personal, and no pressure. You talk to the person who builds it.',
+  steps: [
+    {
+      title: 'Tell me the idea',
+      body: 'A few lines is plenty — an app, a tool, a problem you keep working around.',
+    },
+    {
+      title: 'We talk it through',
+      body: 'I ask the questions that matter and learn what you need it to do.',
+    },
+    {
+      title: 'You get a clear quote',
+      body: 'Once I understand the project, I put together a plan and a quote. No pressure.',
+    },
+  ],
+}
+
+export const QUOTE_LINE = 'We talk first. You get a quote once I understand the project.'
 
 export const AI_CONSULT = {
   name: 'AI consultation',
-  priceHourly: 75,
-  minimumHours: 1,
-  priceLabel: '$75',
   homeTitle: 'I also do AI consultation.',
   homeSub:
     'How to use AI yourself — for developers, admins, and anyone exploring the real tooling: loops, goals, connectors, skills, and instruction files. Not just chatting.',
   pageTitle: 'Learn to use AI for real work.',
   pageSub:
-    'A working hour on how to leverage AI for yourself. Developers, admins, or general — we go past chat into loops, goals, connectors, skills, and .md instruction files.',
-  separateNote:
-    'This consultation is 100% separate from app retainer billing. It is its own product, invoiced after the hour.',
-  invoiceNote: 'You book a one-hour slot. I invoice $75 after we meet.',
+    'Hands-on sessions on how to leverage AI for yourself. Developers, admins, or general — we go past chat into loops, goals, connectors, skills, and .md instruction files.',
+  bookTitle: 'Book a session',
+  bookBody:
+    'Tell me who you are and what you want to get out of AI. I will reply to set a time and shape the session around you.',
   inAppTitle: 'AI in your app',
   inAppBody:
-    'If your product needs AI inside it — answers from your data, actions with a person in the loop — that work is part of the app retainer. Not a separate fee.',
-}
-
-export const RETAINER = {
-  line: 'App work is a monthly retainer. No one-time build fee. I quote after we talk.',
-  short: 'Monthly retainer, quoted after a conversation.',
-  calendarTitle: 'Schedule a conversation',
-  calendarHint: 'Pick a time that works for you — no pressure, just a chat.',
+    'If your product needs AI inside it — answers from your data, actions with a person in the loop — I build that into the app itself.',
 }
 
 export const INQUIRY = {
   heading: 'Tell me what you have in mind.',
   sub:
-    'Name and email are enough. Add a message if you want. No pressure — we will decide together if it is a fit.',
+    'Name and email are enough. Add a few lines about the idea if you like — we will talk and decide together if it is a fit.',
   formTitle: 'Send a note',
   calendarTitle: 'Schedule a conversation',
   calendarHint: 'Pick a time that works for you — no pressure, just a chat.',
@@ -78,7 +91,7 @@ export const APP_PROOF = [
   {
     name: 'Jam with Latin',
     href: '/latin-game',
-    line: 'A Latin learning app — curriculum, game, and a reason to come back.',
+    line: 'A Latin learning game, live on the App Store — curriculum, play, and a reason for students to come back every day.',
     phone: 'cards' as const,
     shots: [
       { src: '/latin-game/home.jpg', alt: 'Jam with Latin home screen' },

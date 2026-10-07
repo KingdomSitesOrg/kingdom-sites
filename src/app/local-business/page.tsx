@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
 
-/** Former local SEO product page — product is monthly product retainers. */
+/** Former local SEO product page — redirects home. */
 export default function LocalBusinessRedirect() {
   redirect('/')
 }

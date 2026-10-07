@@ -6,14 +6,14 @@ import { CALENDLY_AI_URL, INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { AI_CONSULT, AI_CONSULT_TOPICS } from '@/lib/partnership'
 
 export const metadata: Metadata = {
-  title: 'AI consultation — $75/hour',
+  title: 'AI consultation',
   description:
-    'A working hour on how to leverage AI yourself: loops, goals, connectors, skills, and .md files. $75/hour, one-hour minimum, invoiced after. 100% separate from app retainer billing.',
+    'Hands-on sessions on how to leverage AI yourself: loops, goals, connectors, skills, and .md files. For developers, admins, and anyone exploring AI past the chat box.',
   alternates: { canonical: '/ai-tooling' },
   openGraph: {
-    title: 'AI consultation — $75/hour',
+    title: 'AI consultation — Kingdom Sites',
     description:
-      'Learn to use AI for real work — not just chat. $75/hour, invoiced after. Separate from app retainers.',
+      'Learn to use AI for real work — not just chat. Loops, goals, connectors, skills, and instruction files.',
     url: 'https://kingdom-sites.com/ai-tooling',
     siteName: 'Kingdom Sites',
     locale: 'en_US',
@@ -27,32 +27,34 @@ export default function AiTooling() {
       <section className="hero-wash px-5 pb-16 pt-16 sm:px-8 sm:pb-20 sm:pt-24">
         <div className="mx-auto grid max-w-6xl items-start gap-10 lg:grid-cols-2 lg:gap-14">
           <div className="self-start">
-            <p className="text-xs font-semibold uppercase tracking-[0.08em] text-warm">
-              Separate from app work
-            </p>
+            <p className="eyebrow">AI consultation</p>
             <h1 className="mt-4 text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
               {AI_CONSULT.pageTitle}
             </h1>
             <p className="mt-6 text-pretty text-base leading-relaxed text-body sm:text-lg">
               {AI_CONSULT.pageSub}
             </p>
-            <p className="mt-8 text-4xl font-semibold tracking-tight text-ink">
-              {AI_CONSULT.priceLabel}
-              <span className="text-lg font-medium text-muted">/hour</span>
-            </p>
-            <p className="mt-2 text-sm text-muted">
-              One-hour minimum. {AI_CONSULT.invoiceNote}
-            </p>
-            <p className="mt-5 text-[13.5px] leading-relaxed text-muted">
-              <span className="text-accent">*</span> {AI_CONSULT.separateNote}
-            </p>
           </div>
 
           <div className="self-start">
-            <h2 className="mb-4 text-lg font-semibold tracking-tight text-ink">
-              Book an AI consultation
-            </h2>
-            <CalendlyEmbed url={CALENDLY_AI_URL} title="Book an AI consultation" />
+            {CALENDLY_AI_URL ? (
+              <>
+                <h2 className="mb-4 text-lg font-semibold tracking-tight text-ink">
+                  {AI_CONSULT.bookTitle}
+                </h2>
+                <CalendlyEmbed url={CALENDLY_AI_URL} title={AI_CONSULT.bookTitle} />
+              </>
+            ) : (
+              <div className="tile-elevated p-7 sm:p-10">
+                <h2 className="text-2xl font-semibold tracking-tight text-ink">
+                  {AI_CONSULT.bookTitle}
+                </h2>
+                <p className="mt-3 text-[15px] leading-relaxed text-body">{AI_CONSULT.bookBody}</p>
+                <Link href={INQUIRE_PATH} className="btn-primary mt-7 w-full sm:w-auto">
+                  {INQUIRE_CTA}
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -85,8 +87,8 @@ export default function AiTooling() {
             <Link href={INQUIRE_PATH} className="btn-primary">
               {INQUIRE_CTA}
             </Link>
-            <Link href="/" className="btn-ghost">
-              Back to apps
+            <Link href="/my-work" className="btn-ghost">
+              See my work
             </Link>
           </div>
         </div>

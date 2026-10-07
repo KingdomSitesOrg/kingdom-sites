@@ -173,7 +173,7 @@ export default function Mission() {
             <p className="mt-5 text-[15px] leading-relaxed text-white/70 sm:text-base">
               Ministries, missionaries raising support, and churches get the site built for free
               <span className="align-super text-[0.6em] text-[#f0b48c]">*</span> — designed, built,
-              and put live, the same way a paying client gets it. It is one of the ways I can put
+              and put live, the same way every client gets it. It is one of the ways I can put
               this work behind the advance of the gospel rather than only behind a business.
             </p>
             <p className="mt-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
@@ -185,9 +185,8 @@ export default function Mission() {
             </p>
             <p className="mt-6 text-[13px] leading-relaxed text-white/45">
               <span className="align-super text-[0.75em] text-[#f0b48c]">*</span> My time is the
-              donation. The running costs stay with you — the domain name, hosting, and anything
-              paid to an outside service the site depends on. Those are billed to you directly, not
-              through me, and they are usually a few dollars a month.
+              donation. The domain name, hosting, and any outside service the site depends on stay
+              in your name and under your control.
             </p>
           </div>
         </div>

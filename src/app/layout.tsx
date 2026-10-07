@@ -18,7 +18,7 @@ import {
 const inter = Inter({ subsets: ["latin"] });
 
 const DESCRIPTION =
-  "I design, build, ship, and maintain mobile apps — and stay after launch. Monthly retainer, quoted after a conversation. Separate AI consultation available.";
+  "I design, build, ship, and maintain mobile apps — and stay after launch. Have an idea? Start a conversation. Every project is quoted once I understand it.";
 
 export const metadata: Metadata = {
   title: {
@@ -32,10 +32,9 @@ export const metadata: Metadata = {
      engines that pages like /about and /my-work were the home page and had
      them dropped as duplicates. Each page declares its own instead. */
   keywords: [
-    "monthly product retainer",
-    "custom software development",
     "mobile app development",
-    "product engineer retainer",
+    "custom software development",
+    "app developer",
     "fractional CTO",
     "custom product development",
     "software for founders",
@@ -86,7 +85,7 @@ const STRUCTURED_DATA = {
   email: "thomas@kingdom-sites.com",
   founder: { "@type": "Person", name: "Thomas Klein" },
   serviceType: [
-    "Monthly product retainers",
+    "Mobile app development",
     "Custom software development",
     "Mobile product development",
     "AI tooling and implementation",
