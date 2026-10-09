@@ -45,6 +45,9 @@ const nextConfig: NextConfig = {
         source: '/(.*)',
         headers: securityHeaders,
       },
+      // /edu is unlisted: shareable by link, kept out of search (the page and the film).
+      { source: '/edu', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] },
+      { source: '/edu/:path*', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] },
     ]
   },
   // Links people already have in hand, typed or shared without the hyphens.
