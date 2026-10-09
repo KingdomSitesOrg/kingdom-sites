@@ -10,7 +10,7 @@ const fredoka = localFont({
   variable: '--font-fredoka',
 })
 
-const TITLE = 'Edu — your whole classroom, in one place'
+const TITLE = 'Edu — all of your tools in one place'
 const DESCRIPTION = 'Sell classes, email your families and keep track of every student and parent, all in one place.'
 
 export const metadata: Metadata = {
@@ -30,14 +30,15 @@ export const metadata: Metadata = {
     siteName: 'Edu',
     locale: 'en_US',
     type: 'video.other',
-    images: [{ url: '/edu/edu-45s-poster.jpg', width: 1920, height: 1080, alt: 'Edu. Teaching is the easy part. Edu does the rest.' }],
-    videos: [{ url: '/edu/edu-45s.mp4', type: 'video/mp4', width: 1920, height: 1080 }],
+    images: [{ url: '/edu/edu-film-poster.jpg', width: 1920, height: 1080, alt: 'Edu. Go to kingdom-sites.com/edu' }],
+    // Next resolves og:image against metadataBase but not og:video, which must be absolute.
+    videos: [{ url: 'https://kingdom-sites.com/edu/edu-film.mp4', type: 'video/mp4', width: 1920, height: 1080 }],
   },
   twitter: {
     card: 'summary_large_image',
     title: TITLE,
     description: DESCRIPTION,
-    images: ['/edu/edu-45s-poster.jpg'],
+    images: ['/edu/edu-film-poster.jpg'],
   },
 }
 
