@@ -30,7 +30,7 @@ export default function EduPage() {
             preload="metadata"
             width={1920}
             height={1080}
-            aria-label="Edu, a 78-second film"
+            aria-label="Edu, an 85-second film"
           />
         </div>
       </section>
