@@ -1,91 +1,326 @@
-/* Farzana — brand tokens from the Farzana Brand Guidelines (Oct 2026).
-   Mist page, Lapis logo and headings, Saffron only on the logo's diamonds.
-   Cards are white with a hairline at 12% Lapis and no shadow. Reem Kufi for
-   the logo and headings. Dark mode uses the guidelines' dark values. */
+/* Farzana — the brand guidelines (Oct 2026), set on the page's own wrapper so
+   they reach the Farzana pages and nothing else on Kingdom Sites.
+
+   The Tailwind colour names these pages use (bg-surface, text-heading,
+   bg-wash, bg-primary …) are declared in globals.css with Farzana's light
+   values; here the wrapper sets each of them for light and dark, along with
+   the corners, the type and the hairline every border takes. The light or
+   dark choice is `.farzana[data-theme]`, set before the first paint
+   (_ui/theme-script.ts) and flipped by the sun-and-moon switch. */
 
 .farzana {
-  --bg: #f2f5f3;
-  --surface: #ffffff;
-  --text: #18222e;
-  --heading: #1e3553;
-  --logo: #1e3553;
-  --gold: #c9973f;
-  --line: rgba(30, 53, 83, 0.12);
+  --color-background: #f2f5f3;
+  --color-surface: #ffffff;
+  --color-ink: #18222e;
+  --color-heading: #1e3553;
+  --color-muted: #5e6c7a;
+  --color-border: rgba(30, 53, 83, 0.12);
+  --color-wash: rgba(30, 53, 83, 0.05);
+  --color-wash-strong: rgba(30, 53, 83, 0.1);
+  --color-accent: #2a8f89;
+  --color-accent-wash: rgba(42, 143, 137, 0.1);
+  --color-primary: #22756f;
+  --color-primary-hover: #1c625d;
+  --color-primary-foreground: #ffffff;
+  --color-gold: #c9973f;
+  --color-destructive: #9b3b33;
+  --color-ring: #2a8f89;
+  --shadow-overlay: 0 4px 12px rgba(30, 53, 83, 0.08), 0 16px 40px rgba(30, 53, 83, 0.12);
 
-  min-height: 100vh;
-  min-height: 100dvh;
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'IBM Plex Sans Arabic', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  padding: 0 16px 56px;
+  /* Corners: 10px controls, 14px small cards, 18px cards — never rounder. */
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 18px;
+  --radius-2xl: 18px;
+  --radius-3xl: 18px;
+
+  /* Reem Kufi for headings and the logo; IBM Plex Sans Arabic for reading. */
+  --font-display: var(--font-reem-kufi), 'Trebuchet MS', sans-serif;
+  --font-sans: var(--font-plex), system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --text-sm--line-height: calc(22 / 14);
+
+  background: var(--color-background);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+  color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
-  .farzana {
-    --bg: #0f1b2b;
-    --surface: #16253a;
-    --text: #e6ecf1;
-    --heading: #e6ecf1;
-    --logo: #e6ecf1;
-    --gold: #d9ae5c;
-    --line: rgba(230, 236, 241, 0.12);
+.farzana[data-theme='dark'] {
+  --color-background: #0f1b2b;
+  --color-surface: #16253a;
+  --color-ink: #e6ecf1;
+  --color-heading: #e6ecf1;
+  --color-muted: #93a3b4;
+  --color-border: rgba(230, 236, 241, 0.12);
+  --color-wash: rgba(230, 236, 241, 0.06);
+  --color-wash-strong: rgba(230, 236, 241, 0.12);
+  --color-accent: #4fb8b1;
+  --color-accent-wash: rgba(79, 184, 177, 0.14);
+  /* White on the light turquoise is 2.4:1, so buttons carry dark words. */
+  --color-primary: #4fb8b1;
+  --color-primary-hover: #6cc7c1;
+  --color-primary-foreground: #0f1b2b;
+  --color-gold: #d9ae5c;
+  --color-destructive: #e59a8c;
+  --color-ring: #4fb8b1;
+  --shadow-overlay: 0 4px 12px rgba(0, 0, 0, 0.3), 0 16px 40px rgba(0, 0, 0, 0.4);
+  color-scheme: dark;
+}
+
+@layer base {
+  /* Every hairline is the brand's 12% line. */
+  .farzana *,
+  .farzana ::before,
+  .farzana ::after {
+    border-color: var(--color-border);
+  }
+
+  /* Keyboard focus: a 2px turquoise outline, 2px clear. */
+  .farzana :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+
+  /* The hand on everything that will take a click. */
+  .farzana a[href],
+  .farzana button:not(:disabled),
+  .farzana summary {
+    cursor: pointer;
+  }
+
+  /* Headings: Reem Kufi 600 in the heading colour. */
+  .farzana h1,
+  .farzana h2,
+  .farzana h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: normal;
+    color: var(--color-heading);
+  }
+  .farzana h1 {
+    font-size: 36px;
+    line-height: 43px;
+  }
+  .farzana h2 {
+    font-size: 28px;
+    line-height: 34px;
+  }
+  .farzana h3 {
+    font-size: 22px;
+    line-height: 28px;
   }
 }
 
-.farzana-top {
-  display: flex;
-  align-items: center;
-  height: 72px;
-  max-width: 1160px;
-  margin: 0 auto;
-}
-
-/* 96px is the guidelines' smallest on screen; this sits above it. */
-.farzana-logo {
-  display: block;
-  width: 120px;
-  height: auto;
-}
-
-.farzana-hero {
-  max-width: 1160px;
-  margin: 0 auto;
-  padding-top: 24px;
-}
-
-.farzana-title {
-  margin: 0 auto;
-  max-width: 16em;
-  text-align: center;
-  color: var(--heading);
-  font-family: var(--font-reem-kufi), 'Trebuchet MS', sans-serif;
-  font-weight: 600;
-  font-size: clamp(32px, 5vw, 56px);
-  line-height: 1.1;
-  text-wrap: balance;
-}
-
-.farzana-film {
-  margin: 32px auto 0;
-  border-radius: 18px;
-  overflow: hidden;
-  background: var(--surface);
-  border: 1px solid var(--line);
-}
-
-.farzana-film video {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 16 / 9;
-  background: #f2f5f3;
-}
-
-@media (min-width: 720px) {
-  .farzana {
-    padding: 0 32px 80px;
+@layer utilities {
+  /* The hero title: 36/43 on a phone, 48/53 from the `sm` width up. */
+  .text-display {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: normal;
+    font-size: 36px;
+    line-height: 43px;
   }
-  .farzana-film {
-    margin-top: 40px;
+  @media (min-width: 640px) {
+    .text-display {
+      font-size: 48px;
+      line-height: 53px;
+    }
+  }
+
+  /* A caption: 13px on an 18px line, muted. */
+  .text-caption {
+    font-size: 13px;
+    line-height: 18px;
+    color: var(--color-muted);
+  }
+
+  /* A card: the surface, a hairline, no shadow. */
+  .surface-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    box-shadow: none;
+  }
+}
+
+/* The front page's movement. Colours here are only ever the role tokens from
+   globals.css, so every rule is right in light and dark. Nothing loops that is
+   not on screen, and everything settles to a still pose under reduced
+   motion. */
+
+/* ---- The logo writing itself in the bar (intro.tsx) ----------------- */
+
+/* While the animated logo is being written over it, the bar's own logo is
+   hidden; it shows again the moment the drawing lands. */
+html[data-intro="play"] #site-logo {
+  opacity: 0;
+}
+
+/* ---- Entrances ------------------------------------------------------- */
+
+/* The hero's lines rise in one after another, `--d` apart. On the visit the
+   logo writes itself, they start a beat later, so the eye finds the logo
+   first; the delay holds through `landed` so nothing jumps when it lands. */
+.fz-rise {
+  animation: fz-rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: var(--d, 0ms);
+}
+html[data-intro] .fz-rise {
+  animation-delay: calc(var(--d, 0ms) + 700ms);
+}
+
+@keyframes fz-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+/* Anything wrapped in <Reveal> fades up when it first scrolls into view. */
+.fz-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--d, 0ms);
+}
+.fz-reveal[data-shown="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- Small loops ----------------------------------------------------- */
+
+/* A toast arriving from below and settling. */
+@keyframes fz-toast {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.96);
+  }
+  12% {
+    opacity: 1;
+    transform: none;
+  }
+  85% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+/* The slow float of the cards beside the hero window. */
+@keyframes fz-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* A mark arriving: small, a touch past full size, settled. */
+@keyframes fz-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* A row sliding into a list. */
+@keyframes fz-row {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The caret in a field being typed into. */
+@keyframes fz-caret {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ---- The scattered tools (story.tsx) --------------------------------- */
+
+/* `--p` is how far the page has scrolled through the section, 0 to 1. Each
+   tool has its own start `--s`, and travels from its scattered spot to the
+   middle while `--t` runs 0 to 1. */
+.fz-tool {
+  --t: clamp(0, calc((var(--p, 0) - var(--s, 0.3)) / 0.32), 1);
+  transform: translate(
+      calc(-50% + var(--x) * (1 - var(--t))),
+      calc(-50% + var(--y) * (1 - var(--t)))
+    )
+    rotate(calc(var(--r) * (1 - var(--t))))
+    scale(calc(1 - 0.65 * var(--t)));
+  opacity: calc(1 - var(--t) * var(--t));
+}
+.fz-problem-copy {
+  opacity: clamp(0, calc(1 - (var(--p, 0) - 0.3) / 0.15), 1);
+  transform: translateY(calc(-24px * clamp(0, (var(--p, 0) - 0.3) / 0.15, 1)));
+}
+.fz-answer-copy {
+  opacity: clamp(0, calc((var(--p, 0) - 0.62) / 0.14), 1);
+  transform: translateY(
+    calc(24px * (1 - clamp(0, (var(--p, 0) - 0.62) / 0.14, 1)))
+  );
+}
+.fz-answer-card {
+  --t: clamp(0, calc((var(--p, 0) - 0.55) / 0.25), 1);
+  opacity: var(--t);
+  transform: translate(-50%, -50%) scale(calc(0.7 + 0.3 * var(--t)));
+}
+.fz-answer-row {
+  --t: clamp(0, calc((var(--p, 0) - var(--s)) / 0.06), 1);
+  opacity: var(--t);
+  transform: translateY(calc(8px * (1 - var(--t))));
+}
+
+/* ---- Reduced motion -------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .fz-rise {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+  .fz-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .fz-motion {
+    animation: none !important;
   }
 }
