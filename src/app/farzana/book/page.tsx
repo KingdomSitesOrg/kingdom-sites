@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 
+import { ThomasNote } from '../_home/meet-thomas'
 import { Diamond } from '../_ui/diamond'
 
 import { BookCallForm } from './book-call-form'
@@ -42,6 +43,7 @@ export default function BookPage() {
             </li>
           ))}
         </ul>
+        <ThomasNote />
       </div>
       <div className="surface-card relative rounded-lg p-6 sm:p-8">
         <BookCallForm />
