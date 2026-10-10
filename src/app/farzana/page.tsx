@@ -1,31 +1,38 @@
-/* The start of the Farzana marketing page: the film. */
+import { Closing, Film, Meaning, Switching } from './_home/closing'
+import { Families } from './_home/families'
+import { Features } from './_home/features'
+import { Hero } from './_home/hero'
+import { LogoIntro } from './_home/intro'
+import { Steps } from './_home/steps'
+import { Story } from './_home/story'
 
-import Wordmark from './Wordmark'
-
+/**
+ * The Farzana marketing page, hosted here until farzana.app has a home. Built
+ * to get a teacher on a call with Thomas.
+ *
+ * It opens on the logo writing itself in its place at the start of the top
+ * bar (once per session) while the page rises in. Then the story, top to
+ * bottom: one line on what Farzana is, with the call to book; the scattered
+ * tools pulling together into one place as the page scrolls; everything it
+ * does; three steps; what students and parents see; switching from another
+ * provider; what the name means; the film; and the call to book once more.
+ *
+ * The same page lives in the Farzana app (KingdomSitesOrg/edu, `src/app/(site)`),
+ * where it also carries Create account and Sign in.
+ */
 export default function FarzanaPage() {
   return (
-    <>
-      <header className="farzana-top">
-        <Wordmark className="farzana-logo" />
-      </header>
-
-      <section className="farzana-hero" aria-labelledby="farzana-title">
-        <h1 id="farzana-title" className="farzana-title">
-          All of your tools in one place.
-        </h1>
-        <div className="farzana-film">
-          <video
-            src="/farzana/farzana-film.mp4"
-            poster="/farzana/farzana-film-poster.jpg"
-            controls
-            playsInline
-            preload="metadata"
-            width={1920}
-            height={1080}
-            aria-label="Farzana, a 76-second film"
-          />
-        </div>
-      </section>
-    </>
+    <main className="overflow-x-clip">
+      <LogoIntro />
+      <Hero />
+      <Story />
+      <Features />
+      <Steps />
+      <Families />
+      <Switching />
+      <Meaning />
+      <Film />
+      <Closing />
+    </main>
   )
 }

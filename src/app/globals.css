@@ -21,6 +21,30 @@
   --color-warm:      #c05a2b;
 
   --color-dark:   #111827;
+
+  /* Farzana's page (src/app/farzana) only: its own role colours, so its
+     utilities exist. The values here are its light ones; the page's wrapper
+     sets them (and its own surface, ink, muted and accent) for light and dark
+     in farzana.css. Nothing else on the site uses these names. */
+  --color-heading:            #1e3553;
+  --color-background:         #f2f5f3;
+  --color-border:             rgba(30, 53, 83, 0.12);
+  --color-wash:               rgba(30, 53, 83, 0.05);
+  --color-wash-strong:        rgba(30, 53, 83, 0.1);
+  --color-accent-wash:        rgba(42, 143, 137, 0.1);
+  --color-primary:            #22756f;
+  --color-primary-hover:      #1c625d;
+  --color-primary-foreground: #ffffff;
+  --color-gold:               #c9973f;
+  --color-destructive:        #9b3b33;
+  --color-ring:               #2a8f89;
+  --color-lapis:              #1e3553;
+  --color-turquoise:          #2a8f89;
+  --color-turquoise-deep:     #22756f;
+  --color-saffron:            #c9973f;
+  --color-mist:               #f2f5f3;
+  --shadow-overlay: 0 4px 12px rgba(30, 53, 83, 0.08), 0 16px 40px rgba(30, 53, 83, 0.12);
+  --font-display: var(--font-reem-kufi), "Trebuchet MS", sans-serif;
 }
 
 html {
