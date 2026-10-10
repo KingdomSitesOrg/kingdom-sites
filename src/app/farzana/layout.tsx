@@ -7,6 +7,7 @@ import { INTRO_SCRIPT } from './_home/intro-script'
 import { buttonClass } from './_ui/button'
 import { ABOUT_PATH, BOOK_PATH, PRICING_PATH } from './_ui/contact'
 import { HeaderChrome } from './_ui/header-chrome'
+import { MobileMenu } from './_ui/mobile-menu'
 import { SiteNav } from './_ui/site-nav'
 import { ThemeToggle } from './_ui/theme'
 import { THEME_SCRIPT } from './_ui/theme-script'
@@ -66,8 +67,8 @@ export const metadata: Metadata = {
 /**
  * The frame around the Farzana pages — the front page, About, Pricing and
  * /farzana/book — in Farzana's own look, so no Kingdom Sites header or footer
- * here. The bar holds the logo, the way round the pages, the sun-and-moon
- * switch and the one filled button, Book a call. The footer carries Daniel
+ * here. The bar holds the logo, the way round the pages (a drawer on a
+ * phone), the sun-and-moon switch and the one filled button, Book a call. The footer carries Daniel
  * 2:21 on every page.
  *
  * Farzana's colours, type and corners are set on the `.farzana` wrapper
@@ -94,10 +95,12 @@ export default function FarzanaLayout({ children }: { children: React.ReactNode 
           </Link>
           <div className="flex items-center gap-1 sm:gap-2">
             <SiteNav />
-            <ThemeToggle />
+            {/* On a phone the switch is in the menu, to leave the bar room. */}
+            <ThemeToggle className="hidden md:inline-flex" />
             <Link href={BOOK_PATH} className={buttonClass({ size: 'sm' })}>
               Book a call
             </Link>
+            <MobileMenu />
           </div>
         </nav>
       </header>
