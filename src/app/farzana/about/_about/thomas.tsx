@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import {
@@ -17,63 +16,45 @@ import { buttonClass } from "../../_ui/button";
 import { cn } from "../../_ui/cn";
 import { JAM_LEGIO_URL, MISSION_URL } from "../../_ui/contact";
 import { Diamond } from "../../_ui/diamond";
-import photo from "../../../../../public/farzana/thomas-and-monisha.jpg";
 
 /**
- * Who built it: Thomas, a Classical Conversations graduate who learned Latin
- * the hard way and built Jam Legio because of it — with three Latin words to
- * try — and then the ministry Thomas and his wife Monisha want to do, which
- * Farzana fuels, and the studio behind it.
+ * Thomas's own story: a Classical Conversations graduate who learned Latin
+ * the hard way and built Jam Legio because of it, with three Latin words to
+ * try beside it. Then the ministry Thomas and his wife Monisha want to do,
+ * which Farzana fuels, and the studio behind it.
  */
 export function Thomas() {
   return (
     <section className="mx-auto w-full max-w-6xl px-4 py-24 sm:px-6 sm:py-32">
-      <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
-        <Reveal className="lg:sticky lg:top-28">
-          <figure className="flex flex-col gap-3">
-            <div className="overflow-hidden rounded-lg border bg-surface">
-              <Image
-                src={photo}
-                alt="Thomas and his wife Monisha, smiling side by side at a table"
-                placeholder="blur"
-                sizes="(min-width: 1024px) 560px, 100vw"
-                className="h-auto w-full"
-              />
-            </div>
-            <figcaption className="text-caption">Thomas and his wife, Monisha</figcaption>
-          </figure>
+      <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+        <Reveal className="flex flex-col items-start gap-4">
+          <Eyebrow>My story</Eyebrow>
+          <h2 className="text-balance sm:text-[36px] sm:leading-[43px]">
+            I learned Latin the hard way.
+          </h2>
+          <p className="text-pretty text-lg text-muted">
+            I’m a Classical Conversations graduate. That’s where I learned
+            Latin, and it was hard.
+          </p>
+          <p className="text-pretty text-lg text-muted">
+            So I built Jam Legio, a Roman-legion adventure that teaches
+            classical Latin, now on the App Store. Farzana comes from the same
+            place: wanting students to become learned, and wanting a teacher’s
+            week to be about teaching.
+          </p>
+          <a
+            href={JAM_LEGIO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={buttonClass({ variant: "outline", className: "bg-surface" })}
+          >
+            <AppleLogoIcon weight="bold" />
+            Get Jam Legio on the App Store
+          </a>
         </Reveal>
-
-        <div className="flex flex-col gap-8">
-          <Reveal className="flex flex-col items-start gap-4">
-            <Eyebrow>Who built it</Eyebrow>
-            <h2 className="text-balance sm:text-[36px] sm:leading-[43px]">
-              Hi, I’m Thomas.
-            </h2>
-            <p className="text-pretty text-lg text-muted">
-              I’m a Classical Conversations graduate. That’s where I learned
-              Latin, and it was hard.
-            </p>
-            <p className="text-pretty text-lg text-muted">
-              So I built Jam Legio, a Roman-legion adventure that teaches
-              classical Latin, now on the App Store. Farzana comes from the same
-              place: wanting students to become learned, and wanting a
-              teacher’s week to be about teaching.
-            </p>
-            <a
-              href={JAM_LEGIO_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={buttonClass({ variant: "outline", className: "bg-surface" })}
-            >
-              <AppleLogoIcon weight="bold" />
-              Get Jam Legio on the App Store
-            </a>
-          </Reveal>
-          <Reveal delay={100}>
-            <LatinQuiz />
-          </Reveal>
-        </div>
+        <Reveal delay={100}>
+          <LatinQuiz />
+        </Reveal>
       </div>
     </section>
   );

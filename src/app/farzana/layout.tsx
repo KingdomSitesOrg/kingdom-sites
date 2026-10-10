@@ -31,6 +31,16 @@ const plex = IBM_Plex_Sans_Arabic({
   variable: '--font-plex',
 })
 
+/* The same family's Arabic letters, for the name in Dari and Urdu on the About
+   page. Not preloaded: the file is fetched only when that text is drawn. */
+const plexArabic = IBM_Plex_Sans_Arabic({
+  weight: ['500'],
+  subsets: ['arabic'],
+  display: 'swap',
+  preload: false,
+  variable: '--font-plex-arabic',
+})
+
 const TITLE = 'Farzana — your whole classroom, in one place'
 const DESCRIPTION =
   'Sell your classes, email your families and keep track of your students, all in one place. Book a 15-minute call.'
@@ -80,7 +90,7 @@ export const metadata: Metadata = {
 export default function FarzanaLayout({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className={`farzana flex min-h-dvh flex-col ${reemKufi.variable} ${plex.variable}`}
+      className={`farzana flex min-h-dvh flex-col ${reemKufi.variable} ${plex.variable} ${plexArabic.variable}`}
       // The theme script sets data-theme before React arrives.
       suppressHydrationWarning
     >
