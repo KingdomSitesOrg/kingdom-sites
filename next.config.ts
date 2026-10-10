@@ -45,9 +45,9 @@ const nextConfig: NextConfig = {
         source: '/(.*)',
         headers: securityHeaders,
       },
-      // /edu is unlisted: shareable by link, kept out of search (the page and the film).
-      { source: '/edu', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] },
-      { source: '/edu/:path*', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] },
+      // /farzana is unlisted: shareable by link, kept out of search (the page and the film).
+      { source: '/farzana', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] },
+      { source: '/farzana/:path*', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] },
     ]
   },
   // Links people already have in hand, typed or shared without the hyphens.
@@ -67,6 +67,10 @@ const nextConfig: NextConfig = {
       { source: '/seo', destination: '/', permanent: true },
       { source: '/software', destination: '/', permanent: true },
       { source: '/rochester-mn', destination: '/', permanent: true },
+      // Edu is now Farzana. The film's end card and links already shared say
+      // /edu; temporary, since the page may move to farzana.app.
+      { source: '/edu', destination: '/farzana', permanent: false },
+      { source: '/edu/:path*', destination: '/farzana', permanent: false },
     ]
   },
 }

@@ -1,0 +1,91 @@
+/* Farzana — brand tokens from the Farzana Brand Guidelines (Oct 2026).
+   Mist page, Lapis logo and headings, Saffron only on the logo's diamonds.
+   Cards are white with a hairline at 12% Lapis and no shadow. Reem Kufi for
+   the logo and headings. Dark mode uses the guidelines' dark values. */
+
+.farzana {
+  --bg: #f2f5f3;
+  --surface: #ffffff;
+  --text: #18222e;
+  --heading: #1e3553;
+  --logo: #1e3553;
+  --gold: #c9973f;
+  --line: rgba(30, 53, 83, 0.12);
+
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'IBM Plex Sans Arabic', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  padding: 0 16px 56px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .farzana {
+    --bg: #0f1b2b;
+    --surface: #16253a;
+    --text: #e6ecf1;
+    --heading: #e6ecf1;
+    --logo: #e6ecf1;
+    --gold: #d9ae5c;
+    --line: rgba(230, 236, 241, 0.12);
+  }
+}
+
+.farzana-top {
+  display: flex;
+  align-items: center;
+  height: 72px;
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+/* 96px is the guidelines' smallest on screen; this sits above it. */
+.farzana-logo {
+  display: block;
+  width: 120px;
+  height: auto;
+}
+
+.farzana-hero {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding-top: 24px;
+}
+
+.farzana-title {
+  margin: 0 auto;
+  max-width: 16em;
+  text-align: center;
+  color: var(--heading);
+  font-family: var(--font-reem-kufi), 'Trebuchet MS', sans-serif;
+  font-weight: 600;
+  font-size: clamp(32px, 5vw, 56px);
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+.farzana-film {
+  margin: 32px auto 0;
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+
+.farzana-film video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  background: #f2f5f3;
+}
+
+@media (min-width: 720px) {
+  .farzana {
+    padding: 0 32px 80px;
+  }
+  .farzana-film {
+    margin-top: 40px;
+  }
+}
