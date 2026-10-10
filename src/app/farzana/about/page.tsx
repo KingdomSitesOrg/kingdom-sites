@@ -2,15 +2,14 @@ import type { Metadata } from 'next'
 
 import { Closing } from '../_home/closing'
 
-import { Clarity } from './_about/clarity'
 import { Daniel } from './_about/daniel'
 import { AboutHero } from './_about/hero'
-import { OnTheGo } from './_about/mobile'
+import { Reaching } from './_about/name'
 import { Missions, Thomas } from './_about/thomas'
 
 const TITLE = 'About · Farzana'
 const DESCRIPTION =
-  'Farzana is built from the ground up to be affordable and easy to use, for teachers who just want their classes done.'
+  'Thomas and Monisha, the story of Daniel, and the people on their hearts: Afghans and South Asians, among whom Farzana is a common name.'
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -26,20 +25,19 @@ export const metadata: Metadata = {
 }
 
 /**
- * About Farzana, told with things to touch rather than paragraphs: a week's
- * list of chores emptying itself; the clarity guarantee, with a typical
- * screen and Farzana's to drag between; the phone doing four everyday jobs;
- * the story of Daniel, lighting beat by beat as the page scrolls; Thomas,
- * with three Latin words to try; his heart for missions; and the call to book.
+ * About the people behind Farzana, not the product (that is the front page):
+ * Thomas and his wife Monisha; Thomas's story, with three Latin words to try;
+ * the story of Daniel, lighting beat by beat as the page scrolls; the name in
+ * the scripts of the Afghans and South Asians on their hearts; the ministry
+ * Farzana fuels; and the call to book.
  */
 export default function AboutPage() {
   return (
     <main className="overflow-x-clip">
       <AboutHero />
-      <Clarity />
-      <OnTheGo />
-      <Daniel />
       <Thomas />
+      <Daniel />
+      <Reaching />
       <Missions />
       <Closing />
     </main>

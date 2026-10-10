@@ -9,11 +9,11 @@ import {
   UsersThreeIcon,
 } from "@phosphor-icons/react";
 
-import { useInView, useReducedMotion } from "../../_home/motion";
-import { FauxButton, Reveal, SectionIntro } from "../../_home/shared";
-import { buttonClass } from "../../_ui/button";
-import { cn } from "../../_ui/cn";
-import { RUTA_URL } from "../../_ui/contact";
+import { useInView, useReducedMotion } from "./motion";
+import { FauxButton, Reveal, SectionIntro } from "./shared";
+import { buttonClass } from "../_ui/button";
+import { cn } from "../_ui/cn";
+import { RUTA_URL } from "../_ui/contact";
 
 /**
  * The clarity guarantee, and where it comes from: Thomas's work on Ruta,

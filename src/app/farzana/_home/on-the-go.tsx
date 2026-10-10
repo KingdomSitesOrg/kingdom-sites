@@ -10,9 +10,9 @@ import {
   type Icon,
 } from "@phosphor-icons/react";
 
-import { useBeat, useInView, useReducedMotion } from "../../_home/motion";
-import { FauxButton, Initial, Reveal, SectionIntro } from "../../_home/shared";
-import { cn } from "../../_ui/cn";
+import { useBeat, useInView, useReducedMotion } from "./motion";
+import { FauxButton, Initial, Reveal, SectionIntro } from "./shared";
+import { cn } from "../_ui/cn";
 
 /**
  * Mobile first: four everyday jobs, each done on a phone. The phone plays
