@@ -5,10 +5,12 @@ import Link from 'next/link'
 
 import { INTRO_SCRIPT } from './_home/intro-script'
 import { buttonClass } from './_ui/button'
-import { BOOK_PATH } from './_ui/contact'
+import { ABOUT_PATH, BOOK_PATH, PRICING_PATH } from './_ui/contact'
 import { HeaderChrome } from './_ui/header-chrome'
+import { SiteNav } from './_ui/site-nav'
 import { ThemeToggle } from './_ui/theme'
 import { THEME_SCRIPT } from './_ui/theme-script'
+import { Verse } from './_ui/verse'
 import { Wordmark } from './_ui/wordmark'
 import './farzana.css'
 
@@ -61,18 +63,12 @@ export const metadata: Metadata = {
   },
 }
 
-/** The bar's way round the page. Wide screens only. */
-const SECTIONS = [
-  { href: '/farzana#features', label: 'Features' },
-  { href: '/farzana#how-it-works', label: 'How it works' },
-  { href: '/farzana#film', label: 'The film' },
-]
-
 /**
- * The frame around the Farzana pages — the page itself and /farzana/book —
- * in Farzana's own look, so no Kingdom Sites header or footer here. The bar
- * holds the logo, the sun-and-moon switch and the one filled button, Book a
- * call.
+ * The frame around the Farzana pages — the front page, About, Pricing and
+ * /farzana/book — in Farzana's own look, so no Kingdom Sites header or footer
+ * here. The bar holds the logo, the way round the pages, the sun-and-moon
+ * switch and the one filled button, Book a call. The footer carries Daniel
+ * 2:21 on every page.
  *
  * Farzana's colours, type and corners are set on the `.farzana` wrapper
  * (farzana.css), so they reach this page and nothing else on the site. The
@@ -97,17 +93,7 @@ export default function FarzanaLayout({ children }: { children: React.ReactNode 
             <Wordmark className="text-[26px]" />
           </Link>
           <div className="flex items-center gap-1 sm:gap-2">
-            <div className="me-2 hidden items-center gap-1 md:flex">
-              {SECTIONS.map((section) => (
-                <Link
-                  key={section.href}
-                  href={section.href}
-                  className={buttonClass({ variant: 'ghost', size: 'sm' })}
-                >
-                  {section.label}
-                </Link>
-              ))}
-            </div>
+            <SiteNav />
             <ThemeToggle />
             <Link href={BOOK_PATH} className={buttonClass({ size: 'sm' })}>
               Book a call
@@ -117,18 +103,27 @@ export default function FarzanaLayout({ children }: { children: React.ReactNode 
       </header>
       <div className="flex-1">{children}</div>
       <footer className="border-t">
-        <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-6 px-4 py-10 sm:flex-row sm:px-6">
-          <div className="flex flex-col items-center gap-2 sm:items-start">
-            <Wordmark className="text-[26px]" />
-            <p className="text-caption">Intelligent software, learned students.</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <Link href={BOOK_PATH} className={QUIET}>
-              Book a call
-            </Link>
-            <Link href="/privacy" className={QUIET}>
-              Privacy
-            </Link>
+        <div className="mx-auto w-full max-w-6xl px-4 pt-16 pb-10 sm:px-6">
+          <Verse />
+          <div className="mt-14 flex flex-col items-center justify-between gap-6 border-t pt-8 sm:flex-row">
+            <div className="flex flex-col items-center gap-2 sm:items-start">
+              <Wordmark className="text-[26px]" />
+              <p className="text-caption">Intelligent software, learned students.</p>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              <Link href={PRICING_PATH} className={QUIET}>
+                Pricing
+              </Link>
+              <Link href={ABOUT_PATH} className={QUIET}>
+                About
+              </Link>
+              <Link href={BOOK_PATH} className={QUIET}>
+                Book a call
+              </Link>
+              <Link href="/privacy" className={QUIET}>
+                Privacy
+              </Link>
+            </div>
           </div>
         </div>
       </footer>

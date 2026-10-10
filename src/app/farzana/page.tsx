@@ -3,6 +3,7 @@ import { Families } from './_home/families'
 import { Features } from './_home/features'
 import { Hero } from './_home/hero'
 import { LogoIntro } from './_home/intro'
+import { MeetThomas } from './_home/meet-thomas'
 import { Steps } from './_home/steps'
 import { Story } from './_home/story'
 
@@ -15,7 +16,8 @@ import { Story } from './_home/story'
  * bottom: one line on what Farzana is, with the call to book; the scattered
  * tools pulling together into one place as the page scrolls; everything it
  * does; three steps; what students and parents see; switching from another
- * provider; what the name means; the film; and the call to book once more.
+ * provider; what the name means; the film; Thomas, who you talk to on the
+ * call; and the call to book once more.
  *
  * The same page lives in the Farzana app (KingdomSitesOrg/edu, `src/app/(site)`),
  * where it also carries Create account and Sign in.
@@ -32,6 +34,7 @@ export default function FarzanaPage() {
       <Switching />
       <Meaning />
       <Film />
+      <MeetThomas />
       <Closing />
     </main>
   )
