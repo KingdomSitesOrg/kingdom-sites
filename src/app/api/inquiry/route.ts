@@ -3,10 +3,13 @@ import * as Sentry from '@sentry/nextjs'
 import { INQUIRY_TO_EMAILS } from '@/lib/contact'
 
 /**
- * Product enquiries.
+ * Product enquiries, and Farzana call requests.
  *
  * The form posts here; this route delivers by email (Resend) and optionally a
- * webhook. Nothing stored in a DB.
+ * webhook. Nothing stored in a DB. The Farzana page's "Book a call" form
+ * (/farzana/book) posts here too, with `kind: 'farzana-call'` and two more
+ * optional lines — what they teach and when suits them — so its email says
+ * what it is.
  *
  * Needs RESEND_API_KEY. If delivery fails, the form falls back to mailto.
  */
@@ -135,6 +138,9 @@ export async function POST(request: Request) {
     const name = clean(raw.name)
     const email = clean(raw.email)
     const message = cleanMultiline(raw.message)
+    const farzanaCall = clean(raw.kind) === 'farzana-call'
+    const teaches = clean(raw.teaches)
+    const times = clean(raw.times)
 
     if (!name) {
       return NextResponse.json({ ok: false, error: 'Please give your name.' }, { status: 400 })
@@ -146,12 +152,22 @@ export async function POST(request: Request) {
       )
     }
 
-    const subject = `Enquiry from ${name}`
+    const subject = farzanaCall
+      ? `Farzana call request from ${name}`
+      : `Enquiry from ${name}`
     const body = [
-      'A new enquiry from kingdom-sites.com',
+      farzanaCall
+        ? 'A new call request from kingdom-sites.com/farzana'
+        : 'A new enquiry from kingdom-sites.com',
       '',
       `Name: ${name}`,
       `Email: ${email}`,
+      ...(farzanaCall
+        ? [
+            `Teaches: ${teaches || '(not said)'}`,
+            `When suits them: ${times || '(not said)'}`,
+          ]
+        : []),
       '',
       message ? `Message:\n${message}` : 'Message: (none)',
       '',
@@ -164,8 +180,9 @@ export async function POST(request: Request) {
         name,
         email,
         message,
+        ...(farzanaCall ? { teaches, times } : {}),
         receivedAt: new Date().toISOString(),
-        kind: 'enquiry',
+        kind: farzanaCall ? 'farzana-call' : 'enquiry',
       }),
     ])
 
