@@ -359,6 +359,41 @@ html[data-intro] .fz-rise {
   }
 }
 
+/* ---- The phone menu (_ui/mobile-menu.tsx) ----------------------------- */
+
+/* A drawer sliding in from the end side over a dimmed page, which stays put
+   behind it while it is open. */
+.fz-drawer::backdrop {
+  background: rgba(15, 27, 43, 0.45);
+}
+.fz-drawer[open] {
+  animation: fz-drawer-in 0.32s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+[dir='rtl'] .fz-drawer[open] {
+  animation-name: fz-drawer-in-rtl;
+}
+.fz-drawer[open]::backdrop {
+  animation: fz-fade-in 0.32s ease both;
+}
+html:has(.fz-drawer[open]) {
+  overflow: hidden;
+}
+@keyframes fz-drawer-in {
+  from {
+    transform: translateX(100%);
+  }
+}
+@keyframes fz-drawer-in-rtl {
+  from {
+    transform: translateX(-100%);
+  }
+}
+@keyframes fz-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
 /* ---- Reduced motion -------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
@@ -371,7 +406,9 @@ html[data-intro] .fz-rise {
     transform: none;
     transition: none;
   }
-  .fz-motion {
+  .fz-motion,
+  .fz-drawer[open],
+  .fz-drawer[open]::backdrop {
     animation: none !important;
   }
 }
