@@ -308,6 +308,57 @@ html[data-intro] .fz-rise {
   transform: translateY(calc(8px * (1 - var(--t))));
 }
 
+/* ---- About and Pricing --------------------------------------------- */
+
+/* Daniel's story (about/_about/daniel.tsx). `--p` is how far the reading
+   line has travelled down the list, 0 to 1. The track fills with it, and each
+   beat, at its own `--at`, lights as the fill reaches it. */
+.fz-timeline-fill {
+  transform: scaleY(var(--p, 0));
+  transform-origin: top;
+}
+.fz-beat {
+  --t: clamp(0, calc((var(--p, 0) - var(--at, 0)) * 6), 1);
+  opacity: calc(0.3 + 0.7 * var(--t));
+}
+.fz-beat-mark {
+  transform: scale(calc(0.6 + 0.4 * var(--t)));
+  filter: grayscale(calc(1 - var(--t)));
+}
+
+/* The diamonds behind the missions card, each one breathing on its own beat. */
+@keyframes fz-twinkle {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(0.75);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Words being typed into a field: revealed left to right in steps. */
+@keyframes fz-type {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* A progress bar filling from its start. */
+@keyframes fz-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
 /* ---- Reduced motion -------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
