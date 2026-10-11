@@ -159,6 +159,52 @@ html[data-intro="play"] #site-logo {
   opacity: 0;
 }
 
+/* The motto writes itself with the logo's soft edge: a mask wider than the
+   line slides across it, so the words appear left to right with no outline
+   and no half-inked double image. Under the bar's logo (_ui/motto.tsx) it
+   happens the moment the logo has landed (`landed`), one line after the
+   other on a phone. */
+.fz-intro-motto,
+html[data-intro='landed'] .fz-motto-line {
+  -webkit-mask-image: linear-gradient(90deg, #000 45.45%, transparent 54.55%);
+  mask-image: linear-gradient(90deg, #000 45.45%, transparent 54.55%);
+  -webkit-mask-size: 220% 100%;
+  mask-size: 220% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: 100% 0;
+  mask-position: 100% 0;
+}
+html[data-intro='landed'] .fz-motto-line {
+  animation: fz-motto-write 0.45s cubic-bezier(0.5, 0.1, 0.3, 1) 0.05s both;
+}
+html[data-intro='landed'] .fz-motto-line-2 {
+  animation-delay: 0.2s;
+}
+/* On a wide screen the motto is written in the intro's large logo instead
+   (_home/intro.tsx), as the diamonds land (`--fz-motto-at`), and carried to
+   the bar with it, where the state turns `settled` and the bar's own motto
+   simply shows. */
+[data-mode='large'] .fz-intro-motto {
+  animation: fz-motto-write 0.56s cubic-bezier(0.5, 0.1, 0.3, 1) var(--fz-motto-at, 0ms) both;
+}
+@keyframes fz-motto-write {
+  to {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+}
+
+/* The soft light that passes over the logo once it is inked
+   (_ui/wordmark-intro.tsx): a warm white on the lapis word, a little saffron
+   on the light word in dark mode. */
+.farzana {
+  --fz-sheen: rgba(201, 151, 63, 0.7);
+}
+.farzana[data-theme='dark'] {
+  --fz-sheen: rgba(217, 174, 92, 0.75);
+}
+
 /* ---- Entrances ------------------------------------------------------- */
 
 /* The hero's lines rise in one after another, `--d` apart. On the visit the
@@ -169,7 +215,7 @@ html[data-intro="play"] #site-logo {
   animation-delay: var(--d, 0ms);
 }
 html[data-intro] .fz-rise {
-  animation-delay: calc(var(--d, 0ms) + 700ms);
+  animation-delay: calc(var(--d, 0ms) + 450ms);
 }
 
 @keyframes fz-rise {
@@ -291,6 +337,33 @@ html[data-intro] .fz-rise {
   opacity: clamp(0, calc(1 - (var(--p, 0) - 0.3) / 0.15), 1);
   transform: translateY(calc(-24px * clamp(0, (var(--p, 0) - 0.3) / 0.15, 1)));
 }
+/* The middle line, in while the tools are on their way in and out before
+   the answer arrives. */
+.fz-bridge-copy {
+  opacity: min(
+    clamp(0, calc((var(--p, 0) - 0.44) / 0.06), 1),
+    clamp(0, calc((0.62 - var(--p, 0)) / 0.05), 1)
+  );
+  transform: translateY(calc(16px * (1 - clamp(0, (var(--p, 0) - 0.44) / 0.06, 1))));
+}
+/* "Keep scrolling" at the foot: there from the start, its bar filling with
+   the story, gone once the card has filled in. */
+.fz-scroll-hint {
+  opacity: clamp(0, calc((0.9 - var(--p, 0)) / 0.08), 1);
+}
+.fz-scroll-hint-fill {
+  transform: scaleX(var(--p, 0));
+  transform-origin: left;
+}
+@keyframes fz-nudge {
+  0%,
+  100% {
+    transform: translateY(-2px);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+}
 .fz-answer-copy {
   opacity: clamp(0, calc((var(--p, 0) - 0.62) / 0.14), 1);
   transform: translateY(
@@ -308,6 +381,92 @@ html[data-intro] .fz-rise {
   transform: translateY(calc(8px * (1 - var(--t))));
 }
 
+/* ---- About and Pricing --------------------------------------------- */
+
+/* Daniel's story (about/_about/daniel.tsx). `--p` is how far the reading
+   line has travelled down the list, 0 to 1. The track fills with it, and each
+   beat, at its own `--at`, lights as the fill reaches it. */
+.fz-timeline-fill {
+  transform: scaleY(var(--p, 0));
+  transform-origin: top;
+}
+.fz-beat {
+  --t: clamp(0, calc((var(--p, 0) - var(--at, 0)) * 6), 1);
+  opacity: calc(0.3 + 0.7 * var(--t));
+}
+.fz-beat-mark {
+  transform: scale(calc(0.6 + 0.4 * var(--t)));
+  filter: grayscale(calc(1 - var(--t)));
+}
+
+/* The diamonds behind the missions card, each one breathing on its own beat. */
+@keyframes fz-twinkle {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(0.75);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Words being typed into a field: revealed left to right in steps. */
+@keyframes fz-type {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* A progress bar filling from its start. */
+@keyframes fz-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ---- The phone menu (_ui/mobile-menu.tsx) ----------------------------- */
+
+/* A drawer sliding in from the end side over a dimmed page, which stays put
+   behind it while it is open. */
+.fz-drawer::backdrop {
+  background: rgba(15, 27, 43, 0.45);
+}
+.fz-drawer[open] {
+  animation: fz-drawer-in 0.32s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+[dir='rtl'] .fz-drawer[open] {
+  animation-name: fz-drawer-in-rtl;
+}
+.fz-drawer[open]::backdrop {
+  animation: fz-fade-in 0.32s ease both;
+}
+html:has(.fz-drawer[open]) {
+  overflow: hidden;
+}
+@keyframes fz-drawer-in {
+  from {
+    transform: translateX(100%);
+  }
+}
+@keyframes fz-drawer-in-rtl {
+  from {
+    transform: translateX(-100%);
+  }
+}
+@keyframes fz-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
 /* ---- Reduced motion -------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
@@ -320,7 +479,14 @@ html[data-intro] .fz-rise {
     transform: none;
     transition: none;
   }
-  .fz-motion {
+  .fz-motion,
+  .fz-drawer[open],
+  .fz-drawer[open]::backdrop,
+  html[data-intro] .fz-motto-line {
     animation: none !important;
+  }
+  html[data-intro] .fz-motto-line {
+    -webkit-mask: none;
+    mask: none;
   }
 }

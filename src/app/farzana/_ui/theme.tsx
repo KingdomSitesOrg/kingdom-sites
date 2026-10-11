@@ -28,7 +28,7 @@ function subscribe(onChange: () => void) {
   return () => observer.disconnect()
 }
 
-export function ThemeToggle() {
+export function ThemeToggle({ className }: { className?: string }) {
   // null on the server, where the mode is not known yet.
   const mode = useSyncExternalStore(
     subscribe,
@@ -53,7 +53,7 @@ export function ThemeToggle() {
           // Storage blocked: the switch still works until the page is left.
         }
       }}
-      className={buttonClass({ variant: 'ghost', size: 'icon' })}
+      className={buttonClass({ variant: 'ghost', size: 'icon', className })}
     >
       {mode === null ? null : dark ? <SunIcon weight="bold" /> : <MoonIcon weight="bold" />}
     </button>
