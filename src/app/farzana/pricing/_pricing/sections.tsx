@@ -24,12 +24,13 @@ import { cn } from "../../_ui/cn";
 import { BOOK_PATH } from "../../_ui/contact";
 import { Diamond } from "../../_ui/diamond";
 
-import { INTERVAL, TIERS, tierFor } from "./plan";
+import { INTERVAL, LIFETIME, TIERS, tierFor } from "./plan";
 
 /**
  * The pricing page: three sizes by number of students, with every feature
- * and setup at every size; how few class sales a month pay for it;
- * everything that comes in it; and the questions people ask about money.
+ * and setup at every size; paying once for life, in 2027; how few class sales
+ * a month pay for it; everything that comes in it; and the questions people
+ * ask about money.
  */
 
 /* ---- The sizes --------------------------------------------------------- */
@@ -158,6 +159,60 @@ function SizePicker() {
   );
 }
 
+/* ---- Pay once ---------------------------------------------------------- */
+
+const LIFETIME_PRICE = `$${LIFETIME.dollars.toLocaleString("en-US")}`;
+/** How many months of the middle size the one payment equals. */
+const LIFETIME_MONTHS = Math.round(LIFETIME.dollars / TIERS[1].dollars);
+
+/** The other way to pay: once, for life, for schools that sign up in 2027. */
+export function Lifetime() {
+  return (
+    <section className="mx-auto w-full max-w-6xl px-4 pb-24 sm:px-6 sm:pb-32">
+      <Reveal>
+        <div className="rounded-lg border bg-surface p-6 sm:p-10 lg:p-12">
+          <div className="grid items-center gap-8 lg:grid-cols-[1.3fr_1fr] lg:gap-12">
+            <div className="flex flex-col items-start gap-4">
+              <Badge>
+                <Diamond size={8} />
+                Signing up in {LIFETIME.year}
+              </Badge>
+              <h2 className="text-balance sm:text-[36px] sm:leading-[43px]">
+                Or pay once, and it’s yours for life.
+              </h2>
+              <p className="max-w-xl text-pretty text-lg text-muted">
+                Schools that sign up in {LIFETIME.year} can pay {LIFETIME_PRICE}{" "}
+                once instead of monthly. That’s about {LIFETIME_MONTHS} months of
+                the ${TIERS[1].dollars} size, and then nothing more, ever.
+              </p>
+            </div>
+            <div className="flex flex-col gap-5 rounded-lg border bg-background p-6">
+              <p className="flex items-end gap-2">
+                <span className="font-display text-[52px] leading-[0.9] font-semibold text-heading tabular-nums">
+                  {LIFETIME_PRICE}
+                </span>
+                <span className="pb-1.5 text-lg text-muted">once</span>
+              </p>
+              <ul className="flex flex-col gap-2.5">
+                {["Every feature, for life", "Set up for you", `For schools that sign up in ${LIFETIME.year}`].map((item) => (
+                  <li key={item} className="flex items-center gap-2.5 text-ink">
+                    <CheckIcon weight="bold" className="size-4 text-accent" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <Link href={BOOK_PATH} className={buttonClass({ size: "lg", className: "w-full" })}>
+                <CalendarCheckIcon weight="bold" />
+                Ask about it on a call
+              </Link>
+            </div>
+          </div>
+        </div>
+      </Reveal>
+    </section>
+  );
+}
+
 /* ---- It pays for itself ------------------------------------------------- */
 
 const MIN_FEE = 25;
@@ -268,6 +323,10 @@ const QUESTIONS = [
   {
     question: "How is the price set?",
     answer: `By how many students you teach: up to 100 students is $${TIERS[0].dollars} a month, 101 to 7,999 is $${TIERS[1].dollars}, and 8,000 or more is $${TIERS[2].dollars}. Every size gets every feature.`,
+  },
+  {
+    question: "Can I pay once instead?",
+    answer: `Yes, if you sign up in ${LIFETIME.year}: ${LIFETIME_PRICE} once, and Farzana is yours for life, set up for you like every other school.`,
   },
   {
     question: "Is setup included at every size?",
