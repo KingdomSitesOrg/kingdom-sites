@@ -8,6 +8,7 @@ import { buttonClass } from './_ui/button'
 import { ABOUT_PATH, BOOK_PATH, PRICING_PATH } from './_ui/contact'
 import { HeaderChrome } from './_ui/header-chrome'
 import { MobileMenu } from './_ui/mobile-menu'
+import { Motto } from './_ui/motto'
 import { SiteNav } from './_ui/site-nav'
 import { ThemeToggle } from './_ui/theme'
 import { THEME_SCRIPT } from './_ui/theme-script'
@@ -99,9 +100,15 @@ export default function FarzanaLayout({ children }: { children: React.ReactNode 
       <header className="sticky top-0 z-40 isolate">
         <HeaderChrome />
         <nav className="relative mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-          {/* The logo is the way back to the top; its accessible name is "Farzana". */}
-          <Link id="site-logo" href="/farzana" className="flex min-h-11 items-center">
+          {/* The logo is the way back to the top; its accessible name is "Farzana".
+              The motto under it writes itself once the logo has. */}
+          <Link
+            id="site-logo"
+            href="/farzana"
+            className="flex min-h-11 flex-col items-start justify-center gap-0.5 no-underline"
+          >
             <Wordmark className="text-[26px]" />
+            <Motto />
           </Link>
           <div className="flex items-center gap-1 sm:gap-2">
             <SiteNav />

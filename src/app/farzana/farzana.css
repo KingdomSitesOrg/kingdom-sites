@@ -159,6 +159,35 @@ html[data-intro="play"] #site-logo {
   opacity: 0;
 }
 
+/* The motto under the bar's logo (_ui/motto.tsx) writes itself the moment
+   the logo has landed: the outline sweeps in, then the letters ink in. */
+html[data-intro='landed'] .fz-motto-line {
+  -webkit-text-stroke: 0.5px var(--color-muted);
+  animation:
+    fz-motto-write 1.3s cubic-bezier(0.45, 0.05, 0.35, 1) 0.15s both,
+    fz-motto-ink 0.6s ease 1.2s both;
+}
+html[data-intro='landed'] .fz-motto-line-2 {
+  animation-delay: 1.15s, 2.2s;
+}
+@keyframes fz-motto-write {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes fz-motto-ink {
+  from {
+    color: transparent;
+  }
+  to {
+    color: var(--color-muted);
+    -webkit-text-stroke-width: 0;
+  }
+}
+
 /* ---- Entrances ------------------------------------------------------- */
 
 /* The hero's lines rise in one after another, `--d` apart. On the visit the
@@ -408,7 +437,9 @@ html:has(.fz-drawer[open]) {
   }
   .fz-motion,
   .fz-drawer[open],
-  .fz-drawer[open]::backdrop {
+  .fz-drawer[open]::backdrop,
+  html[data-intro] .fz-motto-line {
     animation: none !important;
+    -webkit-text-stroke: 0;
   }
 }
