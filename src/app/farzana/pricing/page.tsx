@@ -11,6 +11,7 @@ const DESCRIPTION = `Priced by how many students you teach, from $${TIERS[0].dol
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
+  alternates: { canonical: '/pricing' },
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,

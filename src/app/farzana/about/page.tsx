@@ -14,6 +14,7 @@ const DESCRIPTION =
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
+  alternates: { canonical: '/about' },
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,

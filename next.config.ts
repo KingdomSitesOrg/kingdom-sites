@@ -108,7 +108,12 @@ const nextConfig: NextConfig = {
   // own pages of the same name (/about, /pricing).
   async rewrites() {
     return {
-      beforeFiles: FARZANA_PAGES.map(([clean, here]) => ({
+      beforeFiles: [
+        ...FARZANA_PAGES,
+        // farzana.app's own robots.txt and sitemap, in place of this site's.
+        ['/robots.txt', '/farzana/robots.txt'],
+        ['/sitemap.xml', '/farzana/sitemap.xml'],
+      ].map(([clean, here]) => ({
         source: clean,
         destination: here,
         has: [FARZANA_HOST],

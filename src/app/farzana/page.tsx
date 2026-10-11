@@ -1,4 +1,6 @@
 import { Clarity } from './_home/clarity'
+import type { Metadata } from 'next'
+
 import { Closing, Film, Meaning, Switching } from './_home/closing'
 import { Families } from './_home/families'
 import { Features } from './_home/features'
@@ -9,6 +11,33 @@ import { OnTheGo } from './_home/on-the-go'
 import { Simple } from './_home/simple'
 import { Steps } from './_home/steps'
 import { Story } from './_home/story'
+import { INTERVAL, TIERS } from './pricing/_pricing/plan'
+
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+}
+
+/**
+ * What Farzana is, in the shape search engines read (schema.org): the product,
+ * its three prices, and who makes it.
+ */
+const STRUCTURED = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Farzana',
+  url: 'https://farzana.app',
+  applicationCategory: 'EducationalApplication',
+  operatingSystem: 'Web',
+  description:
+    'Sell your classes, email your families and keep track of your students in one calm place, set up for you.',
+  offers: TIERS.map((tier) => ({
+    '@type': 'Offer',
+    price: String(tier.dollars),
+    priceCurrency: 'USD',
+    description: `${tier.label}, per ${INTERVAL}`,
+  })),
+  publisher: { '@type': 'Organization', name: 'Kingdom Sites', url: 'https://kingdom-sites.com' },
+}
 
 /**
  * The Farzana marketing page, hosted here until farzana.app has a home. Built
@@ -30,6 +59,10 @@ import { Story } from './_home/story'
 export default function FarzanaPage() {
   return (
     <main className="overflow-x-clip">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(STRUCTURED) }}
+      />
       <LogoIntro />
       <Hero />
       <Story />
