@@ -46,7 +46,8 @@ const PROMISES = [
 export function Hero() {
   return (
     <section className="relative mx-auto grid w-full max-w-6xl items-center gap-14 px-4 pb-20 pt-10 sm:px-6 lg:min-h-[calc(100dvh-4rem)] lg:grid-cols-[1.05fr_1fr] lg:gap-10 lg:pb-24 lg:pt-6">
-      <div className="flex flex-col items-start gap-6">
+      {/* `data-hero-content`: the logo intro measures the open space above it. */}
+      <div data-hero-content className="flex flex-col items-start gap-6">
         <h1 className="flex flex-col gap-4">
           <span className="text-balance font-display text-[24px] leading-[32px] font-semibold text-heading sm:text-[30px] sm:leading-[38px]">
             {QUESTION.map((word, index) => (
