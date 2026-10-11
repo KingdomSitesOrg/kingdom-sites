@@ -23,6 +23,10 @@ export const PRICING_PATH = '/farzana/pricing'
 /** Jam Legio, Thomas's Latin game, on the App Store. */
 export const JAM_LEGIO_URL = 'https://apps.apple.com/us/app/jam-legio/id6797884645'
 
-/** Kingdom Sites pages the About page points to: the mission, and Thomas's work on Ruta. */
-export const MISSION_URL = '/mission'
-export const RUTA_URL = '/ruta'
+/**
+ * Kingdom Sites pages the About page points to: the mission, and Thomas's
+ * work on Ruta. Full addresses, since the Farzana pages are served at
+ * farzana.app.
+ */
+export const MISSION_URL = 'https://kingdom-sites.com/mission'
+export const RUTA_URL = 'https://kingdom-sites.com/ruta'
