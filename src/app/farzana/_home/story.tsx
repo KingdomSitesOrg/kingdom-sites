@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import {
+  ArrowDownIcon,
   BookOpenTextIcon,
   CalendarBlankIcon,
   CheckIcon,
@@ -30,7 +31,8 @@ import { Eyebrow, Initial, vars } from "./shared";
  * moves they pull together and disappear into one Farzana card.
  *
  * The section is tall and its picture is pinned, so the scroll is what plays
- * it. `--p` (0 to 1) is written onto the section by `useScrollProgress`; every
+ * it; a line holds the middle and a small "Keep scrolling" pill with a filling
+ * bar sits at the foot, so it never reads as a page that has stalled. `--p` (0 to 1) is written onto the section by `useScrollProgress`; every
  * movement is plain CSS reading that number (`home.css`). Under reduced motion
  * there is no pinning: the problem, then the answer, one under the other.
  */
@@ -89,6 +91,13 @@ const PROBLEM = {
   body: "Lessons in one tool, grades in another, sign-ups in a form and payments somewhere else, with parents asking where to look.",
 };
 
+/** Between the two: the line that holds the middle while the tools pull in. */
+const BRIDGE = {
+  eyebrow: "Keep going",
+  title: "Now watch it all come together.",
+  body: "Every tool and every question, pulled into one place.",
+};
+
 const ANSWER = {
   eyebrow: "One place",
   title: "Farzana puts it all in one place.",
@@ -112,9 +121,11 @@ function StoryScroll() {
     >
       <div className="sticky top-0 h-dvh overflow-hidden">
         <div className="relative mx-auto h-full w-full max-w-6xl px-4 sm:px-6">
-          {/* The words: the problem, then the answer in the same place. */}
+          {/* The words: the problem, the middle, then the answer, in the same
+              place, so it is never empty while the scroll plays. */}
           <div className="absolute inset-x-4 top-[10vh] grid text-center sm:inset-x-6 sm:top-[12vh]">
             <Copy {...PROBLEM} className="fz-problem-copy" />
+            <Copy {...BRIDGE} className="fz-bridge-copy" />
             <Copy {...ANSWER} className="fz-answer-copy" />
           </div>
 
@@ -139,9 +150,37 @@ function StoryScroll() {
               <OnePlaceCard progressive />
             </div>
           </div>
+
+          <ScrollHint />
         </div>
       </div>
     </section>
+  );
+}
+
+/**
+ * A small pill at the foot of the pinned picture: a nudging arrow, "Keep
+ * scrolling", and a bar that fills as the story plays. Without it the middle
+ * of the section, where only the scroll moves things, can read as a page that
+ * has stalled. It fades once the Farzana card has filled in.
+ */
+function ScrollHint() {
+  return (
+    <div
+      aria-hidden
+      className="fz-scroll-hint pointer-events-none absolute inset-x-0 bottom-6 flex justify-center"
+    >
+      <div className="flex items-center gap-3 rounded-full border bg-background px-4 py-2 text-sm font-medium text-heading shadow-overlay">
+        <ArrowDownIcon
+          weight="bold"
+          className="fz-motion size-4 text-primary [animation:fz-nudge_1.4s_ease-in-out_infinite]"
+        />
+        Keep scrolling
+        <span className="block h-1.5 w-16 overflow-hidden rounded-full bg-border">
+          <span className="fz-scroll-hint-fill block h-full rounded-full bg-accent" />
+        </span>
+      </div>
+    </div>
   );
 }
 
