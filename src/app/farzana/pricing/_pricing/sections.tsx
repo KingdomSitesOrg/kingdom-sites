@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import {
   BookOpenTextIcon,
   BrowserIcon,
@@ -17,80 +17,138 @@ import {
   type Icon,
 } from "@phosphor-icons/react";
 
-import { useInView, useReducedMotion } from "../../_home/motion";
 import { Reveal, SectionIntro, vars } from "../../_home/shared";
 import { Badge } from "../../_ui/badge";
 import { buttonClass } from "../../_ui/button";
+import { cn } from "../../_ui/cn";
 import { BOOK_PATH } from "../../_ui/contact";
 import { Diamond } from "../../_ui/diamond";
 
-import { PLAN, PLAN_PRICE } from "./plan";
+import { INTERVAL, TIERS, tierFor } from "./plan";
 
 /**
- * The pricing page: one plan and everything in it, what it comes to for each
- * student as a school grows, and the questions people ask about money.
+ * The pricing page: three sizes by number of students, with every feature
+ * and setup at every size; how few class sales a month pay for it;
+ * everything that comes in it; and the questions people ask about money.
  */
 
-/* ---- The plan ---------------------------------------------------------- */
-
-const QUICK = ["Everything on this page", "Set up for you on a call", "0% of your class fees"];
+/* ---- The sizes --------------------------------------------------------- */
 
 export function PricingHero() {
   return (
-    <section className="mx-auto grid w-full max-w-6xl items-center gap-14 px-4 pt-12 pb-20 sm:px-6 sm:pt-16 lg:grid-cols-[1.1fr_1fr] lg:gap-12 lg:pb-28">
+    <section className="mx-auto grid w-full max-w-6xl items-center gap-14 px-4 pt-12 pb-20 sm:px-6 sm:pt-16 lg:grid-cols-[1fr_1.05fr] lg:gap-12 lg:pb-28">
       <div className="flex flex-col items-start gap-6">
         <Badge className="fz-rise" style={vars({ "--d": "0ms" })}>
           <Diamond size={8} />
           Pricing
         </Badge>
         <h1 className="fz-rise text-display text-balance" style={vars({ "--d": "80ms" })}>
-          One plan. <span className="text-primary">Everything in it.</span>
+          Priced by size. <span className="text-primary">Everything in it.</span>
         </h1>
         <p className="fz-rise max-w-xl text-pretty text-lg text-muted" style={vars({ "--d": "200ms" })}>
-          One price for your whole school. Nothing to add on, and none of your
-          class fees go to us.
+          Every school gets all of Farzana, set up for you. The price only
+          follows how many students you teach. Nothing to add on, and none of
+          your class fees go to us.
         </p>
       </div>
       <div className="fz-rise" style={vars({ "--d": "260ms" })}>
-        <PriceCard />
+        <SizePicker />
       </div>
     </section>
   );
 }
 
-function PriceCard() {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref);
-  const reduced = useReducedMotion();
-  const counted = useCountUp(PLAN.dollars, inView && !reduced);
-  const shown = reduced ? PLAN.dollars : counted;
+/** The slider runs on a log scale, so 10, 100, 1,000 and 10,000 are evenly spaced. */
+const LOW = 10;
+const HIGH = 10000;
+const toStudents = (position: number) =>
+  Math.round(LOW * Math.pow(HIGH / LOW, position / 100));
+const toPosition = (students: number) =>
+  (Math.log(students / LOW) / Math.log(HIGH / LOW)) * 100;
+
+/** A tidy count to show: whole tens under 1,000, whole hundreds above. */
+function tidy(students: number) {
+  const step = students < 1000 ? 10 : 100;
+  return Math.max(LOW, Math.round(students / step) * step);
+}
+
+/** Where a size's row puts the slider when it is chosen. */
+const SAMPLE = [60, 400, 9000];
+
+/**
+ * How many students do you teach? Slide, or pick a size, and the price for
+ * that size shows — with a small pop whenever the size changes.
+ */
+function SizePicker() {
+  const [students, setStudents] = useState(400);
+  const tier = tierFor(students);
 
   return (
-    <div ref={ref} className="surface-card mx-auto flex w-full max-w-[440px] flex-col gap-6 rounded-lg p-6 sm:p-8">
-      <div className="flex items-center justify-between">
+    <div className="surface-card mx-auto flex w-full max-w-[460px] flex-col gap-6 rounded-lg p-6 sm:p-8">
+      <div className="flex items-center justify-between gap-3">
         <span className="font-display text-xl font-semibold text-heading">Farzana</span>
-        <Badge>One plan</Badge>
+        <Badge>Every feature, every size</Badge>
       </div>
-      <div>
-        <p className="flex items-end gap-2">
-          <span className="sr-only">
-            {PLAN_PRICE} a {PLAN.interval}
+
+      <label className="flex flex-col gap-2">
+        <span className="flex items-baseline justify-between gap-4">
+          <span className="text-sm font-medium text-heading">How many students?</span>
+          <span className="font-display text-2xl font-semibold text-heading tabular-nums">
+            {students.toLocaleString("en-US")}
+            {students >= HIGH ? "+" : ""}
           </span>
-          <span aria-hidden className="font-display text-[72px] leading-[0.9] font-semibold text-heading tabular-nums">
-            ${shown}
-          </span>
-          <span aria-hidden className="pb-1.5 text-lg text-muted">/ {PLAN.interval}</span>
-        </p>
-        <p className="mt-2 text-muted">For your whole school</p>
+        </span>
+        <input
+          type="range"
+          min={0}
+          max={100}
+          step={0.5}
+          value={toPosition(students)}
+          onChange={(event) => setStudents(tidy(toStudents(Number(event.target.value))))}
+          aria-valuetext={`${students.toLocaleString("en-US")} students, $${tier.dollars} a ${INTERVAL}`}
+          className="h-11 w-full cursor-pointer accent-[var(--color-primary)]"
+        />
+      </label>
+
+      <p className="flex items-end gap-2" aria-live="polite">
+        <span
+          key={tier.dollars}
+          className="fz-motion font-display text-[64px] leading-[0.9] font-semibold text-heading tabular-nums [animation:fz-pop_.4s_ease_both]"
+        >
+          ${tier.dollars}
+        </span>
+        <span className="pb-1.5 text-lg text-muted">/ {INTERVAL}</span>
+      </p>
+
+      <div role="group" aria-label="Sizes" className="flex flex-col gap-2">
+        {TIERS.map((entry, index) => {
+          const current = entry === tier;
+          return (
+            <button
+              key={entry.label}
+              type="button"
+              aria-pressed={current}
+              onClick={() => setStudents(SAMPLE[index])}
+              className={cn(
+                "flex min-h-12 cursor-pointer items-center justify-between gap-3 rounded-sm border px-4 text-start text-sm transition-colors",
+                current
+                  ? "border-transparent bg-accent-wash text-primary"
+                  : "bg-background text-heading hover:bg-wash",
+              )}
+            >
+              <span className="flex items-center gap-2.5 font-medium">
+                {current ? <CheckIcon weight="bold" className="size-4" /> : <span className="size-4" />}
+                {entry.label}
+              </span>
+              <span className="font-semibold tabular-nums">
+                ${entry.dollars}
+                <span className="font-normal text-muted"> / mo</span>
+              </span>
+            </button>
+          );
+        })}
       </div>
-      <ul className="flex flex-col gap-2.5">
-        {QUICK.map((item) => (
-          <li key={item} className="flex items-center gap-2.5 text-ink">
-            <CheckIcon weight="bold" className="size-4 text-accent" />
-            {item}
-          </li>
-        ))}
-      </ul>
+
       <Link href={BOOK_PATH} className={buttonClass({ size: "lg", className: "w-full" })}>
         <CalendarCheckIcon weight="bold" />
         Book a 15-minute call
@@ -100,27 +158,71 @@ function PriceCard() {
   );
 }
 
+/* ---- It pays for itself ------------------------------------------------- */
+
+const MIN_FEE = 25;
+const MAX_FEE = 600;
+
 /**
- * Counts from 0 to `target` once, when `run` turns true. Until then it holds
- * `target`, so the price is right in the page's first HTML and without script;
- * the hero rises in over the first moment, so the restart from 0 is not seen.
+ * A few class sales a month cover Farzana. Slide to what one class costs and
+ * each size shows how many sales a month pay for it; none of the class fees
+ * go to Farzana, so every sale after that is the school's.
  */
-function useCountUp(target: number, run: boolean, duration = 1100) {
-  const [value, setValue] = useState(target);
-  useEffect(() => {
-    if (!run) return;
-    let frame = 0;
-    const start = performance.now();
-    const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / duration);
-      const eased = 1 - Math.pow(1 - t, 3);
-      setValue(Math.round(target * eased));
-      if (t < 1) frame = window.requestAnimationFrame(tick);
-    };
-    frame = window.requestAnimationFrame(tick);
-    return () => window.cancelAnimationFrame(frame);
-  }, [target, run, duration]);
-  return value;
+export function PaysForItself() {
+  const [fee, setFee] = useState(150);
+
+  return (
+    <section className="border-y bg-surface">
+      <div className="mx-auto grid w-full max-w-6xl items-center gap-12 px-4 py-24 sm:px-6 sm:py-32 lg:grid-cols-2 lg:gap-20">
+        <SectionIntro
+          align="start"
+          eyebrow="It pays for itself"
+          title="A few class sales a month cover it."
+        >
+          Slide to what you charge for one class and see how many sales a
+          month pay for Farzana. None of your class fees go to us, so every
+          sale after that is yours.
+        </SectionIntro>
+        <Reveal delay={100}>
+          <div className="flex flex-col gap-6 rounded-lg border bg-background p-6 sm:p-8">
+            <label className="flex flex-col gap-2">
+              <span className="flex items-baseline justify-between gap-4">
+                <span className="text-sm font-medium text-heading">One class costs</span>
+                <span className="font-display text-3xl font-semibold text-heading tabular-nums">${fee}</span>
+              </span>
+              <input
+                type="range"
+                min={MIN_FEE}
+                max={MAX_FEE}
+                step={5}
+                value={fee}
+                onChange={(event) => setFee(Number(event.target.value))}
+                className="h-11 w-full cursor-pointer accent-[var(--color-primary)]"
+              />
+            </label>
+            <div className="grid grid-cols-3 gap-2">
+              {TIERS.map((tier) => {
+                const sales = Math.ceil(tier.dollars / fee);
+                return (
+                  <div key={tier.label} className="flex flex-col gap-1 rounded-md border bg-surface px-3 py-3">
+                    <span
+                      key={sales}
+                      className="fz-motion font-display text-[32px] leading-none font-semibold text-primary tabular-nums [animation:fz-pop_.35s_ease_both]"
+                    >
+                      {sales}
+                    </span>
+                    <span className="text-caption">
+                      {sales === 1 ? "sale" : "sales"} a month for the ${tier.dollars} size
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
 }
 
 /* ---- Everything in it ------------------------------------------------- */
@@ -138,9 +240,10 @@ const INCLUDED: { icon: Icon; title: string; body: string }[] = [
 
 export function Included() {
   return (
-    <section className="mx-auto w-full max-w-6xl px-4 pb-24 sm:px-6 sm:pb-32">
-      <SectionIntro eyebrow="Everything in it" title="No add-ons to buy.">
-        Every part of Farzana comes in the one plan.
+    <section className="mx-auto w-full max-w-6xl px-4 py-24 sm:px-6 sm:py-32">
+      <SectionIntro eyebrow="Everything in it" title="Every size gets everything.">
+        Every part of Farzana, and setting it up for you, comes with every
+        size. No add-ons to buy.
       </SectionIntro>
       <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {INCLUDED.map(({ icon: ItemIcon, title, body }, index) => (
@@ -159,76 +262,18 @@ export function Included() {
   );
 }
 
-/* ---- Per student ------------------------------------------------------- */
-
-const MIN_STUDENTS = 10;
-const MAX_STUDENTS = 300;
-
-/**
- * The same price, whatever the size of the school: slide the number of
- * students and watch what it comes to for each one fall. The bar is that
- * per-student amount, against what it is for the smallest school.
- */
-export function PerStudent() {
-  const [students, setStudents] = useState(80);
-  const each = PLAN.dollars / students;
-  const most = PLAN.dollars / MIN_STUDENTS;
-
-  return (
-    <section className="border-y bg-surface">
-      <div className="mx-auto grid w-full max-w-6xl items-center gap-12 px-4 py-24 sm:px-6 sm:py-32 lg:grid-cols-2 lg:gap-20">
-        <SectionIntro
-          align="start"
-          eyebrow="One price as you grow"
-          title="The more students you teach, the less it costs each one."
-        >
-          The plan is {PLAN_PRICE} a {PLAN.interval} for the whole school. Slide
-          to see what that comes to for each student.
-        </SectionIntro>
-        <Reveal delay={100}>
-          <div className="flex flex-col gap-6 rounded-lg border bg-background p-6 sm:p-8">
-            <label className="flex flex-col gap-3">
-              <span className="flex items-baseline justify-between gap-4">
-                <span className="text-sm font-medium text-heading">Students</span>
-                <span className="font-display text-3xl font-semibold text-heading tabular-nums">{students}</span>
-              </span>
-              <input
-                type="range"
-                min={MIN_STUDENTS}
-                max={MAX_STUDENTS}
-                step={5}
-                value={students}
-                onChange={(event) => setStudents(Number(event.target.value))}
-                className="h-11 w-full cursor-pointer accent-[var(--color-primary)]"
-              />
-            </label>
-            <div className="flex flex-col gap-2">
-              <div className="flex items-baseline justify-between gap-4">
-                <span className="text-sm text-muted">Each student, per {PLAN.interval}</span>
-                <span className="font-display text-[44px] leading-none font-semibold text-primary tabular-nums">
-                  ${each.toFixed(2)}
-                </span>
-              </div>
-              <span aria-hidden className="block h-2 overflow-hidden rounded-full bg-border">
-                <span
-                  className="block h-full rounded-full bg-accent transition-[width] duration-300 ease-out"
-                  style={{ width: `${(each / most) * 100}%` }}
-                />
-              </span>
-            </div>
-            <p className="text-caption">
-              {PLAN_PRICE} a {PLAN.interval} ÷ {students} students. The plan’s price doesn’t change.
-            </p>
-          </div>
-        </Reveal>
-      </div>
-    </section>
-  );
-}
-
 /* ---- Questions --------------------------------------------------------- */
 
 const QUESTIONS = [
+  {
+    question: "How is the price set?",
+    answer: `By how many students you teach: up to 100 students is $${TIERS[0].dollars} a month, 101 to 7,999 is $${TIERS[1].dollars}, and 8,000 or more is $${TIERS[2].dollars}. Every size gets every feature.`,
+  },
+  {
+    question: "Is setup included at every size?",
+    answer:
+      "Yes. After a short call about how you teach, we build it with your logo and colors and bring your classes and students over, whatever your size.",
+  },
   {
     question: "Do you take a cut of my class fees?",
     answer:
@@ -236,12 +281,7 @@ const QUESTIONS = [
   },
   {
     question: "Are there add-ons?",
-    answer: "No. Everything on this page is in the one plan.",
-  },
-  {
-    question: "Who sets it up?",
-    answer:
-      "We do. After a short call about how you teach, we build it with your logo and colors and bring your classes and students over.",
+    answer: "No. Everything on this page is in every size.",
   },
   {
     question: "Can I bring my students from another system?",
@@ -255,7 +295,7 @@ const QUESTIONS = [
 
 export function Questions() {
   return (
-    <section className="mx-auto w-full max-w-3xl px-4 py-24 sm:px-6 sm:py-32">
+    <section className="mx-auto w-full max-w-3xl px-4 pb-24 sm:px-6 sm:pb-32">
       <SectionIntro eyebrow="Questions" title="What people ask about price." />
       <div className="mt-12 flex flex-col gap-3">
         {QUESTIONS.map(({ question, answer }, index) => (

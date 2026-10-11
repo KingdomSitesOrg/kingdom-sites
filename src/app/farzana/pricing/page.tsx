@@ -2,11 +2,11 @@ import type { Metadata } from 'next'
 
 import { Closing } from '../_home/closing'
 
-import { Included, PerStudent, PricingHero, Questions } from './_pricing/sections'
-import { PLAN, PLAN_PRICE } from './_pricing/plan'
+import { INTERVAL, TIERS } from './_pricing/plan'
+import { Included, PaysForItself, PricingHero, Questions } from './_pricing/sections'
 
 const TITLE = 'Pricing · Farzana'
-const DESCRIPTION = `One plan, ${PLAN_PRICE} a ${PLAN.interval} for your whole school, with everything in it and none of your class fees taken.`
+const DESCRIPTION = `Priced by how many students you teach, from $${TIERS[0].dollars} a ${INTERVAL}. Every feature and setup at every size, and none of your class fees taken.`
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -22,16 +22,16 @@ export const metadata: Metadata = {
 }
 
 /**
- * Farzana's pricing: one plan at one price, everything that comes in it,
- * what it works out to for each student as a school grows, the questions
- * people ask about money, and the call to book.
+ * Farzana's pricing: three sizes by number of students, picked with a
+ * slider; how few class sales a month pay for it; everything that comes in
+ * it; the questions people ask about money; and the call to book.
  */
 export default function PricingPage() {
   return (
     <main className="overflow-x-clip">
       <PricingHero />
+      <PaysForItself />
       <Included />
-      <PerStudent />
       <Questions />
       <Closing />
     </main>
