@@ -5,10 +5,14 @@ import Link from 'next/link'
 
 import { INTRO_SCRIPT } from './_home/intro-script'
 import { buttonClass } from './_ui/button'
-import { BOOK_PATH } from './_ui/contact'
+import { ABOUT_PATH, BOOK_PATH, PRICING_PATH } from './_ui/contact'
 import { HeaderChrome } from './_ui/header-chrome'
+import { MobileMenu } from './_ui/mobile-menu'
+import { Motto } from './_ui/motto'
+import { SiteNav } from './_ui/site-nav'
 import { ThemeToggle } from './_ui/theme'
 import { THEME_SCRIPT } from './_ui/theme-script'
+import { Verse } from './_ui/verse'
 import { Wordmark } from './_ui/wordmark'
 import './farzana.css'
 
@@ -28,6 +32,16 @@ const plex = IBM_Plex_Sans_Arabic({
   variable: '--font-plex',
 })
 
+/* The same family's Arabic letters, for the name in Dari and Urdu on the About
+   page. Not preloaded: the file is fetched only when that text is drawn. */
+const plexArabic = IBM_Plex_Sans_Arabic({
+  weight: ['500'],
+  subsets: ['arabic'],
+  display: 'swap',
+  preload: false,
+  variable: '--font-plex-arabic',
+})
+
 const TITLE = 'Farzana — your whole classroom, in one place'
 const DESCRIPTION =
   'Sell your classes, email your families and keep track of your students, all in one place. Book a 15-minute call.'
@@ -45,11 +59,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,
-    url: 'https://kingdom-sites.com/farzana',
+    url: 'https://farzana.app',
     siteName: 'Farzana',
     locale: 'en_US',
     type: 'video.other',
-    images: [{ url: '/farzana/farzana-film-poster.jpg', width: 1920, height: 1080, alt: 'Farzana. Go to kingdom-sites.com/edu' }],
+    images: [{ url: '/farzana/farzana-film-poster.jpg', width: 1920, height: 1080, alt: 'Farzana' }],
     // Next resolves og:image against metadataBase but not og:video, which must be absolute.
     videos: [{ url: 'https://kingdom-sites.com/farzana/farzana-film.mp4', type: 'video/mp4', width: 1920, height: 1080 }],
   },
@@ -61,18 +75,12 @@ export const metadata: Metadata = {
   },
 }
 
-/** The bar's way round the page. Wide screens only. */
-const SECTIONS = [
-  { href: '/farzana#features', label: 'Features' },
-  { href: '/farzana#how-it-works', label: 'How it works' },
-  { href: '/farzana#film', label: 'The film' },
-]
-
 /**
- * The frame around the Farzana pages — the page itself and /farzana/book —
- * in Farzana's own look, so no Kingdom Sites header or footer here. The bar
- * holds the logo, the sun-and-moon switch and the one filled button, Book a
- * call.
+ * The frame around the Farzana pages — the front page, About, Pricing and
+ * /farzana/book — in Farzana's own look, so no Kingdom Sites header or footer
+ * here. The bar holds the logo, the way round the pages (a drawer on a
+ * phone), the sun-and-moon switch and the one filled button, Book a call. The footer carries Daniel
+ * 2:21 on every page.
  *
  * Farzana's colours, type and corners are set on the `.farzana` wrapper
  * (farzana.css), so they reach this page and nothing else on the site. The
@@ -83,7 +91,7 @@ const SECTIONS = [
 export default function FarzanaLayout({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className={`farzana flex min-h-dvh flex-col ${reemKufi.variable} ${plex.variable}`}
+      className={`farzana flex min-h-dvh flex-col ${reemKufi.variable} ${plex.variable} ${plexArabic.variable}`}
       // The theme script sets data-theme before React arrives.
       suppressHydrationWarning
     >
@@ -92,43 +100,56 @@ export default function FarzanaLayout({ children }: { children: React.ReactNode 
       <header className="sticky top-0 z-40 isolate">
         <HeaderChrome />
         <nav className="relative mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-          {/* The logo is the way back to the top; its accessible name is "Farzana". */}
-          <Link id="site-logo" href="/farzana" className="flex min-h-11 items-center">
+          {/* The logo is the way back to the top; its accessible name is "Farzana".
+              The motto under it writes itself once the logo has. */}
+          <Link
+            id="site-logo"
+            href="/farzana"
+            className="flex min-h-11 flex-col items-start justify-center gap-0.5 no-underline"
+          >
             <Wordmark className="text-[26px]" />
+            <Motto />
           </Link>
           <div className="flex items-center gap-1 sm:gap-2">
-            <div className="me-2 hidden items-center gap-1 md:flex">
-              {SECTIONS.map((section) => (
-                <Link
-                  key={section.href}
-                  href={section.href}
-                  className={buttonClass({ variant: 'ghost', size: 'sm' })}
-                >
-                  {section.label}
-                </Link>
-              ))}
-            </div>
-            <ThemeToggle />
+            <SiteNav />
+            {/* On a phone the switch is in the menu, to leave the bar room. */}
+            <ThemeToggle className="hidden md:inline-flex" />
             <Link href={BOOK_PATH} className={buttonClass({ size: 'sm' })}>
               Book a call
             </Link>
+            <MobileMenu />
           </div>
         </nav>
       </header>
       <div className="flex-1">{children}</div>
       <footer className="border-t">
-        <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-6 px-4 py-10 sm:flex-row sm:px-6">
-          <div className="flex flex-col items-center gap-2 sm:items-start">
-            <Wordmark className="text-[26px]" />
-            <p className="text-caption">Intelligent software, learned students.</p>
+        <div className="mx-auto w-full max-w-6xl px-4 pt-16 pb-10 sm:px-6">
+          <Verse />
+          <div className="mt-14 flex flex-col items-center justify-between gap-6 border-t pt-8 sm:flex-row">
+            <div className="flex flex-col items-center gap-2 sm:items-start">
+              <Wordmark className="text-[26px]" />
+              <p className="text-caption">Intelligent software, learned students.</p>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              <Link href={PRICING_PATH} className={QUIET}>
+                Pricing
+              </Link>
+              <Link href={ABOUT_PATH} className={QUIET}>
+                About
+              </Link>
+              <Link href={BOOK_PATH} className={QUIET}>
+                Book a call
+              </Link>
+              <a href="https://kingdom-sites.com/privacy" className={QUIET}>
+                Privacy
+              </a>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <Link href={BOOK_PATH} className={QUIET}>
-              Book a call
-            </Link>
-            <Link href="/privacy" className={QUIET}>
-              Privacy
-            </Link>
+          {/* Who made it: Thomas's studio, on its own site. */}
+          <div className="mt-6 flex justify-center sm:justify-start">
+            <a href="https://kingdom-sites.com" className={QUIET}>
+              Built by kingdom-sites.com
+            </a>
           </div>
         </div>
       </footer>

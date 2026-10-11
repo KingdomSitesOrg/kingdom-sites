@@ -16,21 +16,26 @@ import {
 
 import { Diamond } from "../_ui/diamond";
 import { Badge } from "../_ui/badge";
+import { Wordmark } from "../_ui/wordmark";
 import { cn } from "../_ui/cn";
 
 import { useInView, useReducedMotion } from "./motion";
 import { Actions, Bar, Initial, vars } from "./shared";
 
 /**
- * The first screen after the logo has flown into the bar: what Farzana is, in
- * one line, the call to book, and a picture of a teacher's week running itself.
+ * The first screen, while the logo writes itself in the bar: the question —
+ * selling classes, managing students, selling education products, or all of
+ * them? — and the answer, You need Farzana; the call to book; and a picture of
+ * a teacher's week running itself.
  *
  * Every line here is a `.fz-rise`, staggered by `--d`, so behind the intro it
  * waits and then builds as the logo lands; on a later visit it simply rises in.
  */
 
-const HEADLINE = ["Your", "whole", "classroom,"];
-const EMPHASIS = ["in", "one", "place."];
+/** The question, a word at a time, and then the answer. Thomas's words. */
+const QUESTION =
+  "Selling classes online, managing students, selling education products or all of the above?".split(" ");
+const ANSWER = ["You", "need"];
 
 const PROMISES = [
   "No cut of your class fees",
@@ -41,50 +46,56 @@ const PROMISES = [
 export function Hero() {
   return (
     <section className="relative mx-auto grid w-full max-w-6xl items-center gap-14 px-4 pb-20 pt-10 sm:px-6 lg:min-h-[calc(100dvh-4rem)] lg:grid-cols-[1.05fr_1fr] lg:gap-10 lg:pb-24 lg:pt-6">
-      <div className="flex flex-col items-start gap-6">
-        <Badge className="fz-rise" style={vars({ "--d": "0ms" })}>
-          <Diamond size={8} />
-          Intelligent software, learned students
-        </Badge>
-        <h1 className="text-display text-balance">
-          {HEADLINE.map((word, index) => (
+      {/* `data-hero-content` and `data-hero-picture`: the logo intro measures
+          the open space above them. */}
+      <div data-hero-content className="flex flex-col items-start gap-6">
+        <h1 className="flex flex-col gap-4">
+          <span className="text-balance font-display text-[24px] leading-[32px] font-semibold text-heading sm:text-[30px] sm:leading-[38px]">
+            {QUESTION.map((word, index) => (
+              <span
+                key={index}
+                className="fz-rise inline-block"
+                style={vars({ "--d": `${index * 45}ms` })}
+              >
+                {word}&nbsp;
+              </span>
+            ))}
+          </span>
+          <span className="text-display text-primary">
+            {ANSWER.map((word, index) => (
+              <span
+                key={word}
+                className="fz-rise inline-block"
+                style={vars({ "--d": `${QUESTION.length * 45 + 120 + index * 90}ms` })}
+              >
+                {word}&nbsp;
+              </span>
+            ))}
+            {/* The logo itself, saffron diamonds over the z, in the answer's turquoise. */}
             <span
-              key={word}
               className="fz-rise inline-block"
-              style={vars({ "--d": `${80 + index * 70}ms` })}
+              style={vars({ "--d": `${QUESTION.length * 45 + 120 + ANSWER.length * 90}ms` })}
             >
-              {word}&nbsp;
+              <Wordmark className="min-w-0 text-primary" />.
             </span>
-          ))}
-          <br />
-          {EMPHASIS.map((word, index) => (
-            <span
-              key={word}
-              className="fz-rise inline-block text-primary"
-              style={vars({ "--d": `${290 + index * 70}ms` })}
-            >
-              {word}
-              {index < EMPHASIS.length - 1 ? " " : ""}
-            </span>
-          ))}
+          </span>
         </h1>
         <p
           className="fz-rise max-w-xl text-pretty text-lg text-muted"
-          style={vars({ "--d": "520ms" })}
+          style={vars({ "--d": "820ms" })}
         >
-          Sell your classes, email your families and keep track of your
-          students. One calm place for everything around your teaching, with no
-          add-ons to buy.
+          One calm place for everything around your teaching, with no add-ons
+          to buy.
         </p>
         <div
           className="fz-rise flex flex-col gap-3"
-          style={vars({ "--d": "620ms" })}
+          style={vars({ "--d": "900ms" })}
         >
           <Actions />
         </div>
         <ul
           className="fz-rise flex flex-wrap gap-x-5 gap-y-2 text-sm text-muted"
-          style={vars({ "--d": "720ms" })}
+          style={vars({ "--d": "980ms" })}
         >
           {PROMISES.map((promise) => (
             <li key={promise} className="inline-flex items-center gap-1.5">
@@ -95,7 +106,7 @@ export function Hero() {
         </ul>
       </div>
 
-      <div className="fz-rise" style={vars({ "--d": "380ms" })}>
+      <div data-hero-picture className="fz-rise" style={vars({ "--d": "380ms" })}>
         <ClassroomWindow />
       </div>
     </section>

@@ -33,6 +33,19 @@ const securityHeaders = [
   { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
 ]
 
+/**
+ * The Farzana pages, at their clean address on farzana.app and where they
+ * live in this project. farzana.localhost is the same, for trying it on this
+ * Mac (http://farzana.localhost:3148).
+ */
+const FARZANA_HOST = { type: 'host' as const, value: '(farzana\\.app|farzana\\.localhost)' }
+const FARZANA_PAGES: [clean: string, here: string][] = [
+  ['/', '/farzana'],
+  ['/about', '/farzana/about'],
+  ['/pricing', '/farzana/pricing'],
+  ['/book', '/farzana/book'],
+]
+
 const nextConfig: NextConfig = {
   allowedDevOrigins: ['192.168.1.102'],
   images: {
@@ -63,15 +76,46 @@ const nextConfig: NextConfig = {
       { source: '/grow', destination: '/', permanent: true },
       { source: '/taptotick', destination: '/tap-to-tick', permanent: true },
       { source: '/aitooling', destination: '/ai-tooling', permanent: true },
-      { source: '/pricing', destination: '/get-started', permanent: true },
+      { source: '/pricing', destination: '/get-started', permanent: true, missing: [FARZANA_HOST] },
       { source: '/seo', destination: '/', permanent: true },
       { source: '/software', destination: '/', permanent: true },
       { source: '/rochester-mn', destination: '/', permanent: true },
-      // Edu is now Farzana. The film's end card and links already shared say
-      // /edu; temporary, since the page may move to farzana.app.
-      { source: '/edu', destination: '/farzana', permanent: false },
-      { source: '/edu/:path*', destination: '/farzana', permanent: false },
+      // Edu is now Farzana, at farzana.app. The film's end card and links
+      // already shared say /edu or /farzana; temporary, since the pages move
+      // from this project to the Farzana app itself at launch.
+      { source: '/edu', destination: 'https://farzana.app', permanent: false },
+      { source: '/edu/:path*', destination: 'https://farzana.app', permanent: false },
+      ...FARZANA_PAGES.flatMap(([clean, here]) => [
+        // On farzana.app, the /farzana/... links the pages use go to the clean address.
+        { source: here, destination: clean, permanent: false, has: [FARZANA_HOST] },
+        // Anywhere else, the pages live at farzana.app now — except on a dev
+        // server, where localhost:3148/farzana and the phone's link keep working.
+        ...(isDev
+          ? []
+          : [{ source: here, destination: `https://farzana.app${clean}`, permanent: false, missing: [FARZANA_HOST] }]),
+      ]),
+      // www.farzana.app is farzana.app.
+      {
+        source: '/:path*',
+        destination: 'https://farzana.app/:path*',
+        permanent: true,
+        has: [{ type: 'host' as const, value: 'www.farzana.app' }],
+      },
     ]
+  },
+  // farzana.app is served from this project until the Farzana app has its own
+  // production: its clean addresses show the Farzana pages, before this site's
+  // own pages of the same name (/about, /pricing).
+  async rewrites() {
+    return {
+      beforeFiles: FARZANA_PAGES.map(([clean, here]) => ({
+        source: clean,
+        destination: here,
+        has: [FARZANA_HOST],
+      })),
+      afterFiles: [],
+      fallback: [],
+    }
   },
 }
 

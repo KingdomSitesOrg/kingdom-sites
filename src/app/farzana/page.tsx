@@ -1,8 +1,12 @@
+import { Clarity } from './_home/clarity'
 import { Closing, Film, Meaning, Switching } from './_home/closing'
 import { Families } from './_home/families'
 import { Features } from './_home/features'
 import { Hero } from './_home/hero'
 import { LogoIntro } from './_home/intro'
+import { MeetThomas } from './_home/meet-thomas'
+import { OnTheGo } from './_home/on-the-go'
+import { Simple } from './_home/simple'
 import { Steps } from './_home/steps'
 import { Story } from './_home/story'
 
@@ -14,8 +18,11 @@ import { Story } from './_home/story'
  * bar (once per session) while the page rises in. Then the story, top to
  * bottom: one line on what Farzana is, with the call to book; the scattered
  * tools pulling together into one place as the page scrolls; everything it
- * does; three steps; what students and parents see; switching from another
- * provider; what the name means; the film; and the call to book once more.
+ * does; who it is for, with a week's chores emptying themselves; the clarity
+ * guarantee, with a typical screen and Farzana's to drag between; the phone
+ * doing four everyday jobs; three steps; what students and parents see; switching from another
+ * provider; what the name means; the film; Thomas, who you talk to on the
+ * call; and the call to book once more.
  *
  * The same page lives in the Farzana app (KingdomSitesOrg/edu, `src/app/(site)`),
  * where it also carries Create account and Sign in.
@@ -27,11 +34,15 @@ export default function FarzanaPage() {
       <Hero />
       <Story />
       <Features />
+      <Simple />
+      <Clarity />
+      <OnTheGo />
       <Steps />
       <Families />
       <Switching />
       <Meaning />
       <Film />
+      <MeetThomas />
       <Closing />
     </main>
   )
