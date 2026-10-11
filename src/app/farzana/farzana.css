@@ -162,7 +162,7 @@ html[data-intro="play"] #site-logo {
 /* The motto under the bar's logo (_ui/motto.tsx) writes itself the moment
    the logo has landed: the outline sweeps in, then the letters ink in. */
 html[data-intro='landed'] .fz-motto-line {
-  -webkit-text-stroke: 0.5px var(--color-muted);
+  -webkit-text-stroke: 0.5px var(--color-heading);
   animation:
     fz-motto-write 1.3s cubic-bezier(0.45, 0.05, 0.35, 1) 0.15s both,
     fz-motto-ink 0.6s ease 1.2s both;
@@ -183,7 +183,7 @@ html[data-intro='landed'] .fz-motto-line-2 {
     color: transparent;
   }
   to {
-    color: var(--color-muted);
+    color: var(--color-heading);
     -webkit-text-stroke-width: 0;
   }
 }

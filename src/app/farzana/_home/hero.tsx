@@ -16,6 +16,7 @@ import {
 
 import { Diamond } from "../_ui/diamond";
 import { Badge } from "../_ui/badge";
+import { Wordmark } from "../_ui/wordmark";
 import { cn } from "../_ui/cn";
 
 import { useInView, useReducedMotion } from "./motion";
@@ -34,7 +35,7 @@ import { Actions, Bar, Initial, vars } from "./shared";
 /** The question, a word at a time, and then the answer. Thomas's words. */
 const QUESTION =
   "Selling classes online, managing students, selling education products or all of the above?".split(" ");
-const ANSWER = ["You", "need", "Farzana."];
+const ANSWER = ["You", "need"];
 
 const PROMISES = [
   "No cut of your class fees",
@@ -65,10 +66,16 @@ export function Hero() {
                 className="fz-rise inline-block"
                 style={vars({ "--d": `${QUESTION.length * 45 + 120 + index * 90}ms` })}
               >
-                {word}
-                {index < ANSWER.length - 1 ? "\u00a0" : ""}
+                {word}&nbsp;
               </span>
             ))}
+            {/* The logo itself, saffron diamonds over the z, in the answer's turquoise. */}
+            <span
+              className="fz-rise inline-block"
+              style={vars({ "--d": `${QUESTION.length * 45 + 120 + ANSWER.length * 90}ms` })}
+            >
+              <Wordmark className="min-w-0 text-primary" />.
+            </span>
           </span>
         </h1>
         <p

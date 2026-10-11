@@ -16,7 +16,7 @@ export function Motto({ className }: { className?: string }) {
       aria-hidden
       dir="ltr"
       className={cn(
-        'fz-motto block font-display text-[10.5px] leading-[13px] font-normal whitespace-nowrap text-muted sm:text-xs sm:leading-4',
+        'fz-motto block font-display text-[10.5px] leading-[13px] font-medium whitespace-nowrap text-heading sm:text-xs sm:leading-4',
         className,
       )}
     >
