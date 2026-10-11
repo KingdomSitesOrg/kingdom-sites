@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 
 import { Closing } from '../_home/closing'
 
+import { ChalkWoman } from './_about/chalk-woman'
 import { Daniel } from './_about/daniel'
 import { AboutHero } from './_about/hero'
 import { Reaching } from './_about/name'
@@ -27,8 +28,10 @@ export const metadata: Metadata = {
 /**
  * About the people behind Farzana, not the product (that is the front page):
  * Thomas and his wife Monisha; Thomas's story, with three Latin words to try;
- * the story of Daniel, lighting beat by beat as the page scrolls; the name in
- * the scripts of the Afghans and South Asians on their hearts; the ministry
+ * the story of Daniel, lighting beat by beat as the page scrolls; a chalkboard
+ * where a young Afghan woman's two tears become the logo's diamonds, just
+ * before the name itself; the name in the scripts of the Afghans and South
+ * Asians on their hearts; the ministry
  * Farzana fuels; and the call to book.
  */
 export default function AboutPage() {
@@ -37,6 +40,7 @@ export default function AboutPage() {
       <AboutHero />
       <Thomas />
       <Daniel />
+      <ChalkWoman />
       <Reaching />
       <Missions />
       <Closing />
