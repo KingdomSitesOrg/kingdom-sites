@@ -42,19 +42,24 @@ const plexArabic = IBM_Plex_Sans_Arabic({
   variable: '--font-plex-arabic',
 })
 
-const TITLE = 'Farzana — your whole classroom, in one place'
+const TITLE = 'Farzana — sell classes, manage students, all in one place'
 const DESCRIPTION =
-  'Sell your classes, email your families and keep track of your students, all in one place. Book a 15-minute call.'
+  'Selling classes online, managing students, selling education products, or all of the above? Farzana puts it in one calm place, set up for you. Book a 15-minute call.'
 
 export const metadata: Metadata = {
-  title: TITLE,
+  /* The pages live at farzana.app (served from this project for now), so
+     every address and share image is resolved there. */
+  metadataBase: new URL('https://farzana.app'),
+  // Farzana's own titles, without this site's "| Kingdom Sites" ending.
+  title: { absolute: TITLE, template: '%s' },
   description: DESCRIPTION,
-  /* Unlisted: anyone with the link can visit, but it is kept out of search,
-     out of the sitemap and out of the site's navigation. */
+  /* Public and in search since Oct 11, 2026 (Thomas). Each page names its own
+     canonical address; farzana.app's robots.txt and sitemap are in
+     robots.txt/ and sitemap.xml/ beside this file. */
   robots: {
-    index: false,
-    follow: false,
-    googleBot: { index: false, follow: false },
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-video-preview': -1 },
   },
   openGraph: {
     title: TITLE,
@@ -65,7 +70,7 @@ export const metadata: Metadata = {
     type: 'video.other',
     images: [{ url: '/farzana/farzana-film-poster.jpg', width: 1920, height: 1080, alt: 'Farzana' }],
     // Next resolves og:image against metadataBase but not og:video, which must be absolute.
-    videos: [{ url: 'https://kingdom-sites.com/farzana/farzana-film.mp4', type: 'video/mp4', width: 1920, height: 1080 }],
+    videos: [{ url: 'https://farzana.app/farzana/farzana-film.mp4', type: 'video/mp4', width: 1920, height: 1080 }],
   },
   twitter: {
     card: 'summary_large_image',
