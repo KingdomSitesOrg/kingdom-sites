@@ -7,6 +7,7 @@ import { BookCallForm } from './book-call-form'
 
 export const metadata: Metadata = {
   title: 'Book a call · Farzana',
+  alternates: { canonical: '/book' },
   description:
     'A quick call about your classes and your families, then Farzana set up to look like you.',
 }
