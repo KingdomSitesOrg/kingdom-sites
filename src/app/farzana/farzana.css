@@ -320,6 +320,33 @@ html[data-intro] .fz-rise {
   opacity: clamp(0, calc(1 - (var(--p, 0) - 0.3) / 0.15), 1);
   transform: translateY(calc(-24px * clamp(0, (var(--p, 0) - 0.3) / 0.15, 1)));
 }
+/* The middle line, in while the tools are on their way in and out before
+   the answer arrives. */
+.fz-bridge-copy {
+  opacity: min(
+    clamp(0, calc((var(--p, 0) - 0.44) / 0.06), 1),
+    clamp(0, calc((0.62 - var(--p, 0)) / 0.05), 1)
+  );
+  transform: translateY(calc(16px * (1 - clamp(0, (var(--p, 0) - 0.44) / 0.06, 1))));
+}
+/* "Keep scrolling" at the foot: there from the start, its bar filling with
+   the story, gone once the card has filled in. */
+.fz-scroll-hint {
+  opacity: clamp(0, calc((0.9 - var(--p, 0)) / 0.08), 1);
+}
+.fz-scroll-hint-fill {
+  transform: scaleX(var(--p, 0));
+  transform-origin: left;
+}
+@keyframes fz-nudge {
+  0%,
+  100% {
+    transform: translateY(-2px);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+}
 .fz-answer-copy {
   opacity: clamp(0, calc((var(--p, 0) - 0.62) / 0.14), 1);
   transform: translateY(
