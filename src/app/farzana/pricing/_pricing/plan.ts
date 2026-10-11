@@ -28,3 +28,10 @@ export const INTERVAL = 'month'
 export function tierFor(students: number): Tier {
   return TIERS.find((tier) => students <= tier.max) ?? TIERS[TIERS.length - 1]
 }
+
+/**
+ * Pay once instead: $10,000 and Farzana is the school's for life, for
+ * schools that sign up in 2027. Thomas, Oct 11, 2026. Which sizes it covers
+ * is still his to decide, so the page does not say.
+ */
+export const LIFETIME = { dollars: 10000, year: 2027 }
