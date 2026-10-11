@@ -59,11 +59,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,
-    url: 'https://kingdom-sites.com/farzana',
+    url: 'https://farzana.app',
     siteName: 'Farzana',
     locale: 'en_US',
     type: 'video.other',
-    images: [{ url: '/farzana/farzana-film-poster.jpg', width: 1920, height: 1080, alt: 'Farzana. Go to kingdom-sites.com/edu' }],
+    images: [{ url: '/farzana/farzana-film-poster.jpg', width: 1920, height: 1080, alt: 'Farzana' }],
     // Next resolves og:image against metadataBase but not og:video, which must be absolute.
     videos: [{ url: 'https://kingdom-sites.com/farzana/farzana-film.mp4', type: 'video/mp4', width: 1920, height: 1080 }],
   },
@@ -140,9 +140,9 @@ export default function FarzanaLayout({ children }: { children: React.ReactNode 
               <Link href={BOOK_PATH} className={QUIET}>
                 Book a call
               </Link>
-              <Link href="/privacy" className={QUIET}>
+              <a href="https://kingdom-sites.com/privacy" className={QUIET}>
                 Privacy
-              </Link>
+              </a>
             </div>
           </div>
           {/* Who made it: Thomas's studio, on its own site. */}

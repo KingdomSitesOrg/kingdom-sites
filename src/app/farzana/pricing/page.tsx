@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,
-    url: 'https://kingdom-sites.com/farzana/pricing',
+    url: 'https://farzana.app/pricing',
     siteName: 'Farzana',
     type: 'website',
     images: [{ url: '/farzana/farzana-film-poster.jpg', width: 1920, height: 1080 }],
