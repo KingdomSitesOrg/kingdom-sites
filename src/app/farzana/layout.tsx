@@ -145,6 +145,12 @@ export default function FarzanaLayout({ children }: { children: React.ReactNode 
               </Link>
             </div>
           </div>
+          {/* Who made it: Thomas's studio, on its own site. */}
+          <div className="mt-6 flex justify-center sm:justify-start">
+            <a href="https://kingdom-sites.com" className={QUIET}>
+              Built by kingdom-sites.com
+            </a>
+          </div>
         </div>
       </footer>
     </div>
