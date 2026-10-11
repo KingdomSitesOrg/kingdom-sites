@@ -1,12 +1,15 @@
 'use client'
 
 import { useEffect } from 'react'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSelectedLayoutSegment } from 'next/navigation'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
+  // The section actually showing, whatever the address says: farzana.app/
+  // shows the /farzana section while the address bar reads "/".
+  const section = useSelectedLayoutSegment()
 
   useEffect(() => {
     // Keep landing on a link like /tap-to-tick#pricing at that section
@@ -19,9 +22,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   // Kingdom Sites header and footer. The front door is bare for a different
   // reason: it asks one question, and a menu offering ten other answers would
   // rather defeat the point.
-  const standalone = ['/tap-to-tick', '/latin-game', '/farzana', '/ministry', '/prayer', '/marketing-frame', '/sign'].some(
-    (p) => pathname?.startsWith(p),
-  )
+  const standalone =
+    section === 'farzana' ||
+    ['/tap-to-tick', '/latin-game', '/farzana', '/ministry', '/prayer', '/marketing-frame', '/sign'].some((p) =>
+      pathname?.startsWith(p),
+    )
 
   // No overflow clipping here — it would make this element the scroll container
   // and stop the product page's sticky nav from sticking.
