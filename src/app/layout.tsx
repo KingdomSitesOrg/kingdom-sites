@@ -112,11 +112,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(STRUCTURED_DATA) }}
-        />
-        <AppShell>{children}</AppShell>
+        {/* The studio's structured data goes on every page but the Farzana
+            ones, which describe their own product (AppShell). */}
+        <AppShell structuredData={STRUCTURED_DATA}>{children}</AppShell>
         <Analytics />
         <SpeedInsights />
         {/* Google Analytics 4 — only loads when NEXT_PUBLIC_GA_MEASUREMENT_ID is set. */}
