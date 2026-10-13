@@ -55,7 +55,8 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: '/(.*)',
+        // Not /analytics: that is the private dashboard (its own project), with its own headers.
+        source: '/((?!analytics(?:/|$)).*)',
         headers: securityHeaders,
       },
       // /farzana is unlisted: shareable by link, kept out of search (the page and the film).
@@ -118,7 +119,12 @@ const nextConfig: NextConfig = {
         destination: here,
         has: [FARZANA_HOST],
       })),
-      afterFiles: [],
+      // kingdom-sites.com/analytics is Thomas's private dashboard, a separate Vercel
+      // project (kingdom-analytics, basePath /analytics) behind its own sign-in.
+      afterFiles: [
+        { source: '/analytics', destination: 'https://kingdom-analytics.vercel.app/analytics' },
+        { source: '/analytics/:path*', destination: 'https://kingdom-analytics.vercel.app/analytics/:path*' },
+      ],
       fallback: [],
     }
   },
