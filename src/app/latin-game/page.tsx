@@ -11,7 +11,7 @@ import shotMap from '../../../public/latin-game/map.jpg'
 
 /** Set these once each app is live and the buttons become real links. */
 const APP_STORE_URL = 'https://apps.apple.com/us/app/jam-legio/id6797884645'
-const PLAY_STORE_URL = ''
+const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.jamwithlatin.app'
 
 const FAQS = [
   {
@@ -97,7 +97,7 @@ function PlayStoreButton() {
   if (!PLAY_STORE_URL) {
     return <span className="btn"><PlayStoreIcon />Coming soon to Google Play</span>
   }
-  return <a href={PLAY_STORE_URL} className="btn"><PlayStoreIcon />Get it on Google Play</a>
+  return <a href={PLAY_STORE_URL} className="btn"><PlayStoreIcon />Download on the Play Store</a>
 }
 
 function useReveal() {
@@ -375,7 +375,7 @@ export default function JamWithLatin() {
             <PlayStoreButton />
           </div>
           <p className="note" style={{ color: 'rgba(255,255,255,0.5)' }}>
-            On the App Store now for iPhone and iPad. Android coming soon to Google Play. Education · Ages 9+.
+            On the App Store for iPhone and iPad, and on the Play Store for Android. Education · Ages 9+.
           </p>
         </div>
       </div>
