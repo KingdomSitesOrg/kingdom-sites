@@ -4,13 +4,15 @@ import { useEffect, useRef, useState } from 'react'
 import { CONTACT_EMAIL } from '@/lib/contact'
 import {
   FEEDBACK_API,
+  RATING_MAX,
+  RATING_MIN,
   RATING_QUESTIONS,
-  RATING_SCALE,
+  roundRating,
   type RatingId,
 } from '@/lib/feedback'
 
 /**
- * "How well did Thomas do?" — five ratings, what went well, what could be
+ * "How well did Thomas do?" — five 1-10 sliders, what went well, what could be
  * better, an optional reference, and whether it may be shared.
  * Posts to /api/feedback. On failure, falls back to mailto.
  */
@@ -31,21 +33,20 @@ type Status = 'idle' | 'sending' | 'sent' | 'invalid' | 'error'
 
 const SUBMIT_TIMEOUT_MS = 15_000
 
-export default function FeedbackForm({
-  defaultName = '',
-  defaultProject = '',
-}: {
-  defaultName?: string
-  defaultProject?: string
-}) {
-  const [fields, setFields] = useState<Fields>({
-    name: defaultName,
-    project: defaultProject,
-    didWell: '',
-    doBetter: '',
-    reference: '',
-    referenceName: '',
-  })
+/** Where an untouched slider's thumb rests. It counts as a rating only once moved. */
+const RATING_REST = (RATING_MIN + RATING_MAX) / 2
+
+const EMPTY: Fields = {
+  name: '',
+  project: '',
+  didWell: '',
+  doBetter: '',
+  reference: '',
+  referenceName: '',
+}
+
+export default function FeedbackForm() {
+  const [fields, setFields] = useState<Fields>(EMPTY)
   const [ratings, setRatings] = useState<Partial<Record<RatingId, number>>>({})
   const [shareable, setShareable] = useState(false)
   const [status, setStatus] = useState<Status>('idle')
@@ -57,12 +58,15 @@ export default function FeedbackForm({
     openedAt.current = Date.now()
   }, [])
 
+  const setRating = (id: RatingId, value: number) =>
+    setRatings((prev) => ({ ...prev, [id]: roundRating(value) }))
+
   const set = (key: keyof Fields) => (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => setFields((f) => ({ ...f, [key]: e.target.value }))
 
   const mailtoBody = [
-    ...RATING_QUESTIONS.map((q) => `${q.label}: ${ratings[q.id] ?? '-'}/5`),
+    ...RATING_QUESTIONS.map((q) => `${q.label}: ${ratings[q.id] ?? '-'}/10`),
     '',
     `What you did well:\n${fields.didWell.trim() || '-'}`,
     '',
@@ -80,8 +84,11 @@ export default function FeedbackForm({
     e.preventDefault()
     if (status === 'sending') return
 
-    if (RATING_QUESTIONS.some((q) => !ratings[q.id])) {
-      setError('Please give a rating for every question.')
+    const saidSomething =
+      Object.keys(ratings).length > 0 ||
+      [fields.didWell, fields.doBetter, fields.reference].some((t) => t.trim())
+    if (!saidSomething) {
+      setError('Slide at least one rating or write a few words first.')
       setStatus('invalid')
       return
     }
@@ -163,36 +170,48 @@ export default function FeedbackForm({
         <fieldset disabled={sending} className="grid gap-10 border-0 p-0">
           <div className="grid gap-7">
             <h2 className="text-lg font-semibold tracking-tight text-ink">Rate the work</h2>
-            {RATING_QUESTIONS.map((q) => (
-              <fieldset key={q.id} className="border-0 p-0">
-                <legend className="block text-sm font-medium text-ink">{q.label}</legend>
-                <p className="mt-1 text-[13px] leading-relaxed text-muted">{q.hint}</p>
-                <div className="mt-3 grid grid-cols-5 gap-2">
-                  {RATING_SCALE.map((r) => (
-                    <label
-                      key={r.value}
-                      className="flex h-12 cursor-pointer items-center justify-center rounded-xl border border-line-strong bg-surface text-[15px] font-semibold text-ink transition-colors hover:bg-surface-2 has-checked:border-accent has-checked:bg-accent has-checked:text-white has-focus-visible:ring-2 has-focus-visible:ring-accent/40"
-                    >
-                      <input
-                        type="radio"
-                        name={q.id}
-                        value={r.value}
-                        checked={ratings[q.id] === r.value}
-                        onChange={() => setRatings((prev) => ({ ...prev, [q.id]: r.value }))}
-                        className="sr-only"
-                        aria-label={`${r.value}, ${r.label}`}
-                        required
-                      />
-                      {r.value}
+            {RATING_QUESTIONS.map((q) => {
+              const value = ratings[q.id]
+              const shown = value ?? RATING_REST
+              const fill = ((shown - RATING_MIN) / (RATING_MAX - RATING_MIN)) * 100
+              return (
+                <div key={q.id}>
+                  <div className="flex h-7 items-center justify-between gap-4">
+                    <label htmlFor={`rating-${q.id}`} className="block text-sm font-medium text-ink">
+                      {q.label}
                     </label>
-                  ))}
+                    {value === undefined ? (
+                      <span className="text-[13px] text-muted">Slide to rate</span>
+                    ) : (
+                      <span className="text-lg font-semibold leading-7 tabular-nums text-accent">
+                        {value.toFixed(1)}
+                      </span>
+                    )}
+                  </div>
+                  <p id={`rating-${q.id}-hint`} className="text-[13px] leading-relaxed text-muted">
+                    {q.hint}
+                  </p>
+                  <input
+                    id={`rating-${q.id}`}
+                    type="range"
+                    min={RATING_MIN}
+                    max={RATING_MAX}
+                    step="any"
+                    value={shown}
+                    onChange={(e) => setRating(q.id, Number(e.target.value))}
+                    aria-describedby={`rating-${q.id}-hint`}
+                    aria-valuetext={value === undefined ? 'Not rated' : `${value.toFixed(1)} out of 10`}
+                    data-unset={value === undefined ? '' : undefined}
+                    style={{ '--fill': value === undefined ? '0%' : `${fill}%` } as React.CSSProperties}
+                    className="rating-slider mt-3"
+                  />
+                  <div className="mt-1 flex justify-between text-[12px] text-muted" aria-hidden="true">
+                    <span>1 · Poor</span>
+                    <span>10 · Excellent</span>
+                  </div>
                 </div>
-                <div className="mt-1.5 flex justify-between text-[12px] text-muted" aria-hidden="true">
-                  <span>{RATING_SCALE[0].label}</span>
-                  <span>{RATING_SCALE[RATING_SCALE.length - 1].label}</span>
-                </div>
-              </fieldset>
-            ))}
+              )
+            })}
           </div>
 
           <div className="grid gap-6 border-t border-line pt-10">
