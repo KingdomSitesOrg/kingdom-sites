@@ -1,8 +1,7 @@
 /**
  * "How well did Thomas do?" — the private client feedback form at /feedback.
  *
- * The page is unlisted (no nav link, no sitemap entry, noindex). Share it as
- * /feedback?name=Alexis&project=Jam%20with%20Latin to fill in who it is for.
+ * The page is unlisted: no nav link, no sitemap entry, noindex.
  */
 
 export const FEEDBACK_PATH = '/feedback'
@@ -38,18 +37,21 @@ export const RATING_QUESTIONS = [
 
 export type RatingId = (typeof RATING_QUESTIONS)[number]['id']
 
-export const RATING_SCALE = [
-  { value: 1, label: 'Poor' },
-  { value: 2, label: 'Fair' },
-  { value: 3, label: 'Good' },
-  { value: 4, label: 'Very good' },
-  { value: 5, label: 'Excellent' },
-] as const
+/** Ratings slide smoothly from 1 to 10 and are kept to one decimal place. */
+export const RATING_MIN = 1
+export const RATING_MAX = 10
+
+export type Ratings = Record<RatingId, number | null>
+
+export function roundRating(value: number): number {
+  return Math.round(value * 10) / 10
+}
 
 export type Feedback = {
   name: string
   project: string
-  ratings: Record<RatingId, number>
+  /** null means the client left that slider untouched. */
+  ratings: Ratings
   didWell: string
   doBetter: string
   reference: string
@@ -71,13 +73,18 @@ export type ParseResult = { ok: true; feedback: Feedback } | { ok: false; error:
 
 export function parseFeedback(raw: Record<string, unknown>): ParseResult {
   const rawRatings = (raw.ratings ?? {}) as Record<string, unknown>
-  const ratings = {} as Record<RatingId, number>
+  const ratings = {} as Ratings
   for (const q of RATING_QUESTIONS) {
-    const value = Number(rawRatings[q.id])
-    if (!Number.isInteger(value) || value < 1 || value > 5) {
-      return { ok: false, error: 'Please give a rating for every question.' }
+    const given = rawRatings[q.id]
+    if (given === null || given === undefined) {
+      ratings[q.id] = null
+      continue
     }
-    ratings[q.id] = value
+    const value = Number(given)
+    if (!Number.isFinite(value) || value < RATING_MIN || value > RATING_MAX) {
+      return { ok: false, error: 'One of the ratings did not come through. Please try again.' }
+    }
+    ratings[q.id] = roundRating(value)
   }
 
   const feedback: Feedback = {
@@ -91,6 +98,12 @@ export function parseFeedback(raw: Record<string, unknown>): ParseResult {
     shareable: raw.shareable === true,
   }
 
+  const saidSomething =
+    averageRating(ratings) !== null || feedback.didWell || feedback.doBetter || feedback.reference
+  if (!saidSomething) {
+    return { ok: false, error: 'Slide at least one rating or write a few words first.' }
+  }
+
   if (feedback.reference && !feedback.referenceName && !feedback.name) {
     return { ok: false, error: 'Add the name your reference should appear under.' }
   }
@@ -98,9 +111,11 @@ export function parseFeedback(raw: Record<string, unknown>): ParseResult {
   return { ok: true, feedback }
 }
 
-export function averageRating(ratings: Record<RatingId, number>): number {
-  const values = RATING_QUESTIONS.map((q) => ratings[q.id])
-  return Math.round((values.reduce((a, b) => a + b, 0) / values.length) * 10) / 10
+/** Average of the sliders the client moved; null if they moved none. */
+export function averageRating(ratings: Ratings): number | null {
+  const values = RATING_QUESTIONS.map((q) => ratings[q.id]).filter((v): v is number => v !== null)
+  if (values.length === 0) return null
+  return roundRating(values.reduce((a, b) => a + b, 0) / values.length)
 }
 
 export function feedbackEmail(feedback: Feedback, receivedAt: string): { subject: string; text: string } {
@@ -109,11 +124,14 @@ export function feedbackEmail(feedback: Feedback, receivedAt: string): { subject
   const average = averageRating(feedback.ratings)
   const sharing = feedback.shareable ? 'OK to share' : 'private'
 
-  const subject = `Feedback from ${who}${on}: ${average}/5, ${sharing}`
+  const score = average === null ? 'no ratings' : `${average}/10`
 
-  const ratingLines = RATING_QUESTIONS.map(
-    (q) => `  ${q.label}: ${feedback.ratings[q.id]}/5`,
-  )
+  const subject = `Feedback from ${who}${on}: ${score}, ${sharing}`
+
+  const ratingLines = RATING_QUESTIONS.map((q) => {
+    const value = feedback.ratings[q.id]
+    return `  ${q.label}: ${value === null ? 'not rated' : `${value}/10`}`
+  })
 
   const referenceBlock = feedback.reference
     ? [
@@ -134,7 +152,7 @@ export function feedbackEmail(feedback: Feedback, receivedAt: string): { subject
     '',
     'Ratings:',
     ...ratingLines,
-    `  Average: ${average}/5`,
+    `  Average: ${average === null ? 'not rated' : `${average}/10`}`,
     '',
     'What he did well:',
     feedback.didWell || '(nothing written)',
