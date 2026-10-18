@@ -26,7 +26,7 @@ describe('parseFeedback', () => {
   it('needs at least one rating or some writing', () => {
     expect(parseFeedback({ ratings: {} })).toEqual({
       ok: false,
-      error: 'Slide at least one rating or write a few words first.',
+      error: 'Rate or write something first.',
     })
     expect(parseFeedback({ ratings: {}, doBetter: 'Reply faster' }).ok).toBe(true)
   })
@@ -40,10 +40,10 @@ describe('parseFeedback', () => {
     expect(ticked.ok && ticked.feedback.shareable).toBe(true)
   })
 
-  it('allows anonymous feedback, but a reference needs a name', () => {
+  it('allows anonymous feedback, but a recommendation needs a name', () => {
     expect(parseFeedback({ ratings, reference: 'Hire him' })).toEqual({
       ok: false,
-      error: 'Add the name your reference should appear under.',
+      error: 'Add your name to recommend me.',
     })
     expect(parseFeedback({ ratings, reference: 'Hire him', name: 'Alex' }).ok).toBe(true)
   })
@@ -57,7 +57,7 @@ describe('feedbackEmail', () => {
     const { subject, text } = feedbackEmail(parsed.feedback, '2026-10-17T00:00:00.000Z')
     expect(subject).toBe('Feedback from Alex on Rivera Coffee app: 8.7/10, private')
     expect(text).toContain('Sharing: NO. Keep this private.')
-    expect(text).toContain('Delivered when promised: 7.3/10')
+    expect(text).toContain('On time: 7.3/10')
   })
 
   it('averages only the sliders that were moved, and says which were not', () => {
@@ -68,15 +68,11 @@ describe('feedbackEmail', () => {
     expect(text).toContain('Communication: not rated')
   })
 
-  it('says so when no slider was moved, and signs a reference', () => {
-    const parsed = parseFeedback({
-      ratings: {},
-      reference: 'Thomas shipped on time.',
-      referenceName: 'Alex R., founder',
-    })
+  it('says so when no slider was moved, and signs a recommendation', () => {
+    const parsed = parseFeedback({ ratings: {}, reference: 'Shipped on time.', name: 'Alex R.' })
     if (!parsed.ok) throw new Error(parsed.error)
     const { subject, text } = feedbackEmail(parsed.feedback, '2026-10-17T00:00:00.000Z')
-    expect(subject).toBe('Feedback from an anonymous client: no ratings, private')
-    expect(text).toContain('Thomas shipped on time.\n— Alex R., founder')
+    expect(subject).toBe('Feedback from Alex R.: no ratings, private')
+    expect(text).toContain('Shipped on time.\n— Alex R.')
   })
 })
