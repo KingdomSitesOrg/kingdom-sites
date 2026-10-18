@@ -1,5 +1,5 @@
 /**
- * "How well did Thomas do?" — the private client feedback form at /feedback.
+ * "How well did I do?" — the private client feedback form at /feedback.
  *
  * The page is unlisted: no nav link, no sitemap entry, noindex.
  */
@@ -8,31 +8,11 @@ export const FEEDBACK_PATH = '/feedback'
 export const FEEDBACK_API = '/api/feedback'
 
 export const RATING_QUESTIONS = [
-  {
-    id: 'communication',
-    label: 'Communication',
-    hint: 'Kept you informed and was easy to reach.',
-  },
-  {
-    id: 'quality',
-    label: 'Quality of the work',
-    hint: 'What he built works and holds up.',
-  },
-  {
-    id: 'reliability',
-    label: 'Delivered when promised',
-    hint: 'Did what he said, when he said he would.',
-  },
-  {
-    id: 'understanding',
-    label: 'Understood what you needed',
-    hint: 'Got the problem behind the request.',
-  },
-  {
-    id: 'overall',
-    label: 'Overall',
-    hint: 'How the whole project felt to you.',
-  },
+  { id: 'communication', label: 'Communication' },
+  { id: 'quality', label: 'Quality of work' },
+  { id: 'reliability', label: 'On time' },
+  { id: 'understanding', label: 'Understood your needs' },
+  { id: 'overall', label: 'Overall' },
 ] as const
 
 export type RatingId = (typeof RATING_QUESTIONS)[number]['id']
@@ -55,7 +35,6 @@ export type Feedback = {
   didWell: string
   doBetter: string
   reference: string
-  referenceName: string
   shareable: boolean
 }
 
@@ -94,18 +73,17 @@ export function parseFeedback(raw: Record<string, unknown>): ParseResult {
     didWell: cleanMultiline(raw.didWell),
     doBetter: cleanMultiline(raw.doBetter),
     reference: cleanMultiline(raw.reference),
-    referenceName: clean(raw.referenceName),
     shareable: raw.shareable === true,
   }
 
   const saidSomething =
     averageRating(ratings) !== null || feedback.didWell || feedback.doBetter || feedback.reference
   if (!saidSomething) {
-    return { ok: false, error: 'Slide at least one rating or write a few words first.' }
+    return { ok: false, error: 'Rate or write something first.' }
   }
 
-  if (feedback.reference && !feedback.referenceName && !feedback.name) {
-    return { ok: false, error: 'Add the name your reference should appear under.' }
+  if (feedback.reference && !feedback.name) {
+    return { ok: false, error: 'Add your name to recommend me.' }
   }
 
   return { ok: true, feedback }
@@ -133,16 +111,12 @@ export function feedbackEmail(feedback: Feedback, receivedAt: string): { subject
     return `  ${q.label}: ${value === null ? 'not rated' : `${value}/10`}`
   })
 
-  const referenceBlock = feedback.reference
-    ? [
-        'Reference for future clients:',
-        feedback.reference,
-        `— ${feedback.referenceName || feedback.name}`,
-      ]
-    : ['Reference for future clients: (none)']
+  const recommendation = feedback.reference
+    ? ['Would you recommend me? Why?', feedback.reference, `— ${feedback.name}`]
+    : ['Would you recommend me? Why?', '(nothing written)']
 
   const text = [
-    'How well did Thomas do? A new response.',
+    'How well did I do? A new response.',
     '',
     `From: ${feedback.name || '(anonymous)'}`,
     `Project: ${feedback.project || '(not given)'}`,
@@ -154,13 +128,13 @@ export function feedbackEmail(feedback: Feedback, receivedAt: string): { subject
     ...ratingLines,
     `  Average: ${average === null ? 'not rated' : `${average}/10`}`,
     '',
-    'What he did well:',
+    'What did I do well?',
     feedback.didWell || '(nothing written)',
     '',
-    'What he could do better:',
+    'What could I do better?',
     feedback.doBetter || '(nothing written)',
     '',
-    ...referenceBlock,
+    ...recommendation,
     '',
     `Received: ${receivedAt}`,
   ].join('\n')

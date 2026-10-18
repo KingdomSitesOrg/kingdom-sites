@@ -12,7 +12,7 @@ import {
 } from '@/lib/feedback'
 
 /**
- * "How well did Thomas do?" — five 1-10 sliders, what went well, what could be
+ * "How well did I do?" — five 1-10 sliders, what went well, what could be
  * better, an optional reference, and whether it may be shared.
  * Posts to /api/feedback. On failure, falls back to mailto.
  */
@@ -23,7 +23,6 @@ type Fields = {
   didWell: string
   doBetter: string
   reference: string
-  referenceName: string
 }
 
 const inputClass =
@@ -42,7 +41,6 @@ const EMPTY: Fields = {
   didWell: '',
   doBetter: '',
   reference: '',
-  referenceName: '',
 }
 
 export default function FeedbackForm() {
@@ -72,7 +70,7 @@ export default function FeedbackForm() {
     '',
     `What you could do better:\n${fields.doBetter.trim() || '-'}`,
     '',
-    `Reference:\n${fields.reference.trim() || '-'}`,
+    `Recommendation:\n${fields.reference.trim() || '-'}`,
     '',
     shareable ? 'You may share this feedback.' : 'Please keep this private.',
   ].join('\n')
@@ -88,7 +86,7 @@ export default function FeedbackForm() {
       Object.keys(ratings).length > 0 ||
       [fields.didWell, fields.doBetter, fields.reference].some((t) => t.trim())
     if (!saidSomething) {
-      setError('Slide at least one rating or write a few words first.')
+      setError('Rate or write something first.')
       setStatus('invalid')
       return
     }
@@ -133,8 +131,8 @@ export default function FeedbackForm() {
 
   if (status === 'sent') {
     return (
-      <div className="tile-elevated p-7 sm:p-10" role="status">
-        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-accent/12">
+      <div className="tile-elevated flex items-center gap-4 p-7 sm:p-10" role="status">
+        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-accent/12">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path
               d="M5 12.5 10 17.5 19 7"
@@ -146,18 +144,7 @@ export default function FeedbackForm() {
             />
           </svg>
         </span>
-        <h2 className="mt-5 text-2xl font-semibold tracking-tight text-ink">
-          {'Thank you, ' + (fields.name.trim().split(' ')[0] || 'truly') + '.'}
-        </h2>
-        <p className="mt-3 text-[15px] leading-relaxed text-body">
-          Your feedback is with me. I read every word of it, and I will put it to work on the next
-          project.
-        </p>
-        <p className="mt-4 text-[15px] leading-relaxed text-body">
-          {shareable
-            ? 'You said I may share it with others, so it may help someone decide to work with me.'
-            : 'You asked me to keep it private, so it stays with me.'}
-        </p>
+        <h2 className="text-2xl font-semibold tracking-tight text-ink">Thank you.</h2>
       </div>
     )
   }
@@ -169,7 +156,6 @@ export default function FeedbackForm() {
       <form onSubmit={handleSubmit} className="grid gap-10">
         <fieldset disabled={sending} className="grid gap-10 border-0 p-0">
           <div className="grid gap-7">
-            <h2 className="text-lg font-semibold tracking-tight text-ink">Rate the work</h2>
             {RATING_QUESTIONS.map((q) => {
               const value = ratings[q.id]
               const shown = value ?? RATING_REST
@@ -180,17 +166,12 @@ export default function FeedbackForm() {
                     <label htmlFor={`rating-${q.id}`} className="block text-sm font-medium text-ink">
                       {q.label}
                     </label>
-                    {value === undefined ? (
-                      <span className="text-[13px] text-muted">Slide to rate</span>
-                    ) : (
+                    {value === undefined ? null : (
                       <span className="text-lg font-semibold leading-7 tabular-nums text-accent">
                         {value.toFixed(1)}
                       </span>
                     )}
                   </div>
-                  <p id={`rating-${q.id}-hint`} className="text-[13px] leading-relaxed text-muted">
-                    {q.hint}
-                  </p>
                   <input
                     id={`rating-${q.id}`}
                     type="range"
@@ -199,15 +180,14 @@ export default function FeedbackForm() {
                     step="any"
                     value={shown}
                     onChange={(e) => setRating(q.id, Number(e.target.value))}
-                    aria-describedby={`rating-${q.id}-hint`}
                     aria-valuetext={value === undefined ? 'Not rated' : `${value.toFixed(1)} out of 10`}
                     data-unset={value === undefined ? '' : undefined}
                     style={{ '--fill': value === undefined ? '0%' : `${fill}%` } as React.CSSProperties}
-                    className="rating-slider mt-3"
+                    className="rating-slider mt-2"
                   />
                   <div className="mt-1 flex justify-between text-[12px] text-muted" aria-hidden="true">
-                    <span>1 · Poor</span>
-                    <span>10 · Excellent</span>
+                    <span>{RATING_MIN}</span>
+                    <span>{RATING_MAX}</span>
                   </div>
                 </div>
               )
@@ -215,122 +195,83 @@ export default function FeedbackForm() {
           </div>
 
           <div className="grid gap-6 border-t border-line pt-10">
-            <h2 className="text-lg font-semibold tracking-tight text-ink">In your own words</h2>
             <div>
               <label htmlFor="didWell" className="block text-sm font-medium text-ink">
                 What did I do well?
               </label>
               <textarea
                 id="didWell"
-                rows={5}
+                rows={4}
                 className={`${inputClass} mt-2 resize-y`}
                 value={fields.didWell}
                 onChange={set('didWell')}
-                placeholder="What you would want me to keep doing…"
               />
             </div>
             <div>
               <label htmlFor="doBetter" className="block text-sm font-medium text-ink">
                 What could I do better?
               </label>
+              <p id="doBetter-hint" className="mt-1 text-[13px] leading-relaxed text-muted">
+                Please, be honest. This is the most valuable part. This is what I need to hear to grow.
+              </p>
               <textarea
                 id="doBetter"
-                rows={5}
+                rows={4}
                 className={`${inputClass} mt-2 resize-y`}
                 value={fields.doBetter}
                 onChange={set('doBetter')}
-                placeholder="Anything that frustrated you, slowed you down, or could have gone differently…"
+                aria-describedby="doBetter-hint"
               />
-            </div>
-          </div>
-
-          <div className="grid gap-6 border-t border-line pt-10">
-            <div>
-              <h2 className="text-lg font-semibold tracking-tight text-ink">
-                A reference
-                <span className="ml-2 text-sm font-normal text-muted">(optional)</span>
-              </h2>
-              <p className="mt-1 text-[13px] leading-relaxed text-muted">
-                If you would recommend me, a few sentences for someone deciding whether to work
-                with me.
-              </p>
             </div>
             <div>
               <label htmlFor="reference" className="block text-sm font-medium text-ink">
-                Why should someone work with Thomas?
+                Would you recommend me? Why?
               </label>
               <textarea
                 id="reference"
-                rows={4}
+                rows={3}
                 className={`${inputClass} mt-2 resize-y`}
                 value={fields.reference}
                 onChange={set('reference')}
-                placeholder="Thomas built our app from scratch and…"
               />
             </div>
-            {fields.reference.trim() ? (
-              <div>
-                <label htmlFor="referenceName" className="block text-sm font-medium text-ink">
-                  Name it should appear under
-                </label>
-                <input
-                  id="referenceName"
-                  className={`${inputClass} mt-2`}
-                  value={fields.referenceName}
-                  onChange={set('referenceName')}
-                  placeholder="Alex Rivera, founder of Rivera Coffee"
-                />
-              </div>
-            ) : null}
           </div>
 
           <div className="grid gap-6 border-t border-line pt-10">
-            <h2 className="text-lg font-semibold tracking-tight text-ink">About you</h2>
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-ink">
-                Your name
-                <span className="ml-1 font-normal text-muted">(optional)</span>
-              </label>
-              <input
-                id="name"
-                className={`${inputClass} mt-2`}
-                value={fields.name}
-                onChange={set('name')}
-                placeholder="Leave blank to stay anonymous"
-                autoComplete="name"
-              />
-            </div>
-            <div>
-              <label htmlFor="project" className="block text-sm font-medium text-ink">
-                The project
-                <span className="ml-1 font-normal text-muted">(optional)</span>
-              </label>
-              <input
-                id="project"
-                className={`${inputClass} mt-2`}
-                value={fields.project}
-                onChange={set('project')}
-                placeholder="What we worked on together"
-              />
+            <div className="grid gap-6 sm:grid-cols-2">
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium text-ink">
+                  Name
+                </label>
+                <input
+                  id="name"
+                  className={`${inputClass} mt-2`}
+                  value={fields.name}
+                  onChange={set('name')}
+                  autoComplete="name"
+                />
+              </div>
+              <div>
+                <label htmlFor="project" className="block text-sm font-medium text-ink">
+                  Project
+                </label>
+                <input
+                  id="project"
+                  className={`${inputClass} mt-2`}
+                  value={fields.project}
+                  onChange={set('project')}
+                />
+              </div>
             </div>
 
-            <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-line-strong bg-surface p-5 transition-colors hover:bg-surface-2 has-checked:border-accent">
+            <label className="flex cursor-pointer items-center gap-3 text-[15px] text-ink">
               <input
                 type="checkbox"
                 checked={shareable}
                 onChange={(e) => setShareable(e.target.checked)}
-                className="mt-0.5 h-5 w-5 shrink-0 accent-accent"
+                className="h-5 w-5 shrink-0 accent-accent"
               />
-              <span>
-                <span className="block text-[15px] font-medium text-ink">
-                  Thomas may share this feedback with others
-                </span>
-                <span className="mt-1 block text-[13px] leading-relaxed text-muted">
-                  {shareable
-                    ? 'He may show what you wrote to people thinking of working with him.'
-                    : 'Left unticked, it stays private and only Thomas reads it.'}
-                </span>
-              </span>
+              OK for me to share this
             </label>
           </div>
 
@@ -348,11 +289,10 @@ export default function FeedbackForm() {
           </div>
         </fieldset>
 
-        <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+        <div>
           <button type="submit" className="btn-primary" disabled={sending}>
-            {sending ? 'Sending…' : 'Send feedback'}
+            {sending ? 'Sending…' : 'Send'}
           </button>
-          <span className="text-[13px] text-muted">Goes straight to Thomas.</span>
         </div>
 
         {status === 'invalid' && (
@@ -364,11 +304,8 @@ export default function FeedbackForm() {
         {status === 'error' && (
           <div className="rounded-2xl border border-warm/40 bg-warm/[0.06] p-5" role="alert">
             <p className="text-sm font-semibold text-ink">{error}</p>
-            <p className="mt-2 text-sm leading-relaxed text-body">
-              If it keeps failing, nothing is lost: send it to me by email instead.
-            </p>
             <a href={mailtoHref} className="btn-ghost mt-4">
-              Send it by email instead
+              Email it instead
             </a>
           </div>
         )}
