@@ -3,7 +3,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { RutaPhoneShot } from '@/components/BuildMocks'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
-import { AI_CONSULT, APP_OFFER, HOME_CLUSTER, HERO, PROCESS } from '@/lib/partnership'
+import { AI_CONSULT, APP_OFFER, HOME_CLUSTER, HERO, PROCESS, TESTIMONIALS } from '@/lib/partnership'
 
 export const metadata: Metadata = {
   title: 'Kingdom Sites — mobile application solutions',
@@ -126,6 +126,22 @@ export default function Home() {
               </span>
             ))}
           </p>
+
+          {/* What clients said — small speech bubbles, not a testimonial wall. */}
+          <ul aria-label="What clients say" className="mx-auto mt-14 grid max-w-3xl gap-6 sm:grid-cols-2 sm:gap-5">
+            {TESTIMONIALS.map((t) => (
+              <li key={t.from}>
+                <figure className="flex h-full flex-col">
+                  <blockquote className="flex-1 rounded-[20px] rounded-bl-[6px] border border-line bg-surface px-5 py-4 text-[15px] leading-relaxed text-ink shadow-[0_1px_2px_rgba(16,23,37,0.04),0_10px_28px_rgba(16,23,37,0.05)]">
+                    “{t.quote}”
+                  </blockquote>
+                  <figcaption className="mt-2.5 pl-3 text-sm text-muted">
+                    from <span className="font-medium text-body">{t.from}</span>
+                  </figcaption>
+                </figure>
+              </li>
+            ))}
+          </ul>
 
           <div className="mt-12 flex justify-center">
             <Link href="/my-work" className="btn-ghost">

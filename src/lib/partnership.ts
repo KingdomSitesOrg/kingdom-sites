@@ -142,6 +142,20 @@ export const HOME_CLUSTER = [
   },
 ] as const
 
+/* Two short words from clients, shown as bubbles under the app cluster.
+   Jam with Latin's is verbatim from the feedback form (sharing: yes, 2026-10-18). */
+export const TESTIMONIALS = [
+  {
+    from: 'Jam with Latin',
+    quote:
+      'Hard worker, listens to our needs, creative and worked hard to get the project done both correctly and on time.',
+  },
+  {
+    from: 'Ruta',
+    quote: 'I would absolutely recommend Thomas to anyone who needs software built.',
+  },
+] as const
+
 export const AI_CONSULT_TOPICS = [
   {
     title: 'For developers',
