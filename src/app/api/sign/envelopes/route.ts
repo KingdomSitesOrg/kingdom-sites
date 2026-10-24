@@ -1,29 +1,32 @@
 import { NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
-import { AuthError, getAdminSession, newId, newSignerToken } from '@/lib/sign/auth'
+import { AuthError, newId, newSignerToken } from '@/lib/sign/auth'
+import { ForbiddenError, assertCanCreateEnvelope, requireSignAccess } from '@/lib/sign/access'
 import { appendAudit } from '@/lib/sign/audit'
 import { countPdfPages, defaultSignatureField } from '@/lib/sign/pdf'
-import { listEnvelopes, saveEnvelope, savePdf } from '@/lib/sign/store'
+import { listEnvelopes, listEnvelopesForOwner, saveEnvelope, savePdf } from '@/lib/sign/store'
 import type { Envelope, Signer } from '@/lib/sign/types'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 export const maxDuration = 60
 
-async function requireAdmin() {
-  const session = await getAdminSession()
-  if (!session) throw new AuthError()
-  return session
-}
-
 export async function GET() {
   try {
-    await requireAdmin()
-    const items = await listEnvelopes()
+    const access = await requireSignAccess()
+    const items = access.isAdmin
+      ? await listEnvelopes()
+      : await listEnvelopesForOwner(access.session.email)
     return NextResponse.json({ ok: true, envelopes: items })
   } catch (error) {
     if (error instanceof AuthError) {
       return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 })
+    }
+    if (error instanceof ForbiddenError) {
+      return NextResponse.json(
+        { ok: false, error: error.message, code: error.code, upgradeUrl: '/sign/pricing' },
+        { status: 403 },
+      )
     }
     Sentry.captureException(error)
     return NextResponse.json({ ok: false, error: 'Could not list envelopes.' }, { status: 500 })
@@ -32,7 +35,9 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const session = await requireAdmin()
+    const access = await requireSignAccess()
+    await assertCanCreateEnvelope(access)
+
     const form = await request.formData()
     const title = String(form.get('title') || '').trim() || 'Untitled document'
     const file = form.get('pdf')
@@ -86,17 +91,24 @@ export async function POST(request: Request) {
       updatedAt: now,
       pageCount,
       originalPdfKey: pdfKey,
+      ownerEmail: access.session.email,
       signers,
       fields: signers.map((s, i) => defaultSignatureField(s.id, i)),
       audit: [],
     }
-    envelope = appendAudit(envelope, 'created', session.email, title)
+    envelope = appendAudit(envelope, 'created', access.session.email, title)
     envelope = await saveEnvelope(envelope)
 
     return NextResponse.json({ ok: true, envelope })
   } catch (error) {
     if (error instanceof AuthError) {
       return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 })
+    }
+    if (error instanceof ForbiddenError) {
+      return NextResponse.json(
+        { ok: false, error: error.message, code: error.code, upgradeUrl: '/sign/pricing' },
+        { status: 403 },
+      )
     }
     Sentry.captureException(error)
     return NextResponse.json({ ok: false, error: 'Could not create envelope.' }, { status: 500 })

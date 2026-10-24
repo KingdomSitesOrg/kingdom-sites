@@ -35,7 +35,7 @@ export function verifyAdminCredentials(email: string, password: string): boolean
   return timingSafeEqual(a, b)
 }
 
-type SessionPayload = { email: string; exp: number }
+export type SessionPayload = { email: string; exp: number }
 
 export function createSessionToken(email: string): string {
   const payload: SessionPayload = {

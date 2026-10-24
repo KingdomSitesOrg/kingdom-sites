@@ -25,8 +25,7 @@ export function hasAnyLinks() {
   return Object.values(PAYMENT_LINKS).some((p) => p.monthly !== '' || p.annual !== '')
 }
 
-
-/** Kingdom Sites Sign — SaaS plans (Payment Links). */
+/** Kingdom Sites Sign — SaaS plans (Checkout Sessions; Price IDs from env). */
 export type SignPlanId = 'starter' | 'growth'
 
 export type SignPlan = {
@@ -34,17 +33,9 @@ export type SignPlan = {
   name: string
   priceMonthly: number
   contractLimit: number
-  /** Stripe Payment Link — set after creating products in Stripe Dashboard */
-  paymentLink: string
+  /** Env var that holds the Stripe Price id for this plan. */
+  priceEnv: 'STRIPE_PRICE_STARTER' | 'STRIPE_PRICE_GROWTH'
 }
-
-export const SIGN_STARTER_LINK =
-  process.env.NEXT_PUBLIC_SIGN_STARTER_LINK?.trim() ||
-  'https://buy.stripe.com/aFa00j3pygPRgbqarD5Ne07'
-
-export const SIGN_GROWTH_LINK =
-  process.env.NEXT_PUBLIC_SIGN_GROWTH_LINK?.trim() ||
-  'https://buy.stripe.com/dRm4gzgckfLN7EU2Zb5Ne06'
 
 export const SIGN_PLANS: SignPlan[] = [
   {
@@ -52,13 +43,26 @@ export const SIGN_PLANS: SignPlan[] = [
     name: 'Sign Starter',
     priceMonthly: 1,
     contractLimit: 5,
-    paymentLink: SIGN_STARTER_LINK,
+    priceEnv: 'STRIPE_PRICE_STARTER',
   },
   {
     id: 'growth',
     name: 'Sign Growth',
     priceMonthly: 10,
     contractLimit: 20,
-    paymentLink: SIGN_GROWTH_LINK,
+    priceEnv: 'STRIPE_PRICE_GROWTH',
   },
 ]
+
+export function getSignPlan(id: string): SignPlan | undefined {
+  return SIGN_PLANS.find((p) => p.id === id)
+}
+
+export function signPlanPriceId(plan: SignPlan): string | undefined {
+  const value = process.env[plan.priceEnv]?.trim()
+  return value || undefined
+}
+
+export function contractLimitForPlan(planId: SignPlanId): number {
+  return getSignPlan(planId)?.contractLimit ?? 0
+}

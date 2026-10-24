@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { getAdminSession } from '@/lib/sign/auth'
+import { getSignAccess } from '@/lib/sign/access'
 import NewEnvelopeForm from '@/components/sign/NewEnvelopeForm'
 
 export const dynamic = 'force-dynamic'
@@ -8,6 +9,8 @@ export const dynamic = 'force-dynamic'
 export default async function SignNewPage() {
   const session = await getAdminSession()
   if (!session) redirect('/sign/login')
+  const access = await getSignAccess()
+  if (!access) redirect('/sign/pricing')
   return (
     <div className="mx-auto max-w-lg">
       <Link href="/sign/dashboard" className="btn-ghost-sm">

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
 import { AuthError, getAdminSession } from '@/lib/sign/auth'
+import { ForbiddenError, getSignAccess } from '@/lib/sign/access'
 import { findEnvelopeBySignerToken, getEnvelope, readPdf } from '@/lib/sign/store'
 
 export const runtime = 'nodejs'
@@ -16,8 +17,10 @@ export async function GET(request: Request, ctx: Ctx) {
     const token = url.searchParams.get('token')
     const which = url.searchParams.get('which') === 'completed' ? 'completed' : 'original'
 
-    const session = await getAdminSession()
-    let envelope = session ? await getEnvelope(id) : null
+    const access = await getSignAccess()
+    const session = access?.session ?? (await getAdminSession())
+    // Subscribers / admin may load via session; unpaid session alone is not enough.
+    let envelope = access ? await getEnvelope(id) : null
 
     if (!envelope && token) {
       const found = await findEnvelopeBySignerToken(token)
@@ -28,6 +31,7 @@ export async function GET(request: Request, ctx: Ctx) {
 
     if (!envelope) {
       if (!session) throw new AuthError()
+      if (!access) throw new ForbiddenError('An active Sign subscription is required.', 'subscription_required')
       return NextResponse.json({ ok: false, error: 'Not found' }, { status: 404 })
     }
 
@@ -51,6 +55,12 @@ export async function GET(request: Request, ctx: Ctx) {
   } catch (error) {
     if (error instanceof AuthError) {
       return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 })
+    }
+    if (error instanceof ForbiddenError) {
+      return NextResponse.json(
+        { ok: false, error: error.message, code: error.code, upgradeUrl: '/sign/pricing' },
+        { status: 403 },
+      )
     }
     Sentry.captureException(error)
     return NextResponse.json({ ok: false, error: 'Could not load PDF.' }, { status: 500 })

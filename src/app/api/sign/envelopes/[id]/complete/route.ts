@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
-import { AuthError, getAdminSession } from '@/lib/sign/auth'
+import { AuthError } from '@/lib/sign/auth'
+import { ForbiddenError, requireSignAccess } from '@/lib/sign/access'
 import {
   allSignersSigned,
   completeEnvelopeAfterAllSigned,
@@ -14,16 +15,10 @@ export const maxDuration = 60
 
 type Ctx = { params: Promise<{ id: string }> }
 
-async function requireAdmin() {
-  const session = await getAdminSession()
-  if (!session) throw new AuthError()
-  return session
-}
-
 /** Admin recovery: stamp + mark completed + email when all parties signed but stuck. */
 export async function POST(_request: Request, ctx: Ctx) {
   try {
-    await requireAdmin()
+    await requireSignAccess()
     const { id } = await ctx.params
     const existing = await getEnvelope(id)
     if (!existing) {
@@ -50,6 +45,12 @@ export async function POST(_request: Request, ctx: Ctx) {
   } catch (error) {
     if (error instanceof AuthError) {
       return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 })
+    }
+    if (error instanceof ForbiddenError) {
+      return NextResponse.json(
+        { ok: false, error: error.message, code: error.code, upgradeUrl: '/sign/pricing' },
+        { status: 403 },
+      )
     }
     Sentry.captureException(error)
     return NextResponse.json({ ok: false, error: 'Could not generate completed PDF.' }, { status: 500 })
