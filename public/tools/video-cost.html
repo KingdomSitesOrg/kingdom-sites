@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Farzana Video Cost</title>
+<style>
+/* Layout: one narrow phone column. The monthly cost sits on top, the call inputs under it,
+   the editable prices folded away at the bottom. */
+:root {
+  --bg: #f2f5f3;
+  --surface: #ffffff;
+  --ink: #18222e;
+  --heading: #1e3553;
+  --muted: #5e6c7a;
+  --border: rgba(30, 53, 83, 0.12);
+  --primary: #22756f;
+  --primary-hover: #1c625d;
+  --on-primary: #ffffff;
+  --accent: #2a8f89;
+  --wash: rgba(42, 143, 137, 0.1);
+  --gold: #c9973f;
+  --warn: #9a5b12;
+  --font-display: "Trebuchet MS", system-ui, sans-serif;
+  --font-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --radius-card: 16px;
+  --radius-control: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1b2b; --surface: #16253a; --ink: #e6ecf1; --heading: #e6ecf1; --muted: #93a3b4;
+    --border: rgba(230, 236, 241, 0.12); --primary: #4fb8b1; --primary-hover: #6cc7c1; --on-primary: #0f1b2b;
+    --accent: #4fb8b1; --wash: rgba(79, 184, 177, 0.14); --gold: #d9ae5c; --warn: #e0a25a;
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--font-sans); font-size: 16px; line-height: 1.5;
+}
+.wrap {
+  max-width: 560px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 20px 48px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+h1, h2 { font-family: var(--font-display); color: var(--heading); font-weight: 500; margin: 0; text-wrap: balance; }
+h1 { font-size: 22px; display: flex; align-items: center; gap: 10px; }
+h2 { font-size: 18px; }
+.diamond { width: 9px; height: 9px; background: var(--gold); transform: rotate(45deg); flex: none; }
+.sub { color: var(--muted); font-size: 14px; margin: 2px 0 0; }
+
+.card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-card);
+  padding: 20px; display: flex; flex-direction: column; gap: 16px; min-width: 0;
+}
+
+/* Result */
+.total-label { color: var(--muted); font-size: 14px; margin: 0; }
+.total { font-family: var(--font-display); color: var(--heading); font-size: 52px; line-height: 1.05; font-weight: 600; font-variant-numeric: tabular-nums; }
+.total small { font-family: var(--font-sans); font-size: 18px; font-weight: 500; color: var(--muted); }
+.rows { display: flex; flex-direction: column; border-top: 1px solid var(--border); }
+.row { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.row .what { min-width: 0; }
+.row .what div:last-child { font-size: 13px; color: var(--muted); }
+.row .amt { font-variant-numeric: tabular-nums; font-weight: 500; white-space: nowrap; }
+.row.min .amt, .row.min .what div:first-child { color: var(--warn); }
+.say { margin: 0; font-size: 17px; line-height: 1.55; }
+.btn {
+  min-height: 44px; padding: 0 16px; border-radius: var(--radius-control); border: 0;
+  background: var(--primary); color: var(--on-primary); font: 500 15px var(--font-sans);
+  cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; align-self: flex-start;
+}
+.btn:hover { background: var(--primary-hover); }
+.btn.quiet { background: var(--wash); color: var(--primary); }
+.btn.quiet:hover { background: rgba(42, 143, 137, 0.2); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Inputs */
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label, .field .lbl { font-weight: 500; }
+.field .hint { font-size: 13px; color: var(--muted); }
+.stepper { display: grid; grid-template-columns: 52px 1fr 52px; gap: 8px; }
+.stepper button {
+  min-height: 52px; border-radius: var(--radius-control); border: 1px solid var(--border);
+  background: var(--wash); color: var(--primary); font: 500 24px var(--font-sans); cursor: pointer;
+}
+.stepper button:hover { background: rgba(42, 143, 137, 0.2); }
+.stepper input, .num {
+  min-height: 52px; width: 100%; min-width: 0; text-align: center;
+  border: 1px solid var(--border); border-radius: var(--radius-control); background: var(--surface);
+  color: var(--ink); font: 500 22px var(--font-sans); font-variant-numeric: tabular-nums;
+}
+.seg { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.seg button {
+  min-height: 48px; border-radius: var(--radius-control); border: 1px solid var(--border);
+  background: var(--surface); color: var(--ink); font: 500 15px var(--font-sans); cursor: pointer;
+}
+.seg button:hover:not([aria-pressed="true"]):not(:disabled) { background: var(--wash); }
+.seg button[aria-pressed="true"] { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
+.seg button:disabled { opacity: .4; cursor: not-allowed; }
+
+/* Assumptions */
+details.card { gap: 0; }
+details.card[open] { gap: 16px; }
+summary { cursor: pointer; font-family: var(--font-display); color: var(--heading); font-size: 18px; font-weight: 500; min-height: 44px; display: flex; align-items: center; justify-content: space-between; list-style: none; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "Edit"; font: 500 14px var(--font-sans); color: var(--primary); }
+details[open] summary::after { content: "Close"; }
+.group { display: flex; flex-direction: column; gap: 10px; }
+.group h3 { margin: 0; font-size: 15px; font-weight: 600; color: var(--heading); }
+.kv { display: grid; grid-template-columns: 1fr 120px; gap: 8px 12px; align-items: center; }
+.kv label { font-size: 15px; min-width: 0; }
+.kv .num { min-height: 44px; font-size: 16px; text-align: end; padding-inline: 10px; }
+.check { display: flex; align-items: center; gap: 10px; min-height: 44px; cursor: pointer; }
+.check input { width: 22px; height: 22px; accent-color: var(--primary); margin: 0; cursor: pointer; }
+.rend { display: grid; grid-template-columns: 1fr 120px; gap: 4px 12px; align-items: center; }
+.note { font-size: 13px; color: var(--muted); margin: 0; }
+.note a { color: var(--primary); text-decoration: none; }
+.note a:hover, .note a:focus-visible { text-decoration: underline; }
+.source { font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1><span class="diamond" aria-hidden="true"></span>Video cost calculator</h1>
+    <p class="sub">What Farzana's class videos cost on Bunny Stream each month. Bunny prices as of 23 Oct 2026.</p>
+  </header>
+
+  <section class="card" aria-live="polite">
+    <p class="total-label">Cost per month</p>
+    <div class="total" id="total">$0</div>
+    <div class="rows" id="rows"></div>
+    <p class="say" id="say"></p>
+  </section>
+
+  <section class="card">
+    <h2>On the call</h2>
+    <div class="field">
+      <label for="videos">Videos in the library</label>
+      <div class="stepper"><button type="button" data-step="videos" data-by="-10" aria-label="10 fewer videos">−</button><input id="videos" type="number" inputmode="numeric" min="0" value="250"><button type="button" data-step="videos" data-by="10" aria-label="10 more videos">+</button></div>
+    </div>
+    <div class="field">
+      <label for="minutes">Average video length, minutes</label>
+      <div class="stepper"><button type="button" data-step="minutes" data-by="-1" aria-label="1 minute shorter">−</button><input id="minutes" type="number" inputmode="decimal" min="0" value="20"><button type="button" data-step="minutes" data-by="1" aria-label="1 minute longer">+</button></div>
+    </div>
+    <div class="field">
+      <label for="people">People watching each week</label>
+      <div class="stepper"><button type="button" data-step="people" data-by="-50" aria-label="50 fewer people">−</button><input id="people" type="number" inputmode="numeric" min="0" value="200"><button type="button" data-step="people" data-by="50" aria-label="50 more people">+</button></div>
+    </div>
+    <div class="field">
+      <label for="perWeek">Videos each person watches a week</label>
+      <div class="stepper"><button type="button" data-step="perWeek" data-by="-1" aria-label="1 fewer video a week">−</button><input id="perWeek" type="number" inputmode="decimal" min="0" value="3"><button type="button" data-step="perWeek" data-by="1" aria-label="1 more video a week">+</button></div>
+    </div>
+    <div class="field">
+      <label for="pct">How much of each video they watch, %</label>
+      <div class="stepper"><button type="button" data-step="pct" data-by="-10" aria-label="10 percent less">−</button><input id="pct" type="number" inputmode="numeric" min="0" max="100" value="80"><button type="button" data-step="pct" data-by="10" aria-label="10 percent more">+</button></div>
+    </div>
+    <div class="field">
+      <span class="lbl" id="qLbl">Quality people watch in</span>
+      <div class="seg" role="group" aria-labelledby="qLbl">
+        <button type="button" data-q="480p">480p</button>
+        <button type="button" data-q="720p">720p</button>
+        <button type="button" data-q="1080p">1080p</button>
+        <button type="button" data-q="mix">Mix</button>
+      </div>
+      <span class="hint" id="qHint"></span>
+    </div>
+  </section>
+
+  <details class="card" id="assume">
+    <summary>Assumptions</summary>
+    <p class="note">Change any number here and the cost above updates. Your changes stay on this device. Bunny prices from <a href="https://bunny.net/pricing/stream/" target="_blank" rel="noopener">bunny.net/pricing/stream</a>, <a href="https://bunny.net/pricing/storage/" target="_blank" rel="noopener">/storage</a> and <a href="https://bunny.net/pricing/cdn/" target="_blank" rel="noopener">/cdn</a>, read 23 Oct 2026. Library settings read from Bunny the same day.</p>
+
+    <div class="group">
+      <h3>Farzana's library today</h3>
+      <p class="note">Library "Farzana" (783180): 5 qualities 240p to 1080p, the uploaded original kept, MP4 copies on, stored in Germany plus copies in New York and Los Angeles, delivered on Bunny's Volume network. Encoding is the free standard tier; no DRM, no captions service.</p>
+    </div>
+
+    <div class="group">
+      <h3>Storage</h3>
+      <div class="kv">
+        <label for="pRegion">Per GB a month, each of the first two regions</label><input class="num" id="pRegion" type="number" inputmode="decimal" step="0.001">
+        <label for="pExtra">Per GB a month, each region after two</label><input class="num" id="pExtra" type="number" inputmode="decimal" step="0.001">
+        <label for="regions">Regions the video is stored in</label><input class="num" id="regions" type="number" inputmode="numeric" min="1" max="9">
+      </div>
+    </div>
+
+    <div class="group">
+      <h3>Streaming (Volume network, one price worldwide)</h3>
+      <div class="kv">
+        <label for="d1">Per GB, first 500 TB a month</label><input class="num" id="d1" type="number" inputmode="decimal" step="0.001">
+        <label for="d2">Per GB, 500 TB to 1 PB</label><input class="num" id="d2" type="number" inputmode="decimal" step="0.001">
+        <label for="d3">Per GB, 1 PB to 2 PB</label><input class="num" id="d3" type="number" inputmode="decimal" step="0.001">
+      </div>
+    </div>
+
+    <div class="group">
+      <h3>Other charges</h3>
+      <div class="kv">
+        <label for="encode">Encoding, per minute of video added</label><input class="num" id="encode" type="number" inputmode="decimal" step="0.001">
+        <label for="newMin">Minutes of new video added a month</label><input class="num" id="newMin" type="number" inputmode="numeric" min="0">
+        <label for="minimum">Monthly minimum</label><input class="num" id="minimum" type="number" inputmode="decimal" step="0.01">
+      </div>
+    </div>
+
+    <div class="group">
+      <h3>Qualities stored, and their bitrate (kbps)</h3>
+      <p class="note">Storage keeps every quality that is ticked. A viewer streams only one. These are the library's own bitrate settings.</p>
+      <div class="rend" id="rend"></div>
+    </div>
+
+    <div class="group">
+      <h3>Extra copies Bunny keeps</h3>
+      <label class="check"><input type="checkbox" id="mp4"> MP4 copy of every quality (about doubles the stored qualities)</label>
+      <label class="check"><input type="checkbox" id="orig"> Keep the uploaded original</label>
+      <div class="kv">
+        <label for="origKbps">Original upload bitrate (kbps)</label><input class="num" id="origKbps" type="number" inputmode="numeric" min="0">
+        <label for="extraMB">Previews and thumbnails per video (MB)</label><input class="num" id="extraMB" type="number" inputmode="decimal" min="0">
+      </div>
+    </div>
+
+    <div class="group">
+      <h3>Mix, % of watching time</h3>
+      <div class="kv">
+        <label for="m1080">1080p</label><input class="num" id="m1080" type="number" inputmode="numeric" min="0" max="100">
+        <label for="m720">720p</label><input class="num" id="m720" type="number" inputmode="numeric" min="0" max="100">
+        <label for="m480">480p</label><input class="num" id="m480" type="number" inputmode="numeric" min="0" max="100">
+      </div>
+      <div class="kv">
+        <label for="weeks">Weeks in a month</label><input class="num" id="weeks" type="number" inputmode="decimal" step="0.01">
+      </div>
+    </div>
+
+    <p class="note">1 GB = 1,000 MB here. Streaming is counted from the bitrate, so a video watched twice is counted twice. The 10-second test clip in the library came out about 1.6 times its set bitrate; a real class video should be measured once one is uploaded.</p>
+    <button class="btn quiet" id="reset" type="button">Put back Bunny's prices</button>
+  </details>
+
+  <p class="source">Under the agreement, video hosting is passed on at cost. This page changes nothing on Bunny.</p>
+</div>
+
+<script>
+const DEFAULTS = {
+  videos: 250, minutes: 20, people: 200, perWeek: 3, pct: 80, quality: "1080p",
+  pRegion: 0.01, pExtra: 0.005, regions: 3,
+  d1: 0.005, d2: 0.004, d3: 0.002,
+  encode: 0, newMin: 0, minimum: 1,
+  rend: { "240p": [600, true], "360p": [800, true], "480p": [1400, true], "720p": [2800, true], "1080p": [5000, true], "1440p": [8000, false], "2160p": [25000, false] },
+  mp4: true, orig: true, origKbps: 8000, extraMB: 25,
+  m1080: 50, m720: 40, m480: 10, weeks: 52 / 12,
+};
+const KEY = "farzana-video-cost-v1";
+const clone = o => JSON.parse(JSON.stringify(o));
+
+// Pure maths: kbps × seconds → GB (1 GB = 1e9 bytes).
+const gbFrom = (kbps, seconds) => kbps * 1000 / 8 * seconds / 1e9;
+
+function compute(s) {
+  const libMinutes = s.videos * s.minutes;
+  const storedKbps = Object.values(s.rend).filter(r => r[1]).reduce((a, r) => a + r[0], 0);
+  const perMinuteKbps = storedKbps * (s.mp4 ? 2 : 1) + (s.orig ? s.origKbps : 0);
+  const storageGB = gbFrom(perMinuteKbps, libMinutes * 60) + s.videos * s.extraMB / 1000;
+  const regionRate = s.regions <= 2 ? s.pRegion * s.regions : s.pRegion * 2 + s.pExtra * (s.regions - 2);
+  const storage = storageGB * regionRate;
+
+  let viewKbps;
+  if (s.quality === "mix") {
+    const w = s.m1080 + s.m720 + s.m480 || 1;
+    viewKbps = (s.rend["1080p"][0] * s.m1080 + s.rend["720p"][0] * s.m720 + s.rend["480p"][0] * s.m480) / w;
+  } else viewKbps = s.rend[s.quality][0];
+  const watchMinutes = s.people * s.perWeek * s.minutes * (s.pct / 100) * s.weeks;
+  const deliveryGB = gbFrom(viewKbps, watchMinutes * 60);
+  const t1 = 500000, t2 = 1000000; // GB
+  const delivery = Math.min(deliveryGB, t1) * s.d1
+    + Math.max(0, Math.min(deliveryGB, t2) - t1) * s.d2
+    + Math.max(0, deliveryGB - t2) * s.d3;
+  const encoding = s.encode * s.newMin;
+  const usage = storage + delivery + encoding;
+  const topUp = Math.max(0, s.minimum - usage);
+  const total = usage + topUp;
+  return { storageGB, regionRate, storage, viewKbps, watchMinutes, deliveryGB, delivery, encoding, topUp, total,
+    perStudent: s.people ? total / s.people : 0, perYear: total * 12 };
+}
+
+const money = v => v >= 100 ? "$" + Math.round(v).toLocaleString("en-US")
+  : v >= 1 ? "$" + v.toFixed(2) : v > 0 ? (v * 100 < 1 ? "<1¢" : Math.round(v * 100) + "¢") : "$0";
+const gb = v => v >= 1000 ? (v / 1000).toLocaleString("en-US", { maximumFractionDigits: 2 }) + " TB" : v.toLocaleString("en-US", { maximumFractionDigits: v < 10 ? 1 : 0 }) + " GB";
+const n = v => Number(v).toLocaleString("en-US", { maximumFractionDigits: 1 });
+
+let state = clone(DEFAULTS);
+try { const saved = JSON.parse(localStorage.getItem(KEY) || "null"); if (saved) state = Object.assign(clone(DEFAULTS), saved, { rend: Object.assign(clone(DEFAULTS.rend), saved.rend) }); } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} };
+
+const $ = id => document.getElementById(id);
+const numIds = ["videos", "minutes", "people", "perWeek", "pct", "pRegion", "pExtra", "regions", "d1", "d2", "d3", "encode", "newMin", "minimum", "origKbps", "extraMB", "m1080", "m720", "m480", "weeks"];
+
+// Quality rows in the assumptions
+const rendBox = $("rend");
+Object.keys(DEFAULTS.rend).forEach(q => {
+  const lab = document.createElement("label"); lab.className = "check";
+  lab.innerHTML = `<input type="checkbox" id="on-${q}"> ${q}`;
+  const inp = document.createElement("input"); inp.className = "num"; inp.type = "number"; inp.inputMode = "numeric"; inp.id = "kb-" + q; inp.setAttribute("aria-label", q + " bitrate in kbps");
+  rendBox.append(lab, inp);
+});
+
+function fill() {
+  numIds.forEach(id => { $(id).value = id === "weeks" ? Number(state.weeks.toFixed(2)) : state[id]; });
+  $("mp4").checked = state.mp4; $("orig").checked = state.orig;
+  Object.keys(state.rend).forEach(q => { $("on-" + q).checked = state.rend[q][1]; $("kb-" + q).value = state.rend[q][0]; });
+}
+
+function render() {
+  const r = compute(state);
+  $("total").innerHTML = `${money(r.total)} <small>a month</small>`;
+  const regionWord = state.regions === 1 ? "1 region" : state.regions + " regions";
+  const rows = [
+    ["Streaming", `${gb(r.deliveryGB)} a month, ${n(Math.round(r.watchMinutes / 60))} hours watched`, money(r.delivery)],
+    ["Storage", `${gb(r.storageGB)} kept in ${regionWord}`, money(r.storage)],
+    ["Encoding", state.encode > 0 ? `${n(state.newMin)} new minutes a month` : "Free on Bunny", r.encoding > 0 ? money(r.encoding) : "$0"],
+  ];
+  let html = rows.map(([a, b, c]) => `<div class="row"><div class="what"><div>${a}</div><div>${b}</div></div><div class="amt">${c}</div></div>`).join("");
+  if (r.topUp > 0) html += `<div class="row min"><div class="what"><div>Monthly minimum</div><div>Bunny charges at least ${money(state.minimum)} a month</div></div><div class="amt">+${money(r.topUp)}</div></div>`;
+  html += `<div class="row"><div class="what"><div>Per student</div><div>a month</div></div><div class="amt">${money(r.perStudent)}</div></div>`;
+  html += `<div class="row"><div class="what"><div>Per year</div><div>12 months</div></div><div class="amt">${money(r.perYear)}</div></div>`;
+  $("rows").innerHTML = html;
+
+  const qText = state.quality === "mix" ? "a mix of 480p to 1080p" : state.quality;
+  $("say").textContent = `About ${money(r.total)} a month for ${n(state.people)} students, each watching ${n(state.perWeek)} ${state.perWeek === 1 ? "video" : "videos"} a week (${n(state.minutes)} minutes long, ${n(state.pct)}% watched, in ${qText}), with ${n(state.videos)} videos in the library. That is about ${money(r.perStudent)} per student a month, or ${money(r.perYear)} a year.`;
+
+  document.querySelectorAll(".seg button").forEach(b => {
+    const q = b.dataset.q;
+    b.disabled = q !== "mix" && !state.rend[q][1];
+    b.setAttribute("aria-pressed", String(state.quality === q));
+  });
+  $("qHint").textContent = state.quality === "mix"
+    ? `Mix: ${state.m1080}% 1080p, ${state.m720}% 720p, ${state.m480}% 480p, about ${n(Math.round(r.viewKbps))} kbps.`
+    : `${state.quality} streams at ${n(state.rend[state.quality][0])} kbps, about ${n(gbFrom(state.rend[state.quality][0], 60) * 1000)} MB a minute. Big screens on good wifi pick 1080p; phones often drop lower.`;
+}
+
+numIds.forEach(id => $(id).addEventListener("input", e => {
+  const v = parseFloat(e.target.value);
+  state[id] = isFinite(v) && v >= 0 ? v : 0;
+  if (id === "regions") state.regions = Math.max(1, Math.round(state.regions));
+  save(); render();
+}));
+["mp4", "orig"].forEach(id => $(id).addEventListener("change", e => { state[id] = e.target.checked; save(); render(); }));
+Object.keys(DEFAULTS.rend).forEach(q => {
+  $("on-" + q).addEventListener("change", e => {
+    state.rend[q][1] = e.target.checked;
+    if (state.quality === q && !e.target.checked) state.quality = "mix";
+    save(); render();
+  });
+  $("kb-" + q).addEventListener("input", e => { const v = parseFloat(e.target.value); state.rend[q][0] = isFinite(v) && v >= 0 ? v : 0; save(); render(); });
+});
+document.querySelectorAll("[data-step]").forEach(b => b.addEventListener("click", () => {
+  const id = b.dataset.step, by = Number(b.dataset.by);
+  let v = Math.max(0, (state[id] || 0) + by);
+  if (id === "pct") v = Math.min(100, v);
+  state[id] = v; $(id).value = v; save(); render();
+}));
+document.querySelectorAll(".seg button").forEach(b => b.addEventListener("click", () => { state.quality = b.dataset.q; save(); render(); }));
+$("reset").addEventListener("click", () => {
+  const keep = { videos: state.videos, minutes: state.minutes, people: state.people, perWeek: state.perWeek, pct: state.pct, quality: state.quality };
+  state = Object.assign(clone(DEFAULTS), keep);
+  if (!state.rend[state.quality]?.[1] && state.quality !== "mix") state.quality = "1080p";
+  save(); fill(); render();
+  $("reset").textContent = "Bunny's prices are back";
+  setTimeout(() => { $("reset").textContent = "Put back Bunny's prices"; }, 2000);
+});
+
+fill(); render();
+</script>
+</body>
+</html>
