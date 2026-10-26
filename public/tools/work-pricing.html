@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Work Pricing</title>
+<style>
+:root {
+  --bg: #f2f5f3; --surface: #ffffff; --ink: #18222e; --heading: #1e3553; --muted: #5e6c7a;
+  --border: rgba(30, 53, 83, 0.12); --primary: #22756f; --primary-hover: #1c625d; --on-primary: #ffffff;
+  --accent: #2a8f89; --wash: rgba(42, 143, 137, 0.1); --gold: #c9973f; --warn: #9a5b12; --bad: #a32d2d;
+  --font-display: "Trebuchet MS", system-ui, sans-serif;
+  --font-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --radius-card: 16px; --radius-control: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1b2b; --surface: #16253a; --ink: #e6ecf1; --heading: #e6ecf1; --muted: #93a3b4;
+    --border: rgba(230, 236, 241, 0.12); --primary: #4fb8b1; --primary-hover: #6cc7c1; --on-primary: #0f1b2b;
+    --accent: #4fb8b1; --wash: rgba(79, 184, 177, 0.14); --gold: #d9ae5c; --warn: #e0a25a; --bad: #ef8a8a;
+    color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.5; }
+.wrap {
+  max-width: 640px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 20px 56px; display: flex; flex-direction: column; gap: 16px;
+}
+h1, h2 { font-family: var(--font-display); color: var(--heading); font-weight: 500; margin: 0; text-wrap: balance; }
+h1 { font-size: 22px; display: flex; align-items: center; gap: 10px; }
+h2 { font-size: 18px; }
+h3 { margin: 0; font-size: 15px; font-weight: 600; color: var(--heading); }
+.diamond { width: 9px; height: 9px; background: var(--gold); transform: rotate(45deg); flex: none; }
+.sub { color: var(--muted); font-size: 14px; margin: 2px 0 0; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-card); padding: 20px; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.note { font-size: 13px; color: var(--muted); margin: 0; }
+.warn { font-size: 14px; color: var(--warn); margin: 0; }
+.bad { color: var(--bad); }
+.say { margin: 0; font-size: 16px; line-height: 1.55; }
+a { color: var(--primary); }
+
+/* Result tiers */
+.tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.tier { border: 1px solid var(--border); border-radius: var(--radius-control); padding: 12px 8px; text-align: center; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.tier.pick { border-color: var(--primary); background: var(--wash); }
+.tier .name { font-size: 13px; color: var(--muted); }
+.tier .price { font-family: var(--font-display); color: var(--heading); font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.tier .fine { font-size: 12px; color: var(--muted); }
+.big { font-family: var(--font-display); color: var(--heading); font-size: 40px; line-height: 1.05; font-weight: 600; font-variant-numeric: tabular-nums; }
+.big small { font-family: var(--font-sans); font-size: 16px; font-weight: 500; color: var(--muted); }
+.label { color: var(--muted); font-size: 14px; margin: 0; }
+.rows { display: flex; flex-direction: column; border-top: 1px solid var(--border); }
+.row { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.row .what { min-width: 0; }
+.row .what div:last-child { font-size: 13px; color: var(--muted); }
+.row .amt { font-variant-numeric: tabular-nums; font-weight: 500; white-space: nowrap; }
+
+/* Inputs */
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field > label, .field .lbl { font-weight: 500; }
+.hint { font-size: 13px; color: var(--muted); }
+.stepper { display: grid; grid-template-columns: 52px 1fr 52px; gap: 8px; }
+.stepper button { min-height: 52px; border-radius: var(--radius-control); border: 1px solid var(--border); background: var(--wash); color: var(--primary); font: 500 24px var(--font-sans); cursor: pointer; }
+.stepper button:hover { background: rgba(42, 143, 137, 0.2); }
+.stepper input, .num, select {
+  min-height: 52px; width: 100%; min-width: 0; text-align: center; border: 1px solid var(--border); border-radius: var(--radius-control);
+  background: var(--surface); color: var(--ink); font: 500 20px var(--font-sans); font-variant-numeric: tabular-nums;
+}
+select { text-align: start; font-size: 16px; padding-inline: 10px; }
+.seg { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
+.seg button { min-height: 48px; border-radius: var(--radius-control); border: 1px solid var(--border); background: var(--surface); color: var(--ink); font: 500 15px var(--font-sans); cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
+.kv { display: grid; grid-template-columns: 1fr 120px; gap: 8px 12px; align-items: center; }
+.kv label { font-size: 15px; min-width: 0; }
+.kv .num { min-height: 44px; font-size: 16px; text-align: end; padding-inline: 10px; }
+.feat { display: grid; grid-template-columns: 24px 1fr 84px; gap: 10px; align-items: center; min-height: 44px; }
+.feat input[type=checkbox] { width: 22px; height: 22px; accent-color: var(--primary); margin: 0; }
+.feat .num { min-height: 40px; font-size: 16px; text-align: end; padding-inline: 8px; }
+.btn { min-height: 44px; padding: 0 16px; border-radius: var(--radius-control); border: 0; background: var(--wash); color: var(--primary); font: 500 15px var(--font-sans); cursor: pointer; align-self: flex-start; }
+.btn:hover { background: rgba(42, 143, 137, 0.2); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+details.card { gap: 0; }
+details.card[open] { gap: 16px; }
+summary { cursor: pointer; font-family: var(--font-display); color: var(--heading); font-size: 18px; font-weight: 500; min-height: 44px; display: flex; align-items: center; justify-content: space-between; list-style: none; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "Edit"; font: 500 14px var(--font-sans); color: var(--primary); }
+details[open] summary::after { content: "Close"; }
+.group { display: flex; flex-direction: column; gap: 10px; }
+
+/* Scaling table */
+.tablewrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+th, td { text-align: end; padding: 8px 6px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+th:first-child, td:first-child { text-align: start; }
+th { font-weight: 500; color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1><span class="diamond" aria-hidden="true"></span>Work pricing</h1>
+    <p class="sub">Private. What to charge for a custom build and its monthly care, and what each size of customer does to your costs. Your numbers stay in this browser only.</p>
+  </header>
+
+  <section class="card" aria-live="polite">
+    <h2>One-time build</h2>
+    <div class="tiers" id="tiers"></div>
+    <p class="say" id="buildSay"></p>
+    <p class="warn" id="buildWarn" hidden></p>
+  </section>
+
+  <section class="card" aria-live="polite">
+    <h2>Monthly care</h2>
+    <p class="label">Hosting, upkeep and your time, per month</p>
+    <div class="big" id="care">$0</div>
+    <div class="rows" id="careRows"></div>
+    <p class="say" id="careSay"></p>
+  </section>
+
+  <section class="card">
+    <h2>The job</h2>
+    <div class="field">
+      <span class="lbl">Features wanted</span>
+      <span class="hint">Tick what the customer needs. Hours are your guess for each; change them in the box.</span>
+      <div id="feats"></div>
+      <div class="feat"><span></span><span>Anything else, in hours</span><input class="num" id="extraHours" type="number" inputmode="decimal" min="0"></div>
+    </div>
+    <div class="field">
+      <label for="clarity">How clear is what they want?</label>
+      <select id="clarity">
+        <option value="1">Clear and written down</option>
+        <option value="1.25">Mostly clear</option>
+        <option value="1.5">Vague, will change</option>
+        <option value="1.75">They'll know it when they see it</option>
+      </select>
+      <span class="hint">Vague jobs take longer. This multiplies the hours.</span>
+    </div>
+    <div class="field">
+      <span class="lbl" id="clLbl">Who is it for?</span>
+      <div class="seg" role="group" aria-labelledby="clLbl">
+        <button type="button" data-client="standard">Regular customer</button>
+        <button type="button" data-client="founding">Founding customer</button>
+      </div>
+      <span class="hint" id="clHint"></span>
+    </div>
+    <div class="field">
+      <label for="users">Approximate number of users</label>
+      <div class="stepper"><button type="button" data-step="users" data-by="-50" aria-label="50 fewer users">−</button><input id="users" type="number" inputmode="numeric" min="0"><button type="button" data-step="users" data-by="50" aria-label="50 more users">+</button></div>
+    </div>
+    <div class="field">
+      <label for="extraInfra">Other monthly running costs for this customer, $</label>
+      <input class="num" id="extraInfra" type="number" inputmode="decimal" min="0">
+      <span class="hint">For example video hosting: work it out in the <a href="/video-cost">video cost calculator</a> and enter it here.</span>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Growing the customer</h2>
+    <p class="note">The same job at different sizes. Your hosting bill steps up at set points; the monthly fee should rise with it so you never lose money on a busy customer.</p>
+    <div class="tablewrap"><table id="scale"></table></div>
+    <p class="note" id="scaleNote"></p>
+  </section>
+
+  <section class="card" aria-live="polite">
+    <h2>Does it add up?</h2>
+    <div class="rows" id="check"></div>
+  </section>
+
+  <details class="card" id="assume">
+    <summary>Your numbers</summary>
+    <p class="note">Every figure here is a starting guess. Replace each with your own; they are saved on this device only. Nothing about your money is stored on the website.</p>
+
+    <div class="group">
+      <h3>What you need</h3>
+      <div class="kv">
+        <label for="need">Income needed each month, $</label><input class="num" id="need" type="number" inputmode="decimal" min="0">
+        <label for="hours">Billable hours you can really work a month</label><input class="num" id="hours" type="number" inputmode="decimal" min="1">
+      </div>
+      <p class="note">Billable means hours a customer pays for. Calls, admin and finding customers take the rest of the week, so 60 to 100 is realistic for one person.</p>
+    </div>
+
+    <div class="group">
+      <h3>Your hourly rate</h3>
+      <div class="kv">
+        <label for="market">What an established freelancer charges for this work, $ an hour</label><input class="num" id="market" type="number" inputmode="decimal" min="0">
+        <label for="discount">How far under that you price yourself, %</label><input class="num" id="discount" type="number" inputmode="decimal" min="0" max="90">
+        <label for="floor">Lowest rate you will ever accept, $ an hour</label><input class="num" id="floor" type="number" inputmode="decimal" min="0">
+      </div>
+      <p class="note">Your price uses the rate left after the discount, and never goes below the lowest rate.</p>
+    </div>
+
+    <div class="group">
+      <h3>Padding and fees</h3>
+      <div class="kv">
+        <label for="overhead">Extra time on top: calls, revisions, testing, %</label><input class="num" id="overhead" type="number" inputmode="decimal" min="0">
+        <label for="feePct">Card fees taken from each payment, %</label><input class="num" id="feePct" type="number" inputmode="decimal" min="0" step="0.1">
+        <label for="base">Setup every project needs, hours</label><input class="num" id="base" type="number" inputmode="decimal" min="0">
+        <label for="foundingPct">Founding customer discount, %</label><input class="num" id="foundingPct" type="number" inputmode="decimal" min="0" max="90">
+      </div>
+    </div>
+
+    <div class="group">
+      <h3>Tiers, as a share of the full price</h3>
+      <div class="kv">
+        <label for="tierLean">Lean version, %</label><input class="num" id="tierLean" type="number" inputmode="numeric" min="10" max="100">
+        <label for="tierFull">Full version, %</label><input class="num" id="tierFull" type="number" inputmode="numeric" min="100" max="300">
+      </div>
+    </div>
+
+    <div class="group">
+      <h3>Monthly care</h3>
+      <div class="kv">
+        <label for="careHours">Hours a month you spend keeping one customer running</label><input class="num" id="careHours" type="number" inputmode="decimal" min="0" step="0.5">
+        <label for="margin">Markup on hosting costs, %</label><input class="num" id="margin" type="number" inputmode="decimal" min="0">
+        <label for="perUser">Cost per user a month, $ (email, storage, AI)</label><input class="num" id="perUser" type="number" inputmode="decimal" min="0" step="0.01">
+      </div>
+    </div>
+
+    <div class="group">
+      <h3>Your hosting bill as customers grow</h3>
+      <p class="note">The fixed monthly cost for a customer up to this many users: servers, database, hosting plan. Use your real invoices.</p>
+      <div class="kv" id="steps"></div>
+    </div>
+
+    <button class="btn" id="reset" type="button">Put back the starting guesses</button>
+  </details>
+
+  <p class="note">This page changes nothing anywhere else. It is a calculator for your own thinking, not a quote.</p>
+</div>
+
+<script>
+const DEFAULTS = {
+  need: 3000, hours: 80, market: 80, discount: 35, floor: 25,
+  overhead: 25, feePct: 3, base: 20, foundingPct: 15,
+  tierLean: 60, tierFull: 140,
+  careHours: 3, margin: 30, perUser: 0.05,
+  steps: [[500, 50], [2000, 150], [10000, 500], [1000000, 1500]],
+  features: [
+    ["Sign-in and roles", 12, true], ["Payments (Stripe)", 24, false], ["Video hosting", 10, false],
+    ["Reports and spreadsheet export", 12, false], ["Email and notifications", 10, false], ["Custom dashboard", 20, false],
+    ["Import their existing data", 12, false], ["Connect to another system", 20, false],
+  ],
+  extraHours: 0, clarity: 1.25, client: "standard", users: 300, extraInfra: 0,
+};
+const KEY = "kingdom-work-pricing-v1";
+const clone = o => JSON.parse(JSON.stringify(o));
+let S = clone(DEFAULTS);
+try { const saved = JSON.parse(localStorage.getItem(KEY) || "null"); if (saved) S = Object.assign(clone(DEFAULTS), saved); } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+const $ = id => document.getElementById(id);
+
+const money = v => { const r = Math.round(v); return (r < 0 ? "-$" : "$") + Math.abs(r).toLocaleString("en-US"); };
+const n1 = v => Number(v).toLocaleString("en-US", { maximumFractionDigits: 1 });
+const stepFor = users => (S.steps.find(([max]) => users <= max) || S.steps[S.steps.length - 1]);
+
+function compute() {
+  const neededRate = S.hours ? S.need / S.hours : 0;
+  const goingRate = S.market * (1 - S.discount / 100);
+  const rate = Math.max(S.floor, goingRate);
+  const featureHours = S.base + S.features.filter(f => f[2]).reduce((a, f) => a + f[1], 0) + S.extraHours;
+  const buildHours = featureHours * S.clarity * (1 + S.overhead / 100);
+  const gross = 1 / (1 - S.feePct / 100);
+  const founding = S.client === "founding";
+  const floorPrice = buildHours * S.floor * gross;
+  let price = buildHours * rate * gross;
+  if (founding) price = Math.max(floorPrice, price * (1 - S.foundingPct / 100));
+  const marketPrice = buildHours * S.market * gross;
+  const tier = pct => {
+    const p = price * pct / 100, h = buildHours * pct / 100;
+    return { price: p, hours: h, effective: h ? p / gross / h : 0 };
+  };
+  const tiers = [tier(S.tierLean), tier(100), tier(S.tierFull)];
+  return { neededRate, goingRate, rate, featureHours, buildHours, gross, founding, floorPrice, price, marketPrice, tiers };
+}
+
+function careFor(users, rate) {
+  const [, fixed] = stepFor(users);
+  const infra = fixed + users * S.perUser + S.extraInfra;
+  const floor = infra + S.careHours * S.floor;
+  const rec = infra * (1 + S.margin / 100) + S.careHours * rate;
+  return { fixed, infra, floor, rec, profit: rec - infra };
+}
+
+function render() {
+  const r = compute();
+  const c = careFor(S.users, r.rate);
+
+  $("tiers").innerHTML = [["Lean", r.tiers[0]], ["Recommended", r.tiers[1]], ["Full", r.tiers[2]]].map(([name, t], i) =>
+    `<div class="tier${i === 1 ? " pick" : ""}"><span class="name">${name}</span><span class="price">${money(t.price)}</span><span class="fine">${n1(t.hours)} hrs, ${money(t.effective)}/hr</span></div>`).join("");
+
+  const under = r.marketPrice ? Math.round((1 - r.price / r.marketPrice) * 100) : 0;
+  $("buildSay").textContent = `Show all three and lead with the middle one. At ${n1(r.buildHours)} hours the recommended price is ${money(r.price)}, about ${under}% under what an established freelancer would charge (${money(r.marketPrice)}). Never go below ${money(r.floorPrice)}, which is your lowest rate after card fees.`;
+  const warn = $("buildWarn");
+  const net = r.tiers[1].effective;
+  if (net < r.neededRate) {
+    warn.hidden = false;
+    warn.textContent = `At this price you earn about ${money(net)} an hour after fees. To reach your monthly need you must average ${money(r.neededRate)} an hour across your billable hours.`;
+  } else warn.hidden = true;
+
+  $("care").innerHTML = `${money(c.rec)} <small>a month</small>`;
+  $("careRows").innerHTML = [
+    ["Hosting and running costs", `${n1(S.users)} users; ${S.steps.indexOf(stepFor(S.users)) === S.steps.length - 1 ? "top hosting level" : "hosting level for up to " + n1(stepFor(S.users)[0]) + " users"}`, money(c.infra)],
+    ["Your time", `${n1(S.careHours)} hours at ${money(r.rate)} an hour`, money(S.careHours * r.rate)],
+    ["Markup on hosting", `${n1(S.margin)}% of the running costs`, money(c.infra * S.margin / 100)],
+    ["Lowest you should charge", "costs plus your time at your lowest rate", money(c.floor)],
+  ].map(([a, b, v]) => `<div class="row"><div class="what"><div>${a}</div><div>${b}</div></div><div class="amt">${v}</div></div>`).join("");
+  $("careSay").textContent = `Year one with this customer: ${money(r.price + c.rec * 12)} (${money(r.price)} to build plus twelve months of care). After hosting costs, care leaves you ${money(c.profit)} a month.`;
+
+  $("clHint").textContent = r.founding
+    ? `Founding price: ${n1(S.foundingPct)}% off, for your first few customers only. Tell them it is a one-time introductory rate and say what it normally is.`
+    : "Full price for this size of job.";
+  document.querySelectorAll("[data-client]").forEach(b => b.setAttribute("aria-pressed", String(S.client === b.dataset.client)));
+
+  const sizes = [50, 150, 300, 500, 1000, 1500, 3000, 5000, 10000];
+  if (!sizes.includes(S.users)) sizes.push(S.users);
+  sizes.sort((a, b) => a - b);
+  $("scale").innerHTML = `<tr><th>Users</th><th>Running cost</th><th>Charge a month</th><th>You keep</th></tr>` +
+    sizes.map(u => { const x = careFor(u, r.rate); const mine = u === S.users;
+      return `<tr${mine ? ' style="font-weight:600"' : ""}><td>${n1(u)}${mine ? " (this job)" : ""}</td><td>${money(x.infra)}</td><td>${money(x.rec)}</td><td class="${x.profit < 0 ? "bad" : ""}">${money(x.profit)}</td></tr>`; }).join("");
+  const jumps = S.steps.slice(0, -1).map(([max]) => n1(max)).join(", ");
+  $("scaleNote").textContent = `Your hosting bill steps up after ${jumps} users. Check the real bill at each step; if a customer is about to cross one, raise their monthly fee before it does.`;
+
+  const buildsNeeded = r.price * (1 - S.feePct / 100) ? S.need / (r.price * (1 - S.feePct / 100)) : 0;
+  const careNeeded = c.profit > 0 ? S.need / c.profit : 0;
+  $("check").innerHTML = [
+    ["Rate you need to hit your income", `${money(S.need)} over ${n1(S.hours)} billable hours`, `${money(r.neededRate)}/hr`],
+    ["Rate this price pays you", "recommended build, after card fees", `${money(net)}/hr`],
+    ["Builds a month to cover your income", "from build fees alone, at this price", n1(buildsNeeded)],
+    ["Care customers to cover it with no new builds", "at this size of customer", careNeeded ? n1(careNeeded) : "n/a"],
+  ].map(([a, b, v]) => `<div class="row"><div class="what"><div>${a}</div><div>${b}</div></div><div class="amt${a.startsWith("Rate this") && net < r.neededRate ? " bad" : ""}">${v}</div></div>`).join("");
+}
+
+// Inputs
+const numIds = ["need", "hours", "market", "discount", "floor", "overhead", "feePct", "base", "foundingPct", "tierLean", "tierFull", "careHours", "margin", "perUser", "extraHours", "users", "extraInfra"];
+function fill() {
+  numIds.forEach(id => { $(id).value = S[id]; });
+  $("clarity").value = String(S.clarity);
+  $("feats").innerHTML = "";
+  S.features.forEach((f, i) => {
+    const row = document.createElement("div"); row.className = "feat";
+    row.innerHTML = `<input type="checkbox" id="f-on-${i}" aria-label="${f[0]}"><label for="f-on-${i}"></label><input class="num" id="f-h-${i}" type="number" inputmode="decimal" min="0" aria-label="${f[0]} hours">`;
+    row.querySelector("label").textContent = f[0];
+    $("feats").append(row);
+    $("f-on-" + i).checked = f[2]; $("f-h-" + i).value = f[1];
+    $("f-on-" + i).addEventListener("change", e => { S.features[i][2] = e.target.checked; save(); render(); });
+    $("f-h-" + i).addEventListener("input", e => { const v = parseFloat(e.target.value); S.features[i][1] = isFinite(v) && v >= 0 ? v : 0; save(); render(); });
+  });
+  $("steps").innerHTML = "";
+  S.steps.forEach((s, i) => {
+    const last = i === S.steps.length - 1;
+    const lab = document.createElement("label"); lab.textContent = last ? "Above that, per month, $" : `Up to ${n1(s[0])} users, per month, $`;
+    const inp = document.createElement("input"); inp.className = "num"; inp.type = "number"; inp.inputMode = "decimal"; inp.min = "0"; inp.value = s[1]; inp.setAttribute("aria-label", lab.textContent);
+    inp.addEventListener("input", e => { const v = parseFloat(e.target.value); S.steps[i][1] = isFinite(v) && v >= 0 ? v : 0; save(); render(); });
+    $("steps").append(lab, inp);
+  });
+}
+numIds.forEach(id => $(id).addEventListener("input", e => {
+  const v = parseFloat(e.target.value);
+  S[id] = isFinite(v) && v >= 0 ? v : 0;
+  if (id === "hours" && S.hours < 1) S.hours = 1;
+  save(); render();
+}));
+$("clarity").addEventListener("change", e => { S.clarity = parseFloat(e.target.value); save(); render(); });
+document.querySelectorAll("[data-client]").forEach(b => b.addEventListener("click", () => { S.client = b.dataset.client; save(); render(); }));
+document.querySelectorAll("[data-step]").forEach(b => b.addEventListener("click", () => {
+  const id = b.dataset.step; S[id] = Math.max(0, (S[id] || 0) + Number(b.dataset.by)); $(id).value = S[id]; save(); render();
+}));
+$("reset").addEventListener("click", () => {
+  const keep = { features: S.features, extraHours: S.extraHours, clarity: S.clarity, client: S.client, users: S.users, extraInfra: S.extraInfra };
+  S = Object.assign(clone(DEFAULTS), keep);
+  save(); fill(); render();
+  $("reset").textContent = "Starting guesses are back";
+  setTimeout(() => { $("reset").textContent = "Put back the starting guesses"; }, 2000);
+});
+
+fill(); render();
+</script>
+</body>
+</html>
