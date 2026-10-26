@@ -65,6 +65,9 @@ const nextConfig: NextConfig = {
       // The Farzana video cost calculator is unlisted too: reachable by link only.
       { source: '/video-cost', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] },
       { source: '/tools/video-cost.html', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] },
+      // The work pricing calculator is for Thomas only, and unlisted the same way.
+      { source: '/work-pricing', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] },
+      { source: '/tools/work-pricing.html', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] },
     ]
   },
   // Links people already have in hand, typed or shared without the hyphens.
@@ -126,6 +129,7 @@ const nextConfig: NextConfig = {
       // project (kingdom-analytics, basePath /analytics) behind its own sign-in.
       afterFiles: [
         { source: '/video-cost', destination: '/tools/video-cost.html' },
+        { source: '/work-pricing', destination: '/tools/work-pricing.html' },
         { source: '/analytics', destination: 'https://kingdom-analytics.vercel.app/analytics' },
         { source: '/analytics/:path*', destination: 'https://kingdom-analytics.vercel.app/analytics/:path*' },
       ],
