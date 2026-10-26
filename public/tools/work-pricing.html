@@ -23,6 +23,7 @@
   }
 }
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.5; }
 .wrap {
   max-width: 640px; margin: 0 auto;
@@ -91,6 +92,29 @@ summary::after { content: "Edit"; font: 500 14px var(--font-sans); color: var(--
 details[open] summary::after { content: "Close"; }
 .group { display: flex; flex-direction: column; gap: 10px; }
 
+/* Desktop: three columns that fill the screen, each scrolling on its own, so there is no long form. */
+.cols { display: contents; }
+/* Phone: the answer first, then the inputs, then the detail. */
+header { order: -1; }
+#colResult { order: 1; }
+#colJob { order: 2; }
+#colMore { order: 3; }
+.wrap > .note { order: 4; }
+.col { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+@media (min-width: 1100px) {
+  html, body { height: 100%; overflow: hidden; }
+  .wrap { max-width: none; height: 100vh; padding: 16px 24px 16px; gap: 12px; }
+  header { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+  header .sub { margin: 0; }
+  .cols { display: grid; grid-template-columns: minmax(340px, 1fr) minmax(400px, 1.15fr) minmax(420px, 1.2fr); gap: 16px; flex: 1; min-height: 0; }
+  #colResult, #colJob, #colMore { order: 0; }
+  .col { overflow-y: auto; padding-bottom: 8px; padding-right: 4px; scrollbar-width: thin; }
+  .wrap > .note { display: none; }
+  .tier .price { font-size: 26px; }
+  .big { font-size: 44px; }
+  th, td { padding: 7px 5px; font-size: 13px; }
+}
+
 /* Scaling table */
 .tablewrap { overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
@@ -106,21 +130,8 @@ th { font-weight: 500; color: var(--muted); font-size: 13px; }
     <p class="sub">Private. What to charge for a custom build and its monthly care, and what each size of customer does to your costs. Your numbers stay in this browser only.</p>
   </header>
 
-  <section class="card" aria-live="polite">
-    <h2>One-time build</h2>
-    <div class="tiers" id="tiers"></div>
-    <p class="say" id="buildSay"></p>
-    <p class="warn" id="buildWarn" hidden></p>
-  </section>
-
-  <section class="card" aria-live="polite">
-    <h2>Monthly care</h2>
-    <p class="label">Hosting, upkeep and your time, per month</p>
-    <div class="big" id="care">$0</div>
-    <div class="rows" id="careRows"></div>
-    <p class="say" id="careSay"></p>
-  </section>
-
+  <main class="cols">
+    <div class="col" id="colJob">
   <section class="card">
     <h2>The job</h2>
     <div class="field">
@@ -151,23 +162,49 @@ th { font-weight: 500; color: var(--muted); font-size: 13px; }
       <label for="users">Approximate number of users</label>
       <div class="stepper"><button type="button" data-step="users" data-by="-50" aria-label="50 fewer users">−</button><input id="users" type="number" inputmode="numeric" min="0"><button type="button" data-step="users" data-by="50" aria-label="50 more users">+</button></div>
     </div>
+    <div class="field" id="videoBox" hidden>
+      <span class="lbl">Video hosting (Bunny Stream)</span>
+      <div class="kv">
+        <label for="videos">Videos in the library</label><input class="num" id="videos" type="number" inputmode="numeric" min="0">
+        <label for="vidMin">Average length, minutes</label><input class="num" id="vidMin" type="number" inputmode="decimal" min="0">
+        <label for="watchMin">Minutes watched per user a month</label><input class="num" id="watchMin" type="number" inputmode="decimal" min="0">
+      </div>
+      <span class="hint">Uses Farzana's Bunny setup: five stored qualities, MP4 copies, the original kept, three regions, watched in 1080p. For other settings use the <a href="/video-cost">video cost calculator</a> and put the total in the box below.</span>
+    </div>
     <div class="field">
       <label for="extraInfra">Other monthly running costs for this customer, $</label>
       <input class="num" id="extraInfra" type="number" inputmode="decimal" min="0">
-      <span class="hint">For example video hosting: work it out in the <a href="/video-cost">video cost calculator</a> and enter it here.</span>
+      <span class="hint">Anything not listed in the costs below: a domain, monitoring, a paid AI service.</span>
     </div>
   </section>
+    </div>
+    <div class="col" id="colResult">
+  <section class="card" aria-live="polite">
+    <h2>One-time build</h2>
+    <div class="tiers" id="tiers"></div>
+    <p class="say" id="buildSay"></p>
+    <p class="warn" id="buildWarn" hidden></p>
+  </section>
 
-  <section class="card">
-    <h2>Growing the customer</h2>
-    <p class="note">The same job at different sizes. Your hosting bill steps up at set points; the monthly fee should rise with it so you never lose money on a busy customer.</p>
-    <div class="tablewrap"><table id="scale"></table></div>
-    <p class="note" id="scaleNote"></p>
+  <section class="card" aria-live="polite">
+    <h2>Monthly care</h2>
+    <p class="label">Hosting, upkeep and your time, per month</p>
+    <div class="big" id="care">$0</div>
+    <div class="rows" id="careRows"></div>
+    <p class="say" id="careSay"></p>
   </section>
 
   <section class="card" aria-live="polite">
     <h2>Does it add up?</h2>
     <div class="rows" id="check"></div>
+  </section>
+    </div>
+    <div class="col" id="colMore">
+  <section class="card">
+    <h2>Growing the customer</h2>
+    <p class="note">The same job at different sizes, with what each service costs you. The monthly fee should rise with them so you never lose money on a busy customer. Slide the table sideways on a phone.</p>
+    <div class="tablewrap"><table id="scale"></table></div>
+    <p class="note" id="scaleNote"></p>
   </section>
 
   <details class="card" id="assume">
@@ -215,19 +252,70 @@ th { font-weight: 500; color: var(--muted); font-size: 13px; }
       <h3>Monthly care</h3>
       <div class="kv">
         <label for="careHours">Hours a month you spend keeping one customer running</label><input class="num" id="careHours" type="number" inputmode="decimal" min="0" step="0.5">
-        <label for="margin">Markup on hosting costs, %</label><input class="num" id="margin" type="number" inputmode="decimal" min="0">
-        <label for="perUser">Cost per user a month, $ (email, storage, AI)</label><input class="num" id="perUser" type="number" inputmode="decimal" min="0" step="0.01">
+        <label for="margin">Markup on running costs, %</label><input class="num" id="margin" type="number" inputmode="decimal" min="0">
+        <label for="share">Customers sharing your Vercel and Resend accounts</label><input class="num" id="share" type="number" inputmode="numeric" min="1">
+        <label for="otherPerUser">Other cost per user a month, $ (AI, extras)</label><input class="num" id="otherPerUser" type="number" inputmode="decimal" min="0" step="0.01">
       </div>
     </div>
 
     <div class="group">
-      <h3>Your hosting bill as customers grow</h3>
-      <p class="note">The fixed monthly cost for a customer up to this many users: servers, database, hosting plan. Use your real invoices.</p>
-      <div class="kv" id="steps"></div>
+      <h3>Vercel (the website)</h3>
+      <p class="note">Pro plan, shared across the customers on your account. Its $20 usage credit is not counted.</p>
+      <div class="kv">
+        <label for="vSeat">Pro plan, $ a month</label><input class="num" id="vSeat" type="number" inputmode="decimal" min="0">
+        <label for="vIncl">Bandwidth included, GB a month</label><input class="num" id="vIncl" type="number" inputmode="numeric" min="0">
+        <label for="vPerGB">Bandwidth after that, $ per GB</label><input class="num" id="vPerGB" type="number" inputmode="decimal" step="0.01" min="0">
+        <label for="visits">Visits per user a month</label><input class="num" id="visits" type="number" inputmode="decimal" min="0">
+        <label for="mbVisit">MB downloaded per visit</label><input class="num" id="mbVisit" type="number" inputmode="decimal" min="0">
+      </div>
     </div>
+
+    <div class="group">
+      <h3>Supabase (the database and sign-in)</h3>
+      <label class="check"><input type="checkbox" id="ownProject"> Each customer gets their own Supabase project</label>
+      <div class="kv">
+        <label for="sbBase">Pro plan, $ a month per project</label><input class="num" id="sbBase" type="number" inputmode="decimal" min="0">
+        <label for="sbCredit">Compute credit included, $</label><input class="num" id="sbCredit" type="number" inputmode="decimal" min="0">
+        <label for="dbIncl">Database included, GB</label><input class="num" id="dbIncl" type="number" inputmode="decimal" min="0">
+        <label for="dbPerGB">Database after that, $ per GB</label><input class="num" id="dbPerGB" type="number" inputmode="decimal" step="0.001" min="0">
+        <label for="egIncl">Data out included, GB</label><input class="num" id="egIncl" type="number" inputmode="decimal" min="0">
+        <label for="egPerGB">Data out after that, $ per GB</label><input class="num" id="egPerGB" type="number" inputmode="decimal" step="0.001" min="0">
+        <label for="stIncl">File storage included, GB</label><input class="num" id="stIncl" type="number" inputmode="decimal" min="0">
+        <label for="stPerGB">File storage after that, $ per GB</label><input class="num" id="stPerGB" type="number" inputmode="decimal" step="0.001" min="0">
+        <label for="dbMB">Database MB per user</label><input class="num" id="dbMB" type="number" inputmode="decimal" min="0">
+        <label for="egMB">Data out per user a month, MB</label><input class="num" id="egMB" type="number" inputmode="decimal" min="0">
+        <label for="fileMB">File storage per user, MB</label><input class="num" id="fileMB" type="number" inputmode="decimal" min="0">
+      </div>
+      <p class="note">The server size needed as users grow. Supabase bills these per project each month.</p>
+      <div class="kv" id="compute"></div>
+    </div>
+
+    <div class="group">
+      <h3>Resend (email)</h3>
+      <div class="kv">
+        <label for="emails">Emails per user a month</label><input class="num" id="emails" type="number" inputmode="decimal" min="0">
+      </div>
+      <p class="note">Your cost is your share of the cheapest plan that covers the customer's emails. Plan price for each size of plan:</p>
+      <div class="kv" id="resend"></div>
+    </div>
+
+    <div class="group">
+      <h3>Bunny (video)</h3>
+      <p class="note">Storage $0.01 a GB a month in each of two regions and $0.005 in a third; streaming $0.005 a GB; $1 a month minimum. The same figures as the <a href="/video-cost">video cost calculator</a>.</p>
+      <div class="kv">
+        <label for="bStore">Storage, $ per GB a month for all regions</label><input class="num" id="bStore" type="number" inputmode="decimal" step="0.001" min="0">
+        <label for="bStream">Streaming, $ per GB</label><input class="num" id="bStream" type="number" inputmode="decimal" step="0.001" min="0">
+        <label for="bGBmin">Stored data per minute of video, MB</label><input class="num" id="bGBmin" type="number" inputmode="decimal" min="0">
+        <label for="bViewMB">Streamed per minute watched, MB</label><input class="num" id="bViewMB" type="number" inputmode="decimal" min="0">
+      </div>
+    </div>
+
+    <p class="note">Prices read from each company's pricing page on 26 Oct 2026: <a href="https://vercel.com/pricing" target="_blank" rel="noopener">Vercel</a>, <a href="https://supabase.com/pricing" target="_blank" rel="noopener">Supabase</a>, <a href="https://resend.com/pricing" target="_blank" rel="noopener">Resend</a>, <a href="https://bunny.net/pricing/" target="_blank" rel="noopener">Bunny</a>. The usage figures per user (visits, megabytes, emails) are guesses: replace them with real numbers from a live customer.</p>
 
     <button class="btn" id="reset" type="button">Put back the starting guesses</button>
   </details>
+    </div>
+  </main>
 
   <p class="note">This page changes nothing anywhere else. It is a calculator for your own thinking, not a quote.</p>
 </div>
@@ -237,8 +325,15 @@ const DEFAULTS = {
   need: 3000, hours: 80, market: 80, discount: 35, floor: 25,
   overhead: 25, feePct: 3, base: 20, foundingPct: 15,
   tierLean: 60, tierFull: 140,
-  careHours: 3, margin: 30, perUser: 0.05,
-  steps: [[500, 50], [2000, 150], [10000, 500], [1000000, 1500]],
+  careHours: 3, margin: 30, share: 5, otherPerUser: 0,
+  vSeat: 20, vIncl: 1000, vPerGB: 0.15, visits: 12, mbVisit: 3,
+  ownProject: true, sbBase: 25, sbCredit: 10, dbIncl: 8, dbPerGB: 0.125, egIncl: 250, egPerGB: 0.09,
+  stIncl: 100, stPerGB: 0.0213, dbMB: 5, egMB: 100, fileMB: 50,
+  compute: [[1000, 10], [3000, 15], [10000, 60], [1000000, 110]],
+  emails: 6,
+  resend: [[50000, 20], [100000, 35], [200000, 160], [500000, 350], [1000000, 650], [1500000, 825], [2500000, 1150]],
+  bStore: 0.025, bStream: 0.005, bGBmin: 29.2 * 60 / 8 / 1000 * 1000, bViewMB: 5000 * 1000 / 8 * 60 / 1e6,
+  videos: 100, vidMin: 15, watchMin: 120,
   features: [
     ["Sign-in and roles", 12, true], ["Payments (Stripe)", 24, false], ["Video hosting", 10, false],
     ["Reports and spreadsheet export", 12, false], ["Email and notifications", 10, false], ["Custom dashboard", 20, false],
@@ -246,7 +341,7 @@ const DEFAULTS = {
   ],
   extraHours: 0, clarity: 1.25, client: "standard", users: 300, extraInfra: 0,
 };
-const KEY = "kingdom-work-pricing-v1";
+const KEY = "kingdom-work-pricing-v2";
 const clone = o => JSON.parse(JSON.stringify(o));
 let S = clone(DEFAULTS);
 try { const saved = JSON.parse(localStorage.getItem(KEY) || "null"); if (saved) S = Object.assign(clone(DEFAULTS), saved); } catch (e) {}
@@ -255,7 +350,8 @@ const $ = id => document.getElementById(id);
 
 const money = v => { const r = Math.round(v); return (r < 0 ? "-$" : "$") + Math.abs(r).toLocaleString("en-US"); };
 const n1 = v => Number(v).toLocaleString("en-US", { maximumFractionDigits: 1 });
-const stepFor = users => (S.steps.find(([max]) => users <= max) || S.steps[S.steps.length - 1]);
+const stepFor = (list, v) => (list.find(([max]) => v <= max) || list[list.length - 1]);
+const videoOn = () => S.features.some(f => f[0] === "Video hosting" && f[2]);
 
 function compute() {
   const neededRate = S.hours ? S.need / S.hours : 0;
@@ -277,12 +373,41 @@ function compute() {
   return { neededRate, goingRate, rate, featureHours, buildHours, gross, founding, floorPrice, price, marketPrice, tiers };
 }
 
+function costs(users) {
+  const share = Math.max(1, S.share);
+  // Vercel: your share of the plan, plus bandwidth past your share of the included amount.
+  const gbOut = users * S.visits * S.mbVisit / 1000;
+  const vercel = S.vSeat / share + Math.max(0, gbOut - S.vIncl / share) * S.vPerGB;
+  // Supabase: a project per customer, sized by users.
+  const compute = stepFor(S.compute, users)[1];
+  const dbGB = users * S.dbMB / 1000, egGB = users * S.egMB / 1000, stGB = users * S.fileMB / 1000;
+  const supabase = (S.ownProject ? S.sbBase : S.sbBase / share)
+    + Math.max(0, compute - S.sbCredit)
+    + Math.max(0, dbGB - S.dbIncl) * S.dbPerGB
+    + Math.max(0, egGB - S.egIncl) * S.egPerGB
+    + Math.max(0, stGB - S.stIncl) * S.stPerGB
+    + Math.max(0, users - 100000) * 0.00325;
+  // Resend: this customer's emails as a share of the cheapest plan that covers them.
+  const mails = users * S.emails;
+  const plan = S.resend.find(([n]) => mails <= n) || S.resend[S.resend.length - 1];
+  const resend = mails ? Math.min(plan[1], mails / plan[0] * plan[1]) : 0;
+  // Bunny: only when video hosting is ticked.
+  let bunny = 0;
+  if (videoOn()) {
+    const libGB = S.videos * S.vidMin * S.bGBmin / 1000;
+    const streamGB = users * S.watchMin * S.bViewMB / 1000;
+    bunny = Math.max(1, libGB * S.bStore + streamGB * S.bStream);
+  }
+  const other = users * S.otherPerUser + S.extraInfra;
+  const infra = vercel + supabase + resend + bunny + other;
+  return { vercel, supabase, resend, bunny, other, infra, computeSize: compute, mails };
+}
+
 function careFor(users, rate) {
-  const [, fixed] = stepFor(users);
-  const infra = fixed + users * S.perUser + S.extraInfra;
-  const floor = infra + S.careHours * S.floor;
-  const rec = infra * (1 + S.margin / 100) + S.careHours * rate;
-  return { fixed, infra, floor, rec, profit: rec - infra };
+  const k = costs(users);
+  const floor = k.infra + S.careHours * S.floor;
+  const rec = k.infra * (1 + S.margin / 100) + S.careHours * rate;
+  return Object.assign(k, { floor, rec, profit: rec - k.infra });
 }
 
 function render() {
@@ -303,13 +428,18 @@ function render() {
 
   $("care").innerHTML = `${money(c.rec)} <small>a month</small>`;
   $("careRows").innerHTML = [
-    ["Hosting and running costs", `${n1(S.users)} users; ${S.steps.indexOf(stepFor(S.users)) === S.steps.length - 1 ? "top hosting level" : "hosting level for up to " + n1(stepFor(S.users)[0]) + " users"}`, money(c.infra)],
+    ["Vercel", "the website, your share of the plan", money(c.vercel)],
+    ["Supabase", `database and sign-in, ${S.ownProject ? "own project" : "shared project"}`, money(c.supabase)],
+    ["Resend", `${n1(c.mails)} emails a month`, money(c.resend)],
+    ...(videoOn() ? [["Bunny", "video storage and streaming", money(c.bunny)]] : []),
+    ["Other", "AI, extras and anything you added", money(c.other)],
     ["Your time", `${n1(S.careHours)} hours at ${money(r.rate)} an hour`, money(S.careHours * r.rate)],
-    ["Markup on hosting", `${n1(S.margin)}% of the running costs`, money(c.infra * S.margin / 100)],
+    ["Markup on running costs", `${n1(S.margin)}% of ${money(c.infra)}`, money(c.infra * S.margin / 100)],
     ["Lowest you should charge", "costs plus your time at your lowest rate", money(c.floor)],
   ].map(([a, b, v]) => `<div class="row"><div class="what"><div>${a}</div><div>${b}</div></div><div class="amt">${v}</div></div>`).join("");
   $("careSay").textContent = `Year one with this customer: ${money(r.price + c.rec * 12)} (${money(r.price)} to build plus twelve months of care). After hosting costs, care leaves you ${money(c.profit)} a month.`;
 
+  $("videoBox").hidden = !videoOn();
   $("clHint").textContent = r.founding
     ? `Founding price: ${n1(S.foundingPct)}% off, for your first few customers only. Tell them it is a one-time introductory rate and say what it normally is.`
     : "Full price for this size of job.";
@@ -318,11 +448,12 @@ function render() {
   const sizes = [50, 150, 300, 500, 1000, 1500, 3000, 5000, 10000];
   if (!sizes.includes(S.users)) sizes.push(S.users);
   sizes.sort((a, b) => a - b);
-  $("scale").innerHTML = `<tr><th>Users</th><th>Running cost</th><th>Charge a month</th><th>You keep</th></tr>` +
+  const vid = videoOn();
+  $("scale").innerHTML = `<tr><th>Users</th><th>Vercel</th><th>Supabase</th><th>Resend</th>${vid ? "<th>Bunny</th>" : ""}<th>Total</th><th>Charge</th><th>You keep</th></tr>` +
     sizes.map(u => { const x = careFor(u, r.rate); const mine = u === S.users;
-      return `<tr${mine ? ' style="font-weight:600"' : ""}><td>${n1(u)}${mine ? " (this job)" : ""}</td><td>${money(x.infra)}</td><td>${money(x.rec)}</td><td class="${x.profit < 0 ? "bad" : ""}">${money(x.profit)}</td></tr>`; }).join("");
-  const jumps = S.steps.slice(0, -1).map(([max]) => n1(max)).join(", ");
-  $("scaleNote").textContent = `Your hosting bill steps up after ${jumps} users. Check the real bill at each step; if a customer is about to cross one, raise their monthly fee before it does.`;
+      return `<tr${mine ? ' style="font-weight:600"' : ""}><td>${n1(u)}${mine ? " *" : ""}</td><td>${money(x.vercel)}</td><td>${money(x.supabase)}</td><td>${money(x.resend)}</td>${vid ? `<td>${money(x.bunny)}</td>` : ""}<td>${money(x.infra)}</td><td>${money(x.rec)}</td><td class="${x.profit < 0 ? "bad" : ""}">${money(x.profit)}</td></tr>`; }).join("");
+  const sizeJumps = S.compute.slice(0, -1).map(([max]) => n1(max)).join(", ");
+  $("scaleNote").textContent = `* this job. The Supabase server is sized up after ${sizeJumps} users. Check each service's real bill as a customer grows; raise their monthly fee before they cross a step.`;
 
   const buildsNeeded = r.price * (1 - S.feePct / 100) ? S.need / (r.price * (1 - S.feePct / 100)) : 0;
   const careNeeded = c.profit > 0 ? S.need / c.profit : 0;
@@ -335,7 +466,7 @@ function render() {
 }
 
 // Inputs
-const numIds = ["need", "hours", "market", "discount", "floor", "overhead", "feePct", "base", "foundingPct", "tierLean", "tierFull", "careHours", "margin", "perUser", "extraHours", "users", "extraInfra"];
+const numIds = ["need", "hours", "market", "discount", "floor", "overhead", "feePct", "base", "foundingPct", "tierLean", "tierFull", "careHours", "margin", "share", "otherPerUser", "vSeat", "vIncl", "vPerGB", "visits", "mbVisit", "sbBase", "sbCredit", "dbIncl", "dbPerGB", "egIncl", "egPerGB", "stIncl", "stPerGB", "dbMB", "egMB", "fileMB", "emails", "bStore", "bStream", "bGBmin", "bViewMB", "videos", "vidMin", "watchMin", "extraHours", "users", "extraInfra"];
 function fill() {
   numIds.forEach(id => { $(id).value = S[id]; });
   $("clarity").value = String(S.clarity);
@@ -349,14 +480,19 @@ function fill() {
     $("f-on-" + i).addEventListener("change", e => { S.features[i][2] = e.target.checked; save(); render(); });
     $("f-h-" + i).addEventListener("input", e => { const v = parseFloat(e.target.value); S.features[i][1] = isFinite(v) && v >= 0 ? v : 0; save(); render(); });
   });
-  $("steps").innerHTML = "";
-  S.steps.forEach((s, i) => {
-    const last = i === S.steps.length - 1;
-    const lab = document.createElement("label"); lab.textContent = last ? "Above that, per month, $" : `Up to ${n1(s[0])} users, per month, $`;
-    const inp = document.createElement("input"); inp.className = "num"; inp.type = "number"; inp.inputMode = "decimal"; inp.min = "0"; inp.value = s[1]; inp.setAttribute("aria-label", lab.textContent);
-    inp.addEventListener("input", e => { const v = parseFloat(e.target.value); S.steps[i][1] = isFinite(v) && v >= 0 ? v : 0; save(); render(); });
-    $("steps").append(lab, inp);
-  });
+  const listRows = (boxId, list, label) => {
+    $(boxId).innerHTML = "";
+    list.forEach((row, i) => {
+      const last = i === list.length - 1;
+      const lab = document.createElement("label"); lab.textContent = label(row, last);
+      const inp = document.createElement("input"); inp.className = "num"; inp.type = "number"; inp.inputMode = "decimal"; inp.min = "0"; inp.value = row[1]; inp.setAttribute("aria-label", lab.textContent);
+      inp.addEventListener("input", e => { const v = parseFloat(e.target.value); row[1] = isFinite(v) && v >= 0 ? v : 0; save(); render(); });
+      $(boxId).append(lab, inp);
+    });
+  };
+  listRows("compute", S.compute, (row, last) => `${last ? "Above that" : "Up to " + n1(row[0]) + " users"}: server, $ a month`);
+  listRows("resend", S.resend, row => `${n1(row[0])} emails a month, $`);
+  $("ownProject").checked = S.ownProject;
 }
 numIds.forEach(id => $(id).addEventListener("input", e => {
   const v = parseFloat(e.target.value);
@@ -364,6 +500,7 @@ numIds.forEach(id => $(id).addEventListener("input", e => {
   if (id === "hours" && S.hours < 1) S.hours = 1;
   save(); render();
 }));
+$("ownProject").addEventListener("change", e => { S.ownProject = e.target.checked; save(); render(); });
 $("clarity").addEventListener("change", e => { S.clarity = parseFloat(e.target.value); save(); render(); });
 document.querySelectorAll("[data-client]").forEach(b => b.addEventListener("click", () => { S.client = b.dataset.client; save(); render(); }));
 document.querySelectorAll("[data-step]").forEach(b => b.addEventListener("click", () => {
@@ -377,6 +514,7 @@ $("reset").addEventListener("click", () => {
   setTimeout(() => { $("reset").textContent = "Put back the starting guesses"; }, 2000);
 });
 
+try { if (matchMedia("(min-width: 1100px)").matches) $("assume").open = true; } catch (e) {}
 fill(); render();
 </script>
 </body>
