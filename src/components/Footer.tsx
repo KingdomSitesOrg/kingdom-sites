@@ -6,6 +6,7 @@ const YOUTUBE_URL = 'https://www.youtube.com/@tkklein/videos'
 
 const PAGE_LINKS = [
   { href: '/my-work', label: 'My Work' },
+  { href: 'https://farzana.app', label: 'Farzana' },
   { href: '/ai-tooling', label: 'AI' },
   { href: '/about', label: 'Team' },
   { href: '/mission', label: 'Mission' },

@@ -3,7 +3,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { RutaPhoneShot } from '@/components/BuildMocks'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
-import { AI_CONSULT, APP_OFFER, HOME_CLUSTER, HERO, PROCESS } from '@/lib/partnership'
+import { AI_CONSULT, APP_OFFER, FARZANA_INTRO, HOME_CLUSTER, HERO, PROCESS } from '@/lib/partnership'
 
 export const metadata: Metadata = {
   title: 'Kingdom Sites — mobile application solutions',
@@ -132,6 +132,37 @@ export default function Home() {
               See all my work <span aria-hidden="true">→</span>
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* Farzana — the education platform, sent to its own site. */}
+      <section aria-label="Farzana" className="border-t border-line px-5 py-20 sm:px-8 sm:py-28">
+        <div className="tile mx-auto grid max-w-6xl items-center gap-10 p-7 sm:p-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-14 lg:p-14">
+          <div>
+            <p className="eyebrow eyebrow-blue">{FARZANA_INTRO.eyebrow}</p>
+            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-[2.6rem] sm:leading-[1.1]">
+              {FARZANA_INTRO.title}
+            </h2>
+            <p className="mt-5 text-pretty text-base leading-relaxed text-body sm:text-lg">
+              {FARZANA_INTRO.sub}
+            </p>
+            <div className="mt-8">
+              <a href={FARZANA_INTRO.href} className="btn-primary w-full max-w-[280px] sm:w-auto">
+                {FARZANA_INTRO.cta} <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </div>
+          <ul className="grid gap-3">
+            {FARZANA_INTRO.points.map((point) => (
+              <li key={point} className="flex items-start gap-3 text-[15px] leading-relaxed text-ink">
+                <span
+                  aria-hidden="true"
+                  className="mt-[7px] h-2.5 w-2.5 shrink-0 rotate-45 rounded-[2px] bg-accent"
+                />
+                {point}
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 

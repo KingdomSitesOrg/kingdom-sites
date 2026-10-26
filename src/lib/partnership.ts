@@ -30,6 +30,21 @@ export const APP_OFFER = {
   sub: 'Real products, live today — designed, built, shipped, and still looked after.',
 }
 
+/* Farzana, the education platform: introduced here, sold on farzana.app. */
+export const FARZANA_INTRO = {
+  eyebrow: 'Education software',
+  title: 'Running a school or a training organization? Meet Farzana.',
+  sub: 'Farzana is my premium education platform for schools, training organizations, and educational businesses. It starts from a proven foundation, and I build the features, workflows, and integrations your organization actually needs, then host and look after it for an affordable monthly fee.',
+  points: [
+    'Software shaped around how your organization works',
+    'Custom features and workflows on a proven platform',
+    'One build, then affordable monthly hosting and care',
+    'You work directly with me, the developer who builds it',
+  ],
+  href: 'https://farzana.app',
+  cta: 'Visit farzana.app',
+}
+
 /* How working together starts. No prices — a quote comes once the project is understood. */
 export const PROCESS = {
   title: 'How it starts.',
