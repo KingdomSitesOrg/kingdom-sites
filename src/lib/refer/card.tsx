@@ -4,15 +4,16 @@ import { JOIN_GIFT } from '@/lib/referrals'
 /**
  * The link preview card for the referral program (T-293, Thomas, 2026-10-29):
  * what iMessage, WhatsApp and the rest show when someone pastes /refer, a
- * personal link (/r/<code>) or a tracker. The Kingdom Sites mark, a big $500,
- * and one line under it. 1200x630, drawn by Next's `opengraph-image` files.
+ * personal link (/r/<code>) or a tracker. The Kingdom Sites mark and a big
+ * $500; a personal link adds "Anna sent you here." under it. /refer's own
+ * "easiest $500" line stays on the page only (T-297). 1200x630, drawn by
+ * Next's `opengraph-image` files.
  */
 
 export const CARD_SIZE = { width: 1200, height: 630 }
 export const CARD_TYPE = 'image/png'
-export const EASIEST_LINE = `The easiest $${JOIN_GIFT} you have ever gotten in your entire life.`
 
-export function referralCard(line: string) {
+export function referralCard(line?: string) {
   return new ImageResponse(
     (
       <div
@@ -62,20 +63,22 @@ export function referralCard(line: string) {
           >
             {`$${JOIN_GIFT}`}
           </div>
-          <div
-            style={{
-              display: 'flex',
-              marginTop: 26,
-              maxWidth: 1040,
-              fontSize: 50,
-              fontWeight: 700,
-              lineHeight: 1.15,
-              letterSpacing: -1,
-              color: '#15181d',
-            }}
-          >
-            {line}
-          </div>
+          {line ? (
+            <div
+              style={{
+                display: 'flex',
+                marginTop: 26,
+                maxWidth: 1040,
+                fontSize: 50,
+                fontWeight: 700,
+                lineHeight: 1.15,
+                letterSpacing: -1,
+                color: '#15181d',
+              }}
+            >
+              {line}
+            </div>
+          ) : null}
         </div>
 
         <div style={{ display: 'flex', fontSize: 28, color: '#575d67' }}>

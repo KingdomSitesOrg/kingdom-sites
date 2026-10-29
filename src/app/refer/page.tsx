@@ -2,9 +2,10 @@ import type { Metadata } from 'next'
 import DepositLanding from './DepositLanding'
 import ReferForms from './ReferForms'
 import { CALL_GIFT, JOIN_GIFT } from '@/lib/referrals'
-import { EASIEST_LINE } from '@/lib/refer/card'
 
 const DESCRIPTION = `Introduce anyone who needs custom software, or a school to Farzana. You get $${CALL_GIFT} as soon as they have a call with me, and $${JOIN_GIFT} more when they join.`
+/* Under the $500 animation, on this page only: not on the link cards (T-297). */
+const EASIEST_LINE = `The easiest $${JOIN_GIFT} you have ever gotten in your entire life.`
 const SHARE_TITLE = `Refer someone, get $${JOIN_GIFT} | Kingdom Sites`
 
 /* Its own link preview (T-293), not the home page's: the card is opengraph-image.tsx here. */
