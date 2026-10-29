@@ -2,11 +2,18 @@ import type { Metadata } from 'next'
 import DepositLanding from './DepositLanding'
 import ReferForms from './ReferForms'
 import { CALL_GIFT, JOIN_GIFT } from '@/lib/referrals'
+import { EASIEST_LINE } from '@/lib/refer/card'
 
+const DESCRIPTION = `Introduce anyone who needs custom software, or a school to Farzana. You get $${CALL_GIFT} as soon as they have a call with me, and $${JOIN_GIFT} more when they join.`
+const SHARE_TITLE = `Refer someone, get $${JOIN_GIFT} | Kingdom Sites`
+
+/* Its own link preview (T-293), not the home page's: the card is opengraph-image.tsx here. */
 export const metadata: Metadata = {
   title: 'Refer someone who needs software',
-  description: `Introduce anyone who needs custom software, or a school to Farzana. You get $${CALL_GIFT} as soon as they have a call with me, and $${JOIN_GIFT} more when they join.`,
+  description: DESCRIPTION,
   alternates: { canonical: '/refer' },
+  openGraph: { title: SHARE_TITLE, description: DESCRIPTION, siteName: 'Kingdom Sites', type: 'website', url: '/refer' },
+  twitter: { card: 'summary_large_image', title: SHARE_TITLE, description: DESCRIPTION },
 }
 
 /**
@@ -47,7 +54,7 @@ export default function ReferPage() {
         <div className="mx-auto max-w-3xl text-center">
           <DepositLanding className="mx-auto mb-6 sm:mb-8" />
           <p className="mb-8 text-balance text-lg font-semibold text-ink sm:mb-10 sm:text-xl">
-            The easiest ${JOIN_GIFT} you have ever gotten in your entire life.
+            {EASIEST_LINE}
           </p>
           <h1 className="text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
             Introduce someone who needs software.{' '}
