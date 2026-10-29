@@ -1,12 +1,14 @@
 import { NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
-import { INQUIRY_TO_EMAILS } from '@/lib/contact'
+import { notifyThomas } from '@/lib/notify'
+import { creditReferral } from '@/lib/refer/credit'
 
 /**
  * Product enquiries, and Farzana call requests.
  *
  * The form posts here; this route delivers by email (Resend) and optionally a
- * webhook. Nothing stored in a DB. The Farzana page's "Book a call" form
+ * webhook. Nothing stored in a DB, except that an enquiry from someone who
+ * came through a referral link is added to the referral records. The Farzana page's "Book a call" form
  * (/farzana/book) posts here too, with `kind: 'farzana-call'` and two more
  * optional lines — what they teach and when suits them — so its email says
  * what it is.
@@ -18,15 +20,7 @@ export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 export const maxDuration = 15
 
-const EMAIL_TIMEOUT_MS = 8_000
 const WEBHOOK_TIMEOUT_MS = 4_000
-
-/**
- * Resend's own sending address only delivers to the account owner's inbox, so
- * enquiries to anyone else are rejected outright. Sending has to come from the
- * verified domain; LEAD_FROM_EMAIL overrides the address and the display name.
- */
-const DEFAULT_FROM = 'Website Contact <contact@kingdom-sites.com>'
 
 function clean(value: unknown, max = 300): string {
   if (typeof value !== 'string') return ''
@@ -53,46 +47,6 @@ function overLimit(ip: string): boolean {
 
 function looksLikeEmail(value: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value)
-}
-
-async function sendEmail(subject: string, body: string, replyTo: string) {
-  const key = process.env.RESEND_API_KEY?.trim()
-  const envTo = process.env.LEAD_TO_EMAIL?.trim()
-  const to = envTo
-    ? envTo.split(',').map((s) => s.trim()).filter(Boolean)
-    : [...INQUIRY_TO_EMAILS]
-  if (!key || to.length === 0) return false
-
-  try {
-    const response = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${key}`,
-        'Content-Type': 'application/json',
-      },
-      signal: AbortSignal.timeout(EMAIL_TIMEOUT_MS),
-      body: JSON.stringify({
-        from: process.env.LEAD_FROM_EMAIL?.trim() || DEFAULT_FROM,
-        to,
-        reply_to: replyTo && looksLikeEmail(replyTo) ? replyTo : undefined,
-        subject,
-        text: body,
-      }),
-    })
-
-    if (!response.ok) {
-      const detail = await response.text().catch(() => '')
-      Sentry.captureMessage(
-        `Inquiry email rejected (${response.status}): ${detail.slice(0, 400)}`,
-        'error',
-      )
-      return false
-    }
-    return true
-  } catch (error) {
-    Sentry.captureException(error)
-    return false
-  }
 }
 
 async function sendWebhook(payload: Record<string, string>) {
@@ -152,6 +106,13 @@ export async function POST(request: Request) {
       )
     }
 
+    // Came through someone's referral link: it counts as theirs (T-293).
+    const referredBy = await creditReferral(request, {
+      name,
+      email,
+      note: farzanaCall ? 'Asked for a Farzana call.' : 'Sent an enquiry.',
+    })
+
     const subject = farzanaCall
       ? `Farzana call request from ${name}`
       : `Enquiry from ${name}`
@@ -162,6 +123,7 @@ export async function POST(request: Request) {
       '',
       `Name: ${name}`,
       `Email: ${email}`,
+      ...(referredBy ? [`Referred by: ${referredBy} (through their link)`] : []),
       ...(farzanaCall
         ? [
             `Teaches: ${teaches || '(not said)'}`,
@@ -175,7 +137,7 @@ export async function POST(request: Request) {
     ].join('\n')
 
     const [emailed, hooked] = await Promise.all([
-      sendEmail(subject, body, email),
+      notifyThomas(subject, body, email),
       sendWebhook({
         name,
         email,
@@ -183,6 +145,7 @@ export async function POST(request: Request) {
         ...(farzanaCall ? { teaches, times } : {}),
         receivedAt: new Date().toISOString(),
         kind: farzanaCall ? 'farzana-call' : 'enquiry',
+        ...(referredBy ? { referredBy } : {}),
       }),
     ])
 
