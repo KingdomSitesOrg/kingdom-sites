@@ -480,6 +480,155 @@ body {
   .marquee-track { animation: none; }
 }
 
+/* The referral page's opening (src/app/refer/DepositLanding.tsx): the gift
+   landing in a bank account, once, about two and a half seconds end to end.
+   The card rises; the deposit slides in at the top of the account's activity
+   and pushes the older rows down; the check mark pops, draws itself and throws
+   a few sparks; the amount rolls up digit by digit; the card glows green once.
+   Every animation only sets where things start, so the last frame is the
+   page's resting state, and the one shown when motion is turned down. */
+.deposit-card {
+  --deposit-row: 68px;
+  --money: #16a34a;
+  --money-ink: #15803d;
+  --gold: #e0a526;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: 22px;
+  box-shadow: 0 2px 4px rgba(16, 23, 37, 0.05), 0 18px 44px rgba(16, 23, 37, 0.1);
+  overflow: hidden;
+  animation:
+    deposit-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.15s backwards,
+    deposit-glow 1.6s ease-out 2.2s;
+}
+@keyframes deposit-rise {
+  from { opacity: 0; transform: translateY(14px) scale(0.97); }
+}
+@keyframes deposit-glow {
+  25% {
+    box-shadow:
+      0 0 0 4px rgba(22, 163, 74, 0.16),
+      0 2px 4px rgba(16, 23, 37, 0.05),
+      0 18px 44px rgba(22, 163, 74, 0.2);
+  }
+}
+
+/* Two rows show. The list starts one row up, so the deposit is hidden above
+   the window, and settles into place with a small overshoot: the landing. */
+.deposit-window {
+  height: calc(var(--deposit-row) * 2);
+  overflow: hidden;
+}
+.deposit-list {
+  animation: deposit-land 0.7s cubic-bezier(0.3, 1.35, 0.5, 1) 0.75s backwards;
+}
+@keyframes deposit-land {
+  from { transform: translateY(calc(var(--deposit-row) * -1)); }
+}
+.deposit-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: var(--deposit-row);
+  padding: 0 16px;
+  border-bottom: 1px solid var(--color-line);
+}
+.deposit-new { background: rgba(22, 163, 74, 0.06); }
+
+.deposit-check {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: var(--money);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+  animation: deposit-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 1.15s backwards;
+}
+@keyframes deposit-pop {
+  from { transform: scale(0); }
+}
+/* A ring that rings out from the check mark as it lands. */
+.deposit-check::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 2px solid var(--money);
+  opacity: 0;
+  animation: deposit-ring 0.9s ease-out 1.35s;
+}
+@keyframes deposit-ring {
+  from { transform: scale(1);   opacity: 0.6; }
+  to   { transform: scale(1.7); opacity: 0; }
+}
+/* pathLength is 1 on the tick, so a dash of 1 is the whole stroke. */
+.deposit-tick {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  animation: deposit-draw 0.4s cubic-bezier(0.65, 0, 0.35, 1) 1.4s backwards;
+}
+@keyframes deposit-draw {
+  from { stroke-dashoffset: 1; }
+}
+.deposit-spark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  margin: -2.5px;
+  border-radius: 999px;
+  opacity: 0;
+  animation: deposit-spark 0.75s cubic-bezier(0.2, 0.8, 0.3, 1) 1.35s;
+}
+@keyframes deposit-spark {
+  from { opacity: 1; transform: rotate(var(--angle)) translateX(16px) scale(1); }
+  to   { opacity: 0; transform: rotate(var(--angle)) translateX(33px) scale(0.3); }
+}
+
+/* Each digit is a strip of 0-9 twice in a 1em window. It rests on its digit in
+   the second run, so every digit spins at least once on the way. */
+.deposit-amount {
+  display: flex;
+  align-items: center;
+  flex: none;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  color: var(--money-ink);
+  animation: deposit-bump 0.45s ease-out 2.3s;
+}
+@keyframes deposit-bump {
+  40% { transform: scale(1.08); }
+}
+.deposit-digit {
+  display: inline-block;
+  height: 1em;
+  overflow: hidden;
+}
+.deposit-strip {
+  display: flex;
+  flex-direction: column;
+  transform: translateY(calc((10 + var(--digit)) * -1em));
+  animation: deposit-roll 1.05s cubic-bezier(0.16, 1, 0.3, 1) var(--roll-delay) backwards;
+}
+.deposit-strip > span { height: 1em; }
+@keyframes deposit-roll {
+  from { transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .deposit-card, .deposit-list, .deposit-check, .deposit-tick, .deposit-strip, .deposit-amount {
+    animation: none;
+  }
+  .deposit-check::after, .deposit-spark { display: none; }
+}
+
 @media print {
   .reveal-card { opacity: 1 !important; transform: none !important; }
   .marquee-track { animation: none; }
