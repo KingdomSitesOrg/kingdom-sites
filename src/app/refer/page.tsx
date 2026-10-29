@@ -33,7 +33,6 @@ const STEPS = [
 const RULES = [
   `One $${CALL_GIFT} gift and one $${JOIN_GIFT} gift for each organization, to the first person who told me about it.`,
   `The $${CALL_GIFT} is for a call that happens. A call that is booked but never held earns nothing.`,
-  'Anyone who opens your link and then asks for a consultation within 90 days counts as yours. Someone you tell me about stays yours for 12 months.',
   'Someone already talking with me does not count, unless your introduction is what got them to reply.',
   'The person who signs for an organization cannot collect a gift for their own organization.',
   'A gift sent is never asked back.',
