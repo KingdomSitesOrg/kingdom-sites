@@ -15,6 +15,18 @@ export const metadata: Metadata = {
   // to another site in the Referer header.
   robots: { index: false, follow: false },
   referrer: 'no-referrer',
+  // Its own link preview, never the home page's; nothing about whose tracker it is.
+  openGraph: {
+    title: 'Your referral tracker | Kingdom Sites',
+    description: 'How the people you referred are getting on, and how you get paid.',
+    siteName: 'Kingdom Sites',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Your referral tracker | Kingdom Sites',
+    description: 'How the people you referred are getting on, and how you get paid.',
+  },
 }
 
 /**
