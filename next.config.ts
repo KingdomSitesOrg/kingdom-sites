@@ -3,13 +3,6 @@ import { withSentryConfig } from "@sentry/nextjs";
 
 const isDev = process.env.NODE_ENV === 'development'
 
-/**
- * The referral program's records live in the Farzana app (T-284): /refer's
- * forms post there from the browser, and a personal link (/r/<code>) forwards
- * there, where the page it opens and the referral cookie are.
- */
-const REFER_SERVICE = (process.env.NEXT_PUBLIC_REFER_SERVICE_URL?.trim() || 'https://farzana.app').replace(/\/+$/, '')
-
 const csp = [
   "default-src 'self'",
   // Google Analytics 4 loads its tag from googletagmanager.com. Without it
@@ -24,7 +17,7 @@ const csp = [
   "img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com https://*.calendly.com https://unpkg.com https://calendly.com",
   "font-src 'self' https://assets.calendly.com",
   // Sentry reports errors; the Google hosts are where Analytics sends pageviews.
-  `connect-src 'self' https://unpkg.com https://*.ingest.us.sentry.io https://*.ingest.sentry.io https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://calendly.com https://*.calendly.com ${REFER_SERVICE}`,
+  `connect-src 'self' https://unpkg.com https://*.ingest.us.sentry.io https://*.ingest.sentry.io https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://calendly.com https://*.calendly.com`,
   "form-action 'none'",
   // Mission page embeds YouTube; /sign embeds same-origin PDF previews (and blob:).
   `frame-src 'self' blob: https://www.youtube.com https://www.youtube-nocookie.com https://calendly.com https://*.calendly.com`,
@@ -88,8 +81,6 @@ const nextConfig: NextConfig = {
       { source: '/seo', destination: '/', permanent: true },
       { source: '/software', destination: '/', permanent: true },
       { source: '/rochester-mn', destination: '/', permanent: true },
-      // A personal referral link: the page it opens is the Farzana app's.
-      { source: '/r/:code', destination: `${REFER_SERVICE}/r/:code`, permanent: false },
       // Edu is now Farzana, at farzana.app. The film's end card and links
       // already shared say /edu or /farzana; temporary, since the pages move
       // from this project to the Farzana app itself at launch.
