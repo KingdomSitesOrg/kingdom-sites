@@ -10,8 +10,9 @@ export const metadata: Metadata = {
 
 /**
  * The referral program (T-284, Thomas, 2026-10-29): Kingdom Sites' own, for
- * any custom software, with Farzana as its section for schools. The rules match
- * the program's records in the Farzana app (`referral-rules.ts` there).
+ * any custom software, with Farzana as its section for schools. Since T-293 its
+ * records, links, trackers and Thomas's console are all on this site
+ * (`src/lib/referrals.ts`, `src/lib/refer/`).
  */
 
 const STEPS = [
