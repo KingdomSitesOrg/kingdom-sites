@@ -1,16 +1,25 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { INQUIRE_PATH } from '@/lib/contact'
-import { REFERRAL_CODE } from '@/lib/referrals'
-import { firstName, referrerByCode } from '@/lib/refer/store'
+import { introLine } from '@/lib/refer/intro'
 
 export const dynamic = 'force-dynamic'
 
-export const metadata: Metadata = {
-  title: 'A personal introduction',
-  description: 'Thomas at Kingdom Sites builds custom software for any organization, and Farzana for schools.',
-  // A personal link is for the people it is sent to, not for search engines.
-  robots: { index: false, follow: false },
+const DESCRIPTION =
+  'Thomas at Kingdom Sites builds custom software for schools, businesses and any organization.'
+
+/** Its own link preview (T-293): the name only when its owner said it may show. */
+export async function generateMetadata({ params }: { params: Promise<{ code: string }> }): Promise<Metadata> {
+  const { code } = await params
+  const line = await introLine(code)
+  return {
+    title: line,
+    description: DESCRIPTION,
+    openGraph: { title: line, description: DESCRIPTION, siteName: 'Kingdom Sites', type: 'website', url: `/r/${code.toLowerCase()}` },
+    twitter: { card: 'summary_large_image', title: line, description: DESCRIPTION },
+    // A personal link is for the people it is sent to, not for search engines.
+    robots: { index: false, follow: false },
+  }
 }
 
 /**
@@ -21,9 +30,7 @@ export const metadata: Metadata = {
  */
 export default async function ReferralLinkPage({ params }: { params: Promise<{ code: string }> }) {
   const { code } = await params
-  const wanted = code.toLowerCase()
-  const referrer = REFERRAL_CODE.test(wanted) ? await referrerByCode(wanted).catch(() => null) : null
-  const name = referrer?.showName ? firstName(referrer.name) : ''
+  const line = await introLine(code)
 
   return (
     <div className="w-full overflow-x-hidden">
@@ -31,7 +38,7 @@ export default async function ReferralLinkPage({ params }: { params: Promise<{ c
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-sm font-semibold text-accent">A personal introduction</p>
           <h1 className="mt-4 text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink [overflow-wrap:anywhere] sm:text-5xl">
-            {name ? `${name} sent you here.` : 'Someone sent you here.'}
+            {line}
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-body sm:text-lg">
             I am Thomas, and Kingdom Sites is my studio. I build custom software for schools,
