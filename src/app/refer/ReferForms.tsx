@@ -3,12 +3,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { CONTACT_EMAIL } from '@/lib/contact'
 import { REFER_API, shareLink, trackerLink } from '@/lib/referrals'
+import CopyRow from './CopyRow'
 
 /**
  * The referral page's two forms (T-284): "Get your link" (a name and an email
  * give a personal link at once, and a private tracker the first time) and "Or
- * tell us about someone". Both post to the program's records in the Farzana
- * app (REFER_API). The hidden `company` field and the time since the page
+ * tell us about someone". Both post to this site's own /api/refer (REFER_API,
+ * T-293). The hidden `company` field and the time since the page
  * opened are its spam checks; a person never sees either.
  */
 
@@ -55,33 +56,6 @@ async function post(
         : 'Could not reach the server. Your connection may have dropped.',
     }
   }
-}
-
-function CopyRow({ value, label }: { value: string; label: string }) {
-  const [copied, setCopied] = useState(false)
-  return (
-    <div className="flex items-center gap-2 rounded-xl border border-line-strong bg-surface py-1 pl-4 pr-1">
-      <span className="min-w-0 flex-1 py-2 text-[15px] font-medium text-ink [overflow-wrap:anywhere]">
-        {value}
-      </span>
-      <button
-        type="button"
-        className="btn-ghost min-h-11 shrink-0 px-4"
-        aria-label={`Copy ${label}`}
-        onClick={async () => {
-          try {
-            await navigator.clipboard.writeText(value)
-            setCopied(true)
-            setTimeout(() => setCopied(false), 1500)
-          } catch {
-            setCopied(false)
-          }
-        }}
-      >
-        {copied ? 'Copied' : 'Copy'}
-      </button>
-    </div>
-  )
 }
 
 function Field({
@@ -208,8 +182,8 @@ function GetYourLink({ you, setYou, link, onLink, openedAt }: Shared & { link: L
                 Keep this link to yourself. It is shown only once. On it you see how each person you
                 referred is getting on, and choose how you are paid: PayPal, Venmo or Apple Cash.
               </p>
-              <CopyRow value={trackerLink(link.tracker)} label="your tracker link" />
-              <a href={trackerLink(link.tracker)} className="btn-primary self-start">
+              <CopyRow value={trackerLink(link.origin, link.tracker)} label="your tracker link" />
+              <a href={trackerLink(link.origin, link.tracker)} className="btn-primary self-start">
                 Open your tracker
               </a>
             </div>

@@ -21,6 +21,9 @@ export default async function SignDashboardPage() {
         </div>
         <div className="flex items-center gap-2">
           <LogoutButton />
+          <Link href="/sign/referrals" className="btn-ghost-sm">
+            Referrals
+          </Link>
           <Link
             href="/sign/new"
             className="btn-primary !min-h-10 !px-4 !py-2 !text-sm"
