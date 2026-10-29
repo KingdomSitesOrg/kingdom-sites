@@ -9,6 +9,7 @@ const PAGE_LINKS = [
   { href: '/ai-tooling', label: 'AI' },
   { href: '/about', label: 'Team' },
   { href: '/mission', label: 'Mission' },
+  { href: '/refer', label: 'Refer someone' },
   { href: '/privacy', label: 'Privacy Policy' },
   { href: '/terms', label: 'Terms' },
 ]
