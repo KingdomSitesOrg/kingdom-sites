@@ -4,8 +4,6 @@ import ReferForms from './ReferForms'
 import { CALL_GIFT, JOIN_GIFT } from '@/lib/referrals'
 
 const DESCRIPTION = `Introduce anyone who needs custom software, or a school to Farzana. You get $${CALL_GIFT} as soon as they have a call with me, and $${JOIN_GIFT} more when they join.`
-/* Under the $500 animation, on this page only: not on the link cards (T-297). */
-const EASIEST_LINE = `The easiest $${JOIN_GIFT} you have ever gotten in your entire life.`
 const SHARE_TITLE = `Refer someone, get $${JOIN_GIFT} | Kingdom Sites`
 
 /* Its own link preview (T-293), not the home page's: the card is opengraph-image.tsx here. */
@@ -53,10 +51,7 @@ export default function ReferPage() {
     <div className="w-full overflow-x-hidden">
       <section className="hero-wash px-5 pb-12 pt-16 sm:px-8 sm:pb-16 sm:pt-24">
         <div className="mx-auto max-w-3xl text-center">
-          <DepositLanding className="mx-auto mb-6 sm:mb-8" />
-          <p className="mb-8 text-balance text-lg font-semibold text-ink sm:mb-10 sm:text-xl">
-            {EASIEST_LINE}
-          </p>
+          <DepositLanding className="mx-auto mb-10 sm:mb-12" />
           <h1 className="text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
             Introduce someone who needs software.{' '}
             <span className="text-accent">
