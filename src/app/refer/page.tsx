@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import DepositLanding from './DepositLanding'
 import ReferForms from './ReferForms'
 import { CALL_GIFT, JOIN_GIFT } from '@/lib/referrals'
 
@@ -44,6 +45,7 @@ export default function ReferPage() {
     <div className="w-full overflow-x-hidden">
       <section className="hero-wash px-5 pb-12 pt-16 sm:px-8 sm:pb-16 sm:pt-24">
         <div className="mx-auto max-w-3xl text-center">
+          <DepositLanding className="mx-auto mb-10 sm:mb-12" />
           <h1 className="text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
             Introduce someone who needs software.{' '}
             <span className="text-accent">
