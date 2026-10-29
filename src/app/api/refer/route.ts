@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
-import { notifyThomas } from '@/lib/notify'
-import { checkPayoutHandle, isPayoutMethod, looksLikeEmail, shareLink } from '@/lib/referrals'
+import { emailReferrer, notifyThomas } from '@/lib/notify'
+import { checkPayoutHandle, isPayoutMethod, looksLikeEmail, shareLink, trackerLink } from '@/lib/referrals'
 import { linkFor, recordReferred, setPayout } from '@/lib/refer/store'
 
 /**
@@ -10,8 +10,11 @@ import { linkFor, recordReferred, setPayout } from '@/lib/refer/store'
  * private tracker's payout choice. Same-origin only; no cross-site posts.
  *
  * Open to anyone, by Thomas's say-so (2026-10-27: anyone can put in their name
- * and email and get a link at once). It pays nobody and emails only Thomas
- * (the enquiry form's way, `notifyThomas`). The protection is the enquiry
+ * and email and get a link at once). It pays nobody. It emails Thomas (the
+ * enquiry form's way, `notifyThomas`), and, once, a new referrer their own
+ * two links (`emailReferrer`, the same sender), so a lost tracker is in
+ * their inbox. Asking again with an address that already has a link sends
+ * nothing. The protection is the enquiry
  * form's:
  *
  * - a hidden field (`company`) a person never sees and a bot fills in;
@@ -51,7 +54,7 @@ function line(value: unknown, max = 300): string {
 
 function answer(
   status: number,
-  body: { error?: string; code?: string; tracker?: string; handle?: string } = {},
+  body: { error?: string; code?: string; tracker?: string; handle?: string; emailed?: boolean } = {},
 ) {
   return NextResponse.json(
     body.error
@@ -61,6 +64,7 @@ function answer(
           code: body.code ?? '',
           tracker: body.tracker ?? '',
           ...(body.handle ? { handle: body.handle } : {}),
+          ...(body.emailed ? { emailed: true } : {}),
         },
     { status, headers: { 'cache-control': 'no-store' } },
   )
@@ -139,7 +143,12 @@ async function handle(request: Request) {
     return answer(503, { error: 'That did not work just now. Please try again later.' })
   }
   const { code, tracker } = made
-  const link = shareLink(new URL(request.url).origin, code)
+  const origin = new URL(request.url).origin
+  const link = shareLink(origin, code)
+  // Their two links in their inbox too; a mail that cannot go never costs them the link.
+  const emailed = made.isNew
+    ? await emailReferrer(email.toLowerCase(), name, { share: link, tracker: trackerLink(origin, tracker) })
+    : false
 
   if (!tip) {
     if (made.isNew) {
@@ -152,13 +161,14 @@ async function handle(request: Request) {
           `Email: ${email.toLowerCase()}`,
           `Their link: ${link}`,
           `Show their first name on it: ${body.showName === true ? 'yes' : 'no'}`,
+          `Emailed them their link and tracker: ${emailed ? 'yes' : 'no, it did not go'}`,
           '',
           'All referrals: /sign/referrals',
         ].join('\n'),
         email,
       )
     }
-    return answer(200, { code, tracker })
+    return answer(200, { code, tracker, emailed })
   }
 
   const website = line(body.website, 300)
@@ -209,5 +219,5 @@ async function handle(request: Request) {
     ].join('\n'),
     email,
   )
-  return answer(200, { code, tracker })
+  return answer(200, { code, tracker, emailed })
 }
