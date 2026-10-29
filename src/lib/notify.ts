@@ -1,11 +1,13 @@
 import * as Sentry from '@sentry/nextjs'
-import { INQUIRY_TO_EMAILS } from '@/lib/contact'
+import { CONTACT_EMAIL, INQUIRY_TO_EMAILS } from '@/lib/contact'
+import { CALL_GIFT, JOIN_GIFT } from '@/lib/referrals'
 
 /**
- * The one way the site's forms tell Thomas something: an email to his own
- * inbox (Resend), from the enquiry form and the referral program. It never
- * writes to anyone else. Needs RESEND_API_KEY; LEAD_TO_EMAIL overrides the
- * inbox for testing.
+ * The site's forms' one email sender (Resend, from the verified
+ * kingdom-sites.com address): `notifyThomas` tells Thomas about an enquiry or
+ * a referral, and `emailReferrer` sends a new referrer their own two links
+ * (T-293, Thomas, 2026-10-29). Nothing else here writes to anyone. Needs
+ * RESEND_API_KEY; LEAD_TO_EMAIL overrides Thomas's inbox for testing.
  */
 
 const EMAIL_TIMEOUT_MS = 8_000
@@ -22,11 +24,46 @@ function looksLikeEmail(value: string): boolean {
 }
 
 export async function notifyThomas(subject: string, body: string, replyTo: string) {
-  const key = process.env.RESEND_API_KEY?.trim()
   const envTo = process.env.LEAD_TO_EMAIL?.trim()
   const to = envTo
     ? envTo.split(',').map((s) => s.trim()).filter(Boolean)
     : [...INQUIRY_TO_EMAILS]
+  return sendMail(to, subject, body, replyTo)
+}
+
+/**
+ * A new referrer's share link and private tracker, to the address they typed
+ * on /refer, sent once, when the link is made. Replies go to Thomas.
+ */
+export async function emailReferrer(
+  to: string,
+  name: string,
+  links: { share: string; tracker: string },
+) {
+  if (!looksLikeEmail(to)) return false
+  const first = name.trim().split(/\s+/)[0] || 'there'
+  const body = [
+    `Hi ${first},`,
+    '',
+    'Here is your referral link. Send it to anyone who needs software built: a school, a business, a nonprofit or any other organization.',
+    '',
+    links.share,
+    '',
+    `You get $${CALL_GIFT} as soon as they have a call with me, and $${JOIN_GIFT} more when they join.`,
+    '',
+    'Your private tracker shows how each person you refer is getting on, and is where you choose how you are paid (PayPal, Venmo or Apple Cash). Keep this one to yourself:',
+    '',
+    links.tracker,
+    '',
+    'Thank you,',
+    'Thomas',
+    'Kingdom Sites',
+  ].join('\n')
+  return sendMail([to], 'Your Kingdom Sites referral link', body, CONTACT_EMAIL)
+}
+
+async function sendMail(to: string[], subject: string, body: string, replyTo: string) {
+  const key = process.env.RESEND_API_KEY?.trim()
   if (!key || to.length === 0) return false
 
   try {
@@ -49,7 +86,7 @@ export async function notifyThomas(subject: string, body: string, replyTo: strin
     if (!response.ok) {
       const detail = await response.text().catch(() => '')
       Sentry.captureMessage(
-        `Inquiry email rejected (${response.status}): ${detail.slice(0, 400)}`,
+        `Form email rejected (${response.status}): ${detail.slice(0, 400)}`,
         'error',
       )
       return false

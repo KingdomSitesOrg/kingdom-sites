@@ -22,12 +22,12 @@ const inputClass =
 
 type You = { name: string; email: string }
 /** `origin` is this site's address, read when the link came back. */
-type Link = { code: string; tracker: string; origin: string }
+type Link = { code: string; tracker: string; origin: string; emailed: boolean }
 
 async function post(
   body: Record<string, unknown>,
   openedAt: number,
-): Promise<{ code?: string; tracker?: string; error?: string }> {
+): Promise<{ code?: string; tracker?: string; emailed?: boolean; error?: string }> {
   const wait = FASTEST_HUMAN_MS - (Date.now() - openedAt)
   if (wait > 0) await new Promise((resolve) => setTimeout(resolve, wait))
   try {
@@ -41,12 +41,13 @@ async function post(
       ok?: boolean
       code?: string
       tracker?: string
+      emailed?: boolean
       error?: string
     }
     if (!response.ok || !data.ok || !data.code) {
       return { error: data.error || 'That did not work just now. Please try again.' }
     }
-    return { code: data.code, tracker: data.tracker ?? '' }
+    return { code: data.code, tracker: data.tracker ?? '', emailed: data.emailed === true }
   } catch (error) {
     const timedOut =
       error instanceof DOMException && (error.name === 'TimeoutError' || error.name === 'AbortError')
@@ -122,13 +123,14 @@ function Honeypot({ id, value, onChange }: { id: string; value: string; onChange
 
 export default function ReferForms() {
   const [you, setYou] = useState<You>({ name: '', email: '' })
-  const [link, setLink] = useState<Link>({ code: '', tracker: '', origin: '' })
+  const [link, setLink] = useState<Link>({ code: '', tracker: '', origin: '', emailed: false })
   // A second form sent later answers without the tracker; keep the one shown.
-  const onLink = (next: { code: string; tracker: string }) =>
+  const onLink = (next: { code: string; tracker: string; emailed?: boolean }) =>
     setLink((current) => ({
       code: next.code,
       tracker: next.tracker || current.tracker,
       origin: window.location.origin,
+      emailed: current.emailed || next.emailed === true,
     }))
   const openedAt = useRef(0)
   useEffect(() => {
@@ -146,7 +148,7 @@ export default function ReferForms() {
 type Shared = {
   you: You
   setYou: (you: You) => void
-  onLink: (link: { code: string; tracker: string }) => void
+  onLink: (link: { code: string; tracker: string; emailed?: boolean }) => void
   openedAt: React.RefObject<number>
 }
 
@@ -163,7 +165,7 @@ function GetYourLink({ you, setYou, link, onLink, openedAt }: Shared & { link: L
     setError('')
     const result = await post({ kind: 'link', ...you, showName, company }, openedAt.current)
     setSending(false)
-    if (result.code) onLink({ code: result.code, tracker: result.tracker ?? '' })
+    if (result.code) onLink({ code: result.code, tracker: result.tracker ?? '', emailed: result.emailed })
     else setError(result.error ?? '')
   }
 
@@ -179,8 +181,9 @@ function GetYourLink({ you, setYou, link, onLink, openedAt }: Shared & { link: L
             <div className="flex flex-col gap-3 rounded-2xl border border-line-strong p-5">
               <p className="font-semibold text-ink">Your private tracker</p>
               <p className="text-sm text-body">
-                Keep this link to yourself. It is shown only once. On it you see how each person you
-                referred is getting on, and choose how you are paid: PayPal, Venmo or Apple Cash.
+                Keep this link to yourself. On it you see how each person you referred is getting on,
+                and choose how you are paid: PayPal, Venmo or Apple Cash.
+                {link.emailed ? ' Both links are in your email too.' : ' It is shown only once, so keep a copy.'}
               </p>
               <CopyRow value={trackerLink(link.origin, link.tracker)} label="your tracker link" />
               <a href={trackerLink(link.origin, link.tracker)} className="btn-primary self-start">
@@ -260,7 +263,7 @@ function TellUs({ you, setYou, onLink, openedAt }: Shared) {
     )
     setSending(false)
     if (result.code) {
-      onLink({ code: result.code, tracker: result.tracker ?? '' })
+      onLink({ code: result.code, tracker: result.tracker ?? '', emailed: result.emailed })
       setSentFor(them.schoolName.trim())
       setThem(NO_ONE)
     } else {
