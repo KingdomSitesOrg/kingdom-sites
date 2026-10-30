@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
-import { AuthError, getAdminSession } from '@/lib/sign/auth'
+import { AuthError, canAccessEnvelope, getSignUser } from '@/lib/sign/auth'
 import {
   allSignersSigned,
   completeEnvelopeAfterAllSigned,
@@ -14,19 +14,20 @@ export const maxDuration = 60
 
 type Ctx = { params: Promise<{ id: string }> }
 
-async function requireAdmin() {
-  const session = await getAdminSession()
-  if (!session) throw new AuthError()
-  return session
+/** Thomas or a customer account; documents are then limited to what that user owns. */
+async function requireUser() {
+  const user = await getSignUser()
+  if (!user) throw new AuthError()
+  return user
 }
 
 /** Admin recovery: stamp + mark completed + email when all parties signed but stuck. */
 export async function POST(_request: Request, ctx: Ctx) {
   try {
-    await requireAdmin()
+    const user = await requireUser()
     const { id } = await ctx.params
     const existing = await getEnvelope(id)
-    if (!existing) {
+    if (!existing || !canAccessEnvelope(user, existing)) {
       return NextResponse.json({ ok: false, error: 'Not found' }, { status: 404 })
     }
     if (!allSignersSigned(existing)) {

@@ -60,6 +60,8 @@ export type Envelope = {
   signers: Signer[]
   fields: FieldPlacement[]
   audit: AuditEntry[]
+  /** The Sign account that owns it; absent for Thomas's own (admin) documents. */
+  ownerId?: string
 }
 
 export type EnvelopeSummary = Pick<
@@ -73,4 +75,6 @@ export type EnvelopeSummary = Pick<
   /** Signers without a signature line yet (drafts only). */
   missingLines: number
   hasSignedPdf: boolean
+  /** When it was first sent for signing (counts toward the monthly plan limit). */
+  firstSentAt?: string
 }

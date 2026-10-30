@@ -11,7 +11,8 @@ export default function SignPricingPage() {
       </Link>
       <h1 className="mt-4 text-2xl font-semibold tracking-tight text-ink">Sign plans</h1>
       <p className="mt-2 text-sm text-body">
-        Anyone can use Kingdom Sites Sign. Starter covers light volume; Growth is for a busier month.
+        Upload a PDF, click where each person signs, and send it. They sign from their phone in about
+        a minute, and everyone gets the signed PDF. People you send to never need an account.
       </p>
       <div className="mt-8 grid gap-4 sm:grid-cols-2">
         {SIGN_PLANS.map((plan) => (
@@ -21,24 +22,21 @@ export default function SignPricingPage() {
               ${plan.priceMonthly}
               <span className="text-sm font-normal text-muted"> / month</span>
             </p>
-            <p className="mt-3 text-sm text-body">
-              Up to <strong>{plan.contractLimit}</strong> contracts per month.
+            <p className="mt-3 flex-1 text-sm text-body">
+              Send up to <strong>{plan.contractLimit}</strong> documents a month.
             </p>
-            {plan.paymentLink ? (
-              <a href={plan.paymentLink} className="btn-primary mt-6 w-full">
-                Start {plan.name}
-              </a>
-            ) : (
-              <p className="mt-6 rounded-xl border border-line bg-surface-2 px-3 py-2 text-xs text-muted">
-                Stripe Payment Link not set yet (`NEXT_PUBLIC_SIGN_{plan.id.toUpperCase()}_LINK`).
-              </p>
-            )}
+            <Link href={`/sign/signup?plan=${plan.id}`} className="btn-primary mt-6 w-full">
+              Start {plan.name}
+            </Link>
           </div>
         ))}
       </div>
       <p className="mt-6 text-xs text-muted">
-        Billing runs through the same Stripe account as Kingdom Sites retainers. Over-limit months upgrade
-        to Growth (or wait until the next cycle).
+        Billed monthly by card through Stripe. Change plan or cancel any time from your account page.
+        Already have an account?{' '}
+        <Link href="/sign/login" className="text-accent hover:underline">
+          Sign in
+        </Link>
       </p>
     </div>
   )

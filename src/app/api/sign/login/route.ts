@@ -3,8 +3,12 @@ import {
   SIGN_SESSION_COOKIE,
   adminConfigured,
   createSessionToken,
+  sessionCookieOptions,
   verifyAdminCredentials,
+  hashPassword,
+  verifyPassword,
 } from '@/lib/sign/auth'
+import { findAccountByEmail } from '@/lib/sign/accounts'
 import {
   clearLoginFailures,
   clientIp,
@@ -14,21 +18,12 @@ import {
   recordLoginFailure,
 } from '@/lib/sign/login-limit'
 
+const TIMING_DUMMY = hashPassword('timing-dummy-password')
+
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
 export async function POST(request: Request) {
-  if (!adminConfigured()) {
-    return NextResponse.json(
-      {
-        ok: false,
-        error:
-          'Sign admin is not configured. Set ADMIN_EMAIL and ADMIN_PASSWORD in the environment.',
-      },
-      { status: 503 },
-    )
-  }
-
   const body = (await request.json().catch(() => null)) as {
     email?: string
     password?: string
@@ -46,20 +41,34 @@ export async function POST(request: Request) {
     )
   }
 
-  if (!verifyAdminCredentials(email, password)) {
+  // Thomas (admin) first, then a Sign customer's account.
+  if (adminConfigured() && verifyAdminCredentials(email, password)) {
+    clearLoginFailures(keys)
+    return signedIn(createSessionToken(email))
+  }
+  const account = await findAccountByEmail(email)
+  // Hash anyway when there is no such account, so the answer takes as long
+  // either way and does not reveal who has an account.
+  const passwordOk = verifyPassword(password, account?.passwordHash ?? TIMING_DUMMY)
+  if (!account || !passwordOk) {
     recordLoginFailure(keys)
     return NextResponse.json({ ok: false, error: 'Wrong email or password.' }, { status: 401 })
   }
   clearLoginFailures(keys)
+  if (!account.emailVerified) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: `Confirm your email first: open the link we sent to ${account.email}. Sign up again with the same email to get a new link.`,
+      },
+      { status: 403 },
+    )
+  }
+  return signedIn(createSessionToken(account.email, account.id))
+}
 
-  const token = createSessionToken(email)
+function signedIn(token: string) {
   const response = NextResponse.json({ ok: true })
-  response.cookies.set(SIGN_SESSION_COOKIE, token, {
-    httpOnly: true,
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production',
-    path: '/',
-    maxAge: 14 * 24 * 60 * 60,
-  })
+  response.cookies.set(SIGN_SESSION_COOKIE, token, sessionCookieOptions())
   return response
 }

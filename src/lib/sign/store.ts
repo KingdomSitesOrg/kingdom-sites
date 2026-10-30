@@ -95,6 +95,44 @@ async function syncTokenIndexes(envelope: Envelope, previous: Envelope | null): 
   }
 }
 
+/**
+ * Small JSON records next to the envelopes (accounts and their indexes), in
+ * the same store: private Vercel Blob in production, .data/sign locally.
+ * `key` is a path under sign/, e.g. "accounts/acc_123.json".
+ */
+function recordLocalPath(key: string): string {
+  return path.join(LOCAL_ROOT, ...key.split('/'))
+}
+
+export async function readRecord<T>(key: string): Promise<T | null> {
+  try {
+    if (blobEnabled()) {
+      const result = await get(`sign/${key}`, { access: 'private' })
+      if (!result || !('stream' in result) || !result.stream) return null
+      return JSON.parse(await new Response(result.stream).text()) as T
+    }
+    return JSON.parse(await fs.readFile(recordLocalPath(key), 'utf8')) as T
+  } catch {
+    return null
+  }
+}
+
+export async function writeRecord(key: string, value: unknown): Promise<void> {
+  const json = JSON.stringify(value, null, 2)
+  if (blobEnabled()) {
+    await put(`sign/${key}`, json, {
+      access: 'private',
+      addRandomSuffix: false,
+      allowOverwrite: true,
+      contentType: 'application/json',
+    })
+    return
+  }
+  const file = recordLocalPath(key)
+  await fs.mkdir(path.dirname(file), { recursive: true })
+  await fs.writeFile(file, json, 'utf8')
+}
+
 export async function savePdf(key: string, bytes: Uint8Array | Buffer): Promise<string> {
   const relative = key.startsWith('pdfs/') ? key : `pdfs/${key}`
   if (blobEnabled()) {
@@ -206,7 +244,11 @@ export async function getEnvelope(id: string): Promise<Envelope | null> {
   }
 }
 
-export async function listEnvelopes(): Promise<EnvelopeSummary[]> {
+/**
+ * Envelope summaries for one owner: an account id, or null for Thomas's own
+ * (admin) documents. Pass undefined to list every envelope (internal use).
+ */
+export async function listEnvelopes(owner?: string | null): Promise<EnvelopeSummary[]> {
   const envelopes: Envelope[] = []
   if (blobEnabled()) {
     const { blobs } = await list({ prefix: 'sign/envelopes/', limit: 200 })
@@ -237,7 +279,9 @@ export async function listEnvelopes(): Promise<EnvelopeSummary[]> {
     }
   }
 
-  return envelopes
+  const visible =
+    owner === undefined ? envelopes : envelopes.filter((e) => (e.ownerId ?? null) === owner)
+  return visible
     .map((e) => ({
       id: e.id,
       title: e.title,
@@ -250,6 +294,7 @@ export async function listEnvelopes(): Promise<EnvelopeSummary[]> {
       waitingOn: e.signers.filter((s) => s.status !== 'signed').map((s) => s.name || s.email),
       missingLines: e.status === 'draft' ? signersWithoutLine(e).length : 0,
       hasSignedPdf: e.status === 'completed' && Boolean(e.completedPdfKey),
+      firstSentAt: e.audit.find((a) => a.action === 'sent')?.at,
     }))
     .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
 }
