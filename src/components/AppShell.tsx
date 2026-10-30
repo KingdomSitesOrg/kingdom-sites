@@ -36,7 +36,11 @@ export default function AppShell({
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
     ) : null
 
+  // T-358 preview: this direction's pages carry their own header and footer.
+  const direction = pathname === '/' || pathname === '/about'
+
   const standalone =
+    direction ||
     section === 'farzana' ||
     ['/tap-to-tick', '/latin-game', '/farzana', '/ministry', '/prayer', '/marketing-frame', '/sign', '/calc'].some((p) =>
       pathname?.startsWith(p),
