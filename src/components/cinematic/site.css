@@ -100,3 +100,6 @@ html:has(.cn-site) { background: #0b0b0c; }
 @media (min-width: 760px) { .cn-site-foot-links { display: flex; flex-wrap: wrap; gap: 10px 32px; } }
 .cn-site-foot-links a { color: #cfcbc3; padding-block: 4px; transition: color 0.2s; }
 .cn-site-foot-links a:hover { color: var(--fg); }
+
+/* Drawn phone screens (Ruta's) sit in the same frame as the real screenshots. */
+.cn-site .cn-phone > div { border-radius: clamp(21px, 2.9vw, 38px); overflow: hidden; }

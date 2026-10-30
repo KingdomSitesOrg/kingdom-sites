@@ -474,7 +474,7 @@ export function RutaPhoneCluster() {
         return (
           <div
             key={scene}
-            className={`overflow-hidden rounded-[26px] shadow-[0_18px_44px_rgba(16,23,37,0.16)] ${
+            className={`cn-phone ${
               middle
                 ? 'z-10 w-[46%] max-w-[200px]'
                 : `w-[34%] max-w-[150px] translate-y-4 ${i === 0 ? '-mr-3' : '-ml-3'}`

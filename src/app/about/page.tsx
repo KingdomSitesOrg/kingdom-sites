@@ -81,8 +81,8 @@ export default function About() {
             <div className="tile p-6">
               <h3 className="text-sm font-semibold tracking-tight text-ink">Work</h3>
               <p className="mt-2 text-sm leading-relaxed text-body">
-                Contract work on Ruta, plus a Latin learning game (live on the App Store and Google
-                Play) and Tap to Tick (a personal iOS expense app).{' '}
+                Contract work on Ruta, plus a Latin learning game for iPhone and Android and Tap to
+                Tick (a personal iOS expense app).{' '}
                 <Link href="/my-work" className="link-accent">
                   My work <span aria-hidden="true">›</span>
                 </Link>
