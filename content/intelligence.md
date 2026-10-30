@@ -57,7 +57,7 @@ Ministries, missionaries raising support and churches get their website built fo
 ## The work
 
 ### Farzana Classroom (a platform Thomas designed and built)
-- Education software for schools, training organizations, education businesses or anyone who teaches classes, customized to your needs. Each school gets its own site, name and crest, with its classes, families and payments in one place.
+- Education software for schools, training organizations, education businesses or anyone who teaches classes, customized to your needs, with classes, families and payments in one place.
 - Families find a class, try a free sample, sign up and pay online at any hour; the teacher sees who is enrolled, who was active this week and who just joined.
 - Thomas built it from the ground up as a stable, quality, easy-to-navigate classroom app, with everything stitched together from payments to quiz results.
 - Runs on the web, phones and desktop. Status: in beta, first school coming soon. Website: farzana.app. The screens on this site show Wren Hall, a made-up demo school. The full story is at /portfolio/farzana-classroom.
