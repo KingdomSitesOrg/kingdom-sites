@@ -8,22 +8,52 @@
 
 import { INQUIRE_CTA, INQUIRE_PATH } from './contact'
 
-/* The hero leads with the newest launch. Swap these back to the general app
-   offer once the announcement has run its course. */
-export const HERO = {
-  eyebrow: 'Out now on the App Store',
-  title: 'Jam with Latin is out now.',
-  accent: 'Want an app like this? I can build yours.',
-  sub:
-    'A Latin learning game I designed, built, and shipped — live on the App Store and already in students’ hands. Have an idea for an app, a tool, or a system for your business? Tell me about it.',
-  appHref: '/latin-game',
-  appCta: 'See Jam with Latin',
-  shots: [
-    { src: '/latin-game/map.jpg', alt: 'Jam with Latin campaign map' },
-    { src: '/latin-game/home.jpg', alt: 'Jam with Latin home screen' },
-    { src: '/latin-game/case-challenge.jpg', alt: 'Jam with Latin case challenge' },
-  ],
-}
+/* The hero is a carousel: the newest launch first, then the other apps. Each
+   slide's words and screens come from that app's own page on this site. Ruta is
+   contract work on someone else's product, so it shows the CSS drawings, never
+   screenshots. */
+const BUILD_YOURS = 'Want an app like this? I can build yours.'
+
+export const HERO_SLIDES = [
+  {
+    eyebrow: 'Out now on the App Store',
+    title: 'Jam with Latin is out now.',
+    accent: BUILD_YOURS,
+    sub:
+      'A Latin learning game I designed, built, and shipped — live on the App Store and already in students’ hands. Have an idea for an app, a tool, or a system for your business? Tell me about it.',
+    appHref: '/latin-game',
+    appCta: 'See Jam with Latin',
+    shots: [
+      { src: '/latin-game/map.jpg', alt: 'Jam with Latin campaign map' },
+      { src: '/latin-game/home.jpg', alt: 'Jam with Latin home screen' },
+      { src: '/latin-game/case-challenge.jpg', alt: 'Jam with Latin case challenge' },
+    ],
+  },
+  {
+    eyebrow: 'Free on the App Store',
+    title: 'Tap it. Tick it. Done.',
+    accent: BUILD_YOURS,
+    sub:
+      'Tap to Tick is an easy way to log and track transactions — including the cash in your pocket. Two taps from the lock screen, and it’s in the books.',
+    appHref: '/tap-to-tick',
+    appCta: 'See Tap to Tick',
+    shots: [
+      { src: '/tap-to-tick/log.jpg', alt: 'Tap to Tick: logging an expense' },
+      { src: '/tap-to-tick/overview.jpg', alt: 'Tap to Tick overview: balances and spending by category' },
+      { src: '/tap-to-tick/history.jpg', alt: 'Tap to Tick history of recent transactions' },
+    ],
+  },
+  {
+    eyebrow: 'Contract work',
+    title: 'Ruta.',
+    accent: BUILD_YOURS,
+    sub:
+      'Service-management software for landscaping and maintenance businesses. I did not build it on my own, but I have been working on it as a contractor on the team.',
+    appHref: '/ruta',
+    appCta: 'See Ruta',
+    mocks: ['queue', 'portal', 'time'] as const,
+  },
+] as const
 
 export const APP_OFFER = {
   title: 'Apps I have built.',

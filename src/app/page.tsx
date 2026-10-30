@@ -3,7 +3,8 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { RutaPhoneShot } from '@/components/BuildMocks'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
-import { AI_CONSULT, APP_OFFER, HOME_CLUSTER, HERO, PROCESS } from '@/lib/partnership'
+import { HeroCarousel, type HeroSlide } from '@/components/HeroCarousel'
+import { AI_CONSULT, APP_OFFER, HOME_CLUSTER, HERO_SLIDES, PROCESS } from '@/lib/partnership'
 
 export const metadata: Metadata = {
   title: 'Kingdom Sites — mobile application solutions',
@@ -12,67 +13,77 @@ export const metadata: Metadata = {
   alternates: { canonical: '/' },
 }
 
+/* Three phones, the middle one in front, the outer two tucked behind it. */
+function phoneFrame(i: number) {
+  return `relative block overflow-hidden rounded-[26px] shadow-[0_16px_40px_rgba(16,23,37,0.16)] ${
+    i === 1 ? 'z-10 w-[40%]' : `w-[31%] translate-y-5 ${i === 0 ? '-mr-4 sm:-mr-5' : '-ml-4 sm:-ml-5'}`
+  }`
+}
+
+function SlideTitle({ as: Heading, title, accent }: { as: 'h1' | 'h2'; title: string; accent: string }) {
+  return (
+    <Heading className="mt-4 text-balance text-[2.15rem] font-semibold leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-[3.5rem] xl:text-[3.85rem]">
+      {title}
+      <span className="mt-3 block text-[0.72em] font-medium leading-snug text-accent sm:mt-4">{accent}</span>
+    </Heading>
+  )
+}
+
+const heroSlides: HeroSlide[] = HERO_SLIDES.map((slide, n) => ({
+  label: slide.appCta.replace(/^See /, ''),
+  text: (
+    <>
+      <p className="eyebrow eyebrow-blue">{slide.eyebrow}</p>
+      {/* One h1 for the page: the first slide's. The others look the same. */}
+      <SlideTitle as={n === 0 ? 'h1' : 'h2'} title={slide.title} accent={slide.accent} />
+      <p className="mt-7 text-pretty text-base leading-relaxed text-body sm:text-lg">{slide.sub}</p>
+      <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
+        <Link href={INQUIRE_PATH} className="btn-primary w-full max-w-[280px] sm:w-auto">
+          {INQUIRE_CTA}
+        </Link>
+        <Link href={slide.appHref} className="btn-ghost w-full max-w-[280px] sm:w-auto">
+          {slide.appCta}
+        </Link>
+      </div>
+    </>
+  ),
+  // Real screens from the shipped apps. Ruta is a CSS drawing, not a screenshot.
+  visual: (
+    <div className="flex items-center justify-center pb-6">
+      <Link
+        href={slide.appHref}
+        aria-label={slide.appCta}
+        className="mx-auto flex w-full max-w-[480px] items-end justify-center"
+      >
+        {'shots' in slide
+          ? slide.shots.map((shot, i) => (
+              <span key={shot.src} className={phoneFrame(i)}>
+                <Image
+                  src={shot.src}
+                  alt={shot.alt}
+                  width={360}
+                  height={780}
+                  priority={n === 0 && i === 1}
+                  sizes="(min-width: 1024px) 200px, 40vw"
+                  className="h-auto w-full"
+                />
+              </span>
+            ))
+          : slide.mocks.map((scene, i) => (
+              <span key={scene} className={phoneFrame(i)}>
+                <RutaPhoneShot scene={scene} fill />
+              </span>
+            ))}
+      </Link>
+    </div>
+  ),
+}))
+
 export default function Home() {
   return (
     <div className="w-full overflow-x-hidden">
-      {/* 1 — Hero: the Jam with Latin launch, then an invitation to build yours. */}
-      <section aria-label="Jam with Latin is out now" className="hero-wash px-5 pb-20 pt-16 sm:px-8 sm:pb-28 sm:pt-24">
-        <div className="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-16">
-          <div className="text-center lg:text-left">
-            <p className="eyebrow eyebrow-blue">{HERO.eyebrow}</p>
-            <h1 className="mt-4 text-balance text-[2.15rem] font-semibold leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-[3.5rem] xl:text-[3.85rem]">
-              {HERO.title}
-              <span className="mt-3 block text-[0.72em] font-medium leading-snug text-accent sm:mt-4">
-                {HERO.accent}
-              </span>
-            </h1>
-            <p className="mt-7 text-pretty text-base leading-relaxed text-body sm:text-lg">
-              {HERO.sub}
-            </p>
-            <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
-              <Link href={INQUIRE_PATH} className="btn-primary w-full max-w-[280px] sm:w-auto">
-                {INQUIRE_CTA}
-              </Link>
-              <Link href={HERO.appHref} className="btn-ghost w-full max-w-[280px] sm:w-auto">
-                {HERO.appCta}
-              </Link>
-            </div>
-          </div>
-
-          {/* Real screens from the shipped app, straight on the page. */}
-          <div className="flex items-center justify-center pb-6">
-            <Link
-              href={HERO.appHref}
-              aria-label={HERO.appCta}
-              className="mx-auto flex w-full max-w-[480px] items-end justify-center"
-            >
-              {HERO.shots.map((shot, i) => {
-                const middle = i === 1
-                return (
-                  <span
-                    key={shot.src}
-                    className={`relative block overflow-hidden rounded-[26px] shadow-[0_16px_40px_rgba(16,23,37,0.16)] ${
-                      middle
-                        ? 'z-10 w-[40%]'
-                        : `w-[31%] translate-y-5 ${i === 0 ? '-mr-4 sm:-mr-5' : '-ml-4 sm:-ml-5'}`
-                    }`}
-                  >
-                    <Image
-                      src={shot.src}
-                      alt={shot.alt}
-                      width={360}
-                      height={780}
-                      priority={middle}
-                      sizes="(min-width: 1024px) 200px, 40vw"
-                      className="h-auto w-full"
-                    />
-                  </span>
-                )
-              })}
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* 1 — Hero: Jam with Latin, then Tap to Tick, then Ruta, each an invitation to build yours. */}
+      <HeroCarousel slides={heroSlides} />
 
       {/* 2 — Apps I build + shots + My Work + inquire */}
       <section aria-label="Apps I build" className="border-t border-line px-5 py-20 sm:px-8 sm:py-28">
