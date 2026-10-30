@@ -88,14 +88,19 @@ export default function Intelligence() {
       el.style.setProperty('--ki-top', `${top}px`)
       // The gap between the bottom of the page and the bottom of what is showing: the keyboard.
       el.style.setProperty('--ki-bottom', `${Math.max(0, window.innerHeight - (height + top))}px`)
-      // The keys are up when the visible part is well short of the window.
-      if (height < window.innerHeight - 120) el.setAttribute('data-keys', '')
+      // The keys are up when the visible part is well short of the window, or
+      // (iOS may shrink the window along with it) when a box in the sheet has the cursor.
+      const typing = el.contains(document.activeElement) && /^(TEXTAREA|INPUT)$/.test(document.activeElement?.tagName ?? '')
+      if (typing || height < window.innerHeight - 120) el.setAttribute('data-keys', '')
       else el.removeAttribute('data-keys')
     }
     place()
     vv?.addEventListener('resize', place)
     vv?.addEventListener('scroll', place)
     window.addEventListener('resize', place)
+    el.addEventListener('focusin', place)
+    const afterFocus = () => window.setTimeout(place, 0)
+    el.addEventListener('focusout', afterFocus)
 
     const html = document.documentElement
     const y = window.scrollY
@@ -109,6 +114,8 @@ export default function Intelligence() {
       vv?.removeEventListener('resize', place)
       vv?.removeEventListener('scroll', place)
       window.removeEventListener('resize', place)
+      el.removeEventListener('focusin', place)
+      el.removeEventListener('focusout', afterFocus)
       el.removeAttribute('data-keys')
       html.classList.remove('ki-lock')
       Object.assign(document.body.style, was)
