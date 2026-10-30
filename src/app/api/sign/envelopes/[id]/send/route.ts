@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
-import { AuthError, getAdminSession } from '@/lib/sign/auth'
+import { AuthError, canAccessEnvelope, getSignUser } from '@/lib/sign/auth'
+import { getAccount, sendingAllowance } from '@/lib/sign/accounts'
 import { appendAudit } from '@/lib/sign/audit'
 import { protectSignedSigners } from '@/lib/sign/complete'
 import { signersWithoutLine } from '@/lib/sign/placement'
 import { emailConfigured, sendMagicLinkEmail, signerLink } from '@/lib/sign/email'
-import { getEnvelope, saveEnvelope } from '@/lib/sign/store'
+import { getEnvelope, listEnvelopes, saveEnvelope } from '@/lib/sign/store'
 import type { Envelope } from '@/lib/sign/types'
 
 export const runtime = 'nodejs'
@@ -27,12 +28,25 @@ async function loadEnvelopeForSend(id: string): Promise<Envelope | null> {
 
 export async function POST(request: Request, ctx: Ctx) {
   try {
-    const session = await getAdminSession()
+    const session = await getSignUser()
     if (!session) throw new AuthError()
     const { id } = await ctx.params
     let envelope = await loadEnvelopeForSend(id)
-    if (!envelope) {
+    if (!envelope || !canAccessEnvelope(session, envelope)) {
       return NextResponse.json({ ok: false, error: 'Not found' }, { status: 404 })
+    }
+    // A customer's first send of a document counts toward their plan; resends are free.
+    if (session.kind === 'account' && envelope.status === 'draft') {
+      const account = await getAccount(session.accountId)
+      const allowance = account
+        ? sendingAllowance(account, await listEnvelopes(session.accountId))
+        : { allowed: false, message: 'Sign in again.' }
+      if (!allowance.allowed) {
+        return NextResponse.json(
+          { ok: false, error: allowance.message, needsPlan: true },
+          { status: 402 },
+        )
+      }
     }
     if (envelope.signers.length === 0) {
       return NextResponse.json({ ok: false, error: 'Add at least one signer first.' }, { status: 400 })

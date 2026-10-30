@@ -14,7 +14,7 @@ function fromAddress(): string {
   )
 }
 
-function appBaseUrl(): string {
+export function appBaseUrl(): string {
   const explicit = process.env.SIGN_APP_URL?.trim() || process.env.NEXT_PUBLIC_SITE_URL?.trim()
   if (explicit) {
     const base = explicit.replace(/\/$/, '')
@@ -186,6 +186,32 @@ export async function sendCompletedPdfEmail(opts: {
     html,
     attachments: [{ filename: opts.filename, content: opts.pdf }],
   })
+}
+
+/** Confirm a new Sign account's email address. */
+export async function sendVerifyEmail(opts: {
+  to: string
+  name: string
+  token: string
+}): Promise<boolean> {
+  const link = `${appBaseUrl()}/api/sign/verify?token=${encodeURIComponent(opts.token)}`
+  const text = [
+    `Hi ${opts.name || 'there'},`,
+    '',
+    'Confirm your email to finish setting up Kingdom Sites Sign:',
+    link,
+    '',
+    'If you did not sign up, ignore this email.',
+    '',
+    '— Kingdom Sites Sign',
+  ].join('\n')
+  const html = `
+    <p>Hi ${escapeHtml(opts.name || 'there')},</p>
+    <p>Confirm your email to finish setting up Kingdom Sites Sign.</p>
+    <p><a href="${link}" style="display:inline-block;padding:12px 20px;border-radius:999px;background:#0a5fcc;color:#fff;text-decoration:none;font-weight:600">Confirm my email</a></p>
+    <p style="color:#666;font-size:13px">If you did not sign up, ignore this email.</p>
+  `
+  return sendResend({ to: opts.to, subject: 'Confirm your email for Kingdom Sites Sign', text, html })
 }
 
 function escapeHtml(s: string): string {

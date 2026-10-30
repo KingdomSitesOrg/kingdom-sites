@@ -58,6 +58,14 @@ export async function POST(request: Request, ctx: Ctx) {
     if (!signer) {
       return NextResponse.json({ ok: false, error: 'Signer not found.' }, { status: 404 })
     }
+    // A customer's draft has not been sent (or counted against their plan):
+    // its links do not work until it is.
+    if (envelope.status === 'draft' && envelope.ownerId) {
+      return NextResponse.json(
+        { ok: false, error: 'This document has not been sent for signing yet.' },
+        { status: 409 },
+      )
+    }
     // Valid magic link = invited. Promote draft → sent so links still work if a
     // stale auto-save raced and wrote draft after emails went out.
     if (envelope.status === 'draft') {
