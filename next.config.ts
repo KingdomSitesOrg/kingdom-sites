@@ -81,6 +81,8 @@ const nextConfig: NextConfig = {
       { source: '/seo', destination: '/', permanent: true },
       { source: '/software', destination: '/', permanent: true },
       { source: '/rochester-mn', destination: '/', permanent: true },
+      // The Farzana Classroom case study is now the first section of /work.
+      { source: '/work/farzana', destination: '/work#farzana', permanent: false },
       // Edu is now Farzana, at farzana.app. The film's end card and links
       // already shared say /edu or /farzana; temporary, since the pages move
       // from this project to the Farzana app itself at launch.

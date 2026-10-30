@@ -8,10 +8,11 @@ import shotJourney from '../../../public/latin-game/journey.jpg'
 import shotCase from '../../../public/latin-game/case-challenge.jpg'
 import shotLeaderboard from '../../../public/latin-game/leaderboard.jpg'
 import shotMap from '../../../public/latin-game/map.jpg'
+import { LATIN_STORES } from '@/lib/work'
 
 /** Set these once each app is live and the buttons become real links. */
-const APP_STORE_URL = 'https://apps.apple.com/us/app/jam-legio/id6797884645'
-const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.jamwithlatin.app'
+const APP_STORE_URL = LATIN_STORES.appStore
+const PLAY_STORE_URL = LATIN_STORES.googlePlay
 
 const FAQS = [
   {

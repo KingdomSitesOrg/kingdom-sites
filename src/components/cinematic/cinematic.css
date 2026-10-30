@@ -125,3 +125,34 @@
   .cn-stack { display: grid !important; gap: 56px; }
 }
 .cn-stack { display: none; }
+
+/* ---------- Dot navigation: one dot per section, on the right edge ---------- */
+.cn-dots { display: none; }
+@media (min-width: 900px) {
+  .cn-dots { display: block; position: fixed; right: 10px; top: 50%; transform: translateY(-50%); z-index: 30; }
+}
+.cn-dots ul { display: flex; flex-direction: column; gap: 2px; list-style: none; margin: 0; padding: 0; }
+.cn-dots a { position: relative; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 999px; }
+.cn-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(239, 235, 227, 0.28); box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35); transition: background-color 0.25s, transform 0.25s; }
+.cn-dots a:hover .cn-dot { background: rgba(239, 235, 227, 0.6); }
+.cn-dots a[aria-current] .cn-dot { background: var(--fg); transform: scale(1.35); }
+.cn-dots a:focus-visible { outline: 2px solid var(--fg); outline-offset: 1px; }
+/* The tooltip: the section's name, to the left of its dot. */
+.cn-dot-tip { position: absolute; right: 34px; top: 50%; transform: translate(6px, -50%); white-space: nowrap; padding: 6px 10px; border-radius: 8px; background: #1b1b1e; border: 1px solid var(--line); color: var(--fg); font-size: 13px; line-height: 1; opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; }
+.cn-dots a:hover .cn-dot-tip, .cn-dots a:focus-visible .cn-dot-tip { opacity: 1; transform: translate(0, -50%); }
+.cn [tabindex='-1']:focus { outline: none; }
+@media (prefers-reduced-motion: reduce) {
+  .cn-dot, .cn-dot-tip { transition: none; }
+}
+
+/* ---------- Case-study cards: a picture, a name, a line ---------- */
+.cn-shot { display: block; overflow: hidden; border-radius: 12px; background: var(--bg-2); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.07); }
+.cn-shot img { display: block; width: 100%; height: auto; transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.1, 1); }
+.cn-case:hover .cn-shot img { transform: scale(1.03); }
+@media (prefers-reduced-motion: reduce) { .cn-shot img { transition: none; } .cn-case:hover .cn-shot img { transform: none; } }
+
+/* Three phones in a depth row. */
+.cn-depth-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+/* Store buttons, in the ghost button's shape. */
+.cn-store svg { flex: none; }
