@@ -5,7 +5,8 @@ import { JOIN_GIFT } from '@/lib/referrals'
  * The link preview card for the referral program (T-293, Thomas, 2026-10-29):
  * what iMessage, WhatsApp and the rest show when someone pastes /refer, a
  * personal link (/r/<code>) or a tracker. The Kingdom Sites mark and a big
- * $500; a personal link adds "Anna sent you here." under it (T-297: no
+ * $500 with "Up to" above it (T-303: the join gift is $100 for a smaller
+ * project); a personal link adds "Anna sent you here." under it (T-297: no
  * tagline). 1200x630, drawn by Next's `opengraph-image` files.
  */
 
@@ -50,9 +51,13 @@ export function referralCard(line?: string) {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <div style={{ display: 'flex', fontSize: 60, fontWeight: 700, lineHeight: 1, color: '#15181d' }}>
+            Up to
+          </div>
           <div
             style={{
               display: 'flex',
+              marginTop: 8,
               fontSize: 210,
               fontWeight: 700,
               lineHeight: 1,

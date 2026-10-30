@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
 import DepositLanding from './DepositLanding'
 import ReferForms from './ReferForms'
-import { CALL_GIFT, JOIN_GIFT } from '@/lib/referrals'
+import { CALL_GIFT, JOIN_GIFT, SMALL_JOIN_GIFT } from '@/lib/referrals'
 
-const DESCRIPTION = `Introduce anyone who needs custom software, or a school to Farzana. You get $${CALL_GIFT} as soon as they have a call with me, and $${JOIN_GIFT} more when they join.`
-const SHARE_TITLE = `Refer someone, get $${JOIN_GIFT} | Kingdom Sites`
+const DESCRIPTION = `Introduce anyone who needs custom software, or a school to Farzana. You get $${CALL_GIFT} as soon as they have a call with me, and up to $${JOIN_GIFT} more when they join.`
+const SHARE_TITLE = `Refer someone, get up to $${JOIN_GIFT} | Kingdom Sites`
 
 /* Its own link preview (T-293), not the home page's: the card is opengraph-image.tsx here. */
 export const metadata: Metadata = {
@@ -32,14 +32,14 @@ const STEPS = [
     body: `I talk with them about what they need. As soon as the call has happened, $${CALL_GIFT} is yours, within 2 weeks.`,
   },
   {
-    title: `They join: $${JOIN_GIFT} more`,
-    body: `Once they start and their first payment clears, another $${JOIN_GIFT} is yours, within 1 to 2 months.`,
+    title: `They join: up to $${JOIN_GIFT} more`,
+    body: `Once they start and their first payment clears, up to $${JOIN_GIFT} more is yours, within 1 to 2 months.`,
   },
 ]
 
 const RULES = [
-  `One $${CALL_GIFT} gift and one $${JOIN_GIFT} gift for each organization, to the first person who told me about it.`,
-  `The $${JOIN_GIFT} is for a project whose build is $2,000 or more, or whose monthly fees add up to more than $3,000 in the first year. Anything smaller earns $100 instead.`,
+  `One $${CALL_GIFT} gift and one join gift for each organization, to the first person who told me about it.`,
+  `The $${JOIN_GIFT} is for a project whose build is $2,000 or more, or whose monthly fees add up to more than $3,000 in the first year. Anything smaller earns $${SMALL_JOIN_GIFT} instead.`,
   `The $${CALL_GIFT} is for a call that happens. A call that is booked but never held earns nothing.`,
   'Someone already talking with me does not count, unless your introduction is what got them to reply.',
   'The person who signs for an organization cannot collect a gift for their own organization.',
@@ -56,7 +56,7 @@ export default function ReferPage() {
           <h1 className="text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
             Introduce someone who needs software.{' '}
             <span className="text-accent">
-              ${CALL_GIFT} for the call, ${JOIN_GIFT} more when they join.
+              ${CALL_GIFT} for the call, up to ${JOIN_GIFT} more when they join.
             </span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-body sm:text-lg">
@@ -101,7 +101,7 @@ export default function ReferPage() {
             Farzana is the education software I build for schools, training organizations and
             educational businesses: a proven platform with classes, students and families, payments
             and progress, and the features each school needs built on top. A school you send counts
-            the same way: ${CALL_GIFT} for the call, ${JOIN_GIFT} more when it joins.
+            the same way: ${CALL_GIFT} for the call, up to ${JOIN_GIFT} more when it joins.
           </p>
           <a href="https://farzana.app" className="btn-ghost self-start">
             See Farzana
