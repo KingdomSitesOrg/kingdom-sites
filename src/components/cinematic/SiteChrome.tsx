@@ -10,7 +10,7 @@ const YOUTUBE_URL = 'https://www.youtube.com/@tkklein/videos'
 
 const PAGE_LINKS = [
   { href: '/portfolio', label: 'Portfolio' },
-  { href: '/ai-tooling', label: 'AI' },
+  { href: '/ai-tooling', label: 'AI consultation' },
   { href: '/about', label: 'Studio' },
   { href: '/mission', label: 'Mission' },
   { href: '/refer', label: 'Refer someone' },
