@@ -2,8 +2,7 @@
 
 import { useEffect } from 'react'
 import { usePathname, useSelectedLayoutSegment } from 'next/navigation'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
+import SiteChrome from '@/components/cinematic/SiteChrome'
 
 export default function AppShell({
   children,
@@ -57,15 +56,12 @@ export default function AppShell({
     )
   }
 
-  // `overflow-x: clip` rather than `hidden` on the wrapper: hidden would make it
-  // a scroll container, and the sticky header inside it would stop sticking on
-  // both mobile and desktop. Clip still keeps stray width from scrolling.
+  // Every other studio page wears the home page's look: its header, its dark
+  // room and its footer (T-365).
   return (
-    <div className="min-h-screen min-h-dvh w-full overflow-x-clip text-ink">
+    <SiteChrome>
       {studioData}
-      <Header />
-      <main>{children}</main>
-      <Footer />
-    </div>
+      {children}
+    </SiteChrome>
   )
 }

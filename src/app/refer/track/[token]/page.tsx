@@ -46,7 +46,7 @@ export default async function TrackerPage({ params }: { params: Promise<{ token:
   if (!tracker) {
     return (
       <div className="mx-auto flex w-full max-w-3xl flex-col gap-4 px-5 py-16 sm:px-8 sm:py-24">
-        <h1 className="text-3xl font-semibold tracking-tight text-ink">This link does not open a tracker</h1>
+        <h1 className="cn-display cn-h3 text-balance">This link does not open a tracker</h1>
         <p className="max-w-prose text-pretty text-body">
           It may have been replaced with a new one. Write to{' '}
           <a href={`mailto:${CONTACT_EMAIL}`} className="link-accent">
@@ -86,7 +86,7 @@ export default async function TrackerPage({ params }: { params: Promise<{ token:
 
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col gap-10 px-5 py-16 sm:px-8 sm:py-24">
-      <h1 className="text-balance text-4xl font-semibold leading-[1.1] tracking-tight text-ink [overflow-wrap:anywhere]">
+      <h1 className="cn-display cn-h2 cn-rise text-balance [overflow-wrap:anywhere]">
         {tracker.firstName
           ? `${tracker.firstName}, here is how your referrals are doing`
           : 'How your referrals are doing'}
@@ -182,7 +182,7 @@ const STATE_WORDS: Record<TrackerStep['state'], string> = {
 function Marker({ step }: { step: TrackerStep }) {
   if (step.state === 'done') {
     return (
-      <span className="flex size-6 items-center justify-center rounded-full bg-accent text-xs font-bold text-white">
+      <span className="flex size-6 items-center justify-center rounded-full bg-accent text-xs font-bold text-canvas">
         ✓
       </span>
     )

@@ -24,19 +24,19 @@ export const metadata: Metadata = {
 export default function AiTooling() {
   return (
     <div className="w-full overflow-x-hidden">
-      <section className="hero-wash px-5 pb-16 pt-16 sm:px-8 sm:pb-20 sm:pt-24">
-        <div className="mx-auto grid max-w-6xl items-start gap-10 lg:grid-cols-2 lg:gap-14">
+      <section className="cn-wrap pb-16 pt-16 sm:pb-24 sm:pt-24">
+        <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
           <div className="self-start">
-            <p className="eyebrow">AI consultation</p>
-            <h1 className="mt-4 text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
+            <p className="cn-kicker cn-rise">AI consultation</p>
+            <h1 className="cn-display cn-h2 cn-rise cn-rise-2 mt-5 text-balance">
               {AI_CONSULT.pageTitle}
             </h1>
-            <p className="mt-6 text-pretty text-base leading-relaxed text-body sm:text-lg">
+            <p className="cn-body cn-rise cn-rise-3 mt-6 max-w-[46ch] text-pretty">
               {AI_CONSULT.pageSub}
             </p>
           </div>
 
-          <div className="self-start">
+          <div className="cn-rise cn-rise-3 self-start">
             {CALENDLY_AI_URL ? (
               <>
                 <h2 className="mb-4 text-lg font-semibold tracking-tight text-ink">
@@ -46,7 +46,7 @@ export default function AiTooling() {
               </>
             ) : (
               <div className="tile-elevated p-7 sm:p-10">
-                <h2 className="text-2xl font-semibold tracking-tight text-ink">
+                <h2 className="cn-display cn-h3">
                   {AI_CONSULT.bookTitle}
                 </h2>
                 <p className="mt-3 text-[15px] leading-relaxed text-body">{AI_CONSULT.bookBody}</p>
@@ -59,9 +59,9 @@ export default function AiTooling() {
         </div>
       </section>
 
-      <section aria-label="What we cover" className="border-t border-line px-5 py-16 sm:px-8 sm:py-24">
-        <div className="mx-auto max-w-6xl">
-          <h2 className="max-w-2xl text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+      <section aria-label="What we cover" className="cn-wrap py-16 sm:py-24">
+        <div className="border-t border-line pt-12">
+          <h2 className="cn-display cn-h3 max-w-[22ch] text-balance">
             Developers, admins, and everyone exploring AI.
           </h2>
           <EvenGrid surface="ai-consult-topics" maxCols={3} className="mt-10">
@@ -75,12 +75,12 @@ export default function AiTooling() {
         </div>
       </section>
 
-      <section aria-label="AI in your app" className="border-t border-line px-5 py-16 sm:px-8 sm:py-24">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+      <section aria-label="AI in your app" className="cn-wrap pb-28 pt-16 text-center sm:pb-36 sm:pt-24">
+        <div>
+          <h2 className="cn-display cn-h2 mx-auto max-w-[16ch] text-balance">
             {AI_CONSULT.inAppTitle}
           </h2>
-          <p className="mx-auto mt-5 max-w-xl text-pretty text-[15px] leading-relaxed text-body">
+          <p className="cn-body mx-auto mt-6 max-w-[42ch] text-pretty">
             {AI_CONSULT.inAppBody}
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
