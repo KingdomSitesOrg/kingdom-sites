@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
 import { getAdminSession } from '@/lib/sign/auth'
-import { isPayoutMethod, isStageKey } from '@/lib/referrals'
+import { isJoinGift, isPayoutMethod, isStageKey } from '@/lib/referrals'
 import { markStage, removeReferrer } from '@/lib/refer/store'
 
 /**
@@ -25,7 +25,11 @@ export async function POST(request: Request) {
         return NextResponse.json({ ok: false, error: 'Unknown stage.' }, { status: 400 })
       }
       const via = isPayoutMethod(body.via) ? body.via : undefined
-      const found = await markStage(body.id, stage, body.on === true, via)
+      const amount = isJoinGift(body.amount) ? body.amount : undefined
+      if (stage === 'joinPaid' && body.on === true && !amount) {
+        return NextResponse.json({ ok: false, error: 'Pick $100 or $500.' }, { status: 400 })
+      }
+      const found = await markStage(body.id, stage, body.on === true, via, amount)
       return NextResponse.json({ ok: found }, { status: found ? 200 : 404 })
     }
     if (body.action === 'remove' && typeof body.code === 'string') {

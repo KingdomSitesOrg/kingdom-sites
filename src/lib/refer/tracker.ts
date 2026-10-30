@@ -10,8 +10,9 @@ import { referrerByTracker, type Referred, type ReferralsDoc } from './store'
 
 /**
  * A referrer's private tracker, ported from Farzana's (T-80, T-284): for each
- * person they sent, the few milestones from "Referred" to "$500 sent", where it
- * stands now, and when each gift should arrive. Everything is read off what
+ * person they sent, the few milestones from "Referred" to the join gift sent,
+ * where it stands now, and when each gift should arrive. The join gift is up
+ * to $500 until Thomas sends it, then the $100 or $500 he sent (T-303). Everything is read off what
  * Thomas marks on /sign/referrals; nothing here pays anybody.
  *
  * What a referrer may see is decided here and nowhere else: their own
@@ -49,6 +50,10 @@ export type TrackerEntry = {
   steps: TrackerStep[]
   earned: number
   sent: number
+  /** The most still to come for this one: the join gift counts as up to $500 until it is sent. */
+  toCome: number
+  /** Their first payment cleared and the join gift is not sent yet. */
+  giftWaiting: boolean
 }
 
 export type Tracker = {
@@ -56,7 +61,7 @@ export type Tracker = {
   code: string
   entries: TrackerEntry[]
   payout: { method: PayoutMethod; handle: string } | null
-  totals: { sent: number; onTheWay: number; toCome: number }
+  totals: { sent: number; onTheWay: number; toCome: number; giftWaiting: boolean }
 }
 
 const day = (at: string | undefined) => (at ? at.slice(0, 10) : null)
@@ -91,10 +96,14 @@ function paidLine(amount: number, via: PayoutMethod | undefined, on: string) {
   return how ? `Paid $${amount} by ${how} on ${shortDate(on)}.` : `Paid $${amount} on ${shortDate(on)}.`
 }
 
-function onItsWay(amount: number, chosen: PayoutMethod | null) {
+/** The join gift before Thomas sends it, when its amount is not settled yet. */
+const UP_TO = `up to $${JOIN_GIFT}`
+
+/** `gift` is what is coming: "$20", or "gift of up to $500". */
+function onItsWay(gift: string, chosen: PayoutMethod | null) {
   return chosen
-    ? `Your $${amount} is on its way by ${payoutLabel(chosen)}.`
-    : `Your $${amount} is ready. Tell us below how to send it.`
+    ? `Your ${gift} is on its way by ${payoutLabel(chosen)}.`
+    : `Your ${gift} is ready. Tell us below how to send it.`
 }
 
 function nextSentence(step: TrackerStep, chosen: PayoutMethod | null) {
@@ -111,11 +120,11 @@ function nextSentence(step: TrackerStep, chosen: PayoutMethod | null) {
     case 'signed':
       return 'Next: they decide whether to build with Thomas.'
     case 'paid':
-      return `Next: their first payment. Once it clears, $${JOIN_GIFT} more is yours.`
+      return `Next: their first payment. Once it clears, ${UP_TO} more is yours.`
     case 'giftSent':
       return chosen
-        ? `Next: your $${JOIN_GIFT} arrives${by}.`
-        : `Next: your $${JOIN_GIFT}. Tell us below how to send it.`
+        ? `Next: your gift of ${UP_TO} arrives${by}.`
+        : `Next: your gift of ${UP_TO}. Tell us below how to send it.`
     default:
       return step.detail
   }
@@ -129,6 +138,9 @@ export function timeline(lead: Referred, chosen: PayoutMethod | null = null): Tr
   const signed = day(lead.signedAt)
   const firstPayment = day(lead.firstPaymentAt)
   const giftSent = day(lead.joinPaidAt)
+  // The join gift's real amount once sent ($500 for one sent before T-303).
+  const joinGift = giftSent ? (lead.joinGift ?? JOIN_GIFT) : null
+  const joinWords = joinGift ? `$${joinGift}` : UP_TO
 
   const isBooked = Boolean(booked || held)
   const isSigned = Boolean(signed || firstPayment)
@@ -167,7 +179,7 @@ export function timeline(lead: Referred, chosen: PayoutMethod | null = null): Tr
       detail: callSent
         ? paidLine(CALL_GIFT, lead.callPaidVia, callSent)
         : held
-          ? onItsWay(CALL_GIFT, chosen)
+          ? onItsWay(`$${CALL_GIFT}`, chosen)
           : `Within ${CALL_GIFT_DAYS / 7} weeks of the call.`,
       done: Boolean(callSent),
       on: callSent,
@@ -183,21 +195,21 @@ export function timeline(lead: Referred, chosen: PayoutMethod | null = null): Tr
     },
     {
       key: 'paid',
-      title: `First payment cleared: $${JOIN_GIFT} earned`,
+      title: `First payment cleared: ${joinWords} earned`,
       detail: firstPayment
-        ? `Their first payment cleared, so $${JOIN_GIFT} more is yours.`
-        : `Once their first payment clears, $${JOIN_GIFT} more is yours.`,
+        ? `Their first payment cleared, so ${joinWords} more is yours.`
+        : `Once their first payment clears, ${joinWords} more is yours.`,
       done: Boolean(firstPayment),
       on: firstPayment,
       expected: null,
     },
     {
       key: 'giftSent',
-      title: `$${JOIN_GIFT} sent`,
-      detail: giftSent
-        ? paidLine(JOIN_GIFT, lead.joinPaidVia, giftSent)
+      title: joinGift ? `$${joinGift} sent` : `Gift of ${UP_TO} sent`,
+      detail: joinGift && giftSent
+        ? paidLine(joinGift, lead.joinPaidVia, giftSent)
         : firstPayment
-          ? onItsWay(JOIN_GIFT, chosen)
+          ? onItsWay(`gift of ${UP_TO}`, chosen)
           : `${JOIN_GIFT_MONTHS.from} to ${JOIN_GIFT_MONTHS.to} months after their first payment.`,
       done: Boolean(giftSent),
       on: giftSent,
@@ -211,8 +223,9 @@ export function timeline(lead: Referred, chosen: PayoutMethod | null = null): Tr
     },
   ]
 
-  const earned = (held ? CALL_GIFT : 0) + (firstPayment ? JOIN_GIFT : 0)
-  const sent = (callSent ? CALL_GIFT : 0) + (giftSent ? JOIN_GIFT : 0)
+  // Only real amounts: a join gift counts once Thomas has sent it and said how much.
+  const earned = (held ? CALL_GIFT : 0) + (joinGift ?? 0)
+  const sent = (callSent ? CALL_GIFT : 0) + (joinGift ?? 0)
 
   // Not going ahead, unless they have already paid: what happened stays, a
   // gift earned and not yet sent is still on its way, nothing else is coming.
@@ -250,7 +263,16 @@ export function timeline(lead: Referred, chosen: PayoutMethod | null = null): Tr
       ? 'Nothing more is coming for this one.'
       : `All done: $${earned} sent for this one.`
 
-  return { name: lead.name, stage: ended ? 'ended' : isSigned ? 'joined' : 'going', next, steps, earned, sent }
+  return {
+    name: lead.name,
+    stage: ended ? 'ended' : isSigned ? 'joined' : 'going',
+    next,
+    steps,
+    earned,
+    sent,
+    toCome: ended ? 0 : CALL_GIFT + (joinGift ?? JOIN_GIFT) - earned,
+    giftWaiting: Boolean(firstPayment && !giftSent),
+  }
 }
 
 /** The tracker a token opens, or null when it opens none. Newest first. */
@@ -265,15 +287,13 @@ export function trackerFor(token: string, doc: ReferralsDoc): Tracker | null {
 
   const sent = entries.reduce((sum, e) => sum + e.sent, 0)
   const earned = entries.reduce((sum, e) => sum + e.earned, 0)
-  const toCome = entries
-    .filter((e) => e.stage !== 'ended')
-    .reduce((sum, e) => sum + CALL_GIFT + JOIN_GIFT - e.earned, 0)
+  const toCome = entries.reduce((sum, e) => sum + e.toCome, 0)
 
   return {
     firstName: referrer.name.trim().split(/\s+/)[0] ?? '',
     code: referrer.code,
     entries,
     payout: referrer.payout ? { method: referrer.payout.method, handle: referrer.payout.handle } : null,
-    totals: { sent, onTheWay: earned - sent, toCome },
+    totals: { sent, onTheWay: earned - sent, toCome, giftWaiting: entries.some((e) => e.giftWaiting) },
   }
 }

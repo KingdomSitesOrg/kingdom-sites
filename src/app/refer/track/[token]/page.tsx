@@ -62,14 +62,18 @@ export default async function TrackerPage({ params }: { params: Promise<{ token:
   const host = head.get('x-forwarded-host') ?? head.get('host') ?? ''
   const proto = head.get('x-forwarded-proto') ?? (host.startsWith('localhost') ? 'http' : 'https')
   const link = shareLink(`${proto}://${host}`, tracker.code)
-  const { sent, onTheWay, toCome } = tracker.totals
+  const { sent, onTheWay, toCome, giftWaiting } = tracker.totals
   // Money is waiting and nobody has said where to send it: ask first, at the top.
-  const askNow = onTheWay > 0 && !tracker.payout
+  const askNow = (onTheWay > 0 || giftWaiting) && !tracker.payout
   const payout = (
     <section className="tile-elevated flex flex-col gap-4 p-7">
       <div className="flex flex-col gap-1">
         <h2 className="text-xl font-semibold tracking-tight text-ink">
-          {askNow ? `How should I send your ${money(onTheWay)}?` : 'How you get paid'}
+          {askNow
+            ? onTheWay > 0
+              ? `How should I send your ${money(onTheWay)}?`
+              : 'How should I send your gift?'
+            : 'How you get paid'}
         </h2>
         <p className="max-w-prose text-pretty text-body">
           I send each gift myself, by PayPal, Venmo or Apple Cash. Pick one and say where. You can
@@ -91,7 +95,7 @@ export default async function TrackerPage({ params }: { params: Promise<{ token:
       <section aria-label="Your gifts" className="tile-elevated grid grid-cols-1 gap-4 p-7 sm:grid-cols-3">
         <Figure amount={sent} label="Sent to you" />
         <Figure amount={onTheWay} label="On the way" />
-        <Figure amount={toCome} label="Still to come" />
+        <Figure amount={toCome} label="Still to come, up to" />
       </section>
 
       {askNow ? payout : null}

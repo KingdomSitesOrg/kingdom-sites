@@ -3,12 +3,16 @@
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import {
+  JOIN_GIFT,
   PAYOUT_METHODS,
+  SMALL_JOIN_GIFT,
   STAGES,
+  isJoinGift,
   payoutLabel,
   payoutLink,
   shareLink,
   trackerLink,
+  type JoinGift,
   type PayoutMethod,
   type StageKey,
 } from '@/lib/referrals'
@@ -19,8 +23,9 @@ import CopyRow from '@/app/refer/CopyRow'
  * The referrals console (T-293): each referrer, how they want to be paid
  * (with Copy, and Open for Venmo or paypal.me), and everyone they sent with
  * its stage buttons in order: Call booked → Call held → Mark $20 paid →
- * Signed → First payment cleared → Mark $500 paid. Each tap records a date;
- * Undo takes the latest one back. Nothing here sends money.
+ * Signed → First payment cleared → Mark join gift paid, where Thomas picks
+ * $500 or $100 (T-303). Each tap records a date; Undo takes the latest one
+ * back. Nothing here sends money.
  */
 
 const day = (at: string) =>
@@ -41,8 +46,18 @@ const DONE_WORDS: Record<StageKey, string> = {
   callPaid: '$20 paid',
   signed: 'Signed',
   firstPayment: 'First payment cleared',
-  joinPaid: '$500 paid',
+  joinPaid: 'Join gift paid',
 }
+
+/** A stage's words once done: the join gift says how much was sent. */
+const doneWords = (key: StageKey, lead: Referred) =>
+  key === 'joinPaid' ? `$${lead.joinGift ?? JOIN_GIFT} paid` : DONE_WORDS[key]
+
+/** Which join gift a project earns (T-303). */
+const JOIN_GIFT_CHOICES: { value: JoinGift; label: string }[] = [
+  { value: JOIN_GIFT, label: `$${JOIN_GIFT}: build $2,000+, or fees over $3,000 in year one` },
+  { value: SMALL_JOIN_GIFT, label: `$${SMALL_JOIN_GIFT}: a smaller project` },
+]
 
 async function send(body: Record<string, unknown>) {
   const response = await fetch('/api/refer/admin', {
@@ -173,6 +188,7 @@ function LeadRow({ lead, chosen }: { lead: Referred; chosen: PayoutMethod | unde
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
   const [via, setVia] = useState<PayoutMethod>(chosen ?? 'venmo')
+  const [amount, setAmount] = useState<JoinGift | null>(null)
 
   const doneStages = STAGES.filter((s) => lead[STAGE_FIELD[s.key]])
   const next = STAGES.find((s) => !lead[STAGE_FIELD[s.key]])
@@ -219,7 +235,7 @@ function LeadRow({ lead, chosen }: { lead: Referred; chosen: PayoutMethod | unde
             const how = payoutLabel(paidVia(s.key))
             return (
               <li key={s.key} className="rounded-full bg-surface px-3 py-1 text-ink">
-                ✓ {DONE_WORDS[s.key]}
+                ✓ {doneWords(s.key, lead)}
                 {how ? ` by ${how}` : ''} · {day(lead[STAGE_FIELD[s.key]] as string)}
               </li>
             )
@@ -244,15 +260,34 @@ function LeadRow({ lead, chosen }: { lead: Referred; chosen: PayoutMethod | unde
                 ))}
               </select>
             ) : null}
+            {next.key === 'joinPaid' ? (
+              <select
+                value={amount ?? ''}
+                onChange={(e) => {
+                  const picked = Number(e.target.value)
+                  setAmount(isJoinGift(picked) ? picked : null)
+                }}
+                aria-label="How much you sent"
+                className="min-h-10 rounded-lg border border-line-strong bg-surface px-3 text-sm text-ink"
+              >
+                <option value="">How much?</option>
+                {JOIN_GIFT_CHOICES.map((c) => (
+                  <option key={c.value} value={c.value}>
+                    {c.label}
+                  </option>
+                ))}
+              </select>
+            ) : null}
             <button
               type="button"
               className="btn-sm"
-              disabled={busy}
+              disabled={busy || (next.key === 'joinPaid' && !amount)}
               onClick={() =>
                 run({
                   stage: next.key,
                   on: true,
                   ...(next.key === 'callPaid' || next.key === 'joinPaid' ? { via } : {}),
+                  ...(next.key === 'joinPaid' ? { amount } : {}),
                 })
               }
             >
@@ -268,7 +303,7 @@ function LeadRow({ lead, chosen }: { lead: Referred; chosen: PayoutMethod | unde
             disabled={busy}
             onClick={() => run({ stage: last.key, on: false })}
           >
-            Undo {DONE_WORDS[last.key]}
+            Undo {doneWords(last.key, lead)}
           </button>
         ) : null}
         <button
