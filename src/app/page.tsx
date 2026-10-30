@@ -9,7 +9,7 @@ import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { OFFER, PAYS, PROJECTS, SHOTS, type Shot } from '@/lib/work'
 
 const DESCRIPTION =
-  'Websites, iPhone and Android apps and AI consultation for businesses, churches and anyone who needs software, designed, built and looked after by Kingdom Sites.'
+  'Websites, iPhone and Android apps and AI consultation for businesses, churches and anyone who needs software, designed and built by Kingdom Sites.'
 
 export const metadata: Metadata = {
   title: 'Kingdom Sites — Made to be used. Made to be yours.',
@@ -75,7 +75,7 @@ export default function Home() {
           <div className="mt-8 grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-end">
             <p className="cn-body max-w-[46ch]">
               Kingdom Sites designs and builds websites and apps for businesses, churches and anyone who needs
-              software, then looks after them once they are live. Every screen on this page is from software I built.
+              software. Every screen on this page is from software I built.
             </p>
             <div className="flex flex-wrap gap-3 lg:justify-end">
               <Link href={INQUIRE_PATH} className="cn-btn">
