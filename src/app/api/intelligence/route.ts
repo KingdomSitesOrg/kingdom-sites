@@ -6,6 +6,7 @@ import {
   MODEL,
   OFFER_TOOL,
   SAY,
+  articlePrompt,
   asQuestion,
   dailyBudgetUsd,
   parseConversation,
@@ -14,6 +15,7 @@ import {
   takeTurn,
 } from '@/lib/intelligence'
 import { anthropic, apiKey, fromThisSite, readKnowledge, secretFor, visitorOf } from '@/lib/intelligence-server'
+import { findArticle } from '@/lib/articles'
 import { recordAnswer, spentToday } from '@/lib/intelligence-usage'
 
 /**
@@ -25,6 +27,10 @@ import { recordAnswer, spentToday } from '@/lib/intelligence-usage'
  *   {"error":"…"}                            stopped, with words to show
  * A refusal before any answer (limits, the day's budget) is plain JSON with
  * `error` and a 4xx/5xx status.
+ *
+ * A conversation started with "Summarize this article" also names the article
+ * by its path (`article: "guides/…"`); its text is added from the site's own
+ * guides and posts, so the summary and the follow-ups read that page (T-388).
  */
 
 export const runtime = 'nodejs'
@@ -40,8 +46,10 @@ export async function POST(request: Request) {
   if (Number(request.headers.get('content-length') ?? 0) > 64_000) return refuse(SAY.unreadable, 413)
 
   const secret = secretFor(key)
-  const parsed = parseConversation(await request.json().catch(() => null), secret)
+  const raw = await request.json().catch(() => null)
+  const parsed = parseConversation(raw, secret)
   if (!parsed.ok) return refuse(parsed.error, parsed.status)
+  const article = findArticle((raw as { article?: unknown } | null)?.article)
 
   if ((await spentToday()).usd >= dailyBudgetUsd()) return refuse(SAY.resting, 503)
 
@@ -58,7 +66,10 @@ export async function POST(request: Request) {
     // A short answer from a fixed file needs no reasoning step.
     thinking: { type: 'disabled' },
     output_config: { effort: 'low' },
-    system: [{ type: 'text', text: systemPrompt(readKnowledge()), cache_control: { type: 'ephemeral' } }],
+    system: [
+      { type: 'text', text: systemPrompt(readKnowledge()), cache_control: { type: 'ephemeral' } },
+      ...(article ? [{ type: 'text' as const, text: articlePrompt(article.title, article.text) }] : []),
+    ],
     tools: [OFFER_TOOL],
     tool_choice: { type: 'auto' },
     messages,
