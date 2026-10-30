@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
-import { notifyThomas } from '@/lib/notify'
-import { creditReferral } from '@/lib/refer/credit'
+import { deliverEnquiry, looksLikeEmail } from '@/lib/enquiry'
 
 /**
  * Product enquiries, and Farzana call requests.
  *
- * The form posts here; this route delivers by email (Resend) and optionally a
+ * The form posts here; this route checks it and hands it to deliverEnquiry
+ * (src/lib/enquiry.ts), which emails it (Resend) and optionally sends a
  * webhook. Nothing stored in a DB, except that an enquiry from someone who
  * came through a referral link is added to the referral records. The Farzana page's "Book a call" form
  * (/farzana/book) posts here too, with `kind: 'farzana-call'` and two more
@@ -19,8 +19,6 @@ import { creditReferral } from '@/lib/refer/credit'
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 export const maxDuration = 15
-
-const WEBHOOK_TIMEOUT_MS = 4_000
 
 function clean(value: unknown, max = 300): string {
   if (typeof value !== 'string') return ''
@@ -43,27 +41,6 @@ function overLimit(ip: string): boolean {
   RECENT.set(ip, seen)
   if (RECENT.size > 500) RECENT.clear()
   return seen.length > MAX_PER_WINDOW
-}
-
-function looksLikeEmail(value: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value)
-}
-
-async function sendWebhook(payload: Record<string, string>) {
-  const url = process.env.LEAD_WEBHOOK_URL?.trim()
-  if (!url) return false
-  try {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      signal: AbortSignal.timeout(WEBHOOK_TIMEOUT_MS),
-      body: JSON.stringify(payload),
-    })
-    return response.ok
-  } catch (error) {
-    Sentry.captureException(error)
-    return false
-  }
 }
 
 export async function POST(request: Request) {
@@ -106,54 +83,16 @@ export async function POST(request: Request) {
       )
     }
 
-    // Came through someone's referral link: it counts as theirs (T-293).
-    const referredBy = await creditReferral(request, {
+    const delivered = await deliverEnquiry(request, {
       name,
       email,
-      note: farzanaCall ? 'Asked for a Farzana call.' : 'Sent an enquiry.',
+      message,
+      kind: farzanaCall ? 'farzana-call' : 'enquiry',
+      teaches,
+      times,
     })
 
-    const subject = farzanaCall
-      ? `Farzana call request from ${name}`
-      : `Enquiry from ${name}`
-    const body = [
-      farzanaCall
-        ? 'A new call request from kingdom-sites.com/farzana'
-        : 'A new enquiry from kingdom-sites.com',
-      '',
-      `Name: ${name}`,
-      `Email: ${email}`,
-      ...(referredBy ? [`Referred by: ${referredBy} (through their link)`] : []),
-      ...(farzanaCall
-        ? [
-            `Teaches: ${teaches || '(not said)'}`,
-            `When suits them: ${times || '(not said)'}`,
-          ]
-        : []),
-      '',
-      message ? `Message:\n${message}` : 'Message: (none)',
-      '',
-      `Received: ${new Date().toISOString()}`,
-    ].join('\n')
-
-    const [emailed, hooked] = await Promise.all([
-      notifyThomas(subject, body, email),
-      sendWebhook({
-        name,
-        email,
-        message,
-        ...(farzanaCall ? { teaches, times } : {}),
-        receivedAt: new Date().toISOString(),
-        kind: farzanaCall ? 'farzana-call' : 'enquiry',
-        ...(referredBy ? { referredBy } : {}),
-      }),
-    ])
-
-    if (!emailed && !hooked) {
-      Sentry.captureMessage(
-        'Enquiry could not be delivered — no destination succeeded',
-        'error',
-      )
+    if (!delivered) {
       return NextResponse.json(
         { ok: false, error: 'Something went wrong sending that.' },
         { status: 502 },
