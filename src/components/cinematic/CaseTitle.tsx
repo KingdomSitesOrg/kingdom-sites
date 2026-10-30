@@ -12,7 +12,7 @@ export default function CaseTitle({ name, external }: { name: string; external: 
       {words.length ? `${words.join(' ')} ` : null}
       <span className="cn-nowrap">
         {last}
-        <span aria-hidden="true" className="cn-dim cn-arrow-wrap">
+        <span aria-hidden="true" className="cn-arrow-wrap">
           <svg
             className={external ? 'cn-arrow cn-arrow-up' : 'cn-arrow'}
             viewBox="0 0 24 24"
