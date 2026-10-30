@@ -7,24 +7,22 @@ import LatinPartner from '@/components/cinematic/LatinPartner'
 import LitLink from '@/components/cinematic/LitLink'
 import Scroll from '@/components/cinematic/Scroll'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
+import { SITE_DESCRIPTION as DESCRIPTION, SITE_TITLE } from '@/lib/seo'
 import { OFFER, PAYS, PROJECTS, SHOTS, type Shot } from '@/lib/work'
 
-const DESCRIPTION =
-  'Websites, iPhone and Android apps and AI consultation for businesses, churches and anyone who needs software, designed and built by Kingdom Sites.'
-
 export const metadata: Metadata = {
-  title: 'Kingdom Sites — Made to be used. Made to be yours.',
+  title: SITE_TITLE,
   description: DESCRIPTION,
   alternates: { canonical: '/' },
   openGraph: {
-    title: 'Kingdom Sites — Made to be used. Made to be yours.',
+    title: SITE_TITLE,
     description: DESCRIPTION,
     url: 'https://kingdom-sites.com',
     siteName: 'Kingdom Sites',
     locale: 'en_US',
     type: 'website',
   },
-  twitter: { card: 'summary_large_image', title: 'Kingdom Sites — Made to be used. Made to be yours.', description: DESCRIPTION },
+  twitter: { card: 'summary_large_image', title: SITE_TITLE, description: DESCRIPTION },
 }
 
 /* The Farzana Classroom story, one chapter per screen. The school screens show

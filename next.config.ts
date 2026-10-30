@@ -83,6 +83,9 @@ const nextConfig: NextConfig = {
       { source: '/seo', destination: '/', permanent: true },
       { source: '/software', destination: '/', permanent: true },
       { source: '/rochester-mn', destination: '/', permanent: true },
+      // The old local SEO page; its own redirect() answered 307 (temporary),
+      // which keeps the old address in Google's index.
+      { source: '/local-business', destination: '/', permanent: true },
       // The work pages are one Portfolio page now; the Farzana Classroom case
       // study is its first section.
       { source: '/my-work', destination: '/portfolio', permanent: true },

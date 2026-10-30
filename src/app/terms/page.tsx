@@ -1,6 +1,13 @@
+import { shareCard } from '@/lib/seo'
+
+const DESCRIPTION =
+  'The terms for working with Kingdom Sites: what a quote covers, payment terms, the content deadline, revisions and maintenance, and who owns the finished work.'
+
 export const metadata = {
-  title: 'Terms of Service — Kingdom Sites',
+  title: 'Terms of Service',
+  description: DESCRIPTION,
   alternates: { canonical: '/terms' },
+  ...shareCard('Terms of Service — Kingdom Sites', DESCRIPTION, '/terms'),
 }
 
 export default function TermsPage() {

@@ -3,17 +3,22 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import aboutImage from '../../../public/Photos/about.jpg'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
+import { PERSON_LD, jsonLd, shareCard } from '@/lib/seo'
+
+const DESCRIPTION =
+  'Meet Thomas Klein of Kingdom Sites: websites, iPhone and Android apps, the software behind them, and AI consultation, designed, built and looked after by Thomas Klein, one engineer.'
 
 export const metadata: Metadata = {
-  title: 'About — Kingdom Sites',
-  description:
-    'Meet Thomas Klein of Kingdom Sites: websites, iPhone and Android apps, the software behind them, and AI consultation, designed, built and looked after by Thomas Klein, one engineer.',
+  title: 'About Thomas Klein',
+  description: DESCRIPTION,
   alternates: { canonical: '/about' },
+  ...shareCard('About Thomas Klein — Kingdom Sites', DESCRIPTION, '/about'),
 }
 
 export default function About() {
   return (
     <div className="cn-wrap pb-16 pt-16 sm:pb-24 sm:pt-24">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(PERSON_LD) }} />
       <div className="max-w-3xl">
         <p className="cn-kicker cn-rise">The studio</p>
         <h1 className="cn-display cn-h2 cn-rise cn-rise-2 mt-5 text-balance">
