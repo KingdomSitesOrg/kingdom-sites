@@ -18,7 +18,7 @@ import {
 const inter = Inter({ subsets: ["latin"] });
 
 const DESCRIPTION =
-  "I design, build, ship, and maintain mobile apps — and stay after launch. Have an idea? Start a conversation. Every project is quoted once I understand it.";
+  "I design, build, ship, and maintain websites and mobile apps, offer AI consultation, and stay after launch. Have an idea? Start a conversation. Every project is quoted once I understand it.";
 
 export const metadata: Metadata = {
   title: {

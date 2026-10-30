@@ -2,12 +2,13 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import CinematicChrome from '@/components/cinematic/Chrome'
 import { Browser, Phone } from '@/components/cinematic/Frames'
+import { CreditBeat, LowerThird, MakerTag } from '@/components/cinematic/Maker'
 import Scroll from '@/components/cinematic/Scroll'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
-import { OFFER, PROJECTS, SHOTS, type Shot } from '@/lib/work'
+import { OFFER, PAYS, PROJECTS, SHOTS, type Shot } from '@/lib/work'
 
 const DESCRIPTION =
-  'Websites and iPhone and Android apps for businesses, churches and anyone who needs software, designed, built and looked after by Kingdom Sites.'
+  'Websites, iPhone and Android apps and AI consultation for businesses, churches and anyone who needs software, designed, built and looked after by Kingdom Sites.'
 
 export const metadata: Metadata = {
   title: 'Kingdom Sites — Made to be used. Made to be yours.',
@@ -29,13 +30,14 @@ export const metadata: Metadata = {
    the story is told in three screens; `deskOnly` chapters show on wider screens. */
 const PRODUCT = 'Farzana Classroom'
 const DEMO = 'Demo school'
-const CHAPTERS: { shot: Shot; note?: string; kicker: string; title: string; body: string; deskOnly?: boolean }[] = [
+const CHAPTERS: { shot: Shot; note?: string; kicker: string; title: string; body: string; gives: string; deskOnly?: boolean }[] = [
   {
     shot: SHOTS.farzanaHome,
     note: DEMO,
     kicker: 'Farzana Classroom',
     title: 'A platform for schools.',
     body: 'Education software for schools, training organizations and education businesses. One proven platform, with each school’s own features built on top.',
+    gives: 'One system for classes, families and payments, instead of a website, a sign-up form and a payments app stitched together.',
   },
   {
     shot: SHOTS.farzanaClasses,
@@ -43,6 +45,7 @@ const CHAPTERS: { shot: Shot; note?: string; kicker: string; title: string; body
     kicker: 'A school on it',
     title: 'A school, built on it.',
     body: 'Each school gets its own site, name and crest, with its classes, families and payments in one place. Shown here with a demo school.',
+    gives: 'A school gets software under its own name without paying for it to be built from nothing.',
   },
   {
     shot: SHOTS.farzanaClass,
@@ -50,6 +53,7 @@ const CHAPTERS: { shot: Shot; note?: string; kicker: string; title: string; body
     kicker: 'For families',
     title: 'A page for every class.',
     body: 'Families see what each class is and who it is for, try a free sample, and sign up.',
+    gives: 'Sign-ups and payments come in online, at any hour, with no one at a desk to take them.',
     deskOnly: true,
   },
   {
@@ -58,6 +62,7 @@ const CHAPTERS: { shot: Shot; note?: string; kicker: string; title: string; body
     kicker: 'For the teacher',
     title: 'The teacher’s desk.',
     body: 'How many students, who was active this week, and who just joined, on one screen.',
+    gives: 'The teacher sees who has gone quiet this week in a glance, before they drift away.',
   },
   {
     shot: SHOTS.farzanaStudents,
@@ -65,15 +70,28 @@ const CHAPTERS: { shot: Shot; note?: string; kicker: string; title: string; body
     kicker: 'For the office',
     title: 'Every student, findable.',
     body: 'Search by name. Filter by class, by progress, by when they joined.',
+    gives: 'A parent’s question is answered in moments, not by digging through files.',
     deskOnly: true,
   },
 ]
 
 const MORE = ['tap-to-tick', 'ruta', 'delta', 'kcupg'].map((s) => PROJECTS.find((p) => p.slug === s)!)
 
-export default function Home() {
+/* Who made what, said on each card. Ruta is a team's product; I work on it. */
+const ROLE: Record<string, string> = {
+  'tap-to-tick': 'Designed and built by me',
+  ruta: 'Contract work, on the team',
+  delta: 'Designed and built by me',
+  kcupg: 'Designed and built by me',
+}
+
+/* T-372 preview: two ways to say "I built this", picked with ?v=a or ?v=b.
+   The one Thomas picks stays and this switch goes. */
+export default async function Home({ searchParams }: { searchParams: Promise<{ v?: string }> }) {
+  const v = (await searchParams).v === 'b' ? 'b' : 'a'
   return (
     <CinematicChrome>
+      {v === 'b' ? <LowerThird /> : null}
       {/* Hero: the words, then a real screen lying back that stands up as you scroll. */}
       <Scroll mode="sticky" className="cn-hero" aria-label="Kingdom Sites">
         <div className="cn-wrap pt-16 sm:pt-24">
@@ -98,7 +116,7 @@ export default function Home() {
           </div>
         </div>
         <Scroll prop="--q" className="cn-wrap cn-stage relative mt-14 pb-32 sm:mt-20 sm:pb-48">
-          <div className="cn-tilt mx-auto max-w-[1180px]">
+          <div className="cn-tilt mx-auto max-w-[1180px]" data-made="farzana">
             <Browser shot={SHOTS.farzanaDesk} product={PRODUCT} note={DEMO} priority />
           </div>
           <div className="cn-tilt-phone absolute bottom-0 right-[6%] w-[30%] max-w-[250px] sm:right-[8%] sm:w-[19%]">
@@ -107,8 +125,12 @@ export default function Home() {
         </Scroll>
       </Scroll>
 
+      {/* Right after the first window and phone: I built this. */}
+      {v === 'a' ? <CreditBeat id="farzana" /> : <MakerTag id="farzana" />}
+
       {/* The Farzana story: the stage holds still, the screens change by chapter. */}
       <div id="farzana" className="scroll-mt-16" />
+      <div data-made="farzana">
       <Scroll mode="sticky" steps={CHAPTERS.length} className="cn-scene" aria-label="Farzana Classroom">
         <div style={{ height: `${CHAPTERS.length * 85}svh` }} className="cn-scene-h">
           <div className="cn-pin">
@@ -123,6 +145,10 @@ export default function Home() {
                         </p>
                         <h2 className="cn-display cn-h3 mt-4">{c.title}</h2>
                         <p className="cn-body mt-5 max-w-[36ch]">{c.body}</p>
+                        <p className="cn-gives">
+                          <span className="cn-for">For them</span>
+                          {c.gives}
+                        </p>
                       </div>
                     ))}
                   </div>
@@ -150,6 +176,10 @@ export default function Home() {
                       </p>
                       <h2 className="cn-display cn-h3 mt-3">{c.title}</h2>
                       <p className="cn-body mt-3">{c.body}</p>
+                      <p className="cn-gives">
+                        <span className="cn-for">For them</span>
+                        {c.gives}
+                      </p>
                     </div>
                   ))}
                 </div>
@@ -158,6 +188,7 @@ export default function Home() {
           </div>
         </div>
       </Scroll>
+      </div>
 
       <div className="cn-wrap mt-10 flex justify-center lg:mt-0">
         <Link href="/portfolio#farzana" className="cn-ghost">
@@ -180,12 +211,13 @@ export default function Home() {
           </p>
         </div>
         <Scroll className="cn-wrap mt-16 pb-24 sm:mt-24">
-          <div className="cn-depth mx-auto max-w-[1180px]">
+          <div className="cn-depth mx-auto max-w-[1180px]" data-made="latin">
             {[SHOTS.latinHome, SHOTS.latinMap, SHOTS.latinCase, SHOTS.latinBoard].map((s) => (
               <Phone key={s.src} shot={s} />
             ))}
           </div>
         </Scroll>
+        {v === 'a' ? <CreditBeat id="latin" title="I built this too." /> : <MakerTag id="latin" />}
       </section>
 
       {/* What I make: each line comes on as it reaches the middle of the screen. */}
@@ -196,7 +228,17 @@ export default function Home() {
             <Scroll key={o.title}>
               <div className="cn-lit grid gap-4 border-t border-[var(--line)] pt-6 lg:grid-cols-[1.4fr_1fr] lg:items-baseline">
                 <h3 className="cn-display cn-h2">{o.title}</h3>
-                <p className="cn-body">{o.body}</p>
+                <p className="cn-body">
+                  {o.body}
+                  {o.href ? (
+                    <>
+                      {' '}
+                      <Link href={o.href} className="text-[var(--fg)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-current">
+                        About AI consultation
+                      </Link>
+                    </>
+                  ) : null}
+                </p>
               </div>
             </Scroll>
           ))}
@@ -210,7 +252,9 @@ export default function Home() {
           {MORE.map((p) => (
             <Scroll key={p.slug}>
               <a href={p.href} className="cn-reveal cn-card group block">
-                <p className="cn-dim text-sm">{p.forWhom}</p>
+                <p className="cn-dim text-sm">
+                  {p.forWhom} · {ROLE[p.slug]}
+                </p>
                 <h3 className="cn-display cn-h3 mt-2 transition-transform duration-300 group-hover:translate-x-1">
                   {p.name} <span aria-hidden="true" className="cn-dim">↗</span>
                 </h3>
@@ -221,12 +265,33 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Why it pays: the business case, in plain words. */}
+      <section aria-labelledby="pays" className="cn-wrap mt-32 sm:mt-44">
+        <p className="cn-kicker">Why it is worth it</p>
+        <h2 id="pays" className="cn-display cn-h2 mt-5">
+          It should pay its way.
+        </h2>
+        <div className="cn-pays">
+          {PAYS.map((x) => (
+            <Scroll key={x.title}>
+              <div className="cn-reveal">
+                <h3 className="cn-display cn-h3">{x.title}</h3>
+                <p className="cn-body mt-4 max-w-[40ch]">{x.body}</p>
+              </div>
+            </Scroll>
+          ))}
+        </div>
+        <p className="cn-body mt-14 max-w-[52ch]">
+          When we talk, I start with where it should save you time or bring money in, and build toward that.
+        </p>
+      </section>
+
       {/* Close. */}
       <section aria-label="Start a conversation" className="cn-wrap pb-28 pt-36 text-center sm:pb-40 sm:pt-52">
         <h2 className="cn-display cn-h1 mx-auto max-w-[12ch]">Yours could be next.</h2>
         <p className="cn-body mx-auto mt-6 max-w-[40ch]">
-          Tell me what you have in mind. You talk to me, the person who builds it, and you get a plan and a quote once I
-          understand it.
+          A website, an app, or help putting AI to work: tell me what you have in mind. You talk to me, the person who
+          builds it, and you get a plan and a quote once I understand it.
         </p>
         <Link href={INQUIRE_PATH} className="cn-btn mt-10">
           {INQUIRE_CTA} <span aria-hidden="true">→</span>

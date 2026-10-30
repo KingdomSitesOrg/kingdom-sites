@@ -18,6 +18,7 @@ export default function CinematicChrome({ children }: { children: React.ReactNod
         <p>© 2026 Kingdom Sites · Rochester, Minnesota</p>
         <p className="flex flex-wrap gap-x-6 gap-y-2">
           <a href={CONTACT_MAILTO} className="hover:text-[var(--fg)]">{CONTACT_EMAIL}</a>
+          <Link href="/ai-tooling" className="hover:text-[var(--fg)]">AI consultation</Link>
           <Link href="/prayer" className="hover:text-[var(--fg)]">Prayer</Link>
           <Link href={INQUIRE_PATH} className="hover:text-[var(--fg)]">{INQUIRE_CTA}</Link>
         </p>
