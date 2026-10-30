@@ -1,6 +1,13 @@
+import { shareCard } from '@/lib/seo'
+
+const DESCRIPTION =
+  'The terms for working with Kingdom Sites: what a quote covers, payment terms, the content deadline, revisions and maintenance, and who owns the finished work.'
+
 export const metadata = {
-  title: 'Terms of Service — Kingdom Sites',
+  title: 'Terms of Service',
+  description: DESCRIPTION,
   alternates: { canonical: '/terms' },
+  ...shareCard('Terms of Service — Kingdom Sites', DESCRIPTION, '/terms'),
 }
 
 export default function TermsPage() {
@@ -22,7 +29,7 @@ export default function TermsPage() {
               Next.js framework with an SEO-optimized structure.
             </p>
             <p>
-              <span className="font-medium text-ink">The Solo Developer:</span> Kingdom Sites
+              <span className="font-medium text-ink">The Solo Developer (Thomas Klein):</span> Kingdom Sites
               is a specialized, solo-operated freelancer. To maintain code integrity and project speed,
               I work exclusively within my own established processes, design flows, and tech stack
               (Next.js/Vercel). I work hand in hand with the client but I do not collaborate with

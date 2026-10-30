@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { SITE_OG_IMAGE, SHARE_URL } from '@/lib/seo'
 import Link from 'next/link'
 import CalendlyEmbed from '@/components/CalendlyEmbed'
 import EvenGrid from '@/components/EvenGrid'
@@ -14,10 +15,11 @@ export const metadata: Metadata = {
     title: 'AI consultation — Kingdom Sites',
     description:
       'Learn to use AI for real work — not just chat. Loops, goals, connectors, skills, and instruction files.',
-    url: 'https://kingdom-sites.com/ai-tooling',
+    url: `${SHARE_URL}/ai-tooling`,
     siteName: 'Kingdom Sites',
     locale: 'en_US',
     type: 'website',
+    images: [SITE_OG_IMAGE],
   },
 }
 

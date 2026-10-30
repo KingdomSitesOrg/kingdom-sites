@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { CheckCircleIcon } from "@phosphor-icons/react";
 
-import { trackEvent } from "@/lib/analytics";
 
 import { buttonClass } from "../_ui/button";
 import { CONTACT_EMAIL } from "../_ui/contact";
@@ -84,10 +83,8 @@ export function BookCallForm() {
       if (!response.ok || !data.ok) {
         setError(data.error || "That could not be sent just now.");
         setStatus("error");
-        trackEvent("farzana_call_error", { status: response.status });
         return;
       }
-      trackEvent("farzana_call_request");
       setStatus("sent");
     } catch (caught) {
       const timedOut =
