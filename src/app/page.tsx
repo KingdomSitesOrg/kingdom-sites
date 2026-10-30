@@ -3,12 +3,13 @@ import type { Metadata } from 'next'
 import CinematicChrome from '@/components/cinematic/Chrome'
 import { Browser, Phone } from '@/components/cinematic/Frames'
 import { Credit } from '@/components/cinematic/Maker'
+import LitLink from '@/components/cinematic/LitLink'
 import Scroll from '@/components/cinematic/Scroll'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { OFFER, PAYS, PROJECTS, SHOTS, type Shot } from '@/lib/work'
 
 const DESCRIPTION =
-  'Websites, iPhone and Android apps and AI consultation for businesses, churches and anyone who needs software, designed, built and looked after by Kingdom Sites.'
+  'Websites, iPhone and Android apps and AI consultation for businesses, churches and anyone who needs software, designed and built by Kingdom Sites.'
 
 export const metadata: Metadata = {
   title: 'Kingdom Sites — Made to be used. Made to be yours.',
@@ -74,7 +75,7 @@ export default function Home() {
           <div className="mt-8 grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-end">
             <p className="cn-body max-w-[46ch]">
               Kingdom Sites designs and builds websites and apps for businesses, churches and anyone who needs
-              software, then looks after them once they are live. Every screen on this page is from software I built.
+              software. Every screen on this page is from software I built.
             </p>
             <div className="flex flex-wrap gap-3 lg:justify-end">
               <Link href={INQUIRE_PATH} className="cn-btn">
@@ -160,9 +161,7 @@ export default function Home() {
       </Scroll>
 
       <div className="cn-wrap mt-10 flex justify-center lg:mt-0">
-        <Link href="/portfolio#farzana" className="cn-ghost">
-          The whole Farzana Classroom story <span aria-hidden="true">→</span>
-        </Link>
+        <LitLink href="/portfolio#farzana" label="The whole Farzana Classroom story" />
       </div>
 
       {/* The Latin learning game: phones at different depths. */}
@@ -259,12 +258,13 @@ export default function Home() {
         <Credit id="kcupg" />
       </section>
 
-      {/* Why it pays: the business case, in plain words. */}
+      {/* Why it matters: the business case, in plain words. */}
       <section aria-labelledby="pays" className="cn-wrap mt-32 sm:mt-44">
-        <p className="cn-kicker">Why it is worth it</p>
+        <p className="cn-kicker">Why it matters</p>
         <h2 id="pays" className="cn-display cn-h2 mt-5">
-          It should pay its way.
+          In 2026, software is the backbone of nearly every business.
         </h2>
+        <p className="cn-display cn-h3 mt-6">Don&rsquo;t fall behind. Better software = more revenue.</p>
         <div className="cn-pays">
           {PAYS.map((x) => (
             <Scroll key={x.title}>
