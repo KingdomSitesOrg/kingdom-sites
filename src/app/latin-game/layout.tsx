@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     siteName: 'Latin practice game',
     locale: 'en_US',
     type: 'website',
-    images: [{ url: `${SHARE_URL}/latin-game/opengraph-image`, width: 1200, height: 630 }],
+    images: [{ url: `${SHARE_URL}/latin-game/share-card.png`, width: 1200, height: 630, alt: 'A Latin practice game — march from Rōma to Gallia and learn real Latin' }],
   },
 }
 
