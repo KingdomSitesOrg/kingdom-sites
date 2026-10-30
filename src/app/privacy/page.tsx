@@ -1,8 +1,14 @@
 import { CONTACT_EMAIL, CONTACT_MAILTO } from '@/lib/contact'
+import { shareCard } from '@/lib/seo'
+
+const DESCRIPTION =
+  'What the Kingdom Sites website collects and why: no sign-in and no customer database, email for enquiries, visitor measurements, the services the site uses, and your rights.'
 
 export const metadata = {
-  title: 'Privacy Policy — Kingdom Sites',
+  title: 'Privacy Policy',
+  description: DESCRIPTION,
   alternates: { canonical: '/privacy' },
+  ...shareCard('Privacy Policy — Kingdom Sites', DESCRIPTION, '/privacy'),
 }
 
 export default function PrivacyPage() {

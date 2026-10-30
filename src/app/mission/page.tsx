@@ -7,7 +7,7 @@ import UnreachedScroll from '@/components/UnreachedScroll'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 
 export const metadata: Metadata = {
-  title: 'My Mission — Kingdom Sites',
+  title: 'My mission',
   description:
     'How your project supports gospel work in the unreached world, and the organizations I stand with and give to.',
   alternates: { canonical: '/mission' },

@@ -131,7 +131,7 @@ export default function MissionFilm() {
         <div className="mt-6 flex flex-wrap items-end justify-between gap-x-8 gap-y-5">
           <div className="max-w-xl">
             <p className="cn-kicker">A short film · about 3 minutes</p>
-            <h1 className="cn-display cn-h3 mt-3 text-balance">Who Will Tell Them?</h1>
+            <h2 className="cn-display cn-h3 mt-3 text-balance">Who Will Tell Them?</h2>
             <p className="mt-3 text-[15px] leading-relaxed text-body sm:text-base">
               {failed
                 ? 'The film is not available right now. The page below reads the same without it.'

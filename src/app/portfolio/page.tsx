@@ -8,12 +8,16 @@ import LatinPartner from '@/components/cinematic/LatinPartner'
 import Scroll from '@/components/cinematic/Scroll'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { LATIN_STORES, PROJECTS, SHOTS } from '@/lib/work'
+import { shareCard } from '@/lib/seo'
+
+const DESCRIPTION =
+  'The portfolio of Kingdom Sites: Farzana Classroom, education software for schools; a Latin learning game for iPhone and Android; contract work on Ruta; and the websites and tools around them.'
 
 export const metadata: Metadata = {
   title: 'Portfolio',
-  description:
-    'The portfolio of Kingdom Sites: Farzana Classroom, education software for schools; a Latin learning game for iPhone and Android; contract work on Ruta; and the websites and tools around them.',
+  description: DESCRIPTION,
   alternates: { canonical: '/portfolio' },
+  ...shareCard('Portfolio — Kingdom Sites', DESCRIPTION, '/portfolio'),
 }
 
 const project = (slug: string) => PROJECTS.find((p) => p.slug === slug)!

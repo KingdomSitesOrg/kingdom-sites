@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { SITE_OG_IMAGE } from '@/lib/seo'
 import Link from 'next/link'
 import CalendlyEmbed from '@/components/CalendlyEmbed'
 import EvenGrid from '@/components/EvenGrid'
@@ -18,6 +19,7 @@ export const metadata: Metadata = {
     siteName: 'Kingdom Sites',
     locale: 'en_US',
     type: 'website',
+    images: [SITE_OG_IMAGE],
   },
 }
 

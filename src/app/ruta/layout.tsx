@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { SITE_OG_IMAGE } from '@/lib/seo'
 
 export const metadata: Metadata = {
   title: 'Ruta — contract work',
@@ -13,6 +14,7 @@ export const metadata: Metadata = {
     siteName: 'Kingdom Sites',
     locale: 'en_US',
     type: 'website',
+    images: [SITE_OG_IMAGE],
   },
 }
 
