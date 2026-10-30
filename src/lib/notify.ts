@@ -49,7 +49,7 @@ export async function emailReferrer(
     '',
     links.share,
     '',
-    `You get $${CALL_GIFT} as soon as they have a call with me, and $${JOIN_GIFT} more when they join.`,
+    `You get $${CALL_GIFT} as soon as they have a call with me, and up to $${JOIN_GIFT} more when they join.`,
     '',
     'Your private tracker shows how each person you refer is getting on, and is where you choose how you are paid (PayPal, Venmo or Apple Cash). Keep this one to yourself:',
     '',

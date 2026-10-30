@@ -14,11 +14,24 @@
 export const REFER_API = '/api/refer'
 
 export const CALL_GIFT = 20
+/**
+ * The join gift is up to $500 (T-303, Thomas, 2026-10-30): $500 when the
+ * project's build is $2,000 or more, or its monthly fees add up to more than
+ * $3,000 in the first year; $100 for anything smaller. Thomas picks which when
+ * he marks it paid, and each referral keeps the amount.
+ */
 export const JOIN_GIFT = 500
+export const SMALL_JOIN_GIFT = 100
+export const JOIN_GIFTS = [JOIN_GIFT, SMALL_JOIN_GIFT] as const
+export type JoinGift = (typeof JOIN_GIFTS)[number]
+
+export function isJoinGift(value: unknown): value is JoinGift {
+  return JOIN_GIFTS.some((amount) => amount === value)
+}
 
 /** How long after the call the $20 is sent, at the latest. */
 export const CALL_GIFT_DAYS = 14
-/** How long after the first payment clears the $500 is sent: 1 to 2 months. */
+/** How long after the first payment clears the join gift is sent: 1 to 2 months. */
 export const JOIN_GIFT_MONTHS = { from: 1, to: 2 } as const
 
 /** The cookie a personal link leaves, and how long it credits the referrer. */
@@ -135,7 +148,8 @@ export function payoutLink(method: PayoutMethod, handle: string): string | null 
 
 /**
  * The stages Thomas marks on each referred lead, in order. A gift step
- * (`callPaid`, `joinPaid`) also records how he sent it.
+ * (`callPaid`, `joinPaid`) also records how he sent it, and `joinPaid` how
+ * much: $100 or $500.
  */
 export const STAGES = [
   { key: 'callBooked', button: 'Call booked' },
@@ -143,7 +157,7 @@ export const STAGES = [
   { key: 'callPaid', button: `Mark $${CALL_GIFT} paid` },
   { key: 'signed', button: 'Signed' },
   { key: 'firstPayment', button: 'First payment cleared' },
-  { key: 'joinPaid', button: `Mark $${JOIN_GIFT} paid` },
+  { key: 'joinPaid', button: 'Mark join gift paid' },
 ] as const
 
 export type StageKey = (typeof STAGES)[number]['key']
