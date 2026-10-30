@@ -1,199 +1,213 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { RutaPhoneShot } from '@/components/BuildMocks'
+import CinematicChrome from '@/components/cinematic/Chrome'
+import { Browser, Phone } from '@/components/cinematic/Frames'
+import Scroll from '@/components/cinematic/Scroll'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
-import { AI_CONSULT, APP_OFFER, HOME_CLUSTER, HERO, PROCESS } from '@/lib/partnership'
+import { OFFER, PROJECTS, SHOTS, type Shot } from '@/lib/work'
 
 export const metadata: Metadata = {
-  title: 'Kingdom Sites — mobile application solutions',
+  title: 'Kingdom Sites — websites and apps, made to be used',
   description:
-    'I design, build, ship, and maintain mobile apps — and the software behind them. Have an idea? Start a conversation. No pressure.',
+    'Websites and iPhone and Android apps for churches, schools and small businesses, designed, built and looked after by Kingdom Sites.',
   alternates: { canonical: '/' },
 }
 
+/* The Farzana story, one chapter per screen. */
+const CHAPTERS: { shot: Shot; url?: string; kicker: string; title: string; body: string }[] = [
+  {
+    shot: SHOTS.farzanaSite,
+    url: 'farzana.app',
+    kicker: 'Farzana',
+    title: 'A platform for schools.',
+    body: 'Education software for schools, training organizations and education businesses. One proven platform, with each school’s own features built on top.',
+  },
+  {
+    shot: SHOTS.jamClasses,
+    kicker: 'JAM Classes',
+    title: 'A school, running on it.',
+    body: 'JAM with Latin runs its online school on Farzana: classes, flashcards and workbooks, each on its own page.',
+  },
+  {
+    shot: SHOTS.jamClass,
+    kicker: 'JAM Classes',
+    title: 'A page that sells the class.',
+    body: 'What it teaches, who it is for, and a free sample to try before anyone pays.',
+  },
+  {
+    shot: SHOTS.jamAdminHome,
+    kicker: 'For the teacher',
+    title: 'The teacher’s desk.',
+    body: 'Students, who was active this week, the month’s sales and every class, on one screen.',
+  },
+  {
+    shot: SHOTS.farzanaStudents,
+    kicker: 'For the office',
+    title: 'Every student, findable.',
+    body: 'Search by name. Filter by class, by progress, by when they joined.',
+  },
+]
+
+const MORE = ['tap-to-tick', 'ruta', 'delta', 'kcupg'].map((s) => PROJECTS.find((p) => p.slug === s)!)
+
 export default function Home() {
   return (
-    <div className="w-full overflow-x-hidden">
-      {/* 1 — Hero: the Jam with Latin launch, then an invitation to build yours. */}
-      <section aria-label="Jam with Latin is out now" className="hero-wash px-5 pb-20 pt-16 sm:px-8 sm:pb-28 sm:pt-24">
-        <div className="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-16">
-          <div className="text-center lg:text-left">
-            <p className="eyebrow eyebrow-blue">{HERO.eyebrow}</p>
-            <h1 className="mt-4 text-balance text-[2.15rem] font-semibold leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-[3.5rem] xl:text-[3.85rem]">
-              {HERO.title}
-              <span className="mt-3 block text-[0.72em] font-medium leading-snug text-accent sm:mt-4">
-                {HERO.accent}
-              </span>
-            </h1>
-            <p className="mt-7 text-pretty text-base leading-relaxed text-body sm:text-lg">
-              {HERO.sub}
+    <CinematicChrome>
+      {/* Hero: the words, then a real screen lying back that stands up as you scroll. */}
+      <Scroll mode="sticky" className="cn-hero" aria-label="Kingdom Sites">
+        <div className="cn-wrap pt-16 sm:pt-24">
+          <p className="cn-kicker">Websites · iPhone and Android apps · Looked after once live</p>
+          <h1 className="cn-display cn-h1 mt-5 max-w-[11ch]">Made to be used.</h1>
+          <div className="mt-8 grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-end">
+            <p className="cn-body max-w-[46ch]">
+              Kingdom Sites designs and builds websites and apps for churches, schools and small businesses, then looks
+              after them once they are live. Every screen on this page is a real one.
             </p>
-            <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
-              <Link href={INQUIRE_PATH} className="btn-primary w-full max-w-[280px] sm:w-auto">
-                {INQUIRE_CTA}
+            <div className="flex flex-wrap gap-3 lg:justify-end">
+              <Link href={INQUIRE_PATH} className="cn-btn">
+                {INQUIRE_CTA} <span aria-hidden="true">→</span>
               </Link>
-              <Link href={HERO.appHref} className="btn-ghost w-full max-w-[280px] sm:w-auto">
-                {HERO.appCta}
-              </Link>
+              <a href="#farzana" className="cn-ghost">
+                Watch the work <span aria-hidden="true">↓</span>
+              </a>
             </div>
           </div>
-
-          {/* Real screens from the shipped app, straight on the page. */}
-          <div className="flex items-center justify-center pb-6">
-            <Link
-              href={HERO.appHref}
-              aria-label={HERO.appCta}
-              className="mx-auto flex w-full max-w-[480px] items-end justify-center"
-            >
-              {HERO.shots.map((shot, i) => {
-                const middle = i === 1
-                return (
-                  <span
-                    key={shot.src}
-                    className={`relative block overflow-hidden rounded-[26px] shadow-[0_16px_40px_rgba(16,23,37,0.16)] ${
-                      middle
-                        ? 'z-10 w-[40%]'
-                        : `w-[31%] translate-y-5 ${i === 0 ? '-mr-4 sm:-mr-5' : '-ml-4 sm:-ml-5'}`
-                    }`}
-                  >
-                    <Image
-                      src={shot.src}
-                      alt={shot.alt}
-                      width={360}
-                      height={780}
-                      priority={middle}
-                      sizes="(min-width: 1024px) 200px, 40vw"
-                      className="h-auto w-full"
-                    />
-                  </span>
-                )
-              })}
-            </Link>
+        </div>
+        <div className="cn-wrap cn-stage relative mt-14 pb-32 sm:mt-20 sm:pb-48">
+          <div className="cn-tilt mx-auto max-w-[1180px]">
+            <Browser shot={SHOTS.jamAdminHome} priority />
+          </div>
+          <div className="cn-tilt-phone absolute bottom-0 right-[6%] w-[30%] max-w-[250px] sm:right-[8%] sm:w-[19%]">
+            <Phone shot={SHOTS.jamClassPhone} priority />
           </div>
         </div>
-      </section>
+      </Scroll>
 
-      {/* 2 — Apps I build + shots + My Work + inquire */}
-      <section aria-label="Apps I build" className="border-t border-line px-5 py-20 sm:px-8 sm:py-28">
-        <div className="mx-auto max-w-6xl">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-balance text-3xl font-semibold tracking-tight text-ink sm:text-5xl">
-              {APP_OFFER.title}
-            </h2>
-            <p className="mt-5 text-pretty text-base leading-relaxed text-body sm:text-lg">
-              {APP_OFFER.sub}
-            </p>
-          </div>
-
-          {/* Tap to Tick and Latin are photos. Ruta is a CSS drawing — not a screenshot. */}
-          <div className="mx-auto mt-14 flex max-w-lg items-end justify-center pb-6 sm:max-w-xl">
-            {HOME_CLUSTER.map((app, i) => {
-              const middle = i === 1
-              return (
-                <Link
-                  key={app.href}
-                  href={app.href}
-                  aria-label={app.name}
-                  className={`relative block overflow-hidden rounded-[26px] shadow-[0_16px_40px_rgba(16,23,37,0.16)] ${
-                    middle
-                      ? 'z-10 w-[42%] max-w-[200px]'
-                      : `w-[30%] max-w-[148px] translate-y-5 ${i === 0 ? '-mr-4 sm:-mr-6' : '-ml-4 sm:-ml-6'}`
-                  }`}
-                >
-                  {'shot' in app ? (
-                    <Image
-                      src={app.shot.src}
-                      alt={app.shot.alt}
-                      width={360}
-                      height={780}
-                      className="h-auto w-full"
-                    />
-                  ) : (
-                    <RutaPhoneShot scene="portal" fill />
-                  )}
-                </Link>
-              )
-            })}
-          </div>
-          <p className="mt-8 text-center text-sm font-medium text-ink">
-            {HOME_CLUSTER.map((app, i) => (
-              <span key={app.name}>
-                {i > 0 && <span className="mx-2 text-muted">·</span>}
-                <Link href={app.href} className="hover:text-accent">
-                  {app.name}
-                </Link>
-              </span>
-            ))}
-          </p>
-
-          <div className="mt-12 flex justify-center">
-            <Link href="/my-work" className="btn-ghost">
-              See all my work <span aria-hidden="true">→</span>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* 3 — How working together starts. No prices: a quote comes after the conversation. */}
-      <section aria-label="How it starts" className="border-t border-line px-5 py-20 sm:px-8 sm:py-28">
-        <div className="mx-auto max-w-6xl">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-balance text-3xl font-semibold tracking-tight text-ink sm:text-5xl">
-              {PROCESS.title}
-            </h2>
-            <p className="mt-5 text-pretty text-base leading-relaxed text-body sm:text-lg">
-              {PROCESS.sub}
-            </p>
-          </div>
-
-          <ol className="mx-auto mt-12 grid max-w-5xl gap-4 sm:mt-14 md:grid-cols-3 md:gap-5">
-            {PROCESS.steps.map((step, i) => (
-              <li key={step.title} className="tile flex gap-4 p-6 sm:p-7 md:block">
-                <span
-                  aria-hidden="true"
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent/10 text-sm font-semibold text-accent"
-                >
-                  {i + 1}
-                </span>
+      {/* The Farzana story: the stage holds still, the screens change by chapter. */}
+      <div id="farzana" className="scroll-mt-16" />
+      <Scroll mode="sticky" steps={CHAPTERS.length} className="cn-scene" aria-label="Farzana and JAM Classes">
+        <div style={{ height: `${CHAPTERS.length * 85}svh` }} className="cn-scene-h">
+          <div className="cn-pin">
+            <div className="cn-wrap w-full">
+              <div className="cn-scene-grid">
                 <div>
-                  <h3 className="mt-1.5 text-lg font-semibold tracking-tight text-ink md:mt-5">{step.title}</h3>
-                  <p className="mt-2 text-[15px] leading-relaxed text-body">{step.body}</p>
+                  <div className="cn-chapters">
+                    {CHAPTERS.map((c, i) => (
+                      <div key={c.title} className={`cn-chapter cn-c${i}`}>
+                        <p className="cn-kicker">
+                          {String(i + 1).padStart(2, '0')} · {c.kicker}
+                        </p>
+                        <h2 className="cn-display cn-h3 mt-4">{c.title}</h2>
+                        <p className="cn-body mt-5 max-w-[36ch]">{c.body}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="cn-rail" aria-hidden="true">
+                    {CHAPTERS.map((c, i) => (
+                      <span key={c.title} className={`cn-r${i}`} />
+                    ))}
+                  </div>
                 </div>
-              </li>
-            ))}
-          </ol>
+                <div className="cn-screens">
+                  {CHAPTERS.map((c, i) => (
+                    <div key={c.title} className={`cn-screen cn-c${i}`}>
+                      <Browser shot={c.shot} url={c.url} />
+                    </div>
+                  ))}
+                </div>
 
-          <div className="mt-12 flex justify-center sm:mt-14">
-            <Link href={INQUIRE_PATH} className="btn-primary w-full max-w-[280px] sm:w-auto">
-              {INQUIRE_CTA}
-            </Link>
+                {/* On a phone: the same chapters, one after another. */}
+                <div className="cn-stack">
+                  {CHAPTERS.map((c, i) => (
+                    <div key={c.title}>
+                      <Browser shot={c.shot} url={c.url} />
+                      <p className="cn-kicker mt-6">
+                        {String(i + 1).padStart(2, '0')} · {c.kicker}
+                      </p>
+                      <h2 className="cn-display cn-h3 mt-3">{c.title}</h2>
+                      <p className="cn-body mt-3">{c.body}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </section>
+      </Scroll>
 
-      {/* 4 — AI consultation (no dollar amount here) */}
-      <section aria-label="AI consultation" className="band-dark px-5 py-20 sm:px-8 sm:py-28">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-balance text-3xl font-semibold tracking-tight text-white sm:text-5xl">
-            {AI_CONSULT.homeTitle}
+      <div className="cn-wrap mt-10 flex justify-center lg:mt-0">
+        <Link href="/work/farzana" className="cn-ghost">
+          The whole Farzana story <span aria-hidden="true">→</span>
+        </Link>
+      </div>
+
+      {/* Jam with Latin: phones at different depths. */}
+      <section aria-labelledby="latin" className="mt-32 sm:mt-44">
+        <div className="cn-wrap grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-end">
+          <h2 id="latin" className="cn-display cn-h2">
+            In students’ pockets.
           </h2>
-          <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-white/70 sm:text-lg">
-            {AI_CONSULT.homeSub}
+          <p className="cn-body max-w-[44ch]">
+            Jam with Latin is a Latin game for iPhone and Android. Students travel the Roman world city by city, answer case
+            challenges and race each other on the leaderboard.{' '}
+            <Link href="/latin-game" className="text-[var(--fg)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-current">
+              See the game
+            </Link>
           </p>
-          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link href="/ai-tooling" className="btn-primary">
-              AI consultation
-            </Link>
-            <Link
-              href={INQUIRE_PATH}
-              className="text-sm font-medium text-white/75 underline underline-offset-4 hover:text-white"
-            >
-              {INQUIRE_CTA}
-            </Link>
+        </div>
+        <Scroll className="cn-wrap mt-16 pb-24 sm:mt-24">
+          <div className="cn-depth mx-auto max-w-[1180px]">
+            {[SHOTS.latinHome, SHOTS.latinMap, SHOTS.latinCase, SHOTS.latinBoard].map((s) => (
+              <Phone key={s.src} shot={s} />
+            ))}
           </div>
+        </Scroll>
+      </section>
+
+      {/* What we make: each line comes on as it reaches the middle of the screen. */}
+      <section aria-labelledby="make" className="cn-wrap mt-24 sm:mt-36">
+        <p id="make" className="cn-kicker">What we make</p>
+        <div className="mt-8 space-y-10 sm:space-y-14">
+          {OFFER.map((o) => (
+            <Scroll key={o.title}>
+              <div className="cn-lit grid gap-4 border-t border-[var(--line)] pt-6 lg:grid-cols-[1.4fr_1fr] lg:items-baseline">
+                <h3 className="cn-display cn-h2">{o.title}</h3>
+                <p className="cn-body">{o.body}</p>
+              </div>
+            </Scroll>
+          ))}
         </div>
       </section>
-    </div>
+
+      {/* More work. */}
+      <section aria-labelledby="more" className="cn-wrap mt-32 sm:mt-44">
+        <h2 id="more" className="cn-kicker">More work</h2>
+        <div className="mt-8 grid gap-x-10 gap-y-12 md:grid-cols-2">
+          {MORE.map((p) => (
+            <Scroll key={p.slug}>
+              <a href={p.href} className="cn-reveal cn-card group block">
+                <p className="cn-dim text-sm">{p.forWhom}</p>
+                <h3 className="cn-display cn-h3 mt-2 transition-transform duration-300 group-hover:translate-x-1">
+                  {p.name} <span aria-hidden="true" className="cn-dim">↗</span>
+                </h3>
+                <p className="cn-body mt-3 text-[1.02rem]">{p.line}</p>
+              </a>
+            </Scroll>
+          ))}
+        </div>
+      </section>
+
+      {/* Close. */}
+      <section aria-label="Start a conversation" className="cn-wrap pb-28 pt-36 text-center sm:pb-40 sm:pt-52">
+        <h2 className="cn-display cn-h1 mx-auto max-w-[12ch]">Yours could be next.</h2>
+        <p className="cn-body mx-auto mt-6 max-w-[40ch]">
+          Tell us what you have in mind. You talk to the person who builds it, and you get a plan and a quote once we
+          understand it.
+        </p>
+        <Link href={INQUIRE_PATH} className="cn-btn mt-10">
+          {INQUIRE_CTA} <span aria-hidden="true">→</span>
+        </Link>
+      </section>
+    </CinematicChrome>
   )
 }
