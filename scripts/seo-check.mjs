@@ -55,8 +55,6 @@ for (const route of ROUTES) {
       problems.push('structured data does not parse')
     }
   }
-  // A case study's fact still waiting on Thomas must not ship (T-389).
-  if (html.includes('data-pending')) problems.push('has a fact still waiting on Thomas (case study placeholder)')
   // JAM Legio is named by its name; the old stand-in names are gone (T-382).
   const text = html.replace(/<script[^]*?<\/script>/g, '')
   if (/Latin practice game|A Latin learning game ·/.test(text)) problems.push('still calls JAM Legio by an old name')

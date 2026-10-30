@@ -6,8 +6,8 @@
  * Classroom's from its own pages (the scattered tools in its story) and the
  * demo school's screens; KCUPG's from kcupgs.com and its repository (six
  * regions, Census figures, no sign-in); Delta's from deltadevelopmentproject.com
- * (its eight activities, gallery and contact form). No invented numbers, no
- * client quotes. Every sentence here is listed in docs/wording-pass-2.md for
+ * (its eight activities, gallery and contact form); how long each took and
+ * who uses it from Thomas (2026-10-30). No invented numbers, no client quotes. Every sentence here is listed in docs/wording-pass-2.md for
  * Thomas to read.
  */
 import { PHOTOS, SHOTS, type Shot } from '@/lib/work'
@@ -20,12 +20,6 @@ export type Figure = {
   title: string
   caption: string
 }
-
-/** A fact only Thomas can give (how long it took, what changed, who to quote).
-    Until he answers, the page shows the question as a marked gap, and
-    scripts/seo-check.mjs refuses the build, so none ships by accident. */
-export type Pending = { pending: string }
-export const isPending = (x: unknown): x is Pending => typeof x === 'object' && x !== null && 'pending' in x
 
 export type Quote = { text: string; who: string }
 
@@ -46,10 +40,14 @@ export type CaseStudy = {
   hero: Figure
   problem: string[]
   built: { lead: string; list: string[] }
-  took: string | Pending
+  /** How long it took. A part Thomas has not given is left out, never guessed
+      (Thomas, T-389); `title` replaces the heading where the honest answer is
+      something else, as Farzana Classroom's "Coming soon". */
+  took?: { title?: string; text: string[] }
   /** What improved after launch. */
-  result: (string | Pending)[]
-  quote: Quote | Pending
+  result?: string[]
+  /** What the client says, in their words, with their OK. */
+  quote?: Quote
   figures: Figure[]
   /** Slugs from PROJECTS, shown as "More from my portfolio". */
   related: string[]
@@ -94,13 +92,14 @@ export const CASE_STUDIES = {
         'It runs on the web, on phones and on desktop.',
       ],
     },
-    took: { pending: 'How long Farzana Classroom has taken to build so far, in your words (the work began on 19 September 2026).' },
-    result: [
-      'Farzana Classroom is in beta, and the first school is coming soon. Classes, families and payments are in one place, not three tools stitched together.',
-      { pending: 'What changed for the first school once it started using Farzana Classroom. It is in beta today, so this may wait until a school is live.' },
-      'The screens on this page show Wren Hall, a made-up demo school, so no real family is shown.',
-    ],
-    quote: { pending: 'A quote from the first school or a beta teacher: their words, name and school, with their OK to share.' },
+    /* Not launched yet: no build time, result or quote (Thomas, T-389). */
+    took: {
+      title: 'Coming soon',
+      text: [
+        'Farzana Classroom is coming soon, and I welcome custom builds on top of it.',
+        'The screens on this page show Wren Hall, a made-up demo school, so no real family is shown.',
+      ],
+    },
     figures: [
       {
         shot: SHOTS.farzanaClass,
@@ -154,13 +153,13 @@ export const CASE_STUDIES = {
         'People counts from the US Census Bureau’s American Community Survey, one table per region, so nobody is counted twice.',
       ],
     },
-    took: { pending: 'How long the first version took, and the date it went live (the work began on 15 September 2026; the other five regions came in October).' },
+    took: { text: ['Built in two weeks, and updated every week with more information.'] },
     result: [
       'KCUPG is live at kcupgs.com, free to use, with no sign-in. It started as a map of the city’s South Asian communities and now covers six regions.',
-      'Churches in Kansas City see which communities live where, and where to meet them.',
-      { pending: 'What changed for the people using it: who uses KCUPG, and one thing it has helped them do.' },
+      'Churches in Kansas City see which communities live where, and where to meet them. Logan Hazlet, a full-time missionary in Kansas City, Missouri, uses it.',
     ],
-    quote: { pending: 'Who to quote for KCUPG: their words, name, role and church or ministry, with their OK to share.' },
+    /* No quote yet: Logan Hazlet will leave a Google review; quote it here
+       once it exists, with his OK (docs/wording-pass-2.md). */
     figures: [
       {
         shot: SHOTS.kcupgMap,
@@ -205,12 +204,7 @@ export const CASE_STUDIES = {
         'An About page, and a contact form that goes straight to the project’s inbox.',
       ],
     },
-    took: { pending: 'How long the site took and the date it went live (the work is dated 31 August to 1 September 2026).' },
-    result: [
-      'The site is live at deltadevelopmentproject.com. Anyone can see the project’s work in one place, and write to the team from its Contact page.',
-      { pending: 'What changed for the project after launch (for example messages through the contact form), only if they have told you.' },
-    ],
-    quote: { pending: 'Who to quote for the Delta Development Project: their words, name and role, with their OK to share.' },
+    /* No time, result or quote confirmed: those parts are left out (Thomas, T-389). */
     figures: [
       { shot: PHOTOS.deltaSchool, title: 'Primary school', caption: 'A village school, from the project’s own photos.' },
       { shot: PHOTOS.deltaRelief, title: 'Disaster response', caption: 'Relief supplies handed out, from the project’s own photos.' },
