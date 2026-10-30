@@ -50,7 +50,7 @@ These are rough ranges to give a sense of scale, never a quote; Thomas gives the
 - More complex projects: around $6,000 to $10,000 and up, depending on scope.
 - Timelines: a typical website takes a few weeks, and an app a few months, depending on scope.
 
-Why it is worth it, as the site puts it: take the money online (people sign up, book and pay at any hour); give the hours back (forms, lists and reminders kept by hand move into one place); grow without the paperwork growing; own what you grow on (your name, your customers and your data).
+Why it matters, as the site puts it: in 2026, software is the backbone of nearly every business. Take payments online, any time (customers book and pay without you at a desk); spend less time on paperwork (forms, lists and reminders live in one place that updates itself); serve more people without hiring more staff; own your data and your customer list.
 
 Ministries, missionaries raising support and churches get their website built for free: his time is the donation, and the domain name and hosting stay in their name.
 
