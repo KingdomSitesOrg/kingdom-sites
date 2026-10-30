@@ -30,7 +30,6 @@ export default function DotNav({ sections }: { sections: { id: string; label: st
     if (!el) return
     e.preventDefault()
     const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    // 'instant', not 'auto': the site's stylesheet makes 'auto' glide too.
     el.scrollIntoView({ behavior: still ? 'instant' : 'smooth', block: 'start' })
     history.replaceState(null, '', `#${id}`)
     // Keyboard users carry on reading from the section they picked.

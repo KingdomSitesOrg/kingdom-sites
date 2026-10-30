@@ -161,7 +161,7 @@ export default function Home() {
       </Scroll>
 
       <div className="cn-wrap mt-10 flex justify-center lg:mt-0">
-        <LitLink href="/portfolio#farzana" label="The whole Farzana Classroom story" />
+        <LitLink href="/portfolio" label="The whole Farzana Classroom story" />
       </div>
 
       {/* The Latin learning game: phones at different depths. */}
