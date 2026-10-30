@@ -39,8 +39,8 @@ const PHONE = '(max-width: 759px), (max-height: 520px)'
 
 let nextId = 1
 
-export default function Intelligence() {
-  const [open, setOpen] = useState(false)
+export default function Intelligence({ inline = false }: { inline?: boolean }) {
+  const [open, setOpen] = useState(inline)
   const [items, setItems] = useState<Item[]>([])
   const [draft, setDraft] = useState('')
   const [busy, setBusy] = useState(false)
@@ -67,7 +67,7 @@ export default function Intelligence() {
   // would raise the keyboard before they asked for it); closing puts it back on the square.
   useEffect(() => {
     if (open) {
-      if (!window.matchMedia(PHONE).matches) input.current?.focus({ preventScroll: true })
+      if (!inline && !window.matchMedia(PHONE).matches) input.current?.focus({ preventScroll: true })
     } else if (returnFocus.current) square.current?.focus({ preventScroll: true })
     returnFocus.current = false
   }, [open])
@@ -79,7 +79,7 @@ export default function Intelligence() {
   const root = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const el = root.current
-    if (!open || !phone || !el) return
+    if (!open || !phone || !el || inline) return
     const vv = window.visualViewport
     const place = () => {
       const height = vv?.height ?? window.innerHeight
@@ -121,11 +121,11 @@ export default function Intelligence() {
       Object.assign(document.body.style, was)
       window.scrollTo({ top: y, behavior: 'instant' })
     }
-  }, [open, phone])
+  }, [open, phone, inline])
 
   // Escape closes it wherever the focus is, even after a button it was on has gone.
   useEffect(() => {
-    if (!open) return
+    if (!open || inline) return
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== 'Escape' || e.defaultPrevented) return
       if (document.documentElement.classList.contains('cn-menu-lock')) return // the header's menu is open; it closes first
@@ -137,7 +137,7 @@ export default function Intelligence() {
 
   // Sent: the cursor goes back to the question box.
   useEffect(() => {
-    if (handoff === 'sent' && !window.matchMedia(PHONE).matches) input.current?.focus({ preventScroll: true })
+    if (handoff === 'sent' && !inline && !window.matchMedia(PHONE).matches) input.current?.focus({ preventScroll: true })
   }, [handoff])
 
   // Keep the newest words in view as they come in, unless the reader has
@@ -277,7 +277,8 @@ export default function Intelligence() {
   })()
 
   return (
-    <div ref={root} className={`ki ${sans.variable}`} data-open={open ? '' : undefined}>
+    <div ref={root} className={`ki ${inline ? 'ki--inline ' : ''}${sans.variable}`} data-open={open ? '' : undefined}>
+      {inline ? null : (
       <button
         ref={square}
         type="button"
@@ -291,12 +292,13 @@ export default function Intelligence() {
         <span className="ki-square-title">Intelligence</span>
         <span className="ki-square-sub">Ask anything about me and what I built</span>
       </button>
+      )}
 
-      <div className="ki-backdrop" hidden={!open} onClick={close} aria-hidden="true" />
+      {inline ? null : <div className="ki-backdrop" hidden={!open} onClick={close} aria-hidden="true" />}
 
       <section
         id={panelId}
-        role="dialog"
+        role={inline ? 'region' : 'dialog'}
         aria-labelledby={titleId}
         className="ki-panel"
         hidden={!open}
@@ -310,11 +312,13 @@ export default function Intelligence() {
             </h2>
             <p className="ki-sub">Ask anything about me and what I built</p>
           </div>
-          <button type="button" className="ki-close" aria-label="Close Intelligence" onClick={close}>
-            <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true">
-              <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-            </svg>
-          </button>
+          {inline ? null : (
+            <button type="button" className="ki-close" aria-label="Close Intelligence" onClick={close}>
+              <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true">
+                <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+              </svg>
+            </button>
+          )}
         </header>
 
         <div ref={log} className="ki-log" role="log" aria-live="polite" aria-busy={busy} aria-label="Conversation">
@@ -413,7 +417,7 @@ export default function Intelligence() {
               onFocus={(e) => {
                 // Fallback: once the keyboard has finished rising, make sure the box is in view.
                 const box = e.currentTarget
-                window.setTimeout(() => box.scrollIntoView({ block: 'nearest' }), 300)
+                window.setTimeout(() => box.scrollIntoView({ block: inline ? 'center' : 'nearest' }), 300)
               }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) {
@@ -443,6 +447,11 @@ export default function Intelligence() {
       </section>
     </div>
   )
+}
+
+/** The same chat, built into a page: always open, in the flow of the page. */
+export function IntelligenceInline() {
+  return <Intelligence inline />
 }
 
 function Spark() {
