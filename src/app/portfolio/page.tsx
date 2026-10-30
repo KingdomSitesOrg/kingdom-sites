@@ -29,16 +29,16 @@ const SECTIONS = [
   { id: 'farzana', label: 'Farzana Classroom' },
   { id: 'latin-game', label: 'The Latin learning game' },
   { id: 'ruta', label: 'Ruta' },
-  { id: 'more', label: 'Websites and tools' },
+  { id: 'more', label: 'And the rest' },
 ]
 
 /* The parts of Ruta I have worked on, as the Ruta page lists them. */
 const RUTA_WORK = [
-  'Recurring billing and customer payment arrangements',
-  'The crew app: visits, the time clock, and use without a signal',
-  'Office tools for the day’s schedule, messaging and reviewing finished work',
+  'Billing and payments',
+  'The crew app, including use without a signal',
+  'Office tools for scheduling, messaging and review',
   'Customer self-service',
-  'The shared backend the apps sit on',
+  'The backend behind the apps',
   'The AI assistant inside the product',
 ]
 
@@ -84,8 +84,8 @@ export default function Portfolio() {
           and the rest.
         </h1>
         <p className="cn-body mt-8 max-w-[46ch]">
-          Education software for schools, a Latin game in students’ pockets, and a field-service app for crews.
-          Then the websites and tools around them. Every screen here is from the software itself.
+          Multiple apps built, tested and proven. Education software, software for landscapers, websites, and
+          everything in between.
         </p>
       </section>
 
@@ -117,15 +117,11 @@ export default function Portfolio() {
           <Scroll>
             <div className="cn-reveal">
               <Browser shot={SHOTS.farzanaClass} product={PRODUCT} note={DEMO} />
-              <h3 className="cn-display cn-h3 mt-8">What a family sees</h3>
-              <p className="cn-body mt-3 max-w-[40ch]">A page for each class, with a sample to try before signing up.</p>
             </div>
           </Scroll>
           <Scroll>
             <div className="cn-reveal lg:mt-32">
               <Browser shot={SHOTS.farzanaDesk} product={PRODUCT} note={DEMO} />
-              <h3 className="cn-display cn-h3 mt-8">What the teacher sees</h3>
-              <p className="cn-body mt-3 max-w-[40ch]">Who is enrolled, who was active this week, and who just joined.</p>
             </div>
           </Scroll>
         </div>
@@ -231,8 +227,8 @@ export default function Portfolio() {
 
       {/* Everything else, short: a picture, a name, a line. */}
       <section id="more" tabIndex={-1} aria-labelledby="more-h" className="cn-wrap mt-24 scroll-mt-16 sm:mt-36">
-        <p className="cn-kicker">04 · Websites and tools</p>
-        <h2 id="more-h" className="cn-display cn-h2 mt-4">And the rest.</h2>
+        <p className="cn-kicker">04 · And the rest</p>
+        <h2 id="more-h" className="cn-display cn-h2 mt-4">Websites, tools and other cool stuff.</h2>
         <div className="mt-14 grid gap-x-8 gap-y-14 md:grid-cols-2 xl:grid-cols-3">
           {CASES.map((p) => {
             const external = p.href!.startsWith('http')
