@@ -95,12 +95,15 @@ export default function AppShell({
   }, [darkRoom])
 
   // Intelligence, the chat square (T-375), is on every studio page. Not on the
-  // Farzana pages, which are farzana.app's own brand, and not where someone is
-  // signing a document (/sign/s/…). It sits outside the page's own tree, so a
+  // Farzana pages, which are farzana.app's own brand, and not in the Sign tool
+  // (sending or signing a document; its plans page keeps it). It covered the
+  // corner of the document being signed. It sits outside the page's own tree, so a
   // conversation carries on from page to page.
   // The Get started page has the chat built into the page, so no second one floats there.
+  const inSignTool =
+    (pathname === '/sign' || pathname?.startsWith('/sign/')) && !pathname.startsWith('/sign/pricing')
   const intelligence =
-    section === 'farzana' || pathname?.startsWith('/sign/s/') || pathname === '/get-started' ? null : <Intelligence />
+    section === 'farzana' || inSignTool || pathname === '/get-started' ? null : <Intelligence />
 
   return (
     <>

@@ -4,9 +4,10 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import type { Envelope, FieldPlacement } from '@/lib/sign/types'
-import { isEnvelopeLocked, mergeSignatureFields, needsCompletedPdf, placementAtPointer, snapPlacementXY, type PageRect } from '@/lib/sign/placement'
+import { isEnvelopeLocked, mergeSignatureFields, needsCompletedPdf, placementAtPointer, signersWithoutLine, snapPlacementXY, type PageRect } from '@/lib/sign/placement'
 import PdfScrollViewer from './PdfScrollViewer'
 import SignatureLineBox from './SignatureLineBox'
+import SignSteps from './SignSteps'
 
 type SignerDraft = { id?: string; name: string; email: string; role: string }
 
@@ -55,8 +56,10 @@ export default function EnvelopeEditor({ initial }: Props) {
     initial.fields.filter((f) => f.type === 'signature'),
   )
   const [page, setPage] = useState(1)
+  // Start placing for the first signer without a line. A document whose lines are
+  // all placed opens out of place mode, so a stray click cannot move a line.
   const [placeSignerId, setPlaceSignerId] = useState<string | null>(
-    initial.signers[0]?.id || null,
+    initial.status === 'draft' ? signersWithoutLine(initial)[0]?.id || null : null,
   )
   const [activeFieldId, setActiveFieldId] = useState<string | null>(null)
   const dragRef = useRef<{
@@ -74,6 +77,9 @@ export default function EnvelopeEditor({ initial }: Props) {
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
+  // Edits not yet saved (placements, signers, title). Leaving asks first.
+  const [dirty, setDirty] = useState(false)
+  const [copiedId, setCopiedId] = useState<string | null>(null)
 
   // Keep latest drafts in refs so queued saves never send stale Provider/Client boxes.
   const fieldsRef = useRef(fields)
@@ -116,6 +122,15 @@ export default function EnvelopeEditor({ initial }: Props) {
     autoCompleteAttemptedRef.current = false
   }, [envelope.id])
 
+  useEffect(() => {
+    if (!dirty) return
+    const warn = (e: BeforeUnloadEvent) => {
+      e.preventDefault()
+    }
+    window.addEventListener('beforeunload', warn)
+    return () => window.removeEventListener('beforeunload', warn)
+  }, [dirty])
+
   // If all signed but completed PDF missing (flaky after()), POST /complete once.
   useEffect(() => {
     if (!needsCompletedPdf(envelope)) return
@@ -149,7 +164,7 @@ export default function EnvelopeEditor({ initial }: Props) {
         })
         setSigners(draftFromEnvelope(env))
         if (env.completedPdfKey) {
-          setMessage('Completed PDF ready — download link is available.')
+          setMessage('The signed PDF is ready.')
         }
       } catch {
         /* manual Generate remains as backup */
@@ -175,12 +190,14 @@ export default function EnvelopeEditor({ initial }: Props) {
   function addSignerRow() {
     if (isEnvelopeLocked(envelopeRef.current.status)) return
     setSigners((prev) => [...prev, { name: '', email: '', role: 'Signer' }])
+    setDirty(true)
   }
 
   function removeSignerRow(idx: number) {
     if (isEnvelopeLocked(envelopeRef.current.status)) return
     const target = signers[idx]
     setSigners((prev) => prev.filter((_, i) => i !== idx))
+    setDirty(true)
     if (target?.id) {
       setFields((prev) => {
         const next = prev.filter((f) => f.signerId !== target.id)
@@ -223,7 +240,7 @@ export default function EnvelopeEditor({ initial }: Props) {
       const draft = queuedSigners
       const incomplete = draft.filter((s) => !s.name.trim() || !s.email.trim())
       if (incomplete.length) {
-        setError('Every signer needs a name and email before Save can unlock Place box.')
+        setError('Every signer needs a name and an email.')
         return null
       }
 
@@ -270,17 +287,17 @@ export default function EnvelopeEditor({ initial }: Props) {
           fieldsRef.current = queuedFields.filter((f) => f.type === 'signature')
         }
         signersRef.current = draftFromEnvelope(env)
+        // Keep placing for the same signer; otherwise move on to whoever (a newly
+        // saved signer, say) still has no line.
         const keepPlace =
           placeSignerIdRef.current &&
           env.signers.some((s) => s.id === placeSignerIdRef.current)
             ? placeSignerIdRef.current
-            : env.signers[0]?.id || null
+            : signersWithoutLine({ signers: env.signers, fields: fieldsRef.current })[0]?.id ||
+              null
         setPlaceSignerId(keepPlace)
-        setMessage(
-          env.signers.length
-            ? `Saved. Place box is ready — pick a signer and click/drag on the PDF.`
-            : 'Saved.',
-        )
+        if (!fieldsStale) setDirty(false)
+        setMessage('Draft saved.')
         return env
       } catch {
         setError('Network error.')
@@ -346,18 +363,12 @@ export default function EnvelopeEditor({ initial }: Props) {
       setSigners(draftFromEnvelope(protectedEnv))
       // Drop any in-flight draft autosaves so they cannot unlock the editor.
       saveGenRef.current += 1
-      const skipped = Number(data.skippedAlreadySigned || 0)
-      const skipMsg = skipped > 0 ? `Skipped ${skipped} already signed. ` : ''
-      const links = (data.results || [])
-        .filter((r: { skippedAlreadySigned?: boolean }) => !r.skippedAlreadySigned)
-        .map((r: { email: string; link: string; sent: boolean }) =>
-          `${r.email}: ${r.link}${r.sent ? '' : ' (email not sent — use link)'}`,
-        )
-        .join(' | ')
+      setDirty(false)
+      setPlaceSignerId(null)
       setMessage(
         data.emailed
-          ? `${skipMsg}Magic links emailed. You can also sign boxes here.`
-          : `${skipMsg}Opened for signing. ${links || data.notice || 'Use Sign boxes here or copy links from the audit log.'}`,
+          ? 'Sent. Everyone who still has to sign has an email with their own link.'
+          : data.notice || 'Open for signing. Copy each signing link below and send it.',
       )
     } catch {
       setError('Network error.')
@@ -370,10 +381,7 @@ export default function EnvelopeEditor({ initial }: Props) {
     if (isEnvelopeLocked(envelope.status)) return
     if (dragRef.current?.moved) return
     if ((e.target as HTMLElement).closest('[data-field-id]')) return
-    if (!placeSignerId) {
-      setError('Choose Place signature line for a signer first.')
-      return
-    }
+    if (!placeSignerId) return
     const rect = e.currentTarget.getBoundingClientRect()
     const x = (e.clientX - rect.left) / rect.width
     const y = (e.clientY - rect.top) / rect.height
@@ -403,9 +411,17 @@ export default function EnvelopeEditor({ initial }: Props) {
     fieldsRef.current = nextFields
     setFields(nextFields)
     setPage(pageNum)
+    setDirty(true)
     setError('')
+    // Move straight on to the next signer still without a line.
+    const nextMissing = signersRef.current.find(
+      (s) => s.id && s.id !== placeSignerId && !nextFields.some((f) => f.signerId === s.id),
+    )
+    setPlaceSignerId(nextMissing?.id || null)
     setMessage(
-      `Placed signature line for ${signerLabel(placeSignerId)} on page ${pageNum}. Click Save document.`,
+      nextMissing
+        ? `${signerLabel(placeSignerId)}’s line is on page ${pageNum}. Now click where ${nextMissing.name} signs.`
+        : `${signerLabel(placeSignerId)}’s line is on page ${pageNum}. Every line is placed. Drag one to adjust it, or send.`,
     )
   }
 
@@ -424,7 +440,10 @@ export default function EnvelopeEditor({ initial }: Props) {
     setActiveFieldId(field.id)
     setTypedName(signer.name || '')
     setError('')
-    setMessage(`Signing as ${signer.name}. Type the name, then Save.`)
+    setMessage('')
+    window.setTimeout(() => {
+      document.getElementById('sign-in-person')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }, 50)
   }
 
   function collectPageRects(): PageRect[] {
@@ -500,11 +519,14 @@ export default function EnvelopeEditor({ initial }: Props) {
         fieldsRef.current = current
         setFields(current)
         setPage(current[movedIdx]!.page)
+        setDirty(true)
       }
-      setMessage('Signature line moved. Click Save document.')
+      setMessage('')
       return
     }
-    openSignBox(field)
+    // A click (no drag) on a draft's line only selects it; signing in person is
+    // the signer row's "Sign now", so a stray click cannot open the document for signing.
+    if (isEnvelopeLocked(envelopeRef.current.status)) openSignBox(field)
   }
 
   function onFieldPointerDown(e: React.PointerEvent<HTMLButtonElement>, field: FieldPlacement) {
@@ -728,8 +750,8 @@ export default function EnvelopeEditor({ initial }: Props) {
       setTypedName('')
       setMessage(
         data.completed || data.completing
-          ? 'All parties signed — document complete.'
-          : `Saved signature for ${name}.`,
+          ? 'Everyone has signed. The signed PDF is ready.'
+          : `${name} has signed.`,
       )
     } catch {
       setError('Network error.')
@@ -754,11 +776,7 @@ export default function EnvelopeEditor({ initial }: Props) {
       setEnvelope(env)
       envelopeRef.current = env
       setSigners(draftFromEnvelope(env))
-      setMessage(
-        data.alreadyCompleted
-          ? 'Completed PDF already available.'
-          : 'Completed PDF generated. Download link is ready — check email shortly.',
-      )
+      setMessage('The signed PDF is ready.')
     } catch {
       setError('Network error generating completed PDF.')
     } finally {
@@ -786,170 +804,197 @@ export default function EnvelopeEditor({ initial }: Props) {
     }
   }
 
+
+  function signingLink(token: string): string {
+    return `${window.location.origin}/sign/s/${token}`
+  }
+
+  async function copyLink(signerId: string, token: string) {
+    try {
+      await navigator.clipboard.writeText(signingLink(token))
+      setCopiedId(signerId)
+      window.setTimeout(() => setCopiedId((id) => (id === signerId ? null : id)), 2000)
+    } catch {
+      setError('Could not copy. Select the link and copy it by hand.')
+    }
+  }
+
+  function updateSigner(idx: number, patch: Partial<SignerDraft>) {
+    const next = [...signers]
+    next[idx] = { ...next[idx], ...patch }
+    setSigners(next)
+    setDirty(true)
+  }
+
+  const completed = envelope.status === 'completed'
+  // Signers still without a line: unsaved new rows count, as they cannot be placed yet.
+  const missingLine = signers.filter(
+    (s) => !s.id || !fields.some((f) => f.type === 'signature' && f.signerId === s.id),
+  )
+  const unsavedSigner = signers.find((s) => !s.id)
+  const waiting = envelope.signers.filter((s) => s.status !== 'signed')
+  const emailedBefore = envelope.audit.some(
+    (a) => a.action === 'sent' && /:emailed/.test(a.detail || ''),
+  )
+  const step = completed ? 3 : locked ? 3 : missingLine.length ? 1 : 2
+  const placingName = placeSignerId ? signerLabel(placeSignerId) : ''
+  const signedPdfHref = `/api/sign/envelopes/${envelope.id}/pdf?which=completed`
+
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div className="min-w-0">
           <Link href="/sign/dashboard" className="btn-ghost-sm">
             ← Documents
           </Link>
-          <h1 className="mt-1 text-2xl font-semibold tracking-tight text-ink">{envelope.title}</h1>
-          <p className="text-xs text-muted capitalize">Status: {envelope.status}</p>
+          <h1 className="mt-3 text-2xl font-semibold tracking-tight text-ink">{envelope.title}</h1>
+          <div className="mt-3">
+            <SignSteps current={step} allDone={completed} />
+          </div>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <button
-            type="button"
-            disabled={busy || locked}
-            onClick={() => save()}
-            className="btn-ghost !min-h-10 !px-4 !py-2 !text-sm"
-          >
-            Save document
-          </button>
-          <button
-            type="button"
-            disabled={busy || envelope.status === 'completed'}
-            onClick={send}
-            className="btn-primary !min-h-10 !px-4 !py-2 !text-sm"
-          >
-            Email magic links
-          </button>
-          <button
-            type="button"
-            disabled={busy}
-            onClick={removeDoc}
-            className="btn-danger !min-h-10 !px-4 !py-2 !text-sm"
-          >
-            Delete
-          </button>
-        </div>
+        {!locked ? (
+          <div className="flex items-center gap-3">
+            {dirty ? <span className="text-xs font-medium text-warm">Unsaved changes</span> : null}
+            <button
+              type="button"
+              disabled={busy || !dirty}
+              onClick={() => save()}
+              className="btn-ghost !min-h-10 !px-4 !py-2 !text-sm"
+            >
+              {dirty ? 'Save draft' : 'Draft saved'}
+            </button>
+          </div>
+        ) : null}
       </div>
 
-      {message ? <p className="text-sm text-emerald-700">{message}</p> : null}
-      {error ? <p className="text-sm text-warm">{error}</p> : null}
-      {locked ? (
-        <div
-          role="status"
-          className="rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-950"
-        >
-          Locked for signing — placements and signers can’t be edited.
-        </div>
+      {message ? (
+        <p role="status" className="text-sm text-emerald-700">
+          {message}
+        </p>
+      ) : null}
+      {error ? (
+        <p role="alert" className="text-sm text-warm">
+          {error}
+        </p>
       ) : null}
 
       <div className="grid gap-6 lg:grid-cols-[340px_1fr]">
         <div className="space-y-4">
-          <div className="tile space-y-3 p-4">
-            <label className="block text-sm">
-              <span className="mb-1 block text-muted">Title</span>
-              <input
-                value={title}
-                disabled={locked}
-                onChange={(e) => setTitle(e.target.value)}
-                className="w-full rounded-xl border border-line px-3 py-2 text-ink outline-none focus:border-accent"
-              />
-            </label>
-          </div>
-
-          <div className="tile space-y-3 p-4">
-            <div className="flex items-center justify-between">
-              <h2 className="text-sm font-semibold text-ink">Signers</h2>
-              <button
-                type="button"
-                disabled={locked}
-                onClick={addSignerRow}
-                className="btn-ghost-sm"
-              >
-                + Add signer
-              </button>
-            </div>
-            <p className="text-xs text-body">
-              {locked
-                ? 'Document is locked while signing is in progress. Viewing and signing boxes still work.'
-                : 'Edit name, role, and email. Place or drag signature lines, then Save document.'}
-            </p>
-            {signers.map((s, idx) => {
-              const live = s.id ? envelope.signers.find((x) => x.id === s.id) : undefined
-              return (
-                <div key={s.id || `new-${idx}`} className="space-y-2 rounded-xl border border-line p-3">
-                  <input
-                    placeholder="Name"
-                    value={s.name}
-                    disabled={locked}
-                    onChange={(e) => {
-                      const next = [...signers]
-                      next[idx] = { ...next[idx], name: e.target.value }
-                      setSigners(next)
-                    }}
-                    className="w-full rounded-lg border border-line px-2 py-1.5 text-sm"
-                  />
-                  <input
-                    placeholder="Role (e.g. Client / Provider)"
-                    value={s.role}
-                    disabled={locked}
-                    onChange={(e) => {
-                      const next = [...signers]
-                      next[idx] = { ...next[idx], role: e.target.value }
-                      setSigners(next)
-                    }}
-                    className="w-full rounded-lg border border-line px-2 py-1.5 text-sm"
-                  />
-                  <input
-                    placeholder="Email"
-                    type="email"
-                    value={s.email}
-                    disabled={locked}
-                    onChange={(e) => {
-                      const next = [...signers]
-                      next[idx] = { ...next[idx], email: e.target.value }
-                      setSigners(next)
-                    }}
-                    className="w-full rounded-lg border border-line px-2 py-1.5 text-sm"
-                  />
-                  <div className="flex flex-wrap items-center gap-2">
-                    {s.id ? (
-                      <button
-                        type="button"
-                        disabled={locked}
-                        className={`btn-ghost-sm ${placeSignerId === s.id ? 'is-active' : ''}`}
-                        onClick={() => setPlaceSignerId(s.id!)}
-                      >
-                        {placeSignerId === s.id ? 'Placing line…' : 'Place signature line'}
-                      </button>
-                    ) : (
-                      <span className="text-xs text-muted">Fill name + email, then Save document</span>
-                    )}
-                    {live?.status === 'signed' ? (
-                      <span className="text-xs font-medium text-emerald-700">Signed</span>
-                    ) : null}
-                    {signers.length > 1 && !locked ? (
-                      <button
-                        type="button"
-                        className="btn-danger-sm ml-auto"
-                        onClick={() => removeSignerRow(idx)}
-                      >
-                        Remove signer
-                      </button>
-                    ) : null}
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-
-          <div className="tile space-y-3 p-4">
-            <h2 className="text-sm font-semibold text-ink">How to sign</h2>
-            <ol className="list-decimal space-y-1 pl-4 text-xs text-body">
-              <li>Add/edit signers (name, role, email) and Save document.</li>
-              <li>
-                Click Place signature line, click the PDF to drop it, drag to fine-tune, then Save
-                document.
-              </li>
-              <li>Click a line to sign: type the name (cursive), hit Save.</li>
-            </ol>
+          {/* The one next step, with the one button that takes it. */}
+          <div className="tile space-y-3 border-2 border-accent/30 p-4">
+            {completed ? (
+              <>
+                <h2 className="text-base font-semibold text-ink">Signed by everyone</h2>
+                <p className="text-sm text-body">
+                  The signed PDF has every signature and date stamped on it.
+                </p>
+                {envelope.completedPdfKey ? (
+                  <a
+                    href={signedPdfHref}
+                    className="btn-primary w-full"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Download signed PDF
+                  </a>
+                ) : null}
+              </>
+            ) : needsCompletedPdf(envelope) ? (
+              <>
+                <h2 className="text-base font-semibold text-ink">Everyone has signed</h2>
+                <p className="text-sm text-body">The signed PDF has not been made yet.</p>
+                <button
+                  type="button"
+                  disabled={busy}
+                  onClick={() => void generateCompletedPdf()}
+                  className="btn-primary w-full"
+                >
+                  {busy ? 'Making it…' : 'Make the signed PDF'}
+                </button>
+              </>
+            ) : locked ? (
+              <>
+                <h2 className="text-base font-semibold text-ink">
+                  Waiting for {waiting.map((s) => s.name).join(' and ')}
+                </h2>
+                <p className="text-sm text-body">
+                  The document is locked so everyone signs the same version. Each person signs with
+                  their own link.
+                </p>
+                <button
+                  type="button"
+                  disabled={busy || waiting.length === 0}
+                  onClick={send}
+                  className={emailedBefore ? 'btn-ghost w-full !min-h-11 !text-sm' : 'btn-primary w-full'}
+                >
+                  {busy ? 'Sending…' : emailedBefore ? 'Email the links again' : 'Email the links'}
+                </button>
+              </>
+            ) : unsavedSigner ? (
+              <>
+                <h2 className="text-base font-semibold text-ink">Save the new signer</h2>
+                <p className="text-sm text-body">
+                  Give {unsavedSigner.name || 'the new signer'} a name and email, then save the draft to
+                  place their line.
+                </p>
+                <button
+                  type="button"
+                  disabled={busy}
+                  onClick={() => save()}
+                  className="btn-primary w-full"
+                >
+                  Save draft
+                </button>
+              </>
+            ) : placeSignerId ? (
+              <>
+                <h2 className="text-base font-semibold text-ink">
+                  Place {placingName}’s signature line
+                </h2>
+                <p className="text-sm text-body">
+                  Click on the document where {placingName} signs. Drag the line to adjust it.
+                </p>
+                <p className="text-xs text-muted">
+                  The line is see-through: anything showing under it is printed under the signature.
+                </p>
+              </>
+            ) : missingLine.length ? (
+              <>
+                <h2 className="text-base font-semibold text-ink">Place the signature lines</h2>
+                <p className="text-sm text-body">
+                  {missingLine.map((s) => s.name).join(' and ')} still{' '}
+                  {missingLine.length === 1 ? 'needs' : 'need'} a line.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setPlaceSignerId(missingLine[0]?.id || null)}
+                  className="btn-primary w-full"
+                >
+                  Place {missingLine[0]?.name}’s line
+                </button>
+              </>
+            ) : (
+              <>
+                <h2 className="text-base font-semibold text-ink">Ready to send</h2>
+                <p className="text-sm text-body">
+                  Each signer gets an email with their own link. Once it is sent the document is
+                  locked, so check the lines first.
+                </p>
+                <button type="button" disabled={busy} onClick={send} className="btn-primary w-full">
+                  {busy ? 'Sending…' : 'Send for signing'}
+                </button>
+              </>
+            )}
           </div>
 
           {activeFieldId ? (
-            <div className="tile space-y-3 border-2 border-accent p-4">
-              <h2 className="text-sm font-semibold text-ink">Type signature</h2>
+            <div id="sign-in-person" className="tile space-y-3 border-2 border-accent p-4">
+              <h2 className="text-sm font-semibold text-ink">
+                Sign now as {signerLabel(fields.find((f) => f.id === activeFieldId)?.signerId || '')}
+              </h2>
+              <p className="text-xs text-muted">
+                For signing in person on this computer. Type the full name.
+              </p>
               <input
                 autoFocus
                 value={typedName}
@@ -964,7 +1009,7 @@ export default function EnvelopeEditor({ initial }: Props) {
                 onClick={saveSignature}
                 className="btn-primary w-full"
               >
-                {busy ? 'Saving…' : 'Save signature'}
+                {busy ? 'Signing…' : 'Sign'}
               </button>
               <button
                 type="button"
@@ -979,28 +1024,139 @@ export default function EnvelopeEditor({ initial }: Props) {
             </div>
           ) : null}
 
-          {envelope.status === 'completed' && envelope.completedPdfKey ? (
-            <a
-              href={`/api/sign/envelopes/${envelope.id}/pdf?which=completed`}
-              className="btn-primary block w-full !bg-emerald-700 hover:!bg-emerald-800"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Download completed PDF
-            </a>
-          ) : needsCompletedPdf(envelope) ? (
-            <button
-              type="button"
-              disabled={busy}
-              onClick={() => void generateCompletedPdf()}
-              className="btn-primary w-full !bg-amber-700 hover:!bg-amber-800"
-            >
-              {busy ? 'Generating…' : 'Generate completed PDF'}
-            </button>
-          ) : null}
+          <div className="tile space-y-3 p-4">
+            <div className="flex items-center justify-between gap-2">
+              <h2 className="text-sm font-semibold text-ink">Signers</h2>
+              {!locked ? (
+                <button type="button" onClick={addSignerRow} className="btn-ghost-sm">
+                  + Add signer
+                </button>
+              ) : null}
+            </div>
+            {signers.map((s, idx) => {
+              const live = s.id ? envelope.signers.find((x) => x.id === s.id) : undefined
+              const line = s.id
+                ? fields.find((f) => f.type === 'signature' && f.signerId === s.id)
+                : undefined
+              const signed = live?.status === 'signed'
+              return (
+                <div key={s.id || `new-${idx}`} className="space-y-2 rounded-xl border border-line p-3">
+                  {locked ? (
+                    <div className="min-w-0">
+                      <div className="truncate text-sm font-medium text-ink">{s.name}</div>
+                      <div className="truncate text-xs text-muted">
+                        {s.role} · {s.email}
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <input
+                        aria-label="Name"
+                        placeholder="Full name"
+                        value={s.name}
+                        onChange={(e) => updateSigner(idx, { name: e.target.value })}
+                        className="w-full rounded-lg border border-line px-2 py-1.5 text-sm"
+                      />
+                      <input
+                        aria-label="Role"
+                        placeholder="Role (e.g. Client)"
+                        value={s.role}
+                        onChange={(e) => updateSigner(idx, { role: e.target.value })}
+                        className="w-full rounded-lg border border-line px-2 py-1.5 text-sm"
+                      />
+                      <input
+                        aria-label="Email"
+                        placeholder="Email"
+                        type="email"
+                        value={s.email}
+                        onChange={(e) => updateSigner(idx, { email: e.target.value })}
+                        className="w-full rounded-lg border border-line px-2 py-1.5 text-sm"
+                      />
+                    </>
+                  )}
+                  <div className="flex flex-wrap items-center gap-2">
+                    {signed ? (
+                      <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-800">
+                        Signed
+                      </span>
+                    ) : locked ? (
+                      <span className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-medium text-accent">
+                        Waiting
+                      </span>
+                    ) : line ? (
+                      <span className="text-xs text-muted">Line on page {line.page}</span>
+                    ) : s.id ? (
+                      <span className="text-xs font-medium text-warm">No line yet</span>
+                    ) : (
+                      <span className="text-xs text-muted">Save the draft to place their line</span>
+                    )}
+                    {!locked && s.id ? (
+                      <button
+                        type="button"
+                        className={`btn-ghost-sm ${placeSignerId === s.id ? 'is-active' : ''}`}
+                        onClick={() => setPlaceSignerId(placeSignerId === s.id ? null : s.id!)}
+                      >
+                        {placeSignerId === s.id ? 'Placing…' : line ? 'Move line' : 'Place line'}
+                      </button>
+                    ) : null}
+                    {!signed && !completed && line && live ? (
+                      <button type="button" className="btn-ghost-sm" onClick={() => openSignBox(line)}>
+                        Sign now
+                      </button>
+                    ) : null}
+                    {signers.length > 1 && !locked ? (
+                      <button
+                        type="button"
+                        className="btn-danger-sm ml-auto"
+                        onClick={() => removeSignerRow(idx)}
+                      >
+                        Remove
+                      </button>
+                    ) : null}
+                  </div>
+                  {locked && live && !signed ? (
+                    <div className="flex items-center gap-2">
+                      <input
+                        readOnly
+                        aria-label={`Signing link for ${live.name}`}
+                        value={signingLink(live.token)}
+                        onFocus={(e) => e.currentTarget.select()}
+                        className="min-w-0 flex-1 rounded-lg border border-line bg-surface-2 px-2 py-1.5 text-xs text-body"
+                      />
+                      <button
+                        type="button"
+                        className="btn-ghost-sm shrink-0"
+                        onClick={() => void copyLink(live.id, live.token)}
+                      >
+                        {copiedId === live.id ? 'Copied' : 'Copy link'}
+                      </button>
+                    </div>
+                  ) : null}
+                </div>
+              )
+            })}
+          </div>
 
           <div className="tile p-4">
-            <h2 className="text-sm font-semibold text-ink">Audit log</h2>
+            <label className="block text-sm">
+              <span className="mb-1 block text-muted">Document title</span>
+              {locked ? (
+                <span className="block text-ink">{title}</span>
+              ) : (
+                <input
+                  value={title}
+                  onChange={(e) => {
+                    setTitle(e.target.value)
+                    setDirty(true)
+                  }}
+                  className="w-full rounded-xl border border-line px-3 py-2 text-ink outline-none focus:border-accent"
+                />
+              )}
+            </label>
+          </div>
+
+          <details className="tile p-4">
+            <summary className="cursor-pointer text-sm font-semibold text-ink">History</summary>
             <ul className="mt-2 max-h-48 space-y-1 overflow-auto text-xs text-muted">
               {envelope.audit.map((a, i) => (
                 <li key={`${a.at}-${i}`}>
@@ -1009,28 +1165,40 @@ export default function EnvelopeEditor({ initial }: Props) {
                 </li>
               ))}
             </ul>
-          </div>
+          </details>
+
+          <button
+            type="button"
+            disabled={busy}
+            onClick={removeDoc}
+            className="btn-danger-sm"
+          >
+            Delete document
+          </button>
         </div>
 
         <div className="tile max-h-[78vh] overflow-auto p-3">
-          <div className="mb-3 flex flex-wrap items-center gap-2 text-sm">
+          <div className="sticky top-0 z-20 -mx-3 -mt-3 mb-3 flex min-h-11 flex-wrap items-center gap-2 border-b border-line bg-surface/95 px-3 py-2 text-sm backdrop-blur">
             {placeSignerId && !locked ? (
               <>
-                <span className="rounded-full bg-accent/15 px-2.5 py-1 text-xs font-medium text-accent">
-                  Place mode: click a page for {signerLabel(placeSignerId)}
+                <span className="rounded-full bg-accent px-2.5 py-1 text-xs font-medium text-white">
+                  Click where {placingName} signs
                 </span>
                 <button
                   type="button"
                   className="btn-ghost-sm"
                   onClick={() => setPlaceSignerId(null)}
                 >
-                  Done placing
+                  Stop placing
                 </button>
               </>
             ) : (
               <span className="text-xs text-muted">
-                Scroll normally — signature lines stay on their page. Use Place signature line to
-                drop a new one.
+                {completed
+                  ? 'Signed by everyone.'
+                  : locked
+                    ? 'Locked for signing. Click a line to sign it in person.'
+                    : 'Drag a line to move it.'}
               </span>
             )}
           </div>
@@ -1065,18 +1233,21 @@ export default function EnvelopeEditor({ initial }: Props) {
                       key={f.id}
                       type="button"
                       data-field-id={f.id}
+                      aria-label={`${signerRole(f.signerId)} signature line for ${live?.name || signerLabel(f.signerId)}`}
                       onPointerDown={(e) => onFieldPointerDown(e, f)}
                       onPointerUp={(e) => onFieldPointerUp(e, f)}
-                      className={`pointer-events-auto absolute z-[5] touch-none overflow-hidden rounded-md border-2 bg-white text-left shadow-sm ${
+                      className={`pointer-events-auto absolute z-[5] touch-none overflow-hidden rounded-md border-2 text-left ${
                         draggingId === f.id
                           ? 'border-accent cursor-grabbing z-10'
                           : activeFieldId === f.id
                             ? 'border-accent cursor-pointer ring-2 ring-accent/30'
                             : signed
                               ? 'border-emerald-600 cursor-default'
-                              : locked
-                                ? 'border-accent cursor-pointer hover:ring-2 hover:ring-accent/20'
-                                : 'border-accent cursor-grab hover:ring-2 hover:ring-accent/20'
+                              : completed
+                                ? 'border-line cursor-default'
+                                : locked
+                                  ? 'border-accent cursor-pointer hover:ring-2 hover:ring-accent/20'
+                                  : 'border-accent cursor-grab hover:ring-2 hover:ring-accent/20'
                       }`}
                       style={{
                         left: `${f.x * 100}%`,
@@ -1090,7 +1261,11 @@ export default function EnvelopeEditor({ initial }: Props) {
                         name={live?.name || signerLabel(f.signerId)}
                         signed={signed}
                         signedDate={signedDate}
-                        hint={locked ? 'Click to sign' : 'Drag to move · click to sign'}
+                        hint={
+                          locked
+                            ? `${live?.name || 'Signer'} signs here`
+                            : `${live?.name || signerLabel(f.signerId)} · drag to move`
+                        }
                       />
                     </button>
                   )

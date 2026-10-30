@@ -2,7 +2,7 @@ import { promises as fs } from 'fs'
 import path from 'path'
 import { put, list, del, get } from '@vercel/blob'
 import type { Envelope, EnvelopeSummary } from './types'
-import { mergeEnvelope } from './placement'
+import { mergeEnvelope, signersWithoutLine } from './placement'
 
 const LOCAL_ROOT = path.join(process.cwd(), '.data', 'sign')
 
@@ -247,6 +247,9 @@ export async function listEnvelopes(): Promise<EnvelopeSummary[]> {
       pageCount: e.pageCount,
       signerCount: e.signers.length,
       signedCount: e.signers.filter((s) => s.status === 'signed').length,
+      waitingOn: e.signers.filter((s) => s.status !== 'signed').map((s) => s.name || s.email),
+      missingLines: e.status === 'draft' ? signersWithoutLine(e).length : 0,
+      hasSignedPdf: e.status === 'completed' && Boolean(e.completedPdfKey),
     }))
     .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
 }
