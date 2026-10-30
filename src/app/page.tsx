@@ -1,199 +1,228 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { RutaPhoneShot } from '@/components/BuildMocks'
-import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
-import { AI_CONSULT, APP_OFFER, HOME_CLUSTER, HERO, PROCESS } from '@/lib/partnership'
+import WarmChrome from '@/components/warm/Chrome'
+import { INQUIRE_PATH } from '@/lib/contact'
+import { OFFER, PHOTOS, SHOTS, STEPS, type Shot } from '@/lib/work'
 
 export const metadata: Metadata = {
-  title: 'Kingdom Sites — mobile application solutions',
+  title: 'Kingdom Sites — websites and apps for churches, ministries and schools',
   description:
-    'I design, build, ship, and maintain mobile apps — and the software behind them. Have an idea? Start a conversation. No pressure.',
+    'Thomas and Monisha Klein build websites and iPhone and Android apps for churches, ministries, schools and small businesses. Websites for ministries are free.',
   alternates: { canonical: '/' },
+}
+
+/* A photograph that fills its box; the box sets the shape. */
+function Photo({ shot, className, priority, sizes }: { shot: Shot; className?: string; priority?: boolean; sizes?: string }) {
+  return (
+    <div className={`relative overflow-hidden rounded-[6px] ${className ?? ''}`}>
+      <Image src={shot.src} alt={shot.alt} fill sizes={sizes ?? '50vw'} priority={priority} unoptimized className="wm-photo" />
+    </div>
+  )
+}
+
+function Plain({ shot, className }: { shot: Shot; className: string }) {
+  return <Image src={shot.src} alt={shot.alt} width={shot.w} height={shot.h} unoptimized className={className} />
 }
 
 export default function Home() {
   return (
-    <div className="w-full overflow-x-hidden">
-      {/* 1 — Hero: the Jam with Latin launch, then an invitation to build yours. */}
-      <section aria-label="Jam with Latin is out now" className="hero-wash px-5 pb-20 pt-16 sm:px-8 sm:pb-28 sm:pt-24">
-        <div className="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-16">
-          <div className="text-center lg:text-left">
-            <p className="eyebrow eyebrow-blue">{HERO.eyebrow}</p>
-            <h1 className="mt-4 text-balance text-[2.15rem] font-semibold leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-[3.5rem] xl:text-[3.85rem]">
-              {HERO.title}
-              <span className="mt-3 block text-[0.72em] font-medium leading-snug text-accent sm:mt-4">
-                {HERO.accent}
-              </span>
-            </h1>
-            <p className="mt-7 text-pretty text-base leading-relaxed text-body sm:text-lg">
-              {HERO.sub}
+    <WarmChrome>
+      {/* Hero: who we are, with our faces. */}
+      <section aria-label="Kingdom Sites" className="wm-wrap pb-20 pt-8 sm:pb-28 sm:pt-12">
+        <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+          <div className="wm-in">
+            <p className="wm-eyebrow">Kingdom Sites</p>
+            <h1 className="wm-serif wm-h1 mt-4">Websites and apps for churches, ministries and schools.</h1>
+            <p className="wm-lede mt-7 max-w-[34ch]">
+              We are Thomas and Monisha Klein. Thomas designs and builds every site and app himself. We take on a few
+              projects at a time, on purpose, and we stay after launch.
             </p>
-            <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
-              <Link href={INQUIRE_PATH} className="btn-primary w-full max-w-[280px] sm:w-auto">
-                {INQUIRE_CTA}
+            <div className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-4">
+              <Link href={INQUIRE_PATH} className="wm-btn">
+                Talk with Thomas <span aria-hidden="true">→</span>
               </Link>
-              <Link href={HERO.appHref} className="btn-ghost w-full max-w-[280px] sm:w-auto">
-                {HERO.appCta}
-              </Link>
+              <a href="#stories" className="wm-quiet">
+                See who we build for
+              </a>
             </div>
+            <p className="mt-10 max-w-[40ch] border-l-2 border-[var(--olive)] pl-4 text-[15px]">
+              <span className="wm-ink font-semibold">Serving a church or ministry?</span> Your website is free.{' '}
+              <a href="#ministries" className="wm-textlink">How that works</a>
+            </p>
           </div>
-
-          {/* Real screens from the shipped app, straight on the page. */}
-          <div className="flex items-center justify-center pb-6">
-            <Link
-              href={HERO.appHref}
-              aria-label={HERO.appCta}
-              className="mx-auto flex w-full max-w-[480px] items-end justify-center"
-            >
-              {HERO.shots.map((shot, i) => {
-                const middle = i === 1
-                return (
-                  <span
-                    key={shot.src}
-                    className={`relative block overflow-hidden rounded-[26px] shadow-[0_16px_40px_rgba(16,23,37,0.16)] ${
-                      middle
-                        ? 'z-10 w-[40%]'
-                        : `w-[31%] translate-y-5 ${i === 0 ? '-mr-4 sm:-mr-5' : '-ml-4 sm:-ml-5'}`
-                    }`}
-                  >
-                    <Image
-                      src={shot.src}
-                      alt={shot.alt}
-                      width={360}
-                      height={780}
-                      priority={middle}
-                      sizes="(min-width: 1024px) 200px, 40vw"
-                      className="h-auto w-full"
-                    />
-                  </span>
-                )
-              })}
-            </Link>
-          </div>
+          <figure className="wm-in wm-in-2">
+            <Photo shot={PHOTOS.outdoors} className="aspect-[4/5] w-full" priority sizes="(min-width: 1024px) 40vw, 100vw" />
+            <figcaption className="wm-cap">Thomas and Monisha.</figcaption>
+          </figure>
         </div>
       </section>
 
-      {/* 2 — Apps I build + shots + My Work + inquire */}
-      <section aria-label="Apps I build" className="border-t border-line px-5 py-20 sm:px-8 sm:py-28">
-        <div className="mx-auto max-w-6xl">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-balance text-3xl font-semibold tracking-tight text-ink sm:text-5xl">
-              {APP_OFFER.title}
-            </h2>
-            <p className="mt-5 text-pretty text-base leading-relaxed text-body sm:text-lg">
-              {APP_OFFER.sub}
-            </p>
-          </div>
+      {/* Stories: the people we build for, with their own pictures. */}
+      <section id="stories" aria-labelledby="stories-h" className="wm-rule scroll-mt-4">
+        <div className="wm-wrap py-20 sm:py-28">
+          <p className="wm-eyebrow">The people we build for</p>
+          <h2 id="stories-h" className="wm-serif wm-h2 mt-3 max-w-[20ch]">Real work, for people doing real work.</h2>
 
-          {/* Tap to Tick and Latin are photos. Ruta is a CSS drawing — not a screenshot. */}
-          <div className="mx-auto mt-14 flex max-w-lg items-end justify-center pb-6 sm:max-w-xl">
-            {HOME_CLUSTER.map((app, i) => {
-              const middle = i === 1
-              return (
-                <Link
-                  key={app.href}
-                  href={app.href}
-                  aria-label={app.name}
-                  className={`relative block overflow-hidden rounded-[26px] shadow-[0_16px_40px_rgba(16,23,37,0.16)] ${
-                    middle
-                      ? 'z-10 w-[42%] max-w-[200px]'
-                      : `w-[30%] max-w-[148px] translate-y-5 ${i === 0 ? '-mr-4 sm:-mr-6' : '-ml-4 sm:-ml-6'}`
-                  }`}
-                >
-                  {'shot' in app ? (
-                    <Image
-                      src={app.shot.src}
-                      alt={app.shot.alt}
-                      width={360}
-                      height={780}
-                      className="h-auto w-full"
-                    />
-                  ) : (
-                    <RutaPhoneShot scene="portal" fill />
-                  )}
-                </Link>
-              )
-            })}
-          </div>
-          <p className="mt-8 text-center text-sm font-medium text-ink">
-            {HOME_CLUSTER.map((app, i) => (
-              <span key={app.name}>
-                {i > 0 && <span className="mx-2 text-muted">·</span>}
-                <Link href={app.href} className="hover:text-accent">
-                  {app.name}
-                </Link>
-              </span>
-            ))}
-          </p>
+          {/* Delta */}
+          <article className="mt-16 grid gap-10 lg:grid-cols-12 lg:gap-12 sm:mt-20">
+            <div className="lg:col-span-7">
+              <Photo shot={PHOTOS.deltaSchool} className="aspect-[3/2] w-full" sizes="(min-width: 1024px) 58vw, 100vw" />
+            </div>
+            <div className="lg:col-span-5 lg:pt-6">
+              <p className="wm-eyebrow">Delta Development Project · a project of SIM Bangladesh</p>
+              <h3 className="wm-serif wm-h3 mt-3">Village schools in Bangladesh, told plainly.</h3>
+              <p className="mt-4">
+                Delta works with river-bank and urban communities in northern Bangladesh and Dhaka: village schools from
+                pre-primary to class 2, training in tailoring and trades, and food and shelter when the floods come. Their
+                website tells that work plainly, in their own pictures.
+              </p>
+              <div className="mt-6 grid grid-cols-2 gap-3">
+                <Photo shot={PHOTOS.deltaTailoring} className="aspect-[4/5]" sizes="20vw" />
+                <Photo shot={PHOTOS.deltaRelief} className="aspect-[4/5]" sizes="20vw" />
+              </div>
+              <a href="https://deltadevelopmentproject.com" className="wm-textlink mt-6 inline-block" target="_blank" rel="noreferrer">
+                deltadevelopmentproject.com ↗
+              </a>
+            </div>
+          </article>
 
-          <div className="mt-12 flex justify-center">
-            <Link href="/my-work" className="btn-ghost">
-              See all my work <span aria-hidden="true">→</span>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* 3 — How working together starts. No prices: a quote comes after the conversation. */}
-      <section aria-label="How it starts" className="border-t border-line px-5 py-20 sm:px-8 sm:py-28">
-        <div className="mx-auto max-w-6xl">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-balance text-3xl font-semibold tracking-tight text-ink sm:text-5xl">
-              {PROCESS.title}
-            </h2>
-            <p className="mt-5 text-pretty text-base leading-relaxed text-body sm:text-lg">
-              {PROCESS.sub}
-            </p>
-          </div>
-
-          <ol className="mx-auto mt-12 grid max-w-5xl gap-4 sm:mt-14 md:grid-cols-3 md:gap-5">
-            {PROCESS.steps.map((step, i) => (
-              <li key={step.title} className="tile flex gap-4 p-6 sm:p-7 md:block">
-                <span
-                  aria-hidden="true"
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent/10 text-sm font-semibold text-accent"
-                >
-                  {i + 1}
-                </span>
-                <div>
-                  <h3 className="mt-1.5 text-lg font-semibold tracking-tight text-ink md:mt-5">{step.title}</h3>
-                  <p className="mt-2 text-[15px] leading-relaxed text-body">{step.body}</p>
+          {/* JAM with Latin */}
+          <article className="mt-24 grid items-center gap-10 lg:grid-cols-12 lg:gap-12 sm:mt-32">
+            <div className="lg:order-2 lg:col-span-7">
+              <div className="relative">
+                <Plain shot={SHOTS.jamClass} className="wm-screen" />
+                <div className="absolute -bottom-10 right-4 w-[24%] sm:right-8">
+                  <Plain shot={SHOTS.latinHome} className="wm-phone" />
                 </div>
+              </div>
+            </div>
+            <div className="mt-6 lg:order-1 lg:col-span-5 lg:mt-0">
+              <p className="wm-eyebrow">JAM with Latin</p>
+              <h3 className="wm-serif wm-h3 mt-3">Latin classes, online and in students’ pockets.</h3>
+              <p className="mt-4">
+                JAM with Latin teaches Latin. Its classes, flashcards and workbooks now live online in JAM Classes, the
+                first school on Farzana, our platform for schools. Its students also play Jam with Latin, the game we made
+                for iPhone and Android.
+              </p>
+              <p className="mt-6 flex flex-wrap gap-x-6 gap-y-2">
+                <a href="https://farzana.app" className="wm-textlink">About Farzana ↗</a>
+                <Link href="/latin-game" className="wm-textlink">The Latin game</Link>
+              </p>
+            </div>
+          </article>
+
+          {/* Prayer */}
+          <article className="mt-28 grid items-center gap-10 lg:grid-cols-12 lg:gap-12 sm:mt-36">
+            <div className="lg:col-span-7">
+              <Photo shot={{ src: '/prayer/field.jpg', alt: 'A field under a heavy sky', w: 1600, h: 1066 }} className="aspect-[3/2] w-full" sizes="(min-width: 1024px) 58vw, 100vw" />
+            </div>
+            <div className="lg:col-span-5">
+              <p className="wm-eyebrow">Prayer, for churches and small groups</p>
+              <h3 className="wm-serif wm-h3 mt-3">A weekly prayer meeting, ready to run.</h3>
+              <p className="mt-4">
+                “How will they hear if no one tells them?” Our prayer site is a simple kit for a weekly meeting for the
+                unreached: a verse, a story, prayer points, and free guides a group can download and use.
+              </p>
+              <Link href="/prayer" className="wm-textlink mt-6 inline-block">Open the prayer site</Link>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      {/* Free for ministries. */}
+      <section id="ministries" aria-labelledby="min-h" className="wm-band scroll-mt-4">
+        <div className="wm-wrap grid gap-12 py-20 sm:py-28 lg:grid-cols-2 lg:gap-16">
+          <div>
+            <p className="wm-eyebrow">For ministries</p>
+            <h2 id="min-h" className="wm-serif wm-h2 mt-3">If you serve a church or a ministry, your website is free.</h2>
+            <p className="wm-lede mt-6 max-w-[38ch]">
+              It is one of the ways this business goes toward the advance of the gospel, and not only toward a business.
+            </p>
+            <Link href={INQUIRE_PATH} className="wm-btn mt-9">
+              Ask for a ministry site <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+          <ul className="space-y-6 self-end text-[17px]">
+            {[
+              ['For ministries, missionaries raising support, and churches.', ''],
+              ['Built and put live the same way as any client’s site.', ''],
+              ['The domain name and hosting stay in your name, under your control.', ''],
+              ['Part of what we earn goes to organizations serving the persecuted church.', '/mission'],
+            ].map(([t, href]) => (
+              <li key={t} className="wm-check wm-ink">
+                <span>
+                  {t}{' '}
+                  {href ? (
+                    <Link href={href} className="wm-textlink">Which ones</Link>
+                  ) : null}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* What we build. */}
+      <section aria-labelledby="build-h" className="wm-wrap py-20 sm:py-28">
+        <p className="wm-eyebrow">What we build</p>
+        <h2 id="build-h" className="wm-serif wm-h2 mt-3 max-w-[22ch]">For schools and small businesses too.</h2>
+        <div className="mt-12 grid gap-10 md:grid-cols-3">
+          {OFFER.map((o) => (
+            <div key={o.title} className="wm-rule pt-5">
+              <h3 className="wm-serif wm-h3">{o.title}</h3>
+              <p className="mt-3">{o.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* A note from Thomas. */}
+      <section aria-labelledby="note-h" className="wm-rule">
+        <div className="wm-wrap grid items-center gap-10 py-20 sm:py-28 lg:grid-cols-2 lg:gap-16">
+          <Photo shot={PHOTOS.thomasMonisha} className="aspect-[4/3] w-full" sizes="(min-width: 1024px) 45vw, 100vw" />
+          <div>
+            <h2 id="note-h" className="wm-eyebrow">A note from Thomas</h2>
+            <blockquote className="wm-serif mt-5 text-[clamp(1.5rem,2.4vw,2.1rem)] leading-snug tracking-tight">
+              “When you email, you get the person who builds it. I would rather stay with a handful of products for years
+              than ship a one-off and disappear.”
+            </blockquote>
+            <p className="mt-6">
+              Monisha and I are currently in the Philippines, at IGSL, the International Graduate School of Leadership,
+              training in biblical studies and discipleship. The work carries on from here, on the same timelines.
+            </p>
+            <Link href="/about" className="wm-textlink mt-6 inline-block">Our story</Link>
+          </div>
+        </div>
+      </section>
+
+      {/* How it works. */}
+      <section aria-labelledby="how-h" className="wm-band">
+        <div className="wm-wrap py-20 sm:py-28">
+          <p className="wm-eyebrow">How it works</p>
+          <h2 id="how-h" className="wm-serif wm-h2 mt-3">Simple, personal, no pressure.</h2>
+          <ol className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {STEPS.map((s, i) => (
+              <li key={s.title}>
+                <span className="wm-serif text-[2.6rem] italic leading-none text-[var(--clay)]" aria-hidden="true">
+                  {i + 1}.
+                </span>
+                <h3 className="wm-serif mt-3 text-[1.3rem] font-semibold leading-snug">{s.title}</h3>
+                <p className="mt-2 text-[16px]">{s.body}</p>
               </li>
             ))}
           </ol>
-
-          <div className="mt-12 flex justify-center sm:mt-14">
-            <Link href={INQUIRE_PATH} className="btn-primary w-full max-w-[280px] sm:w-auto">
-              {INQUIRE_CTA}
-            </Link>
-          </div>
         </div>
       </section>
 
-      {/* 4 — AI consultation (no dollar amount here) */}
-      <section aria-label="AI consultation" className="band-dark px-5 py-20 sm:px-8 sm:py-28">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-balance text-3xl font-semibold tracking-tight text-white sm:text-5xl">
-            {AI_CONSULT.homeTitle}
-          </h2>
-          <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-white/70 sm:text-lg">
-            {AI_CONSULT.homeSub}
-          </p>
-          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link href="/ai-tooling" className="btn-primary">
-              AI consultation
-            </Link>
-            <Link
-              href={INQUIRE_PATH}
-              className="text-sm font-medium text-white/75 underline underline-offset-4 hover:text-white"
-            >
-              {INQUIRE_CTA}
-            </Link>
-          </div>
-        </div>
+      {/* Close. */}
+      <section aria-label="Talk with Thomas" className="wm-wrap py-24 text-center sm:py-32">
+        <h2 className="wm-serif wm-h1 mx-auto max-w-[16ch]">Tell us about the work you are doing.</h2>
+        <p className="wm-lede mx-auto mt-6 max-w-[40ch]">A few lines is plenty. Thomas reads every note and replies himself.</p>
+        <Link href={INQUIRE_PATH} className="wm-btn mt-9">
+          Talk with Thomas <span aria-hidden="true">→</span>
+        </Link>
       </section>
-    </div>
+    </WarmChrome>
   )
 }
