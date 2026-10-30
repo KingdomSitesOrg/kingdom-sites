@@ -179,3 +179,660 @@ Why: Answer page 5: only public figures, each with its source link on the page (
 | A simple way to budget, list | Time: the yearly updates, fixes and new features |
 | A simple way to budget | If your plans do not need an app yet, a website avoids most of this list: see [Website or app: which does my business need?] |
 
+
+## T-392: the first ten articles (one every 3 days)
+
+Ten articles, alternating Guides and From the field, every 3 days from the day after next week's deploy (assumed Friday, November 6, 2026). Each goes live by itself at midnight Rochester time on its date; nothing is visible before then (a Vercel preview shows them all early, for review). To shift the whole calendar, change the `published` line in each file in `src/content/articles/`.
+
+| # | Date | Section | Title | Kind |
+|---|---|---|---|---|
+| 1 | Sat Nov 7 | Guides | What is an MVP, and why should you start small? | Guide |
+| 2 | Tue Nov 10 | From the field | Why I made "Who Will Tell Them?" | Story |
+| 3 | Fri Nov 13 | Guides | AI superintelligence: the good, the dangers, and what I actually think | **Opinion: read closely** |
+| 4 | Mon Nov 16 | From the field | The persecuted church today: what the numbers say, and what we can do | News (Open Doors, ICC, Day of Prayer on Nov 1) |
+| 5 | Thu Nov 19 | Guides | A new AI model is out. What does it mean for a small team? | News (Anthropic's Claude 5.5 models) |
+| 6 | Sun Nov 22 | From the field | How to pray for the unreached in Bangladesh | Prayer |
+| 7 | Wed Nov 25 | Guides | How long does it take to build an app? | Guide |
+| 8 | Sat Nov 28 | From the field | The nations are in Kansas City: what the KCUPG maps show | Story |
+| 9 | Tue Dec 1 | Guides | Do you own your website or app? What to make sure is in your name | Guide |
+| 10 | Fri Dec 4 | From the field | Building JAM Legio: a Latin game made in partnership with JAM with Latin | Story |
+
+**To decide:**
+- **#3 is your opinion piece.** It is built only from your four points (a few dangers and bad things along the way; beneficial in the end and taken fairly seriously; a little fear-mongering that also helps big tech companies, but some truth in it; your grandma's "moderation in everything"). It quotes one sentence from Anthropic's 2023 "Core views on AI safety" and Philippians 4:5 (KJV), and adds two lines of faith you did not dictate: "God is sovereign over the world, including the parts of it we invent" and "What people most need is not more intelligence but a new heart." Cut anything that is not yours.
+- **The two news pieces** are written so they stay true after their date: #4 uses the 2026 World Watch List (current until Open Doors publishes the 2027 list in January) and looks back on the Day of Prayer (Sunday, November 1, per Open Doors Australia); #5 names the Claude 5.5 release dates and ends with how to judge the next model. Neither copies the sources: quotes are one sentence at most, credited and linked.
+- **Bangladesh figures differ by source.** The articles use Joshua Project (0.5% Christian) and Operation World (0.7% Christian, 0.4% evangelical), checked October 30, 2026, the same as the film. The Mission page's line "About 0.4% of Bangladesh is Christian" matches Operation World's *evangelical* figure, not its Christian one. You said not to change the Mission page, so it is left as it is.
+- **JAM with Latin is named only in #10**, as partner, as the brief allows. Elsewhere it is only JAM Legio.
+- **Not written yet:** IGSL training and Farzana Classroom's story. Nothing on the site or in the repos says enough about either to write them without inventing; they need a few facts from you.
+- **New claims in your voice that no page says yet** (check each is true):
+  - #1: "every new school gets the parts it needs for its first classes first, and the rest is added on top once people are using it" (Farzana Classroom).
+  - #2: "That suited me. It meant I could make something careful without a film crew."
+  - #3 and #5: "I use AI tools every day" / "I use Claude every day to build software".
+  - #4: "I give part of my income to organizations that serve the persecuted church" (the Mission page says "A percentage of my income goes to organizations on this list").
+  - #7: "I build iPhone and Android apps from one codebase" and "I start the account setup at the beginning of a project, not the end."
+  - #9: "my aim is that it ends up in your name: your domain, your store accounts, your payment account. I can help you create each account, and I work inside them as a team member."
+  - #10: "My part was the software: building the app for iPhone and Android, getting it through both app stores, and keeping it working since."
+- **Covers:** four use real photos already on the site (the film poster, the persecuted church photo from the Mission page, the map of Asia, the KCUPG dashboard); the other six use drawn covers.
+
+### /guides/what-is-an-mvp · 2026-11-07
+
+| Where | Text |
+|---|---|
+| Heading (h1) | What is an MVP, and why should you start small? |
+| Search title | What is an MVP? Why to start small with a website or app |
+| Description | An MVP is the smallest version of your website or app that real people can use for the job it is meant to do. What goes in it, what waits, and why starting small costs less. |
+| Opening (lede) | An MVP, a minimum viable product, is the smallest version of your website or app that real people can use for the job it is meant to do. You start there because the first weeks of real use teach you more than months of planning, and they cost far less. |
+| Cover | Drawn from the slug (no photo) |
+
+**Body:**
+
+#### What "minimum" and "viable" mean
+
+Both words matter, and people usually forget one of them.
+
+**Minimum** means you leave out everything that is not needed for the main job. No settings screen nobody asked for, no second language before you have one customer who reads it, no dashboard of charts before there is any data to put in them.
+
+**Viable** means what is left actually works. It is not a mock-up or a slide deck. A real person can sign up, book, pay, log, learn, or whatever the main job is, without you standing beside them to explain it.
+
+An MVP that is minimum but not viable is a demo. An MVP that is viable but not minimum is just a big project with a smaller name.
+
+#### Why start small
+
+- **You find out what people really do.** Everyone has a picture of how customers will use the thing. Real use always surprises you somewhere, and it is much cheaper to be surprised early.
+- **You spend less before you know.** Every feature costs money to build and money to keep. Building the ones people turn out not to use is the most expensive mistake in software, and the most common one.
+- **You get something in people's hands sooner.** A small version can be in use in weeks. A complete version can take many months, and the world moves on while it is being built.
+- **Nothing is wasted.** A well-built MVP is the foundation, not a throwaway. The next features are added to the same system.
+
+#### What goes in, and what waits
+
+Here is how I decide with a client. Write down the one job the product has to do. Then go through every feature on the wish list and ask one question: can someone do the main job without this?
+
+If they can, it waits. It goes on a list for later, and nothing is lost by writing it down.
+
+For an app that books appointments, the MVP might be:
+
+- See the open times
+- Book one
+- Get a confirmation
+- The owner sees the booking and can cancel it
+
+And these wait: reminders by text, repeat bookings, reviews, a loyalty scheme, staff accounts with different permissions. Each of these might be a good idea. None of them is needed to book an appointment.
+
+#### What it looks like in my own work
+
+[Tap to Tick](/tap-to-tick), my own iPhone expense app, is built around one job: log a purchase in a tap or two, right when you make it. If that one job is slow, nothing else in the app matters, so that is where the effort goes first.
+
+[Farzana Classroom](/portfolio/farzana-classroom) is a much bigger system: classes, families, payments and quiz results in one place. Even there, every new school gets the parts it needs for its first classes first, and the rest is added on top once people are using it.
+
+#### When starting small is the wrong advice
+
+Sometimes the minimum is larger than people hope. If you take payments, the payments have to be right on day one. If the app holds children's information or anything private, the privacy and security have to be right on day one. Those are part of "viable", and they are never the place to cut.
+
+Starting small also does not mean starting sloppy. The first version should be built properly, so the second version can be built on it rather than starting again.
+
+#### The short version
+
+1. Name the one job.
+2. Build only what that job needs, and build it well.
+3. Put it in front of real people.
+4. Watch what they do, then decide what comes next.
+
+If you have a list of features and are not sure which ones make the first version, that is a good conversation to have before anything is built. It is also the part of a project where I can save you the most money. [How a quote works](/guides/how-a-quote-works) says what happens next.
+
+### /from-the-field/why-i-made-who-will-tell-them · 2026-11-10
+
+| Where | Text |
+|---|---|
+| Heading (h1) | Why I made "Who Will Tell Them?" |
+| Search title | Why I made "Who Will Tell Them?", a short film about Bangladesh |
+| Description | A short film about Bangladesh and the people who have not yet heard the gospel. Why I made it, where its numbers come from, and the one question it ends on. |
+| Opening (lede) | I made "Who Will Tell Them?" because the numbers about Bangladesh are easy to read past, and a film makes you stop. It is a short, silent film about one country and the people in it who have not yet heard about Jesus, and it ends on the question from its title. |
+| Cover | Photo /opt/mission-film-poster-1200.jpg: Two women and a child gathering rice in a Bangladeshi field |
+| Sources | [Joshua Project: Bangladesh (checked October 30, 2026)](https://joshuaproject.net/countries/BG) · [Operation World: Bangladesh](https://operationworld.org/locations/bangladesh/) |
+
+**Body:**
+
+You can watch it on my [Mission page](/mission). It takes about three minutes.
+
+#### The question
+
+The title comes from Romans 10:14: "How then will they call on him in whom they have not believed? And how are they to believe in him of whom they have never heard? And how are they to hear without someone preaching?"
+
+That last question is the whole film. Not as an accusation, but as an honest question for anyone who already knows the good news.
+
+#### Why Bangladesh
+
+Bangladesh is a country of rivers and crowded streets, and of lives as full and complicated as our own. It is also one of the places where the gap is widest between how many people live there and how many have ever had someone explain the gospel to them in their own language.
+
+Joshua Project, a research ministry that tracks people groups, counts about 176.5 million people in Bangladesh, in 277 people groups. It lists 255 of those groups as unreached, and 174,587,000 people as living in them: 98.9% of the people it tracks there. Fewer than 1 in 100 people in Bangladesh follow Jesus: 0.5% by Joshua Project's count, 0.7% by Operation World's.
+
+Operation World also says this: "The Bengali, or Shaikh, people (240 million globally) remain the largest unreached people group in the world."
+
+#### What "unreached" means
+
+The word is easy to misread, so the film stops to define it. An unreached people group is a community where the local church lacks the numbers and resources to bring the gospel to its own people. It is a description of the church's reach, not a verdict on every person in the group.
+
+To make 174 million feel like people rather than a number, the film draws a line: if they all stood one meter apart, the line would wrap around the earth more than four times.
+
+#### What I left out
+
+An early cut had a card that said one in two people in Bangladesh has never heard the gospel. I cut it. The figure comes from a respected source, but nobody really knows it, and I did not want a film about truth to lean on a number I could not stand behind.
+
+Every number left in the film comes from a source I could check and link, and the photographs are real photographs of Bangladesh, used under open licences and credited.
+
+#### What the film says
+
+After the numbers, the film turns to the verse that should move us most: "Unless you believe that I am he you will die in your sins" (John 8:24). Then to the good news itself: Jesus Christ died for our sins and rose again, and forgiveness and new life are found in him.
+
+It also says something I did not want anyone to miss: God is already at work in Bangladesh. There are believers and churches there, praying and serving. The question is not whether God can reach Bangladesh. It is whether we will take part.
+
+#### Why a film
+
+I build software for a living, and the film is made the same way: in code, frame by frame, with the numbers and words kept in one place so they can be checked and corrected. That suited me. It meant I could make something careful without a film crew, and change it every time I found a better source or a clearer way to say something.
+
+A page of statistics can be scrolled past. Three minutes of real faces and one plain question are harder to ignore.
+
+#### What to do with it
+
+Watch it, and if it moves you, start with prayer. My [Prayer page](/prayer) is a simple weekly kit for praying for the unreached with a group: a verse, a story, a few facts and prayer points. Share the film with your small group or your church. And ask the question honestly for yourself: who will tell them?
+
+### /guides/ai-superintelligence-my-take · 2026-11-13
+
+> **Read this one closely.** It is opinion in your voice, built from the four points you gave (2026-10-30). Every sentence is a view you would be signing.
+
+| Where | Text |
+|---|---|
+| Heading (h1) | AI superintelligence: the good, the dangers, and what I actually think |
+| Search title | AI superintelligence: benefits and dangers, a developer’s view |
+| Description | My honest view on AI superintelligence as a developer who uses AI every day and as a Christian: a few real dangers along the way, a lot of good in the end, and moderation in everything. |
+| Opening (lede) | I think AI will be good for people in the end, and I think a few bad things will happen along the way. This is my opinion, not a prediction: the view of a developer who uses these tools every day, and a Christian who does not expect a machine to save or ruin the world. |
+| Cover | Drawn from the slug (no photo) |
+| Sources | [Anthropic: Core views on AI safety (March 2023)](https://www.anthropic.com/news/core-views-on-ai-safety) |
+
+**Body:**
+
+"Superintelligence" means an AI that is better than people at nearly everything we do with our minds. Some people think it is close, some think it is far off, and some think it will never come. I do not know which is right, and I am wary of anyone who says they do.
+
+What I can tell you is how I think about it, from where I sit.
+
+#### Where I sit
+
+I build websites and apps for a living, and I use AI tools every day to do it. They help me write and check code, read through long documents, and get through work that used to take much longer. I have built AI into this website, into Ruta and into Farzana Classroom.
+
+So I am not looking at AI from the outside. I see what it does well, and I see where it gets things confidently wrong. That makes me less impressed by the loudest claims in both directions.
+
+#### I think it will be good in the end
+
+AI is a tool, and like most powerful tools, I believe it will ultimately do more good than harm. It already helps one person do the work of several. It can help a doctor read a scan, a teacher prepare a lesson, a translator get the Bible into another language sooner. For the work I care about most, getting the gospel to people who have never heard it, a tool that helps a few people do much more is no small thing.
+
+I also think people are taking the risks fairly seriously. The companies building these models publish safety research and test their models before release. Governments are paying attention. That is not a guarantee, but it is not nothing either.
+
+#### I also think a few bad things will happen
+
+Along the way, there will be some real dangers, and a few bad things will happen. A new tool this strong will be misused by somebody. Scams will get more convincing. Some people will trust an answer they should have checked. Some jobs will change faster than the people in them would like.
+
+I would rather say that plainly than pretend the road will be smooth.
+
+#### On the fear
+
+There is some fear-mongering in how superintelligence is talked about. I also think the fear benefits some large tech companies a little: if a company's own model is described as dangerously powerful, that is also a way of saying it is very powerful.
+
+But I do not think it is all marketing. There is some truth in the warnings. Anthropic, the company that makes the Claude models I use, wrote in 2023 that it was founded because "the impact of AI might be comparable to that of the industrial and scientific revolutions, but we aren't confident it will go well." I read that as honest, not as a sales line, and I think it is the right posture: take it seriously without panicking.
+
+#### Where my faith comes in
+
+As a Christian, I do not believe history is in the hands of whoever builds the smartest machine. God is sovereign over the world, including the parts of it we invent. That frees me from two mistakes I see a lot.
+
+The first is fear: treating AI as if it could undo God's purposes. It cannot.
+
+The second is hope in the wrong place: treating AI as if it will fix what is broken in people. It will not. A smarter tool in the hands of a sinful person is still a tool in the hands of a sinful person. What people most need is not more intelligence but a new heart, and no model can give that.
+
+#### Moderation in everything
+
+My grandma likes to say "moderation in everything", and it is the best advice I know for AI. Scripture says something close: "Let your moderation be known unto all men. The Lord is at hand" (Philippians 4:5, KJV).
+
+For me, that means:
+
+- **Use it.** It is a gift for getting good work done. Refusing it on principle is a choice to do less.
+- **Check it.** Never hand it a decision you would not sign your own name to.
+- **Do not let it replace people.** Not your judgement, not your friendships, not your prayer.
+- **Keep an eye on the risks** without letting them run your life.
+
+That is where I land today. Ask me again in a year and some of the details may change. The posture will not: hopeful, careful, and not afraid.
+
+If you want to talk through where AI could actually help your business, church or organization, and where it would not, [I am happy to](/get-started).
+
+### /from-the-field/the-persecuted-church-today · 2026-11-16
+
+| Where | Text |
+|---|---|
+| Heading (h1) | The persecuted church today: what the numbers say, and what we can do |
+| Search title | The persecuted church in 2026: the numbers, and how to pray |
+| Description | More than 388 million Christians face high levels of persecution for their faith, according to Open Doors’ 2026 World Watch List. What the reports say, and three things any of us can do. |
+| Opening (lede) | More than 388 million Christians face high levels of persecution and discrimination for their faith, according to Open Doors’ 2026 World Watch List. Many churches prayed for them on the International Day of Prayer for the Persecuted Church on November 1, and the work of remembering them does not end with one Sunday. |
+| Cover | Photo /Photos/persecuted-church.jpg: A mother holding her child in front of a destroyed building |
+| Sources | [Open Doors: World Watch List 2026, countries and figures (checked October 30, 2026)](https://www.opendoors.org/en-US/persecution/countries/) · [Open Doors Australia: International Day of Prayer, Sunday, November 1, 2026](https://www.opendoors.org.au/idop) · [International Christian Concern: Report Reveals Top Global Christian Persecutors (January 30, 2026)](https://persecution.org/2026/01/30/report-reveals-top-global-christian-persecutors/) · [The Voice of the Martyrs](https://www.persecution.com) |
+
+**Body:**
+
+#### What the 2026 World Watch List says
+
+Every January, Open Doors publishes its World Watch List: the 50 countries where it is hardest to follow Jesus. The 2026 list says:
+
+- More than **388 million** Christians suffer high levels of persecution and discrimination for their faith.
+- In the 50 countries on the list alone, more than **315 million** Christians face very high or extreme persecution.
+- **4,849** Christians were murdered, by Open Doors' count for the year the list covers.
+- **3,632** churches and Christian properties were attacked.
+
+North Korea is first on the list again, followed by Somalia, Yemen, Sudan and Eritrea. Nigeria is seventh. Bangladesh, the country my film [Who Will Tell Them?](/from-the-field/why-i-made-who-will-tell-them) is about, is on the list too.
+
+Numbers like these are counted carefully, and they are still only what could be counted. Behind each one is a family, a congregation, a village.
+
+#### What International Christian Concern reported
+
+In January, International Christian Concern wrote about a report from the International Institute for Religious Freedom, which ICC supported, on who is behind the violence against Christians. It looked at July 2024 to June 2025, region by region. The picture is not one enemy but many: armed groups and militias in parts of Africa, the military in Myanmar's Chin state, government pressure in Nicaragua, and lone attackers in North America.
+
+That last part is worth sitting with. Persecution is not only something that happens far away. But for most believers in the West, it still costs us very little to follow Jesus. For hundreds of millions of brothers and sisters, it costs a great deal.
+
+#### Why I care about this
+
+I give part of my income to organizations that serve the persecuted church, and I list them on my [Mission page](/mission): The Voice of the Martyrs, Open Doors and International Christian Concern among them. I do not list them as partners or to borrow their names. I list them because their work is worth knowing about, and because they are where I go to learn what is actually happening.
+
+Scripture does not let us look away: "Remember those who are in prison, as though in prison with them, and those who are mistreated, since you also are in the body" (Hebrews 13:3). They are part of the same body we are. When one part suffers, all of it does.
+
+#### Three things any of us can do
+
+**1. Pray, with names and places.** General prayer is good. Specific prayer is better. Pick one country from the list this week and pray for its churches by name. My [Prayer page](/prayer) has a weekly guide for praying with a group, and one of the sample guides is about the church in North Korea.
+
+**2. Learn from people on the ground.** Open Doors, The Voice of the Martyrs and International Christian Concern all publish news from the countries they serve, with prayer requests. Reading one story a week changes how you pray.
+
+**3. Give.** The ministries that serve persecuted Christians get Bibles into closed countries, care for families who have lost someone, and help believers who have had to leave their homes. Even a small regular gift is real help. Give through their own websites, linked below.
+
+#### A word of hope
+
+The persecuted church is not only suffering. It is often growing. The Yemen guide on my Prayer page notes that the church there keeps growing even under severe persecution. That is not a reason to stop praying. It is a reason to pray with hope. The church has always grown in hard places, and the gospel has never needed permission to spread.
+
+The International Day of Prayer is one Sunday a year. The persecuted church needs remembering on the other fifty-one too.
+
+### /guides/new-claude-models-what-they-mean · 2026-11-19
+
+| Where | Text |
+|---|---|
+| Heading (h1) | A new AI model is out. What does it mean for a small team? |
+| Search title | Claude 5.5: what a new AI model means for a small team |
+| Description | Anthropic released its Claude 5.5 models this autumn. What changed, what it means for a business, church or organization with a small team, and what AI still cannot do for you. |
+| Opening (lede) | For a small team, a new AI model mostly means the same work done a little better, faster and cheaper; it rarely means something you could not do before. Anthropic’s Claude 5.5 models, released between September 22 and October 7, 2026, are a good example, and the questions worth asking about them are the same for every new model. |
+| Cover | Drawn from the slug (no photo) |
+| Sources | [Anthropic: Claude Opus 5.5 (September 22, 2026)](https://www.anthropic.com/news/claude-opus-5-5) · [Anthropic: Claude Sonnet 5.5 (September 28, 2026)](https://www.anthropic.com/news/claude-sonnet-5-5) · [Anthropic: Claude Haiku 5.5 (October 7, 2026)](https://www.anthropic.com/news/claude-haiku-5-5) |
+
+**Body:**
+
+#### What came out
+
+Anthropic, the company behind Claude, released three new models this autumn, each in a different size:
+
+- **Claude Opus 5.5** (September 22): the most capable. Anthropic says it "costs 40% less to run than Opus 5," the model before it.
+- **Claude Sonnet 5.5** (September 28): the middle size, which Anthropic calls "a faster, lower-cost complement to Claude Opus 5.5."
+- **Claude Haiku 5.5** (October 7): the smallest and fastest, made for quick, high-volume jobs such as summaries and sorting. Anthropic says that "on average, it now costs around 75% less to run" than Haiku 4.5.
+
+These are the company's own claims, from its own announcements, linked at the bottom. Anthropic itself notes that "benchmark margins have become a less reliable guide to real-world differences," which is a fair warning about every model launch, including theirs.
+
+#### What that means in plain words
+
+I use Claude every day to build software, so here is what a release like this actually changes for someone like me, and for the teams I build for.
+
+**It gets cheaper.** This is the part that matters most for a small team. When the same work costs 40% or 75% less, things that were too expensive to run all day become affordable: an assistant that answers every customer question, a summary of every form that comes in, a check on every document.
+
+**It gets faster.** Answers come back sooner, which matters most when a customer is waiting on the other end.
+
+**It gets a little better.** Fewer mistakes, clearer writing, better at following long instructions. The jump from one version to the next is real, but it is usually a step, not a leap.
+
+What it does **not** usually mean is that you need to change what you are doing. If AI was not useful for your work last month, a new model probably will not change that by itself.
+
+#### What AI can do for a small team
+
+From my own work, the jobs it does well:
+
+- **Answering common questions** from what you have already written down: your prices, hours, policies and services.
+- **Drafting:** first versions of emails, posts, descriptions and replies, which a person then checks.
+- **Reading and summarizing** long documents, forms and messages.
+- **Sorting and tagging:** which enquiry is urgent, which is a quote request, which is spam.
+- **Helping build software**, which is how I use it most. It makes one developer able to do noticeably more.
+
+#### What it cannot do for you
+
+- **It cannot know what you have not told it.** If your prices are not written down anywhere, it will not get them right.
+- **It can be confidently wrong.** Anything that matters (a price, a medical or legal question, a promise to a customer) needs a person to check it.
+- **It cannot build relationships.** People still want to know who they are dealing with.
+- **It cannot decide what your business should do.** It can help you think. The judgement is still yours.
+
+#### How to think about the next new model
+
+There will be another release before long, from Anthropic or someone else. When it comes, three questions are enough:
+
+1. **Is there a job I gave up on because AI was too slow, too expensive or not good enough?** That is the only place a new model is likely to change anything for you.
+2. **Does it cost less for what I already do?** If so, the switch is often a small change, and the savings are real.
+3. **Who checks the answers?** That does not change with any model.
+
+#### Where I have used it
+
+I have built AI into this website, into [Ruta](/ruta) and into [Farzana Classroom](/portfolio/farzana-classroom). In each case the question was the same: what job does this save a person from, and how do we make sure a person still checks what matters?
+
+If you want to know whether AI fits a job in your business, church or organization, [tell me about it](/get-started). Sometimes the honest answer is that it does not, and that is worth knowing too.
+
+For the bigger questions, the hopes and the dangers, I wrote about [what I actually think about AI superintelligence](/guides/ai-superintelligence-my-take).
+
+### /from-the-field/praying-for-bangladesh · 2026-11-22
+
+| Where | Text |
+|---|---|
+| Heading (h1) | How to pray for the unreached in Bangladesh |
+| Search title | Praying for the unreached in Bangladesh |
+| Description | Almost everyone in Bangladesh lives in a people group with little access to the gospel. The numbers, and five things to pray for, with a group or on your own. |
+| Opening (lede) | Almost everyone in Bangladesh, about 174.6 million people, lives in a people group that Joshua Project counts as unreached. The best place to start with a number that big is prayer, and it helps to pray for specific things. |
+| Cover | Photo /Photos/mission-field.jpg: A satellite map of Asia, from the Arabian Peninsula across India and Bangladesh to Japan |
+| Sources | [Joshua Project: Bangladesh (checked October 30, 2026)](https://joshuaproject.net/countries/BG) · [Operation World: Bangladesh](https://operationworld.org/locations/bangladesh/) · [Open Doors: World Watch List 2026](https://www.opendoors.org/en-US/persecution/countries/) |
+
+**Body:**
+
+#### The numbers
+
+These are the figures my film [Who Will Tell Them?](/from-the-field/why-i-made-who-will-tell-them) opens with, checked again on October 30, 2026:
+
+- **176,513,000** people in Bangladesh (Joshua Project)
+- **277** people groups, of which **255** are unreached (Joshua Project)
+- **174,587,000** people live in unreached people groups: **98.9%** (Joshua Project)
+- Fewer than **1 in 100** follow Jesus: **0.5%** Christian by Joshua Project's count, **0.7%** by Operation World's, with **0.4%** evangelical
+
+"Unreached" describes a community where the local church lacks the numbers and resources to bring the gospel to its own people. It does not mean no one has ever heard. It means that, for most people, there is no church nearby that speaks their language and lives their culture, and no one likely to explain the gospel to them.
+
+Operation World puts it starkly: "The Bengali, or Shaikh, people (240 million globally) remain the largest unreached people group in the world."
+
+#### Why prayer comes first
+
+Romans 10:14 asks how anyone will hear without someone telling them. The answer to that question is people: workers, sent and supported. But Jesus told us where sending starts: "Pray earnestly to the Lord of the harvest to send out laborers into his harvest" (Matthew 9:38).
+
+Prayer is not the whole answer. It is the part of the answer every one of us can start on tonight.
+
+#### Five things to pray for
+
+**1. For Bengali Muslims.** They are the great majority of the country, and the largest unreached people group on earth. Pray that they would meet followers of Jesus who can explain the good news in their own language and in a way that makes sense in their own culture.
+
+**2. For the believers who are already there.** The church in Bangladesh is small. Operation World asks prayer for them to rely on God in poverty, stand firm under pressure, and find real community with other believers.
+
+**3. For church leaders.** Operation World also asks for trained, spiritually mature leaders and stronger discipleship. A small church grows healthy when it is well taught.
+
+**4. For Hindus and other minorities.** Bengali Hindus and other religious minorities can face hostility and violence. Pray for their safety, and that they would hear the gospel too.
+
+**5. For workers.** Pray that God would send Bengali believers, and people from outside, to the 255 people groups that still have no church of their own. And ask honestly whether you are meant to be part of the answer: by praying, by giving, or by going.
+
+Bangladesh is also on Open Doors' 2026 World Watch List of the 50 countries where it is hardest to follow Jesus, which is one more reason to pray for the believers there by name.
+
+#### How to pray with a group
+
+My [Prayer page](/prayer) is a free, simple kit for a weekly prayer meeting for the unreached: a verse, a story, a few facts and clear prayer points, with guides you can download and print. You do not need a program or a budget. You need a few people, an evening, and one place to pray for.
+
+Here is an easy way to try it:
+
+1. Watch [the film](/mission) together. It takes about three minutes.
+2. Read Romans 10:14–15.
+3. Go through the five prayer points above, one person praying for each.
+4. Look up one Bangladeshi people group on Joshua Project and pray for it by name.
+
+#### Keep going
+
+The temptation with a number like 174 million is to feel that one prayer cannot matter. But God does not count the way we do. He has always worked through small, faithful things: a few loaves, a mustard seed, a handful of disciples.
+
+Pray for Bangladesh this week. Then pray again next week.
+
+### /guides/how-long-does-an-app-take · 2026-11-25
+
+| Where | Text |
+|---|---|
+| Heading (h1) | How long does it take to build an app? |
+| Search title | How long does it take to build an app or website? |
+| Description | It depends on how much the first version has to do, and on a few waits outside anyone’s control. The stages, the store and account waits, and what makes a project slower or faster. |
+| Opening (lede) | How long an app takes depends mostly on how much the first version has to do: a focused first version takes weeks, a large system takes months. A few waits sit outside anyone’s control, such as company verification and the app stores’ reviews, so it pays to start those early. |
+| Cover | Drawn from the slug (no photo) |
+| Sources | [Apple: App Review](https://developer.apple.com/distribute/app-review/) · [Apple: D-U-N-S Number](https://developer.apple.com/help/account/membership/D-U-N-S/) · [Google Play: App testing requirements for new personal developer accounts](https://support.google.com/googleplay/android-developer/answer/14151465?hl=en) |
+
+**Body:**
+
+I will not give you a single number here, because any number without knowing your project would be a guess. What I can do is show you where the time goes, so you can see why one project takes weeks and another takes months.
+
+#### Where the time goes
+
+**1. Understanding the project.** We talk, I ask questions, and we agree on what the first version has to do. This is the cheapest stage to change your mind in, and the one that saves the most time later.
+
+**2. Design.** What each screen shows and how people move between them. For a website this is quick. For an app with many screens it takes longer, and it is worth getting right before anything is built.
+
+**3. Building.** The longest stage, and the one that depends most on scope. A booking screen is quick. Payments, accounts, notifications, use without a signal, and connections to other systems each add real time.
+
+**4. Testing.** On real phones, by real people. Things that seem obvious to the person who built them are never obvious to the person using them for the first time.
+
+**5. Launch.** For a website, this can be the same day. For an app, the stores have their own steps, below.
+
+#### The waits outside anyone's control
+
+These are the parts that surprise people, because no amount of work makes them faster.
+
+**Apple's review.** Every app and every update is reviewed by Apple before it appears on the App Store. Apple says it typically reviews at least 50% of submissions in under 24 hours and 90% in under 48 hours. Usually that is fine. If Apple asks for a change, the clock starts again once it is made.
+
+**Company verification for Apple.** If the app is published under your company or organization's name (which I recommend, so it is yours), Apple needs a D-U-N-S Number registered to your organization. It is free, but Apple says to allow up to 5 business days to get one from Dun & Bradstreet, and up to 2 more business days for Apple to receive it.
+
+**Google Play's closed test.** New personal developer accounts on Google Play must run a closed test with at least 12 testers, opted in continuously for at least 14 days, before the app can be published to everyone. Two weeks, at least, built into the calendar.
+
+None of these is a problem if you know about them. Each of them is a problem if you find out the week you meant to launch. So I start the account setup at the beginning of a project, not the end.
+
+#### What makes a project faster
+
+- **A clear, focused first version.** The biggest single factor. See [What is an MVP?](/guides/what-is-an-mvp)
+- **Quick answers.** When a question comes up and the answer takes a week, the project waits a week.
+- **One person who decides.** A committee adds time to every decision.
+- **Content ready early.** Words, photos, prices and logos are often what holds up the last stretch.
+- **Accounts set up early:** Apple, Google, the domain name and the payment provider.
+
+#### What makes a project slower
+
+- Adding features once building has started. Sometimes it is the right call, and it always moves the date.
+- Connections to older systems that are not well documented.
+- Anything that handles money or private information. These take longer because they have to be right, and that time is never the place to save.
+
+#### Why one codebase helps
+
+I build iPhone and Android apps from one codebase, so most of the work is done once for both. [JAM Legio](/latin-game), the Latin learning game I built, is on both the App Store and Google Play from the same code.
+
+That does not make the two store processes the same: each still has its own review, accounts and rules. But it does mean you are not paying for, or waiting on, two separate apps.
+
+#### Getting a real answer
+
+The honest answer to "how long?" comes after the first conversation, once I understand what the first version needs to do. You get it with the quote, as a plan with the stages laid out, not a number pulled from the air. [How a quote works](/guides/how-a-quote-works) says what happens next.
+
+### /from-the-field/kcupg-the-nations-in-kansas-city · 2026-11-28
+
+| Where | Text |
+|---|---|
+| Heading (h1) | The nations are in Kansas City: what the KCUPG maps show |
+| Search title | KCUPG: the 10/40 Window communities of Kansas City, mapped |
+| Description | More than 78,000 people from the 10/40 Window live across the Kansas City metro. What the KCUPG maps show, why I built them, and how churches can use them. |
+| Opening (lede) | More than 78,000 people from the 10/40 Window, the part of the world where most unreached people groups live, make their homes across the Kansas City metro. KCUPG puts those communities on a map, so churches can see who their neighbors are and where to meet them. |
+| Cover | Photo /work/kcupg-dashboard.jpg: The KCUPG dashboard: Kansas City’s communities at a glance, with people, mapped places and census areas, and each region by size |
+| Sources | [KCUPG: all regions (figures checked October 30, 2026)](https://kcupgs.com) |
+
+**Body:**
+
+#### What KCUPG is
+
+[KCUPG](https://kcupgs.com) is a set of maps and dashboards of the communities in the Kansas City metro whose families come from the 10/40 Window. The 10/40 Window is the band of the world from roughly 10° to 40° north of the equator, across North Africa, the Middle East and Asia. It is where most of the world's unreached people groups live, and where the Christian presence is thinnest.
+
+I built the dashboard and the maps. The people in it are not a statistic from far away. They are neighbors, coworkers and classmates in one American city.
+
+#### What the maps show
+
+As of October 30, 2026, the site counts **78,373** people from the 10/40 Window across the metro, by Census ancestry, in six regions:
+
+- **Southeast Asia: 25,164** (Vietnam, the Philippines, Myanmar, Laos and others)
+- **South Asia: 22,539** (India, Pakistan, Bangladesh, Nepal, Bhutan, Sri Lanka)
+- **East Asia: 15,483** (China, Taiwan, Korea, Japan and others)
+- **Middle East: 12,361** (Lebanon, Iran, Iraq, Syria, Turkey and others)
+- **North Africa: 2,204** (Egypt, Sudan, Morocco and others)
+- **Central Asia: 622** (Afghanistan, Uzbekistan and others)
+
+It also maps **352** places and **460** census areas, so you can see not just how many people there are, but where they live.
+
+One honest caution about what these numbers are. They count people by where their families come from. They do not say anything about any one person's faith. Some people from these regions already follow Jesus, and the maps are not a list of people to be "reached". They are a picture of who lives where, so that churches can love their neighbors on purpose.
+
+#### Why this matters
+
+For most of church history, reaching the peoples of the 10/40 Window meant crossing an ocean. It still often does, and we need people who will go. But many families from those same countries now live a short drive from churches in Kansas City.
+
+That is an opportunity most of us never think about. Some people from these regions come from countries where meeting a Christian is rare, and where talking openly about Jesus can be dangerous. Here, they can be welcomed, helped, befriended, and told the good news freely.
+
+The question from Romans 10:14 is the same one I keep coming back to: how will they hear without someone telling them? For some of them, the someone could be a church a few streets away.
+
+#### How a church can use it
+
+- **Know who is near you.** Open the map for a region and look at your own part of the city. You may find a community you did not know was there.
+- **Pray for them by name.** Pick one community and pray for it for a month: for its families, its students, and the believers already in it.
+- **Meet real needs.** English classes, help with paperwork, rides, a meal for a new family. Love that is practical opens doors that arguments never do.
+- **Learn before you go.** Find out what the community celebrates, what it needs, and who already serves it. Partner with them rather than starting from scratch.
+
+#### Why I built it as software
+
+I build websites and apps for a living, and this was a chance to put those skills straight into gospel work. Each region has its own dashboard and map, and you can open a region's map already filtered to one community. If you find something on the site that is wrong or out of date, the site says where to send a correction, and it comes to me.
+
+It is also an example of something I care about: software does not have to be only for business. The same tools that help a company find customers can help a church find its neighbors.
+
+If you lead a church or ministry in Kansas City and want to use the maps, [take a look](https://kcupgs.com). If you would like something like it for your own city, [talk to me](/get-started).
+
+### /guides/own-your-code-and-accounts · 2026-12-01
+
+| Where | Text |
+|---|---|
+| Heading (h1) | Do you own your website or app? What to make sure is in your name |
+| Search title | Own your website or app: the accounts to keep in your name |
+| Description | The code, the domain name, the app store accounts and the payment account should all belong to you, not to whoever built it. A checklist, and why it matters the day you need it. |
+| Opening (lede) | Yes, you should own your website or app, and that means more than the code: the domain name, the hosting, the App Store and Google Play accounts and the payment account should all be in your name. If the person who built it disappears, you should be able to hand everything to someone else the next day. |
+| Cover | Drawn from the slug (no photo) |
+| Sources | [Apple: D-U-N-S Number](https://developer.apple.com/help/account/membership/D-U-N-S/) · [Apple: Enroll in the Apple Developer Program](https://developer.apple.com/programs/enroll/) · [Google Play: Register for a developer account](https://support.google.com/googleplay/android-developer/answer/6112435?hl=en) |
+
+**Body:**
+
+#### Why this matters
+
+Most of the time, nobody thinks about who owns what. The site works, the app works, and the person who built it is a phone call away.
+
+Then something changes. They move on, get busy, raise their prices, or simply stop answering. And it turns out the domain name was registered in their name, the app sits in their App Store account, and the code lives on their computer. Getting it back can take months, cost real money, or not be possible at all.
+
+I would rather you never find yourself there, with me or with anyone. That is part of what my line "Made to be used. Made to be yours." means.
+
+#### The checklist
+
+Here is what should be in your name, or your organization's name, with you holding the login:
+
+**1. The domain name.** Your web address (yourbusiness.com) should be registered to you, at a registrar where you have the login. This is the single most important item: it is how every customer finds you, and it is the hardest thing to replace.
+
+**2. The App Store account.** For an iPhone app, the Apple Developer Program membership should be yours. For a company or organization, Apple requires a D-U-N-S Number registered to your legal entity. It is free, and it takes some days to arrive, so start early. Apple's membership is 99 USD a year.
+
+**3. The Google Play account.** The same for Android: a Google Play developer account in your name, with a one-time 25 USD registration fee.
+
+**4. The code.** The code should sit in a place you have access to, usually a private code repository in your own account, with the right to use and change it written into your agreement.
+
+**5. The hosting and database.** Where the site or app runs. These can be in your own accounts, with the developer added as a team member.
+
+**6. The payment account.** If you take payments, the payment account (such as Stripe) must be yours. The money goes to you, never through someone else's account.
+
+**7. Email and important logins.** Your email for the domain, and any service the business depends on.
+
+#### Ownership versus access
+
+None of this means you have to manage these systems yourself. You can, and usually should, give your developer access to do the work. The difference is who sits at the top.
+
+The right setup is: **you own it, and you give the developer access.** The wrong setup is: the developer owns it, and gives you access. On a good day they look the same. On a bad day they are completely different.
+
+When you invite someone into your accounts as a team member, you can remove them later. When they own the account, you cannot remove them from it.
+
+#### How I set it up
+
+When I build an app or website, my aim is that it ends up in your name: your domain, your store accounts, your payment account. I can help you create each account, and I work inside them as a team member. If you ever want to move on, you keep everything and nothing needs to be rescued.
+
+The one thing I ask is that you start the store accounts early, because some steps (such as Apple's company verification) take days and cannot be hurried. [How long does it take to build an app?](/guides/how-long-does-an-app-take) explains those waits.
+
+#### Questions to ask any developer
+
+Whether you work with me or anyone else, ask these before you start:
+
+1. Whose name will the domain, the store accounts and the payment account be in?
+2. Will I have the logins from day one?
+3. Where will the code be kept, and will I have access to it?
+4. If we stop working together, what do I get, and how?
+
+A good developer will answer all four without hesitating. If the answers are vague, ask again before you sign anything.
+
+#### What it costs to keep it yours
+
+Owning these accounts comes with some yearly fees: the domain, the Apple membership and the hosting. [What does it cost to keep an app running?](/guides/cost-to-keep-an-app-running) lists them with sources. They are small next to the cost of losing control of your own business's software.
+
+### /from-the-field/building-jam-legio · 2026-12-04
+
+| Where | Text |
+|---|---|
+| Heading (h1) | Building JAM Legio: a Latin game made in partnership with JAM with Latin |
+| Search title | Building JAM Legio, a Latin learning game for iPhone and Android |
+| Description | How JAM Legio, a Roman-legion Latin game for homeschool and classical students, was built with JAM with Latin: what the partnership brought, how the game teaches, and what I learned. |
+| Opening (lede) | JAM Legio is a Latin learning game for iPhone and Android that I built in partnership with JAM with Latin, whose own designers made its graphics. Students march a Roman legion north across Italy, one city at a time, and learn real classical Latin on the way. |
+| Cover | Drawn from the slug (no photo) |
+| Sources | [JAM Legio on the App Store](https://apps.apple.com/us/app/jam-legio/id6797884645) · [JAM Legio on Google Play](https://play.google.com/store/apps/details?id=com.jamwithlatin.app) · [JAM with Latin](https://jamwithlatin.com) |
+
+**Body:**
+
+#### What JAM Legio is
+
+[JAM Legio](/latin-game) is a game for homeschool and classical students learning Latin. The App Store listing starts with one line that sums it up: "March from Rome to Gaul and learn real Latin along the way."
+
+The march has thirteen stops, from Rōma north to Gallia, on a real map of Italy. Every city teaches one piece of the classical curriculum, and students clear its levels to march on. Twice on the road the legion makes camp, at Pīsae and Venetiae, to review the noun endings learned so far and drill the present-tense verbs. When they reach Gallia, the road turns back: the march home to Rōma reviews the whole journey.
+
+It is on the [App Store](https://apps.apple.com/us/app/jam-legio/id6797884645) and [Google Play](https://play.google.com/store/apps/details?id=com.jamwithlatin.app). There is no email sign-up and there are no ads.
+
+#### The partnership
+
+JAM Legio is made in partnership with [JAM with Latin](https://jamwithlatin.com), and its graphics come from JAM with Latin's own designers. The app is published under their name on both stores, which is how I think it should be: it is their program, for their families.
+
+My part was the software: building the app for iPhone and Android, getting it through both app stores, and keeping it working since.
+
+A partnership like this works when each side does what it is good at. They know Latin teaching and the families they serve. I know how to turn that into an app that a student actually wants to open.
+
+#### Teaching the grammar teachers teach
+
+The thing I cared about most was that the game teaches real Latin, not a simplified version that a teacher would have to correct later.
+
+- **Correct macrons throughout**, so students learn each word as it is actually written.
+- **Real case forms.** In the case challenges, every choice is a correctly declined form of the noun, not a near-miss invented to trick you. You have to know which case is needed, not spot the typo.
+- **The classical order:** declensions, then verbs, then sentences. That way it sits alongside Henle, Classical Conversations and other classical curricula rather than competing with them.
+- **Sentences built only from words you have already learned.** From Vērōna on, students read short Latin sentences, and nothing in them is new.
+
+#### Making practice feel like a game
+
+Daily practice is what makes a language stick, and daily practice is hard to keep up with a worksheet. So the game gives students reasons to come back:
+
+- Coins for every level and city cleared, and an arena that shows who has earned the most on the road to Gallia.
+- A word of the day on the home screen.
+- A training mode for days when a full city is more than there is time for.
+
+This is also why JAM Legio is an app and not a website: a game that is part of a daily habit belongs one tap away on the home screen. I wrote more about that choice in [Website or app?](/guides/website-or-app)
+
+#### How it is built
+
+JAM Legio is built from one codebase for both iPhone and Android, so every new level and every fix reaches both at once. That matters for a program like this: families use whatever phone or tablet they have, and nobody should get a worse version because of the device in their house.
+
+Both stores review every release, and both keep changing their requirements as phones change. Keeping an app current is ongoing work, not a one-time job, which is why I build and maintain what I make.
+
+#### What I took from it
+
+Two things.
+
+First, a good partner makes better software. People who teach Latin know where students get stuck, and that is not something a developer can guess.
+
+Second, education software has to be right before it is fun. A game that teaches a wrong ending a thousand times is worse than no game at all. Getting the Latin right was never the part to rush.
+
+If you run a school, a program or a ministry and have an idea for an app like this, I would be glad to [hear about it](/get-started). You can see more of my work on the [Portfolio](/portfolio).
+
