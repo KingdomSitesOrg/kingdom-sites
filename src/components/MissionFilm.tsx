@@ -14,10 +14,13 @@ const FILM = '/mission/who-will-tell-them.mp4'
 const FILM_PHONE = '/mission/who-will-tell-them-phone.mp4'
 const SIZES = '(min-width: 1180px) 980px, calc(100vw - 32px)'
 
-function PlayIcon({ size }: { size: number }) {
+/* The triangle is drawn with its box centred in the icon; `nudge` then moves it
+   right by a small share of its size, because a play triangle looks centred
+   when its weight (a third of the way in from the flat edge) sits at the middle. */
+function PlayIcon({ size, nudge = 0 }: { size: number; nudge?: number }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M8 5.2v13.6a1 1 0 0 0 1.52.85l11-6.8a1 1 0 0 0 0-1.7l-11-6.8A1 1 0 0 0 8 5.2Z" />
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style={{ marginLeft: size * nudge }}>
+      <path transform="translate(-2.75 0)" d="M8 5.2v13.6a1 1 0 0 0 1.52.85l11-6.8a1 1 0 0 0 0-1.7l-11-6.8A1 1 0 0 0 8 5.2Z" />
     </svg>
   )
 }
@@ -120,8 +123,8 @@ export default function MissionFilm() {
                 aria-label="Play the film, Who Will Tell Them?"
                 className="group absolute inset-0 grid cursor-pointer place-items-center bg-[linear-gradient(to_bottom,rgba(11,11,12,0.1),rgba(11,11,12,0.4))] transition-colors hover:bg-[linear-gradient(to_bottom,rgba(11,11,12,0),rgba(11,11,12,0.3))]"
               >
-                <span className="grid h-16 w-16 place-items-center rounded-full bg-[var(--fg)] pl-1 text-[var(--bg)] shadow-[0_8px_32px_rgba(0,0,0,0.5)] transition-transform duration-200 group-hover:scale-105 sm:h-20 sm:w-20">
-                  <PlayIcon size={28} />
+                <span className="grid h-16 w-16 place-items-center rounded-full bg-[var(--fg)] text-[var(--bg)] shadow-[0_8px_32px_rgba(0,0,0,0.5)] transition-transform duration-200 group-hover:scale-105 sm:h-20 sm:w-20">
+                  <PlayIcon size={28} nudge={0.115} />
                 </span>
               </button>
             ) : null}
