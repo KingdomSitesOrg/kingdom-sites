@@ -164,6 +164,15 @@
 .cn-case:hover .cn-shot img { transform: scale(1.03); }
 @media (prefers-reduced-motion: reduce) { .cn-shot img { transition: none; } .cn-case:hover .cn-shot img { transform: none; } }
 
+/* Every card in a grid has the same shape (T-380): one picture frame at 16:10,
+   cropped from the top, and room for two lines of name and of description, so
+   each row lines up whatever the wording. */
+.cn-case-frame { aspect-ratio: 16 / 10; }
+.cn-case-frame img { height: 100%; object-fit: cover; object-position: top; }
+.cn-case-label { min-height: 2.9em; }
+.cn-case-name { min-height: 1.9em; }
+.cn-case-line { min-height: 3em; }
+
 /* Three phones in a depth row, on the same four-column widths as .cn-depth, so they
    are exactly the size of the four phones above them. Centred, not stretched. */
 .cn-depth-row { display: flex; justify-content: center; gap: clamp(10px, 2vw, 32px); }
