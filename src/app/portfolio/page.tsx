@@ -29,16 +29,16 @@ const SECTIONS = [
   { id: 'farzana', label: 'Farzana Classroom' },
   { id: 'latin-game', label: 'The Latin learning game' },
   { id: 'ruta', label: 'Ruta' },
-  { id: 'more', label: 'Websites and tools' },
+  { id: 'more', label: 'And the rest' },
 ]
 
 /* The parts of Ruta I have worked on, as the Ruta page lists them. */
 const RUTA_WORK = [
-  'Recurring billing and customer payment arrangements',
-  'The crew app: visits, the time clock, and use without a signal',
-  'Office tools for the day’s schedule, messaging and reviewing finished work',
+  'Billing and payments',
+  'The crew app, including use without a signal',
+  'Office tools for scheduling, messaging and review',
   'Customer self-service',
-  'The shared backend the apps sit on',
+  'The backend behind the apps',
   'The AI assistant inside the product',
 ]
 
@@ -227,8 +227,8 @@ export default function Portfolio() {
 
       {/* Everything else, short: a picture, a name, a line. */}
       <section id="more" tabIndex={-1} aria-labelledby="more-h" className="cn-wrap mt-24 scroll-mt-16 sm:mt-36">
-        <p className="cn-kicker">04 · Websites and tools</p>
-        <h2 id="more-h" className="cn-display cn-h2 mt-4">And the rest.</h2>
+        <p className="cn-kicker">04 · And the rest</p>
+        <h2 id="more-h" className="cn-display cn-h2 mt-4">Websites, tools and other cool stuff.</h2>
         <div className="mt-14 grid gap-x-8 gap-y-14 md:grid-cols-2 xl:grid-cols-3">
           {CASES.map((p) => {
             const external = p.href!.startsWith('http')
