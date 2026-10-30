@@ -8,12 +8,13 @@ import './menu.css'
 
 /* Every page of the site, for the menu. The product sites open in a new tab,
    as they always have. */
-const MENU: { title: string; links: { href: string; label: string }[] }[] = [
+const MENU: { title: string; links: { href: string; here?: string; label: string }[] }[] = [
   {
     title: 'Portfolio',
     links: [
       { href: '/portfolio', label: 'Full portfolio' },
-      { href: '/portfolio#farzana', label: 'Farzana Classroom' },
+      // On the Portfolio page this glides to the Farzana section; from anywhere else it opens the page at the top.
+      { href: '/portfolio', here: '#farzana', label: 'Farzana Classroom' },
       { href: '/ruta', label: 'Ruta' },
       { href: '/tap-to-tick', label: 'Tap to Tick' },
       { href: '/latin-game', label: 'Latin learning game' },
@@ -139,9 +140,9 @@ export default function CinematicHeader() {
                 </p>
                 <ul className="mt-4">
                   {group.links.map((l) => (
-                    <li key={l.href} className="cn-menu-rise" {...rise()}>
+                    <li key={l.label} className="cn-menu-rise" {...rise()}>
                       <Link
-                        href={l.href}
+                        href={pathname === l.href && l.here ? l.here : l.href}
                         className="cn-menu-link cn-display"
                         aria-current={pathname === l.href ? 'page' : undefined}
                       >
