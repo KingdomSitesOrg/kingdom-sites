@@ -2,7 +2,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import CinematicChrome from '@/components/cinematic/Chrome'
 import { Browser, Phone } from '@/components/cinematic/Frames'
-import { CreditBeat, LowerThird, MakerTag } from '@/components/cinematic/Maker'
+import { Credit } from '@/components/cinematic/Maker'
 import Scroll from '@/components/cinematic/Scroll'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { OFFER, PAYS, PROJECTS, SHOTS, type Shot } from '@/lib/work'
@@ -26,11 +26,12 @@ export const metadata: Metadata = {
 }
 
 /* The Farzana Classroom story, one chapter per screen. The school screens show
-   Wren Hall, a made-up demo school, and say so in the window's note. On a phone
-   the story is told in three screens; `deskOnly` chapters show on wider screens. */
+   Wren Hall, a made-up demo school, and say so in the window's note. The home
+   page shows Farzana in three places at most (Thomas, T-372): the hero's window
+   and phone, and these two chapters. */
 const PRODUCT = 'Farzana Classroom'
 const DEMO = 'Demo school'
-const CHAPTERS: { shot: Shot; note?: string; kicker: string; title: string; body: string; gives: string; deskOnly?: boolean }[] = [
+const CHAPTERS: { shot: Shot; note?: string; kicker: string; title: string; body: string; gives: string }[] = [
   {
     shot: SHOTS.farzanaHome,
     note: DEMO,
@@ -45,33 +46,7 @@ const CHAPTERS: { shot: Shot; note?: string; kicker: string; title: string; body
     kicker: 'A school on it',
     title: 'A school, built on it.',
     body: 'Each school gets its own site, name and crest, with its classes, families and payments in one place. Shown here with a demo school.',
-    gives: 'A school gets software under its own name without paying for it to be built from nothing.',
-  },
-  {
-    shot: SHOTS.farzanaClass,
-    note: DEMO,
-    kicker: 'For families',
-    title: 'A page for every class.',
-    body: 'Families see what each class is and who it is for, try a free sample, and sign up.',
-    gives: 'Sign-ups and payments come in online, at any hour, with no one at a desk to take them.',
-    deskOnly: true,
-  },
-  {
-    shot: SHOTS.farzanaDesk,
-    note: DEMO,
-    kicker: 'For the teacher',
-    title: 'The teacher’s desk.',
-    body: 'How many students, who was active this week, and who just joined, on one screen.',
-    gives: 'The teacher sees who has gone quiet this week in a glance, before they drift away.',
-  },
-  {
-    shot: SHOTS.farzanaStudents,
-    note: DEMO,
-    kicker: 'For the office',
-    title: 'Every student, findable.',
-    body: 'Search by name. Filter by class, by progress, by when they joined.',
-    gives: 'A parent’s question is answered in moments, not by digging through files.',
-    deskOnly: true,
+    gives: 'Families find a class, sign up and pay online at any hour, with no one at a desk to take it.',
   },
 ]
 
@@ -85,13 +60,9 @@ const ROLE: Record<string, string> = {
   kcupg: 'Designed and built by me',
 }
 
-/* T-372 preview: two ways to say "I built this", picked with ?v=a or ?v=b.
-   The one Thomas picks stays and this switch goes. */
-export default async function Home({ searchParams }: { searchParams: Promise<{ v?: string }> }) {
-  const v = (await searchParams).v === 'b' ? 'b' : 'a'
+export default function Home() {
   return (
     <CinematicChrome>
-      {v === 'b' ? <LowerThird /> : null}
       {/* Hero: the words, then a real screen lying back that stands up as you scroll. */}
       <Scroll mode="sticky" className="cn-hero" aria-label="Kingdom Sites">
         <div className="cn-wrap pt-16 sm:pt-24">
@@ -116,7 +87,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ v
           </div>
         </div>
         <Scroll prop="--q" className="cn-wrap cn-stage relative mt-14 pb-32 sm:mt-20 sm:pb-48">
-          <div className="cn-tilt mx-auto max-w-[1180px]" data-made="farzana">
+          <div className="cn-tilt mx-auto max-w-[1180px]">
             <Browser shot={SHOTS.farzanaDesk} product={PRODUCT} note={DEMO} priority />
           </div>
           <div className="cn-tilt-phone absolute bottom-0 right-[6%] w-[30%] max-w-[250px] sm:right-[8%] sm:w-[19%]">
@@ -125,12 +96,11 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ v
         </Scroll>
       </Scroll>
 
-      {/* Right after the first window and phone: I built this. */}
-      {v === 'a' ? <CreditBeat id="farzana" /> : <MakerTag id="farzana" />}
+      {/* Right after the first window and phone: I built this. Said once. */}
+      <Credit id="farzana" title="I built this." />
 
       {/* The Farzana story: the stage holds still, the screens change by chapter. */}
       <div id="farzana" className="scroll-mt-16" />
-      <div data-made="farzana">
       <Scroll mode="sticky" steps={CHAPTERS.length} className="cn-scene" aria-label="Farzana Classroom">
         <div style={{ height: `${CHAPTERS.length * 85}svh` }} className="cn-scene-h">
           <div className="cn-pin">
@@ -168,7 +138,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ v
 
                 {/* On a phone: the same chapters, one after another. */}
                 <div className="cn-stack">
-                  {CHAPTERS.filter((c) => !c.deskOnly).map((c, i) => (
+                  {CHAPTERS.map((c, i) => (
                     <div key={c.title}>
                       <Browser shot={c.shot} product={PRODUCT} note={c.note} />
                       <p className="cn-kicker mt-6">
@@ -188,7 +158,6 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ v
           </div>
         </div>
       </Scroll>
-      </div>
 
       <div className="cn-wrap mt-10 flex justify-center lg:mt-0">
         <Link href="/portfolio#farzana" className="cn-ghost">
@@ -211,13 +180,13 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ v
           </p>
         </div>
         <Scroll className="cn-wrap mt-16 pb-24 sm:mt-24">
-          <div className="cn-depth mx-auto max-w-[1180px]" data-made="latin">
+          <div className="cn-depth mx-auto max-w-[1180px]">
             {[SHOTS.latinHome, SHOTS.latinMap, SHOTS.latinCase, SHOTS.latinBoard].map((s) => (
               <Phone key={s.src} shot={s} />
             ))}
           </div>
         </Scroll>
-        {v === 'a' ? <CreditBeat id="latin" title="I built this too." /> : <MakerTag id="latin" />}
+        <Credit id="latin" />
       </section>
 
       {/* What I make: each line comes on as it reaches the middle of the screen. */}
@@ -281,9 +250,6 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ v
             </Scroll>
           ))}
         </div>
-        <p className="cn-body mt-14 max-w-[52ch]">
-          When we talk, I start with where it should save you time or bring money in, and build toward that.
-        </p>
       </section>
 
       {/* Close. */}
