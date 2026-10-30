@@ -3,7 +3,7 @@ import DepositLanding from './DepositLanding'
 import ReferForms from './ReferForms'
 import { CALL_GIFT, JOIN_GIFT, SMALL_JOIN_GIFT } from '@/lib/referrals'
 
-const DESCRIPTION = `Introduce anyone who needs custom software, or a school to Farzana. You get $${CALL_GIFT} as soon as they have a call with me, and up to $${JOIN_GIFT} more when they join.`
+const DESCRIPTION = `Introduce anyone who needs custom software, or a school to Farzana Classroom. You get $${CALL_GIFT} as soon as they have a call with me, and up to $${JOIN_GIFT} more when they join.`
 const SHARE_TITLE = `Refer someone, get up to $${JOIN_GIFT} | Kingdom Sites`
 
 /* Its own link preview (T-293), not the home page's: the card is opengraph-image.tsx here. */
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 /**
  * The referral program (T-284, Thomas, 2026-10-29): Kingdom Sites' own, for
- * any custom software, with Farzana as its section for schools. Since T-293 its
+ * any custom software, with Farzana Classroom as its section for schools. Since T-293 its
  * records, links, trackers and Thomas's console are all on this site
  * (`src/lib/referrals.ts`, `src/lib/refer/`).
  */
@@ -50,35 +50,38 @@ const RULES = [
 export default function ReferPage() {
   return (
     <div className="w-full overflow-x-hidden">
-      <section className="hero-wash px-5 pb-12 pt-16 sm:px-8 sm:pb-16 sm:pt-24">
-        <div className="mx-auto max-w-3xl text-center">
-          <DepositLanding className="mx-auto mb-10 sm:mb-12" />
-          <h1 className="text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
+      <section className="cn-wrap pb-14 pt-16 sm:pb-20 sm:pt-24">
+        <div className="grid items-center gap-12 lg:grid-cols-[1.3fr_1fr] lg:gap-16">
+          <div>
+          <p className="cn-kicker cn-rise">Refer someone</p>
+          <h1 className="cn-display cn-h3 cn-rise cn-rise-2 mt-5 text-balance">
             Introduce someone who needs software.{' '}
             <span className="text-accent">
               ${CALL_GIFT} for the call, up to ${JOIN_GIFT} more when they join.
             </span>
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-body sm:text-lg">
+          <p className="cn-body cn-rise cn-rise-3 mt-6 max-w-[46ch] text-pretty">
             I build custom software for any organization: apps, tools and the systems behind them.
-            For schools and education, that is Farzana. Anyone can refer, customer or not.
+            For schools and education, that is Farzana Classroom. Anyone can refer, customer or not.
           </p>
+          </div>
+          <DepositLanding className="mx-auto w-full max-w-md" />
         </div>
       </section>
 
-      <section aria-label="Get your link" className="px-5 pb-16 sm:px-8 sm:pb-20">
-        <div className="mx-auto max-w-6xl">
+      <section aria-label="Get your link" className="cn-wrap pb-16 sm:pb-24">
+        <div>
           <ReferForms />
         </div>
       </section>
 
-      <section className="px-5 pb-16 sm:px-8 sm:pb-20">
-        <div className="mx-auto max-w-6xl">
-          <h2 className="text-3xl font-semibold tracking-tight text-ink">How it works</h2>
+      <section className="cn-wrap pb-16 sm:pb-24">
+        <div className="border-t border-line pt-12">
+          <h2 className="cn-display cn-h3">How it works</h2>
           <ol className="mt-8 grid gap-6 md:grid-cols-3">
             {STEPS.map((step, index) => (
               <li key={step.title} className="tile-elevated flex flex-col gap-3 p-7">
-                <span className="text-3xl font-semibold text-accent">
+                <span className="cn-kicker">
                   {String(index + 1).padStart(2, '0')}
                 </span>
                 <h3 className="text-xl font-semibold tracking-tight text-ink">{step.title}</h3>
@@ -93,25 +96,25 @@ export default function ReferPage() {
         </div>
       </section>
 
-      <section className="px-5 pb-16 sm:px-8 sm:pb-20">
-        <div className="tile-elevated mx-auto flex max-w-6xl flex-col gap-4 p-7 sm:p-10">
-          <p className="text-sm font-semibold text-accent">For schools and education</p>
-          <h2 className="text-3xl font-semibold tracking-tight text-ink">Farzana</h2>
+      <section className="cn-wrap pb-16 sm:pb-24">
+        <div className="tile-elevated flex flex-col gap-4 p-7 sm:p-10">
+          <p className="cn-kicker">For schools and education</p>
+          <h2 className="cn-display cn-h3">Farzana Classroom</h2>
           <p className="max-w-3xl text-pretty text-[15px] leading-relaxed text-body">
-            Farzana is the education software I build for schools, training organizations and
+            Farzana Classroom is the education software I build for schools, training organizations and
             educational businesses: a proven platform with classes, students and families, payments
             and progress, and the features each school needs built on top. A school you send counts
             the same way: ${CALL_GIFT} for the call, up to ${JOIN_GIFT} more when it joins.
           </p>
           <a href="https://farzana.app" className="btn-ghost self-start">
-            See Farzana
+            See Farzana Classroom
           </a>
         </div>
       </section>
 
-      <section className="px-5 pb-20 sm:px-8 sm:pb-24">
-        <div className="mx-auto max-w-6xl">
-          <h2 className="text-3xl font-semibold tracking-tight text-ink">The rules</h2>
+      <section className="cn-wrap pb-24 sm:pb-32">
+        <div className="border-t border-line pt-12">
+          <h2 className="cn-display cn-h3">The rules</h2>
           <ul className="mt-6 flex max-w-3xl flex-col gap-3">
             {RULES.map((rule) => (
               <li key={rule} className="flex items-start gap-3 text-[15px] leading-relaxed text-body">

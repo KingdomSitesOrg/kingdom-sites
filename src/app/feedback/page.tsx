@@ -10,14 +10,15 @@ export const metadata: Metadata = {
 export default function FeedbackPage() {
   return (
     <div className="w-full overflow-x-hidden">
-      <section className="hero-wash px-5 pb-10 pt-16 sm:px-8 sm:pb-12 sm:pt-24">
-        <h1 className="text-balance text-center text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
-          How well did I do?
-        </h1>
+      <section className="cn-wrap pb-10 pt-16 sm:pb-14 sm:pt-24">
+        <div className="mx-auto max-w-xl">
+          <p className="cn-kicker cn-rise">Client feedback</p>
+          <h1 className="cn-display cn-h2 cn-rise cn-rise-2 mt-5 text-balance">How well did I do?</h1>
+        </div>
       </section>
 
-      <section aria-label="Feedback" className="px-5 pb-20 sm:px-8 sm:pb-24">
-        <div className="mx-auto max-w-xl">
+      <section aria-label="Feedback" className="cn-wrap pb-24 sm:pb-32">
+        <div className="cn-rise cn-rise-3 mx-auto max-w-xl">
           <FeedbackForm />
         </div>
       </section>

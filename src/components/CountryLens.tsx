@@ -62,7 +62,7 @@ export function Lens({
           cy="50"
           r="47"
           fill="none"
-          stroke="rgba(240,180,140,0.5)"
+          stroke="rgba(239,235,227,0.4)"
           strokeWidth="0.8"
           pathLength={1}
           strokeDasharray={1}
@@ -73,7 +73,7 @@ export function Lens({
 
       {label && (
         <figcaption
-          className="mt-2 text-center text-sm font-medium tracking-wide text-[#f0b48c] sm:mt-1.5 sm:text-xs"
+          className="mt-2 text-center text-sm font-medium tracking-wide text-ink sm:mt-1.5 sm:text-xs"
           style={{ textShadow: '0 1px 10px rgba(0,0,0,0.75)' }}
         >
           {label}
@@ -123,8 +123,8 @@ export default function CountryLens({
               comes up behind it. */}
           <path
             d={shape.country}
-            fill="#f0b48c"
-            stroke="#f0b48c"
+            fill="#efebe3"
+            stroke="#efebe3"
             strokeWidth="1.2"
             strokeLinejoin="round"
             strokeLinecap="round"
@@ -134,7 +134,7 @@ export default function CountryLens({
             style={{
               strokeDashoffset: active ? 0 : 1,
               fillOpacity: active ? 0.5 : 0,
-              filter: 'drop-shadow(0 0 5px rgba(240,180,140,0.35))',
+              filter: 'drop-shadow(0 0 5px rgba(239,235,227,0.3))',
             }}
           />
         </g>
