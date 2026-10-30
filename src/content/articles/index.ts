@@ -14,7 +14,7 @@ import whatIsAnMvp from './what-is-an-mvp'
 import whyIMadeWhoWillTellThem from './why-i-made-who-will-tell-them'
 
 /**
- * Every article on the site, all in Guides (T-388). Add a new one
+ * Every article in the Journal, Guides and From the field (T-388, T-397). Add a new one
  * by writing its file in this folder and listing it here; docs/adding-an-article.md
  * has the format. The order only matters for articles with the same date
  * (earlier in the list shows first).

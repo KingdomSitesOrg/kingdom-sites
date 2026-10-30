@@ -14,7 +14,7 @@ const PAGE_LINKS = [
   { href: '/about', label: 'Studio' },
   { href: '/mission', label: 'Mission' },
   { href: '/refer', label: 'Refer someone' },
-  { href: '/guides', label: 'Guides' },
+  { href: '/journal', label: 'Journal' },
   { href: '/blog', label: 'Blog' },
   { href: '/privacy', label: 'Privacy Policy' },
   { href: '/terms', label: 'Terms' },

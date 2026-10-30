@@ -130,8 +130,8 @@ export default function About() {
             AI consultation
           </Link>
           {' · '}
-          <Link href="/guides" className="underline underline-offset-4">
-            Guides
+          <Link href="/journal" className="underline underline-offset-4">
+            Journal
           </Link>
         </p>
       </div>

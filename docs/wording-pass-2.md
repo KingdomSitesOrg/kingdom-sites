@@ -91,11 +91,38 @@ Three new pages, one shape (Thomas, T-389): the problem, what I built, how long 
 - **KCUPG quote:** Logan Hazlet will leave a Google review. Once it exists, his words can be quoted on /portfolio/kcupg ("What the client says", the `quote` field in `src/lib/case-studies.ts`), **with his OK**, credited "Logan Hazlet, full-time missionary, Kansas City, MO".
 - Any other quote or result goes in the same way: add it to that project in `src/lib/case-studies.ts` and the part appears.
 
-## T-388: Guides (article section)
+## T-397: the Journal (one page, two shelves)
 
-**Guides** (/guides): software questions. Three guides: website or app, how a quote works, and running costs. (A second section, From the field, and the Journal page that holds both wait for Thomas's review on their own pull request, T-397.)
+Thomas, 2026-10-31: "Journal, two shelves". One menu item and one page, **/journal**, holding Guides and From the field as two labelled groups. /guides and /from-the-field stay as each shelf's own page, so every existing link still works. The blog (/blog, the Rochester business notes) is not part of the Journal and keeps its own menu item.
 
-On the index, the newest article is shown large with its cover, and the older ones sit in a grid below. Each article has a cover drawn in the site's colours, and that cover is also its share card. An article dated in the future stays hidden until its date. `docs/adding-an-article.md` explains how to add one.
+| Where | New text | Why |
+|---|---|---|
+| Menu (every page), Studio list | Journal (replaces Guides and From the field) | One menu item, as Thomas picked |
+| Footer (every studio page, home and Portfolio) | Journal | Same |
+| /about, link line at the bottom | · Journal | Was "Guides" |
+| /journal search title | Journal: guides and stories from the field | Names both shelves |
+| /journal description | The Journal of Thomas Klein: plain-word guides to the software questions people ask, and stories from the field about missions, faith, prayer and the projects. | Mine, built from the two sections' own lines |
+| /journal label, heading | Journal / The Journal. | Short; the page's name |
+| /journal intro | Guides to the software questions people ask me, and stories from the field: missions, faith, the persecuted church, prayer and the projects. | Mine, from the two sections' intros |
+| /journal top | Latest in Guides (or From the field) · (date) / heading / description / Read it › | The newest article from either shelf |
+| /journal shelves | Guides / All guides › / (Guides intro) and From the field / All from the field › / (From the field intro), each with its articles' covers | The two labelled groups |
+| /journal bottom | Have something in mind? / Every enquiry comes to me, and I reply personally. / Start a conversation | As on /guides |
+| Line above each section page's heading | Journal / Guides (or Journal / From the field) | Breadcrumb back to the Journal |
+| Line above each article's heading | Journal / Guides / By Thomas Klein · date · N min read | Same |
+| Site search, result label | Journal (for /journal, /guides, /from-the-field and every article) | Was "Guides" |
+| Site search, empty panel | Every page: the portfolio, the apps, the Journal, the blog and the ministries. | Was "guides" |
+| Intelligence's knowledge | The Journal, its two shelves and the three guide pages; "New articles appear on their own dates; point people to /journal for the latest." | So the chat can send people there; future articles are not named, so it cannot mention one before its date |
+
+**To decide:** the Journal heading, description and intro are mine, not Thomas's.
+
+## T-388: Guides and From the field (article sections)
+
+Two article sections, sharing one design:
+
+- **Guides** (/guides): software questions. Three guides so far: website or app, how a quote works, and running costs.
+- **From the field** (/from-the-field): missions, faith, the persecuted church, prayer and project stories. It stays empty until T-392's articles land.
+
+On each index, the newest article is shown large with its cover, and the older ones sit in a grid below. Each article has a cover drawn in the site's colours, and that cover is also its share card. An article dated in the future stays hidden until its date. `docs/adding-an-article.md` explains how to add one.
 
 The church and school guides were removed on Thomas's word (2026-10-30), along with their sitemap entries, data and links. No page says these are the questions people ask most; the Guides heading is Thomas's own line. The blog stays as it is (Rochester business notes).
 
@@ -105,19 +132,21 @@ The church and school guides were removed on Thomas's word (2026-10-30), along w
 - Two sentences in Thomas's voice make claims that no existing page makes:
   - "I will tell you plainly which one fits, even when the answer is the smaller, cheaper one" (Website or app)
   - "Half a page of notes, or a voice memo's worth of talking, is a good start" (How a quote works)
+- The From the field heading, intro and empty-page lines below are mine, not Thomas's.
 
-### Around every guide
+### Around every article (both sections)
 
 | Page, where | New text | Why |
 |---|---|---|
-| Line above the heading | Guides / By Thomas Klein · the date · N min read | Says who wrote it and when, for readers and for Google |
+| Line above the heading | Guides (or From the field) / By Thomas Klein · the date · N min read | Says who wrote it and when, for readers and for Google |
 | Under the heading | Summarize this article (button with the Intelligence sparkle; on blog posts too) | Opens the chat and asks for the article in three or four points; follow-ups keep the article in view |
 | The chat, after a summary | The question box reads "Ask about this article, or anything else"; the visitor's question shows as "Summarize this article: (its title)" | Says what the chat is answering from |
 | "From my portfolio" | The project's name and its existing Portfolio line (no new words) | Links each article to the work that shows it |
 | Author box | Written by / Thomas Klein / Kingdom Sites · Rochester, Minnesota / I make software people actually use: websites, apps and the systems behind them. When you write to me, you get me, the person who builds it. / About me › Portfolio › | The bio sentence is the About page's own |
 | "Sources" | Checked (date). Guides add: Fees change; each link has the current figure. | Every public figure has its source on the page |
 | Closing box, Guides | Have something in mind? / Tell me about it in a few lines. You and I talk first; you get a quote once I understand the project. / Start a conversation | The soft link to Get started |
-| List at the bottom | More guides | Links the articles to each other |
+| Closing box, From the field | Want to talk about it? / Every message comes to me, and I reply personally. / Start a conversation | Close to the About page's line |
+| List at the bottom | More guides / More from the field | Links the articles to each other |
 
 ### /guides (the index)
 
@@ -131,12 +160,23 @@ The church and school guides were removed on Thomas's word (2026-10-30), along w
 | Older articles | Date / heading / description | |
 | Bottom | Have something in mind? / Every enquiry comes to me, and I reply personally. / Start a conversation | Second line is the About page's |
 
-### Links to Guides from existing pages
+### /from-the-field (the index)
+
+| Where | New text | Why |
+|---|---|---|
+| Search title | From the field: missions, faith and the stories behind the work | Unique title with the section's subjects |
+| Description | Stories from the field: missions, faith, the persecuted church, prayer, and the stories behind the projects, written by Thomas Klein. | The subjects Thomas listed |
+| Label, heading | From the field / From the field. | Short; the section's name |
+| Intro | Missions, faith, the persecuted church, prayer, and the stories behind the projects. | The subjects Thomas listed |
+| Before any story is published | The first stories are on their way. | Until T-392's articles land |
+| Bottom | Want to talk about it? / Every enquiry comes to me, and I reply personally. / Start a conversation | |
+
+### Links to the sections from existing pages
 
 | Page, where | New text | Why |
 |---|---|---|
-| Menu (every page), Studio list | Guides | Links both ways |
-| Footer (every studio page) | Guides | Same |
+| Menu (every page), Studio list | Guides, From the field | Links both ways |
+| Footer (every studio page) | Guides, From the field (home and Portfolio footer line: Guides) | Same |
 | /get-started, after "You and I talk first. You get a quote once I understand the project." | How a quote works › | Points to the quote guide where people decide to write |
 | /about, link line at the bottom | · Guides | |
 | /portfolio, under "Yours could be next." | How a quote works · Website or app? · All guides | |
