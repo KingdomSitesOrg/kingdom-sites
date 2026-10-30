@@ -3,12 +3,12 @@ import path from 'path'
 import { describe, expect, it, vi } from 'vitest'
 import type { Article } from '@/lib/articles'
 
-/* The two article sections (T-388): every article file is well formed, and an
+/* The Guides section (T-388): every article file is well formed, and an
    article dated in the future stays hidden everywhere until its day begins in
    Rochester, Minnesota. */
 
 const FUTURE: Article = {
-  section: 'from-the-field',
+  section: 'guides',
   slug: 'not-yet',
   title: 'Not yet',
   description: 'A story for later.',
@@ -37,21 +37,21 @@ describe('scheduled publishing', () => {
   })
 
   it('keeps a future article out of the index, its address and the chat until then', () => {
-    expect(publishedIn('from-the-field', BEFORE).map((a) => a.slug)).not.toContain('not-yet')
-    expect(getArticle('from-the-field', 'not-yet', BEFORE)).toBeUndefined()
-    expect(findArticle('from-the-field/not-yet', BEFORE)).toBeNull()
+    expect(publishedIn('guides', BEFORE).map((a) => a.slug)).not.toContain('not-yet')
+    expect(getArticle('guides', 'not-yet', BEFORE)).toBeUndefined()
+    expect(findArticle('guides/not-yet', BEFORE)).toBeNull()
 
-    expect(publishedIn('from-the-field', ON).map((a) => a.slug)).toContain('not-yet')
-    expect(getArticle('from-the-field', 'not-yet', ON)?.title).toBe('Not yet')
-    expect(findArticle('from-the-field/not-yet', ON)?.title).toBe('Not yet')
+    expect(publishedIn('guides', ON).map((a) => a.slug)).toContain('not-yet')
+    expect(getArticle('guides', 'not-yet', ON)?.title).toBe('Not yet')
+    expect(findArticle('guides/not-yet', ON)?.title).toBe('Not yet')
   })
 
   it('keeps it out of the sitemap', () => {
     vi.useFakeTimers()
     vi.setSystemTime(BEFORE)
-    expect(sitemap().map((e) => e.url)).not.toContain('https://kingdom-sites.com/from-the-field/not-yet')
+    expect(sitemap().map((e) => e.url)).not.toContain('https://kingdom-sites.com/guides/not-yet')
     vi.setSystemTime(ON)
-    expect(sitemap().map((e) => e.url)).toContain('https://kingdom-sites.com/from-the-field/not-yet')
+    expect(sitemap().map((e) => e.url)).toContain('https://kingdom-sites.com/guides/not-yet')
     vi.useRealTimers()
   })
 

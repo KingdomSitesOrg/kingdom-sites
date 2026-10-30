@@ -1,29 +1,26 @@
-# Adding an article (Guides or From the field)
+# Adding a guide
 
-The site has two article sections (T-388):
+The site has one article section (T-388): **Guides** at `/guides`, software questions made easy to understand.
 
-- **Guides** at `/guides`: software questions, made easy to understand.
-- **From the field** at `/from-the-field`: missions, faith, the persecuted church, the Bangladesh film, prayer, KCUPG and other project stories.
-
-Each article is one file in `src/content/articles/`, listed once in `src/content/articles/index.ts`. Each index page shows the newest article large, with its cover, and the older ones in a grid below, newest first. Every article page gets the author box, the "Summarize this article" button, its structured data, a share card and a place in the sitemap automatically.
+Each guide is one file in `src/content/articles/`, listed once in `src/content/articles/index.ts`. The index page shows the newest article large, with its cover, and the older ones in a grid below, newest first. Every guide gets the author box, the "Summarize this article" button, its structured data, a share card and a place in the sitemap automatically.
 
 ## 1. Write the file
 
-`src/content/articles/<slug>.ts`. The slug is the address, in lowercase words joined by hyphens: `/from-the-field/<slug>`.
+`src/content/articles/<slug>.ts`. The slug is the address, in lowercase words joined by hyphens: `/guides/<slug>`.
 
 ```ts
 import type { Article } from '@/lib/articles'
 
 export default {
-  section: 'from-the-field', // or 'guides'
-  slug: 'praying-for-bangladesh',
-  title: 'Why we pray for Bangladesh every week', // the page's one heading
-  seoTitle: 'Praying for Bangladesh', // optional: the search title, if it should differ from the heading
+  section: 'guides',
+  slug: 'what-is-an-mvp',
+  title: 'What is an MVP?', // the page's one heading
+  seoTitle: 'What is an MVP, in plain words', // optional: the search title, if it should differ from the heading
   description: 'One or two sentences for Google, share cards and the index card. 50 to 200 characters.',
   lede: 'The opening lines, shown large under the heading. For a guide: the answer, in two sentences.',
   published: '2026-11-12', // YYYY-MM-DD. Hidden everywhere until this date in Rochester, MN.
   updated: '2026-11-20', // optional
-  keywords: ['pray for Bangladesh', 'unreached people groups'], // optional
+  keywords: ['what is an MVP', 'minimum viable product'], // optional
   cover: { photo: '/Photos/mission-field.jpg', alt: 'What the photo shows', width: 1244, height: 700 }, // optional; without it a cover is drawn
   related: ['prayer', 'ministry'], // optional: Portfolio projects, by their slug in src/lib/work.ts
   sources: [{ label: 'Who says it', href: 'https://…' }], // optional: where any figure comes from
@@ -52,7 +49,7 @@ Add two lines to `src/content/articles/index.ts`: the import at the top, and the
 ## 3. The cover
 
 - **A photo:** only a real photo already in `public/` (never stock pictures). Give its path from `public/`, its width and height in pixels (`file public/Photos/x.jpg` shows them), and alt text that says what it shows.
-- **No photo:** leave `cover` out. A simple abstract picture is drawn from the slug, in the site's colours: warm tones for From the field, cooler ones for Guides. Each slug gets its own picture, and it stays the same from build to build. If you change the slug, the picture changes too.
+- **No photo:** leave `cover` out. A simple abstract picture is drawn from the slug, in the site's cool guide colours. Each slug gets its own picture, and it stays the same from build to build. If you change the slug, the picture changes too.
 - The cover is also the share card. A drawn cover is served as a PNG at `/covers/<section>/<slug>`.
 
 ## 4. Scheduled publishing
