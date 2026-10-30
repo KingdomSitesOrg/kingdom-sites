@@ -3,7 +3,7 @@ import Link from 'next/link'
 import CaseTitle from '@/components/cinematic/CaseTitle'
 import { Browser } from '@/components/cinematic/Frames'
 import Scroll from '@/components/cinematic/Scroll'
-import { isPending, type CaseStudy as Study, type Figure, type Pending } from '@/lib/case-studies'
+import type { CaseStudy as Study, Figure } from '@/lib/case-studies'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { breadcrumbLd, jsonLd } from '@/lib/seo'
 import { PROJECTS } from '@/lib/work'
@@ -42,16 +42,6 @@ function Shown({ f }: { f: Figure }) {
   )
 }
 
-/* A fact still to come from Thomas, drawn as a marked gap. `data-pending` is
-   what scripts/seo-check.mjs looks for, so a page with one cannot pass. */
-function Gap({ p }: { p: Pending }) {
-  return (
-    <p data-pending="" className="rounded-xl border border-dashed border-[var(--line)] px-4 py-3 text-[15px] leading-relaxed text-[var(--dim)]">
-      <span className="font-semibold text-[var(--fg)]">Waiting on Thomas:</span> {p.pending}
-    </p>
-  )
-}
-
 /* One beat of the story: its name on the left, the words on the right, on a
    rule, as the home page's "What I make" rows. */
 function Beat({ title, children }: { title: string; children: React.ReactNode }) {
@@ -69,8 +59,9 @@ function Beat({ title, children }: { title: string; children: React.ReactNode })
  * A project's own page (T-389): the name and its facts, the main screen lying
  * back and standing up as you scroll (as on the Portfolio page), then the
  * same five beats on every page (Thomas, T-389): the problem, what I built,
- * how long it took, what improved after launch and what the client says. Then
- * more screens, related work, and the closing call. Its structured data and breadcrumb go in the page.
+ * how long it took, what improved after launch and what the client says. A
+ * beat with no confirmed answer is left out, never guessed. Then more screens,
+ * related work, and the closing call. Its structured data and breadcrumb go in the page.
  */
 export default function CaseStudy({ study, data }: { study: Study; data: object }) {
   const related = study.related.map((slug) => PROJECTS.find((p) => p.slug === slug)!)
@@ -124,25 +115,33 @@ export default function CaseStudy({ study, data }: { study: Study; data: object 
             ))}
           </ul>
         </Beat>
-        <Beat title="How long it took">{isPending(study.took) ? <Gap p={study.took} /> : <p>{study.took}</p>}</Beat>
-        <Beat title="What improved after launch">
-          {study.result.map((p) => (isPending(p) ? <Gap key={p.pending} p={p} /> : <p key={p}>{p}</p>))}
-          <p>
-            <a href={study.site.href} target="_blank" rel="noopener noreferrer" className="text-[var(--fg)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-current">
-              Open {study.site.label}
-            </a>
-          </p>
-        </Beat>
-        <Beat title="What the client says">
-          {isPending(study.quote) ? (
-            <Gap p={study.quote} />
-          ) : (
+        {study.took ? (
+          <Beat title={study.took.title ?? 'How long it took'}>
+            {study.took.text.map((p) => (
+              <p key={p}>{p}</p>
+            ))}
+          </Beat>
+        ) : null}
+        {study.result ? (
+          <Beat title="What improved after launch">
+            {study.result.map((p) => (
+              <p key={p}>{p}</p>
+            ))}
+            <p>
+              <a href={study.site.href} target="_blank" rel="noopener noreferrer" className="text-[var(--fg)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-current">
+                Open {study.site.label}
+              </a>
+            </p>
+          </Beat>
+        ) : null}
+        {study.quote ? (
+          <Beat title="What the client says">
             <figure>
               <blockquote className="cn-display cn-h3 text-[var(--fg)]">“{study.quote.text}”</blockquote>
               <figcaption className="cn-dim mt-5 text-[15px]">{study.quote.who}</figcaption>
             </figure>
-          )}
-        </Beat>
+          </Beat>
+        ) : null}
       </div>
 
       <div className={`cn-wrap mt-24 grid gap-14 sm:mt-32 ${study.figures.length > 1 ? 'lg:grid-cols-2 lg:gap-10' : ''}`}>
