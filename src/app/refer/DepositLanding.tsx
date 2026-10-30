@@ -4,7 +4,7 @@ import { JOIN_GIFT } from '@/lib/referrals'
 /* The first thing the referral page shows: the gift landing in a bank account.
    A deposit from Kingdom Sites slides in at the top of a checking account's
    activity, its check mark pops and draws itself, and the amount rolls up to
-   the join gift. It plays once as the page opens, in CSS only (globals.css,
+   the join gift, marked "up to" since a smaller project earns $100 (T-303). It plays once as the page opens, in CSS only (globals.css,
    the "deposit-" classes), and anyone who asks for less motion sees the last
    frame. Drawn entirely in CSS and SVG, like the home page's drawings. */
 
@@ -108,6 +108,7 @@ export default function DepositLanding({ className = '' }: { className?: string 
               <p className="truncate text-[12.5px] text-muted">Referral gift · Just now</p>
             </div>
             <p className="deposit-amount">
+              <span className="mr-1.5 text-[12.5px] font-medium text-muted">up to</span>
               +$
               {amount.map((char, i) =>
                 isDigit(char) ? (

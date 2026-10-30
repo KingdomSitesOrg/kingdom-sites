@@ -2,7 +2,7 @@ import { promises as fs } from 'fs'
 import path from 'path'
 import { randomBytes, randomInt, randomUUID } from 'crypto'
 import { BlobPreconditionFailedError, get, put } from '@vercel/blob'
-import { TRACKER_TOKEN, type Payout, type PayoutMethod, type StageKey } from '@/lib/referrals'
+import { TRACKER_TOKEN, type JoinGift, type Payout, type PayoutMethod, type StageKey } from '@/lib/referrals'
 
 /**
  * The referral program's records (T-293): who has a personal link, and who
@@ -47,6 +47,8 @@ export type Referred = {
   firstPaymentAt?: string
   joinPaidAt?: string
   joinPaidVia?: PayoutMethod
+  /** The join gift Thomas sent, $100 or $500 (T-303). A gift marked paid before then was $500. */
+  joinGift?: JoinGift
   /** Thomas marked that they are not going ahead. */
   endedAt?: string
 }
@@ -235,13 +237,15 @@ const STAGE_FIELD: Record<StageKey, 'callBookedAt' | 'callHeldAt' | 'callPaidAt'
 
 /**
  * Thomas marks (or unmarks) a stage on a referred lead, from /sign/referrals.
- * A gift marked paid keeps how he sent it. False when there is no such lead.
+ * A gift marked paid keeps how he sent it, and the join gift how much. False
+ * when there is no such lead.
  */
 export async function markStage(
   id: string,
   stage: StageKey | 'ended',
   on: boolean,
   via?: PayoutMethod,
+  amount?: JoinGift,
 ): Promise<boolean> {
   return change((doc) => {
     const lead = doc.referred.find((r) => r.id === id)
@@ -255,7 +259,11 @@ export async function markStage(
     }
     if (stage === 'joinPaid') {
       if (on && via) lead.joinPaidVia = via
-      if (!on) delete lead.joinPaidVia
+      if (on && amount) lead.joinGift = amount
+      if (!on) {
+        delete lead.joinPaidVia
+        delete lead.joinGift
+      }
     }
     return true
   })
