@@ -103,7 +103,7 @@
    navigation is available on every page at every width. */
 .lgame .nav-toggle {
   display: none; align-items: center; justify-content: center;
-  width: 34px; height: 34px; padding: 0; margin-right: -6px;
+  width: 44px; height: 44px; padding: 0; margin-right: -11px; /* 44px to tap (T-383); the icon stays where it was */
   background: none; border: 0; color: rgba(255, 255, 255, 0.9); cursor: pointer;
 }
 .lgame .mobile-menu {

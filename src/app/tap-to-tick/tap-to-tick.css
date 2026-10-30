@@ -104,7 +104,7 @@
    navigation is available on every page at every width. */
 .ttt .nav-toggle {
   display: none; align-items: center; justify-content: center;
-  width: 34px; height: 34px; padding: 0; margin-right: -6px;
+  width: 44px; height: 44px; padding: 0; margin-right: -11px; /* 44px to tap (T-383); the icon stays where it was */
   background: none; border: 0; color: var(--ink); cursor: pointer;
 }
 .ttt .mobile-menu {
@@ -473,6 +473,7 @@
   background: rgba(28, 28, 30, 0.55); backdrop-filter: blur(6px); border: none; display: grid;
   place-items: center; cursor: pointer; color: #fff;
 }
+@media (pointer: coarse) { .ttt .demo-sound { width: 44px; height: 44px; } } /* 44px to tap on touch screens (T-383) */
 
 /* privacy strip */
 .ttt .privacy { text-align: center; }
