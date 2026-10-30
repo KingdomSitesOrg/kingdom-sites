@@ -96,8 +96,10 @@ html.ki-lock { overflow: hidden; }
 .ki-close:focus-visible { outline: 2px solid var(--fg); outline-offset: -2px; }
 
 .ki-log { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 18px 20px 8px; display: flex; flex-direction: column; gap: 14px; font-size: 15px; line-height: 1.55; }
+.ki-hello { flex: none; }
 .ki-hello p { margin: 0; color: var(--body); }
-.ki-suggest { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+/* The pills keep their full height (the list never squeezes them) with a gap under them before the question box. */
+.ki-suggest { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; padding-bottom: 14px; }
 .ki-chip { min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--line); background: none; color: var(--fg); font: inherit; font-size: 14px; cursor: pointer; transition: border-color 0.2s; }
 .ki-chip:hover { border-color: rgba(239, 235, 227, 0.4); }
 .ki-chip:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
@@ -195,7 +197,7 @@ html.ki-lock { overflow: hidden; }
   .ki-long { display: none; }
   .ki-short { display: inline; }
   .ki-hello p { font-size: 13px; line-height: 1.35; }
-  .ki-suggest { flex-wrap: nowrap; overflow-x: auto; gap: 6px; margin: 8px -14px 0; padding: 0 14px 2px; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .ki-suggest { flex-wrap: nowrap; overflow-x: auto; gap: 6px; margin: 8px -14px 0; padding: 0 14px 12px; scrollbar-width: none; overscroll-behavior-x: contain; }
   .ki-suggest::-webkit-scrollbar { display: none; }
   .ki-chip { flex: none; padding: 0 14px; font-size: 13px; white-space: nowrap; }
   .ki-form { margin: 4px 10px 0; }
@@ -214,6 +216,9 @@ html.ki-lock { overflow: hidden; }
 .ki--inline .ki-head { padding: 12px 16px; align-items: center; }
 .ki--inline .ki-title { font-size: 19px; }
 .ki--inline .ki-sub { display: block; margin-top: 4px; }
+/* The page around it already says what this is: one short line, so the pills fit above the question box. */
+.ki--inline .ki-long { display: none; }
+.ki--inline .ki-short { display: inline; }
 @media (max-width: 759px), (max-height: 520px) {
   .ki--inline .ki-panel { height: 360px; }
   .ki--inline .ki-title { font-size: 17px; }
