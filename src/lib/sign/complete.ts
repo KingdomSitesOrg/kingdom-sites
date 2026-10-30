@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/nextjs'
 import { appendAudit } from '@/lib/sign/audit'
-import { sendCompletedPdfEmail } from '@/lib/sign/email'
+import { emailConfigured, sendCompletedPdfEmail } from '@/lib/sign/email'
 import { allSignersSigned, mergeSigner } from '@/lib/sign/placement'
 import { stampEnvelopePdf } from '@/lib/sign/pdf'
 import { getEnvelope, readPdf, saveEnvelope, savePdf } from '@/lib/sign/store'
@@ -93,7 +93,7 @@ export async function emailCompletedEnvelope(envelope: Envelope): Promise<void> 
       ]),
     ).filter(Boolean)
 
-    if (!process.env.RESEND_API_KEY?.trim() || !recipients.length) return
+    if (!emailConfigured() || !recipients.length) return
 
     const stamped = await readPdf(envelope.completedPdfKey)
     const filename = `${envelope.title.replace(/[^\w.\- ]+/g, '').slice(0, 60) || 'document'}-signed.pdf`

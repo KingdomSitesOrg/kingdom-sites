@@ -9,6 +9,34 @@ export async function countPdfPages(bytes: Uint8Array | Buffer): Promise<number>
   return doc.getPageCount()
 }
 
+export type UploadedPdfCheck = { ok: true; pageCount: number } | { ok: false; error: string }
+
+/**
+ * Check an upload really is a PDF we can stamp later, so a renamed photo or a
+ * password-protected file gets a plain answer at upload instead of a server error.
+ */
+export async function checkUploadedPdf(bytes: Uint8Array | Buffer): Promise<UploadedPdfCheck> {
+  const head = Buffer.from(bytes.subarray(0, 1024)).toString('latin1')
+  if (!head.includes('%PDF-')) {
+    return { ok: false, error: 'That file is not a PDF. Choose a PDF and try again.' }
+  }
+  try {
+    const doc = await PDFDocument.load(bytes)
+    const pageCount = doc.getPageCount()
+    if (pageCount < 1) return { ok: false, error: 'That PDF has no pages.' }
+    return { ok: true, pageCount }
+  } catch (error) {
+    // pdf-lib throws a plain Error here (not its exported EncryptedPDFError class).
+    if (error instanceof Error && /is encrypted/i.test(error.message)) {
+      return {
+        ok: false,
+        error: 'That PDF is password-protected. Save a copy without the password and upload that.',
+      }
+    }
+    return { ok: false, error: 'That PDF could not be read. Try exporting it again as a PDF.' }
+  }
+}
+
 function fieldRect(
   pageWidth: number,
   pageHeight: number,

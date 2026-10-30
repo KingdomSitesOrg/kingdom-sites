@@ -86,6 +86,26 @@ export function snapPlacementXY(
 }
 
 /**
+ * Signers who have no signature line on the document yet. Sending is blocked
+ * until this is empty, so nobody is asked to sign without a place to sign.
+ */
+export function signersWithoutLine(
+  envelope: Pick<Envelope, 'signers' | 'fields'>,
+): Signer[] {
+  return envelope.signers.filter(
+    (s) => !envelope.fields.some((f) => f.type === 'signature' && f.signerId === s.id),
+  )
+}
+
+/**
+ * Signing links carry a 24-byte random token (32 base64url characters). Anything
+ * else is refused before it reaches the store, so junk links cost no lookups.
+ */
+export function isWellFormedSignerToken(token: unknown): token is string {
+  return typeof token === 'string' && /^[A-Za-z0-9_-]{20,64}$/.test(token)
+}
+
+/**
  * Default signature box: page 1 near the top, stacked by slot
  * (0 = Client upper, 1 = Provider below, …). Avoids last-page bottom defaults.
  */
@@ -517,5 +537,7 @@ export function signerPublicView(envelope: Envelope, signerId: string) {
     })),
     fields: envelope.fields.filter((f) => f.type === 'signature'),
     allSigned: envelope.signers.every((s) => s.status === 'signed'),
+    /** The stamped PDF exists, so the signer can download the signed copy. */
+    signedPdfReady: envelope.status === 'completed' && Boolean(envelope.completedPdfKey),
   }
 }
