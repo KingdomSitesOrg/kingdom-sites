@@ -208,23 +208,23 @@ export const MADE = {
   },
 } satisfies Record<string, { name: string; made: string; gives: string }>
 
-/** The business case, said plainly, before the closing call (T-372). */
+/** The business case, said plainly, before the closing call (T-372; wording replaced T-374). */
 export const PAYS = [
   {
-    title: 'Take the money online.',
-    body: 'Customers, families and members sign up, book and pay at any hour, without anyone at a desk to take it.',
+    title: 'Take payments online, any time.',
+    body: 'Customers book and pay without you at a desk.',
   },
   {
-    title: 'Give the hours back.',
-    body: 'The forms, lists and reminders kept by hand move into one place that keeps itself up to date.',
+    title: 'Spend less time on paperwork.',
+    body: 'Forms, lists and reminders live in one place that updates itself.',
   },
   {
-    title: 'Grow without the paperwork growing.',
-    body: 'A business, a school or a church can serve more people with the same team when the routine work runs itself.',
+    title: 'Serve more people without hiring more staff.',
+    body: 'The routine work runs itself, so the same team does more.',
   },
   {
-    title: 'Own what you grow on.',
-    body: 'Your name, your customers and your data, on software shaped to how you already work.',
+    title: 'Own your data and your customer list.',
+    body: 'Your name, your customers, your data, on software built around how you work.',
   },
 ]
 
