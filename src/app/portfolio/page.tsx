@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import CinematicChrome from '@/components/cinematic/Chrome'
 import DotNav from '@/components/cinematic/DotNav'
 import { Browser, Phone } from '@/components/cinematic/Frames'
+import LatinPartner from '@/components/cinematic/LatinPartner'
 import Scroll from '@/components/cinematic/Scroll'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { LATIN_STORES, PROJECTS, SHOTS } from '@/lib/work'
@@ -158,6 +159,7 @@ export default function Portfolio() {
                   See the game <span aria-hidden="true">→</span>
                 </Link>
               </div>
+              <LatinPartner />
             </div>
             <Facts
               rows={[
@@ -235,26 +237,26 @@ export default function Portfolio() {
           {CASES.map((p) => {
             const external = p.href!.startsWith('http')
             return (
-              <Scroll key={p.slug}>
+              <Scroll key={p.slug} className="flex">
                 <a
                   href={p.href}
                   className="cn-reveal cn-case group block"
                   {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                 >
-                  <span className="cn-shot">
+                  <span className="cn-shot cn-case-frame">
                     <Image src={p.card!.src} alt={p.card!.alt} width={p.card!.w} height={p.card!.h} loading="lazy" unoptimized />
                   </span>
                   <p className="cn-dim mt-6 text-sm">
                     {p.kind} · {p.forWhom}
                   </p>
-                  <h3 className="cn-display cn-h3 mt-2 transition-transform duration-300 group-hover:translate-x-1">
+                  <h3 className="cn-display cn-h3 cn-case-name mt-2 transition-transform duration-300 group-hover:translate-x-1">
                     {p.name}
                     {'\u00a0'}
                     <span aria-hidden="true" className="cn-dim">
                       {external ? '↗' : '→'}
                     </span>
                   </h3>
-                  <p className="cn-body mt-3 text-[1.02rem]">{p.line}</p>
+                  <p className="cn-body cn-case-line mt-3 text-[1.02rem]">{p.line}</p>
                 </a>
               </Scroll>
             )
@@ -265,7 +267,7 @@ export default function Portfolio() {
       <section aria-label="Start a conversation" className="cn-wrap pb-28 pt-36 text-center sm:pb-40 sm:pt-48">
         <h2 className="cn-display cn-h1 mx-auto max-w-[12ch]">Yours could be next.</h2>
         <p className="cn-body mx-auto mt-6 max-w-[40ch]">
-          Tell me what you have in mind. You talk to me, the person who builds it, and you get a plan and a quote once I
+          Tell me what you have in mind. You talk to me, Thomas, the person who will build it, and you get a plan and a quote once I
           understand it.
         </p>
         <Link href={INQUIRE_PATH} className="cn-btn mt-10">

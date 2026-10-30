@@ -164,6 +164,14 @@
 .cn-case:hover .cn-shot img { transform: scale(1.03); }
 @media (prefers-reduced-motion: reduce) { .cn-shot img { transition: none; } .cn-case:hover .cn-shot img { transform: none; } }
 
+/* Every card in a grid has the same shape (T-380): one picture frame at 16:10,
+   cropped from the top, and room for two lines of name and of description, so
+   each row lines up whatever the wording. */
+.cn-case-frame { aspect-ratio: 16 / 10; }
+.cn-case-frame img { height: 100%; object-fit: cover; object-position: top; }
+.cn-case-name { min-height: 1.9em; }
+.cn-case-line { min-height: 3em; }
+
 /* Three phones in a depth row, on the same four-column widths as .cn-depth, so they
    are exactly the size of the four phones above them. Centred, not stretched. */
 .cn-depth-row { display: flex; justify-content: center; gap: clamp(10px, 2vw, 32px); }
@@ -182,6 +190,11 @@
 .cn-credit-list { display: grid; gap: 22px; margin: 0; }
 .cn-credit-list dt, .cn-for { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); font-weight: 500; }
 .cn-credit-list dd { margin: 6px 0 0; font-size: clamp(1.1rem, 1.5vw, 1.4rem); line-height: 1.4; color: var(--fg); max-width: 40ch; }
+
+/* The Latin game's partner line (LatinPartner.tsx): small, under the game's credits. */
+.cn-partner { margin: 28px 0 0; font-size: 14px; line-height: 1.5; color: var(--dim); max-width: 60ch; }
+.cn-partner a { color: var(--fg); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 4px; }
+.cn-partner a:hover { text-decoration-color: currentColor; }
 
 /* Each chapter's line on what it does for the people who use it. */
 .cn-for { display: block; margin-bottom: 6px; }

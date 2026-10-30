@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import CinematicChrome from '@/components/cinematic/Chrome'
 import { Browser, Phone } from '@/components/cinematic/Frames'
 import { Credit } from '@/components/cinematic/Maker'
+import LatinPartner from '@/components/cinematic/LatinPartner'
 import LitLink from '@/components/cinematic/LitLink'
 import Scroll from '@/components/cinematic/Scroll'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
@@ -186,6 +187,9 @@ export default function Home() {
           </div>
         </Scroll>
         <Credit id="latin" />
+        <div className="cn-wrap">
+          <LatinPartner />
+        </div>
       </section>
 
       {/* What I make: each line comes on as it reaches the middle of the screen. */}
@@ -217,19 +221,26 @@ export default function Home() {
       <section aria-labelledby="more" className="cn-wrap mt-32 sm:mt-44">
         <h2 id="more" className="cn-kicker">More work</h2>
         <div className="mt-8 grid gap-x-10 gap-y-12 md:grid-cols-3">
-          {MORE.map((p) => (
-            <Scroll key={p.slug}>
-              <a href={p.href} className="cn-reveal cn-card group block">
-                <p className="cn-dim text-sm">
-                  {p.forWhom} · {ROLE[p.slug]}
-                </p>
-                <h3 className="cn-display cn-h3 mt-2 transition-transform duration-300 group-hover:translate-x-1">
-                  {p.name} <span aria-hidden="true" className="cn-dim">↗</span>
-                </h3>
-                <p className="cn-body mt-3 text-[1.02rem]">{p.line}</p>
-              </a>
-            </Scroll>
-          ))}
+          {MORE.map((p) => {
+            const external = p.href!.startsWith('http')
+            return (
+              <Scroll key={p.slug} className="flex">
+                <a
+                  href={p.href}
+                  className="cn-reveal cn-card group block"
+                  {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                >
+                  <p className="cn-dim text-sm">
+                    {p.forWhom} · {ROLE[p.slug]}
+                  </p>
+                  <h3 className="cn-display cn-h3 cn-case-name mt-2 transition-transform duration-300 group-hover:translate-x-1">
+                    {p.name} <span aria-hidden="true" className="cn-dim">{external ? '↗' : '→'}</span>
+                  </h3>
+                  <p className="cn-body cn-case-line mt-3 text-[1.02rem]">{p.line}</p>
+                </a>
+              </Scroll>
+            )
+          })}
         </div>
       </section>
 
@@ -281,8 +292,8 @@ export default function Home() {
       <section aria-label="Start a conversation" className="cn-wrap pb-28 pt-36 text-center sm:pb-40 sm:pt-52">
         <h2 className="cn-display cn-h1 mx-auto max-w-[12ch]">Yours could be next.</h2>
         <p className="cn-body mx-auto mt-6 max-w-[40ch]">
-          A website, an app, or help putting AI to work: tell me what you have in mind. You talk to me, the person who
-          builds it, and you get a plan and a quote once I understand it.
+          A website, an app, or help putting AI to work: tell me what you have in mind. You talk to me, Thomas, the person who
+          will build it, and you get a plan and a quote once I understand it.
         </p>
         <Link href={INQUIRE_PATH} className="cn-btn mt-10">
           {INQUIRE_CTA} <span aria-hidden="true">→</span>

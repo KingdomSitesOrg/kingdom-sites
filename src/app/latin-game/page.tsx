@@ -9,6 +9,7 @@ import shotCase from '../../../public/latin-game/case-challenge.jpg'
 import shotLeaderboard from '../../../public/latin-game/leaderboard.jpg'
 import shotMap from '../../../public/latin-game/map.jpg'
 import { LATIN_STORES } from '@/lib/work'
+import LatinPartner from '@/components/cinematic/LatinPartner'
 
 /** Set these once each app is live and the buttons become real links. */
 const APP_STORE_URL = LATIN_STORES.appStore
@@ -379,6 +380,9 @@ export default function LatinGame() {
       </div>
 
       <footer>
+        <div className="wrap">
+          <LatinPartner className="partner" />
+        </div>
         <div className="wrap">
           <span>A Latin learning game · {new Date().getFullYear()}</span>
           <span>
