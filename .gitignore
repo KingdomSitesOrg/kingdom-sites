@@ -55,3 +55,5 @@ CLAUDE.md
 
 # site search index, written after each build (scripts/search-index.mjs)
 /public/search-index.json
+# IndexNow fingerprints, written after each build (scripts/indexnow-manifest.mjs)
+/public/indexnow.json
