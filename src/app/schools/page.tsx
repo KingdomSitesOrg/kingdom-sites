@@ -131,12 +131,12 @@ export default function Schools() {
               {farzana.status}. The screens here show Wren Hall, a made-up demo school.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <a href={farzana.href} target="_blank" rel="noopener noreferrer" className="cn-ghost">
+              <Link href={farzana.href!} className="cn-ghost">
+                The Farzana Classroom story <span aria-hidden="true">→</span>
+              </Link>
+              <a href={farzana.site} target="_blank" rel="noopener noreferrer" className="cn-ghost">
                 farzana.app <span aria-hidden="true">↗</span>
               </a>
-              <Link href="/portfolio#farzana" className="cn-ghost">
-                In the portfolio <span aria-hidden="true">→</span>
-              </Link>
             </div>
           </div>
         </div>

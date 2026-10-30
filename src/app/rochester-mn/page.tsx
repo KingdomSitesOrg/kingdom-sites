@@ -49,7 +49,7 @@ const card = (slug: string, label: string): Proof => {
 
 const PROOF: Proof[] = [
   {
-    href: '/portfolio#farzana',
+    href: '/portfolio/farzana-classroom',
     name: 'Farzana Classroom',
     label: 'Platform · Schools and education businesses',
     line: 'Classes, families and payments in one place, not three tools stitched together.',
