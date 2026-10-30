@@ -6,6 +6,8 @@
  * Wren Hall, a made-up demo school (its name, crest and figures are demo data,
  * so nothing is blurred and no client is shown); the Ruta screens are the crew
  * app's own App Store pictures, cropped to the screen, with their demo data;
+ * the KCUPG dashboard is a capture of the live kcupgs.com (counts by region,
+ * no people's details);
  * the case-study cards are captures of each live site; and the Delta wording
  * comes from deltadevelopmentproject.com. No invented numbers, no client
  * quotes nobody said.
@@ -31,6 +33,7 @@ export const SHOTS = {
   rutaQueue: { src: '/work/ruta-crew-queue.jpg', alt: 'Ruta’s crew app, the day’s queue of visits with a Clock in button', w: 718, h: 1332 },
   rutaVisit: { src: '/work/ruta-crew-visit.jpg', alt: 'Ruta’s crew app, one visit: the crew, an admin note and an aerial view of the property', w: 718, h: 1332 },
   rutaTime: { src: '/work/ruta-crew-time.jpg', alt: 'Ruta’s crew app, the time clock with the hours worked this week', w: 718, h: 1332 },
+  kcupgDashboard: { src: '/work/kcupg-dashboard.jpg', alt: 'KCUPG’s dashboard: Kansas City’s communities at a glance, with people, mapped places and census areas, and each region by size', w: 1800, h: 1125 },
 } satisfies Record<string, Shot>
 
 /* The Latin learning game's store listings. The addresses are the stores' own
@@ -197,6 +200,11 @@ export const MADE = {
     name: 'The Latin learning game',
     made: 'The design, the iPhone and Android apps, the levels and the leaderboard.',
     gives: 'Daily practice that feels like a game, and a programme on the App Store and Google Play, where new families can find it.',
+  },
+  kcupg: {
+    name: 'KCUPG',
+    made: 'The design, the dashboard, and the map of the city’s communities and the places to meet them.',
+    gives: 'Churches and ministries in Kansas City see which communities live where, and where to meet them, in one place.',
   },
 } satisfies Record<string, { name: string; made: string; gives: string }>
 
