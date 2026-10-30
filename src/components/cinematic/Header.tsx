@@ -12,8 +12,8 @@ const MENU: { title: string; links: { href: string; label: string }[] }[] = [
   {
     title: 'Work',
     links: [
-      { href: '/work/farzana', label: 'Farzana Classroom' },
-      { href: '/my-work', label: 'All work' },
+      { href: '/work', label: 'All work' },
+      { href: '/work#farzana', label: 'Farzana Classroom' },
       { href: '/ruta', label: 'Ruta' },
       { href: '/tap-to-tick', label: 'Tap to Tick' },
       { href: '/latin-game', label: 'Latin learning game' },
@@ -95,7 +95,7 @@ export default function CinematicHeader() {
           Kingdom Sites
         </Link>
         <nav aria-label="Main" className="cn-nav">
-          <Link href="/work/farzana" className="cn-hide-sm">Work</Link>
+          <Link href="/work" className="cn-hide-sm">Work</Link>
           <Link href="/about" className="cn-hide-sm">Studio</Link>
           <Link href="/mission" className="cn-hide-sm">Ministries</Link>
           <Link href={INQUIRE_PATH} className="cn-btn cn-btn-sm">

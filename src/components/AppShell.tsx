@@ -35,9 +35,9 @@ export default function AppShell({
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
     ) : null
 
-  // The home page and the Farzana Classroom case study draw their own
-  // header and footer (CinematicChrome) around their scroll scenes.
-  const ownChrome = pathname === '/' || pathname === '/work/farzana'
+  // The home page and the Work page draw their own header and footer
+  // (CinematicChrome) around their scroll scenes.
+  const ownChrome = pathname === '/' || pathname === '/work'
 
   const standalone =
     ownChrome ||

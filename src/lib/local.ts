@@ -23,13 +23,13 @@ export const AREA_SERVED = [
 export const LOCAL_KEYWORDS = [
   'grow local business Rochester MN',
   'get more clients Rochester Minnesota',
-  'small business marketing Rochester MN',
+  'business marketing Rochester MN',
   'local SEO Rochester MN',
   'website for Rochester MN business',
   'Google Business Profile Rochester',
   'find customers Rochester MN',
   'growing a service business Minnesota',
-  'Rochester MN small business website',
+  'Rochester MN business website',
   'get found on Google Rochester',
   'local business growth Southeast Minnesota',
 ]
