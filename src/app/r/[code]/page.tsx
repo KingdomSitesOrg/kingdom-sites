@@ -59,9 +59,9 @@ export default async function ReferralLinkPage({ params }: { params: Promise<{ c
       <section className="cn-wrap pb-24 sm:pb-32">
         <div className="tile-elevated flex flex-col gap-4 p-7 sm:p-10">
           <p className="cn-kicker">For schools and education</p>
-          <h2 className="cn-display cn-h3">Farzana</h2>
+          <h2 className="cn-display cn-h3">Farzana Classroom</h2>
           <p className="max-w-3xl text-pretty text-[15px] leading-relaxed text-body">
-            Farzana is the education software I build for schools, training organizations and
+            Farzana Classroom is the education software I build for schools, training organizations and
             educational businesses: a proven platform with classes, students and families, payments
             and progress, and the features each school needs built on top. Tell me about your school
             and we will start with a call.
@@ -71,7 +71,7 @@ export default async function ReferralLinkPage({ params }: { params: Promise<{ c
               Tell me about your school
             </Link>
             <a href="https://farzana.app" className="btn-ghost">
-              See Farzana
+              See Farzana Classroom
             </a>
           </div>
         </div>

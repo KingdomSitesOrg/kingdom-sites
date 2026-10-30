@@ -27,10 +27,10 @@ const FEATURES = [
 export default function FarzanaCase() {
   return (
     <CinematicChrome>
-      <Scroll mode="sticky" className="cn-hero" aria-label="Farzana">
+      <Scroll mode="sticky" className="cn-hero" aria-label="Farzana Classroom">
         <div className="cn-wrap pt-16 sm:pt-24">
           <p className="cn-kicker">Case study · Platform</p>
-          <h1 className="cn-display cn-h1 mt-5">Farzana</h1>
+          <h1 className="cn-display cn-h1 mt-5">Farzana Classroom</h1>
           <div className="mt-8 grid gap-10 lg:grid-cols-[1.3fr_1fr]">
             <p className="cn-body max-w-[48ch]">{farzana.line}</p>
             <dl className="grid grid-cols-[max-content_1fr] gap-x-6 gap-y-2 text-[15px]">
@@ -56,7 +56,7 @@ export default function FarzanaCase() {
         <h2 id="idea" className="cn-display cn-h2">One platform. Each school its own.</h2>
         <div className="cn-body space-y-5">
           <p>
-            Schools are alike in the basics and different in everything that matters to them. Farzana starts from a
+            Schools are alike in the basics and different in everything that matters to them. Farzana Classroom starts from a
             platform that already handles the basics, and builds each school’s own features, workflows and integrations
             on top.
           </p>
