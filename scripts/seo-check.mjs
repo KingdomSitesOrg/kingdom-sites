@@ -54,6 +54,31 @@ for (const route of ROUTES) {
       problems.push('structured data does not parse')
     }
   }
+  // JAM Legio is named by its name; the old stand-in names are gone (T-382).
+  const text = html.replace(/<script[^]*?<\/script>/g, '')
+  if (/Latin practice game|A Latin learning game ·/.test(text)) problems.push('still calls JAM Legio by an old name')
+  if (['/', '/portfolio', '/latin-game'].includes(route) && !text.includes('JAM Legio')) problems.push('does not name JAM Legio')
+  // JAM with Latin appears only in the partnership credit (the partner line, and
+  // /latin-game's description and app data), never anywhere else on a page.
+  let outsideCredit = text.replace(/<p class="[^"]*partner[^"]*">[^]*?<\/p>/g, '')
+  if (route === '/latin-game') outsideCredit = outsideCredit.replace(/<meta[^>]*>/g, '')
+  if (/JAM with Latin/i.test(outsideCredit)) problems.push('names JAM with Latin outside the partnership credit')
+  if (route === '/latin-game') {
+    if (!/JAM Legio/.test(title ?? '') || !/Latin game/i.test(title ?? '')) problems.push(`title should carry JAM Legio and "Latin game": ${title}`)
+    if (!/Latin vocabulary game/i.test(meta(html, 'description') ?? '')) problems.push('description should carry "Latin vocabulary game"')
+    const app = [...html.matchAll(/<script type="application\/ld\+json">([^]*?)<\/script>/g)]
+      .map((m) => { try { return JSON.parse(m[1]) } catch { return null } })
+      .find((d) => d?.['@type'] === 'MobileApplication')
+    if (!app) problems.push('no MobileApplication structured data')
+    else {
+      if (app.name !== 'JAM Legio') problems.push(`app data names ${app.name}`)
+      if (app.offers?.price !== '19.99' || app.offers?.priceCurrency !== 'USD') problems.push('app data price is not 19.99 USD')
+      if (app.publisher?.name !== 'JAM with Latin LLC') problems.push('app data publisher is not JAM with Latin LLC')
+      if (![app.creator].flat().some((c) => c?.name === 'Kingdom Sites')) problems.push('app data does not credit Kingdom Sites')
+      if (!(app.downloadUrl ?? []).some((u) => u.includes('apps.apple.com')) || !(app.downloadUrl ?? []).some((u) => u.includes('play.google.com')))
+        problems.push('app data lacks a store link')
+    }
+  }
   if (problems.length) failed++
   console.log(`${problems.length ? 'x ' : 'ok'} ${route}${problems.length ? ': ' + problems.join('; ') : ''}`)
 }
