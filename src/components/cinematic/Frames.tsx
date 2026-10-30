@@ -5,7 +5,8 @@ import type { Shot } from '@/lib/work'
 /* Real screenshots in drawn frames. The files are already sized for the page.
    Every browser window is the same window: three dots, the product's name in
    the address bar, and at most one note (for example "Demo school") at the
-   right end of that same bar. */
+   right end of that same bar. A window further down the page is marked for
+   WarmImages too, so it is fetched a screen or two ahead. */
 export function Browser({ shot, product, note, priority }: { shot: Shot; product: string; note?: string; priority?: boolean }) {
   return (
     <div className="cn-browser">
@@ -16,7 +17,15 @@ export function Browser({ shot, product, note, priority }: { shot: Shot; product
         <span className="cn-browser-url">{product}</span>
         {note ? <span className="cn-browser-note">{note}</span> : null}
       </div>
-      <Image src={shot.src} alt={shot.alt} width={shot.w} height={shot.h} priority={priority} unoptimized />
+      <Image
+        src={shot.src}
+        alt={shot.alt}
+        width={shot.w}
+        height={shot.h}
+        priority={priority}
+        data-warm={priority ? undefined : ''}
+        unoptimized
+      />
     </div>
   )
 }

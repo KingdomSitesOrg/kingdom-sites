@@ -11,7 +11,7 @@ import { LATIN_STORES, PROJECTS, SHOTS } from '@/lib/work'
 export const metadata: Metadata = {
   title: 'Portfolio',
   description:
-    'The portfolio of Kingdom Sites: Farzana Classroom, education software for schools; a Latin learning game for iPhone and Android; contract work on Ruta; and the websites and tools around them.',
+    'The portfolio of Kingdom Sites: Farzana Classroom, education software for schools; a Latin learning game for iPhone and Android; contract work on Ruta; KCUPG, a map of Kansas City’s communities; and the websites and tools around them.',
   alternates: { canonical: '/portfolio' },
 }
 
@@ -19,7 +19,11 @@ const project = (slug: string) => PROJECTS.find((p) => p.slug === slug)!
 const farzana = project('farzana')
 const latin = project('latin-game')
 const ruta = project('ruta')
-const CASES = ['tap-to-tick', 'delta', 'kcupg', 'prayer', 'ministry', 'sign'].map(project)
+const kcupg = project('kcupg')
+const CASES = ['tap-to-tick', 'delta', 'prayer', 'ministry', 'sign'].map(project)
+/* Five cards in complete rows: two halves then three thirds on wide screens,
+   one wide card then two pairs on tablets. */
+const CASE_SPANS = ['md:col-span-2 xl:col-span-3', 'xl:col-span-3', 'xl:col-span-2', 'xl:col-span-2', 'xl:col-span-2']
 
 const PRODUCT = 'Farzana Classroom'
 const DEMO = 'Demo school'
@@ -28,6 +32,7 @@ const SECTIONS = [
   { id: 'farzana', label: 'Farzana Classroom' },
   { id: 'latin-game', label: 'The Latin learning game' },
   { id: 'ruta', label: 'Ruta' },
+  { id: 'kcupg', label: 'KCUPG' },
   { id: 'more', label: 'Websites and tools' },
 ]
 
@@ -84,7 +89,8 @@ export default function Portfolio() {
         </h1>
         <p className="cn-body mt-8 max-w-[46ch]">
           Education software for schools, a Latin game in students’ pockets, and a field-service app for crews.
-          Then the websites and tools around them. Every screen here is from the software itself.
+          Then a map of Kansas City’s communities, and the websites and tools around them. Every screen here is
+          from the software itself.
         </p>
       </section>
 
@@ -228,15 +234,68 @@ export default function Portfolio() {
         </Scroll>
       </section>
 
+      {/* KCUPG: the live site's dashboard and map, side by side. */}
+      <section id="kcupg" tabIndex={-1} aria-labelledby="kcupg-h" className="mt-24 scroll-mt-16 sm:mt-36">
+        <div className="cn-wrap">
+          <p className="cn-kicker">04 · Website</p>
+          <h2 id="kcupg-h" className="cn-display cn-h2 mt-4">KCUPG</h2>
+          <div className="mt-8 grid gap-10 lg:grid-cols-[1.3fr_1fr]">
+            <div>
+              <p className="cn-body max-w-[48ch]">
+                I built KCUPG for people doing local ministry in Kansas City. It shows where the metro’s communities from
+                South Asia, the Middle East, North Africa and the rest of Asia live: how many people, which languages and
+                faiths, and real places to meet them, from restaurants and grocers to places of worship and campuses.
+              </p>
+              <p className="cn-body mt-5 max-w-[48ch]">
+                Each region has its own dashboard, map and assistant. Tap a bar and the map opens with that community
+                already picked. Ask the assistant a question and it answers from the map’s own places and figures, and
+                links what it checked. No sign-in.
+              </p>
+            </div>
+            <div>
+              <Facts
+                rows={[
+                  ['For', kcupg.forWhom],
+                  ['Made', 'Designed and built'],
+                  ['Runs on', kcupg.platforms],
+                  ['Status', kcupg.status],
+                ]}
+              />
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a href={kcupg.href} target="_blank" rel="noopener noreferrer" className="cn-ghost">
+                  kcupgs.com <span aria-hidden="true">↗</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="cn-wrap mt-16 grid gap-14 sm:mt-20 lg:grid-cols-2 lg:gap-10">
+          <Scroll>
+            <div className="cn-reveal">
+              <Browser shot={SHOTS.kcupgDashboard} product="KCUPG" />
+              <h3 className="cn-display cn-h3 mt-8">The dashboard</h3>
+              <p className="cn-body mt-3 max-w-[40ch]">Every region side by side, from census figures, each bar a way into its map.</p>
+            </div>
+          </Scroll>
+          <Scroll>
+            <div className="cn-reveal lg:mt-32">
+              <Browser shot={SHOTS.kcupgMap} product="KCUPG" />
+              <h3 className="cn-display cn-h3 mt-8">The map</h3>
+              <p className="cn-body mt-3 max-w-[40ch]">Places pinned across the metro, filtered by country, kind of place and language.</p>
+            </div>
+          </Scroll>
+        </div>
+      </section>
+
       {/* Everything else, short: a picture, a name, a line. */}
       <section id="more" tabIndex={-1} aria-labelledby="more-h" className="cn-wrap mt-24 scroll-mt-16 sm:mt-36">
-        <p className="cn-kicker">04 · Websites and tools</p>
+        <p className="cn-kicker">05 · Websites and tools</p>
         <h2 id="more-h" className="cn-display cn-h2 mt-4">And the rest.</h2>
-        <div className="mt-14 grid gap-x-8 gap-y-14 md:grid-cols-2 xl:grid-cols-3">
-          {CASES.map((p) => {
+        <div className="mt-14 grid gap-x-8 gap-y-14 md:grid-cols-2 xl:grid-cols-6">
+          {CASES.map((p, i) => {
             const external = p.href!.startsWith('http')
             return (
-              <Scroll key={p.slug}>
+              <Scroll key={p.slug} className={CASE_SPANS[i]}>
                 <a
                   href={p.href}
                   className="cn-reveal cn-case group block"

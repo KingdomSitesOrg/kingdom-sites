@@ -6,6 +6,8 @@
  * Wren Hall, a made-up demo school (its name, crest and figures are demo data,
  * so nothing is blurred and no client is shown); the Ruta screens are the crew
  * app's own App Store pictures, cropped to the screen, with their demo data;
+ * the KCUPG screens are captures of the live kcupgs.com (businesses and places
+ * of worship only, no people's details);
  * the case-study cards are captures of each live site; and the Delta wording
  * comes from deltadevelopmentproject.com. No invented numbers, no client
  * quotes nobody said.
@@ -31,6 +33,8 @@ export const SHOTS = {
   rutaQueue: { src: '/work/ruta-crew-queue.jpg', alt: 'Ruta’s crew app, the day’s queue of visits with a Clock in button', w: 718, h: 1332 },
   rutaVisit: { src: '/work/ruta-crew-visit.jpg', alt: 'Ruta’s crew app, one visit: the crew, an admin note and an aerial view of the property', w: 718, h: 1332 },
   rutaTime: { src: '/work/ruta-crew-time.jpg', alt: 'Ruta’s crew app, the time clock with the hours worked this week', w: 718, h: 1332 },
+  kcupgDashboard: { src: '/work/kcupg-dashboard.jpg', alt: 'KCUPG’s dashboard: Kansas City’s communities at a glance, with people, mapped places and census areas, and each region by size', w: 1800, h: 1125 },
+  kcupgMap: { src: '/work/kcupg-map.jpg', alt: 'KCUPG’s South Asia map of Kansas City: Indian places pinned across the metro, with filters by country and kind of place, and an Ask anything bar', w: 1800, h: 1125 },
 } satisfies Record<string, Shot>
 
 /* The Latin learning game's store listings. The addresses are the stores' own
@@ -119,8 +123,8 @@ export const PROJECTS: Project[] = [
     slug: 'kcupg',
     name: 'KCUPG',
     kind: 'Website',
-    forWhom: 'Kansas City',
-    line: 'A dashboard of Kansas City’s South Asian communities: people, languages and faith on one map.',
+    forWhom: 'Local ministry in Kansas City',
+    line: 'Kansas City’s communities from North Africa to East Asia: people, languages and faiths, and the places to meet them, on one map.',
     platforms: 'Web',
     status: 'Live',
     href: 'https://kcupgs.com',
