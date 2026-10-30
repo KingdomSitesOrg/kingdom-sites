@@ -4,7 +4,7 @@ import "./globals.css";
 import AppShell from "@/components/AppShell";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { ORGANIZATION_LD, SITE_DESCRIPTION, SITE_TITLE } from "@/lib/seo";
+import { ORGANIZATION_LD, SHARE_URL, SITE_DESCRIPTION, SITE_TITLE } from "@/lib/seo";
 import {
   SERVICE_CITY,
   SERVICE_LAT,
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     template: "%s | Kingdom Sites",
   },
   description: DESCRIPTION,
-  metadataBase: new URL("https://kingdom-sites.com"),
+  metadataBase: new URL(SHARE_URL),
   /* Deliberately no site-wide `alternates.canonical`. A canonical set here is
      inherited by every page that does not set its own, which told search
      engines that pages like /about and /my-work were the home page and had
