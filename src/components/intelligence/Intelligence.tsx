@@ -35,6 +35,10 @@ type Handoff = 'closed' | 'form' | 'confirm' | 'sending' | 'sent'
 const SUGGESTIONS = ['What has Thomas built?', 'What would an app cost?', 'What is AI consultation?']
 const MAX_CHARS = 500
 
+/** Fired by site search when nothing on the site matches (T-391): the chat opens and asks exactly that. */
+export const ASK_EVENT = 'ki:ask'
+export type AskRequest = { question: string }
+
 /** Phones (and a phone on its side): the panel is a bottom sheet. Keep in step with intelligence.css. */
 const PHONE = '(max-width: 759px), (max-height: 520px)'
 /** Wide touch screens (iPad, a fold phone opened out): a wide panel on the visible part of the screen. Keep in step with intelligence.css. */
@@ -148,6 +152,22 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
   useEffect(() => {
     if (handoff === 'sent' && !inline && !window.matchMedia(NO_AUTOFOCUS).matches) input.current?.focus({ preventScroll: true })
   }, [handoff])
+
+  // Site search found nothing: open and ask what they typed (the chat built into
+  // the Get started page answers there, where no floating one is). One already
+  // waiting for an answer, or full, keeps the question in the box instead.
+  const fromSearch = useRef<(question: string) => void>(() => {})
+  fromSearch.current = (question) => {
+    setOpen(true)
+    if (inline) root.current?.scrollIntoView({ block: 'center' })
+    if (busy || full) setDraft(question.slice(0, MAX_CHARS))
+    else ask(question.slice(0, MAX_CHARS))
+  }
+  useEffect(() => {
+    const on = (e: Event) => fromSearch.current((e as CustomEvent<AskRequest>).detail.question)
+    window.addEventListener(ASK_EVENT, on)
+    return () => window.removeEventListener(ASK_EVENT, on)
+  }, [])
 
   // Keep the newest words in view as they come in, unless the reader has
   // scrolled up to read something earlier.
