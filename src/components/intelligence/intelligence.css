@@ -136,7 +136,7 @@ html.ki-lock { overflow: hidden; }
 .ki-form textarea::placeholder { color: var(--dim); }
 .ki-ask { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 999px; border: 0; background: var(--fg); color: var(--bg); cursor: pointer; transition: opacity 0.2s, transform 0.2s; }
 .ki-ask:hover:not(:disabled) { transform: translateY(-1px); }
-.ki-ask:disabled { opacity: 0.35; cursor: default; }
+.ki-ask:disabled { opacity: 0.35; cursor: not-allowed; }
 .ki-ask:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
 .ki-full { margin: 8px 12px 0; display: flex; justify-content: center; }
 
@@ -144,7 +144,7 @@ html.ki-lock { overflow: hidden; }
 .ki-link { min-height: 32px; padding: 0; background: none; border: 0; color: var(--fg); font: inherit; text-decoration: underline; text-decoration-color: rgba(239, 235, 227, 0.35); text-underline-offset: 3px; cursor: pointer; }
 .ki-link:hover { text-decoration-color: currentColor; }
 .ki-link:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; border-radius: 4px; }
-.ki-link:disabled { opacity: 0.5; cursor: default; }
+.ki-link:disabled { opacity: 0.5; cursor: not-allowed; }
 
 /* ---------- Send to Thomas ---------- */
 .ki-card { display: grid; gap: 8px; padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); font-size: 14px; animation: ki-word 0.3s ease both; }
@@ -161,7 +161,7 @@ html.ki-lock { overflow: hidden; }
 .ki-card-actions { display: flex; align-items: center; gap: 16px; margin-top: 6px; }
 .ki-btn { display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border-radius: 999px; border: 0; background: var(--fg); color: var(--bg); font: inherit; font-weight: 600; font-size: 14px; cursor: pointer; transition: background-color 0.2s; }
 .ki-btn:hover:not(:disabled) { background: #fff; }
-.ki-btn:disabled { opacity: 0.6; cursor: default; }
+.ki-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 .ki-btn:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
 
 /* ---------- Phones: a compact bottom sheet on the visible part of the screen (T-378) ----------

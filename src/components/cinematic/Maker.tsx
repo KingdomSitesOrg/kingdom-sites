@@ -14,16 +14,20 @@ export function Credit({ id, title }: { id: Key; title?: string }) {
     <Scroll className="cn-wrap">
       <div className={`cn-reveal cn-credit${title ? '' : ' cn-credit-sm'}`}>
         {title ? <p className="cn-display cn-h2">{title}</p> : null}
-        <dl className="cn-credit-list">
-          <div>
-            <dt>What I made</dt>
-            <dd>{m.made}</dd>
-          </div>
-          <div>
-            <dt>What it does for them</dt>
-            <dd>{m.gives}</dd>
-          </div>
-        </dl>
+        {m.text ? (
+          <p className="cn-credit-text">{m.text}</p>
+        ) : (
+          <dl className="cn-credit-list">
+            <div>
+              <dt>What I made</dt>
+              <dd>{m.made}</dd>
+            </div>
+            <div>
+              <dt>What it does for them</dt>
+              <dd>{m.gives}</dd>
+            </div>
+          </dl>
+        )}
       </div>
     </Scroll>
   )

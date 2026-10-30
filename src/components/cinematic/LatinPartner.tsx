@@ -10,7 +10,7 @@ export default function LatinPartner({ className = 'cn-partner' }: { className?:
       <a href="https://jamwithlatin.com" target="_blank" rel="noopener noreferrer">
         JAM with Latin
       </a>
-      , with graphics by JAM with Latin’s own designers.
+      . Graphics by their own designers.
     </p>
   )
 }
