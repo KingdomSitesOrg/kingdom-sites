@@ -175,6 +175,49 @@ export const OFFER = [
     title: 'The software behind them',
     body: 'Sign-in, payments, class lists, schedules, a dashboard for the office. The parts that make a site or an app actually run your work.',
   },
+  {
+    title: 'AI consultation',
+    body: 'Helping you use AI well: where it fits in your work, setting it up, and building it into the tools you already use.',
+    href: '/ai-tooling',
+  },
+] satisfies { title: string; body: string; href?: string }[]
+
+/**
+ * The maker's credit for each product the home page shows: what I made, and
+ * what it does for the people who use it (T-372). Outcomes only, no numbers:
+ * none of these products has a measured figure to quote yet.
+ */
+export const MADE = {
+  farzana: {
+    name: 'Farzana Classroom',
+    made: 'The design, the web app, sign-in, payments and the teacher’s desk.',
+    gives: 'Families find a class, try it and pay online at any hour, and the school sees every student on one screen.',
+  },
+  latin: {
+    name: 'The Latin learning game',
+    made: 'The design, the iPhone and Android apps, the levels and the leaderboard.',
+    gives: 'Daily practice that feels like a game, and a programme on the App Store and Google Play, where new families can find it.',
+  },
+} satisfies Record<string, { name: string; made: string; gives: string }>
+
+/** The business case, said plainly, before the closing call (T-372). */
+export const PAYS = [
+  {
+    title: 'Take the money online.',
+    body: 'Customers, families and members sign up, book and pay at any hour, without anyone at a desk to take it.',
+  },
+  {
+    title: 'Give the hours back.',
+    body: 'The forms, lists and reminders kept by hand move into one place that keeps itself up to date.',
+  },
+  {
+    title: 'Grow without the paperwork growing.',
+    body: 'A business, a school or a church can serve more people with the same team when the routine work runs itself.',
+  },
+  {
+    title: 'Own what you grow on.',
+    body: 'Your name, your customers and your data, on software shaped to how you already work.',
+  },
 ]
 
 export const AUDIENCES = [
