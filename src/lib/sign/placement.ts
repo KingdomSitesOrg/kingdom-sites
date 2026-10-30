@@ -385,8 +385,11 @@ function mergeAudit(
 }
 
 /**
- * Merge field arrays so a stale save that reintroduces a defaultish Provider/Client
- * box cannot snap a custom placement back.
+ * Merge field arrays by line id, so a signer can have several lines (T-377: the
+ * JAM contract has two each) and a stale save cannot snap a line back:
+ * - the same line in both: keep the better placement (custom beats factory default);
+ * - an old factory-default line (id `fld_<signer>_sig`, still at a default spot) is
+ *   dropped when that signer has another line, as the one-line merge used to.
  */
 export function mergeFields(
   previous: FieldPlacement[],
@@ -396,26 +399,66 @@ export function mergeFields(
   allowIncoming: boolean,
 ): FieldPlacement[] {
   const fieldMap = new Map<string, FieldPlacement>()
-  for (const f of previous) {
-    if (f.type === 'signature') fieldMap.set(f.signerId, f)
-    else fieldMap.set(`${f.type}:${f.signerId}:${f.id}`, f)
-  }
+  for (const f of previous) fieldMap.set(f.id, f)
   if (allowIncoming) {
     for (const f of incoming) {
-      if (f.type === 'signature') {
-        const prev = fieldMap.get(f.signerId)
+      const prev = fieldMap.get(f.id)
+      if (prev && prev.type === 'signature' && f.type === 'signature' && prev.signerId === f.signerId) {
         const slot = signerIndex.get(f.signerId) ?? 0
-        if (prev) {
-          fieldMap.set(f.signerId, preferFieldPlacement(prev, f, slot, pageCount))
-        } else {
-          fieldMap.set(f.signerId, f)
-        }
+        fieldMap.set(f.id, preferFieldPlacement(prev, f, slot, pageCount))
       } else {
-        fieldMap.set(`${f.type}:${f.signerId}:${f.id}`, f)
+        fieldMap.set(f.id, f)
       }
     }
   }
-  return Array.from(fieldMap.values())
+  return dropStaleFactoryDefaults(Array.from(fieldMap.values()), signerIndex, pageCount)
+}
+
+function dropStaleFactoryDefaults(
+  fields: FieldPlacement[],
+  signerIndex: Map<string, number>,
+  pageCount: number,
+): FieldPlacement[] {
+  return fields.filter((f) => {
+    if (f.type !== 'signature' || f.id !== `fld_${f.signerId}_sig`) return true
+    const hasOther = fields.some(
+      (o) => o !== f && o.type === 'signature' && o.signerId === f.signerId,
+    )
+    if (!hasOther) return true
+    return !isDefaultishPlacement(f, signerIndex.get(f.signerId) ?? 0, pageCount)
+  })
+}
+
+/** A new line's id: unique, so a signer can have several. */
+export function newLineId(signerId: string): string {
+  const rand = Math.random().toString(36).slice(2, 10)
+  return `fld_${signerId}_${Date.now().toString(36)}${rand}`
+}
+
+/** Signature lines that belong to one signer, in reading order (page, then top to bottom). */
+export function linesForSigner(
+  envelope: Pick<Envelope, 'fields'>,
+  signerId: string,
+): FieldPlacement[] {
+  return envelope.fields
+    .filter((f) => f.type === 'signature' && f.signerId === signerId)
+    .sort((a, b) => a.page - b.page || a.y - b.y || a.x - b.x)
+}
+
+/**
+ * The signer's lines not in `signedFieldIds`. A signer must sign every one of
+ * their lines; an older page that sends no list is accepted only for a signer
+ * with a single line.
+ */
+export function unsignedLines(
+  envelope: Pick<Envelope, 'fields'>,
+  signerId: string,
+  signedFieldIds: unknown,
+): FieldPlacement[] {
+  const lines = linesForSigner(envelope, signerId)
+  if (!Array.isArray(signedFieldIds)) return lines.length <= 1 ? [] : lines
+  const signed = new Set(signedFieldIds.filter((id): id is string => typeof id === 'string'))
+  return lines.filter((f) => !signed.has(f.id))
 }
 
 /**
@@ -424,7 +467,19 @@ export function mergeFields(
  * - wipe signatures / completed PDF
  * - replace newer placements with a stale fields array after signing progressed
  */
-export function mergeEnvelope(incoming: Envelope, previous: Envelope | null): Envelope {
+export type MergeOptions = {
+  /**
+   * The sender's draft save is the whole set of lines: a line removed in the
+   * editor stays removed. Applies only while the stored envelope is still a draft.
+   */
+  replaceFields?: boolean
+}
+
+export function mergeEnvelope(
+  incoming: Envelope,
+  previous: Envelope | null,
+  opts: MergeOptions = {},
+): Envelope {
   if (!previous) return incoming
 
   const status =
@@ -448,13 +503,10 @@ export function mergeEnvelope(incoming: Envelope, previous: Envelope | null): En
 
   const basePageCount = Math.max(previous.pageCount || 0, incoming.pageCount || 0)
   const allowIncoming = STATUS_RANK[previous.status] <= STATUS_RANK[incoming.status]
-  const fields = mergeFields(
-    previous.fields,
-    incoming.fields,
-    signerIndex,
-    basePageCount || 1,
-    allowIncoming,
-  )
+  const replace = Boolean(opts.replaceFields) && previous.status === 'draft' && incoming.status === 'draft'
+  const fields = replace
+    ? incoming.fields
+    : mergeFields(previous.fields, incoming.fields, signerIndex, basePageCount || 1, allowIncoming)
   const maxFieldPage = fields.reduce((m, f) => Math.max(m, f.page || 0), 0)
   const pageCount = Math.max(basePageCount, maxFieldPage)
 

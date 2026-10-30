@@ -84,6 +84,8 @@ export default function SignerClient({ token }: { token: string }) {
   const [typedName, setTypedName] = useState('')
   const [editing, setEditing] = useState(false)
   const [busy, setBusy] = useState(false)
+  // Lines this signer has signed on the page so far; all of them before Finish.
+  const [signedIds, setSignedIds] = useState<string[]>([])
   const [done, setDone] = useState(false)
   const [focusPage, setFocusPage] = useState(1)
 
@@ -129,7 +131,11 @@ export default function SignerClient({ token }: { token: string }) {
     return `/api/sign/envelopes/${view.envelopeId}/pdf?token=${encodeURIComponent(token)}&which=${which}&download=1`
   }, [view, token])
 
-  async function submit() {
+  function submit() {
+    return submitWith(signedIds)
+  }
+
+  async function submitWith(ids: string[]) {
     if (!view) return
     const name = typedName.trim()
     if (!name) {
@@ -145,7 +151,7 @@ export default function SignerClient({ token }: { token: string }) {
       const res = await fetch(`/api/sign/s/${token}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ typedName: name, signaturePng }),
+        body: JSON.stringify({ typedName: name, signaturePng, signedFieldIds: ids }),
       })
       const data = await res.json().catch(() => null)
       if (!res.ok || !data?.ok) {
@@ -193,22 +199,45 @@ export default function SignerClient({ token }: { token: string }) {
       ]
   const partyById = new Map(parties.map((p) => [p.id, p]))
   const sigFields = view.fields.filter((f) => f.type === 'signature')
-  const myFields = sigFields.filter((f) => f.signerId === view.signer.id)
+  // In reading order, so "next line" walks down the document.
+  const myFields = sigFields
+    .filter((f) => f.signerId === view.signer.id)
+    .sort((a, b) => a.page - b.page || a.y - b.y || a.x - b.x)
+  const remaining = myFields.filter((f) => !signedIds.includes(f.id))
+  const nextLine = remaining[0]
   const role = (view.signer.role || 'Signer').trim() || 'Signer'
   const others = parties.filter((p) => p.id !== view.signer.id && p.status !== 'signed')
+
+  function showLine(id: string, page: number) {
+    setFocusPage(page)
+    window.setTimeout(() => {
+      document
+        .querySelector(`[data-field-id="${id}"]`)
+        ?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }, 50)
+  }
 
   function startSigning() {
     setError('')
     setEditing(true)
-    const first = myFields[0]
-    if (!first) return
-    setFocusPage(first.page)
-    window.setTimeout(() => {
-      document
-        .querySelector(`[data-field-id="${first.id}"]`)
-        ?.scrollIntoView({ behavior: 'smooth', block: 'center' })
-    }, 50)
+    if (nextLine) showLine(nextLine.id, nextLine.page)
   }
+
+  /** Put the typed signature on one line, then bring the next one into view. */
+  function signLine(id: string) {
+    if (!typedName.trim()) {
+      setEditing(true)
+      setError('Type your full name first.')
+      return
+    }
+    setError('')
+    const next = signedIds.includes(id) ? signedIds : [...signedIds, id]
+    setSignedIds(next)
+    const after = myFields.find((f) => !next.includes(f.id))
+    if (after) showLine(after.id, after.page)
+  }
+
+  const allMineSigned = remaining.length === 0
 
   return (
     <div className="space-y-6 pb-56 lg:pb-0">
@@ -261,9 +290,9 @@ export default function SignerClient({ token }: { token: string }) {
                         data-field-id={f.id}
                         aria-label={done ? 'Your signature' : 'Sign here'}
                         disabled={done}
-                        onClick={startSigning}
+                        onClick={() => (editing ? signLine(f.id) : startSigning())}
                         className={`absolute z-[5] overflow-hidden rounded-md border-2 text-left ${
-                          done
+                          done || signedIds.includes(f.id)
                             ? 'border-emerald-600'
                             : editing
                               ? 'border-accent ring-4 ring-accent/30'
@@ -273,10 +302,10 @@ export default function SignerClient({ token }: { token: string }) {
                       >
                         <SignatureLineBox
                           role={partyRole}
-                          name={partyName || view.signer.name}
-                          signed={done}
+                          name={done ? partyName || view.signer.name : typedName.trim() || view.signer.name}
+                          signed={done || signedIds.includes(f.id)}
                           signedDate={dateText}
-                          hint="Sign here"
+                          hint={editing && typedName.trim() ? 'Tap to sign here' : 'Sign here'}
                         />
                       </button>
                     )
@@ -354,11 +383,31 @@ export default function SignerClient({ token }: { token: string }) {
               <button
                 type="button"
                 disabled={busy || !typedName.trim()}
-                onClick={submit}
+                onClick={() => {
+                  if (myFields.length > 1 && nextLine) signLine(nextLine.id)
+                  else if (myFields.length <= 1 && nextLine) {
+                    // One line: the button signs it and finishes in one go.
+                    setSignedIds([nextLine.id])
+                    void submitWith([nextLine.id])
+                  } else void submit()
+                }}
                 className="btn-primary w-full"
               >
-                {busy ? 'Signing…' : 'Sign document'}
+                {busy
+                  ? 'Signing…'
+                  : myFields.length > 1 && !allMineSigned
+                    ? `Sign on page ${nextLine!.page} (${signedIds.length + 1} of ${myFields.length})`
+                    : myFields.length > 1
+                      ? 'Finish signing'
+                      : 'Sign document'}
               </button>
+              {myFields.length > 1 ? (
+                <p className="text-xs text-muted">
+                  You sign in {myFields.length} places: page{' '}
+                  {myFields.map((f) => f.page).join(', page ')}. {signedIds.length} of{' '}
+                  {myFields.length} signed.
+                </p>
+              ) : null}
               <p className="text-xs text-muted">
                 By signing you agree your typed name is your signature on this document, as{' '}
                 {role}.
@@ -380,7 +429,9 @@ export default function SignerClient({ token }: { token: string }) {
               <h2 className="text-base font-semibold text-ink">Read it, then sign</h2>
               <p className="text-sm text-body">
                 {myFields.length
-                  ? `Your line is on page ${myFields[0]!.page}. It takes about a minute.`
+                  ? myFields.length > 1
+                    ? `You sign in ${myFields.length} places: page ${myFields.map((f) => f.page).join(', page ')}. It takes about a minute.`
+                    : `Your line is on page ${myFields[0]!.page}. It takes about a minute.`
                   : 'It takes about a minute.'}
               </p>
               <button type="button" onClick={startSigning} className="btn-primary w-full">

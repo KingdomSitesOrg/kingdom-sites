@@ -1,10 +1,10 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import type { Envelope, FieldPlacement } from '@/lib/sign/types'
-import { isEnvelopeLocked, mergeSignatureFields, needsCompletedPdf, placementAtPointer, signersWithoutLine, snapPlacementXY, type PageRect } from '@/lib/sign/placement'
+import { isEnvelopeLocked, linesForSigner, mergeSignatureFields, needsCompletedPdf, newLineId, placementAtPointer, signersWithoutLine, snapPlacementXY, type PageRect } from '@/lib/sign/placement'
 import PdfScrollViewer from './PdfScrollViewer'
 import SignatureLineBox from './SignatureLineBox'
 import SignSteps from './SignSteps'
@@ -191,6 +191,16 @@ export default function EnvelopeEditor({ initial }: Props) {
     if (isEnvelopeLocked(envelopeRef.current.status)) return
     setSigners((prev) => [...prev, { name: '', email: '', role: 'Signer' }])
     setDirty(true)
+  }
+
+  function removeLine(fieldId: string) {
+    if (isEnvelopeLocked(envelopeRef.current.status)) return
+    const next = fieldsRef.current.filter((f) => f.id !== fieldId)
+    fieldsEpochRef.current += 1
+    fieldsRef.current = next
+    setFields(next)
+    setDirty(true)
+    if (activeFieldId === fieldId) setActiveFieldId(null)
   }
 
   function removeSignerRow(idx: number) {
@@ -391,8 +401,9 @@ export default function EnvelopeEditor({ initial }: Props) {
       .filter((f) => f.type === 'signature' && f.signerId !== placeSignerId)
       .map((f) => ({ x: f.x, y: f.y }))
     const snapped = snapPlacementXY(x - width / 2, y - height / 2, width, height, peers)
+    // Each click adds a line: a signer can sign in several places.
     const nextField: FieldPlacement = {
-      id: `fld_${placeSignerId}_sig`,
+      id: newLineId(placeSignerId),
       type: 'signature',
       signerId: placeSignerId,
       page: pageNum,
@@ -401,12 +412,7 @@ export default function EnvelopeEditor({ initial }: Props) {
       width,
       height,
     }
-    const nextFields = [
-      ...fieldsRef.current.filter(
-        (f) => !(f.signerId === placeSignerId && f.type === 'signature'),
-      ),
-      nextField,
-    ]
+    const nextFields = [...fieldsRef.current, nextField]
     fieldsEpochRef.current += 1
     fieldsRef.current = nextFields
     setFields(nextFields)
@@ -421,7 +427,7 @@ export default function EnvelopeEditor({ initial }: Props) {
     setMessage(
       nextMissing
         ? `${signerLabel(placeSignerId)}’s line is on page ${pageNum}. Now click where ${nextMissing.name} signs.`
-        : `${signerLabel(placeSignerId)}’s line is on page ${pageNum}. Every line is placed. Drag one to adjust it, or send.`,
+        : `${signerLabel(placeSignerId)}’s line is on page ${pageNum}. Everyone has a line. Use Add a line if someone signs in more than one place.`,
     )
   }
 
@@ -653,7 +659,12 @@ export default function EnvelopeEditor({ initial }: Props) {
       const res = await fetch(`/api/sign/s/${live.token}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ typedName: name, signaturePng }),
+        // In person, the one signature goes on every one of this signer's lines.
+        body: JSON.stringify({
+          typedName: name,
+          signaturePng,
+          signedFieldIds: linesForSigner(env, live.id).map((f) => f.id),
+        }),
       })
       const data = await res.json().catch(() => null)
       if (!res.ok || !data?.ok) {
@@ -1035,9 +1046,8 @@ export default function EnvelopeEditor({ initial }: Props) {
             </div>
             {signers.map((s, idx) => {
               const live = s.id ? envelope.signers.find((x) => x.id === s.id) : undefined
-              const line = s.id
-                ? fields.find((f) => f.type === 'signature' && f.signerId === s.id)
-                : undefined
+              const lines = s.id ? linesForSigner({ fields }, s.id) : []
+              const line = lines[0]
               const signed = live?.status === 'signed'
               return (
                 <div key={s.id || `new-${idx}`} className="space-y-2 rounded-xl border border-line p-3">
@@ -1084,7 +1094,11 @@ export default function EnvelopeEditor({ initial }: Props) {
                         Waiting
                       </span>
                     ) : line ? (
-                      <span className="text-xs text-muted">Line on page {line.page}</span>
+                      <span className="text-xs text-muted">
+                        {lines.length === 1
+                          ? `Line on page ${line.page}`
+                          : `${lines.length} lines: page ${lines.map((f) => f.page).join(', ')}`}
+                      </span>
                     ) : s.id ? (
                       <span className="text-xs font-medium text-warm">No line yet</span>
                     ) : (
@@ -1096,7 +1110,7 @@ export default function EnvelopeEditor({ initial }: Props) {
                         className={`btn-ghost-sm ${placeSignerId === s.id ? 'is-active' : ''}`}
                         onClick={() => setPlaceSignerId(placeSignerId === s.id ? null : s.id!)}
                       >
-                        {placeSignerId === s.id ? 'Placing…' : line ? 'Move line' : 'Place line'}
+                        {placeSignerId === s.id ? 'Placing…' : line ? 'Add a line' : 'Place line'}
                       </button>
                     ) : null}
                     {!signed && !completed && line && live ? (
@@ -1229,8 +1243,8 @@ export default function EnvelopeEditor({ initial }: Props) {
                           : undefined)
                       : undefined
                   return (
+                    <Fragment key={f.id}>
                     <button
-                      key={f.id}
                       type="button"
                       data-field-id={f.id}
                       aria-label={`${signerRole(f.signerId)} signature line for ${live?.name || signerLabel(f.signerId)}`}
@@ -1268,6 +1282,21 @@ export default function EnvelopeEditor({ initial }: Props) {
                         }
                       />
                     </button>
+                    {!locked ? (
+                      <button
+                        type="button"
+                        data-field-id={f.id}
+                        aria-label={`Remove this line for ${live?.name || signerLabel(f.signerId)}`}
+                        title="Remove this line"
+                        onPointerDown={(e) => e.stopPropagation()}
+                        onClick={() => removeLine(f.id)}
+                        className="absolute z-[11] flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-surface text-sm leading-none text-body shadow-sm hover:text-warm"
+                        style={{ left: `${(f.x + f.width) * 100}%`, top: `${f.y * 100}%` }}
+                      >
+                        ×
+                      </button>
+                    ) : null}
+                    </Fragment>
                   )
                 })
             }
