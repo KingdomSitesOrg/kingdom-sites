@@ -183,6 +183,11 @@
 .cn-credit-list dt, .cn-for { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); font-weight: 500; }
 .cn-credit-list dd { margin: 6px 0 0; font-size: clamp(1.1rem, 1.5vw, 1.4rem); line-height: 1.4; color: var(--fg); max-width: 40ch; }
 
+/* The Latin game's partner line (LatinPartner.tsx): small, under the game's credits. */
+.cn-partner { margin: 28px 0 0; font-size: 14px; line-height: 1.5; color: var(--dim); max-width: 60ch; }
+.cn-partner a { color: var(--fg); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 4px; }
+.cn-partner a:hover { text-decoration-color: currentColor; }
+
 /* Each chapter's line on what it does for the people who use it. */
 .cn-for { display: block; margin-bottom: 6px; }
 .cn-gives { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 1rem; line-height: 1.5; color: var(--fg); max-width: 38ch; }

@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import CinematicChrome from '@/components/cinematic/Chrome'
 import DotNav from '@/components/cinematic/DotNav'
 import { Browser, Phone } from '@/components/cinematic/Frames'
+import LatinPartner from '@/components/cinematic/LatinPartner'
 import Scroll from '@/components/cinematic/Scroll'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { LATIN_STORES, PROJECTS, SHOTS } from '@/lib/work'
@@ -158,6 +159,7 @@ export default function Portfolio() {
                   See the game <span aria-hidden="true">→</span>
                 </Link>
               </div>
+              <LatinPartner />
             </div>
             <Facts
               rows={[
