@@ -30,9 +30,9 @@ export const SHOTS = {
   latinBoard: { src: '/latin-game/leaderboard.jpg', alt: 'A Latin learning game, the leaderboard', w: 660, h: 1434 },
   tapOverview: { src: '/tap-to-tick/overview.jpg', alt: 'Tap to Tick, a month of spending at a glance', w: 644, h: 1400 },
   tapLog: { src: '/tap-to-tick/log.jpg', alt: 'Tap to Tick, logging a purchase', w: 644, h: 1400 },
-  rutaQueue: { src: '/work/ruta-crew-queue.jpg', alt: 'Ruta’s crew app, the day’s queue of visits with a Clock in button', w: 718, h: 1332 },
-  rutaVisit: { src: '/work/ruta-crew-visit.jpg', alt: 'Ruta’s crew app, one visit: the crew, an admin note and an aerial view of the property', w: 718, h: 1332 },
-  rutaTime: { src: '/work/ruta-crew-time.jpg', alt: 'Ruta’s crew app, the time clock with the hours worked this week', w: 718, h: 1332 },
+  rutaQueue: { src: '/work/ruta-crew-queue.jpg', alt: 'Ruta’s crew app, the day’s visits in order, with the next one in progress', w: 660, h: 1434 },
+  rutaVisit: { src: '/work/ruta-crew-visit.jpg', alt: 'Ruta’s crew app, one visit: the job, its details and the Complete button', w: 660, h: 1434 },
+  rutaTime: { src: '/work/ruta-crew-time.jpg', alt: 'Ruta’s crew app, the time clock with the hours worked this week', w: 660, h: 1434 },
   kcupgDashboard: { src: '/work/kcupg-dashboard.jpg', alt: 'KCUPG’s dashboard: Kansas City’s communities at a glance, with people, mapped places and census areas, and each region by size', w: 1800, h: 1125 },
 } satisfies Record<string, Shot>
 
