@@ -2,7 +2,7 @@ import { promises as fs } from 'fs'
 import path from 'path'
 import { put, list, del, get } from '@vercel/blob'
 import type { Envelope, EnvelopeSummary } from './types'
-import { mergeEnvelope, signersWithoutLine } from './placement'
+import { mergeEnvelope, signersWithoutLine, type MergeOptions } from './placement'
 
 const LOCAL_ROOT = path.join(process.cwd(), '.data', 'sign')
 
@@ -140,7 +140,7 @@ function signedPreserved(expected: Envelope, actual: Envelope): boolean {
   return true
 }
 
-export async function saveEnvelope(envelope: Envelope): Promise<Envelope> {
+export async function saveEnvelope(envelope: Envelope, opts: MergeOptions = {}): Promise<Envelope> {
   // Read-merge-write so concurrent admin autosave cannot wipe a magic-link signature
   // or snap placements. Keep this fast: Blob get-after-put is often stale, and the
   // old 4-round updatedAt verify burned maxDuration so Client sign never stuck.
@@ -155,7 +155,7 @@ export async function saveEnvelope(envelope: Envelope): Promise<Envelope> {
     if (mid) previous = mergeEnvelope(mid, previous)
     const latest = await getEnvelope(incoming.id)
     if (latest) previous = mergeEnvelope(latest, previous)
-    merged = mergeEnvelope(incoming, previous)
+    merged = mergeEnvelope(incoming, previous, opts)
     const json = JSON.stringify(merged, null, 2)
     if (blobEnabled()) {
       await put(`sign/envelopes/${merged.id}.json`, json, {
@@ -180,7 +180,7 @@ export async function saveEnvelope(envelope: Envelope): Promise<Envelope> {
     // Do NOT require updatedAt equality — stale Blob reads fail that check even when
     // our write landed, which used to force 4 full RMW cycles and timeout Client POST.
     if (statusMatch && (fieldsMatch || signedOk)) {
-      const best = mergeEnvelope(merged, verify)
+      const best = mergeEnvelope(merged, verify, opts)
       await syncTokenIndexes(best, previous)
       return best
     }

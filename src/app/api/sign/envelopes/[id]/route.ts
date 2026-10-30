@@ -150,7 +150,8 @@ export async function PATCH(request: Request, ctx: Ctx) {
 
     envelope = appendAudit(envelope, 'updated', session.email)
     // Return merged blob state so admin UI does not flash pending over a durable Client signature.
-    envelope = await saveEnvelope(envelope)
+    // A draft save that sends its lines is the whole set, so a removed line stays removed.
+    envelope = await saveEnvelope(envelope, { replaceFields: Array.isArray(body.fields) })
     return NextResponse.json({ ok: true, envelope })
   } catch (error) {
     if (error instanceof AuthError) {

@@ -4,7 +4,7 @@ import { appendAudit } from '@/lib/sign/audit'
 import { emailCompletedEnvelope, stampAndPersistCompleted } from '@/lib/sign/complete'
 import { emailConfigured } from '@/lib/sign/email'
 import { signerPublicView } from '@/lib/sign/pdf'
-import { isWellFormedSignerToken } from '@/lib/sign/placement'
+import { isWellFormedSignerToken, unsignedLines } from '@/lib/sign/placement'
 import type { Envelope } from '@/lib/sign/types'
 import {
   findEnvelopeBySignerToken,
@@ -93,7 +93,22 @@ export async function POST(request: Request, ctx: Ctx) {
       signaturePng?: string
       typedName?: string
       dateText?: string
+      signedFieldIds?: unknown
     } | null
+
+    // Every one of this signer's lines must be signed, not just the first.
+    const missingLines = unsignedLines(envelope, signerId, body?.signedFieldIds)
+    if (missingLines.length) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: `Sign all your lines first: ${missingLines.length} still to sign (page ${missingLines
+            .map((f) => f.page)
+            .join(', page ')}).`,
+        },
+        { status: 400 },
+      )
+    }
 
     let signaturePng = body?.signaturePng?.trim() || ''
     const typedName = body?.typedName?.trim() || ''
