@@ -80,8 +80,13 @@ export function today(now = new Date()): string {
   return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit' }).format(now)
 }
 
+/* A Vercel preview deployment shows scheduled articles too, so they can be
+   read on a preview link before their day (T-392). Production and local builds
+   keep them hidden until their date. */
+const SHOW_SCHEDULED = process.env.VERCEL_ENV === 'preview'
+
 export function isPublished(a: Article, now = new Date()): boolean {
-  return a.published <= today(now)
+  return SHOW_SCHEDULED || a.published <= today(now)
 }
 
 /** A section's published articles, newest first (same day: the order in the index file). */
