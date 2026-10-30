@@ -1,0 +1,51 @@
+/* The header's menu (Header.tsx). It hangs from the bottom of the sticky
+   header (the header's blur makes it the frame a fixed panel would measure
+   from, so the panel is placed against it rather than the screen). */
+.cn-menu-btn { display: inline-grid; place-items: center; width: 44px; height: 44px; margin-right: -10px; border-radius: 999px; color: var(--fg); transition: background-color 0.2s; }
+.cn-menu-btn:hover { background: rgba(239, 235, 227, 0.08); }
+.cn-menu-btn:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+
+/* Two lines that slide together and cross. */
+.cn-menu-icon { position: relative; width: 22px; height: 12px; }
+.cn-menu-icon i { position: absolute; left: 0; right: 0; height: 1.5px; border-radius: 2px; background: currentColor; transition: transform 0.45s cubic-bezier(0.7, 0, 0.2, 1), top 0.45s cubic-bezier(0.7, 0, 0.2, 1); }
+.cn-menu-icon i:first-child { top: 0; }
+.cn-menu-icon i:last-child { top: calc(100% - 1.5px); transform-origin: center; }
+[data-menu='open'] .cn-menu-icon i { top: calc(50% - 0.75px); }
+[data-menu='open'] .cn-menu-icon i:first-child { transform: rotate(45deg); }
+[data-menu='open'] .cn-menu-icon i:last-child { transform: rotate(-45deg); }
+
+/* The panel drops like a curtain from under the header. */
+.cn-menu {
+  position: absolute; top: 100%; left: 0; right: 0;
+  height: calc(100dvh - 60px); overflow-y: auto; overscroll-behavior: contain;
+  background: var(--bg); border-top: 1px solid var(--line);
+  clip-path: inset(0 0 100% 0); visibility: hidden;
+  transition: clip-path 0.55s cubic-bezier(0.7, 0, 0.2, 1), visibility 0s linear 0.55s;
+}
+[data-menu='open'] .cn-menu { clip-path: inset(0 0 0 0); visibility: visible; transition: clip-path 0.65s cubic-bezier(0.7, 0, 0.2, 1), visibility 0s; }
+html.cn-menu-lock { overflow: hidden; }
+
+.cn-menu-in { display: flex; flex-direction: column; justify-content: space-between; gap: 48px; min-height: 100%; padding-block: clamp(28px, 6vh, 72px) calc(32px + env(safe-area-inset-bottom, 0px)); }
+.cn-menu-groups { display: grid; gap: 36px; }
+@media (min-width: 760px) { .cn-menu-groups { grid-template-columns: 1fr 1fr; gap: 48px; max-width: 1100px; } }
+.cn-menu .cn-menu-link { display: inline-block; padding-block: 2px; font-size: clamp(2.1rem, 4.6vw, 4.2rem); line-height: 1.04; color: var(--fg); transition: color 0.2s, transform 0.3s ease; }
+.cn-menu-link:hover { transform: translateX(6px); }
+.cn-menu-link[aria-current='page'] { color: var(--dim); }
+.cn-menu-link:focus-visible { outline: 2px solid var(--fg); outline-offset: 4px; border-radius: 4px; }
+.cn-menu-groups:hover .cn-menu-link:not(:hover) { color: var(--dim); }
+
+.cn-menu-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; border-top: 1px solid var(--line); padding-top: 24px; }
+.cn-menu-small { display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: 14px; color: var(--dim); }
+.cn-menu-small a { padding-block: 6px; transition: color 0.2s; }
+.cn-menu-small a:hover { color: var(--fg); }
+
+/* Each line rises in after the one before. */
+.cn-menu-rise { opacity: 0; transform: translateY(28px); transition: opacity 0.3s ease, transform 0.3s ease; }
+[data-menu='open'] .cn-menu-rise { opacity: 1; transform: none; transition: opacity 0.6s ease calc(0.18s + var(--i, 0) * 0.035s), transform 0.7s cubic-bezier(0.2, 0.7, 0.1, 1) calc(0.18s + var(--i, 0) * 0.035s); }
+
+@media (prefers-reduced-motion: reduce) {
+  .cn-menu, [data-menu='open'] .cn-menu { clip-path: none; transition: none; }
+  .cn-menu-rise, [data-menu='open'] .cn-menu-rise { transform: none; transition: none; }
+  [data-menu='open'] .cn-menu-rise { opacity: 1; }
+  .cn-menu-icon i, .cn-menu-link { transition: none; }
+}

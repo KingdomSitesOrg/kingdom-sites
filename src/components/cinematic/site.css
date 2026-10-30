@@ -1,0 +1,105 @@
+/* The rest of the studio's pages in the home page's cinematic look (T-365).
+   The home page sets its colours on `.cn` (cinematic.css); these pages are
+   wrapped in `.cn-site` instead, which carries the same values and also points
+   the site's colour names (ink, body, canvas, surface, line, accent…) at them,
+   so every page's existing classes turn dark without a rewrite. The rules
+   here only touch elements inside `.cn-site`; the home page never has it. */
+.cn-site {
+  /* Same values as `.cn` in cinematic.css. */
+  --bg: #0b0b0c;
+  --bg-2: #141416;
+  --fg: #efebe3;
+  --dim: #8e8a82;
+  --line: rgba(239, 235, 227, 0.12);
+  --gutter: clamp(16px, 3.4vw, 48px);
+
+  --color-canvas: var(--bg);
+  --color-surface: var(--bg-2);
+  --color-surface-2: #1d1d20;
+  --color-ink: var(--fg);
+  --color-body: #cfcbc3;
+  --color-muted: var(--dim);
+  --color-line: var(--line);
+  --color-line-strong: rgba(239, 235, 227, 0.22);
+  /* No blue of our own: actions are the warm white, as on the home page. */
+  --color-accent: var(--fg);
+  --color-accent-hover: #fff;
+  --color-warm: #e3a283;
+  --color-dark: var(--bg-2);
+
+  background: var(--bg);
+  color: var(--color-body);
+  font-family: var(--cn-sans), system-ui, sans-serif;
+  font-variation-settings: 'wdth' 100;
+  min-height: 100dvh;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Overscroll past either end shows the page's own black, not the old light canvas. */
+html:has(.cn-site) { background: #0b0b0c; }
+
+/* A headline's second, highlighted half goes quiet instead of blue. */
+.cn-site :is(h1, h2) .text-accent { color: var(--dim); }
+
+/* The old light-page wash goes; the dark is the backdrop. */
+.cn-site .hero-wash::before { display: none; }
+
+/* Cards: a slightly lifted panel with a hairline, no drop shadow. */
+.cn-site :is(.tile, .tile-elevated) { background: var(--bg-2); border-color: var(--line); border-radius: 18px; box-shadow: none; }
+.cn-site .band-dark { background: var(--bg); color: var(--color-body); }
+
+/* Buttons: the home page's pills. */
+.cn-site :is(.btn-primary, .btn-sm) { background: var(--fg); color: var(--bg); box-shadow: none; font-weight: 600; }
+.cn-site :is(.btn-primary, .btn-sm):hover { background: #fff; }
+.cn-site .btn-primary { min-height: 48px; padding: 0 22px; }
+.cn-site .btn-ghost { background: transparent; color: var(--fg); border-color: var(--line); min-height: 48px; padding: 0 20px; }
+.cn-site .btn-ghost:hover { border-color: rgba(239, 235, 227, 0.4); }
+.cn-site .btn-ghost-sm { background: transparent; color: var(--fg); border-color: var(--line); }
+.cn-site .btn-ghost-sm.is-active { color: var(--bg); }
+.cn-site :is(.btn-danger, .btn-danger-sm) { background: transparent; }
+
+/* Links in running text: warm white with a quiet underline, as on the home page. */
+.cn-site .link-accent { color: var(--fg); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 4px; }
+.cn-site .link-accent:hover { text-decoration-color: currentColor; }
+
+/* Small labels read like the home page's kickers. */
+.cn-site .eyebrow { font-size: 13px; font-weight: 500; letter-spacing: 0.08em; color: var(--dim); }
+
+/* Form fields: the dark panel, a clear edge when focused. */
+.cn-site :is(input, textarea, select):focus-visible { border-color: rgba(239, 235, 227, 0.55); }
+.cn-site ::placeholder { color: #6f6b64; }
+.cn-site .rating-slider:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 5px rgba(239, 235, 227, 0.2); }
+.cn-site .rating-slider:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 5px rgba(239, 235, 227, 0.2); }
+
+/* The referral page's bank-account card is a drawn screen: it stays light,
+   the way the home page's real screenshots do. */
+.cn-site .deposit-card {
+  --color-surface: #ffffff;
+  --color-line: rgba(21, 24, 29, 0.09);
+  --color-ink: #15181d;
+  --color-body: #575d67;
+  --color-muted: #838a94;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.07), 0 40px 120px rgba(0, 0, 0, 0.6);
+}
+
+/* A page's opening rises in once as it loads. Nothing moves for people who
+   ask for less motion. */
+@keyframes cn-rise {
+  from { opacity: 0; transform: translateY(24px); }
+}
+.cn-rise { animation: cn-rise 0.8s cubic-bezier(0.2, 0.7, 0.1, 1) backwards; }
+.cn-rise-2 { animation-delay: 0.12s; }
+.cn-rise-3 { animation-delay: 0.24s; }
+@media (prefers-reduced-motion: reduce) {
+  .cn-rise { animation: none; }
+}
+
+/* Footer: the home page's line, with the rest of the site's pages above it. */
+.cn-site-foot-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 32px; font-size: 14px; }
+@media (min-width: 760px) { .cn-site-foot-links { display: flex; flex-wrap: wrap; gap: 10px 32px; } }
+.cn-site-foot-links a { color: #cfcbc3; padding-block: 4px; transition: color 0.2s; }
+.cn-site-foot-links a:hover { color: var(--fg); }
+
+/* Drawn phone screens (Ruta's) sit in the same frame as the real screenshots. */
+.cn-site .cn-phone > div { border-radius: clamp(21px, 2.9vw, 38px); overflow: hidden; }

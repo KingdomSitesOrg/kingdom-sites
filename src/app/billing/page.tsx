@@ -12,20 +12,19 @@ export const metadata: Metadata = {
 export default function Billing() {
   return (
     <div className="w-full overflow-x-hidden">
-      <section className="hero-wash px-5 pb-16 pt-16 text-center sm:px-8 sm:pt-24">
-        <div className="mx-auto max-w-2xl">
-          <h1 className="mt-5 text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
-            Pay Kingdom Sites
-          </h1>
-          <p className="mx-auto mt-6 text-pretty text-base leading-relaxed text-body sm:text-lg">
+      <section className="cn-wrap pb-14 pt-16 sm:pt-24">
+        <div className="max-w-3xl">
+          <p className="cn-kicker cn-rise">Billing</p>
+          <h1 className="cn-display cn-h2 cn-rise cn-rise-2 mt-5">Pay Kingdom Sites</h1>
+          <p className="cn-body cn-rise cn-rise-3 mt-6 max-w-[46ch] text-pretty">
             Monthly retainers bill the same card every month after they sign up once.
             One-time invoices are a separate button.
           </p>
         </div>
       </section>
 
-      <section aria-label="Pay" className="px-5 pb-20 sm:px-8">
-        <div className="mx-auto flex max-w-xl flex-col gap-6">
+      <section aria-label="Pay" className="cn-wrap pb-24 sm:pb-32">
+        <div className="cn-rise cn-rise-3 grid gap-6 md:grid-cols-2">
           <div className="tile-elevated p-7 sm:p-9">
             <h2 className="text-lg font-semibold tracking-tight text-ink">Monthly retainer</h2>
             <p className="mt-3 text-[15px] leading-relaxed text-body">
