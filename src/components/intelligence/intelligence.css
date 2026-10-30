@@ -17,10 +17,15 @@
 .ki-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
 /* ---------- The square ---------- */
+/* Narrow screens (T-383): smaller, so it covers less of the text, and lifted clear of
+   Safari's floating buttons. iOS Safari's + / tabs buttons and address pill float over
+   the bottom of the page and rise about 40px into it (measured on the iPhone Duo folded),
+   and no CSS or JS value reports them: the safe-area inset there is 0 and the visual
+   viewport is the full window. So the lift is that height, on top of the home-bar inset. */
 .ki-square {
   position: fixed; z-index: 35;
-  right: var(--edge); bottom: max(16px, env(safe-area-inset-bottom, 0px));
-  width: 120px; height: 120px; padding: 12px;
+  right: var(--edge); bottom: calc(max(12px, env(safe-area-inset-bottom, 0px)) + 52px);
+  width: 104px; height: 104px; padding: 10px;
   display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end; gap: 3px;
   text-align: left; cursor: pointer; overflow: hidden; isolation: isolate;
   /* Solid: a see-through square lets the hero's tilted window show through. */
@@ -32,12 +37,13 @@
 }
 .ki-square:hover { transform: translateY(-2px); border-color: rgba(239, 235, 227, 0.32); }
 .ki-square:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
-.ki-square .ki-spark { position: absolute; top: 12px; left: 12px; width: 15px; height: 15px; }
-.ki-square-title { font-variation-settings: 'wdth' 72; font-weight: 600; font-size: 18px; letter-spacing: -0.01em; line-height: 1; }
-.ki-square-sub { font-size: 11px; line-height: 1.3; color: var(--dim); }
+.ki-square .ki-spark { position: absolute; top: 10px; left: 10px; width: 14px; height: 14px; }
+.ki-square-title { font-variation-settings: 'wdth' 72; font-weight: 600; font-size: 16px; letter-spacing: -0.01em; line-height: 1; }
+.ki-square-sub { font-size: 10.5px; line-height: 1.25; color: var(--dim); }
 @media (min-width: 760px) {
   .ki { --edge: 24px; }
-  .ki-square { bottom: 24px; width: 152px; height: 152px; padding: 16px; gap: 5px; }
+  /* Clear of the home bar on an iPad or an opened-out fold phone; 24px on a desktop (no inset). */
+  .ki-square { bottom: max(24px, calc(env(safe-area-inset-bottom, 0px) + 12px)); width: 152px; height: 152px; padding: 16px; gap: 5px; }
   .ki-square .ki-spark { top: 16px; left: 16px; width: 16px; height: 16px; }
   .ki-square-title { font-size: 23px; }
   .ki-square-sub { font-size: 12.5px; }
@@ -206,6 +212,33 @@ html.ki-lock { overflow: hidden; }
   .ki-card { padding: 12px; }
 }
 
+/* ---------- Wide touch screens (T-383): iPad, a fold phone opened out ----------
+   Open, it is a wide panel across most of the screen over a dimmed page, with a large X.
+   Like the phone sheet it sits on the visual viewport (--ki-vh, --ki-bottom from
+   Intelligence.tsx), so with the keyboard up the whole panel, X and question box
+   included, stays in the part of the screen that is showing. Keep the media query in step
+   with WIDE_TOUCH in Intelligence.tsx. A desktop (a mouse) keeps the corner panel. */
+@media (min-width: 760px) and (min-height: 521px) and (hover: none) and (pointer: coarse) {
+  .ki { --ki-vh: 100dvh; --ki-top: 0px; --ki-bottom: 0px; --ki-gap: max(24px, calc(env(safe-area-inset-bottom, 0px) + 12px)); }
+  .ki:not(.ki--inline)[data-open] .ki-backdrop {
+    display: block; position: fixed; z-index: 59; left: 0; right: 0; top: var(--ki-top); height: var(--ki-vh);
+    background: rgba(0, 0, 0, 0.55); touch-action: none; animation: ki-fade 0.2s ease;
+  }
+  .ki:not(.ki--inline) .ki-panel {
+    z-index: 60; left: 0; right: 0; top: auto; margin-inline: auto;
+    width: min(calc(100vw - 48px), 1000px);
+    bottom: calc(var(--ki-bottom) + var(--ki-gap));
+    height: min(680px, calc(var(--ki-vh) - 2 * var(--ki-gap)));
+    transform-origin: 50% 100%;
+  }
+  .ki:not(.ki--inline)[data-keys] .ki-panel { bottom: calc(var(--ki-bottom) + 8px); height: min(680px, calc(var(--ki-vh) - 16px)); }
+  .ki:not(.ki--inline) .ki-head { align-items: center; padding: 14px 14px 14px 24px; }
+  .ki:not(.ki--inline) .ki-close { width: 52px; height: 52px; margin-top: 0; background: rgba(239, 235, 227, 0.08); color: var(--fg); }
+  .ki:not(.ki--inline) .ki-close svg { width: 22px; height: 22px; }
+  .ki:not(.ki--inline) .ki-log { padding: 20px 24px 8px; font-size: 16px; }
+  .ki:not(.ki--inline) .ki-form { margin: 8px 16px 0; }
+}
+
 /* ---------- Built into a page (the Get started page): always open, in the page's flow ---------- */
 .ki--inline { min-width: 0; }
 .ki--inline .ki-panel {
@@ -226,6 +259,14 @@ html.ki-lock { overflow: hidden; }
   .ki--inline .ki-head { padding: 8px 14px; }
   .ki--inline .ki-log { flex: 1; }
   .ki--inline .ki-foot { padding-bottom: 8px; }
+}
+
+/* Get started side by side on an iPad (760-1023px, T-383): the chat runs down to the bottom of
+   the note beside it, so the two columns end level and every suggestion shows. */
+@media (min-width: 760px) and (max-width: 1023px) {
+  .ki-fill { flex: 1; display: flex; flex-direction: column; }
+  .ki-fill .ki--inline { flex: 1; display: flex; flex-direction: column; }
+  .ki-fill .ki--inline .ki-panel { flex: 1; height: auto; min-height: 340px; max-width: none; }
 }
 
 @keyframes ki-fade { from { opacity: 0; } to { opacity: 1; } }
