@@ -248,7 +248,7 @@ export default function Portfolio() {
                     {p.kind} · {p.forWhom}
                   </p>
                   <h3 className="cn-display cn-h3 cn-case-name mt-2">
-                    <CaseTitle name={p.name} external={external} />
+                    <CaseTitle name={p.name} />
                   </h3>
                   <p className="cn-body cn-case-line mt-3 text-[1.02rem]">{p.line}</p>
                 </a>
