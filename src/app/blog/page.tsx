@@ -2,7 +2,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { SITE_OG_IMAGE, SHARE_URL } from '@/lib/seo'
 import { getAllPosts, formatPostDate } from '@/lib/blog'
-import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
+import { Close } from '@/components/cinematic/Audience'
 
 export const metadata: Metadata = {
  title: 'Blog — growing local businesses in Rochester, MN',
@@ -43,6 +43,11 @@ export default function BlogIndex() {
       anyone whose next customer starts with a search. Local events when they matter; plain
       advice when they do not.
      </p>
+     <p className="cn-rise cn-rise-3 mt-5 text-[15px]">
+      <Link href="/rochester-mn" className="link-accent">
+       Websites and apps for Rochester businesses
+      </Link>
+     </p>
     </div>
    </section>
 
@@ -71,20 +76,13 @@ export default function BlogIndex() {
      ))}
     </div>
 
-    <div className="mx-auto mt-28 max-w-3xl text-center sm:mt-36">
-     <h2 className="cn-display cn-h3 text-balance">
-      Building a product that needs an owner?
-     </h2>
-     <p className="mx-auto mt-3 max-w-lg text-pretty text-[15px] leading-relaxed text-body">
-      I build mobile apps and keep them going. If you have an idea, start a conversation.
-     </p>
-     <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-      <Link href={INQUIRE_PATH} className="btn-primary">
-       {INQUIRE_CTA}
-      </Link>
-     </div>
-    </div>
    </section>
+
+   <Close
+    title="Your business could be next."
+    body="Tell me what you have in mind: a website, an app, or help putting AI to work. You get a plan and a quote once I understand it."
+    secondary={{ href: '/rochester-mn', label: 'Websites and apps for Rochester businesses' }}
+   />
   </div>
  )
 }

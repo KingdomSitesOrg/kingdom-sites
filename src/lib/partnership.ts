@@ -1,9 +1,10 @@
 /**
  * The commercial offer, in one place.
  *
- * Mobile apps and the systems behind them. No published prices anywhere on the
- * site — every project is quoted once the work is understood. The goal of every
- * page is one thing: start a conversation.
+ * Mobile apps and the systems behind them. The site gives rough price ranges
+ * (PRICE_GUIDE, Thomas's OK 2026-10-30, T-387) and nothing more exact: every
+ * project is quoted once the work is understood. The goal of every page is one
+ * thing: start a conversation.
  */
 
 import { INQUIRE_CTA, INQUIRE_PATH } from './contact'
@@ -35,6 +36,39 @@ export const PROCESS = {
 
 export const QUOTE_LINE = 'You and I talk first. You get a quote once I understand the project.'
 
+/* Rough sizes, the same ranges the chat gives (content/intelligence.md). Never a
+   quote: the exact price comes after we talk. */
+export const PRICE_GUIDE = {
+  title: 'Rough prices',
+  rows: [
+    { what: 'Most websites', price: 'around $1,000 to $2,000' },
+    { what: 'Simpler apps', price: 'around $3,000 to $5,000' },
+    { what: 'Larger systems', price: 'around $6,000 to $10,000 and up' },
+  ],
+  note: 'You get an exact quote after we talk.',
+}
+
+/* Why one engineer instead of an agency (T-387), in Thomas's words from the
+   About page where he has said them already. */
+export const ONE_ENGINEER = {
+  kicker: 'Why one engineer',
+  title: 'One engineer, not an agency.',
+  points: [
+    {
+      title: 'You talk to the person who builds it.',
+      body: 'When you write to me, you get me. No account manager, no salesperson passing notes along.',
+    },
+    {
+      title: 'No handoffs.',
+      body: 'I design, build, ship and maintain everything myself, so nothing gets lost between a designer, a developer and a project manager.',
+    },
+    {
+      title: 'I stay after launch.',
+      body: 'I build and maintain the app, so don’t worry about maintenance. Fixes, phone updates and the next version come to me too.',
+    },
+  ],
+}
+
 export const AI_CONSULT = {
   name: 'AI consultation',
   homeTitle: 'I also do AI consultation.',
@@ -50,6 +84,46 @@ export const AI_CONSULT = {
   inAppBody:
     'If your product needs AI inside it — answers from your data, actions with a person in the loop — I build that into the app itself.',
 }
+
+/* The AI consultation page, past the opening (T-387): who it is for, what a
+   session covers, what people leave with, how it starts. */
+export const AI_CONSULT_FOR = {
+  title: 'For businesses, teams and anyone curious.',
+  body: 'Business owners who want AI to bring in more revenue and save time. Teams who keep doing the same work every week. Developers who want an assistant that knows their codebase. And anyone who has tried a chat box and wants to know what else is there.',
+}
+
+export const AI_CONSULT_SESSION = [
+  {
+    title: 'Your work first',
+    body: 'You tell me what you do each week and where the time goes. We pick the one or two jobs where AI will help most.',
+  },
+  {
+    title: 'Set up on your own tools',
+    body: 'We set it up together, on the accounts and tools you already use, so it keeps working after we finish.',
+  },
+  {
+    title: 'Past the chat box',
+    body: 'Loops, goals, connectors, skills and .md instruction files, as far as your work needs them.',
+  },
+  {
+    title: 'Your questions',
+    body: 'What AI is good at, where it goes wrong, and what to keep out of it.',
+  },
+]
+
+export const AI_CONSULT_LEAVE = [
+  'A setup that runs on your own accounts, not a demo on mine.',
+  'Instruction files that tell your assistant how you work, written down so you can change them.',
+  'At least one real job already running with AI, and the next ones to try.',
+]
+
+export const AI_CONSULT_PROOF = {
+  title: 'I use it every day, and build it in.',
+  body: 'I have built AI into this website, Ruta and Farzana. The chat in the corner of this page answers questions about my work. I also run my own work with the same tools I teach: loops, skills and instruction files.',
+}
+
+export const AI_CONSULT_START =
+  'Book a session at the top of this page, or start a conversation. Tell me who you are and what you want to get out of AI. I will reply to set a time and shape the session around you.'
 
 export const INQUIRY = {
   heading: 'Tell me what you have in mind.',

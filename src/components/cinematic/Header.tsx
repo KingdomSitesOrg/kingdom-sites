@@ -30,6 +30,14 @@ const MENU: { title: string; links: { href: string; here?: string; label: string
       { href: '/refer', label: 'Refer someone' },
     ],
   },
+  {
+    title: 'Who I work with',
+    links: [
+      { href: '/rochester-mn', label: 'Rochester' },
+      { href: '/churches', label: 'Churches' },
+      { href: '/schools', label: 'Schools' },
+    ],
+  },
 ]
 
 const SMALL_LINKS = [
