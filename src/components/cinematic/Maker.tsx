@@ -5,7 +5,7 @@ type Key = keyof typeof MADE
 
 /**
  * The maker's credit (T-372): what I made, and what it does for the people
- * who use it. With a `title`, it is the page's one big beat ("I built this.",
+ * who use it. With a `title`, it is the page's one big beat ("What I built",
  * once, after the first product); without one, just the two credit lines.
  */
 export function Credit({ id, title }: { id: Key; title?: string }) {
