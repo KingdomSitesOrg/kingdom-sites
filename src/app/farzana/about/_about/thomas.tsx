@@ -14,12 +14,12 @@ import {
 import { Eyebrow, Reveal } from "../../_home/shared";
 import { buttonClass } from "../../_ui/button";
 import { cn } from "../../_ui/cn";
-import { JAM_LEGIO_URL, MISSION_URL } from "../../_ui/contact";
+import { LATIN_GAME_URL, MISSION_URL } from "../../_ui/contact";
 import { Diamond } from "../../_ui/diamond";
 
 /**
  * Thomas's own story: a Classical Conversations graduate who learned Latin
- * the hard way and built Jam Legio because of it, with three Latin words to
+ * the hard way and built a Latin game because of it, with three Latin words to
  * try beside it. Then the ministry Thomas and his wife Monisha want to do,
  * which Farzana fuels, and the studio behind it.
  */
@@ -37,19 +37,19 @@ export function Thomas() {
             Latin, and it was hard.
           </p>
           <p className="text-pretty text-lg text-muted">
-            So I built Jam Legio, a Roman-legion adventure that teaches
-            classical Latin, now on the App Store. Farzana comes from the same
+            So I built a Latin learning game, a Roman-legion adventure that
+            teaches classical Latin, now on the App Store. Farzana comes from the same
             place: wanting students to become learned, and wanting a teacher’s
             week to be about teaching.
           </p>
           <a
-            href={JAM_LEGIO_URL}
+            href={LATIN_GAME_URL}
             target="_blank"
             rel="noopener noreferrer"
             className={buttonClass({ variant: "outline", className: "bg-surface" })}
           >
             <AppleLogoIcon weight="bold" />
-            Get Jam Legio on the App Store
+            Get the game on the App Store
           </a>
         </Reveal>
         <Reveal delay={100}>
@@ -138,18 +138,18 @@ function LatinQuiz() {
             {score} of {WORDS.length}
           </p>
           <p className="text-pretty text-muted">
-            That’s the idea behind Jam Legio: Latin a day at a time, until it
+            That’s the idea behind the game: Latin a day at a time, until it
             sticks.
           </p>
           <div className="flex flex-wrap gap-2">
             <a
-              href={JAM_LEGIO_URL}
+              href={LATIN_GAME_URL}
               target="_blank"
               rel="noopener noreferrer"
               className={buttonClass({ size: "sm" })}
             >
               <AppleLogoIcon weight="bold" />
-              Get Jam Legio
+              Get the game
             </a>
             <button type="button" onClick={again} className={buttonClass({ size: "sm", variant: "ghost" })}>
               <ArrowClockwiseIcon weight="bold" />

@@ -50,9 +50,9 @@
 .cn-browser { --r: 14px; position: relative; border-radius: var(--r); overflow: hidden; isolation: isolate; background: #1b1b1e; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.07), 0 40px 120px rgba(0, 0, 0, 0.6); }
 .cn-browser-bar { display: flex; align-items: center; gap: 8px; height: 34px; padding: 0 14px; background: #1b1b1e; }
 .cn-browser-bar i { width: 10px; height: 10px; border-radius: 50%; background: #3a3a3e; }
-.cn-browser-url { margin-left: 14px; flex: 1; max-width: 340px; height: 22px; border-radius: 6px; background: #26262a; font-size: 12px; color: var(--dim); display: flex; align-items: center; padding: 0 10px; }
+.cn-browser-url { margin-left: 14px; flex: 1; min-width: 0; max-width: 340px; height: 22px; border-radius: 6px; background: #26262a; font-size: 12px; color: var(--dim); display: flex; align-items: center; padding: 0 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .cn-browser img { display: block; width: 100%; height: auto; border-radius: 0 0 var(--r) var(--r); clip-path: inset(0 round 0 0 var(--r) var(--r)); }
-.cn-browser-tag { position: absolute; top: 6px; right: 12px; height: 22px; display: inline-flex; align-items: center; padding: 0 10px; border-radius: 999px; border: 1px solid var(--line); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #cfcbc3; font-weight: 500; }
+.cn-browser-note { margin-left: auto; flex: none; height: 22px; display: inline-flex; align-items: center; padding: 0 10px; border-radius: 999px; border: 1px solid var(--line); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #cfcbc3; font-weight: 500; white-space: nowrap; }
 .cn-phone { --r: clamp(26px, 3.4vw, 46px); --b: clamp(5px, 0.6vw, 9px); position: relative; border-radius: var(--r); padding: var(--b); background: #050505; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 30px 80px rgba(0, 0, 0, 0.6); }
 .cn-phone img { display: block; width: 100%; height: auto; border-radius: calc(var(--r) - var(--b)); clip-path: inset(0 round calc(var(--r) - var(--b))); }
 

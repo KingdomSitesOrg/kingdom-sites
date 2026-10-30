@@ -55,7 +55,7 @@ export default function Image() {
             Declensions, verb endings, and sentences you can actually read — one city at a time.
           </div>
           <div style={{ display: 'flex', marginTop: 16, fontSize: 26, color: 'rgba(255,255,255,0.45)' }}>
-            Built for Jam with Latin · kingdom-sites.com/latin-game
+            For iPhone and Android · kingdom-sites.com/latin-game
           </div>
         </div>
       </div>

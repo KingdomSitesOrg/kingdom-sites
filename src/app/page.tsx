@@ -24,41 +24,43 @@ export const metadata: Metadata = {
   twitter: { card: 'summary_large_image', title: 'Kingdom Sites — Made to be used. Made to be yours.', description: DESCRIPTION },
 }
 
-/* The Farzana Classroom story, one chapter per screen. JAM Classes is not open
-   yet: its screens have the class details blurred, and say so. On a phone the
-   story is told in three screens; `deskOnly` chapters show on wider screens. */
-const CHAPTERS: { shot: Shot; url?: string; kicker: string; title: string; body: string; soon?: boolean; deskOnly?: boolean }[] = [
+/* The Farzana Classroom story, one chapter per screen. The school screens show
+   Wren Hall, a made-up demo school, and say so in the window's note. On a phone
+   the story is told in three screens; `deskOnly` chapters show on wider screens. */
+const PRODUCT = 'Farzana Classroom'
+const DEMO = 'Demo school'
+const CHAPTERS: { shot: Shot; note?: string; kicker: string; title: string; body: string; deskOnly?: boolean }[] = [
   {
     shot: SHOTS.farzanaSite,
-    url: 'farzana.app',
     kicker: 'Farzana Classroom',
     title: 'A platform for schools.',
     body: 'Education software for schools, training organizations and education businesses. One proven platform, with each school’s own features built on top.',
   },
   {
-    shot: SHOTS.jamClasses,
-    kicker: 'JAM Classes',
+    shot: SHOTS.farzanaClasses,
+    note: DEMO,
+    kicker: 'A school on it',
     title: 'A school, built on it.',
-    body: 'An online school for a homeschool Latin programme, built on Farzana Classroom: classes, families and payments in one place.',
-    soon: true,
+    body: 'Each school gets its own site, name and crest, with its classes, families and payments in one place. Shown here with a demo school.',
   },
   {
-    shot: SHOTS.jamClass,
-    kicker: 'JAM Classes',
+    shot: SHOTS.farzanaClass,
+    note: DEMO,
+    kicker: 'For families',
     title: 'A page for every class.',
-    body: 'Families see what each class is and who it is for, try a sample, and sign up.',
-    soon: true,
+    body: 'Families see what each class is and who it is for, try a free sample, and sign up.',
     deskOnly: true,
   },
   {
-    shot: SHOTS.jamAdminHome,
+    shot: SHOTS.farzanaDesk,
+    note: DEMO,
     kicker: 'For the teacher',
     title: 'The teacher’s desk.',
-    body: 'Students, who was active this week, the month’s sales and every class, on one screen.',
-    soon: true,
+    body: 'How many students, who was active this week, and who just joined, on one screen.',
   },
   {
     shot: SHOTS.farzanaStudents,
+    note: DEMO,
     kicker: 'For the office',
     title: 'Every student, findable.',
     body: 'Search by name. Filter by class, by progress, by when they joined.',
@@ -82,7 +84,7 @@ export default function Home() {
           <div className="mt-8 grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-end">
             <p className="cn-body max-w-[46ch]">
               Kingdom Sites designs and builds websites and apps for churches, schools and small businesses, then looks
-              after them once they are live. Every screen on this page is a real one.
+              after them once they are live. Every screen on this page is from software we built.
             </p>
             <div className="flex flex-wrap gap-3 lg:justify-end">
               <Link href={INQUIRE_PATH} className="cn-btn">
@@ -96,17 +98,17 @@ export default function Home() {
         </div>
         <Scroll prop="--q" className="cn-wrap cn-stage relative mt-14 pb-32 sm:mt-20 sm:pb-48">
           <div className="cn-tilt mx-auto max-w-[1180px]">
-            <Browser shot={SHOTS.jamAdminHome} tag="Coming soon" priority />
+            <Browser shot={SHOTS.farzanaDesk} product={PRODUCT} note={DEMO} priority />
           </div>
           <div className="cn-tilt-phone absolute bottom-0 right-[6%] w-[30%] max-w-[250px] sm:right-[8%] sm:w-[19%]">
-            <Phone shot={SHOTS.jamClassPhone} priority />
+            <Phone shot={SHOTS.farzanaClassPhone} eager />
           </div>
         </Scroll>
       </Scroll>
 
       {/* The Farzana story: the stage holds still, the screens change by chapter. */}
       <div id="farzana" className="scroll-mt-16" />
-      <Scroll mode="sticky" steps={CHAPTERS.length} className="cn-scene" aria-label="Farzana Classroom and JAM Classes">
+      <Scroll mode="sticky" steps={CHAPTERS.length} className="cn-scene" aria-label="Farzana Classroom">
         <div style={{ height: `${CHAPTERS.length * 85}svh` }} className="cn-scene-h">
           <div className="cn-pin">
             <div className="cn-wrap w-full">
@@ -117,7 +119,6 @@ export default function Home() {
                       <div key={c.title} className={`cn-chapter cn-c${i}`}>
                         <p className="cn-kicker">
                           {String(i + 1).padStart(2, '0')} · {c.kicker}
-                          {c.soon ? <span className="cn-soon">Coming soon</span> : null}
                         </p>
                         <h2 className="cn-display cn-h3 mt-4">{c.title}</h2>
                         <p className="cn-body mt-5 max-w-[36ch]">{c.body}</p>
@@ -133,7 +134,7 @@ export default function Home() {
                 <div className="cn-screens">
                   {CHAPTERS.map((c, i) => (
                     <div key={c.title} className={`cn-screen cn-c${i}`}>
-                      <Browser shot={c.shot} url={c.url} tag={c.soon ? 'Coming soon' : undefined} />
+                      <Browser shot={c.shot} product={PRODUCT} note={c.note} />
                     </div>
                   ))}
                 </div>
@@ -142,10 +143,9 @@ export default function Home() {
                 <div className="cn-stack">
                   {CHAPTERS.filter((c) => !c.deskOnly).map((c, i) => (
                     <div key={c.title}>
-                      <Browser shot={c.shot} url={c.url} tag={c.soon ? 'Coming soon' : undefined} />
+                      <Browser shot={c.shot} product={PRODUCT} note={c.note} />
                       <p className="cn-kicker mt-6">
                         {String(i + 1).padStart(2, '0')} · {c.kicker}
-                        {c.soon ? <span className="cn-soon">Coming soon</span> : null}
                       </p>
                       <h2 className="cn-display cn-h3 mt-3">{c.title}</h2>
                       <p className="cn-body mt-3">{c.body}</p>
@@ -164,14 +164,14 @@ export default function Home() {
         </Link>
       </div>
 
-      {/* Jam with Latin: phones at different depths. */}
+      {/* The Latin learning game: phones at different depths. */}
       <section aria-labelledby="latin" className="mt-32 sm:mt-44">
         <div className="cn-wrap grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-end">
           <h2 id="latin" className="cn-display cn-h2">
             In students’ pockets.
           </h2>
           <p className="cn-body max-w-[44ch]">
-            Jam with Latin is a Latin game for iPhone and Android. Students travel the Roman world city by city, answer case
+            A Latin learning game for iPhone and Android. Students travel the Roman world city by city, answer case
             challenges and race each other on the leaderboard.{' '}
             <Link href="/latin-game" className="text-[var(--fg)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-current">
               See the game
