@@ -13,12 +13,13 @@ export const metadata: Metadata = {
 
 export default function About() {
   return (
-    <div className="mx-auto max-w-5xl px-5 pb-16 pt-16 sm:px-8 sm:pb-24 sm:pt-24">
-      <div className="max-w-2xl">
-        <h1 className="mt-4 text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
+    <div className="cn-wrap pb-16 pt-16 sm:pb-24 sm:pt-24">
+      <div className="max-w-3xl">
+        <p className="cn-kicker cn-rise">The studio</p>
+        <h1 className="cn-display cn-h2 cn-rise cn-rise-2 mt-5 text-balance">
           About <span className="text-accent">Kingdom Sites.</span>
         </h1>
-        <p className="mt-5 text-pretty text-base leading-relaxed text-body sm:text-lg">
+        <p className="cn-body cn-rise cn-rise-3 mt-6 max-w-[46ch] text-pretty">
           Design, build, ship, and maintain — one engineer, on purpose, so you always know who you are
           talking to.
         </p>
@@ -27,7 +28,7 @@ export default function About() {
       {/* Thomas — full bio, same voice as before */}
       <section
         aria-label="Thomas Klein"
-        className="mt-14 grid items-start gap-10 lg:grid-cols-12 lg:gap-12"
+        className="mt-16 grid items-start gap-10 sm:mt-24 lg:grid-cols-12 lg:gap-16"
       >
         <div className="lg:col-span-5">
           <div className="relative mx-auto w-full max-w-md">
@@ -45,10 +46,8 @@ export default function About() {
         </div>
 
         <div className="lg:col-span-7">
-          <p className="text-xs font-semibold uppercase tracking-[0.08em] text-warm">
-            Engineering — design, build, ship, maintain
-          </p>
-          <h2 className="mt-2 text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+          <p className="cn-kicker">Engineering: design, build, ship, maintain</p>
+          <h2 className="cn-display cn-h3 mt-3">
             Thomas Klein
           </h2>
           <p className="mt-5 text-pretty text-base leading-relaxed text-body sm:text-lg">
@@ -112,7 +111,7 @@ export default function About() {
         </div>
       </section>
 
-      <div className="mt-14 border-t border-line pt-12">
+      <div className="mt-20 border-t border-line pt-12">
         <Link href={INQUIRE_PATH} className="btn-primary">
           {INQUIRE_CTA}
         </Link>

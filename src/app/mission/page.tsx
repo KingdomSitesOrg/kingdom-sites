@@ -80,7 +80,7 @@ export default function Mission() {
             className="absolute inset-0"
             style={{
               background:
-                'linear-gradient(to bottom, rgba(17,24,39,0.9) 0%, rgba(17,24,39,0.45) 26%, rgba(17,24,39,0.12) 50%, rgba(17,24,39,0.55) 78%, rgba(17,24,39,0.95) 100%)',
+                'linear-gradient(to bottom, rgba(11,11,12,0.9) 0%, rgba(11,11,12,0.45) 26%, rgba(11,11,12,0.12) 50%, rgba(11,11,12,0.55) 78%, rgba(11,11,12,0.95) 100%)',
             }}
             aria-hidden="true"
           />
@@ -90,21 +90,21 @@ export default function Mission() {
       </section>
 
       {/* ---------- the persecuted church ---------- */}
-      <section aria-label="Who we stand with" className="border-t border-white/10 px-5 py-16 sm:px-8 sm:py-20">
-        <div className="mx-auto max-w-6xl">
+      <section aria-label="Who we stand with" className="cn-wrap py-14 sm:py-20">
+        <div className="border-t border-line pt-12">
           <div className="max-w-3xl">
-            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+            <h2 className="cn-display cn-h3 text-balance">
               We stand with the persecuted church.
             </h2>
-            <p className="mt-5 text-[15px] leading-relaxed text-white/70 sm:text-base">
+            <p className="mt-5 text-[15px] leading-relaxed text-body sm:text-base">
               Directly and indirectly, for and with organizations like these. Some of them we work
               alongside; others we simply support, give to, and pray for. Naming them here is not a
               claim of partnership or endorsement in either direction — they are listed because the
               work is worth knowing about.
             </p>
-            <p className="mt-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
+            <p className="mt-4 text-[15px] leading-relaxed text-body sm:text-base">
               A percentage of my income goes to organizations on this list.{' '}
-              <span className="text-white">Consider giving to them yourself</span> — every one of these
+              <span className="text-ink">Consider giving to them yourself</span> — every one of these
               takes donations, and the links go straight to their own sites.
             </p>
           </div>
@@ -120,10 +120,10 @@ export default function Mission() {
                   rel="noopener noreferrer"
                   className="flex flex-col gap-1.5 transition-opacity hover:opacity-80"
                 >
-                  <span className="text-[15px] font-semibold leading-snug tracking-tight text-white sm:text-base">
+                  <span className="text-[15px] font-semibold leading-snug tracking-tight text-ink sm:text-base">
                     {org.name}
                   </span>
-                  <span className="flex items-center gap-1.5 text-[13px] font-medium text-[#f0b48c]">
+                  <span className="flex items-center gap-1.5 text-[13px] font-medium text-muted">
                     Visit and give
                     <ArrowOut />
                   </span>
@@ -135,13 +135,13 @@ export default function Mission() {
       </section>
 
       {/* ---------- prayer initiative ---------- */}
-      <section aria-label="Prayer for the unreached" className="border-t border-white/10 px-5 py-16 sm:px-8 sm:py-20">
-        <div className="mx-auto max-w-6xl">
+      <section aria-label="Prayer for the unreached" className="cn-wrap py-14 sm:py-20">
+        <div className="border-t border-line pt-12">
           <div className="max-w-3xl">
-            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+            <h2 className="cn-display cn-h3 text-balance">
               A weekly prayer meeting for the unreached.
             </h2>
-            <p className="mt-5 text-[15px] leading-relaxed text-white/70 sm:text-base">
+            <p className="mt-5 text-[15px] leading-relaxed text-body sm:text-base">
               Romans 10:14 — how will they hear if no one tells them? The Prayer mini-site is a
               simple kit for running a weekly meeting: a verse, a story, facts, prayer points, and
               free guides you can download and use with a group.
@@ -149,7 +149,7 @@ export default function Mission() {
             <div className="mt-7">
               <Link
                 href="/prayer"
-                className="inline-flex items-center gap-2 text-sm font-medium text-[#f0b48c] transition-colors hover:text-[#f5c9a8]"
+                className="inline-flex items-center gap-2 text-sm font-medium text-ink underline decoration-[var(--line)] underline-offset-4 transition-colors hover:decoration-current"
               >
                 Open the prayer site
                 <ArrowOut />
@@ -163,28 +163,28 @@ export default function Mission() {
       <section
         id="free-ministry-sites"
         aria-label="Donated websites"
-        className="scroll-mt-20 border-t border-white/10 px-5 py-16 sm:px-8 sm:py-20"
+        className="cn-wrap scroll-mt-20 py-14 sm:py-20"
       >
-        <div className="mx-auto max-w-6xl">
+        <div className="border-t border-line pt-12">
           <div className="max-w-3xl">
-            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+            <h2 className="cn-display cn-h3 text-balance">
               I donate websites to ministries.
             </h2>
-            <p className="mt-5 text-[15px] leading-relaxed text-white/70 sm:text-base">
+            <p className="mt-5 text-[15px] leading-relaxed text-body sm:text-base">
               Ministries, missionaries raising support, and churches get the site built for free
-              <span className="align-super text-[0.6em] text-[#f0b48c]">*</span> — designed, built,
+              <span className="align-super text-[0.6em] text-ink">*</span> — designed, built,
               and put live, the same way every client gets it. It is one of the ways I can put
               this work behind the advance of the gospel rather than only behind a business.
             </p>
-            <p className="mt-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
+            <p className="mt-4 text-[15px] leading-relaxed text-body sm:text-base">
               If that is you,{' '}
-              <Link href={INQUIRE_PATH} className="text-white underline underline-offset-4 hover:text-[#f0b48c]">
+              <Link href={INQUIRE_PATH} className="text-ink underline decoration-[var(--line)] underline-offset-4 hover:decoration-current">
                 {INQUIRE_CTA}
               </Link>
               .
             </p>
-            <p className="mt-6 text-[13px] leading-relaxed text-white/45">
-              <span className="align-super text-[0.75em] text-[#f0b48c]">*</span> My time is the
+            <p className="mt-6 text-[13px] leading-relaxed text-muted">
+              <span className="align-super text-[0.75em] text-ink">*</span> My time is the
               donation. The domain name, hosting, and any outside service the site depends on stay
               in your name and under your control.
             </p>
@@ -196,16 +196,16 @@ export default function Mission() {
           The opening paragraphs used to sit at the very top of the page; the
           scrolling photograph carries the opening now, so they read here
           instead, just before the video. */}
-      <section aria-label="Our mission work" className="border-t border-white/10 px-5 py-16 sm:px-8 sm:py-20">
-        <div className="mx-auto max-w-6xl">
+      <section aria-label="Our mission work" className="cn-wrap py-14 sm:py-20">
+        <div className="border-t border-line pt-12">
           <div className="max-w-3xl">
-            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              Mission work in the <span className="text-[#f0b48c]">unreached world.</span>
+            <h2 className="cn-display cn-h3 text-balance">
+              Mission work in the <span className="text-accent">unreached world.</span>
             </h2>
-            <p className="mt-6 text-pretty text-[15px] leading-relaxed text-white/75 sm:text-base">
+            <p className="mt-6 text-pretty text-[15px] leading-relaxed text-body sm:text-base">
               {"Billions of people have never heard the gospel once. Our desire is to see Jesus glorified throughout the unreached world. For security reasons I can't share specific details about where or with whom, but please reach out if you have any questions."}
             </p>
-            <div className="mt-4 space-y-4 text-[15px] leading-relaxed text-white/65 sm:text-base">
+            <div className="mt-4 space-y-4 text-[15px] leading-relaxed text-muted sm:text-base">
               <p>
                 We collaborate with Christians toward seeing movements of Christ among Muslim-majority
                 people groups in the unreached world, using approaches from No Place Left.
@@ -220,11 +220,11 @@ export default function Mission() {
       </section>
 
       {/* ---------- watch ---------- */}
-      <section aria-label="Watch" className="border-t border-white/10 px-5 py-16 sm:px-8 sm:py-20">
-        <div className="mx-auto max-w-6xl">
+      <section aria-label="Watch" className="cn-wrap py-14 sm:py-20">
+        <div className="border-t border-line pt-12">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div className="max-w-2xl">
-              <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              <h2 className="cn-display cn-h3 text-balance">
                 A window into the work.
               </h2>
             </div>
@@ -233,7 +233,7 @@ export default function Mission() {
                 href="https://www.youtube.com/watch?v=yMTVM0IeqH4"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-medium text-[#f0b48c] transition-colors hover:text-[#f5c9a8]"
+                className="inline-flex items-center gap-2 text-sm font-medium text-ink underline decoration-[var(--line)] underline-offset-4 transition-colors hover:decoration-current"
               >
                 Watch on YouTube
                 <ArrowOut />
@@ -242,7 +242,7 @@ export default function Mission() {
                 href="https://www.youtube.com/@tkklein/videos"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-medium text-white/65 transition-colors hover:text-white"
+                className="inline-flex items-center gap-2 text-sm font-medium text-muted transition-colors hover:text-white"
               >
                 My YouTube channel
                 <ArrowOut />
@@ -250,7 +250,7 @@ export default function Mission() {
             </div>
           </div>
 
-          <div className="mt-8 overflow-hidden rounded-[22px] border border-white/12 bg-black shadow-[0_28px_64px_rgba(0,0,0,0.5)]">
+          <div className="mt-8 overflow-hidden rounded-[22px] border border-line bg-black shadow-[0_28px_64px_rgba(0,0,0,0.5)]">
             <div className="relative aspect-video w-full">
               <iframe
                 src="https://www.youtube.com/embed/yMTVM0IeqH4"

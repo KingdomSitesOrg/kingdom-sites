@@ -131,8 +131,8 @@ export default async function BlogPostPage({ params }: Props) {
     dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
    />
 
-   <article className="hero-wash px-5 pb-16 pt-14 sm:px-8 sm:pb-20 sm:pt-20">
-    <div className="mx-auto max-w-2xl">
+   <article className="cn-wrap pb-14 pt-14 sm:pb-20 sm:pt-20">
+    <div className="cn-rise mx-auto max-w-2xl">
      <p className="text-[13px] text-muted">
       <Link href="/blog" className="hover:text-accent">
        Blog
@@ -142,7 +142,7 @@ export default async function BlogPostPage({ params }: Props) {
       </span>
       <time dateTime={post.date}>{formatPostDate(post.date)}</time>
      </p>
-     <h1 className="mt-5 text-balance text-3xl font-semibold leading-[1.12] tracking-tight text-ink sm:text-4xl">
+     <h1 className="cn-display cn-h3 mt-5 text-balance">
       {post.title}
      </h1>
      <p className="mt-5 text-pretty text-base leading-relaxed text-body sm:text-lg">{post.excerpt}</p>
@@ -159,15 +159,15 @@ export default async function BlogPostPage({ params }: Props) {
     </div>
    </article>
 
-   <div className="border-t border-line px-5 py-12 sm:px-8 sm:py-16">
-    <div className="mx-auto max-w-2xl space-y-6">
+   <div className="cn-wrap pb-24 sm:pb-32">
+    <div className="mx-auto max-w-2xl space-y-6 border-t border-line pt-12 sm:pt-16">
      {post.body.map((block, i) => (
       <Block key={i} block={block} />
      ))}
     </div>
 
-    <div className="tile-elevated mx-auto mt-14 max-w-2xl px-6 py-10 text-center sm:px-10">
-     <h2 className="text-balance text-xl font-semibold tracking-tight text-ink sm:text-2xl">
+    <div className="tile-elevated mx-auto mt-16 max-w-2xl px-6 py-10 text-center sm:px-10">
+     <h2 className="cn-display text-balance text-[1.9rem] leading-none text-ink">
       Have an app idea?
      </h2>
      <p className="mx-auto mt-3 max-w-md text-pretty text-sm leading-relaxed text-body">
@@ -180,7 +180,7 @@ export default async function BlogPostPage({ params }: Props) {
 
     {others.length > 0 && (
      <div className="mx-auto mt-16 max-w-2xl">
-      <h2 className="text-sm font-semibold uppercase tracking-wider text-muted">More from the blog</h2>
+      <h2 className="cn-kicker">More from the blog</h2>
       <ul className="mt-5 space-y-4">
        {others.map((p) => (
         <li key={p.slug}>

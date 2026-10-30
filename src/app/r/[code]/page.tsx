@@ -34,18 +34,18 @@ export default async function ReferralLinkPage({ params }: { params: Promise<{ c
 
   return (
     <div className="w-full overflow-x-hidden">
-      <section className="hero-wash px-5 pb-12 pt-16 sm:px-8 sm:pb-16 sm:pt-24">
-        <div className="mx-auto max-w-3xl text-center">
-          <p className="text-sm font-semibold text-accent">A personal introduction</p>
-          <h1 className="mt-4 text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink [overflow-wrap:anywhere] sm:text-5xl">
+      <section className="cn-wrap pb-14 pt-16 sm:pb-20 sm:pt-24">
+        <div className="max-w-4xl">
+          <p className="cn-kicker cn-rise">A personal introduction</p>
+          <h1 className="cn-display cn-h2 cn-rise cn-rise-2 mt-5 text-balance [overflow-wrap:anywhere]">
             {line}
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-body sm:text-lg">
+          <p className="cn-body cn-rise cn-rise-3 mt-6 max-w-[48ch] text-pretty">
             I am Thomas, and Kingdom Sites is my studio. I build custom software for schools,
             businesses and any organization that needs software made for how it works. You talk with
             me from the first call to launch day and every month after.
           </p>
-          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+          <div className="cn-rise cn-rise-3 mt-10 flex flex-col gap-3 sm:flex-row">
             <Link href={INQUIRE_PATH} className="btn-primary">
               Tell me what you need
             </Link>
@@ -56,10 +56,10 @@ export default async function ReferralLinkPage({ params }: { params: Promise<{ c
         </div>
       </section>
 
-      <section className="px-5 pb-20 sm:px-8 sm:pb-24">
-        <div className="tile-elevated mx-auto flex max-w-6xl flex-col gap-4 p-7 sm:p-10">
-          <p className="text-sm font-semibold text-accent">For schools and education</p>
-          <h2 className="text-3xl font-semibold tracking-tight text-ink">Farzana</h2>
+      <section className="cn-wrap pb-24 sm:pb-32">
+        <div className="tile-elevated flex flex-col gap-4 p-7 sm:p-10">
+          <p className="cn-kicker">For schools and education</p>
+          <h2 className="cn-display cn-h3">Farzana</h2>
           <p className="max-w-3xl text-pretty text-[15px] leading-relaxed text-body">
             Farzana is the education software I build for schools, training organizations and
             educational businesses: a proven platform with classes, students and families, payments

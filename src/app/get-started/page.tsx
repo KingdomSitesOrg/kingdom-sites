@@ -12,26 +12,21 @@ export const metadata: Metadata = {
 export default function GetStarted() {
   return (
     <div className="w-full overflow-x-hidden">
-      <section className="hero-wash px-5 pb-12 pt-16 sm:px-8 sm:pb-16 sm:pt-24">
-        <div className="mx-auto max-w-3xl text-center">
-          <h1 className="mt-5 text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
+      <div className="cn-wrap grid gap-12 pb-20 pt-16 sm:pb-28 sm:pt-24 lg:grid-cols-[1fr_minmax(0,560px)] lg:gap-20">
+        <section className="lg:sticky lg:top-28 lg:self-start">
+          <p className="cn-kicker cn-rise">Start a conversation</p>
+          <h1 className="cn-display cn-h2 cn-rise cn-rise-2 mt-5 text-balance">
             Tell me what you have <span className="text-accent">in mind.</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-body sm:text-lg">
-            {INQUIRY.sub}
-          </p>
-          <p className="mx-auto mt-4 max-w-xl text-[15px] leading-relaxed text-muted">
-            {QUOTE_LINE}
-          </p>
-        </div>
-      </section>
+          <p className="cn-body cn-rise cn-rise-3 mt-6 max-w-[46ch] text-pretty">{INQUIRY.sub}</p>
+          <p className="cn-rise cn-rise-3 mt-4 max-w-[46ch] text-[15px] leading-relaxed text-muted">{QUOTE_LINE}</p>
+        </section>
 
-      <section aria-label="Enquiry" className="px-5 pb-20 sm:px-8 sm:pb-24">
-        <div className="mx-auto max-w-xl">
+        <section aria-label="Enquiry" className="cn-rise cn-rise-3">
           <h2 className="mb-4 text-lg font-semibold tracking-tight text-ink">{INQUIRY.formTitle}</h2>
           <InquiryForm />
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
   )
 }

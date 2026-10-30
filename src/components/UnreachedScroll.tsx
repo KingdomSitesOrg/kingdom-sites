@@ -38,7 +38,7 @@ const ROLL: RollItem[] = [
 
 /** One figure, drawn as strokes so it can be "sketched" on. */
 function StickFigure({ x, dim = false }: { x: number; dim?: boolean }) {
-  const colour = dim ? 'rgba(240,180,140,0.75)' : '#f0b48c'
+  const colour = dim ? 'rgba(239,235,227,0.55)' : '#efebe3'
   return (
     <g
       stroke={colour}
@@ -160,14 +160,14 @@ function Slide({
           }`}
         >
           <Line
-            className="text-balance text-center text-[2.25rem] font-semibold leading-[1.22] tracking-tight text-white sm:max-w-xl sm:text-5xl sm:leading-[1.12] lg:max-w-2xl lg:text-6xl"
+            className="cn-display text-balance text-center text-[2.6rem] !leading-[1.02] text-ink sm:max-w-xl sm:text-6xl lg:max-w-3xl lg:text-7xl"
             style={{ textShadow: '0 2px 22px rgba(0,0,0,0.7)' }}
           >
             {isCountryLine(item) ? (
               <>
-                <span className="text-[#f0b48c]">{item.stat}</span>
+                <span className="text-ink">{item.stat}</span>
                 {' '}
-                <span>{item.tail}</span>
+                <span className="text-body">{item.tail}</span>
               </>
             ) : (
               item.line

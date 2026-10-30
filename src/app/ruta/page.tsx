@@ -16,10 +16,10 @@ const PARTICIPATED = [
 export default function Ruta() {
   return (
     <div className="w-full overflow-x-hidden">
-      <section className="hero-wash px-5 pb-16 pt-16 sm:px-8 sm:pb-20 sm:pt-24">
-        <div className="mx-auto grid max-w-6xl items-start gap-10 lg:grid-cols-2 lg:gap-14">
-          <div className="flex flex-col items-center self-start">
-            <div className="w-full max-w-[300px] overflow-hidden rounded-[26px] shadow-[0_18px_44px_rgba(16,23,37,0.16)]">
+      <section className="cn-wrap pb-20 pt-16 sm:pb-28 sm:pt-24">
+        <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
+          <div className="cn-rise cn-rise-3 flex flex-col items-center self-start">
+            <div className="w-full max-w-[300px] overflow-hidden rounded-[26px] shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_30px_80px_rgba(0,0,0,0.6)]">
               <RutaPhoneShot scene="portal" fill />
             </div>
             <p className="mt-5 max-w-[300px] text-center text-sm leading-relaxed text-muted">
@@ -27,11 +27,9 @@ export default function Ruta() {
             </p>
           </div>
           <div className="self-start lg:pt-6">
-            <p className="eyebrow eyebrow-blue">Contract work</p>
-            <h1 className="mt-5 text-balance text-4xl font-semibold leading-[1.06] tracking-tight text-ink sm:text-5xl">
-              Ruta.
-            </h1>
-            <p className="mt-6 text-pretty text-base leading-relaxed text-body sm:text-lg">
+            <p className="cn-kicker cn-rise">Contract work</p>
+            <h1 className="cn-display cn-h2 cn-rise cn-rise-2 mt-5">Ruta.</h1>
+            <p className="cn-body cn-rise cn-rise-3 mt-6 max-w-[46ch] text-pretty">
               Ruta is service-management software for landscaping and maintenance businesses. I did
               not build it on my own, but I have been working on it as a contractor on the team.
               Here are a few things I have worked on.
