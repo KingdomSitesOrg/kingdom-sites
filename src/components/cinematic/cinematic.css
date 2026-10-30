@@ -44,14 +44,14 @@
 .cn-ghost:hover { border-color: rgba(239, 235, 227, 0.4); }
 /* A pill that lights up as it crosses the middle of the screen (LitLink.tsx). The
    label reserves its bold width in a hidden copy, so going bold moves nothing. */
-.cn-ghost.cn-lit { color: #cfcbc3; transition: border-color 0.3s ease, color 0.3s ease, text-shadow 0.3s ease; }
-.cn-lit-text { display: block; text-align: center; font-weight: 400; transition: font-weight 0.3s ease, text-shadow 0.3s ease; }
-.cn-lit-text::after { content: attr(data-label); display: block; height: 0; overflow: hidden; visibility: hidden; font-weight: 600; }
-.cn-ghost.cn-lit.is-lit { color: var(--fg); border-color: rgba(239, 235, 227, 0.7); }
-.cn-lit.is-lit .cn-lit-text { font-weight: 600; text-shadow: 0 0 14px rgba(239, 235, 227, 0.35); }
+.cn-ghost.cn-glow { color: #cfcbc3; transition: border-color 0.3s ease, color 0.3s ease, text-shadow 0.3s ease; }
+.cn-glow-text { display: block; text-align: center; font-weight: 400; transition: font-weight 0.3s ease, text-shadow 0.3s ease; }
+.cn-glow-text::after { content: attr(data-label); display: block; height: 0; overflow: hidden; visibility: hidden; font-weight: 600; }
+.cn-ghost.cn-glow.is-glow { color: var(--fg); border-color: rgba(239, 235, 227, 0.7); }
+.cn-glow.is-glow .cn-glow-text { font-weight: 600; text-shadow: 0 0 14px rgba(239, 235, 227, 0.35); }
 @media (prefers-reduced-motion: reduce) {
-  .cn-lit-text, .cn-lit-text::after { transition: none; }
-  .cn-lit.is-lit .cn-lit-text { font-weight: 400; text-shadow: none; }
+  .cn-glow-text, .cn-glow-text::after { transition: none; }
+  .cn-glow.is-glow .cn-glow-text { font-weight: 400; text-shadow: none; }
 }
 
 /* Device frames, drawn in CSS around real screenshots. Each screen is clipped to

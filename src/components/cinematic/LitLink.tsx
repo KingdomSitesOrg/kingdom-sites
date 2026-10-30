@@ -25,8 +25,8 @@ export default function LitLink({ href, label }: { href: string; label: string }
   }, [])
 
   return (
-    <Link ref={ref} href={href} className={lit ? 'cn-ghost cn-lit is-lit' : 'cn-ghost cn-lit'}>
-      <span className="cn-lit-text" data-label={label}>
+    <Link ref={ref} href={href} className={lit ? 'cn-ghost cn-glow is-glow' : 'cn-ghost cn-glow'}>
+      <span className="cn-glow-text" data-label={label}>
         {label}
       </span>{' '}
       <span aria-hidden="true">→</span>
