@@ -2,9 +2,9 @@
  * One page per project that had none on this site (T-389): Farzana Classroom,
  * KCUPG and the Delta Development Project, at /portfolio/<slug>.
  *
- * Facts only, each from the product itself or from this site: Farzana
- * Classroom's from its own pages (the scattered tools in its story) and the
- * demo school's screens; KCUPG's from kcupgs.com and its repository (six
+ * "The problem" on each page is Thomas's own words (2026-10-30). Everything
+ * else is facts only, from the product itself or from this site: Farzana
+ * Classroom's from the demo school's screens; KCUPG's from kcupgs.com and its repository (six
  * regions, Census figures, no sign-in); Delta's from deltadevelopmentproject.com
  * (its eight activities, gallery and contact form); how long each took and
  * who uses it from Thomas (2026-10-30). No invented numbers, no client quotes. Every sentence here is listed in docs/wording-pass-2.md for
@@ -78,8 +78,8 @@ export const CASE_STUDIES = {
     site: { href: 'https://farzana.app', label: 'farzana.app' },
     hero: { shot: SHOTS.farzanaHome, product: FARZANA, note: DEMO, title: 'Home', caption: '' },
     problem: [
-      'A teacher’s week usually runs on a pile of separate tools: spreadsheets, PDFs sent by email, sign-up forms, video calls, a quiz app, a payments app and a calendar.',
-      'Families end up asking where this week’s lesson is, and the teacher does the stitching by hand.',
+      'Some platforms take a cut of every class you sell, on top of payment fees and software fees.',
+      'And running email campaigns, managing students, payments and products is hard when it is spread across different tools. Farzana Classroom combines it all.',
     ],
     built: {
       lead: 'I built this from the ground up as a stable, quality, easy-to-navigate classroom app. Everything is stitched together, from payments to quiz results.',
@@ -140,8 +140,8 @@ export const CASE_STUDIES = {
     site: { href: 'https://kcupgs.com', label: 'kcupgs.com' },
     hero: { shot: SHOTS.kcupgDashboard, product: 'KCUPG', title: 'The dashboard', caption: '' },
     problem: [
-      'Churches in Kansas City want to meet the communities who have come to the city from North Africa, the Middle East and Asia.',
-      'Where those communities live, which languages they speak and where people gather was spread across Census tables, maps and word of mouth.',
+      'Many different people are trying to reach the unreached in Kansas City, in many different places. No one knows everything, and many people know very little.',
+      'We needed one place to bring together what we all know: the places, the pins on the map, how to get there and where everything is.',
     ],
     built: {
       lead: 'I built the dashboard and the map.',
@@ -192,8 +192,7 @@ export const CASE_STUDIES = {
     site: { href: 'https://deltadevelopmentproject.com', label: 'deltadevelopmentproject.com' },
     hero: { shot: SHOTS.deltaSite, product: 'Delta Development Project', title: 'The home page', caption: '' },
     problem: [
-      'The Delta Development Project works with river-bank and urban communities in northern Bangladesh and Dhaka, so children start school, families can earn, and no one is left behind when floods, illness or poverty close in.',
-      'Its supporters and partners are often far away, and the work needs one clear place where they can see it and get in touch.',
+      'My brother-in-law needed a website for his disaster relief and NGO work, so I built it for him in an affordable way.',
     ],
     built: {
       lead: 'I designed and built the website, around the project’s own photos.',
