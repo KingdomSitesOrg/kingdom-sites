@@ -80,6 +80,8 @@ export default function EnvelopeEditor({ initial }: Props) {
   // Edits not yet saved (placements, signers, title). Leaving asks first.
   const [dirty, setDirty] = useState(false)
   const [copiedId, setCopiedId] = useState<string | null>(null)
+  // Sending was refused for the customer's plan (none, unpaid, or over the month's limit).
+  const [needsPlan, setNeedsPlan] = useState(false)
 
   // Keep latest drafts in refs so queued saves never send stale Provider/Client boxes.
   const fieldsRef = useRef(fields)
@@ -346,8 +348,10 @@ export default function EnvelopeEditor({ initial }: Props) {
       const data = await res.json().catch(() => null)
       if (!res.ok || !data?.ok) {
         setError(data?.error || 'Send failed.')
+        setNeedsPlan(Boolean(data?.needsPlan))
         return
       }
+      setNeedsPlan(false)
       const sentEnv = data.envelope as Envelope
       // Never let a stale send snapshot wipe admin-signed parties.
       const local = envelopeRef.current
@@ -885,7 +889,12 @@ export default function EnvelopeEditor({ initial }: Props) {
       ) : null}
       {error ? (
         <p role="alert" className="text-sm text-warm">
-          {error}
+          {error}{' '}
+          {needsPlan ? (
+            <Link href="/sign/account" className="font-medium text-accent hover:underline">
+              Choose a plan
+            </Link>
+          ) : null}
         </p>
       ) : null}
 

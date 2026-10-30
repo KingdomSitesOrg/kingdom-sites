@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
-import { AuthError, getAdminSession, newId, newSignerToken } from '@/lib/sign/auth'
+import { AuthError, getSignUser, newId, newSignerToken, ownerFor } from '@/lib/sign/auth'
 import { appendAudit } from '@/lib/sign/audit'
 import { checkUploadedPdf } from '@/lib/sign/pdf'
 import { listEnvelopes, saveEnvelope, savePdf } from '@/lib/sign/store'
@@ -10,16 +10,17 @@ export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 export const maxDuration = 60
 
-async function requireAdmin() {
-  const session = await getAdminSession()
-  if (!session) throw new AuthError()
-  return session
+/** Thomas or a customer account; documents are then limited to what that user owns. */
+async function requireUser() {
+  const user = await getSignUser()
+  if (!user) throw new AuthError()
+  return user
 }
 
 export async function GET() {
   try {
-    await requireAdmin()
-    const items = await listEnvelopes()
+    const user = await requireUser()
+    const items = await listEnvelopes(ownerFor(user))
     return NextResponse.json({ ok: true, envelopes: items })
   } catch (error) {
     if (error instanceof AuthError) {
@@ -32,7 +33,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const session = await requireAdmin()
+    const user = await requireUser()
     const form = await request.formData()
     const title = String(form.get('title') || '').trim() || 'Untitled document'
     const file = form.get('pdf')
@@ -95,8 +96,9 @@ export async function POST(request: Request) {
       // the stamped PDF printed the signature over it. The sender places each line.
       fields: [],
       audit: [],
+      ...(user.kind === 'account' ? { ownerId: user.accountId } : {}),
     }
-    envelope = appendAudit(envelope, 'created', session.email, title)
+    envelope = appendAudit(envelope, 'created', user.email, title)
     envelope = await saveEnvelope(envelope)
 
     return NextResponse.json({ ok: true, envelope })
