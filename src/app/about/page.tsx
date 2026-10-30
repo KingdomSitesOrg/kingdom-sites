@@ -7,7 +7,7 @@ import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 export const metadata: Metadata = {
   title: 'About — Kingdom Sites',
   description:
-    'Meet Thomas Klein of Kingdom Sites: websites, iPhone and Android apps, the software behind them, and AI consultation, designed, built and looked after by one engineer.',
+    'Meet Thomas Klein of Kingdom Sites: websites, iPhone and Android apps, the software behind them, and AI consultation, designed, built and looked after by Thomas Klein, one engineer.',
   alternates: { canonical: '/about' },
 }
 
@@ -20,7 +20,7 @@ export default function About() {
           About <span className="text-accent">Kingdom Sites.</span>
         </h1>
         <p className="cn-body cn-rise cn-rise-3 mt-6 max-w-[46ch] text-pretty">
-          Design, build, ship, and maintain — one engineer, on purpose, so you always know who you are
+          Design, build, ship, and maintain — Thomas, one engineer, on purpose, so you always know who you are
           talking to.
         </p>
       </div>
@@ -58,7 +58,7 @@ export default function About() {
           <p className="mt-4 text-pretty text-[15px] leading-relaxed text-body sm:text-base">
             The work is mobile-led software people actually use, plus the systems and AI that make
             it real. I also help businesses use AI well: where it fits, setting it up, and building
-            it into the tools they already use. When you email, you get the person who builds it.
+            it into the tools they already use. When you email, you get Thomas, the person who builds it.
           </p>
           <p className="mt-4 text-pretty text-[15px] leading-relaxed text-body sm:text-base">
             My wife Monisha and I take on a small number of projects at a time, on purpose. We are currently in the Philippines at IGSL — the International Graduate School
