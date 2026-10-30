@@ -81,11 +81,8 @@ export default function Portfolio() {
       <DotNav sections={SECTIONS} />
 
       <section aria-labelledby="work" className="cn-wrap pt-16 sm:pt-24">
-        <p className="cn-kicker">Portfolio</p>
-        <h1 id="work" className="cn-display cn-h1 mt-5">
-          Three apps,
-          <br />
-          and the rest.
+        <h1 id="work" className="cn-display cn-h1">
+          Portfolio
         </h1>
         <p className="cn-body mt-8 max-w-[46ch]">
           Multiple apps built, tested and proven. Education software, software for landscapers, websites, and
