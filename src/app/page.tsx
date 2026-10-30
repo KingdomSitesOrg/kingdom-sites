@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import CinematicChrome from '@/components/cinematic/Chrome'
 import { Browser, Phone } from '@/components/cinematic/Frames'
 import { Credit } from '@/components/cinematic/Maker'
+import LatinPartner from '@/components/cinematic/LatinPartner'
 import LitLink from '@/components/cinematic/LitLink'
 import Scroll from '@/components/cinematic/Scroll'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
@@ -186,6 +187,9 @@ export default function Home() {
           </div>
         </Scroll>
         <Credit id="latin" />
+        <div className="cn-wrap">
+          <LatinPartner />
+        </div>
       </section>
 
       {/* What I make: each line comes on as it reaches the middle of the screen. */}

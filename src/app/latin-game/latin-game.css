@@ -320,6 +320,10 @@
 .lgame footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; }
 .lgame footer a { text-decoration: none; }
 .lgame footer a:hover { color: var(--gold-light); }
+/* The partner line above the footer's row (LatinPartner.tsx). */
+.lgame footer .partner { margin: 0 0 18px; font-size: 13px; line-height: 1.5; color: rgba(255, 255, 255, 0.55); }
+.lgame footer .partner a { color: rgba(255, 255, 255, 0.8); text-decoration: underline; text-decoration-color: rgba(255, 255, 255, 0.3); text-underline-offset: 3px; }
+.lgame footer .partner a:hover { color: var(--gold-light); text-decoration-color: currentColor; }
 
 .lgame .reveal {
   opacity: 0; transform: translateY(18px);
