@@ -29,14 +29,31 @@ jobs:
       - name: Check dependencies for known high-severity problems
         run: npm audit --audit-level=high
 
-      - name: Check whether a Snyk token is available
+      # A token that is set but expired or revoked is treated like a missing one:
+      # the Snyk scan is skipped with a warning on the run, rather than failing on
+      # a login error. Snyk then only fails the job by finding real problems.
+      - name: Check whether a working Snyk token is available
         id: token
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        run: echo "present=${SNYK_TOKEN:+yes}" >> "$GITHUB_OUTPUT"
+        run: |
+          if [ -z "$SNYK_TOKEN" ]; then
+            echo "::warning::No SNYK_TOKEN secret is set, so the Snyk scan was skipped."
+            echo "usable=no" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          status=$(curl -s -o /dev/null -w '%{http_code}' \
+            -H "Authorization: token $SNYK_TOKEN" \
+            "https://api.snyk.io/rest/self?version=2024-10-15")
+          if [ "$status" = "401" ] || [ "$status" = "403" ]; then
+            echo "::warning::Snyk rejected the SNYK_TOKEN secret (HTTP $status), so the Snyk scan was skipped. Replace the secret with a current Snyk token to turn it back on."
+            echo "usable=no" >> "$GITHUB_OUTPUT"
+          else
+            echo "usable=yes" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Run Snyk vulnerability scan
-        if: steps.token.outputs.present == 'yes'
+        if: steps.token.outputs.usable == 'yes'
         uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
