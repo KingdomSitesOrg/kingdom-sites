@@ -53,6 +53,25 @@
    fixed to the viewport, so it never moves with the content. */
 html {
   background: linear-gradient(to bottom, var(--color-canvas) 50%, var(--color-dark) 50%) fixed;
+  /* One scroll bar for the whole site (T-376): slim, light grey thumb on the dark track.
+     scrollbar-color is read by Firefox and recent Chrome; the webkit rules below are
+     what Safari and older Chrome read. Inner scrollers get the same bar. */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(239, 235, 227, 0.4) #0b0b0c;
+}
+
+::-webkit-scrollbar { width: 9px; height: 9px; }
+::-webkit-scrollbar-track { background: #0b0b0c; }
+::-webkit-scrollbar-thumb { background: rgba(239, 235, 227, 0.4); border-radius: 5px; border: 2px solid #0b0b0c; }
+::-webkit-scrollbar-thumb:hover { background: rgba(239, 235, 227, 0.6); }
+
+/* Touch screens (phones): iOS Safari shows its own bar only while scrolling and no page
+   can force it, so PhoneScrollIndicator.tsx draws a slim marker on the right edge. */
+.scroll-marker { display: none; position: fixed; top: 0; bottom: 0; right: 0; width: 10px; z-index: 60; pointer-events: none; opacity: 0; transition: opacity 0.4s ease; }
+.scroll-marker.is-on { opacity: 1; }
+.scroll-marker-thumb { position: absolute; top: 0; right: 2px; width: 4px; height: 40px; border-radius: 2px; background: rgba(239, 235, 227, 0.4); will-change: transform; }
+@media (hover: none) {
+  .scroll-marker { display: block; }
 }
 
 body {
