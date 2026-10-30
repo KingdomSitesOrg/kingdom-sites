@@ -2,17 +2,23 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import CinematicChrome from '@/components/cinematic/Chrome'
+import CaseTitle from '@/components/cinematic/CaseTitle'
 import DotNav from '@/components/cinematic/DotNav'
 import { Browser, Phone } from '@/components/cinematic/Frames'
+import LatinPartner from '@/components/cinematic/LatinPartner'
 import Scroll from '@/components/cinematic/Scroll'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { LATIN_STORES, PROJECTS, SHOTS } from '@/lib/work'
+import { shareCard } from '@/lib/seo'
+
+const DESCRIPTION =
+  'The portfolio of Kingdom Sites: Farzana Classroom, education software for schools; JAM Legio, a Latin learning game for iPhone and Android; contract work on Ruta; and the websites and tools around them.'
 
 export const metadata: Metadata = {
   title: 'Portfolio',
-  description:
-    'The portfolio of Kingdom Sites: Farzana Classroom, education software for schools; a Latin learning game for iPhone and Android; contract work on Ruta; and the websites and tools around them.',
+  description: DESCRIPTION,
   alternates: { canonical: '/portfolio' },
+  ...shareCard('Portfolio — Kingdom Sites', DESCRIPTION, '/portfolio'),
 }
 
 const project = (slug: string) => PROJECTS.find((p) => p.slug === slug)!
@@ -26,18 +32,18 @@ const DEMO = 'Demo school'
 
 const SECTIONS = [
   { id: 'farzana', label: 'Farzana Classroom' },
-  { id: 'latin-game', label: 'The Latin learning game' },
+  { id: 'latin-game', label: 'JAM Legio' },
   { id: 'ruta', label: 'Ruta' },
-  { id: 'more', label: 'Websites and tools' },
+  { id: 'more', label: 'And the rest' },
 ]
 
 /* The parts of Ruta I have worked on, as the Ruta page lists them. */
 const RUTA_WORK = [
-  'Recurring billing and customer payment arrangements',
-  'The crew app: visits, the time clock, and use without a signal',
-  'Office tools for the day’s schedule, messaging and reviewing finished work',
+  'Billing and payments',
+  'The crew app, including use without a signal',
+  'Office tools for scheduling, messaging and review',
   'Customer self-service',
-  'The shared backend the apps sit on',
+  'The backend behind the apps',
   'The AI assistant inside the product',
 ]
 
@@ -76,15 +82,12 @@ export default function Portfolio() {
       <DotNav sections={SECTIONS} />
 
       <section aria-labelledby="work" className="cn-wrap pt-16 sm:pt-24">
-        <p className="cn-kicker">Portfolio</p>
-        <h1 id="work" className="cn-display cn-h1 mt-5">
-          Three apps,
-          <br />
-          and the rest.
+        <h1 id="work" className="cn-display cn-h1">
+          Portfolio
         </h1>
         <p className="cn-body mt-8 max-w-[46ch]">
-          Education software for schools, a Latin game in students’ pockets, and a field-service app for crews.
-          Then the websites and tools around them. Every screen here is from the software itself.
+          Multiple apps built, tested and proven. Education software, software for landscapers, websites, and
+          everything in between.
         </p>
       </section>
 
@@ -116,15 +119,11 @@ export default function Portfolio() {
           <Scroll>
             <div className="cn-reveal">
               <Browser shot={SHOTS.farzanaClass} product={PRODUCT} note={DEMO} />
-              <h3 className="cn-display cn-h3 mt-8">What a family sees</h3>
-              <p className="cn-body mt-3 max-w-[40ch]">A page for each class, with a sample to try before signing up.</p>
             </div>
           </Scroll>
           <Scroll>
             <div className="cn-reveal lg:mt-32">
               <Browser shot={SHOTS.farzanaDesk} product={PRODUCT} note={DEMO} />
-              <h3 className="cn-display cn-h3 mt-8">What the teacher sees</h3>
-              <p className="cn-body mt-3 max-w-[40ch]">Who is enrolled, who was active this week, and who just joined.</p>
             </div>
           </Scroll>
         </div>
@@ -135,15 +134,15 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* The Latin learning game: phones at different depths. */}
+      {/* JAM Legio, the Latin learning game: phones at different depths. */}
       <section id="latin-game" tabIndex={-1} aria-labelledby="latin-h" className="mt-32 scroll-mt-16 sm:mt-48">
         <div className="cn-wrap">
           <p className="cn-kicker">02 · App</p>
-          <h2 id="latin-h" className="cn-display cn-h2 mt-4">The Latin learning game</h2>
+          <h2 id="latin-h" className="cn-display cn-h2 mt-4">JAM Legio</h2>
           <div className="mt-8 grid gap-10 lg:grid-cols-[1.3fr_1fr]">
             <div>
               <p className="cn-body max-w-[48ch]">
-                Students march a legion north across Italy, thirteen stops from Rōma to Gallia, and every city teaches one
+                A Latin learning game for iPhone and Android. Students march a legion north across Italy, thirteen stops from Rōma to Gallia, and every city teaches one
                 piece of the classical curriculum. Nine ways to drill the grammar, and a leaderboard to race each other
                 on.
               </p>
@@ -155,14 +154,14 @@ export default function Portfolio() {
                   <PlayStoreIcon /> Google Play
                 </a>
                 <Link href="/latin-game" className="cn-ghost">
-                  See the game <span aria-hidden="true">→</span>
+                  See JAM Legio <span aria-hidden="true">→</span>
                 </Link>
               </div>
+              <LatinPartner />
             </div>
             <Facts
               rows={[
                 ['For', latin.forWhom],
-                ['Made', 'Designed and built'],
                 ['Runs on', latin.platforms],
                 ['Status', latin.status],
               ]}
@@ -220,9 +219,9 @@ export default function Portfolio() {
           </div>
         </div>
         <Scroll className="cn-wrap mt-16 pb-24 sm:mt-20">
-          <div className="cn-depth cn-depth-3 mx-auto max-w-[900px]">
+          <div className="cn-depth cn-depth-row mx-auto max-w-[1180px]">
             {[SHOTS.rutaQueue, SHOTS.rutaVisit, SHOTS.rutaTime].map((s) => (
-              <Phone key={s.src} shot={s} sizes="(min-width: 980px) 280px, 29vw" />
+              <Phone key={s.src} shot={s} />
             ))}
           </div>
         </Scroll>
@@ -230,32 +229,28 @@ export default function Portfolio() {
 
       {/* Everything else, short: a picture, a name, a line. */}
       <section id="more" tabIndex={-1} aria-labelledby="more-h" className="cn-wrap mt-24 scroll-mt-16 sm:mt-36">
-        <p className="cn-kicker">04 · Websites and tools</p>
-        <h2 id="more-h" className="cn-display cn-h2 mt-4">And the rest.</h2>
+        <p className="cn-kicker">04 · And the rest</p>
+        <h2 id="more-h" className="cn-display cn-h2 mt-4">Websites, tools and other cool stuff.</h2>
         <div className="mt-14 grid gap-x-8 gap-y-14 md:grid-cols-2 xl:grid-cols-3">
           {CASES.map((p) => {
             const external = p.href!.startsWith('http')
             return (
-              <Scroll key={p.slug}>
+              <Scroll key={p.slug} className="flex">
                 <a
                   href={p.href}
                   className="cn-reveal cn-case group block"
                   {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                 >
-                  <span className="cn-shot">
+                  <span className="cn-shot cn-case-frame">
                     <Image src={p.card!.src} alt={p.card!.alt} width={p.card!.w} height={p.card!.h} loading="lazy" unoptimized />
                   </span>
                   <p className="cn-dim mt-6 text-sm">
                     {p.kind} · {p.forWhom}
                   </p>
-                  <h3 className="cn-display cn-h3 mt-2 transition-transform duration-300 group-hover:translate-x-1">
-                    {p.name}
-                    {'\u00a0'}
-                    <span aria-hidden="true" className="cn-dim">
-                      {external ? '↗' : '→'}
-                    </span>
+                  <h3 className="cn-display cn-h3 cn-case-name mt-2">
+                    <CaseTitle name={p.name} />
                   </h3>
-                  <p className="cn-body mt-3 text-[1.02rem]">{p.line}</p>
+                  <p className="cn-body cn-case-line mt-3 text-[1.02rem]">{p.line}</p>
                 </a>
               </Scroll>
             )
@@ -266,7 +261,7 @@ export default function Portfolio() {
       <section aria-label="Start a conversation" className="cn-wrap pb-28 pt-36 text-center sm:pb-40 sm:pt-48">
         <h2 className="cn-display cn-h1 mx-auto max-w-[12ch]">Yours could be next.</h2>
         <p className="cn-body mx-auto mt-6 max-w-[40ch]">
-          Tell me what you have in mind. You talk to me, the person who builds it, and you get a plan and a quote once I
+          Tell me what you have in mind. You talk to me, Thomas, the person who will build it, and you get a plan and a quote once I
           understand it.
         </p>
         <Link href={INQUIRE_PATH} className="cn-btn mt-10">

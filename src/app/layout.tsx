@@ -1,13 +1,11 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 import AppShell from "@/components/AppShell";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { GA_MEASUREMENT_ID, isGaEnabled } from "@/lib/analytics";
+import { ORGANIZATION_LD, SHARE_URL, SITE_DESCRIPTION, SITE_TITLE } from "@/lib/seo";
 import {
-  AREA_SERVED,
   SERVICE_CITY,
   SERVICE_LAT,
   SERVICE_LNG,
@@ -17,16 +15,22 @@ import {
 
 const inter = Inter({ subsets: ["latin"] });
 
-const DESCRIPTION =
-  "I design, build, ship, and maintain websites and mobile apps, offer AI consultation, and stay after launch. Have an idea? Start a conversation. Every project is quoted once I understand it.";
+const DESCRIPTION = SITE_DESCRIPTION;
+
+// Phones with a keyboard up shrink the page to what is showing (Android Chrome; Safari ignores it).
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  interactiveWidget: "resizes-content",
+};
 
 export const metadata: Metadata = {
   title: {
-    default: "Kingdom Sites — mobile application solutions",
+    default: SITE_TITLE,
     template: "%s | Kingdom Sites",
   },
   description: DESCRIPTION,
-  metadataBase: new URL("https://kingdom-sites.com"),
+  metadataBase: new URL(SHARE_URL),
   /* Deliberately no site-wide `alternates.canonical`. A canonical set here is
      inherited by every page that does not set its own, which told search
      engines that pages like /about and /my-work were the home page and had
@@ -44,17 +48,18 @@ export const metadata: Metadata = {
     SERVICE_CITY,
     SERVICE_REGION,
   ],
+  /* No `url` here: every page without its own card would otherwise share as
+     the home page's address. Pages that are shared set theirs (shareCard). */
   openGraph: {
-    title: "Kingdom Sites — mobile application solutions",
+    title: SITE_TITLE,
     description: DESCRIPTION,
-    url: "https://kingdom-sites.com",
     siteName: "Kingdom Sites",
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kingdom Sites — mobile application solutions",
+    title: SITE_TITLE,
     description: DESCRIPTION,
   },
   robots: {
@@ -74,36 +79,6 @@ export const metadata: Metadata = {
   },
 };
 
-/* Tells search engines what this business is and where it serves.
-   Facts only — no fake street address or star ratings. */
-const STRUCTURED_DATA = {
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  name: "Kingdom Sites",
-  url: "https://kingdom-sites.com",
-  description: DESCRIPTION,
-  email: "thomas@kingdom-sites.com",
-  founder: { "@type": "Person", name: "Thomas Klein" },
-  serviceType: [
-    "Mobile app development",
-    "Custom software development",
-    "Mobile product development",
-    "AI tooling and implementation",
-  ],
-  areaServed: AREA_SERVED,
-  knowsAbout: [
-    "Design, build, ship, and maintain",
-    "Custom mobile software",
-    "Software product development",
-    "AI tooling",
-    "Ongoing product engineering for founders",
-  ],
-  audience: {
-    "@type": "BusinessAudience",
-    name: "Product owners and business founders",
-  },
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -114,11 +89,9 @@ export default function RootLayout({
       <body className={inter.className}>
         {/* The studio's structured data goes on every page but the Farzana
             ones, which describe their own product (AppShell). */}
-        <AppShell structuredData={STRUCTURED_DATA}>{children}</AppShell>
+        <AppShell structuredData={ORGANIZATION_LD}>{children}</AppShell>
         <Analytics />
         <SpeedInsights />
-        {/* Google Analytics 4 — only loads when NEXT_PUBLIC_GA_MEASUREMENT_ID is set. */}
-        {isGaEnabled() ? <GoogleAnalytics gaId={GA_MEASUREMENT_ID} /> : null}
       </body>
     </html>
   );

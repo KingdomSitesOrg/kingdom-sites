@@ -1,29 +1,35 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import CinematicChrome from '@/components/cinematic/Chrome'
+import CaseTitle from '@/components/cinematic/CaseTitle'
 import { Browser, Phone } from '@/components/cinematic/Frames'
 import { Credit } from '@/components/cinematic/Maker'
+import LatinPartner from '@/components/cinematic/LatinPartner'
 import LitLink from '@/components/cinematic/LitLink'
 import Scroll from '@/components/cinematic/Scroll'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
+import { SHARE_URL, SITE_DESCRIPTION as DESCRIPTION, SITE_OG_IMAGE, SITE_TITLE } from '@/lib/seo'
 import { OFFER, PAYS, PROJECTS, SHOTS, type Shot } from '@/lib/work'
 
-const DESCRIPTION =
-  'Websites, iPhone and Android apps and AI consultation for businesses, churches and anyone who needs software, designed and built by Kingdom Sites.'
-
 export const metadata: Metadata = {
-  title: 'Kingdom Sites — Made to be used. Made to be yours.',
+  title: SITE_TITLE,
   description: DESCRIPTION,
   alternates: { canonical: '/' },
   openGraph: {
-    title: 'Kingdom Sites — Made to be used. Made to be yours.',
+    title: SITE_TITLE,
     description: DESCRIPTION,
-    url: 'https://kingdom-sites.com',
+    url: SHARE_URL,
     siteName: 'Kingdom Sites',
     locale: 'en_US',
     type: 'website',
+    images: [{ ...SITE_OG_IMAGE, url: `${SHARE_URL}${SITE_OG_IMAGE.url}` }],
   },
-  twitter: { card: 'summary_large_image', title: 'Kingdom Sites — Made to be used. Made to be yours.', description: DESCRIPTION },
+  twitter: {
+    card: 'summary_large_image',
+    title: SITE_TITLE,
+    description: DESCRIPTION,
+    images: [`${SHARE_URL}${SITE_OG_IMAGE.url}`],
+  },
 }
 
 /* The Farzana Classroom story, one chapter per screen. The school screens show
@@ -38,16 +44,8 @@ const CHAPTERS: { shot: Shot; note?: string; kicker: string; title: string; body
     note: DEMO,
     kicker: 'Farzana Classroom',
     title: 'A platform for schools.',
-    body: 'Education software for schools, training organizations and education businesses. One proven platform, with each school’s own features built on top.',
-    gives: 'One system for classes, families and payments, instead of a website, a sign-up form and a payments app stitched together.',
-  },
-  {
-    shot: SHOTS.farzanaClasses,
-    note: DEMO,
-    kicker: 'A school on it',
-    title: 'A school, built on it.',
-    body: 'Each school gets its own site, name and crest, with its classes, families and payments in one place. Shown here with a demo school.',
-    gives: 'Families find a class, sign up and pay online at any hour, with no one at a desk to take it.',
+    body: 'Education software for schools, training organizations, education businesses or anyone who teaches classes, customized to your needs.',
+    gives: 'Classes, families and payments in one place, not three tools stitched together.',
   },
 ]
 
@@ -74,8 +72,8 @@ export default function Home() {
           </h1>
           <div className="mt-8 grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-end">
             <p className="cn-body max-w-[46ch]">
-              Kingdom Sites designs and builds websites and apps for businesses, churches and anyone who needs
-              software. Every screen on this page is from software I built.
+              I build websites and apps for businesses, churches and anyone who needs software. These screens are
+              all from my own work.
             </p>
             <div className="flex flex-wrap gap-3 lg:justify-end">
               <Link href={INQUIRE_PATH} className="cn-btn">
@@ -97,13 +95,14 @@ export default function Home() {
         </Scroll>
       </Scroll>
 
-      {/* Right after the first window and phone: I built this. Said once. */}
-      <Credit id="farzana" title="I built this." />
+      {/* Right after the first window and phone: What I built. Said once. */}
+      <Credit id="farzana" title="What I built" />
 
       {/* The Farzana story: the stage holds still, the screens change by chapter. */}
       <div id="farzana" className="scroll-mt-16" />
-      <Scroll mode="sticky" steps={CHAPTERS.length} className="cn-scene" aria-label="Farzana Classroom">
-        <div style={{ height: `${CHAPTERS.length * 85}svh` }} className="cn-scene-h">
+      {/* One chapter is a still screen: it is not pinned, so there is no scroll to walk through (T-381 left one). */}
+      <Scroll mode="sticky" steps={CHAPTERS.length} className={`cn-scene${CHAPTERS.length > 1 ? '' : ' cn-scene-still'}`} aria-label="Farzana Classroom">
+        <div style={CHAPTERS.length > 1 ? { height: `${CHAPTERS.length * 85}svh` } : undefined} className="cn-scene-h">
           <div className="cn-pin">
             <div className="cn-wrap w-full">
               <div className="cn-scene-grid">
@@ -123,11 +122,13 @@ export default function Home() {
                       </div>
                     ))}
                   </div>
-                  <div className="cn-rail" aria-hidden="true">
-                    {CHAPTERS.map((c, i) => (
-                      <span key={c.title} className={`cn-r${i}`} />
-                    ))}
-                  </div>
+                  {CHAPTERS.length > 1 ? (
+                    <div className="cn-rail" aria-hidden="true">
+                      {CHAPTERS.map((c, i) => (
+                        <span key={c.title} className={`cn-r${i}`} />
+                      ))}
+                    </div>
+                  ) : null}
                 </div>
                 <div className="cn-screens">
                   {CHAPTERS.map((c, i) => (
@@ -161,31 +162,33 @@ export default function Home() {
       </Scroll>
 
       <div className="cn-wrap mt-10 flex justify-center lg:mt-0">
-        <LitLink href="/portfolio#farzana" label="The whole Farzana Classroom story" />
+        <LitLink href="/portfolio" label="The whole Farzana Classroom story" />
       </div>
 
-      {/* The Latin learning game: phones at different depths. */}
+      {/* JAM Legio, the Latin learning game: phones at different depths. */}
       <section aria-labelledby="latin" className="mt-32 sm:mt-44">
         <div className="cn-wrap grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-end">
           <h2 id="latin" className="cn-display cn-h2">
             In students’ pockets.
           </h2>
           <p className="cn-body max-w-[44ch]">
-            A Latin learning game for iPhone and Android. Students travel the Roman world city by city, answer case
+            JAM Legio, a Latin learning game for iPhone and Android. Students travel the Roman world city by city, answer case
             challenges and race each other on the leaderboard.{' '}
             <Link href="/latin-game" className="text-[var(--fg)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-current">
-              See the game
+              See JAM Legio
             </Link>
           </p>
         </div>
-        <Scroll className="cn-wrap mt-16 pb-24 sm:mt-24">
+        <Scroll className="cn-wrap mt-16 pb-6 sm:mt-24">
           <div className="cn-depth mx-auto max-w-[1180px]">
             {[SHOTS.latinHome, SHOTS.latinMap, SHOTS.latinCase, SHOTS.latinBoard].map((s) => (
               <Phone key={s.src} shot={s} />
             ))}
           </div>
         </Scroll>
-        <Credit id="latin" />
+        <div className="cn-wrap">
+          <LatinPartner />
+        </div>
       </section>
 
       {/* What I make: each line comes on as it reaches the middle of the screen. */}
@@ -215,21 +218,28 @@ export default function Home() {
 
       {/* More work. */}
       <section aria-labelledby="more" className="cn-wrap mt-32 sm:mt-44">
-        <h2 id="more" className="cn-kicker">More work</h2>
+        <h2 id="more" className="cn-kicker">More from my portfolio</h2>
         <div className="mt-8 grid gap-x-10 gap-y-12 md:grid-cols-3">
-          {MORE.map((p) => (
-            <Scroll key={p.slug}>
-              <a href={p.href} className="cn-reveal cn-card group block">
-                <p className="cn-dim text-sm">
-                  {p.forWhom} · {ROLE[p.slug]}
-                </p>
-                <h3 className="cn-display cn-h3 mt-2 transition-transform duration-300 group-hover:translate-x-1">
-                  {p.name} <span aria-hidden="true" className="cn-dim">↗</span>
-                </h3>
-                <p className="cn-body mt-3 text-[1.02rem]">{p.line}</p>
-              </a>
-            </Scroll>
-          ))}
+          {MORE.map((p) => {
+            const external = p.href!.startsWith('http')
+            return (
+              <Scroll key={p.slug} className="flex">
+                <a
+                  href={p.href}
+                  className="cn-reveal cn-card group block"
+                  {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                >
+                  <p className="cn-dim text-sm">
+                    {p.forWhom} · {ROLE[p.slug]}
+                  </p>
+                  <h3 className="cn-display cn-h3 cn-case-name mt-2">
+                    <CaseTitle name={p.name} />
+                  </h3>
+                  <p className="cn-body cn-case-line mt-3 text-[1.02rem]">{p.line}</p>
+                </a>
+              </Scroll>
+            )
+          })}
         </div>
       </section>
 
@@ -250,12 +260,11 @@ export default function Home() {
             </a>
           </p>
         </div>
-        <Scroll className="cn-wrap mt-14 pb-16 sm:mt-20 sm:pb-24">
+        <Scroll className="cn-wrap mt-14 sm:mt-20">
           <div className="cn-reveal mx-auto max-w-[1180px]">
             <Browser shot={SHOTS.kcupgDashboard} product="KCUPG" />
           </div>
         </Scroll>
-        <Credit id="kcupg" />
       </section>
 
       {/* Why it matters: the business case, in plain words. */}
@@ -281,8 +290,8 @@ export default function Home() {
       <section aria-label="Start a conversation" className="cn-wrap pb-28 pt-36 text-center sm:pb-40 sm:pt-52">
         <h2 className="cn-display cn-h1 mx-auto max-w-[12ch]">Yours could be next.</h2>
         <p className="cn-body mx-auto mt-6 max-w-[40ch]">
-          A website, an app, or help putting AI to work: tell me what you have in mind. You talk to me, the person who
-          builds it, and you get a plan and a quote once I understand it.
+          A website, an app, or help putting AI to work: tell me what you have in mind. You talk to me, Thomas, the person who
+          will build it, and you get a plan and a quote once I understand it.
         </p>
         <Link href={INQUIRE_PATH} className="cn-btn mt-10">
           {INQUIRE_CTA} <span aria-hidden="true">→</span>

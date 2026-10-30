@@ -9,6 +9,7 @@ import shotCase from '../../../public/latin-game/case-challenge.jpg'
 import shotLeaderboard from '../../../public/latin-game/leaderboard.jpg'
 import shotMap from '../../../public/latin-game/map.jpg'
 import { LATIN_STORES } from '@/lib/work'
+import LatinPartner from '@/components/cinematic/LatinPartner'
 
 /** Set these once each app is live and the buttons become real links. */
 const APP_STORE_URL = LATIN_STORES.appStore
@@ -137,7 +138,7 @@ export default function LatinGame() {
             <span className="brand-sep" aria-hidden="true" />
             <div className="brand">
               <span className="crest" aria-hidden="true">L</span>
-              Latin practice game
+              JAM Legio
             </div>
           </div>
           <div className="nav-right">
@@ -181,7 +182,7 @@ export default function LatinGame() {
           </h1>
 
           <p className="sub">
-            A Roman-legion adventure that teaches you classical Latin — <strong>declensions, verb
+            JAM Legio is a Roman-legion Latin game that teaches you classical Latin — <strong>declensions, verb
             endings, and sentences you can actually read</strong> — one city at a time, on iPhone
             and Android.
           </p>
@@ -380,7 +381,10 @@ export default function LatinGame() {
 
       <footer>
         <div className="wrap">
-          <span>A Latin learning game · {new Date().getFullYear()}</span>
+          <LatinPartner className="partner" />
+        </div>
+        <div className="wrap">
+          <span>JAM Legio · {new Date().getFullYear()}</span>
           <span>
             <Link href="/portfolio">Designed &amp; built by Kingdom Sites</Link>
           </span>

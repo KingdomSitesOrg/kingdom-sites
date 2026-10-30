@@ -24,20 +24,20 @@ export const SHOTS = {
   farzanaClass: { src: '/work/demo-class.jpg', alt: 'Farzana Classroom, a demo school’s page for its Backyard astronomy class, with a free sample to try', w: 1800, h: 1125 },
   farzanaClassPhone: { src: '/work/demo-class-phone.jpg', alt: 'The same class page on a phone', w: 780, h: 1688 },
   farzanaDesk: { src: '/work/demo-desk.jpg', alt: 'Farzana Classroom, a demo school’s analytics: 248 students, 131 active this week, the newest students', w: 1800, h: 1125 },
-  latinHome: { src: '/latin-game/home.jpg', alt: 'A Latin learning game, the home screen', w: 660, h: 1434 },
-  latinMap: { src: '/latin-game/map.jpg', alt: 'A Latin learning game, the journey map across the Roman world', w: 660, h: 1434 },
-  latinCase: { src: '/latin-game/case-challenge.jpg', alt: 'A Latin learning game, a case challenge', w: 660, h: 1434 },
-  latinBoard: { src: '/latin-game/leaderboard.jpg', alt: 'A Latin learning game, the leaderboard', w: 660, h: 1434 },
+  latinHome: { src: '/latin-game/home.jpg', alt: 'JAM Legio, the home screen', w: 660, h: 1434 },
+  latinMap: { src: '/latin-game/map.jpg', alt: 'JAM Legio, the journey map across the Roman world', w: 660, h: 1434 },
+  latinCase: { src: '/latin-game/case-challenge.jpg', alt: 'JAM Legio, a case challenge', w: 660, h: 1434 },
+  latinBoard: { src: '/latin-game/leaderboard.jpg', alt: 'JAM Legio, the leaderboard', w: 660, h: 1434 },
   tapOverview: { src: '/tap-to-tick/overview.jpg', alt: 'Tap to Tick, a month of spending at a glance', w: 644, h: 1400 },
   tapLog: { src: '/tap-to-tick/log.jpg', alt: 'Tap to Tick, logging a purchase', w: 644, h: 1400 },
-  rutaQueue: { src: '/work/ruta-crew-queue.jpg', alt: 'Ruta’s crew app, the day’s queue of visits with a Clock in button', w: 718, h: 1332 },
-  rutaVisit: { src: '/work/ruta-crew-visit.jpg', alt: 'Ruta’s crew app, one visit: the crew, an admin note and an aerial view of the property', w: 718, h: 1332 },
-  rutaTime: { src: '/work/ruta-crew-time.jpg', alt: 'Ruta’s crew app, the time clock with the hours worked this week', w: 718, h: 1332 },
+  rutaQueue: { src: '/work/ruta-crew-queue.jpg', alt: 'Ruta’s crew app, the day’s visits in order, with the next one in progress', w: 660, h: 1434 },
+  rutaVisit: { src: '/work/ruta-crew-visit.jpg', alt: 'Ruta’s crew app, one visit: the job, its details and the Complete button', w: 660, h: 1434 },
+  rutaTime: { src: '/work/ruta-crew-time.jpg', alt: 'Ruta’s crew app, the time clock with the hours worked this week', w: 660, h: 1434 },
   kcupgDashboard: { src: '/work/kcupg-dashboard.jpg', alt: 'KCUPG’s dashboard: Kansas City’s communities at a glance, with people, mapped places and census areas, and each region by size', w: 1800, h: 1125 },
 } satisfies Record<string, Shot>
 
-/* The Latin learning game's store listings. The addresses are the stores' own
-   and stay as they are; nothing on the page names the client. */
+/* JAM Legio's store listings. The addresses are the stores' own and stay as
+   they are. */
 export const LATIN_STORES = {
   appStore: 'https://apps.apple.com/us/app/jam-legio/id6797884645',
   googlePlay: 'https://play.google.com/store/apps/details?id=com.jamwithlatin.app',
@@ -71,14 +71,14 @@ export const PROJECTS: Project[] = [
     name: 'Farzana Classroom',
     kind: 'Platform',
     forWhom: 'Schools and education businesses',
-    line: 'Education software for schools, training organizations and education businesses. One proven platform, with the features each school actually needs built on top.',
+    line: 'Education software for schools, training organizations, education businesses or anyone who teaches classes, customized to your needs.',
     platforms: 'Web, phone and desktop',
     status: 'In beta, first school coming soon',
     href: 'https://farzana.app',
   },
   {
     slug: 'latin-game',
-    name: 'A Latin learning game',
+    name: 'JAM Legio',
     kind: 'App',
     forWhom: 'Latin students',
     line: 'A Latin learning game. Students travel the Roman world city by city, answer case challenges and race each other on the leaderboard.',
@@ -102,7 +102,7 @@ export const PROJECTS: Project[] = [
     name: 'Ruta',
     kind: 'Contract',
     forWhom: 'Landscaping businesses',
-    line: 'Contract work on a live service-management platform: the office app, the customer portal and the crew’s phone app.',
+    line: 'Contract work on a live platform: the office app, the customer portal and the crew’s phone app.',
     platforms: 'Web, iPhone and Android',
     status: 'Live',
     href: '/ruta',
@@ -112,7 +112,7 @@ export const PROJECTS: Project[] = [
     name: 'Delta Development Project',
     kind: 'Website',
     forWhom: 'A project of SIM Bangladesh',
-    line: 'The website for work with river-bank and urban communities in northern Bangladesh and Dhaka: village schools, vocational training, disaster response.',
+    line: 'Village schools, vocational training and disaster response in northern Bangladesh and Dhaka.',
     platforms: 'Web',
     status: 'Live',
     href: 'https://deltadevelopmentproject.com',
@@ -123,7 +123,7 @@ export const PROJECTS: Project[] = [
     name: 'KCUPG',
     kind: 'Website',
     forWhom: 'Kansas City',
-    line: 'A dashboard of Kansas City’s South Asian communities: people, languages and faith on one map.',
+    line: 'Kansas City’s communities from North Africa to East Asia on one map: people, languages and faith.',
     platforms: 'Web',
     status: 'Live',
     href: 'https://kcupgs.com',
@@ -134,7 +134,7 @@ export const PROJECTS: Project[] = [
     name: 'Prayer',
     kind: 'Website',
     forWhom: 'Churches and small groups',
-    line: 'A kit for a weekly prayer meeting for the unreached: a verse, a story, prayer points and free guides to download.',
+    line: 'I made a weekly prayer meeting kit for the unreached: a verse, a story, prayer points and free guides.',
     platforms: 'Web',
     status: 'Live',
     href: '/prayer',
@@ -145,7 +145,7 @@ export const PROJECTS: Project[] = [
     name: 'Ministry',
     kind: 'Website',
     forWhom: 'Anyone meeting the Bible for the first time',
-    line: 'Short, hand-drawn walkthroughs of books of the Bible, in English and Bangla, free to watch, download and share.',
+    line: 'I make short, hand-drawn walkthroughs of Bible books, in English and Bangla, free to watch and share.',
     platforms: 'Web',
     status: 'Live',
     href: '/ministry',
@@ -168,19 +168,15 @@ export const PROJECTS: Project[] = [
 export const OFFER = [
   {
     title: 'Websites',
-    body: 'A site that says what you do, shows up when people search for it, and that you can keep up to date without calling anyone.',
+    body: 'A site that says what you do, shows up in search, and that you can update yourself.',
   },
   {
     title: 'iPhone and Android apps',
-    body: 'Designed, built and put on the App Store and Google Play under your name, then kept working through every new phone and system update.',
-  },
-  {
-    title: 'The software behind them',
-    body: 'Sign-in, payments, class lists, schedules, a dashboard for the office. The parts that make a site or an app actually run your work.',
+    body: 'Designed, built and published on the App Store and Google Play under your name, and kept working as phones update.',
   },
   {
     title: 'AI consultation',
-    body: 'Helping you use AI well: where it fits in your work, setting it up, and building it into the tools you already use.',
+    body: 'I help you use AI to bring in more revenue, save time and grow your business. I have built AI into this website, Ruta and Farzana.',
     href: '/ai-tooling',
   },
 ] satisfies { title: string; body: string; href?: string }[]
@@ -190,23 +186,14 @@ export const OFFER = [
  * what it does for the people who use it (T-372). Outcomes only, no numbers:
  * none of these products has a measured figure to quote yet.
  */
+export type Made = { name: string; text: string }
+
 export const MADE = {
   farzana: {
     name: 'Farzana Classroom',
-    made: 'The design, the web app, sign-in, payments and the teacher’s desk.',
-    gives: 'Families find a class, try it and pay online at any hour, and the school sees every student on one screen.',
+    text: 'I built this from the ground up as a stable, quality, easy-to-navigate classroom app. Everything is stitched together, from payments to quiz results.',
   },
-  latin: {
-    name: 'The Latin learning game',
-    made: 'The design, the iPhone and Android apps, the levels and the leaderboard.',
-    gives: 'Daily practice that feels like a game, and a programme on the App Store and Google Play, where new families can find it.',
-  },
-  kcupg: {
-    name: 'KCUPG',
-    made: 'The design, the dashboard, and the map of the city’s communities and the places to meet them.',
-    gives: 'Churches and ministries in Kansas City see which communities live where, and where to meet them, in one place.',
-  },
-} satisfies Record<string, { name: string; made: string; gives: string }>
+} satisfies Record<string, Made>
 
 /** The business case, said plainly, before the closing call (T-372; wording replaced T-374). */
 export const PAYS = [
@@ -245,7 +232,7 @@ export const AUDIENCES = [
 
 export const STEPS = [
   { title: 'Tell me what you have in mind', body: 'A few lines is plenty. A site, an app, or a problem you keep working around.' },
-  { title: 'You and I talk it through', body: 'You talk to the person who builds it. I ask what it has to do, and for whom.' },
+  { title: 'You and I talk it through', body: 'You talk to Thomas, the person who builds it. I ask what it has to do, and for whom.' },
   { title: 'A plan and a quote', body: 'Once I understand the project, you get a clear plan and a quote. No pressure.' },
   { title: 'Built, launched, looked after', body: 'I build it with you, put it live, and stay for the fixes and the next version.' },
 ]

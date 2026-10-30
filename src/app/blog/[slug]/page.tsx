@@ -3,13 +3,14 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getAllPosts, getPost, formatPostDate, type BlogBlock } from '@/lib/blog'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
+import { SHARE_URL } from '@/lib/seo'
 
 type Props = { params: Promise<{ slug: string }> }
 
 /* The picture shown when a post is shared, and the one search engines read as
   the article's image. A page that sets its own share card replaces the site
   default wholesale, so posts have to name it themselves or they go out bare. */
-const SHARE_IMAGE = 'https://kingdom-sites.com/share/kingdom-sites.jpg'
+const SHARE_IMAGE = `${SHARE_URL}/share/kingdom-sites.jpg`
 
 export function generateStaticParams() {
  return getAllPosts().map((p) => ({ slug: p.slug }))

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { SHARE_URL } from '@/lib/seo'
 import Link from 'next/link'
 import { Noto_Sans_Bengali } from 'next/font/google'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
     title: 'Ministry — Kingdom Sites',
     description:
       'Short, hand-drawn walkthroughs of books of the Bible, in English and Bangla. Free to watch, download, and share.',
-    url: 'https://kingdom-sites.com/ministry',
+    url: `${SHARE_URL}/ministry`,
     siteName: 'Kingdom Sites',
     type: 'website',
     images: [{ url: '/ministry/ephesians-en.jpg', width: 1920, height: 1080 }],

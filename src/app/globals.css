@@ -47,16 +47,31 @@
   --font-display: var(--font-reem-kufi), "Trebuchet MS", sans-serif;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 /* What shows when a page is dragged past its end. The top half of the viewport
    stays the page colour, the bottom half is the footer's dark — so overscrolling
    at the foot of a page shows dark rather than a band of white. The gradient is
    fixed to the viewport, so it never moves with the content. */
 html {
   background: linear-gradient(to bottom, var(--color-canvas) 50%, var(--color-dark) 50%) fixed;
+  /* One scroll bar for the whole site (T-376): slim, light grey thumb on the dark track.
+     scrollbar-color is read by Firefox and recent Chrome; the webkit rules below are
+     what Safari and older Chrome read. Inner scrollers get the same bar. */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(239, 235, 227, 0.4) #0b0b0c;
+}
+
+::-webkit-scrollbar { width: 9px; height: 9px; }
+::-webkit-scrollbar-track { background: #0b0b0c; }
+::-webkit-scrollbar-thumb { background: rgba(239, 235, 227, 0.4); border-radius: 5px; border: 2px solid #0b0b0c; }
+::-webkit-scrollbar-thumb:hover { background: rgba(239, 235, 227, 0.6); }
+
+/* Touch screens (phones): iOS Safari shows its own bar only while scrolling and no page
+   can force it, so PhoneScrollIndicator.tsx draws a slim marker on the right edge. */
+.scroll-marker { display: none; position: fixed; top: 0; bottom: 0; right: 0; width: 10px; z-index: 60; pointer-events: none; opacity: 0; transition: opacity 0.4s ease; }
+.scroll-marker.is-on { opacity: 1; }
+.scroll-marker-thumb { position: absolute; top: 0; right: 2px; width: 4px; height: 40px; border-radius: 2px; background: rgba(239, 235, 227, 0.4); will-change: transform; }
+@media (hover: none) {
+  .scroll-marker { display: block; }
 }
 
 body {
@@ -700,3 +715,39 @@ body {
 .rating-slider[data-unset]::-moz-range-progress { background: transparent; }
 .rating-slider:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 5px rgba(10, 99, 201, 0.22); }
 .rating-slider:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 5px rgba(10, 99, 201, 0.22); }
+
+/* A hand on everything that does something when clicked (T-380). Browsers show
+   an arrow on buttons by default, so every clickable thing gets the hand here, and
+   disabled controls show not-allowed. It sits in the base layer, so a component's
+   own cursor rule and the cursor-* utilities still win over it. */
+@layer base {
+  button,
+  [role='button'],
+  [role='tab'],
+  [role='switch'],
+  [role='checkbox'],
+  [role='radio'],
+  [role='option'],
+  [role='menuitem'],
+  a[href],
+  summary,
+  label[for],
+  select,
+  input[type='button'],
+  input[type='submit'],
+  input[type='reset'],
+  input[type='checkbox'],
+  input[type='radio'],
+  input[type='file'],
+  input[type='image'] {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  input:disabled,
+  select:disabled,
+  textarea:disabled,
+  [aria-disabled='true'] {
+    cursor: not-allowed;
+  }
+}

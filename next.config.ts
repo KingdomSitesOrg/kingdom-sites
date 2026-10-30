@@ -5,19 +5,16 @@ const isDev = process.env.NODE_ENV === 'development'
 
 const csp = [
   "default-src 'self'",
-  // Google Analytics 4 loads its tag from googletagmanager.com. Without it
-  // listed here the browser blocks the script and no visits are ever recorded.
-  `script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://assets.calendly.com https://calendly.com${isDev ? " 'unsafe-eval'" : ''}`,
+  `script-src 'self' 'unsafe-inline' https://assets.calendly.com https://calendly.com${isDev ? " 'unsafe-eval'" : ''}`,
   // Sentry Session Replay compresses recordings on a background thread that it
   // starts from an in-memory blob: script. Without this it falls back to
   // script-src and gets blocked.
   "worker-src 'self' blob: https://unpkg.com",
   "style-src 'self' 'unsafe-inline'",
-  // Analytics still falls back to a tracking pixel in some browsers.
-  "img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com https://*.calendly.com https://unpkg.com https://calendly.com",
+  "img-src 'self' data: blob: https://*.calendly.com https://unpkg.com https://calendly.com",
   "font-src 'self' https://assets.calendly.com",
-  // Sentry reports errors; the Google hosts are where Analytics sends pageviews.
-  `connect-src 'self' https://unpkg.com https://*.ingest.us.sentry.io https://*.ingest.sentry.io https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://calendly.com https://*.calendly.com`,
+  // Sentry reports errors.
+  `connect-src 'self' https://unpkg.com https://*.ingest.us.sentry.io https://*.ingest.sentry.io https://calendly.com https://*.calendly.com`,
   "form-action 'none'",
   // Mission page embeds YouTube; /sign embeds same-origin PDF previews (and blob:).
   `frame-src 'self' blob: https://www.youtube.com https://www.youtube-nocookie.com https://calendly.com https://*.calendly.com`,
@@ -48,6 +45,8 @@ const FARZANA_PAGES: [clean: string, here: string][] = [
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: ['192.168.1.102'],
+  // Intelligence reads what it knows from this file at run time (T-375).
+  outputFileTracingIncludes: { '/api/intelligence': ['./content/intelligence.md'] },
   images: {
     formats: ['image/avif', 'image/webp'],
     qualities: [75, 95],
@@ -62,6 +61,11 @@ const nextConfig: NextConfig = {
       // /farzana is unlisted: shareable by link, kept out of search (the page and the film).
       { source: '/farzana', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] },
       { source: '/farzana/:path*', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] },
+      // Preview builds (the share link, preview.kingdom-sites.com) are copies of the site:
+      // every response says noindex, so search engines keep them out. Production is unchanged.
+      ...(process.env.VERCEL_ENV === 'preview'
+        ? [{ source: '/:path*', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] }]
+        : []),
     ]
   },
   // Links people already have in hand, typed or shared without the hyphens.
@@ -81,6 +85,9 @@ const nextConfig: NextConfig = {
       { source: '/seo', destination: '/', permanent: true },
       { source: '/software', destination: '/', permanent: true },
       { source: '/rochester-mn', destination: '/', permanent: true },
+      // The old local SEO page; its own redirect() answered 307 (temporary),
+      // which keeps the old address in Google's index.
+      { source: '/local-business', destination: '/', permanent: true },
       // The work pages are one Portfolio page now; the Farzana Classroom case
       // study is its first section.
       { source: '/my-work', destination: '/portfolio', permanent: true },

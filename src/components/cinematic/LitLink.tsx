@@ -16,9 +16,10 @@ export default function LitLink({ href, label }: { href: string; label: string }
   useEffect(() => {
     const el = ref.current
     if (!el) return
-    // A thin band across the middle of the screen (the middle 10% of the viewport).
+    // A band across the middle third of the viewport: lit from two-thirds down
+    // the screen until one-third from the top.
     const io = new IntersectionObserver(([entry]) => setLit(entry.isIntersecting), {
-      rootMargin: '-45% 0px -45% 0px',
+      rootMargin: '-33% 0px -33% 0px',
     })
     io.observe(el)
     return () => io.disconnect()

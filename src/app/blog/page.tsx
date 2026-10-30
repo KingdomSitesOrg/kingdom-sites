@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
+import { SITE_OG_IMAGE, SHARE_URL } from '@/lib/seo'
 import { getAllPosts, formatPostDate } from '@/lib/blog'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 
@@ -18,8 +19,9 @@ export const metadata: Metadata = {
   title: 'Kingdom Sites Blog — Rochester local business growth',
   description:
    'How local businesses in Rochester, MN get found, get clients, and grow without living in a marketing dashboard.',
-  url: 'https://kingdom-sites.com/blog',
+  url: `${SHARE_URL}/blog`,
   type: 'website',
+  images: [SITE_OG_IMAGE],
  },
 }
 

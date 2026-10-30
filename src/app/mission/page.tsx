@@ -1,12 +1,14 @@
 import Image from 'next/image'
+import { SHARE_URL } from '@/lib/seo'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import persecutedImage from '../../../public/Photos/persecuted-church.jpg'
+import MissionFilm from '@/components/MissionFilm'
 import UnreachedScroll from '@/components/UnreachedScroll'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 
 export const metadata: Metadata = {
-  title: 'My Mission — Kingdom Sites',
+  title: 'My mission',
   description:
     'How your project supports gospel work in the unreached world, and the organizations I stand with and give to.',
   alternates: { canonical: '/mission' },
@@ -14,9 +16,11 @@ export const metadata: Metadata = {
     title: 'My Mission — Kingdom Sites',
     description:
       'How your project supports gospel work in the unreached world, and the organizations I stand with and give to.',
-    url: 'https://kingdom-sites.com/mission',
+    url: `${SHARE_URL}/mission`,
     siteName: 'Kingdom Sites',
     type: 'website',
+    /* This page's own picture, named by the share address so it stays with the card. */
+    images: [{ url: `${SHARE_URL}/mission/opengraph-image.jpg`, width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
@@ -56,8 +60,14 @@ function ArrowOut() {
 export default function Mission() {
   return (
     <div className="band-dark w-full">
+      {/* ---------- the film (optional) ----------
+          The page opens on the Bangladesh film's poster frame, in a framed
+          window with room around it. Nothing plays or loads until Play is
+          pressed; the photograph below follows as normal. */}
+      <MissionFilm />
+
       {/* ---------- the photograph, held still while the lines pass over ----------
-          This is the opening of the page: no separate hero above it.
+          The film's poster sits above; this is the page's first full screen.
           The picture is stuck to the viewport; the sentences below it are pulled
           up over the top, so scrolling brings each one up from underneath. When
           the last one has gone by, the page carries on. No JavaScript involved. */}
@@ -73,7 +83,6 @@ export default function Mission() {
             alt="A mother holding her child in front of a destroyed building"
             className="h-full w-full object-cover object-[70%_18%] opacity-70 sm:object-center"
             sizes="100vw"
-            priority
           />
           {/* Dark at the edges so the words carry, clear across the middle. */}
           <div

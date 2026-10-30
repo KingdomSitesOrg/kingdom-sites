@@ -3,24 +3,29 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import aboutImage from '../../../public/Photos/about.jpg'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
+import { PERSON_LD, jsonLd, shareCard } from '@/lib/seo'
+
+const DESCRIPTION =
+  'Meet Thomas Klein of Kingdom Sites: websites, iPhone and Android apps, the software behind them, and AI consultation, designed, built and looked after by Thomas Klein, one engineer.'
 
 export const metadata: Metadata = {
-  title: 'About — Kingdom Sites',
-  description:
-    'Meet Thomas Klein of Kingdom Sites: websites, iPhone and Android apps, the software behind them, and AI consultation, designed, built and looked after by one engineer.',
+  title: 'About Thomas Klein',
+  description: DESCRIPTION,
   alternates: { canonical: '/about' },
+  ...shareCard('About Thomas Klein — Kingdom Sites', DESCRIPTION, '/about'),
 }
 
 export default function About() {
   return (
     <div className="cn-wrap pb-16 pt-16 sm:pb-24 sm:pt-24">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(PERSON_LD) }} />
       <div className="max-w-3xl">
         <p className="cn-kicker cn-rise">The studio</p>
         <h1 className="cn-display cn-h2 cn-rise cn-rise-2 mt-5 text-balance">
           About <span className="text-accent">Kingdom Sites.</span>
         </h1>
         <p className="cn-body cn-rise cn-rise-3 mt-6 max-w-[46ch] text-pretty">
-          Design, build, ship, and maintain — one engineer, on purpose, so you always know who you are
+          I design, build, ship and maintain everything myself, on purpose, so you always know who you are
           talking to.
         </p>
       </div>
@@ -51,28 +56,25 @@ export default function About() {
             Thomas Klein
           </h2>
           <p className="mt-5 text-pretty text-base leading-relaxed text-body sm:text-lg">
-            My name is Thomas Klein — a software engineer who designs, builds, ships, and maintains
-            mobile apps for people with an idea and more to do after launch. I would rather stay
-            with a handful of products for years than ship a one-off and disappear.
+            My name is Thomas Klein. I am first and foremost a problem solver and an engineer. I want to
+            help you accomplish your goals, and I do this with a purpose to glorify God.
           </p>
           <p className="mt-4 text-pretty text-[15px] leading-relaxed text-body sm:text-base">
-            The work is mobile-led software people actually use, plus the systems and AI that make
-            it real. I also help businesses use AI well: where it fits, setting it up, and building
-            it into the tools they already use. When you email, you get the person who builds it.
+            I make software people actually use: websites, apps and the systems behind them. I also help
+            you use AI to bring in more revenue, save time and grow your business. When you write to me,
+            you get me, the person who builds it.
           </p>
           <p className="mt-4 text-pretty text-[15px] leading-relaxed text-body sm:text-base">
-            My wife Monisha and I take on a small number of projects at a time, on purpose. We are currently in the Philippines at IGSL — the International Graduate School
-            of Leadership — training in biblical studies and discipleship. Client work carries on
-            from here, on the same timelines as always.
+            My wife Monisha and I are currently working from abroad. Kingdom Sites is based in Rochester,
+            Minnesota, and client work carries on as always, on the same timelines.
           </p>
           <div className="mt-8 grid gap-4">
             <div className="tile p-6">
               <h3 className="text-sm font-semibold tracking-tight text-ink">
-                Design, build, ship, maintain — not a handoff
+                I build it and I maintain it
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-body">
-                I design, build, ship, and stay — features, fixes, and the next version. Every
-                project is quoted once I understand it.{' '}
+                I build and maintain the app, so don&rsquo;t worry about maintenance.{' '}
                 <Link href={INQUIRE_PATH} className="link-accent">
                   {INQUIRE_CTA} <span aria-hidden="true">›</span>
                 </Link>
@@ -82,8 +84,9 @@ export default function About() {
             <div className="tile p-6">
               <h3 className="text-sm font-semibold tracking-tight text-ink">Portfolio</h3>
               <p className="mt-2 text-sm leading-relaxed text-body">
-                Contract work on Ruta, plus a Latin learning game for iPhone and Android and Tap to
-                Tick (a personal iOS expense app).{' '}
+                Farzana Classroom, education software I built from the ground up; JAM Legio, a Latin learning game
+                for iPhone and Android; Tap to Tick, my own iPhone expense app; and contract work on
+                Ruta.{' '}
                 <Link href="/portfolio" className="link-accent">
                   Portfolio <span aria-hidden="true">›</span>
                 </Link>
@@ -95,10 +98,9 @@ export default function About() {
                 Free websites for ministries
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-body">
-                Ministries, missionaries raising support, and churches get the site built for free
-                <span className="align-super text-[0.6em] text-accent">*</span> — the same care
-                every client gets. It is one of the ways this business goes toward the advance of
-                the gospel.{' '}
+                Ministries, missionaries raising support, and churches get their website built for free
+                <span className="align-super text-[0.6em] text-accent">*</span>, with the same care as
+                every client. It is one of the ways I put this business toward the gospel.{' '}
                 <Link href="/mission" className="link-accent">
                   My mission <span aria-hidden="true">›</span>
                 </Link>
@@ -117,7 +119,7 @@ export default function About() {
           {INQUIRE_CTA}
         </Link>
         <p className="mt-4 text-sm text-body">
-          Every enquiry goes to Thomas and gets a personal reply.
+          Every enquiry comes to me, and I reply personally.
         </p>
         <p className="mt-3 text-sm text-muted">
           <Link href="/portfolio" className="underline underline-offset-4">

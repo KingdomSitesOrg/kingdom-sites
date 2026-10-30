@@ -29,7 +29,11 @@
 .cn-body { font-size: clamp(1.05rem, 1.3vw, 1.25rem); line-height: 1.5; color: #cfcbc3; }
 
 /* Header: sits over the hero, solid once you scroll (no JS: it is just dark). */
-.cn-head { position: sticky; top: 0; z-index: 40; background: rgba(11, 11, 12, 0.82); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+/* Fixed, solid and at the very top edge: iOS 26 Safari tints the strip above the page from
+   a fixed element there, so this keeps that strip dark (T-378). The page makes room for it below. */
+.cn-head { position: fixed; top: 0; left: 0; right: 0; z-index: 40; background: #0b0b0c; border-bottom: 1px solid var(--line); }
+body:has(.cn-head) { padding-top: 61px; background: #0b0b0c; }
+html:has(.cn-head) { background: #0b0b0c; }
 .cn-head-in { display: flex; align-items: center; justify-content: space-between; min-height: 60px; gap: 16px; }
 .cn-nav { display: flex; align-items: center; gap: clamp(14px, 2.4vw, 32px); font-size: 15px; }
 .cn-nav a:not(.cn-btn) { color: #cfcbc3; padding-block: 10px; transition: color 0.2s; }
@@ -42,13 +46,14 @@
 .cn-btn-sm { min-height: 44px; padding: 0 18px; font-size: 14px; }
 .cn-ghost { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 20px; border-radius: 999px; border: 1px solid var(--line); font-size: 15px; transition: border-color 0.2s; }
 .cn-ghost:hover { border-color: rgba(239, 235, 227, 0.4); }
-/* A pill that lights up as it crosses the middle of the screen (LitLink.tsx). The
-   label reserves its bold width in a hidden copy, so going bold moves nothing. */
-.cn-ghost.cn-glow { color: #cfcbc3; transition: border-color 0.3s ease, color 0.3s ease, text-shadow 0.3s ease; }
-.cn-glow-text { display: block; text-align: center; font-weight: 400; transition: font-weight 0.3s ease, text-shadow 0.3s ease; }
+/* A pill that lights up as it crosses the middle third of the screen (LitLink.tsx). The
+   label reserves its bold width in a hidden copy, so going bold moves nothing.
+   The base rules set the ease-back (600 ms, unlit); the lit rules set the quicker light-up (300 ms). */
+.cn-ghost.cn-glow { color: #cfcbc3; transition: border-color 0.6s ease, color 0.6s ease, text-shadow 0.6s ease; }
+.cn-glow-text { display: block; text-align: center; font-weight: 400; transition: font-weight 0.6s ease, text-shadow 0.6s ease; }
 .cn-glow-text::after { content: attr(data-label); display: block; height: 0; overflow: hidden; visibility: hidden; font-weight: 600; }
-.cn-ghost.cn-glow.is-glow { color: var(--fg); border-color: rgba(239, 235, 227, 0.7); }
-.cn-glow.is-glow .cn-glow-text { font-weight: 600; text-shadow: 0 0 14px rgba(239, 235, 227, 0.35); }
+.cn-ghost.cn-glow.is-glow { color: var(--fg); border-color: rgba(239, 235, 227, 0.7); transition: border-color 0.3s ease, color 0.3s ease, text-shadow 0.3s ease; }
+.cn-glow.is-glow .cn-glow-text { font-weight: 600; text-shadow: 0 0 14px rgba(239, 235, 227, 0.35); transition: font-weight 0.3s ease, text-shadow 0.3s ease; }
 @media (prefers-reduced-motion: reduce) {
   .cn-glow-text, .cn-glow-text::after { transition: none; }
   .cn-glow.is-glow .cn-glow-text { font-weight: 400; text-shadow: none; }
@@ -86,6 +91,10 @@
 
 /* ---------- Chaptered scene: pinned stage, screens change by chapter ---------- */
 .cn-scene { position: relative; }
+/* A scene with one chapter is a still block: no pin, so no dead scroll. */
+.cn-scene-still .cn-scene-h { height: auto; }
+.cn-scene-still .cn-pin { position: static; height: auto; }
+@media (min-width: 1000px) { .cn-scene-still { padding-bottom: clamp(32px, 4vw, 56px); } }
 .cn-pin { position: sticky; top: 60px; height: calc(100svh - 60px); display: grid; align-items: center; }
 .cn-scene-grid { display: grid; gap: 40px; align-items: center; }
 @media (min-width: 1000px) { .cn-scene-grid { grid-template-columns: 0.8fr 1.6fr; gap: 64px; } }
@@ -163,22 +172,48 @@
 .cn-case:hover .cn-shot img { transform: scale(1.03); }
 @media (prefers-reduced-motion: reduce) { .cn-shot img { transition: none; } .cn-case:hover .cn-shot img { transform: none; } }
 
-/* Three phones in a depth row. */
-.cn-depth-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+/* Every card in a grid has the same shape (T-380): one picture frame at 16:10,
+   cropped from the top, and room for two lines of name and of description, so
+   each row lines up whatever the wording. */
+.cn-case-frame { aspect-ratio: 16 / 10; }
+.cn-case-frame img { height: 100%; object-fit: cover; object-position: top; }
+.cn-case-name { min-height: 1.9em; }
+.cn-case-line { min-height: 3em; }
+
+/* The arrow on a card's name (CaseTitle): one drawn shape, the same size and
+   weight as the name's letters, sitting on the middle of the lowercase letters.
+   On hover only the arrow moves, so the names stay lined up with their labels. */
+.cn-nowrap { white-space: nowrap; }
+.cn-arrow-wrap { display: inline-block; }
+.cn-arrow {
+  display: inline-block; width: 0.72em; height: 0.72em; margin-left: 0.2em;
+  vertical-align: middle; overflow: visible;
+  fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round;
+  transition: translate 0.3s cubic-bezier(0.2, 0.7, 0.1, 1);
+}
+.cn-arrow-up { rotate: -45deg; }
+.group:hover .cn-arrow { translate: 0.12em 0; }
+.group:hover .cn-arrow-up { translate: 0.08em -0.08em; }
+@media (prefers-reduced-motion: reduce) { .cn-arrow { transition: none; } }
+
+/* Three phones in a depth row, on the same four-column widths as .cn-depth, so they
+   are exactly the size of the four phones above them. Centred, not stretched. */
+.cn-depth-row { display: flex; justify-content: center; gap: clamp(10px, 2vw, 32px); }
+.cn-depth-row > * { flex: 0 0 calc((100% - 3 * clamp(10px, 2vw, 32px)) / 4); }
 
 /* Store buttons, in the ghost button's shape. */
 .cn-store svg { flex: none; }
 
 /* ---------- The maker's credit (T-372) ---------- */
-/* "I built this." as its own beat, once, with two credit lines. */
+/* "What I built" as its own beat, once, with its line of text. */
 .cn-credit { display: grid; gap: 28px; padding-block: clamp(56px, 9vw, 120px); border-top: 1px solid var(--line); }
 @media (min-width: 1000px) { .cn-credit { grid-template-columns: 1fr 1.1fr; align-items: end; gap: 64px; } }
-/* Without the big line: the two credits side by side, under the phones. */
-.cn-credit-sm { padding-block: 32px 0; }
-@media (min-width: 1000px) { .cn-credit-sm { grid-template-columns: none; } .cn-credit-sm .cn-credit-list { grid-template-columns: 1fr 1fr; gap: 64px; } }
-.cn-credit-list { display: grid; gap: 22px; margin: 0; }
-.cn-credit-list dt, .cn-for { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); font-weight: 500; }
-.cn-credit-list dd { margin: 6px 0 0; font-size: clamp(1.1rem, 1.5vw, 1.4rem); line-height: 1.4; color: var(--fg); max-width: 40ch; }
+.cn-credit-text { margin: 0; font-size: clamp(1.1rem, 1.5vw, 1.4rem); line-height: 1.4; color: var(--fg); max-width: 40ch; }
+
+/* JAM Legio's partner line (LatinPartner.tsx): small, under the game's phones. */
+.cn-partner { margin: 28px 0 0; font-size: 14px; line-height: 1.5; color: var(--dim); max-width: 60ch; }
+.cn-partner a { color: var(--fg); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 4px; }
+.cn-partner a:hover { text-decoration-color: currentColor; }
 
 /* Each chapter's line on what it does for the people who use it. */
 .cn-for { display: block; margin-bottom: 6px; }

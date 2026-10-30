@@ -1,4 +1,4 @@
-/* The Latin practice game's product page. The app has its own Roman identity —
+/* JAM Legio's product page. The app has its own Roman identity —
    navy halls, gold trim, crimson banners, parchment — so every rule here is
    scoped under .lgame and never touches the Kingdom Sites design.
 
@@ -103,7 +103,7 @@
    navigation is available on every page at every width. */
 .lgame .nav-toggle {
   display: none; align-items: center; justify-content: center;
-  width: 34px; height: 34px; padding: 0; margin-right: -6px;
+  width: 44px; height: 44px; padding: 0; margin-right: -11px; /* 44px to tap (T-383); the icon stays where it was */
   background: none; border: 0; color: rgba(255, 255, 255, 0.9); cursor: pointer;
 }
 .lgame .mobile-menu {
@@ -320,6 +320,10 @@
 .lgame footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; }
 .lgame footer a { text-decoration: none; }
 .lgame footer a:hover { color: var(--gold-light); }
+/* The partner line above the footer's row (LatinPartner.tsx). */
+.lgame footer .partner { margin: 0 0 18px; font-size: 13px; line-height: 1.5; color: rgba(255, 255, 255, 0.55); }
+.lgame footer .partner a { color: rgba(255, 255, 255, 0.8); text-decoration: underline; text-decoration-color: rgba(255, 255, 255, 0.3); text-underline-offset: 3px; }
+.lgame footer .partner a:hover { color: var(--gold-light); text-decoration-color: currentColor; }
 
 .lgame .reveal {
   opacity: 0; transform: translateY(18px);
