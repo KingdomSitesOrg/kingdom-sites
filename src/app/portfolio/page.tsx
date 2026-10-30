@@ -219,9 +219,9 @@ export default function Portfolio() {
           </div>
         </div>
         <Scroll className="cn-wrap mt-16 pb-24 sm:mt-20">
-          <div className="cn-depth cn-depth-3 mx-auto max-w-[900px]">
+          <div className="cn-depth cn-depth-row mx-auto max-w-[1180px]">
             {[SHOTS.rutaQueue, SHOTS.rutaVisit, SHOTS.rutaTime].map((s) => (
-              <Phone key={s.src} shot={s} sizes="(min-width: 980px) 280px, 29vw" />
+              <Phone key={s.src} shot={s} />
             ))}
           </div>
         </Scroll>
