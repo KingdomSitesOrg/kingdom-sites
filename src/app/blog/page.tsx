@@ -6,10 +6,10 @@ import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 export const metadata: Metadata = {
  title: 'Blog — growing local businesses in Rochester, MN',
  description:
-  'Practical notes on getting more clients, showing up on Google, and what is happening around Rochester, Minnesota for small businesses — coffee shops, bike shops, markets, and Chamber life.',
+  'Practical notes on getting more clients, showing up on Google, and what is happening around Rochester, Minnesota for businesses — coffee shops, bike shops, markets, and Chamber life.',
  alternates: { canonical: '/blog' },
  keywords: [
-  'Rochester MN small business blog',
+  'Rochester MN business blog',
   'grow local business Rochester',
   'get more clients Minnesota',
   'local SEO Rochester MN',

@@ -308,7 +308,7 @@ export default function SignerClient({ token }: { token: string }) {
                 Thank you.{' '}
                 {view.allSigned
                   ? 'All parties have signed — a completed PDF will be emailed shortly.'
-                  : 'We will email the completed PDF once everyone has signed.'}
+                  : 'You will get the completed PDF by email once everyone has signed.'}
               </p>
             </div>
           ) : editing ? (

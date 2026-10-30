@@ -7,7 +7,7 @@ import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { OFFER, PROJECTS, SHOTS, type Shot } from '@/lib/work'
 
 const DESCRIPTION =
-  'Websites and iPhone and Android apps for churches, schools and small businesses, designed, built and looked after by Kingdom Sites.'
+  'Websites and iPhone and Android apps for businesses, churches and anyone who needs software, designed, built and looked after by Kingdom Sites.'
 
 export const metadata: Metadata = {
   title: 'Kingdom Sites — Made to be used. Made to be yours.',
@@ -31,7 +31,8 @@ const PRODUCT = 'Farzana Classroom'
 const DEMO = 'Demo school'
 const CHAPTERS: { shot: Shot; note?: string; kicker: string; title: string; body: string; deskOnly?: boolean }[] = [
   {
-    shot: SHOTS.farzanaSite,
+    shot: SHOTS.farzanaHome,
+    note: DEMO,
     kicker: 'Farzana Classroom',
     title: 'A platform for schools.',
     body: 'Education software for schools, training organizations and education businesses. One proven platform, with each school’s own features built on top.',
@@ -83,15 +84,15 @@ export default function Home() {
           </h1>
           <div className="mt-8 grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-end">
             <p className="cn-body max-w-[46ch]">
-              Kingdom Sites designs and builds websites and apps for churches, schools and small businesses, then looks
-              after them once they are live. Every screen on this page is from software we built.
+              Kingdom Sites designs and builds websites and apps for businesses, churches and anyone who needs
+              software, then looks after them once they are live. Every screen on this page is from software I built.
             </p>
             <div className="flex flex-wrap gap-3 lg:justify-end">
               <Link href={INQUIRE_PATH} className="cn-btn">
                 {INQUIRE_CTA} <span aria-hidden="true">→</span>
               </Link>
               <a href="#farzana" className="cn-ghost">
-                Watch the work <span aria-hidden="true">↓</span>
+                See the portfolio <span aria-hidden="true">↓</span>
               </a>
             </div>
           </div>
@@ -101,7 +102,7 @@ export default function Home() {
             <Browser shot={SHOTS.farzanaDesk} product={PRODUCT} note={DEMO} priority />
           </div>
           <div className="cn-tilt-phone absolute bottom-0 right-[6%] w-[30%] max-w-[250px] sm:right-[8%] sm:w-[19%]">
-            <Phone shot={SHOTS.farzanaClassPhone} eager />
+            <Phone shot={SHOTS.farzanaClassPhone} eager sizes="(min-width: 1320px) 250px, (min-width: 640px) 19vw, 30vw" />
           </div>
         </Scroll>
       </Scroll>
@@ -159,7 +160,7 @@ export default function Home() {
       </Scroll>
 
       <div className="cn-wrap mt-10 flex justify-center lg:mt-0">
-        <Link href="/work/farzana" className="cn-ghost">
+        <Link href="/portfolio#farzana" className="cn-ghost">
           The whole Farzana Classroom story <span aria-hidden="true">→</span>
         </Link>
       </div>
@@ -187,9 +188,9 @@ export default function Home() {
         </Scroll>
       </section>
 
-      {/* What we make: each line comes on as it reaches the middle of the screen. */}
+      {/* What I make: each line comes on as it reaches the middle of the screen. */}
       <section aria-labelledby="make" className="cn-wrap mt-24 sm:mt-36">
-        <p id="make" className="cn-kicker">What we make</p>
+        <p id="make" className="cn-kicker">What I make</p>
         <div className="mt-8 space-y-10 sm:space-y-14">
           {OFFER.map((o) => (
             <Scroll key={o.title}>
@@ -224,7 +225,7 @@ export default function Home() {
       <section aria-label="Start a conversation" className="cn-wrap pb-28 pt-36 text-center sm:pb-40 sm:pt-52">
         <h2 className="cn-display cn-h1 mx-auto max-w-[12ch]">Yours could be next.</h2>
         <p className="cn-body mx-auto mt-6 max-w-[40ch]">
-          Tell us what you have in mind. You talk to the person who builds it, and you get a plan and a quote once we
+          Tell me what you have in mind. You talk to me, the person who builds it, and you get a plan and a quote once I
           understand it.
         </p>
         <Link href={INQUIRE_PATH} className="cn-btn mt-10">

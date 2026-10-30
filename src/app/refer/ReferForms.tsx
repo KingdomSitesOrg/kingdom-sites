@@ -8,7 +8,7 @@ import CopyRow from './CopyRow'
 /**
  * The referral page's two forms (T-284): "Get your link" (a name and an email
  * give a personal link at once, and a private tracker the first time) and "Or
- * tell us about someone". Both post to this site's own /api/refer (REFER_API,
+ * tell me about someone". Both post to this site's own /api/refer (REFER_API,
  * T-293). The hidden `company` field and the time since the page
  * opened are its spam checks; a person never sees either.
  */
@@ -274,7 +274,7 @@ function TellUs({ you, setYou, onLink, openedAt }: Shared) {
   return (
     <section className="tile-elevated relative flex flex-col gap-5 p-7 sm:p-10">
       <div className="flex flex-col gap-1.5">
-        <h2 className="text-2xl font-semibold tracking-tight text-ink">Or tell us about someone</h2>
+        <h2 className="text-2xl font-semibold tracking-tight text-ink">Or tell me about someone</h2>
         <p className="text-body">Tell me who they are and I will get in touch.</p>
       </div>
       {sentFor ? (
@@ -284,7 +284,7 @@ function TellUs({ you, setYou, onLink, openedAt }: Shared) {
           </p>
           <p className="text-sm text-muted">Your own link and tracker are in the box beside this one.</p>
           <button type="button" className="btn-ghost" onClick={() => setSentFor('')}>
-            Tell us about another
+            Tell me about another
           </button>
         </div>
       ) : (

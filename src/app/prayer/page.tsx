@@ -80,7 +80,7 @@ const TERMS = [
     body: 'The band of the world from roughly 10° to 40° north latitude across North Africa, the Middle East, and Asia — where most unreached peoples live, and where Christian presence is thinnest.',
   },
   {
-    heading: 'Why we care',
+    heading: 'Why I care',
     body: 'Romans 10:14 asks a hard question: how will they believe if they never hear? Prayer is not the whole answer — but it is the place most of us can start, and the place the work still needs most.',
   },
 ]

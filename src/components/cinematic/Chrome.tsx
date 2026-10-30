@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { CONTACT_EMAIL, CONTACT_MAILTO, INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import CinematicHeader from './Header'
+import WarmImages from './WarmImages'
 import { sans } from './fonts'
 import './cinematic.css'
 
@@ -11,6 +12,7 @@ export default function CinematicChrome({ children }: { children: React.ReactNod
       <CinematicHeader />
 
       <main>{children}</main>
+      <WarmImages />
 
       <footer className="cn-wrap cn-foot flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <p>© 2026 Kingdom Sites · Rochester, Minnesota</p>
