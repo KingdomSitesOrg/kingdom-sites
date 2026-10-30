@@ -37,6 +37,10 @@ const MAX_CHARS = 500
 
 /** Phones (and a phone on its side): the panel is a bottom sheet. Keep in step with intelligence.css. */
 const PHONE = '(max-width: 759px), (max-height: 520px)'
+/** Wide touch screens (iPad, a fold phone opened out): a wide panel on the visible part of the screen. Keep in step with intelligence.css. */
+const WIDE_TOUCH = '(min-width: 760px) and (min-height: 521px) and (hover: none) and (pointer: coarse)'
+/** Touch screens, where putting the cursor in the box would raise the keyboard before they asked for it. */
+const NO_AUTOFOCUS = `${PHONE}, ${WIDE_TOUCH}`
 
 let nextId = 1
 
@@ -57,7 +61,9 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
   const request = useRef<AbortController | null>(null)
   /** Set on close: focus goes back to the square once it is showing again. */
   const returnFocus = useRef(false)
-  const phone = usePhone()
+  const phone = useMedia(PHONE)
+  const wideTouch = useMedia(WIDE_TOUCH)
+  const sheet = phone || wideTouch
   const ids = useId()
   const panelId = `${ids}-panel`
   const titleId = `${ids}-title`
@@ -68,19 +74,19 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
   // would raise the keyboard before they asked for it); closing puts it back on the square.
   useEffect(() => {
     if (open) {
-      if (!inline && !window.matchMedia(PHONE).matches) input.current?.focus({ preventScroll: true })
+      if (!inline && !window.matchMedia(NO_AUTOFOCUS).matches) input.current?.focus({ preventScroll: true })
     } else if (returnFocus.current) square.current?.focus({ preventScroll: true })
     returnFocus.current = false
   }, [open])
 
-  // On a phone the sheet sits on the visual viewport, the part of the screen
-  // that is actually showing: when the keyboard comes up that part shrinks (and
-  // Safari may slide it down the page), and the sheet follows it, so the
+  // On a phone (and on a wide touch screen, T-383) the sheet sits on the visual viewport,
+  // the part of the screen that is actually showing: when the keyboard comes up that part
+  // shrinks (and Safari may slide it down the page), and the sheet follows it, so the
   // question box stays just above the keys. The page behind is locked while it is open.
   const root = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const el = root.current
-    if (!open || !phone || !el || inline) return
+    if (!open || !sheet || !el || inline) return
     const vv = window.visualViewport
     const place = () => {
       const height = vv?.height ?? window.innerHeight
@@ -124,7 +130,7 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
       Object.assign(document.body.style, was)
       window.scrollTo({ top: y, behavior: 'instant' })
     }
-  }, [open, phone, inline])
+  }, [open, sheet, inline])
 
   // Escape closes it wherever the focus is, even after a button it was on has gone.
   useEffect(() => {
@@ -140,7 +146,7 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
 
   // Sent: the cursor goes back to the question box.
   useEffect(() => {
-    if (handoff === 'sent' && !inline && !window.matchMedia(PHONE).matches) input.current?.focus({ preventScroll: true })
+    if (handoff === 'sent' && !inline && !window.matchMedia(NO_AUTOFOCUS).matches) input.current?.focus({ preventScroll: true })
   }, [handoff])
 
   // Keep the newest words in view as they come in, unless the reader has
@@ -503,14 +509,14 @@ function Reveal({ text, live }: { text: string; live: boolean }) {
 
 const CALM = '(prefers-reduced-motion: reduce)'
 
-function usePhone() {
+function useMedia(media: string) {
   return useSyncExternalStore(
     (change) => {
-      const query = window.matchMedia(PHONE)
+      const query = window.matchMedia(media)
       query.addEventListener('change', change)
       return () => query.removeEventListener('change', change)
     },
-    () => window.matchMedia(PHONE).matches,
+    () => window.matchMedia(media).matches,
     () => false,
   )
 }
