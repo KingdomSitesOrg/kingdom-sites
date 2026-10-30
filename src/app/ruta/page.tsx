@@ -19,7 +19,7 @@ export default function Ruta() {
       <section className="cn-wrap pb-20 pt-16 sm:pb-28 sm:pt-24">
         <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
           <div className="cn-rise cn-rise-3 flex flex-col items-center self-start">
-            <div className="w-full max-w-[300px] overflow-hidden rounded-[26px] shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_30px_80px_rgba(0,0,0,0.6)]">
+            <div className="cn-phone w-full max-w-[300px]">
               <RutaPhoneShot scene="portal" fill />
             </div>
             <p className="mt-5 max-w-[300px] text-center text-sm leading-relaxed text-muted">

@@ -8,7 +8,7 @@ import { APP_PROOF } from '@/lib/partnership'
 export const metadata: Metadata = {
   title: 'My portfolio',
   description:
-    'Apps and software Thomas Klein has designed, built, and shipped — a Latin learning game, Ruta, Tap to Tick, and more.',
+    'Apps and software Thomas Klein has designed, built, and shipped: Ruta, Tap to Tick, a Latin learning game for iPhone and Android, and more.',
   alternates: { canonical: '/my-work' },
 }
 

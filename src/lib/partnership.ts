@@ -8,23 +8,6 @@
 
 import { INQUIRE_CTA, INQUIRE_PATH } from './contact'
 
-/* The hero leads with the newest launch. Swap these back to the general app
-   offer once the announcement has run its course. */
-export const HERO = {
-  eyebrow: 'Out now on the App Store',
-  title: 'A Latin learning game, out now.',
-  accent: 'Want an app like this? I can build yours.',
-  sub:
-    'A Latin learning game I designed, built, and shipped — live on the App Store and already in students’ hands. Have an idea for an app, a tool, or a system for your business? Tell me about it.',
-  appHref: '/latin-game',
-  appCta: 'See the Latin game',
-  shots: [
-    { src: '/latin-game/map.jpg', alt: 'A Latin learning game, campaign map' },
-    { src: '/latin-game/home.jpg', alt: 'A Latin learning game, home screen' },
-    { src: '/latin-game/case-challenge.jpg', alt: 'A Latin learning game, case challenge' },
-  ],
-}
-
 export const APP_OFFER = {
   title: 'Apps I have built.',
   sub: 'Real products, live today — designed, built, shipped, and still looked after.',
@@ -91,12 +74,12 @@ export const APP_PROOF = [
   {
     name: 'A Latin learning game',
     href: '/latin-game',
-    line: 'A Latin learning game, live on the App Store — curriculum, play, and a reason for students to come back every day.',
+    line: 'A Latin learning game for iPhone and Android: curriculum, play, and a reason for students to come back every day.',
     phone: 'cards' as const,
     shots: [
-      { src: '/latin-game/home.jpg', alt: 'A Latin learning game, home screen' },
-      { src: '/latin-game/map.jpg', alt: 'A Latin learning game, campaign map' },
-      { src: '/latin-game/leaderboard.jpg', alt: 'A Latin learning game, leaderboard' },
+      { src: '/latin-game/home.jpg', alt: 'The Latin learning game, the home screen' },
+      { src: '/latin-game/map.jpg', alt: 'The Latin learning game, the journey map' },
+      { src: '/latin-game/leaderboard.jpg', alt: 'The Latin learning game, the leaderboard' },
     ],
   },
   {
@@ -121,24 +104,6 @@ export const APP_PROOF = [
     href: 'https://kcupgs.com',
     line: 'Kansas City South Asian community dashboard — people, languages, and faith at a glance.',
     shots: [] as const,
-  },
-] as const
-
-export const HOME_CLUSTER = [
-  {
-    href: '/tap-to-tick',
-    name: 'Tap to Tick',
-    shot: { src: '/tap-to-tick/overview.jpg', alt: 'Tap to Tick overview' },
-  },
-  {
-    href: '/ruta',
-    name: 'Ruta',
-    mock: 'portal' as const,
-  },
-  {
-    href: '/latin-game',
-    name: 'A Latin learning game',
-    shot: { src: '/latin-game/home.jpg', alt: 'A Latin learning game, home screen' },
   },
 ] as const
 

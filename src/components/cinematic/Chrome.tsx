@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { CONTACT_EMAIL, CONTACT_MAILTO, INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
+import CinematicHeader from './Header'
 import { sans } from './fonts'
 import './cinematic.css'
 
@@ -7,21 +8,7 @@ import './cinematic.css'
 export default function CinematicChrome({ children }: { children: React.ReactNode }) {
   return (
     <div className={`cn ${sans.variable}`}>
-      <header className="cn-head">
-        <div className="cn-wrap cn-head-in">
-          <Link href="/" className="cn-display text-[22px] tracking-tight" style={{ lineHeight: 1 }}>
-            Kingdom Sites
-          </Link>
-          <nav aria-label="Main" className="cn-nav">
-            <Link href="/work/farzana">Work</Link>
-            <Link href="/about" className="cn-hide-sm">Studio</Link>
-            <Link href="/mission" className="cn-hide-sm">Ministries</Link>
-            <Link href={INQUIRE_PATH} className="cn-btn cn-btn-sm">
-              Talk to us
-            </Link>
-          </nav>
-        </div>
-      </header>
+      <CinematicHeader />
 
       <main>{children}</main>
 
