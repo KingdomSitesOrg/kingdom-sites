@@ -61,7 +61,7 @@ export default function About() {
             it into the tools they already use. When you email, you get Thomas, the person who builds it.
           </p>
           <p className="mt-4 text-pretty text-[15px] leading-relaxed text-body sm:text-base">
-            My wife Monisha and I take on a small number of projects at a time, on purpose. I am based in Rochester, Minnesota, and I am currently working from abroad. I do not say where.
+            My wife Monisha and I take on a small number of projects at a time, on purpose. I am based in Rochester, Minnesota, and currently working from abroad.
             Client work carries on
             from here, on the same timelines as always.
           </p>
