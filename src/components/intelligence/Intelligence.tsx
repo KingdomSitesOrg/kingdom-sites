@@ -3,6 +3,7 @@
 import { Fragment, useEffect, useId, useRef, useState, useSyncExternalStore } from 'react'
 import { sans } from '@/components/cinematic/fonts'
 import './intelligence.css'
+import { paintDark } from '@/lib/paint-dark'
 
 /**
  * Intelligence (T-375): the square in the bottom-right corner of every studio
@@ -106,6 +107,7 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
     const y = window.scrollY
     const was = { top: document.body.style.top, position: document.body.style.position, left: document.body.style.left, right: document.body.style.right }
     html.classList.add('ki-lock')
+    const unpaint = paintDark()
     document.body.style.position = 'fixed'
     document.body.style.top = `${-y}px`
     document.body.style.left = '0'
@@ -118,6 +120,7 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
       el.removeEventListener('focusout', afterFocus)
       el.removeAttribute('data-keys')
       html.classList.remove('ki-lock')
+      unpaint()
       Object.assign(document.body.style, was)
       window.scrollTo({ top: y, behavior: 'instant' })
     }

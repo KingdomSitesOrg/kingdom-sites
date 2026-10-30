@@ -73,6 +73,7 @@
 .ki-backdrop { display: none; }
 .ki-short { display: none; }
 html.ki-lock { overflow: hidden; }
+html.cn-dark-room, html.cn-dark-room body { background: #0b0b0c; color-scheme: dark; }
 
 .ki-backdrop { display: none; }
 .ki-short { display: none; }
@@ -174,12 +175,14 @@ html.ki-lock { overflow: hidden; }
   .ki { --ki-vh: 100dvh; --ki-top: 0px; --ki-bottom: 0px; }
   .ki:not(.ki--inline)[data-open] .ki-backdrop {
     display: block; position: fixed; z-index: 59; left: 0; right: 0; top: var(--ki-top); height: var(--ki-vh);
-    background: rgba(0, 0, 0, 0.55); touch-action: none; animation: ki-fade 0.2s ease;
+    background: rgba(0, 0, 0, 0.55); touch-action: none; margin-bottom: -400px; padding-bottom: 400px; box-sizing: content-box; animation: ki-fade 0.2s ease;
   }
   .ki:not(.ki--inline) .ki-panel {
     z-index: 60; left: 0; right: 0; top: auto; bottom: var(--ki-bottom);
     height: auto; max-height: calc(var(--ki-vh) * 0.45);
     border-radius: 16px 16px 0 0; border-bottom: 0;
+    /* The sheet's own colour carries on below it, so no page shows between it and the keyboard. */
+    box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.5), 0 400px 0 0 var(--bg-2);
     transform-origin: 50% 100%;
     animation-name: ki-sheet;
   }
