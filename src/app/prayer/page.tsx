@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { SHARE_URL } from '@/lib/seo'
 import Image from 'next/image'
 import Link from 'next/link'
 import PrayerNav from './PrayerNav'
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
     title: 'Prayer — Kingdom Sites',
     description:
       'Romans 10:14 prayer meetings for the unreached. Guides, leader materials, and tools to start praying with a group.',
-    url: 'https://kingdom-sites.com/prayer',
+    url: `${SHARE_URL}/prayer`,
     siteName: 'Kingdom Sites',
     type: 'website',
     images: [{ url: '/prayer/globe.jpg', width: 1600, height: 1067 }],

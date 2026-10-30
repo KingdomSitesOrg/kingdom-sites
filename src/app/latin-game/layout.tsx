@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { SHARE_URL } from '@/lib/seo'
 import './latin-game.css'
 
 export const metadata: Metadata = {
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'A Latin practice game',
     description: 'March from Rōma to Gallia and learn real Latin along the way.',
-    url: 'https://kingdom-sites.com/latin-game',
+    url: `${SHARE_URL}/latin-game`,
     siteName: 'Latin practice game',
     locale: 'en_US',
     type: 'website',

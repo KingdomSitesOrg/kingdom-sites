@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { SHARE_URL } from '@/lib/seo'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import persecutedImage from '../../../public/Photos/persecuted-church.jpg'
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
     title: 'My Mission — Kingdom Sites',
     description:
       'How your project supports gospel work in the unreached world, and the organizations I stand with and give to.',
-    url: 'https://kingdom-sites.com/mission',
+    url: `${SHARE_URL}/mission`,
     siteName: 'Kingdom Sites',
     type: 'website',
   },

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { SITE_OG_IMAGE } from '@/lib/seo'
+import { SITE_OG_IMAGE, SHARE_URL } from '@/lib/seo'
 
 export const metadata: Metadata = {
   title: 'Ruta — contract work',
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: 'Ruta — contract work',
     description:
       'A short note on contract work I have participated in at Ruta. I did not start the company, and the product is not mine.',
-    url: 'https://kingdom-sites.com/ruta',
+    url: `${SHARE_URL}/ruta`,
     siteName: 'Kingdom Sites',
     locale: 'en_US',
     type: 'website',
