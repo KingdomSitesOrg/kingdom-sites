@@ -237,26 +237,26 @@ export default function Portfolio() {
           {CASES.map((p) => {
             const external = p.href!.startsWith('http')
             return (
-              <Scroll key={p.slug}>
+              <Scroll key={p.slug} className="flex">
                 <a
                   href={p.href}
                   className="cn-reveal cn-case group block"
                   {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                 >
-                  <span className="cn-shot">
+                  <span className="cn-shot cn-case-frame">
                     <Image src={p.card!.src} alt={p.card!.alt} width={p.card!.w} height={p.card!.h} loading="lazy" unoptimized />
                   </span>
-                  <p className="cn-dim mt-6 text-sm">
+                  <p className="cn-dim cn-case-label mt-6 text-sm">
                     {p.kind} · {p.forWhom}
                   </p>
-                  <h3 className="cn-display cn-h3 mt-2 transition-transform duration-300 group-hover:translate-x-1">
+                  <h3 className="cn-display cn-h3 cn-case-name mt-2 transition-transform duration-300 group-hover:translate-x-1">
                     {p.name}
                     {'\u00a0'}
                     <span aria-hidden="true" className="cn-dim">
                       {external ? '↗' : '→'}
                     </span>
                   </h3>
-                  <p className="cn-body mt-3 text-[1.02rem]">{p.line}</p>
+                  <p className="cn-body cn-case-line mt-3 text-[1.02rem]">{p.line}</p>
                 </a>
               </Scroll>
             )
