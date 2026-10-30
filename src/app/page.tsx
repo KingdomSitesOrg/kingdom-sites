@@ -93,8 +93,9 @@ export default function Home() {
 
       {/* The Farzana story: the stage holds still, the screens change by chapter. */}
       <div id="farzana" className="scroll-mt-16" />
-      <Scroll mode="sticky" steps={CHAPTERS.length} className="cn-scene" aria-label="Farzana Classroom">
-        <div style={{ height: `${CHAPTERS.length * 85}svh` }} className="cn-scene-h">
+      {/* One chapter is a still screen: it is not pinned, so there is no scroll to walk through (T-381 left one). */}
+      <Scroll mode="sticky" steps={CHAPTERS.length} className={`cn-scene${CHAPTERS.length > 1 ? '' : ' cn-scene-still'}`} aria-label="Farzana Classroom">
+        <div style={CHAPTERS.length > 1 ? { height: `${CHAPTERS.length * 85}svh` } : undefined} className="cn-scene-h">
           <div className="cn-pin">
             <div className="cn-wrap w-full">
               <div className="cn-scene-grid">

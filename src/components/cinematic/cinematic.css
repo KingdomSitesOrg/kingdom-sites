@@ -87,6 +87,10 @@
 
 /* ---------- Chaptered scene: pinned stage, screens change by chapter ---------- */
 .cn-scene { position: relative; }
+/* A scene with one chapter is a still block: no pin, so no dead scroll. */
+.cn-scene-still .cn-scene-h { height: auto; }
+.cn-scene-still .cn-pin { position: static; height: auto; }
+@media (min-width: 1000px) { .cn-scene-still { padding-bottom: clamp(32px, 4vw, 56px); } }
 .cn-pin { position: sticky; top: 60px; height: calc(100svh - 60px); display: grid; align-items: center; }
 .cn-scene-grid { display: grid; gap: 40px; align-items: center; }
 @media (min-width: 1000px) { .cn-scene-grid { grid-template-columns: 0.8fr 1.6fr; gap: 64px; } }
