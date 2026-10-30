@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import './tap-to-tick.css'
-import { TAP_TO_TICK_LD, jsonLd } from '@/lib/seo'
+import { TAP_TO_TICK_LD, jsonLd, SHARE_URL } from '@/lib/seo'
 
 export const metadata: Metadata = {
   title: 'Tap to Tick — an easy way to log and track transactions',
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Tap to Tick',
     description: 'An easy way to log and track transactions — including cash.',
-    url: 'https://kingdom-sites.com/tap-to-tick',
+    url: `${SHARE_URL}/tap-to-tick`,
     siteName: 'Tap to Tick',
     locale: 'en_US',
     type: 'website',
