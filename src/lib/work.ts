@@ -186,22 +186,12 @@ export const OFFER = [
  * what it does for the people who use it (T-372). Outcomes only, no numbers:
  * none of these products has a measured figure to quote yet.
  */
-export type Made = { name: string; text?: string; made?: string; gives?: string }
+export type Made = { name: string; text: string }
 
 export const MADE = {
   farzana: {
     name: 'Farzana Classroom',
     text: 'I built this from the ground up as a stable, quality, easy-to-navigate classroom app. Everything is stitched together, from payments to quiz results.',
-  },
-  latin: {
-    name: 'The Latin learning game',
-    made: 'The design, the iPhone and Android apps, the levels and the leaderboard.',
-    gives: 'Daily practice that feels like a game, and new families can find the program on the App Store and Google Play.',
-  },
-  kcupg: {
-    name: 'KCUPG',
-    made: 'I built the dashboard and the map.',
-    gives: 'Churches in Kansas City see which communities live where, and where to meet them.',
   },
 } satisfies Record<string, Made>
 
