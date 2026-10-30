@@ -49,7 +49,7 @@ export default function DocumentList({ initial }: { initial: EnvelopeSummary[] }
       {error ? <p className="text-sm text-warm">{error}</p> : null}
       {items.map((env) => (
         <div key={env.id} className="tile flex flex-wrap items-center gap-3 p-4">
-          <Link href={`/sign/envelopes/${env.id}`} className="min-w-0 flex-1">
+          <Link href={`/sign/envelopes/${env.id}`} className="min-w-0 w-full sm:w-auto sm:flex-1">
             <div className="font-medium text-ink hover:underline">{env.title}</div>
             <div className="mt-1 text-sm text-body">{nextStep(env)}</div>
             <div className="mt-1 text-xs text-muted">
