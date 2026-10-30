@@ -8,7 +8,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react'
 
 export type HeroSlide = { label: string; text: ReactNode; visual: ReactNode }
 
-const ADVANCE_MS = 6500
+const ADVANCE_MS = 3000
 const SWIPE_PX = 40
 
 export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
