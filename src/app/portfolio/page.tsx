@@ -127,13 +127,10 @@ export default function Portfolio() {
             </div>
           </Scroll>
         </div>
-        <div className="cn-wrap mt-12 flex flex-wrap gap-3">
+        <div className="cn-wrap mt-12">
           <a href={farzana.href} className="cn-ghost">
             farzana.app <span aria-hidden="true">↗</span>
           </a>
-          <Link href="/guides/school-sign-ups-and-payments-online" className="cn-ghost">
-            Sign-ups and payments for schools <span aria-hidden="true">›</span>
-          </Link>
         </div>
       </section>
 

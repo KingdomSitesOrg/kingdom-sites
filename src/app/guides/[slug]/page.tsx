@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import AuthorBox from '@/components/guides/AuthorBox'
 import GuideText from '@/components/guides/GuideText'
+import SummarizeButton from '@/components/intelligence/SummarizeButton'
 import { GUIDES, formatGuideDate, getGuide, relatedProjects, type GuideBlock } from '@/lib/guides'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { PERSON_LD, SHARE_URL, SITE_NAME, SITE_OG_IMAGE, SITE_URL, jsonLd } from '@/lib/seo'
@@ -166,6 +167,9 @@ export default async function GuidePage({ params }: Props) {
               <time dateTime={guide.updated}>{formatGuideDate(guide.updated)}</time>
             </p>
             <h1 className="cn-display cn-h3 mt-5 text-balance">{guide.question}</h1>
+            <div className="mt-5">
+              <SummarizeButton path={`guides/${guide.slug}`} title={guide.question} />
+            </div>
             <p className="mt-6 text-pretty text-lg leading-relaxed text-ink sm:text-xl">{guide.answer}</p>
           </div>
         </header>
@@ -232,7 +236,7 @@ export default async function GuidePage({ params }: Props) {
 
         <nav aria-labelledby="more-guides" className="mx-auto mt-16 max-w-2xl">
           <h2 id="more-guides" className="cn-kicker">
-            More questions people ask
+            More guides
           </h2>
           <ul className="mt-5 space-y-4">
             {others.map((g) => (

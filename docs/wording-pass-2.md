@@ -4,14 +4,14 @@ Every new or changed sentence on the site from the visibility work, so Thomas ca
 
 ## T-388: Guides (answer pages)
 
-A new section at /guides: an index and five answer pages, one question each. The blog stays as it is (Rochester business notes); the guides are their own section in the blog's design, because they answer national questions and carry an author box and Article data.
+A new section at /guides: an index and three guides, one question each. The church and school guides were removed on Thomas's word (2026-10-30), with their sitemap entries, data and links. No page says these are the questions people ask most; the index heading is Thomas's own line. The blog stays as it is (Rochester business notes); the guides are their own section in the blog's design, because they answer national questions and carry an author box and Article data.
 
 **To decide:**
 - The date on every guide is 30 October 2026, the day they were written. If the deploy is next week, they can be re-dated to the deploy day (one line each in `src/lib/guides.ts`).
 - The fee figures were checked on 30 October 2026 against Apple, Google, Stripe, Vercel and Supabase's own pages, linked under "Sources" on each guide.
 - Two sentences are new claims in Thomas's voice that no existing page says: "I will tell you plainly which one fits, even when the answer is the smaller, cheaper one" (Website or app) and "Half a page of notes, or a voice memo's worth of talking, is a good start" (How a quote works).
 
-### Around the guides (all five pages)
+### Around the guides (all three pages)
 
 | Page, where | New text | Why |
 |---|---|---|
@@ -20,16 +20,18 @@ A new section at /guides: an index and five answer pages, one question each. The
 | Each guide, author box | Written by / Thomas Klein / Kingdom Sites · Rochester, Minnesota / I make software people actually use: websites, apps and the systems behind them. When you write to me, you get me, the person who builds it. / About me › Portfolio › | The bio sentence is the About page's own; the box is asked for in the brief |
 | Guides with figures, "Sources" | Checked October 30, 2026. Fees change; each link has the current figure. | Every public figure has its source on the page |
 | Each guide, closing box | Have something in mind? / Tell me about it in a few lines. You and I talk first; you get a quote once I understand the project. / Start a conversation | The soft link to Get started; same promise as the site's quote line |
-| Each guide, list at the bottom | More questions people ask | Links the guides to each other |
+| Each guide, list at the bottom | More guides | Links the guides to each other |
+| Each guide and each blog post, under the heading | Summarize this article (button with the Intelligence sparkle) | Opens the chat and asks for the article in three or four points; follow-ups keep the article in view |
+| The chat, after a summary | The question box reads "Ask about this article, or anything else"; the visitor's question shows as "Summarize this article: (its title)" | Says what the chat is answering from |
 
 ### /guides (the index)
 
 | Where | New text | Why |
 |---|---|---|
-| Search title | Guides: websites and apps, answered plainly | Unique title |
-| Description | Plain answers to the questions people ask before a website or app: what a church needs, online sign-ups and payments for a school, website or app, how a quote works, and what an app costs to keep running. | Names every guide's subject |
-| Label, heading | Guides / The questions people ask me, answered plainly. | One h1 in the site's voice |
-| Intro | Before a website or an app, the same few questions come up. Here are my answers, the way I would give them to you in a conversation. | First person, plain |
+| Search title | Guides: websites and apps in plain words | Unique title |
+| Description | Common questions in the software development world, made easy to understand: website or app, how a quote works, and what an app costs to keep running after launch. | Thomas's line (2026-10-30), then every guide's subject |
+| Label, heading | Guides / Common questions in the software development world, made easy to understand. | Thomas's own words (2026-10-30), replacing "The questions people ask me, answered plainly." |
+| Intro | Short guides to choosing, pricing and keeping a website or app, the way I would explain them to you in a conversation. | First person, plain; no claim about which questions are common |
 | Each card | The guide's question, its description, "Read the answer" | |
 | Last card | Have a question that is not here? / Ask me. Every enquiry comes to me, and I reply personally. / Start a conversation | Second sentence is the About page's; fills the grid's last place |
 
@@ -41,80 +43,8 @@ A new section at /guides: an index and five answer pages, one question each. The
 | Footer (every studio page; home and Portfolio footer line) | Guides | Same |
 | /get-started, after "You and I talk first. You get a quote once I understand the project." | How a quote works › | Points to the quote guide where people decide to write |
 | /about, link line at the bottom | · Guides | |
-| /portfolio, Farzana section, next to farzana.app | Sign-ups and payments for schools › | The school guide from the project that proves it |
 | /portfolio, under "Yours could be next." | How a quote works · Website or app? · All guides | |
 
-### /guides/church-website-and-app
-
-Why: Audit §3 "church website designer / app for my church"; visibility plan §4 answer page 1. Proof only from Prayer, Ministry, KCUPG and the About page’s free-websites offer.
-
-| Where | New text |
-|---|---|
-| Search title | What a church needs from a website and app |
-| Description | A church website first: service times, where you meet, what a first visit is like, giving and contact. When a church app is worth building, and when it is not. |
-| Heading (h1) | What does a church need from a website and app? |
-| Answer (first two sentences) | Most churches need a clear website before they need an app: service times, where you meet, what a first visit is like, how to give, and how to get in touch. An app earns its place only when your people would open it every week for something a website does poorly, such as sign-ups, groups or notifications. |
-| Sub-heading | Start with the visitor’s questions |
-| Start with the visitor’s questions | Someone looking for a church almost always looks you up on a phone before they come. They are not reading your history. They want a handful of answers, fast: |
-| Start with the visitor’s questions, list | When and where you meet, with a map link that opens in their phone |
-| Start with the visitor’s questions, list | What a first Sunday is like: parking, children, how long it lasts, what people wear |
-| Start with the visitor’s questions, list | What you believe, in a few plain sentences |
-| Start with the visitor’s questions, list | Who the pastor is, with a photo |
-| Start with the visitor’s questions, list | How to get in touch, and how to give |
-| Start with the visitor’s questions | If those five are on the first screen or one tap away, the website is doing its main job. Everything else is extra. |
-| Sub-heading | Make it easy to keep up to date |
-| Make it easy to keep up to date | The most common problem with church websites is not the design. It is a page that still lists last year’s Christmas service. Whoever looks after the site should be able to change a service time, add an event or post a sermon link from a phone in a minute, without calling anyone. That matters more than any feature on this page. |
-| Sub-heading | Giving online |
-| Giving online | Online giving is usually the first thing a church wants beyond the basics, and it does not need an app. A giving page on the website that takes a card works on every phone. Card payments carry a processing fee: Stripe’s standard US rate, for example, is 2.9% + 30¢ per successful card payment ([Stripe]). Whichever service you use, the money should go straight to the church’s own account, and the giving records should belong to the church. |
-| Sub-heading | When an app is worth it |
-| When an app is worth it | An app is worth building when your people would open it every week, and it does something a website cannot do well: |
-| When an app is worth it, list | Notifications: a prayer request, a change to Sunday’s plans, a new sermon |
-| When an app is worth it, list | Sign-ups for groups, classes, meals or volunteering, with reminders |
-| When an app is worth it, list | Sermon notes, readings or a prayer guide that people use through the week |
-| When an app is worth it, list | A member directory that only members can see |
-| When an app is worth it | If most of what you want is announcements and service times, a website and a weekly email do that job for much less. An app also needs looking after once it is live: store fees and yearly updates. See [What does it cost to keep an app running after launch?] |
-| Sub-heading | What I have built for churches and ministries |
-| What I have built for churches and ministries | I built [Prayer], a kit for a weekly prayer meeting for the unreached: a verse, a story, prayer points and free guides to download. [Ministry] is my set of short, hand-drawn walkthroughs of Bible books, in English and Bangla. For Kansas City, I built the dashboard and the map for [KCUPG], so churches see which communities live where, and where to meet them. |
-| What I have built for churches and ministries | Churches, ministries and missionaries raising support get their website built for free. My time is the donation, and the domain name and hosting stay in your name ([my mission]). An app, or software beyond the website, is a normal project with a quote: see [How does a quote work?] |
-| Sub-heading | A short checklist |
-| A short checklist, list | Service times and address on the first screen |
-| A short checklist, list | A “first visit” section written for someone who has never been to church |
-| A short checklist, list | A giving page that takes a card |
-| A short checklist, list | One person who can update the site from a phone |
-| A short checklist, list | An app only once there is something your people would open every week |
-
-### /guides/school-sign-ups-and-payments-online
-
-Why: Audit §3 "class sign-up and payments for schools", "software for a homeschool co-op"; answer page 2. Farzana wording is the site’s own (Portfolio line, chat file), status "in beta, first school coming soon" kept honest.
-
-| Where | New text |
-|---|---|
-| Search title | Class sign-ups and payments online for a school or co-op |
-| Description | Yes: families can find a class, sign up and pay by card at any hour, and the teacher gets a roster that updates itself. Stitched-together tools or one system, what card payments cost, and where to start. |
-| Heading (h1) | Can a small school or co-op take sign-ups and payments online? |
-| Answer (first two sentences) | Yes. A small school, a homeschool co-op or anyone who teaches classes can let families find a class, sign up and pay by card online at any hour, while the teacher gets an up-to-date list of who is enrolled. You can piece it together from a form, a payment link and a spreadsheet, or use one system that does all three; the right choice depends on how many classes and families you have. |
-| Sub-heading | What sign-ups and payments need to cover |
-| What sign-ups and payments need to cover, list | A list of classes with dates, times, ages and prices |
-| What sign-ups and payments need to cover, list | A sign-up form that asks only what you need |
-| What sign-ups and payments need to cover, list | Payment by card when the family signs up, with a receipt |
-| What sign-ups and payments need to cover, list | A confirmation email: what to bring, where to go, when it starts |
-| What sign-ups and payments need to cover, list | A roster the teacher can see, that updates itself |
-| What sign-ups and payments need to cover, list | A way to handle full classes, waitlists, refunds and siblings |
-| Sub-heading | Option 1: stitch simple tools together |
-| Option 1: stitch simple tools together | For a handful of classes, an online form, a payment link and a spreadsheet can work, and it is cheap to start. The cost shows up later, in hours: matching payments to sign-ups by hand, chasing families who signed up but did not pay, copying names into a roster, and answering “did my payment go through?” emails. |
-| Sub-heading | Option 2: one system |
-| Option 2: one system | Once you run more than a few classes, one system that keeps classes, families and payments together gives those hours back. A family signs up and pays in one step, the roster updates, the receipt goes out by itself, and you can see who has paid without opening three tabs. |
-| Option 2: one system | That is what I built [Farzana Classroom] to do. It is education software for schools, training organizations, education businesses or anyone who teaches classes, customized to your needs. Each school gets its own site, name and crest. Families find a class, try a free sample, sign up and pay online at any hour; the teacher sees who is enrolled, who was active this week and who just joined. It is in beta now, with its first school coming soon. |
-| Sub-heading | What card payments cost |
-| What card payments cost | Taking cards online always carries a processing fee. Stripe, which many class and payment systems use, charges 2.9% + 30¢ per successful domestic card payment on its standard US pricing ([Stripe]). On a $200 class, that is $6.10. Some schools add the fee to the price; most simply build it in. Either way, the money should land in the school’s own account. |
-| Sub-heading | Families’ and children’s information |
-| Families’ and children’s information | A school holds information about children, so collect only what you need, keep it behind a sign-in, and decide which staff can see what. Families should be able to see and update their own details. Before you choose any system, ask where the data is kept and how you would take it with you if you ever left. |
-| Sub-heading | Where to start |
-| Where to start, list | Write down one term’s classes, with their prices. |
-| Where to start, list | Write down the questions you ask every family today. |
-| Where to start, list | Count the hours a term goes on sign-ups and payments by hand. |
-| Where to start, list | With those three, it is quick to see whether simple tools are enough, or whether one system would pay for itself. |
-| Where to start | If you are weighing a website against an app for this, [Website or app: which does my business need?] walks through that choice. |
 
 ### /guides/website-or-app
 
