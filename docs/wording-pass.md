@@ -33,3 +33,17 @@ Every change below was chosen by Thomas in the wording chat. Page, then old, the
 |---|---|---|
 | Intro under the heading | Education software for schools, a Latin game in students' pockets, and a field-service app for crews. Then the websites and tools around them. Every screen here is from the software itself. | Multiple apps built, tested and proven. Education software, software for landscapers, websites, and everything in between. |
 | Farzana captions under the two screens | What a family sees / What the teacher sees, with a line each | Removed |
+| Heading above the intro | Three apps, and the rest. | Kept |
+| Farzana paragraph | Education software for schools, training organizations and education businesses. One proven platform, with the features each school actually needs built on top. | Education software for schools, training organizations, education businesses or anyone who teaches classes, customized to your needs. (same as the home page) |
+| Latin game paragraph | Students march a legion north across Italy... | Kept |
+| Ruta paragraph | Ruta is service-management software ... The product is Ruta's. | Kept |
+| Ruta list | Recurring billing and customer payment arrangements / The crew app: visits, the time clock, and use without a signal / Office tools for the day's schedule, messaging and reviewing finished work / Customer self-service / The shared backend the apps sit on / The AI assistant inside the product | Billing and payments / The crew app, including use without a signal / Office tools for scheduling, messaging and review / Customer self-service / The backend behind the apps / The AI assistant inside the product |
+| Last section label and heading | 04 · Websites and tools / And the rest. | 04 · And the rest / Websites, tools and other cool stuff. (his words "websites, tools and other cool stuff" used as the heading) |
+| Tap to Tick, Delta, Sign cards | as written | Kept |
+| KCUPG card | Kansas City's South Asian communities on one map: people, languages and faith. | Kansas City's communities from North Africa to East Asia on one map: people, languages and faith. (matches the home page) |
+| Prayer card | A weekly prayer meeting kit for the unreached: ... | I made a weekly prayer meeting kit for the unreached: a verse, a story, prayer points and free guides. |
+| Ministry card | Short, hand-drawn walkthroughs of Bible books, ... | I make short, hand-drawn walkthroughs of Bible books, in English and Bangla, free to watch and share. |
+
+## Intelligence chat's knowledge file (content/intelligence.md)
+
+Updated to match the above: Farzana line, Farzana builder line, Websites, Apps, AI consultation, "The software behind them" removed.

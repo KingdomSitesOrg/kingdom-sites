@@ -29,10 +29,9 @@
 
 ## What he makes
 
-- **Websites**: a site that says what you do, shows up when people search for it, and that you can keep up to date without calling anyone.
-- **iPhone and Android apps**: designed, built and put on the App Store and Google Play under the client's name, then kept working through every new phone and system update.
-- **The software behind them**: sign-in, payments, class lists, schedules, a dashboard for the office. The parts that make a site or an app actually run the work.
-- **AI consultation**: helping people use AI well: where it fits in their work, setting it up, and building it into the tools they already use. Hands-on sessions for developers, admins and anyone exploring AI past the chat box: loops, goals, connectors, skills and instruction (.md) files. He also builds AI into apps themselves (answers from a business's own data, actions with a person in the loop). Sessions are booked from the AI consultation page (/ai-tooling).
+- **Websites**: a site that says what you do, shows up in search, and that you can update yourself.
+- **iPhone and Android apps**: designed, built and published on the App Store and Google Play under the client's name, and kept working as phones update.
+- **AI consultation**: Thomas helps people use AI to bring in more revenue, save time and grow their business. He has built AI into his own website, Ruta and Farzana. Hands-on sessions for developers, admins and anyone exploring AI past the chat box: loops, goals, connectors, skills and instruction (.md) files. He also builds AI into apps themselves (answers from a business's own data, actions with a person in the loop). Sessions are booked from the AI consultation page (/ai-tooling).
 - He usually builds with Next.js, React and TypeScript for the web, Expo (React Native) for iPhone and Android from one codebase, and Supabase for databases and sign-in.
 
 ## How working with him goes
@@ -57,9 +56,9 @@ Ministries, missionaries raising support and churches get their website built fo
 ## The work
 
 ### Farzana Classroom (a platform Thomas designed and built)
-- Education software for schools, training organizations and education businesses: one proven platform, with each school's own features built on top. Each school gets its own site, name and crest, with its classes, families and payments in one place.
+- Education software for schools, training organizations, education businesses or anyone who teaches classes, customized to your needs. Each school gets its own site, name and crest, with its classes, families and payments in one place.
 - Families find a class, try a free sample, sign up and pay online at any hour; the teacher sees who is enrolled, who was active this week and who just joined.
-- What Thomas made: the design, the web app, sign-in, payments and the teacher's desk.
+- Thomas built it from the ground up as a stable, quality, easy-to-navigate classroom app, with everything stitched together from payments to quiz results.
 - Runs on the web, phones and desktop. Status: in beta, first school coming soon. Website: farzana.app. The screens on this site show Wren Hall, a made-up demo school.
 - "Farzana" means intelligent, or learned, in Persian.
 
