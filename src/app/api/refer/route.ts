@@ -6,7 +6,7 @@ import { linkFor, recordReferred, setPayout } from '@/lib/refer/store'
 
 /**
  * The referral program's forms (T-293; this site's own since the Farzana app
- * stopped holding them): "Get your link", "Or tell us about someone", and the
+ * stopped holding them): "Get your link", "Or tell me about someone", and the
  * private tracker's payout choice. Same-origin only; no cross-site posts.
  *
  * Open to anyone, by Thomas's say-so (2026-10-27: anyone can put in their name

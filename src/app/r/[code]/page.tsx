@@ -64,7 +64,7 @@ export default async function ReferralLinkPage({ params }: { params: Promise<{ c
             Farzana Classroom is the education software I build for schools, training organizations and
             educational businesses: a proven platform with classes, students and families, payments
             and progress, and the features each school needs built on top. Tell me about your school
-            and we will start with a call.
+            and I will set up a call.
           </p>
           <div className="flex flex-col gap-3 sm:flex-row">
             <Link href={INQUIRE_PATH} className="btn-primary">

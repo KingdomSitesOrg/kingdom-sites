@@ -16,7 +16,7 @@ export default function CalendlyEmbed({
     return (
       <div className="rounded-[22px] border border-line bg-surface-2 px-6 py-10 text-center">
         <p className="text-sm leading-relaxed text-body">
-          The calendar is not connected yet. Use the note on this page, or email me, and we will find a time.
+          The calendar is not connected yet. Use the note on this page, or email me, and I will find a time.
         </p>
       </div>
     )

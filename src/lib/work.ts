@@ -58,7 +58,7 @@ export type Project = {
   platforms: string
   status: string
   href?: string
-  /** A capture of the live site or app, for its card on the Work page. */
+  /** A capture of the live site or app, for its card on the Portfolio page. */
   card?: Shot
 }
 
@@ -193,8 +193,8 @@ export const AUDIENCES = [
 ]
 
 export const STEPS = [
-  { title: 'Tell us what you have in mind', body: 'A few lines is plenty. A site, an app, or a problem you keep working around.' },
-  { title: 'We talk it through', body: 'You talk to the person who builds it. We ask what it has to do, and for whom.' },
-  { title: 'A plan and a quote', body: 'Once we understand the project, you get a clear plan and a quote. No pressure.' },
-  { title: 'Built, launched, looked after', body: 'We build it with you, put it live, and stay for the fixes and the next version.' },
+  { title: 'Tell me what you have in mind', body: 'A few lines is plenty. A site, an app, or a problem you keep working around.' },
+  { title: 'You and I talk it through', body: 'You talk to the person who builds it. I ask what it has to do, and for whom.' },
+  { title: 'A plan and a quote', body: 'Once I understand the project, you get a clear plan and a quote. No pressure.' },
+  { title: 'Built, launched, looked after', body: 'I build it with you, put it live, and stay for the fixes and the next version.' },
 ]

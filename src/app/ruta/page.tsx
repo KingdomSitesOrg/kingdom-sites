@@ -60,8 +60,8 @@ export default function Ruta() {
               {'. Ruta is not a product Kingdom Sites sells.'}
             </p>
             <p className="mt-6 text-sm text-body">
-              <Link href="/my-work" className="link-accent">
-                My work
+              <Link href="/portfolio" className="link-accent">
+                Portfolio
               </Link>
               {' · '}
               <Link href={INQUIRE_PATH} className="link-accent">

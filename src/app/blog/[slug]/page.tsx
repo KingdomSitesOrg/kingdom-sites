@@ -171,7 +171,7 @@ export default async function BlogPostPage({ params }: Props) {
       Have an app idea?
      </h2>
      <p className="mx-auto mt-3 max-w-md text-pretty text-sm leading-relaxed text-body">
-      I build mobile apps and stay after launch. Reach out — we will decide if it is a fit.
+      I build mobile apps and stay after launch. Reach out, and you and I will decide if it is a fit.
      </p>
      <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
       <Link href={INQUIRE_PATH} className="btn-primary">{INQUIRE_CTA}</Link>

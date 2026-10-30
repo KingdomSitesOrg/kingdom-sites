@@ -167,7 +167,7 @@ export default function LatinGame() {
             <a href="#screens" onClick={() => setMenuOpen(false)}>Screens</a>
             <span className="mobile-menu-sep" aria-hidden="true" />
             <Link href="/" onClick={() => setMenuOpen(false)}>Kingdom Sites</Link>
-            <Link href="/my-work" onClick={() => setMenuOpen(false)}>All my work</Link>
+            <Link href="/portfolio" onClick={() => setMenuOpen(false)}>Portfolio</Link>
           </div>
         )}
       </header>
@@ -382,7 +382,7 @@ export default function LatinGame() {
         <div className="wrap">
           <span>A Latin learning game · {new Date().getFullYear()}</span>
           <span>
-            <Link href="/my-work">Designed &amp; built by Kingdom Sites</Link>
+            <Link href="/portfolio">Designed &amp; built by Kingdom Sites</Link>
           </span>
         </div>
       </footer>
