@@ -86,7 +86,7 @@ Thomas asked: *"What are some more tangible things I can do to be seen? I feel l
 
 | Done | Build | Who | Effort | Expected result |
 |---|---|---|---|---|
-| ✅ | **JAM Legio's page: name, wording and structured data** (done 2026-10-30). The share picture's artwork still says "A Latin practice game" and needs re-rendering. | Done, except the picture | – | Clicks from the 61 Latin game appearances, once live. |
+| ✅ | **JAM Legio's page: name, wording and structured data** (done 2026-10-30). The share picture says JAM Legio too. | Done | – | Clicks from the 61 Latin game appearances, once live. |
 | ☐ | **Home page title** that says what the business does, plus a `WebSite` entry in the structured data so Google shows "Kingdom Sites" as the name. | Agent, after Thomas's wording | 30 minutes | Clicks from the "kingdom site" searches (23 appearances, 0 clicks). |
 | ☐ | **A page per project** (case study): the problem, what was built, the result, screenshots, a link to the live product. | Agent drafts; Thomas checks | 1 to 2 hours each | Pages Google and AI can point to; things to post on Facebook. |
 | ☐ | **A Rochester page** at /rochester-mn: "Websites and apps for Rochester businesses", with the six Rochester posts linking to it. | Agent drafts; Thomas checks | 2 hours | A page for the 55 Rochester search appearances that today lead nowhere useful. |
