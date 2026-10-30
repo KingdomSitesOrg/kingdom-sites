@@ -16,7 +16,7 @@ export const APP_OFFER = {
 /* How working together starts. No prices — a quote comes once the project is understood. */
 export const PROCESS = {
   title: 'How it starts.',
-  sub: 'Simple, personal, and no pressure. You talk to the person who builds it.',
+  sub: 'Simple, personal, and no pressure. You talk to Thomas, the person who builds it.',
   steps: [
     {
       title: 'Tell me the idea',
