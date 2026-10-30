@@ -162,7 +162,6 @@ export default function Portfolio() {
             <Facts
               rows={[
                 ['For', latin.forWhom],
-                ['Made', 'Designed and built'],
                 ['Runs on', latin.platforms],
                 ['Status', latin.status],
               ]}
