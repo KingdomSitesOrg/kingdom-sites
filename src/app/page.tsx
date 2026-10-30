@@ -39,16 +39,8 @@ const CHAPTERS: { shot: Shot; note?: string; kicker: string; title: string; body
     note: DEMO,
     kicker: 'Farzana Classroom',
     title: 'A platform for schools.',
-    body: 'Education software for schools, training organizations and education businesses. One proven platform, with each school’s own features built on top.',
-    gives: 'One system for classes, families and payments, instead of a website, a sign-up form and a payments app stitched together.',
-  },
-  {
-    shot: SHOTS.farzanaClasses,
-    note: DEMO,
-    kicker: 'A school on it',
-    title: 'A school, built on it.',
-    body: 'Each school gets its own site, name and crest, with its classes, families and payments in one place. Shown here with a demo school.',
-    gives: 'Families find a class, sign up and pay online at any hour, with no one at a desk to take it.',
+    body: 'Education software for schools, training organizations, education businesses or anyone who teaches classes, customized to your needs.',
+    gives: 'Classes, families and payments in one place, not three tools stitched together.',
   },
 ]
 
@@ -75,8 +67,8 @@ export default function Home() {
           </h1>
           <div className="mt-8 grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-end">
             <p className="cn-body max-w-[46ch]">
-              Kingdom Sites designs and builds websites and apps for businesses, churches and anyone who needs
-              software. Every screen on this page is from software I built.
+              I build websites and apps for businesses, churches and anyone who needs software. These screens are
+              all from my own work.
             </p>
             <div className="flex flex-wrap gap-3 lg:justify-end">
               <Link href={INQUIRE_PATH} className="cn-btn">
@@ -124,11 +116,13 @@ export default function Home() {
                       </div>
                     ))}
                   </div>
-                  <div className="cn-rail" aria-hidden="true">
-                    {CHAPTERS.map((c, i) => (
-                      <span key={c.title} className={`cn-r${i}`} />
-                    ))}
-                  </div>
+                  {CHAPTERS.length > 1 ? (
+                    <div className="cn-rail" aria-hidden="true">
+                      {CHAPTERS.map((c, i) => (
+                        <span key={c.title} className={`cn-r${i}`} />
+                      ))}
+                    </div>
+                  ) : null}
                 </div>
                 <div className="cn-screens">
                   {CHAPTERS.map((c, i) => (
@@ -219,7 +213,7 @@ export default function Home() {
 
       {/* More work. */}
       <section aria-labelledby="more" className="cn-wrap mt-32 sm:mt-44">
-        <h2 id="more" className="cn-kicker">More work</h2>
+        <h2 id="more" className="cn-kicker">More from my portfolio</h2>
         <div className="mt-8 grid gap-x-10 gap-y-12 md:grid-cols-3">
           {MORE.map((p) => {
             const external = p.href!.startsWith('http')

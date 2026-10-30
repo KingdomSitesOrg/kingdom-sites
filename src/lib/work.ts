@@ -168,19 +168,15 @@ export const PROJECTS: Project[] = [
 export const OFFER = [
   {
     title: 'Websites',
-    body: 'A site that says what you do, shows up when people search for it, and that you can keep up to date without calling anyone.',
+    body: 'A site that says what you do, shows up in search, and that you can update yourself.',
   },
   {
     title: 'iPhone and Android apps',
-    body: 'Designed, built and put on the App Store and Google Play under your name, then kept working through every new phone and system update.',
-  },
-  {
-    title: 'The software behind them',
-    body: 'Sign-in, payments, class lists, schedules, a dashboard for the office. The parts that make a site or an app actually run your work.',
+    body: 'Designed, built and published on the App Store and Google Play under your name, and kept working as phones update.',
   },
   {
     title: 'AI consultation',
-    body: 'Helping you use AI well: where it fits in your work, setting it up, and building it into the tools you already use.',
+    body: 'I help you use AI to bring in more revenue, save time and grow your business. I have built AI into this website, Ruta and Farzana.',
     href: '/ai-tooling',
   },
 ] satisfies { title: string; body: string; href?: string }[]
@@ -193,20 +189,19 @@ export const OFFER = [
 export const MADE = {
   farzana: {
     name: 'Farzana Classroom',
-    made: 'The design, the web app, sign-in, payments and the teacher’s desk.',
-    gives: 'Families find a class, try it and pay online at any hour, and the school sees every student on one screen.',
+    text: 'I built this from the ground up as a stable, quality, easy-to-navigate classroom app. Everything is stitched together, from payments to quiz results.',
   },
   latin: {
     name: 'The Latin learning game',
     made: 'The design, the iPhone and Android apps, the levels and the leaderboard.',
-    gives: 'Daily practice that feels like a game, and a programme on the App Store and Google Play, where new families can find it.',
+    gives: 'Daily practice that feels like a game, and new families can find the program on the App Store and Google Play.',
   },
   kcupg: {
     name: 'KCUPG',
-    made: 'The design, the dashboard, and the map of the city’s communities and the places to meet them.',
-    gives: 'Churches and ministries in Kansas City see which communities live where, and where to meet them, in one place.',
+    made: 'I built the dashboard and the map.',
+    gives: 'Churches in Kansas City see which communities live where, and where to meet them.',
   },
-} satisfies Record<string, { name: string; made: string; gives: string }>
+} satisfies Record<string, { name: string; text?: string; made?: string; gives?: string }>
 
 /** The business case, said plainly, before the closing call (T-372; wording replaced T-374). */
 export const PAYS = [

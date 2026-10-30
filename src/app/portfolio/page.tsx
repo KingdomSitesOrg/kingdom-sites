@@ -84,8 +84,8 @@ export default function Portfolio() {
           and the rest.
         </h1>
         <p className="cn-body mt-8 max-w-[46ch]">
-          Education software for schools, a Latin game in students’ pockets, and a field-service app for crews.
-          Then the websites and tools around them. Every screen here is from the software itself.
+          Multiple apps built, tested and proven. Education software, software for landscapers, websites, and
+          everything in between.
         </p>
       </section>
 
@@ -117,15 +117,11 @@ export default function Portfolio() {
           <Scroll>
             <div className="cn-reveal">
               <Browser shot={SHOTS.farzanaClass} product={PRODUCT} note={DEMO} />
-              <h3 className="cn-display cn-h3 mt-8">What a family sees</h3>
-              <p className="cn-body mt-3 max-w-[40ch]">A page for each class, with a sample to try before signing up.</p>
             </div>
           </Scroll>
           <Scroll>
             <div className="cn-reveal lg:mt-32">
               <Browser shot={SHOTS.farzanaDesk} product={PRODUCT} note={DEMO} />
-              <h3 className="cn-display cn-h3 mt-8">What the teacher sees</h3>
-              <p className="cn-body mt-3 max-w-[40ch]">Who is enrolled, who was active this week, and who just joined.</p>
             </div>
           </Scroll>
         </div>

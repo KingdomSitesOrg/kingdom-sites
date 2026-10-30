@@ -188,6 +188,7 @@
 .cn-credit-sm { padding-block: 32px 0; }
 @media (min-width: 1000px) { .cn-credit-sm { grid-template-columns: none; } .cn-credit-sm .cn-credit-list { grid-template-columns: 1fr 1fr; gap: 64px; } }
 .cn-credit-list { display: grid; gap: 22px; margin: 0; }
+.cn-credit-text { margin: 0; font-size: clamp(1.1rem, 1.5vw, 1.4rem); line-height: 1.4; color: var(--fg); max-width: 40ch; }
 .cn-credit-list dt, .cn-for { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); font-weight: 500; }
 .cn-credit-list dd { margin: 6px 0 0; font-size: clamp(1.1rem, 1.5vw, 1.4rem); line-height: 1.4; color: var(--fg); max-width: 40ch; }
 
