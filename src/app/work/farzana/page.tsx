@@ -16,7 +16,7 @@ const farzana = PROJECTS.find((p) => p.slug === 'farzana')!
 const PRODUCT = 'Farzana Classroom'
 const DEMO = 'Demo school'
 
-/* What the screens below actually show; nothing here that is not on them. */
+/* What the platform does today, from the checked facts in src/lib/work.ts. */
 const FEATURES = [
   ['Classes, week by week', 'Built in modules and weeks, kept hidden until they are ready, then published.'],
   ['A shop', 'Classes and workbooks for sale, coupon codes, combos and free samples.'],
