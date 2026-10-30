@@ -169,7 +169,6 @@
    each row lines up whatever the wording. */
 .cn-case-frame { aspect-ratio: 16 / 10; }
 .cn-case-frame img { height: 100%; object-fit: cover; object-position: top; }
-.cn-case-label { min-height: 2.9em; }
 .cn-case-name { min-height: 1.9em; }
 .cn-case-line { min-height: 3em; }
 

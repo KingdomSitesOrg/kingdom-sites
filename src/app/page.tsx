@@ -230,7 +230,7 @@ export default function Home() {
                   className="cn-reveal cn-card group block"
                   {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                 >
-                  <p className="cn-dim cn-case-label text-sm">
+                  <p className="cn-dim text-sm">
                     {p.forWhom} · {ROLE[p.slug]}
                   </p>
                   <h3 className="cn-display cn-h3 cn-case-name mt-2 transition-transform duration-300 group-hover:translate-x-1">

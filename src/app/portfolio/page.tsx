@@ -246,7 +246,7 @@ export default function Portfolio() {
                   <span className="cn-shot cn-case-frame">
                     <Image src={p.card!.src} alt={p.card!.alt} width={p.card!.w} height={p.card!.h} loading="lazy" unoptimized />
                   </span>
-                  <p className="cn-dim cn-case-label mt-6 text-sm">
+                  <p className="cn-dim mt-6 text-sm">
                     {p.kind} · {p.forWhom}
                   </p>
                   <h3 className="cn-display cn-h3 cn-case-name mt-2 transition-transform duration-300 group-hover:translate-x-1">
