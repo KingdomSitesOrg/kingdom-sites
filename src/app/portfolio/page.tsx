@@ -127,13 +127,18 @@ export default function Portfolio() {
             </div>
           </Scroll>
         </div>
-        <div className="cn-wrap mt-12 flex flex-wrap gap-3">
-          <a href={farzana.href} className="cn-ghost">
-            farzana.app <span aria-hidden="true">↗</span>
-          </a>
-          <Link href="/schools" className="cn-ghost">
-            Software for schools <span aria-hidden="true">→</span>
-          </Link>
+        <div className="cn-wrap mt-12">
+          <div className="flex flex-wrap gap-3">
+            <Link href={farzana.href!} className="cn-ghost">
+              The Farzana Classroom story <span aria-hidden="true">→</span>
+            </Link>
+            <a href={farzana.site} className="cn-ghost">
+              farzana.app <span aria-hidden="true">↗</span>
+            </a>
+            <Link href="/schools" className="cn-ghost">
+              Software for schools <span aria-hidden="true">→</span>
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -265,6 +270,11 @@ export default function Portfolio() {
         title="Yours could be next."
         body="Tell me what you have in mind. You talk to me, Thomas, the person who will build it, and you get a plan and a quote once I understand it."
         secondary={{ href: '/get-started#prices', label: 'Rough prices' }}
+        links={[
+          { href: '/guides/how-a-quote-works', label: 'How a quote works' },
+          { href: '/guides/website-or-app', label: 'Website or app?' },
+          { href: '/guides', label: 'All guides' },
+        ]}
       />
     </CinematicChrome>
   )

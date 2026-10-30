@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import type { Metadata } from 'next'
 import InquiryForm from '@/components/InquiryForm'
 import { OneEngineer, PriceGuide } from '@/components/cinematic/Audience'
@@ -27,7 +28,12 @@ export default function GetStarted() {
             Tell me what you have <span className="text-accent">in mind.</span>
           </h1>
           <p className="cn-body cn-rise cn-rise-3 mt-6 max-w-[46ch] text-pretty">{INQUIRY.sub}</p>
-          <p className="cn-rise cn-rise-3 mt-4 max-w-[46ch] text-[15px] leading-relaxed text-muted">{QUOTE_LINE}</p>
+          <p className="cn-rise cn-rise-3 mt-4 max-w-[46ch] text-[15px] leading-relaxed text-muted">
+            {QUOTE_LINE}{' '}
+            <Link href="/guides/how-a-quote-works" className="link-accent">
+              How a quote works <span aria-hidden="true">›</span>
+            </Link>
+          </p>
           {/* Rough prices, so a stranger knows the scale before writing (Thomas's OK, T-387). */}
           <div id="prices" className="cn-rise cn-rise-3 mt-8 max-w-[46ch] scroll-mt-24">
             <PriceGuide />

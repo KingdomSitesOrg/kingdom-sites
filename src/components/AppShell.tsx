@@ -82,7 +82,7 @@ export default function AppShell({
   const standalone =
     ownChrome ||
     section === 'farzana' ||
-    ['/tap-to-tick', '/latin-game', '/farzana', '/ministry', '/prayer', '/marketing-frame', '/sign', '/calc'].some((p) =>
+    ['/tap-to-tick', '/latin-game', '/farzana', '/ministry', '/prayer', '/marketing-frame', '/sign', '/calc', '/full-potential'].some((p) =>
       pathname?.startsWith(p),
     )
 

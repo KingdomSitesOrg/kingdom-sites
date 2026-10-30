@@ -41,8 +41,8 @@ const NEEDS = [
     body: 'See who is enrolled, who was active this week and who just joined.',
   },
   {
-    title: 'Your school’s own site.',
-    body: 'Your name and crest, with your classes, families and payments in one place, shaped to how your school already works.',
+    title: 'Shaped to your school.',
+    body: 'Your classes, families and payments in one place, customized to how your school already works.',
   },
 ]
 

@@ -22,6 +22,7 @@ export default function CinematicChrome({ children }: { children: React.ReactNod
           <Link href="/rochester-mn" className="hover:text-[var(--fg)]">Rochester businesses</Link>
           <Link href="/churches" className="hover:text-[var(--fg)]">Churches</Link>
           <Link href="/schools" className="hover:text-[var(--fg)]">Schools</Link>
+          <Link href="/guides" className="hover:text-[var(--fg)]">Guides</Link>
           <Link href="/prayer" className="hover:text-[var(--fg)]">Prayer</Link>
           <Link href={INQUIRE_PATH} className="hover:text-[var(--fg)]">{INQUIRE_CTA}</Link>
         </p>

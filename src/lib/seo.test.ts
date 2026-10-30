@@ -4,8 +4,23 @@ import path from 'path'
 import sitemap from '@/app/sitemap'
 import robots from '@/app/robots'
 import nextConfig from '../../next.config'
-import { JAM_LEGIO_LD, ORGANIZATION_LD, PERSON_LD, SITE_TITLE, TAP_TO_TICK_LD, WEBSITE_LD, faqLd, jsonLd, serviceLd, shareCard } from '@/lib/seo'
-import { LATIN_STORES } from '@/lib/work'
+import {
+  DELTA_LD,
+  FARZANA_CLASSROOM_LD,
+  JAM_LEGIO_LD,
+  KCUPG_LD,
+  ORGANIZATION_LD,
+  PERSON_LD,
+  SITE_TITLE,
+  TAP_TO_TICK_LD,
+  WEBSITE_LD,
+  faqLd,
+  jsonLd,
+  serviceLd,
+  shareCard,
+} from '@/lib/seo'
+import { CASE_STUDIES } from '@/lib/case-studies'
+import { LATIN_STORES, PROJECTS } from '@/lib/work'
 import { systemPrompt } from '@/lib/intelligence'
 
 /* The SEO fixes from the T-382 audit, held in place. The rendered pages are
@@ -17,7 +32,7 @@ describe('sitemap and robots', () => {
   const urls = sitemap().map((e) => new URL(e.url).pathname)
 
   it('lists the pages the menu links to', () => {
-    for (const p of ['/', '/portfolio', '/about', '/get-started', '/ai-tooling', '/mission', '/refer', '/rochester-mn', '/churches', '/schools']) {
+    for (const p of ['/', '/portfolio', '/about', '/get-started', '/ai-tooling', '/mission', '/refer', '/guides', '/guides/how-a-quote-works', '/rochester-mn', '/churches', '/schools']) {
       expect(urls).toContain(p === '/' ? '/' : p)
     }
   })
@@ -81,7 +96,7 @@ describe('page titles', () => {
 
 describe('structured data', () => {
   it('states no facts the site does not publish', () => {
-    const text = JSON.stringify([ORGANIZATION_LD, PERSON_LD, TAP_TO_TICK_LD, WEBSITE_LD])
+    const text = JSON.stringify([ORGANIZATION_LD, PERSON_LD, TAP_TO_TICK_LD, FARZANA_CLASSROOM_LD, KCUPG_LD, DELTA_LD, WEBSITE_LD])
     for (const invented of ['telephone', 'streetAddress', 'postalCode', 'aggregateRating', 'review', 'openingHours']) {
       expect(text).not.toContain(invented)
     }
@@ -142,5 +157,32 @@ describe('JAM Legio (T-382)', () => {
     const prompt = systemPrompt('')
     expect(prompt).toContain('JAM Legio')
     expect(prompt).toMatch(/Never name any company or person behind it other than Thomas/)
+  })
+})
+
+describe('case studies (T-389)', () => {
+  const studies = Object.values(CASE_STUDIES)
+  const urls = sitemap().map((e) => new URL(e.url).pathname)
+
+  it('each have a page, a sitemap entry and their own share picture', () => {
+    for (const s of studies) {
+      expect(fs.existsSync(path.join(APP, s.path, 'page.tsx')), s.path).toBe(true)
+      expect(urls, s.path).toContain(s.path)
+      expect(fs.existsSync(path.resolve(__dirname, '../../public', `.${s.shareImage}`)), s.shareImage).toBe(true)
+      expect(s.title, s.path).not.toMatch(/Kingdom Sites/)
+    }
+  })
+
+  it('are where each project card leads, and link only to real projects', () => {
+    for (const s of studies) {
+      expect(PROJECTS.some((p) => p.href === s.path), s.path).toBe(true)
+      for (const slug of s.related) expect(PROJECTS.find((p) => p.slug === slug)?.href, slug).toBeTruthy()
+    }
+  })
+
+  it('credit Thomas and Kingdom Sites as the makers', () => {
+    for (const ld of [FARZANA_CLASSROOM_LD, KCUPG_LD, DELTA_LD]) {
+      expect(ld.creator.map((c) => c.name)).toEqual(['Kingdom Sites', 'Thomas Klein'])
+    }
   })
 })
