@@ -381,6 +381,15 @@ export default function LatinGame() {
 
       <footer>
         <div className="wrap">
+          {/* Alexis's words, with her OK to share (Thomas, T-389). The partnership
+              credit is the one place on the site JAM with Latin is named. */}
+          <figure className="partner-quote">
+            <blockquote>
+              “Hard worker, listens to our needs, creative and worked hard to get the project done both correctly and on
+              time.”
+            </blockquote>
+            <figcaption>Alexis Carrico, JAM with Latin</figcaption>
+          </figure>
           <LatinPartner className="partner" />
         </div>
         <div className="wrap">

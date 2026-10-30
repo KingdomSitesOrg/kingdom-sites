@@ -324,6 +324,11 @@
 .lgame footer .partner { margin: 0 0 18px; font-size: 13px; line-height: 1.5; color: rgba(255, 255, 255, 0.55); }
 .lgame footer .partner a { color: rgba(255, 255, 255, 0.8); text-decoration: underline; text-decoration-color: rgba(255, 255, 255, 0.3); text-underline-offset: 3px; }
 .lgame footer .partner a:hover { color: var(--gold-light); text-decoration-color: currentColor; }
+/* Alexis's words, above the partner line (T-389). The footer's row is a flex
+   line; the quote takes the whole width of it. */
+.lgame footer .partner-quote { flex: 1 1 100%; margin: 6px 0 22px; }
+.lgame footer .partner-quote blockquote { margin: 0; max-width: 62ch; font-size: 17px; line-height: 1.5; color: rgba(255, 255, 255, 0.88); }
+.lgame footer .partner-quote figcaption { margin-top: 8px; font-size: 13px; color: var(--gold-light); }
 
 .lgame .reveal {
   opacity: 0; transform: translateY(18px);
