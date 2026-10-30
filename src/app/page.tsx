@@ -178,7 +178,7 @@ export default function Home() {
             </Link>
           </p>
         </div>
-        <Scroll className="cn-wrap mt-16 pb-24 sm:mt-24">
+        <Scroll className="cn-wrap mt-16 pb-6 sm:mt-24">
           <div className="cn-depth mx-auto max-w-[1180px]">
             {[SHOTS.latinHome, SHOTS.latinMap, SHOTS.latinCase, SHOTS.latinBoard].map((s) => (
               <Phone key={s.src} shot={s} />
@@ -259,7 +259,7 @@ export default function Home() {
             </a>
           </p>
         </div>
-        <Scroll className="cn-wrap mt-14 pb-16 sm:mt-20 sm:pb-24">
+        <Scroll className="cn-wrap mt-14 sm:mt-20">
           <div className="cn-reveal mx-auto max-w-[1180px]">
             <Browser shot={SHOTS.kcupgDashboard} product="KCUPG" />
           </div>
