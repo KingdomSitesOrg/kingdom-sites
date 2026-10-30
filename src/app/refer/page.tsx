@@ -39,6 +39,7 @@ const STEPS = [
 
 const RULES = [
   `One $${CALL_GIFT} gift and one $${JOIN_GIFT} gift for each organization, to the first person who told me about it.`,
+  `The $${JOIN_GIFT} is for a project whose build is $2,000 or more, or whose monthly fees add up to more than $3,000 in the first year. Anything smaller earns $100 instead.`,
   `The $${CALL_GIFT} is for a call that happens. A call that is booked but never held earns nothing.`,
   'Someone already talking with me does not count, unless your introduction is what got them to reply.',
   'The person who signs for an organization cannot collect a gift for their own organization.',
