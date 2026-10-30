@@ -1,0 +1,27 @@
+/* The film's own paper look: warm card, ink, one red. */
+.fp {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: #efe7d6;
+  color: #1f1c19;
+  padding: 56px 16px 64px;
+}
+.fp-wrap { max-width: 1080px; margin: 0 auto; }
+.fp h1 {
+  font-size: clamp(30px, 5vw, 52px);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+}
+.fp-lede { margin-top: 12px; font-size: 18px; color: #4a443d; }
+.fp-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  margin-top: 28px;
+  background: #1f1c19;
+  border-radius: 6px;
+  box-shadow: 5px 7px 0 rgba(42, 29, 16, 0.18);
+}
+.fp-credits { margin-top: 18px; font-size: 14px; color: #6e665c; }

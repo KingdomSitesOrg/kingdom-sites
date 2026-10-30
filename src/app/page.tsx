@@ -165,7 +165,7 @@ export default function Home() {
       </Scroll>
 
       <div className="cn-wrap mt-10 flex justify-center lg:mt-0">
-        <LitLink href="/portfolio" label="The whole Farzana Classroom story" />
+        <LitLink href="/portfolio/farzana-classroom" label="The whole Farzana Classroom story" />
       </div>
 
       {/* JAM Legio, the Latin learning game: phones at different depths. */}
@@ -270,6 +270,10 @@ export default function Home() {
           <p className="cn-body max-w-[44ch]">
             For local ministry in Kansas City, I built a dashboard of the city’s communities from North Africa to East
             Asia: people, languages and faiths, and the places to meet them, on one map.{' '}
+            <Link href="/portfolio/kcupg" className="text-[var(--fg)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-current">
+              The KCUPG story
+            </Link>
+            {' · '}
             <a href="https://kcupgs.com" target="_blank" rel="noopener" className="text-[var(--fg)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-current">
               Open KCUPG
             </a>

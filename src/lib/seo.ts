@@ -173,10 +173,81 @@ export function faqLd(items: Faq[]) {
   }
 }
 
+/* The projects with a case study on this site (T-389), as each page and the
+   product itself describe them. Farzana Classroom and KCUPG are software
+   (SoftwareApplication, a web app); the Delta Development Project's site is a
+   website made for the project (WebSite, a CreativeWork). No prices, ratings
+   or user counts: none are published on these pages. */
+const MAKER = [
+  { '@id': ORG_ID, '@type': 'ProfessionalService', name: SITE_NAME },
+  { '@id': PERSON_ID, '@type': 'Person', name: 'Thomas Klein' },
+]
+
+export const FARZANA_CLASSROOM_LD = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Farzana Classroom',
+  url: 'https://farzana.app',
+  mainEntityOfPage: `${SITE_URL}/portfolio/farzana-classroom`,
+  description:
+    'Education software for schools, training organizations, education businesses or anyone who teaches classes: class sign-ups, families and online payments in one place.',
+  applicationCategory: 'EducationalApplication',
+  operatingSystem: 'Web',
+  creator: MAKER,
+  author: { '@id': PERSON_ID, '@type': 'Person', name: 'Thomas Klein' },
+}
+
+export const KCUPG_LD = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'KCUPG',
+  url: 'https://kcupgs.com',
+  mainEntityOfPage: `${SITE_URL}/portfolio/kcupg`,
+  description:
+    'A dashboard and map of Kansas City’s communities from North Africa to East Asia, for local ministry: people, languages and faiths, and the places to meet them.',
+  applicationCategory: 'ReferenceApplication',
+  operatingSystem: 'Web',
+  isAccessibleForFree: true,
+  spatialCoverage: { '@type': 'Place', name: 'Kansas City metropolitan area' },
+  creator: MAKER,
+  author: { '@id': PERSON_ID, '@type': 'Person', name: 'Thomas Klein' },
+}
+
+export const DELTA_LD = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Delta Development Project',
+  url: 'https://deltadevelopmentproject.com',
+  mainEntityOfPage: `${SITE_URL}/portfolio/delta`,
+  description:
+    'The website of the Delta Development Project, a project of SIM Bangladesh: village schools, vocational training and disaster response in northern Bangladesh and Dhaka.',
+  about: { '@type': 'Organization', name: 'Delta Development Project', parentOrganization: { '@type': 'Organization', name: 'SIM Bangladesh' } },
+  creator: MAKER,
+  author: { '@id': PERSON_ID, '@type': 'Person', name: 'Thomas Klein' },
+}
+
+/* Home › Portfolio › the page, so search results show where a case study sits. */
+export function breadcrumbLd(name: string, path: string) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: SITE_NAME, item: SITE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Portfolio', item: `${SITE_URL}/portfolio` },
+      { '@type': 'ListItem', position: 3, name, item: `${SITE_URL}${path}` },
+    ],
+  }
+}
+
 /* A page's share card (Facebook, LinkedIn, iMessage, X). Without one, a page
    inherits the root layout's card: the home page's title and no address of its
    own, so a shared link to it looks like a link to the home page. */
-export function shareCard(title: string, description: string, path: string) {
+export function shareCard(
+  title: string,
+  description: string,
+  path: string,
+  image: { url: string; width: number; height: number; alt: string } = SITE_OG_IMAGE,
+) {
   return {
     openGraph: {
       title,
@@ -185,9 +256,9 @@ export function shareCard(title: string, description: string, path: string) {
       siteName: SITE_NAME,
       locale: 'en_US',
       type: 'website' as const,
-      images: [SITE_OG_IMAGE],
+      images: [image],
     },
-    twitter: { card: 'summary_large_image' as const, title, description, images: [SITE_OG_IMAGE.url] },
+    twitter: { card: 'summary_large_image' as const, title, description, images: [image.url] },
   }
 }
 

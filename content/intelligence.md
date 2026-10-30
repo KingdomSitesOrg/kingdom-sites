@@ -64,10 +64,10 @@ Ministries, missionaries raising support and churches get their website built fo
 ## The work
 
 ### Farzana Classroom (a platform Thomas designed and built)
-- Education software for schools, training organizations, education businesses or anyone who teaches classes, customized to your needs. Each school gets its own site, name and crest, with its classes, families and payments in one place.
+- Education software for schools, training organizations, education businesses or anyone who teaches classes, customized to your needs, with classes, families and payments in one place.
 - Families find a class, try a free sample, sign up and pay online at any hour; the teacher sees who is enrolled, who was active this week and who just joined.
 - Thomas built it from the ground up as a stable, quality, easy-to-navigate classroom app, with everything stitched together from payments to quiz results.
-- Runs on the web, phones and desktop. Status: in beta, first school coming soon. Website: farzana.app. The screens on this site show Wren Hall, a made-up demo school.
+- Runs on the web, phones and desktop. Status: in beta, first school coming soon. Website: farzana.app. The screens on this site show Wren Hall, a made-up demo school. The full story is at /portfolio/farzana-classroom.
 - "Farzana" means intelligent, or learned, in Persian.
 
 ### JAM Legio, a Latin learning game (designed and built by Thomas)
@@ -80,15 +80,16 @@ Ministries, missionaries raising support and churches get their website built fo
 - Areas he has worked on: recurring billing and customer payment arrangements; the crew app (visits, the time clock, working without a signal); office tools for the day's schedule, messaging and reviewing finished work; customer self-service; the shared backend; and the AI assistant inside the product. Website: getruta.com.
 
 ### KCUPG (designed and built by Thomas)
-- For local ministry in Kansas City: a dashboard of the city's communities from North Africa to East Asia (people, languages and faiths, and the places to meet them) on one map, so churches and ministries see which communities live where. Live at kcupgs.com.
+- For local ministry in Kansas City: a dashboard of the city's communities from North Africa to East Asia (people, languages and faiths, and the places to meet them) on one map, so churches and ministries see which communities live where. Live at kcupgs.com; the full story is at /portfolio/kcupg.
 
 ### Tap to Tick (designed and built by Thomas)
 - An iPhone expense tracker: log any purchase in a tap or two, including the cash in your pocket, and see the month by account and category. Everything is free, including a shared ledger for two people over iCloud. On the App Store; more at /tap-to-tick.
 
 ### Delta Development Project (website)
-- The website for a project of SIM Bangladesh working with river-bank and urban communities in northern Bangladesh and Dhaka: village schools, vocational training and disaster response. Live at deltadevelopmentproject.com.
+- The website for a project of SIM Bangladesh working with river-bank and urban communities in northern Bangladesh and Dhaka: village schools, vocational training and disaster response. Live at deltadevelopmentproject.com; the full story is at /portfolio/delta.
 
 ### Smaller sites and tools on kingdom-sites.com
+- **Guides** (/guides): short answers, in plain words, to the questions people ask before buying software: Website or app? (/guides/website-or-app), How a quote works (/guides/how-a-quote-works) and What it costs to keep an app running (/guides/cost-to-keep-an-app-running). Every guide has a "Summarize this article" button that asks this chat for a short summary.
 - **Prayer** (/prayer): a kit for a weekly prayer meeting for the unreached: a verse, a story, prayer points and free guides to download.
 - **Ministry** (/ministry): short, hand-drawn walkthroughs of books of the Bible in English and Bangla, free to watch, download and share.
 - **Sign** (/sign): send a PDF agreement and have it signed online.

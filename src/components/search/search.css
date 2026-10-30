@@ -1,0 +1,113 @@
+/* Site search (T-391): the header's magnifying glass and its panel, in the
+   cinematic look's dark room and warm white. The panel sits on the visual
+   viewport (--ss-vh, --ss-top from SiteSearch.tsx), above the header (40) and
+   the Intelligence sheet (60). */
+
+/* ---------- The button: the menu button's twin ---------- */
+.ss-btn { display: inline-grid; place-items: center; flex: none; width: 44px; height: 44px; border-radius: 999px; color: var(--fg); background: none; border: 0; transition: background-color 0.2s; }
+.ss-btn:hover { background: rgba(239, 235, 227, 0.08); }
+.ss-btn:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+.ss-btn .ss-glass { width: 20px; height: 20px; }
+/* Phones: just left of the menu button, the two icons a little closer than the links. */
+@media (max-width: 759px) {
+  .cn-nav .ss-btn, .cn-nav .cn-menu-btn { order: 1; }
+  .cn-nav .ss-btn { margin-right: -8px; }
+}
+/* Narrow phones: the name, "Talk to me" and both icons on one line. Under 350px
+   there is no room for all four; "Talk to me" stays in the menu (its foot). */
+@media (max-width: 380px) {
+  .cn-head-in { gap: 10px; }
+  .cn-nav { gap: 8px; }
+  .cn-nav .cn-btn-sm { padding: 0 14px; white-space: nowrap; }
+}
+@media (max-width: 349px) {
+  .cn-nav .cn-btn-sm { display: none; }
+}
+
+/* ---------- The panel ---------- */
+.ss {
+  --bg: #0b0b0c;
+  --bg-2: #141416;
+  --fg: #efebe3;
+  --body: #cfcbc3;
+  --dim: #8e8a82;
+  --line: rgba(239, 235, 227, 0.12);
+  --ss-vh: 100dvh;
+  --ss-top: 0px;
+  position: fixed; z-index: 80; left: 0; right: 0; top: var(--ss-top); height: var(--ss-vh);
+  display: flex; justify-content: center; align-items: flex-start;
+  font-family: var(--cn-sans), system-ui, sans-serif;
+  font-variation-settings: 'wdth' 100;
+  -webkit-font-smoothing: antialiased;
+  color: var(--fg);
+}
+html.ss-lock { overflow: hidden; }
+.ss-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.ss-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.62); animation: ss-fade 0.18s ease; }
+
+.ss-panel {
+  position: relative; display: flex; flex-direction: column;
+  width: min(680px, calc(100% - 48px)); max-height: calc(100% - 2 * clamp(24px, 11vh, 120px)); margin-top: clamp(24px, 11vh, 120px);
+  background: var(--bg-2); border: 1px solid var(--line); border-radius: 16px; overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03), 0 40px 120px rgba(0, 0, 0, 0.65);
+  animation: ss-open 0.22s cubic-bezier(0.2, 0.7, 0.1, 1);
+}
+
+.ss-bar { display: flex; align-items: center; gap: 12px; padding: 8px 8px 8px 20px; border-bottom: 1px solid var(--line); }
+.ss-bar .ss-glass { flex: none; color: var(--dim); }
+.ss-input { flex: 1; min-width: 0; min-height: 52px; padding: 0; background: none; border: 0; outline: none; color: var(--fg); font: inherit; font-size: 20px; }
+.ss-input::placeholder { color: var(--dim); }
+.ss-input::-webkit-search-cancel-button { display: none; }
+.ss-close { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 999px; color: var(--body); background: none; border: 0; transition: background-color 0.2s, color 0.2s; }
+.ss-close:hover { background: rgba(239, 235, 227, 0.08); color: var(--fg); }
+.ss-close:focus-visible { outline: 2px solid var(--fg); outline-offset: -2px; }
+
+.ss-body { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+.ss-hint { margin: 0; padding: 18px 20px 20px; font-size: 14px; line-height: 1.45; color: var(--dim); }
+
+.ss-list { margin: 0; padding: 8px; list-style: none; }
+.ss-result { position: relative; display: grid; gap: 3px; padding: 12px 14px; border-radius: 10px; color: var(--fg); text-decoration: none; transition: background-color 0.15s; }
+.ss-result:hover, .ss-result:focus-visible { background: rgba(239, 235, 227, 0.07); }
+.ss-result:focus-visible { outline: 2px solid var(--fg); outline-offset: -2px; }
+/* Enter opens the first result; it says so while the cursor is in the box. */
+.ss-panel:has(.ss-input:focus) .ss-result[data-first] { background: rgba(239, 235, 227, 0.07); }
+.ss-enter { display: none; position: absolute; top: 12px; right: 14px; font-size: 11px; letter-spacing: 0.06em; color: var(--dim); }
+.ss-panel:has(.ss-input:focus) .ss-result[data-first] .ss-enter { display: block; }
+.ss-section { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; color: var(--dim); }
+.ss-title { font-variation-settings: 'wdth' 80; font-weight: 600; font-size: 18px; line-height: 1.2; letter-spacing: -0.01em; }
+.ss-snippet { font-size: 14px; line-height: 1.45; color: var(--body); overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.ss-result mark { background: rgba(239, 235, 227, 0.16); color: var(--fg); border-radius: 3px; padding: 0 1px; }
+
+.ss-none { padding: 18px 20px 22px; }
+.ss-none p { margin: 0 0 14px; font-size: 15px; line-height: 1.45; color: var(--body); }
+.ss-ask { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 20px; border-radius: 999px; border: 0; background: var(--fg); color: var(--bg); font: inherit; font-weight: 600; font-size: 14px; transition: background-color 0.2s; }
+.ss-ask:hover { background: #fff; }
+.ss-ask:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+
+/* ---------- Phones (and a phone on its side): the whole visible screen ---------- */
+@media (max-width: 759px), (max-height: 520px) {
+  .ss-backdrop { display: none; }
+  .ss-panel {
+    width: 100%; max-height: none; height: 100%; margin: 0;
+    border: 0; border-radius: 0; box-shadow: none;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-left: env(safe-area-inset-left, 0px); padding-right: env(safe-area-inset-right, 0px);
+    animation-name: ss-sheet;
+  }
+  .ss-bar { gap: 10px; padding: 6px 4px 6px 16px; }
+  .ss-input { min-height: 48px; font-size: 17px; }
+  .ss-list { padding: 4px 4px max(12px, env(safe-area-inset-bottom, 0px)); }
+  .ss-result { padding: 12px; }
+  .ss-title { font-size: 17px; }
+  .ss-enter { display: none !important; }
+  .ss-hint, .ss-none { padding-inline: 16px; }
+}
+
+@keyframes ss-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes ss-open { from { opacity: 0; transform: translateY(-8px) scale(0.98); } to { opacity: 1; transform: none; } }
+@keyframes ss-sheet { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .ss-panel, .ss-backdrop { animation: none; }
+  .ss-btn, .ss-result, .ss-close, .ss-ask { transition: none; }
+}

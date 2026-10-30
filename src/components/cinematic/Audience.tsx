@@ -103,10 +103,12 @@ export function Close({
   title,
   body,
   secondary,
+  links,
 }: {
   title: string
   body: string
   secondary?: { href: string; label: string }
+  links?: { href: string; label: string }[]
 }) {
   return (
     <section aria-label="Start a conversation" className="cn-wrap pb-28 pt-36 text-center sm:pb-40 sm:pt-48">
@@ -129,6 +131,18 @@ export function Close({
         </a>
         . Every enquiry comes to me, and I reply personally.
       </p>
+      {links?.length ? (
+        <p className="cn-dim mt-8 text-sm">
+          {links.map((l, i) => (
+            <span key={l.href}>
+              {i > 0 ? ' · ' : null}
+              <Link href={l.href} className="underline underline-offset-4">
+                {l.label}
+              </Link>
+            </span>
+          ))}
+        </p>
+      ) : null}
     </section>
   )
 }
@@ -191,6 +205,9 @@ export function OtherPages({ here }: { here: string }) {
         ))}
         <Link href="/portfolio" className="text-[var(--fg)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-current">
           Portfolio
+        </Link>
+        <Link href="/guides" className="text-[var(--fg)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-current">
+          Guides
         </Link>
       </p>
     </nav>
