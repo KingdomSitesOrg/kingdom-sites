@@ -54,6 +54,7 @@
 .cn-browser img { display: block; width: 100%; height: auto; border-radius: 0 0 var(--r) var(--r); clip-path: inset(0 round 0 0 var(--r) var(--r)); }
 .cn-browser-note { margin-left: auto; flex: none; height: 22px; display: inline-flex; align-items: center; padding: 0 10px; border-radius: 999px; border: 1px solid var(--line); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #cfcbc3; font-weight: 500; white-space: nowrap; }
 .cn-phone { --r: clamp(26px, 3.4vw, 46px); --b: clamp(5px, 0.6vw, 9px); position: relative; border-radius: var(--r); padding: var(--b); background: #050505; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 30px 80px rgba(0, 0, 0, 0.6); }
+.cn-phone picture { display: block; }
 .cn-phone img { display: block; width: 100%; height: auto; border-radius: calc(var(--r) - var(--b)); clip-path: inset(0 round calc(var(--r) - var(--b))); }
 
 /* "Coming soon", in the kicker's own voice: an outline, not a sticker. */

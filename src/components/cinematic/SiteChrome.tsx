@@ -9,7 +9,7 @@ const FACEBOOK_URL = 'https://www.facebook.com/share/1EzdtfSCs3/?mibextid=wwXIfr
 const YOUTUBE_URL = 'https://www.youtube.com/@tkklein/videos'
 
 const PAGE_LINKS = [
-  { href: '/work', label: 'All work' },
+  { href: '/portfolio', label: 'Portfolio' },
   { href: '/ai-tooling', label: 'AI' },
   { href: '/about', label: 'Studio' },
   { href: '/mission', label: 'Mission' },

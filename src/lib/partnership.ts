@@ -23,7 +23,7 @@ export const PROCESS = {
       body: 'A few lines is plenty — an app, a tool, a problem you keep working around.',
     },
     {
-      title: 'We talk it through',
+      title: 'You and I talk it through',
       body: 'I ask the questions that matter and learn what you need it to do.',
     },
     {
@@ -33,7 +33,7 @@ export const PROCESS = {
   ],
 }
 
-export const QUOTE_LINE = 'We talk first. You get a quote once I understand the project.'
+export const QUOTE_LINE = 'You and I talk first. You get a quote once I understand the project.'
 
 export const AI_CONSULT = {
   name: 'AI consultation',
@@ -42,7 +42,7 @@ export const AI_CONSULT = {
     'How to use AI yourself — for developers, admins, and anyone exploring the real tooling: loops, goals, connectors, skills, and instruction files. Not just chatting.',
   pageTitle: 'Learn to use AI for real work.',
   pageSub:
-    'Hands-on sessions on how to leverage AI for yourself. Developers, admins, or general — we go past chat into loops, goals, connectors, skills, and .md instruction files.',
+    'Hands-on sessions on how to leverage AI for yourself. Developers, admins, or general — the sessions go past chat into loops, goals, connectors, skills, and .md instruction files.',
   bookTitle: 'Book a session',
   bookBody:
     'Tell me who you are and what you want to get out of AI. I will reply to set a time and shape the session around you.',
@@ -54,7 +54,7 @@ export const AI_CONSULT = {
 export const INQUIRY = {
   heading: 'Tell me what you have in mind.',
   sub:
-    'Name and email are enough. Add a few lines about the idea if you like — we will talk and decide together if it is a fit.',
+    'Name and email are enough. Add a few lines about the idea if you like — you and I will talk and decide together if it is a fit.',
   formTitle: 'Send a note',
   calendarTitle: 'Schedule a conversation',
   calendarHint: 'Pick a time that works for you — no pressure, just a chat.',

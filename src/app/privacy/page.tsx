@@ -14,7 +14,7 @@ export default function PrivacyPage() {
 
       <section className="space-y-8 text-[15px] leading-relaxed text-body">
         <div>
-          <h2 className="mb-2 font-semibold text-ink">Information We Collect</h2>
+          <h2 className="mb-2 font-semibold text-ink">Information I Collect</h2>
           <p>
             There is no sign-in and no customer database on this website. Contact is by email
             only. If you email {CONTACT_EMAIL}, that message and your email address sit in the

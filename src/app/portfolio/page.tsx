@@ -9,10 +9,10 @@ import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { LATIN_STORES, PROJECTS, SHOTS } from '@/lib/work'
 
 export const metadata: Metadata = {
-  title: 'Work',
+  title: 'Portfolio',
   description:
-    'The work of Kingdom Sites: Farzana Classroom, education software for schools; a Latin learning game for iPhone and Android; contract work on Ruta; and the websites and tools around them.',
-  alternates: { canonical: '/work' },
+    'The portfolio of Kingdom Sites: Farzana Classroom, education software for schools; a Latin learning game for iPhone and Android; contract work on Ruta; and the websites and tools around them.',
+  alternates: { canonical: '/portfolio' },
 }
 
 const project = (slug: string) => PROJECTS.find((p) => p.slug === slug)!
@@ -31,7 +31,7 @@ const SECTIONS = [
   { id: 'more', label: 'Websites and tools' },
 ]
 
-/* The parts of Ruta Thomas has worked on, as the Ruta page lists them. */
+/* The parts of Ruta I have worked on, as the Ruta page lists them. */
 const RUTA_WORK = [
   'Recurring billing and customer payment arrangements',
   'The crew app: visits, the time clock, and use without a signal',
@@ -70,13 +70,13 @@ function PlayStoreIcon() {
   )
 }
 
-export default function Work() {
+export default function Portfolio() {
   return (
     <CinematicChrome>
       <DotNav sections={SECTIONS} />
 
       <section aria-labelledby="work" className="cn-wrap pt-16 sm:pt-24">
-        <p className="cn-kicker">Work</p>
+        <p className="cn-kicker">Portfolio</p>
         <h1 id="work" className="cn-display cn-h1 mt-5">
           Three apps,
           <br />
@@ -187,8 +187,8 @@ export default function Work() {
             <div>
               <p className="cn-body max-w-[48ch]">
                 Ruta is service-management software for landscaping and maintenance businesses: an office app, a phone
-                app for the crews, and a portal for customers. Thomas works on it as a contractor on Ruta’s team. The
-                product is Ruta’s.
+                app for the crews, and a portal for customers. I work on it as a contractor on Ruta’s team. The product
+                is Ruta’s.
               </p>
               <ul className="mt-8 space-y-2.5">
                 {RUTA_WORK.map((item) => (
@@ -213,7 +213,7 @@ export default function Work() {
                   getruta.com <span aria-hidden="true">↗</span>
                 </a>
                 <Link href="/ruta" className="cn-ghost">
-                  More on the work <span aria-hidden="true">→</span>
+                  More on Ruta <span aria-hidden="true">→</span>
                 </Link>
               </div>
             </div>
@@ -222,7 +222,7 @@ export default function Work() {
         <Scroll className="cn-wrap mt-16 pb-24 sm:mt-20">
           <div className="cn-depth cn-depth-3 mx-auto max-w-[900px]">
             {[SHOTS.rutaQueue, SHOTS.rutaVisit, SHOTS.rutaTime].map((s) => (
-              <Phone key={s.src} shot={s} />
+              <Phone key={s.src} shot={s} sizes="(min-width: 980px) 280px, 29vw" />
             ))}
           </div>
         </Scroll>
@@ -266,7 +266,7 @@ export default function Work() {
       <section aria-label="Start a conversation" className="cn-wrap pb-28 pt-36 text-center sm:pb-40 sm:pt-48">
         <h2 className="cn-display cn-h1 mx-auto max-w-[12ch]">Yours could be next.</h2>
         <p className="cn-body mx-auto mt-6 max-w-[40ch]">
-          Tell us what you have in mind. You talk to the person who builds it, and you get a plan and a quote once we
+          Tell me what you have in mind. You talk to me, the person who builds it, and you get a plan and a quote once I
           understand it.
         </p>
         <Link href={INQUIRE_PATH} className="cn-btn mt-10">

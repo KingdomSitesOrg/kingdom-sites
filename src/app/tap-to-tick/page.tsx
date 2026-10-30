@@ -183,7 +183,7 @@ export default function TapToTick() {
             <a href="#together" onClick={() => setMenuOpen(false)}>Share</a>
             <span className="mobile-menu-sep" aria-hidden="true" />
             <Link href="/" onClick={() => setMenuOpen(false)}>Kingdom Sites</Link>
-            <Link href="/my-work" onClick={() => setMenuOpen(false)}>All my work</Link>
+            <Link href="/portfolio" onClick={() => setMenuOpen(false)}>Portfolio</Link>
           </div>
         )}
       </header>
@@ -531,7 +531,7 @@ export default function TapToTick() {
             <span className="pill">No bank linking</span>
             <span className="pill">No tracking</span>
             <span className="pill">No ads</span>
-            <span className="pill">Your iCloud, not our servers</span>
+            <span className="pill">Your iCloud, not my servers</span>
             <span className="pill">Works offline</span>
           </div>
           <p className="note" style={{ marginTop: 24 }}>
@@ -615,7 +615,7 @@ export default function TapToTick() {
             {' · '}
             <a href="mailto:thomas@kingdom-sites.com">Support</a>
             {' · '}
-            <Link href="/my-work">Built by Kingdom Sites</Link>
+            <Link href="/portfolio">Built by Kingdom Sites</Link>
           </span>
         </div>
       </footer>
