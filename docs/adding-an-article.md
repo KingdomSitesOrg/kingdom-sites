@@ -59,6 +59,8 @@ Add two lines to `src/content/articles/index.ts`: the import at the top, and the
 
 `published` is the day the article goes live, at midnight in Rochester, Minnesota (America/Chicago). Until then it is not on its index, in the sitemap, at its address (which returns 404), as a share card, or in the chat's "Summarize this article". The section pages, the article pages and the sitemap are checked again every hour, so the article appears within an hour of midnight on its date, with no deploy.
 
+On its date (and on its `updated` date) a daily job tells Bing and the other IndexNow search engines about the article, its shelf, the Journal and the sitemap, around 1 to 2 a.m. Rochester time. A production deploy's new and changed pages go out the same way, at the next daily run. Production only; see `src/lib/indexnow.ts`.
+
 ## 5. Check it
 
 `npx vitest run src/lib/articles.test.ts` checks every article file:
