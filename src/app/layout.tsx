@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
@@ -19,6 +19,13 @@ const inter = Inter({ subsets: ["latin"] });
 
 const DESCRIPTION =
   "I design, build, ship, and maintain websites and mobile apps, offer AI consultation, and stay after launch. Have an idea? Start a conversation. Every project is quoted once I understand it.";
+
+// Phones with a keyboard up shrink the page to what is showing (Android Chrome; Safari ignores it).
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  interactiveWidget: "resizes-content",
+};
 
 export const metadata: Metadata = {
   title: {
