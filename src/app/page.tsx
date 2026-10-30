@@ -7,7 +7,7 @@ import LatinPartner from '@/components/cinematic/LatinPartner'
 import LitLink from '@/components/cinematic/LitLink'
 import Scroll from '@/components/cinematic/Scroll'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
-import { SITE_DESCRIPTION as DESCRIPTION, SITE_TITLE } from '@/lib/seo'
+import { SHARE_URL, SITE_DESCRIPTION as DESCRIPTION, SITE_OG_IMAGE, SITE_TITLE } from '@/lib/seo'
 import { OFFER, PAYS, PROJECTS, SHOTS, type Shot } from '@/lib/work'
 
 export const metadata: Metadata = {
@@ -17,12 +17,18 @@ export const metadata: Metadata = {
   openGraph: {
     title: SITE_TITLE,
     description: DESCRIPTION,
-    url: 'https://kingdom-sites.com',
+    url: SHARE_URL,
     siteName: 'Kingdom Sites',
     locale: 'en_US',
     type: 'website',
+    images: [{ ...SITE_OG_IMAGE, url: `${SHARE_URL}${SITE_OG_IMAGE.url}` }],
   },
-  twitter: { card: 'summary_large_image', title: SITE_TITLE, description: DESCRIPTION },
+  twitter: {
+    card: 'summary_large_image',
+    title: SITE_TITLE,
+    description: DESCRIPTION,
+    images: [`${SHARE_URL}${SITE_OG_IMAGE.url}`],
+  },
 }
 
 /* The Farzana Classroom story, one chapter per screen. The school screens show
