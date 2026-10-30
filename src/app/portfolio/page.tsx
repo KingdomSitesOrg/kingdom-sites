@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import CinematicChrome from '@/components/cinematic/Chrome'
+import CaseTitle from '@/components/cinematic/CaseTitle'
 import DotNav from '@/components/cinematic/DotNav'
 import { Browser, Phone } from '@/components/cinematic/Frames'
 import LatinPartner from '@/components/cinematic/LatinPartner'
@@ -246,12 +247,8 @@ export default function Portfolio() {
                   <p className="cn-dim mt-6 text-sm">
                     {p.kind} · {p.forWhom}
                   </p>
-                  <h3 className="cn-display cn-h3 cn-case-name mt-2 transition-transform duration-300 group-hover:translate-x-1">
-                    {p.name}
-                    {'\u00a0'}
-                    <span aria-hidden="true" className="cn-dim">
-                      {external ? '↗' : '→'}
-                    </span>
+                  <h3 className="cn-display cn-h3 cn-case-name mt-2">
+                    <CaseTitle name={p.name} external={external} />
                   </h3>
                   <p className="cn-body cn-case-line mt-3 text-[1.02rem]">{p.line}</p>
                 </a>

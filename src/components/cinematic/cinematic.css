@@ -180,6 +180,22 @@ html:has(.cn-head) { background: #0b0b0c; }
 .cn-case-name { min-height: 1.9em; }
 .cn-case-line { min-height: 3em; }
 
+/* The arrow on a card's name (CaseTitle): one drawn shape, the same size and
+   weight as the name's letters, sitting on the middle of the lowercase letters.
+   On hover only the arrow moves, so the names stay lined up with their labels. */
+.cn-nowrap { white-space: nowrap; }
+.cn-arrow-wrap { display: inline-block; }
+.cn-arrow {
+  display: inline-block; width: 0.72em; height: 0.72em; margin-left: 0.2em;
+  vertical-align: middle; overflow: visible;
+  fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round;
+  transition: translate 0.3s cubic-bezier(0.2, 0.7, 0.1, 1);
+}
+.cn-arrow-up { rotate: -45deg; }
+.group:hover .cn-arrow { translate: 0.12em 0; }
+.group:hover .cn-arrow-up { translate: 0.08em -0.08em; }
+@media (prefers-reduced-motion: reduce) { .cn-arrow { transition: none; } }
+
 /* Three phones in a depth row, on the same four-column widths as .cn-depth, so they
    are exactly the size of the four phones above them. Centred, not stretched. */
 .cn-depth-row { display: flex; justify-content: center; gap: clamp(10px, 2vw, 32px); }
