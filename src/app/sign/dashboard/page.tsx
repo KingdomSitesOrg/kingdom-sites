@@ -19,17 +19,17 @@ export default async function SignDashboardPage() {
           <h1 className="text-2xl font-semibold tracking-tight text-ink">Documents</h1>
           <p className="mt-1 text-sm text-body">Signed in as {session.email}</p>
         </div>
-        <div className="flex items-center gap-2">
-          <LogoutButton />
-          <Link href="/sign/referrals" className="btn-ghost-sm">
-            Referrals
-          </Link>
+        <div className="flex flex-wrap items-center gap-2">
           <Link
             href="/sign/new"
             className="btn-primary !min-h-10 !px-4 !py-2 !text-sm"
           >
             New document
           </Link>
+          <Link href="/sign/referrals" className="btn-ghost-sm">
+            Referrals
+          </Link>
+          <LogoutButton />
         </div>
       </div>
 

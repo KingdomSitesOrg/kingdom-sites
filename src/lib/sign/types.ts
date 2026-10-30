@@ -68,4 +68,9 @@ export type EnvelopeSummary = Pick<
 > & {
   signerCount: number
   signedCount: number
+  /** Names of signers who have not signed yet. */
+  waitingOn: string[]
+  /** Signers without a signature line yet (drafts only). */
+  missingLines: number
+  hasSignedPdf: boolean
 }
