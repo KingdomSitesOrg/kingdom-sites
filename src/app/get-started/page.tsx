@@ -5,7 +5,7 @@ import { INQUIRY, QUOTE_LINE } from '@/lib/partnership'
 export const metadata: Metadata = {
   title: 'Start a conversation',
   description:
-    'Tell me what you have in mind — a mobile app, a tool, or a system for your business. You and I talk first; a quote comes once I understand the project. No pressure.',
+    'Tell me what you have in mind — a website, a mobile app, a system for your business, or help putting AI to work. You and I talk first; a quote comes once I understand the project. No pressure.',
   alternates: { canonical: '/get-started' },
 }
 

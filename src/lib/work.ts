@@ -6,6 +6,8 @@
  * Wren Hall, a made-up demo school (its name, crest and figures are demo data,
  * so nothing is blurred and no client is shown); the Ruta screens are the crew
  * app's own App Store pictures, cropped to the screen, with their demo data;
+ * the KCUPG dashboard is a capture of the live kcupgs.com (counts by region,
+ * no people's details);
  * the case-study cards are captures of each live site; and the Delta wording
  * comes from deltadevelopmentproject.com. No invented numbers, no client
  * quotes nobody said.
@@ -31,6 +33,7 @@ export const SHOTS = {
   rutaQueue: { src: '/work/ruta-crew-queue.jpg', alt: 'Ruta’s crew app, the day’s queue of visits with a Clock in button', w: 718, h: 1332 },
   rutaVisit: { src: '/work/ruta-crew-visit.jpg', alt: 'Ruta’s crew app, one visit: the crew, an admin note and an aerial view of the property', w: 718, h: 1332 },
   rutaTime: { src: '/work/ruta-crew-time.jpg', alt: 'Ruta’s crew app, the time clock with the hours worked this week', w: 718, h: 1332 },
+  kcupgDashboard: { src: '/work/kcupg-dashboard.jpg', alt: 'KCUPG’s dashboard: Kansas City’s communities at a glance, with people, mapped places and census areas, and each region by size', w: 1800, h: 1125 },
 } satisfies Record<string, Shot>
 
 /* The Latin learning game's store listings. The addresses are the stores' own
@@ -174,6 +177,54 @@ export const OFFER = [
   {
     title: 'The software behind them',
     body: 'Sign-in, payments, class lists, schedules, a dashboard for the office. The parts that make a site or an app actually run your work.',
+  },
+  {
+    title: 'AI consultation',
+    body: 'Helping you use AI well: where it fits in your work, setting it up, and building it into the tools you already use.',
+    href: '/ai-tooling',
+  },
+] satisfies { title: string; body: string; href?: string }[]
+
+/**
+ * The maker's credit for each product the home page shows: what I made, and
+ * what it does for the people who use it (T-372). Outcomes only, no numbers:
+ * none of these products has a measured figure to quote yet.
+ */
+export const MADE = {
+  farzana: {
+    name: 'Farzana Classroom',
+    made: 'The design, the web app, sign-in, payments and the teacher’s desk.',
+    gives: 'Families find a class, try it and pay online at any hour, and the school sees every student on one screen.',
+  },
+  latin: {
+    name: 'The Latin learning game',
+    made: 'The design, the iPhone and Android apps, the levels and the leaderboard.',
+    gives: 'Daily practice that feels like a game, and a programme on the App Store and Google Play, where new families can find it.',
+  },
+  kcupg: {
+    name: 'KCUPG',
+    made: 'The design, the dashboard, and the map of the city’s communities and the places to meet them.',
+    gives: 'Churches and ministries in Kansas City see which communities live where, and where to meet them, in one place.',
+  },
+} satisfies Record<string, { name: string; made: string; gives: string }>
+
+/** The business case, said plainly, before the closing call (T-372; wording replaced T-374). */
+export const PAYS = [
+  {
+    title: 'Take payments online, any time.',
+    body: 'Customers book and pay without you at a desk.',
+  },
+  {
+    title: 'Spend less time on paperwork.',
+    body: 'Forms, lists and reminders live in one place that updates itself.',
+  },
+  {
+    title: 'Serve more people without hiring more staff.',
+    body: 'The routine work runs itself, so the same team does more.',
+  },
+  {
+    title: 'Own your data and your customer list.',
+    body: 'Your name, your customers, your data, on software built around how you work.',
   },
 ]
 

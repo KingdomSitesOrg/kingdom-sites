@@ -165,7 +165,7 @@ export default function InquiryForm() {
               <span className="ml-1 font-normal text-muted">(optional)</span>
             </label>
             <p className="mt-1 text-[13px] leading-relaxed text-muted">
-              An idea, a tool, something you want to work through — whatever you have.
+              A website, an app, help using AI, something you want to work through — whatever you have.
             </p>
             <textarea
               id="message"

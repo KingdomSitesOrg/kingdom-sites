@@ -42,6 +42,17 @@
 .cn-btn-sm { min-height: 44px; padding: 0 18px; font-size: 14px; }
 .cn-ghost { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 20px; border-radius: 999px; border: 1px solid var(--line); font-size: 15px; transition: border-color 0.2s; }
 .cn-ghost:hover { border-color: rgba(239, 235, 227, 0.4); }
+/* A pill that lights up as it crosses the middle of the screen (LitLink.tsx). The
+   label reserves its bold width in a hidden copy, so going bold moves nothing. */
+.cn-ghost.cn-glow { color: #cfcbc3; transition: border-color 0.3s ease, color 0.3s ease, text-shadow 0.3s ease; }
+.cn-glow-text { display: block; text-align: center; font-weight: 400; transition: font-weight 0.3s ease, text-shadow 0.3s ease; }
+.cn-glow-text::after { content: attr(data-label); display: block; height: 0; overflow: hidden; visibility: hidden; font-weight: 600; }
+.cn-ghost.cn-glow.is-glow { color: var(--fg); border-color: rgba(239, 235, 227, 0.7); }
+.cn-glow.is-glow .cn-glow-text { font-weight: 600; text-shadow: 0 0 14px rgba(239, 235, 227, 0.35); }
+@media (prefers-reduced-motion: reduce) {
+  .cn-glow-text, .cn-glow-text::after { transition: none; }
+  .cn-glow.is-glow .cn-glow-text { font-weight: 400; text-shadow: none; }
+}
 
 /* Device frames, drawn in CSS around real screenshots. Each screen is clipped to
    its own rounded shape, concentric with the frame (inner radius = outer radius
@@ -78,7 +89,7 @@
 .cn-pin { position: sticky; top: 60px; height: calc(100svh - 60px); display: grid; align-items: center; }
 .cn-scene-grid { display: grid; gap: 40px; align-items: center; }
 @media (min-width: 1000px) { .cn-scene-grid { grid-template-columns: 0.8fr 1.6fr; gap: 64px; } }
-.cn-chapters { position: relative; min-height: 15rem; }
+.cn-chapters { position: relative; min-height: 22rem; }
 .cn-chapter { position: absolute; inset: 0 0 auto 0; opacity: 0; transform: translateY(24px); transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.2, 0.7, 0.1, 1); pointer-events: none; }
 .cn-screens { position: relative; }
 .cn-screen { position: absolute; inset: 0; opacity: 0; transform: translateY(30px) scale(0.97); transition: opacity 0.6s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.1, 1); }
@@ -157,3 +168,24 @@
 
 /* Store buttons, in the ghost button's shape. */
 .cn-store svg { flex: none; }
+
+/* ---------- The maker's credit (T-372) ---------- */
+/* "I built this." as its own beat, once, with two credit lines. */
+.cn-credit { display: grid; gap: 28px; padding-block: clamp(56px, 9vw, 120px); border-top: 1px solid var(--line); }
+@media (min-width: 1000px) { .cn-credit { grid-template-columns: 1fr 1.1fr; align-items: end; gap: 64px; } }
+/* Without the big line: the two credits side by side, under the phones. */
+.cn-credit-sm { padding-block: 32px 0; }
+@media (min-width: 1000px) { .cn-credit-sm { grid-template-columns: none; } .cn-credit-sm .cn-credit-list { grid-template-columns: 1fr 1fr; gap: 64px; } }
+.cn-credit-list { display: grid; gap: 22px; margin: 0; }
+.cn-credit-list dt, .cn-for { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); font-weight: 500; }
+.cn-credit-list dd { margin: 6px 0 0; font-size: clamp(1.1rem, 1.5vw, 1.4rem); line-height: 1.4; color: var(--fg); max-width: 40ch; }
+
+/* Each chapter's line on what it does for the people who use it. */
+.cn-for { display: block; margin-bottom: 6px; }
+.cn-gives { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 1rem; line-height: 1.5; color: var(--fg); max-width: 38ch; }
+
+/* The business case before the close. */
+.cn-pays { display: grid; gap: 36px 56px; margin-top: 48px; }
+@media (min-width: 760px) { .cn-pays { grid-template-columns: 1fr 1fr; } }
+.cn-pays > * { border-top: 1px solid var(--line); padding-top: 20px; }
+
