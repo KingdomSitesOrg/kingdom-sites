@@ -84,11 +84,10 @@ export const CASE_STUDIES = {
     built: {
       lead: 'I built this from the ground up as a stable, quality, easy-to-navigate classroom app. Everything is stitched together, from payments to quiz results.',
       list: [
-        'Each school gets its own site, with its own name and crest.',
         'A public list of classes, each with its price, and a free sample to try.',
         'Families sign up and pay online, at any hour.',
         'The teacher sees who is enrolled, who was active this week and who just joined.',
-        'Ask Otus, the AI assistant on every school’s Home.',
+        'An AI assistant on every school’s Home.',
         'It runs on the web, on phones and on desktop.',
       ],
     },

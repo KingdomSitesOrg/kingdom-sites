@@ -16,7 +16,7 @@
 export type Shot = { src: string; alt: string; w: number; h: number }
 
 export const SHOTS = {
-  farzanaHome: { src: '/work/farzana-home.jpg', alt: 'Farzana Classroom, a demo school’s Home: Ask Otus, 248 students, 131 active this week, and its classes', w: 1800, h: 1125 },
+  farzanaHome: { src: '/work/farzana-home.jpg', alt: 'Farzana Classroom, a demo school’s Home: an AI assistant, 248 students, 131 active this week, and its classes', w: 1800, h: 1125 },
   farzanaHomePhone: { src: '/work/farzana-home-phone.jpg', alt: 'The same school’s Home on a phone', w: 780, h: 1688 },
   farzanaStudents: { src: '/work/farzana-students.jpg', alt: 'Farzana Classroom, a demo school’s student list, with search and filters', w: 1800, h: 1125 },
   farzanaStudentsPhone: { src: '/work/farzana-students-phone.jpg', alt: 'The student list on a phone', w: 780, h: 1688 },
