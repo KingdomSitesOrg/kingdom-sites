@@ -26,13 +26,13 @@ export const POSTS: BlogPost[] = [
     slug: 'grow-local-business-rochester-mn',
     title: 'How to grow a local business in Rochester, MN (without paying for ads every day)',
     description:
-      'Practical ways Rochester small businesses get more clients: Google listing, website, reviews, and showing up for the searches people actually type.',
+      'Practical ways Rochester businesses get more clients: Google listing, website, reviews, and showing up for the searches people actually type.',
     date: '2026-08-03',
     tags: ['Rochester MN', 'Growing a business', 'Local SEO'],
     keywords: [
       'grow local business Rochester MN',
       'get more clients Rochester',
-      'small business growth Minnesota',
+      'business growth Minnesota',
       'find customers Rochester MN',
     ],
     excerpt:
@@ -119,7 +119,7 @@ export const POSTS: BlogPost[] = [
     keywords: [
       'get more clients Rochester MN',
       'find new customers local business',
-      'Rochester small business marketing',
+      'Rochester business marketing',
       'growing client base Minnesota',
     ],
     excerpt:
@@ -206,11 +206,11 @@ export const POSTS: BlogPost[] = [
     description:
       'The Peace Plaza farmers market puts local makers in front of foot traffic. Online is the same idea: show up where people already look, with something real.',
     date: '2026-08-03',
-    tags: ['Local events', 'Rochester MN', 'Small business'],
+    tags: ['Local events', 'Rochester MN', 'Business'],
     keywords: [
       'Downtown Rochester Farmers Market',
       'Rochester MN local business events',
-      'Peace Plaza market small business',
+      'Peace Plaza market business',
       'get found local Rochester',
     ],
     excerpt:
@@ -402,7 +402,7 @@ export const POSTS: BlogPost[] = [
       'Rochester Area Chamber of Commerce events',
       'Business After Hours Rochester MN',
       'networking vs Google local business',
-      'Rochester small business growth',
+      'Rochester business growth',
     ],
     excerpt:
       'The Rochester Area Chamber fills a real calendar. Use it — and still fix the online front door that strangers use without shaking your hand.',

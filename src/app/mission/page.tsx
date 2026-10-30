@@ -6,27 +6,27 @@ import UnreachedScroll from '@/components/UnreachedScroll'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 
 export const metadata: Metadata = {
-  title: 'Our Mission — Kingdom Sites',
+  title: 'My Mission — Kingdom Sites',
   description:
-    'How your project supports gospel work in the unreached world, and the organizations we stand with and give to.',
+    'How your project supports gospel work in the unreached world, and the organizations I stand with and give to.',
   alternates: { canonical: '/mission' },
   openGraph: {
-    title: 'Our Mission — Kingdom Sites',
+    title: 'My Mission — Kingdom Sites',
     description:
-      'How your project supports gospel work in the unreached world, and the organizations we stand with and give to.',
+      'How your project supports gospel work in the unreached world, and the organizations I stand with and give to.',
     url: 'https://kingdom-sites.com/mission',
     siteName: 'Kingdom Sites',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Our Mission — Kingdom Sites',
+    title: 'My Mission — Kingdom Sites',
     description:
-      'How your project supports gospel work in the unreached world, and the organizations we stand with and give to.',
+      'How your project supports gospel work in the unreached world, and the organizations I stand with and give to.',
   },
 }
 
-/* Organizations we stand with. Every link was checked; a couple of these sites
+/* Organizations I stand with. Every link was checked; a couple of these sites
    sit behind bot protection, so they answer a browser but not a script. */
 const ORGS = [
   { name: 'Voice of the Martyrs', url: 'https://www.persecution.com' },
@@ -90,15 +90,15 @@ export default function Mission() {
       </section>
 
       {/* ---------- the persecuted church ---------- */}
-      <section aria-label="Who we stand with" className="cn-wrap py-14 sm:py-20">
+      <section aria-label="Who I stand with" className="cn-wrap py-14 sm:py-20">
         <div className="border-t border-line pt-12">
           <div className="max-w-3xl">
             <h2 className="cn-display cn-h3 text-balance">
-              We stand with the persecuted church.
+              I stand with the persecuted church.
             </h2>
             <p className="mt-5 text-[15px] leading-relaxed text-body sm:text-base">
-              Directly and indirectly, for and with organizations like these. Some of them we work
-              alongside; others we simply support, give to, and pray for. Naming them here is not a
+              Directly and indirectly, for and with organizations like these. Some of them I work
+              alongside; others I simply support, give to, and pray for. Naming them here is not a
               claim of partnership or endorsement in either direction — they are listed because the
               work is worth knowing about.
             </p>
@@ -196,18 +196,18 @@ export default function Mission() {
           The opening paragraphs used to sit at the very top of the page; the
           scrolling photograph carries the opening now, so they read here
           instead, just before the video. */}
-      <section aria-label="Our mission work" className="cn-wrap py-14 sm:py-20">
+      <section aria-label="My mission work" className="cn-wrap py-14 sm:py-20">
         <div className="border-t border-line pt-12">
           <div className="max-w-3xl">
             <h2 className="cn-display cn-h3 text-balance">
               Mission work in the <span className="text-accent">unreached world.</span>
             </h2>
             <p className="mt-6 text-pretty text-[15px] leading-relaxed text-body sm:text-base">
-              {"Billions of people have never heard the gospel once. Our desire is to see Jesus glorified throughout the unreached world. For security reasons I can't share specific details about where or with whom, but please reach out if you have any questions."}
+              {"Billions of people have never heard the gospel once. My desire is to see Jesus glorified throughout the unreached world. For security reasons I can't share specific details about where or with whom, but please reach out if you have any questions."}
             </p>
             <div className="mt-4 space-y-4 text-[15px] leading-relaxed text-muted sm:text-base">
               <p>
-                We collaborate with Christians toward seeing movements of Christ among Muslim-majority
+                I collaborate with Christians toward seeing movements of Christ among Muslim-majority
                 people groups in the unreached world, using approaches from No Place Left.
               </p>
               <p>

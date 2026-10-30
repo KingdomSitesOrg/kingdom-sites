@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 /**
- * The opening screen of the home page: one small business at a time, drawn
+ * The opening screen of the home page: one business at a time, drawn
  * filling the whole screen, then sliding off as the next one arrives.
  *
  * Each scene is a still — a snapshot of the work being done, not an animation.

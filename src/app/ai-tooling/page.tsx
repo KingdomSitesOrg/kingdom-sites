@@ -59,7 +59,7 @@ export default function AiTooling() {
         </div>
       </section>
 
-      <section aria-label="What we cover" className="cn-wrap py-16 sm:py-24">
+      <section aria-label="What I cover" className="cn-wrap py-16 sm:py-24">
         <div className="border-t border-line pt-12">
           <h2 className="cn-display cn-h3 max-w-[22ch] text-balance">
             Developers, admins, and everyone exploring AI.
@@ -87,8 +87,8 @@ export default function AiTooling() {
             <Link href={INQUIRE_PATH} className="btn-primary">
               {INQUIRE_CTA}
             </Link>
-            <Link href="/my-work" className="btn-ghost">
-              See my work
+            <Link href="/portfolio" className="btn-ghost">
+              See the portfolio
             </Link>
           </div>
         </div>

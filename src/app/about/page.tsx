@@ -79,12 +79,12 @@ export default function About() {
             </div>
 
             <div className="tile p-6">
-              <h3 className="text-sm font-semibold tracking-tight text-ink">Work</h3>
+              <h3 className="text-sm font-semibold tracking-tight text-ink">Portfolio</h3>
               <p className="mt-2 text-sm leading-relaxed text-body">
                 Contract work on Ruta, plus a Latin learning game for iPhone and Android and Tap to
                 Tick (a personal iOS expense app).{' '}
-                <Link href="/my-work" className="link-accent">
-                  My work <span aria-hidden="true">›</span>
+                <Link href="/portfolio" className="link-accent">
+                  Portfolio <span aria-hidden="true">›</span>
                 </Link>
               </p>
             </div>
@@ -99,7 +99,7 @@ export default function About() {
                 every client gets. It is one of the ways this business goes toward the advance of
                 the gospel.{' '}
                 <Link href="/mission" className="link-accent">
-                  Our mission <span aria-hidden="true">›</span>
+                  My mission <span aria-hidden="true">›</span>
                 </Link>
               </p>
               <p className="mt-3 text-xs leading-relaxed text-muted">
@@ -119,8 +119,8 @@ export default function About() {
           Every enquiry goes to Thomas and gets a personal reply.
         </p>
         <p className="mt-3 text-sm text-muted">
-          <Link href="/my-work" className="underline underline-offset-4">
-            My work
+          <Link href="/portfolio" className="underline underline-offset-4">
+            Portfolio
           </Link>
           {' · '}
           <Link href="/ai-tooling" className="underline underline-offset-4">

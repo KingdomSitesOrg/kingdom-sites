@@ -10,10 +10,10 @@ import './menu.css'
    as they always have. */
 const MENU: { title: string; links: { href: string; label: string }[] }[] = [
   {
-    title: 'Work',
+    title: 'Portfolio',
     links: [
-      { href: '/work/farzana', label: 'Farzana Classroom' },
-      { href: '/my-work', label: 'All work' },
+      { href: '/portfolio', label: 'Full portfolio' },
+      { href: '/portfolio#farzana', label: 'Farzana Classroom' },
       { href: '/ruta', label: 'Ruta' },
       { href: '/tap-to-tick', label: 'Tap to Tick' },
       { href: '/latin-game', label: 'Latin learning game' },
@@ -44,7 +44,7 @@ const SITE_LINKS = [
 
 /**
  * The header on every studio page, the home page included: the name, a few
- * links, "Talk to us", and a menu button that opens every page of the site.
+ * links, "Talk to me", and a menu button that opens every page of the site.
  * The icon's two lines fold into a cross; the menu drops down like a curtain
  * and its links rise in one after another. With less motion asked for, it
  * simply appears. The menu holds keyboard focus while open, and Escape closes it.
@@ -95,11 +95,11 @@ export default function CinematicHeader() {
           Kingdom Sites
         </Link>
         <nav aria-label="Main" className="cn-nav">
-          <Link href="/work/farzana" className="cn-hide-sm">Work</Link>
+          <Link href="/portfolio" className="cn-hide-sm">Portfolio</Link>
           <Link href="/about" className="cn-hide-sm">Studio</Link>
           <Link href="/mission" className="cn-hide-sm">Ministries</Link>
           <Link href={INQUIRE_PATH} className="cn-btn cn-btn-sm">
-            Talk to us
+            Talk to me
           </Link>
           <button
             ref={button}

@@ -88,7 +88,7 @@ export function shortDate(on: string) {
 
 const VIA_DETAIL: Record<Referred['via'], string> = {
   link: 'They came through your link.',
-  form: 'You told us about them.',
+  form: 'You told me about them.',
 }
 
 function paidLine(amount: number, via: PayoutMethod | undefined, on: string) {
@@ -103,7 +103,7 @@ const UP_TO = `up to $${JOIN_GIFT}`
 function onItsWay(gift: string, chosen: PayoutMethod | null) {
   return chosen
     ? `Your ${gift} is on its way by ${payoutLabel(chosen)}.`
-    : `Your ${gift} is ready. Tell us below how to send it.`
+    : `Your ${gift} is ready. Tell me below how to send it.`
 }
 
 function nextSentence(step: TrackerStep, chosen: PayoutMethod | null) {
@@ -116,7 +116,7 @@ function nextSentence(step: TrackerStep, chosen: PayoutMethod | null) {
     case 'callSent':
       return chosen
         ? `Next: your $${CALL_GIFT} arrives${by}.`
-        : `Next: your $${CALL_GIFT}. Tell us below how to send it.`
+        : `Next: your $${CALL_GIFT}. Tell me below how to send it.`
     case 'signed':
       return 'Next: they decide whether to build with Thomas.'
     case 'paid':
@@ -124,7 +124,7 @@ function nextSentence(step: TrackerStep, chosen: PayoutMethod | null) {
     case 'giftSent':
       return chosen
         ? `Next: your gift of ${UP_TO} arrives${by}.`
-        : `Next: your gift of ${UP_TO}. Tell us below how to send it.`
+        : `Next: your gift of ${UP_TO}. Tell me below how to send it.`
     default:
       return step.detail
   }
