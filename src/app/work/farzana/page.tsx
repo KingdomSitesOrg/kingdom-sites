@@ -8,7 +8,7 @@ import { PROJECTS, SHOTS } from '@/lib/work'
 
 export const metadata: Metadata = {
   title: 'Farzana and JAM Classes',
-  description: 'How Kingdom Sites built Farzana, education software for schools, and JAM Classes, the first school running on it.',
+  description: 'How Kingdom Sites built Farzana, education software for schools, and JAM Classes, the first school coming to it.',
   alternates: { canonical: '/work/farzana' },
 }
 
@@ -43,11 +43,11 @@ export default function FarzanaCase() {
             </dl>
           </div>
         </div>
-        <div className="cn-wrap cn-stage mt-14 pb-24 sm:mt-20 sm:pb-36">
+        <Scroll prop="--q" className="cn-wrap cn-stage mt-14 pb-24 sm:mt-20 sm:pb-36">
           <div className="cn-tilt mx-auto max-w-[1180px]">
             <Browser shot={SHOTS.farzanaSite} url="farzana.app" priority />
           </div>
-        </div>
+        </Scroll>
       </Scroll>
 
       <section aria-labelledby="idea" className="cn-wrap mt-10 grid gap-8 lg:grid-cols-[1fr_1.2fr]">
@@ -64,21 +64,23 @@ export default function FarzanaCase() {
 
       {/* Two sides of one school. */}
       <section aria-labelledby="sides" className="cn-wrap mt-32 sm:mt-44">
-        <p className="cn-kicker">The first school</p>
+        <p className="cn-kicker">
+          The first school<span className="cn-soon">Coming soon</span>
+        </p>
         <h2 id="sides" className="cn-display cn-h2 mt-4 max-w-[14ch]">JAM Classes, both sides of the desk.</h2>
         <div className="mt-14 grid gap-14 lg:grid-cols-2 lg:gap-10">
           <Scroll>
             <div className="cn-reveal">
-              <Browser shot={SHOTS.jamClass} />
+              <Browser shot={SHOTS.jamClass} tag="Coming soon" />
               <h3 className="cn-display cn-h3 mt-8">What a family sees</h3>
               <p className="cn-body mt-3 max-w-[40ch]">
-                A page for each class: what it teaches, who it is for, the price, and a free sample before anyone signs up.
+                A page for each class: what it is, who it is for, and a sample to try before signing up.
               </p>
             </div>
           </Scroll>
           <Scroll>
             <div className="cn-reveal lg:mt-40">
-              <Browser shot={SHOTS.jamAdminClasses} />
+              <Browser shot={SHOTS.jamAdminClasses} tag="Coming soon" />
               <h3 className="cn-display cn-h3 mt-8">What the teacher sees</h3>
               <p className="cn-body mt-3 max-w-[40ch]">
                 Every class with its own picture, and at a glance what is published and what has changes not live yet.
