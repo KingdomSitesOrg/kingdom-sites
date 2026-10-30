@@ -186,6 +186,8 @@ export const OFFER = [
  * what it does for the people who use it (T-372). Outcomes only, no numbers:
  * none of these products has a measured figure to quote yet.
  */
+export type Made = { name: string; text?: string; made?: string; gives?: string }
+
 export const MADE = {
   farzana: {
     name: 'Farzana Classroom',
@@ -201,7 +203,7 @@ export const MADE = {
     made: 'I built the dashboard and the map.',
     gives: 'Churches in Kansas City see which communities live where, and where to meet them.',
   },
-} satisfies Record<string, { name: string; text?: string; made?: string; gives?: string }>
+} satisfies Record<string, Made>
 
 /** The business case, said plainly, before the closing call (T-372; wording replaced T-374). */
 export const PAYS = [
