@@ -1,11 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 import AppShell from "@/components/AppShell";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { GA_MEASUREMENT_ID, isGaEnabled } from "@/lib/analytics";
 import { ORGANIZATION_LD, SITE_DESCRIPTION, SITE_TITLE } from "@/lib/seo";
 import {
   SERVICE_CITY,
@@ -94,8 +92,6 @@ export default function RootLayout({
         <AppShell structuredData={ORGANIZATION_LD}>{children}</AppShell>
         <Analytics />
         <SpeedInsights />
-        {/* Google Analytics 4 — only loads when NEXT_PUBLIC_GA_MEASUREMENT_ID is set. */}
-        {isGaEnabled() ? <GoogleAnalytics gaId={GA_MEASUREMENT_ID} /> : null}
       </body>
     </html>
   );
