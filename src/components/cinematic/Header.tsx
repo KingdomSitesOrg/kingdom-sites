@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { CONTACT_EMAIL, CONTACT_MAILTO, INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
+import SiteSearch from '@/components/search/SiteSearch'
 import './menu.css'
 
 /* Every page of the site, for the menu. The product sites open in a new tab,
@@ -45,8 +46,8 @@ const SITE_LINKS = [
 ]
 
 /**
- * The header on every studio page, the home page included: the name, a few
- * links, "Talk to me", and a menu button that opens every page of the site.
+ * The header on every studio page, the home page included: the name, site
+ * search, a few links, "Talk to me", and a menu button that opens every page of the site.
  * The icon's two lines fold into a cross; the menu drops down like a curtain
  * and its links rise in one after another. With less motion asked for, it
  * simply appears. The menu holds keyboard focus while open, and Escape closes it.
@@ -97,6 +98,8 @@ export default function CinematicHeader() {
           Kingdom Sites
         </Link>
         <nav aria-label="Main" className="cn-nav">
+          {/* First on a desktop; on a phone, CSS moves it next to the menu button (search.css). */}
+          <SiteSearch onOpen={() => setOpen(false)} />
           <Link href="/portfolio" className="cn-hide-sm">Portfolio</Link>
           <Link href="/about" className="cn-hide-sm">Studio</Link>
           <Link href="/mission" className="cn-hide-sm">Ministries</Link>
