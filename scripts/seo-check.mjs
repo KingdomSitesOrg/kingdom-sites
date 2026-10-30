@@ -18,6 +18,7 @@ const SITE = 'https://kingdom-sites.com'
 const ROUTES = [
   '/', '/about', '/portfolio', '/get-started', '/ai-tooling', '/mission', '/ministry', '/prayer',
   '/ruta', '/tap-to-tick', '/latin-game', '/blog', '/refer', '/privacy', '/terms',
+  '/portfolio/farzana-classroom', '/portfolio/kcupg', '/portfolio/delta',
 ]
 
 const attr = (html, re) => html.match(re)?.[1]?.replace(/&amp;/g, '&')
@@ -60,8 +61,12 @@ for (const route of ROUTES) {
   if (['/', '/portfolio', '/latin-game'].includes(route) && !text.includes('JAM Legio')) problems.push('does not name JAM Legio')
   // JAM with Latin appears only in the partnership credit (the partner line, and
   // /latin-game's description and app data), never anywhere else on a page.
+  // On /latin-game the credit area also holds Alexis Carrico's words, credited
+  // "Alexis Carrico, JAM with Latin" (Thomas, T-389).
   let outsideCredit = text.replace(/<p class="[^"]*partner[^"]*">[^]*?<\/p>/g, '')
-  if (route === '/latin-game') outsideCredit = outsideCredit.replace(/<meta[^>]*>/g, '')
+  if (route === '/latin-game') {
+    outsideCredit = outsideCredit.replace(/<meta[^>]*>/g, '').replace(/<figure class="partner-quote">[^]*?<\/figure>/g, '')
+  }
   if (/JAM with Latin/i.test(outsideCredit)) problems.push('names JAM with Latin outside the partnership credit')
   if (route === '/latin-game') {
     if (!/JAM Legio/.test(title ?? '') || !/Latin game/i.test(title ?? '')) problems.push(`title should carry JAM Legio and "Latin game": ${title}`)
