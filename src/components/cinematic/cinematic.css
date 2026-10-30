@@ -170,7 +170,7 @@
 .cn-store svg { flex: none; }
 
 /* ---------- The maker's credit (T-372) ---------- */
-/* "I built this." as its own beat, once, with two credit lines. */
+/* "What I built" as its own beat, once, with two credit lines. */
 .cn-credit { display: grid; gap: 28px; padding-block: clamp(56px, 9vw, 120px); border-top: 1px solid var(--line); }
 @media (min-width: 1000px) { .cn-credit { grid-template-columns: 1fr 1.1fr; align-items: end; gap: 64px; } }
 /* Without the big line: the two credits side by side, under the phones. */

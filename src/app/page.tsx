@@ -97,8 +97,8 @@ export default function Home() {
         </Scroll>
       </Scroll>
 
-      {/* Right after the first window and phone: I built this. Said once. */}
-      <Credit id="farzana" title="I built this." />
+      {/* Right after the first window and phone: What I built. Said once. */}
+      <Credit id="farzana" title="What I built" />
 
       {/* The Farzana story: the stage holds still, the screens change by chapter. */}
       <div id="farzana" className="scroll-mt-16" />
