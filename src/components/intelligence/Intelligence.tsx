@@ -83,8 +83,11 @@ export default function Intelligence() {
     const vv = window.visualViewport
     const place = () => {
       const height = vv?.height ?? window.innerHeight
+      const top = vv?.offsetTop ?? 0
       el.style.setProperty('--ki-vh', `${height}px`)
-      el.style.setProperty('--ki-top', `${vv?.offsetTop ?? 0}px`)
+      el.style.setProperty('--ki-top', `${top}px`)
+      // The gap between the bottom of the page and the bottom of what is showing: the keyboard.
+      el.style.setProperty('--ki-bottom', `${Math.max(0, window.innerHeight - (height + top))}px`)
       // The keys are up when the visible part is well short of the window.
       if (height < window.innerHeight - 120) el.setAttribute('data-keys', '')
       else el.removeAttribute('data-keys')
@@ -92,6 +95,7 @@ export default function Intelligence() {
     place()
     vv?.addEventListener('resize', place)
     vv?.addEventListener('scroll', place)
+    window.addEventListener('resize', place)
 
     const html = document.documentElement
     const y = window.scrollY
@@ -104,6 +108,7 @@ export default function Intelligence() {
     return () => {
       vv?.removeEventListener('resize', place)
       vv?.removeEventListener('scroll', place)
+      window.removeEventListener('resize', place)
       el.removeAttribute('data-keys')
       html.classList.remove('ki-lock')
       Object.assign(document.body.style, was)
@@ -398,6 +403,11 @@ export default function Intelligence() {
               value={draft}
               placeholder="Ask a question"
               onChange={(e) => setDraft(e.target.value)}
+              onFocus={(e) => {
+                // Fallback: once the keyboard has finished rising, make sure the box is in view.
+                const box = e.currentTarget
+                window.setTimeout(() => box.scrollIntoView({ block: 'nearest' }), 300)
+              }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) {
                   e.preventDefault()
