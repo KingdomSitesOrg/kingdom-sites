@@ -60,7 +60,7 @@ Thomas asked: *"What are some more tangible things I can do to be seen? I feel l
 
 ## 3. Showing up near searches for "JAM with Latin", "JAM with Latin app" and "Latin game"
 
-**The site rule stays:** Kingdom Sites never mentions JAM with Latin, except the Latin game page's partnership credit.
+**The site rule (updated 2026-10-30):** the site names the app, JAM Legio. It never mentions JAM with Latin except in the partnership credit shown with the game (and the app data on /latin-game).
 
 **What is true today** (checked 30 October):
 - **App Store:** the app is **JAM Legio**, sold by JAM with Latin LLC ($19.99). Its developer website link already points to **kingdom-sites.com/latin-game**.
@@ -75,8 +75,8 @@ Thomas asked: *"What are some more tangible things I can do to be seen? I feel l
 | ✅ | **App Store developer link** to kingdom-sites.com/latin-game. | Already done | – | Anyone who opens the App Store listing from a "JAM with Latin app" search is one tap from the site. |
 | ☐ | **Google Play developer website** set to kingdom-sites.com/latin-game too, if Alexis agrees (it is JAM with Latin's listing). | Thomas, with Alexis's OK | 10 minutes in Play Console | The same one-tap path from the Play listing. |
 | ☐ | **Ask Alexis for a credit on jamwithlatin.com:** "Website and app by Kingdom Sites", linking to kingdom-sites.com/latin-game, in the footer or on the app page. | Thomas asks Alexis | One message | The strongest step: it puts a link on the very page that wins "JAM with Latin" searches, and it is what AI answers read when asked who built the app. Likely the main source of the 35 visitors already. |
-| ☐ | **/latin-game: name the app and add its structured data**: a `MobileApplication` entry named JAM Legio, with JAM with Latin as publisher, Kingdom Sites as developer, iPhone and Android, $19.99, and both store links. All on the one page the rule allows, as part of the partnership credit. | Thomas decides whether the page names the app; agent builds it | 1 hour | Google and AI answers can connect "JAM Legio" and "Latin game" to kingdom-sites.com/latin-game. Strengthens the Latin game searches the page already appears for. |
-| ☐ | **/latin-game title and description** around "Latin game" and "Latin vocabulary game" (§1 step 4). | Thomas words it; agent applies it | Part of §1 step 4 | The most likely first steady search clicks on the whole site. |
+| ✅ | **/latin-game names the app and carries its structured data** (done 2026-10-30): JAM Legio by name across the site; a `MobileApplication` entry with JAM with Latin LLC as publisher, Kingdom Sites (Thomas Klein) as creator, iPhone and Android, $19.99 and both store links. | Done | – | Google and AI answers can connect "JAM Legio" and "Latin game" to kingdom-sites.com/latin-game. |
+| ✅ | **/latin-game title and description** carry "Latin game" and "Latin vocabulary game" (done 2026-10-30: "JAM Legio — a Latin game for homeschool and classical students"). | Done | – | The most likely first steady search clicks on the whole site, once the new site is live. |
 | ☐ | **Off the site:** list the Latin game as a project on the Business Profile, Clutch and GoodFirms ("JAM Legio, a Latin game built with JAM with Latin"). | Thomas decides whether the rule extends off the site; Thomas adds them | 15 minutes each | These pages can show up for "JAM with Latin app" and tell AI answers who built it. **Thomas's call:** the rule is about the site; whether it also covers these profiles is his decision. |
 | ☐ | **Ask Alexis to mention the build in JAM with Latin's own posts or newsletter** when the app updates, with a link. | Thomas asks Alexis | One message | A mention from JAM's own audience, which is exactly who searches "JAM with Latin". |
 
@@ -86,7 +86,7 @@ Thomas asked: *"What are some more tangible things I can do to be seen? I feel l
 
 | Done | Build | Who | Effort | Expected result |
 |---|---|---|---|---|
-| ☐ | **Latin game page wording, the app's name and its structured data** (§3). | Agent, after Thomas's wording | 1 hour | Clicks from the 61 Latin game appearances. |
+| ✅ | **JAM Legio's page: name, wording and structured data** (done 2026-10-30). The share picture's artwork still says "A Latin practice game" and needs re-rendering. | Done, except the picture | – | Clicks from the 61 Latin game appearances, once live. |
 | ☐ | **Home page title** that says what the business does, plus a `WebSite` entry in the structured data so Google shows "Kingdom Sites" as the name. | Agent, after Thomas's wording | 30 minutes | Clicks from the "kingdom site" searches (23 appearances, 0 clicks). |
 | ☐ | **A page per project** (case study): the problem, what was built, the result, screenshots, a link to the live product. | Agent drafts; Thomas checks | 1 to 2 hours each | Pages Google and AI can point to; things to post on Facebook. |
 | ☐ | **A Rochester page** at /rochester-mn: "Websites and apps for Rochester businesses", with the six Rochester posts linking to it. | Agent drafts; Thomas checks | 2 hours | A page for the 55 Rochester search appearances that today lead nowhere useful. |
