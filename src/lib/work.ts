@@ -123,7 +123,7 @@ export const PROJECTS: Project[] = [
     name: 'KCUPG',
     kind: 'Website',
     forWhom: 'Kansas City',
-    line: 'A dashboard of Kansas City’s South Asian communities: people, languages and faith on one map.',
+    line: 'Kansas City’s South Asian communities on one map: people, languages and faith.',
     platforms: 'Web',
     status: 'Live',
     href: 'https://kcupgs.com',
