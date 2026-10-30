@@ -172,18 +172,18 @@ html.ki-lock { overflow: hidden; }
    screen (a short strip when the keys are up). Keep the media query in step with PHONE in Intelligence.tsx. */
 @media (max-width: 759px), (max-height: 520px) {
   .ki { --ki-vh: 100dvh; --ki-top: 0px; --ki-bottom: 0px; }
-  .ki[data-open] .ki-backdrop {
+  .ki:not(.ki--inline)[data-open] .ki-backdrop {
     display: block; position: fixed; z-index: 59; left: 0; right: 0; top: var(--ki-top); height: var(--ki-vh);
     background: rgba(0, 0, 0, 0.55); touch-action: none; animation: ki-fade 0.2s ease;
   }
-  .ki-panel {
+  .ki:not(.ki--inline) .ki-panel {
     z-index: 60; left: 0; right: 0; top: auto; bottom: var(--ki-bottom);
     height: auto; max-height: calc(var(--ki-vh) * 0.45);
     border-radius: 16px 16px 0 0; border-bottom: 0;
     transform-origin: 50% 100%;
     animation-name: ki-sheet;
   }
-  .ki[data-keys] .ki-panel { max-height: min(calc(var(--ki-vh) - 8px), 300px); }
+  .ki:not(.ki--inline)[data-keys] .ki-panel { max-height: min(calc(var(--ki-vh) - 8px), 300px); }
   .ki-head { align-items: center; padding: 0 2px 0 14px; }
   .ki-title { font-size: 17px; }
   .ki-sub { display: none; }
@@ -199,6 +199,25 @@ html.ki-lock { overflow: hidden; }
   .ki-full { margin: 6px 10px 0; }
   .ki-foot { padding: 4px 14px calc(6px + env(safe-area-inset-bottom, 0px)); font-size: 11px; }
   .ki-card { padding: 12px; }
+}
+
+/* ---------- Built into a page (the Get started page): always open, in the page's flow ---------- */
+.ki--inline { min-width: 0; }
+.ki--inline .ki-panel {
+  position: relative; inset: auto; z-index: auto; translate: none;
+  width: 100%; max-width: 520px; height: 340px; max-height: none;
+  animation: none; box-shadow: none; border-radius: 14px; border: 1px solid var(--line);
+}
+.ki--inline .ki-head { padding: 12px 16px; align-items: center; }
+.ki--inline .ki-title { font-size: 19px; }
+.ki--inline .ki-sub { display: block; margin-top: 4px; }
+@media (max-width: 759px), (max-height: 520px) {
+  .ki--inline .ki-panel { height: 360px; }
+  .ki--inline .ki-title { font-size: 17px; }
+  .ki--inline .ki-sub { display: none; }
+  .ki--inline .ki-head { padding: 8px 14px; }
+  .ki--inline .ki-log { flex: 1; }
+  .ki--inline .ki-foot { padding-bottom: 8px; }
 }
 
 @keyframes ki-fade { from { opacity: 0; } to { opacity: 1; } }

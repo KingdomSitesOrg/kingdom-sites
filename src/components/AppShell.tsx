@@ -89,7 +89,9 @@ export default function AppShell({
   // Farzana pages, which are farzana.app's own brand, and not where someone is
   // signing a document (/sign/s/…). It sits outside the page's own tree, so a
   // conversation carries on from page to page.
-  const intelligence = section === 'farzana' || pathname?.startsWith('/sign/s/') ? null : <Intelligence />
+  // The Get started page has the chat built into the page, so no second one floats there.
+  const intelligence =
+    section === 'farzana' || pathname?.startsWith('/sign/s/') || pathname === '/get-started' ? null : <Intelligence />
 
   return (
     <>
