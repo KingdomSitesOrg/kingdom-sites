@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
 import { AuthError, getAdminSession, newId, newSignerToken } from '@/lib/sign/auth'
 import { appendAudit } from '@/lib/sign/audit'
-import { countPdfPages, defaultSignatureField } from '@/lib/sign/pdf'
+import { checkUploadedPdf } from '@/lib/sign/pdf'
 import { listEnvelopes, saveEnvelope, savePdf } from '@/lib/sign/store'
 import type { Envelope, Signer } from '@/lib/sign/types'
 
@@ -47,7 +47,11 @@ export async function POST(request: Request) {
     }
 
     const bytes = Buffer.from(await file.arrayBuffer())
-    const pageCount = await countPdfPages(bytes)
+    const checked = await checkUploadedPdf(bytes)
+    if (!checked.ok) {
+      return NextResponse.json({ ok: false, error: checked.error }, { status: 400 })
+    }
+    const pageCount = checked.pageCount
     const id = newId('env')
     const pdfKey = await savePdf(`pdfs/${id}-original.pdf`, bytes)
 
@@ -87,7 +91,9 @@ export async function POST(request: Request) {
       pageCount,
       originalPdfKey: pdfKey,
       signers,
-      fields: signers.map((s, i) => defaultSignatureField(s.id, i)),
+      // No automatic boxes: a guessed spot landed on the contract's own text and
+      // the stamped PDF printed the signature over it. The sender places each line.
+      fields: [],
       audit: [],
     }
     envelope = appendAudit(envelope, 'created', session.email, title)

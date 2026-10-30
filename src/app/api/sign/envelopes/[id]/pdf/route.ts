@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
 import { AuthError, getAdminSession } from '@/lib/sign/auth'
+import { isWellFormedSignerToken } from '@/lib/sign/placement'
 import { findEnvelopeBySignerToken, getEnvelope, readPdf } from '@/lib/sign/store'
 
 export const runtime = 'nodejs'
@@ -19,7 +20,7 @@ export async function GET(request: Request, ctx: Ctx) {
     const session = await getAdminSession()
     let envelope = session ? await getEnvelope(id) : null
 
-    if (!envelope && token) {
+    if (!envelope && isWellFormedSignerToken(token)) {
       const found = await findEnvelopeBySignerToken(token)
       if (found && found.envelope.id === id) {
         envelope = found.envelope

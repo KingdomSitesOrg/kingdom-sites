@@ -301,9 +301,17 @@ export async function deleteEnvelope(id: string): Promise<void> {
     }
     return
   }
-  try {
-    await fs.unlink(envelopePath(id))
-  } catch {
-    /* ignore */
+  // Local store: remove the PDFs too, as the Blob branch above does.
+  const files = [
+    envelopePath(id),
+    pdfLocalPath(envelope.originalPdfKey),
+    envelope.completedPdfKey ? pdfLocalPath(envelope.completedPdfKey) : null,
+  ].filter(Boolean) as string[]
+  for (const file of files) {
+    try {
+      await fs.unlink(file)
+    } catch {
+      /* ignore */
+    }
   }
 }
