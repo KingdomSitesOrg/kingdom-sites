@@ -64,6 +64,11 @@ const nextConfig: NextConfig = {
       // /farzana is unlisted: shareable by link, kept out of search (the page and the film).
       { source: '/farzana', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] },
       { source: '/farzana/:path*', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] },
+      // Preview builds (the share link, preview.kingdom-sites.com) are copies of the site:
+      // every response says noindex, so search engines keep them out. Production is unchanged.
+      ...(process.env.VERCEL_ENV === 'preview'
+        ? [{ source: '/:path*', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] }]
+        : []),
     ]
   },
   // Links people already have in hand, typed or shared without the hyphens.
