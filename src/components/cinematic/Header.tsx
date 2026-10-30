@@ -13,7 +13,7 @@ const MENU: { title: string; links: { href: string; label: string }[] }[] = [
     title: 'Portfolio',
     links: [
       { href: '/portfolio', label: 'Full portfolio' },
-      { href: '/portfolio#farzana', label: 'Farzana Classroom' },
+      { href: '/portfolio', label: 'Farzana Classroom' },
       { href: '/ruta', label: 'Ruta' },
       { href: '/tap-to-tick', label: 'Tap to Tick' },
       { href: '/latin-game', label: 'Latin learning game' },
