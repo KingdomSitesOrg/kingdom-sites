@@ -9,12 +9,16 @@ type Props = {
   hint?: string
 }
 
-/** Contract-style signature block: role, ink on a rule, printed name, date under the name. */
+/**
+ * Contract-style signature block: role, ink on a rule, printed name, date under the name.
+ * See-through on purpose: the signed PDF is stamped without a background, so any
+ * contract text under the box shows through there too. A solid white box hid it here.
+ */
 export default function SignatureLineBox({ role, name, signed, signedDate, hint }: Props) {
   const label = (role || 'Signer').trim() || 'Signer'
   const showDate = Boolean(signed && signedDate)
   return (
-    <div className="relative flex h-full min-h-0 w-full flex-col justify-between bg-white px-2 py-1">
+    <div className="relative flex h-full min-h-0 w-full flex-col justify-between bg-white/45 px-2 py-1">
       <span className="truncate text-[9px] font-medium uppercase tracking-wide text-muted">
         {label}
       </span>

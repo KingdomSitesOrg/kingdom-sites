@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
 import { AuthError, getAdminSession, newId, newSignerToken } from '@/lib/sign/auth'
 import { appendAudit } from '@/lib/sign/audit'
-import { defaultSignatureField, lockedEnvelopeStructuralError, maxPageInRawFields, mergeSigner, sanitizeField } from '@/lib/sign/placement'
+import { lockedEnvelopeStructuralError, maxPageInRawFields, mergeSigner, sanitizeField } from '@/lib/sign/placement'
 import { deleteEnvelope, getEnvelope, saveEnvelope } from '@/lib/sign/store'
 import type { FieldPlacement, Signer } from '@/lib/sign/types'
 
@@ -135,17 +135,8 @@ export async function PATCH(request: Request, ctx: Ctx) {
       envelope.fields = sanitized
     }
 
-    // Only backfill defaults when the client omitted fields (e.g. signer-only save).
-    // If fields were sent, trust sanitize — do not re-inject bottom defaults.
-    if (!Array.isArray(body.fields)) {
-      const list = envelope.signers
-      for (let i = 0; i < list.length; i++) {
-        const s = list[i]
-        if (!envelope.fields.some((f) => f.signerId === s.id && f.type === 'signature')) {
-          envelope.fields.push(defaultSignatureField(s.id, i))
-        }
-      }
-    }
+    // No default boxes for signers without one: the sender places every line
+    // (Send refuses until each signer has one).
     {
       const keep = new Set(envelope.signers.map((s) => s.id))
       envelope.fields = envelope.fields.filter((f) => keep.has(f.signerId))
@@ -159,7 +150,8 @@ export async function PATCH(request: Request, ctx: Ctx) {
 
     envelope = appendAudit(envelope, 'updated', session.email)
     // Return merged blob state so admin UI does not flash pending over a durable Client signature.
-    envelope = await saveEnvelope(envelope)
+    // A draft save that sends its lines is the whole set, so a removed line stays removed.
+    envelope = await saveEnvelope(envelope, { replaceFields: Array.isArray(body.fields) })
     return NextResponse.json({ ok: true, envelope })
   } catch (error) {
     if (error instanceof AuthError) {

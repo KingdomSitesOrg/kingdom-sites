@@ -135,14 +135,33 @@ export default function PdfScrollViewer({
     }
   }, [url])
 
+  // Bring a page into view. Inside a scrolling document panel only that panel
+  // moves; the window moves only when the person asked (a page button, "Sign").
+  // scrollIntoView moved the window too, so opening a document jumped past its
+  // title and buttons.
+  function scrollToPage(page: number, allowWindow: boolean) {
+    const el = pageRefs.current[page - 1]
+    if (!el) return
+    const panel = scrollPanel(el)
+    if (panel) {
+      const top =
+        el.getBoundingClientRect().top - panel.getBoundingClientRect().top + panel.scrollTop - 64
+      panel.scrollTo({ top: Math.max(0, top), behavior: 'smooth' })
+      return
+    }
+    if (allowWindow) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
   // Only scroll when focusPage actually changes — not every time `ready` flips,
   // which was yanking mobile users back to page 1 while they tried to reach page 2+.
+  // The first scroll after loading never moves the window.
   useEffect(() => {
     if (!focusPage || !ready) return
     if (lastFocusScrollRef.current === focusPage) return
+    const first = lastFocusScrollRef.current === null
     lastFocusScrollRef.current = focusPage
-    const el = pageRefs.current[focusPage - 1]
-    el?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    if (first && focusPage === 1) return
+    scrollToPage(focusPage, !first)
   }, [focusPage, ready])
 
   const pageList = Array.from({ length: pages }, (_, i) => i + 1)
@@ -183,10 +202,8 @@ export default function PdfScrollViewer({
               type="button"
               className={`btn-ghost-sm ${focusPage === page ? 'is-active' : ''}`}
               onClick={() => {
-                lastFocusScrollRef.current = null
                 onFocusPageChange?.(page)
-                const el = pageRefs.current[page - 1]
-                el?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                scrollToPage(page, true)
                 lastFocusScrollRef.current = page
               }}
             >
@@ -240,4 +257,17 @@ export default function PdfScrollViewer({
       </div>
     </div>
   )
+}
+
+/** The nearest ancestor that scrolls on its own (the document panel), if any. */
+function scrollPanel(el: HTMLElement): HTMLElement | null {
+  let node = el.parentElement
+  while (node && node !== document.body) {
+    const { overflowY } = window.getComputedStyle(node)
+    if ((overflowY === 'auto' || overflowY === 'scroll') && node.scrollHeight > node.clientHeight) {
+      return node
+    }
+    node = node.parentElement
+  }
+  return null
 }

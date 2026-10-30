@@ -3,7 +3,8 @@ import * as Sentry from '@sentry/nextjs'
 import { AuthError, getAdminSession } from '@/lib/sign/auth'
 import { appendAudit } from '@/lib/sign/audit'
 import { protectSignedSigners } from '@/lib/sign/complete'
-import { sendMagicLinkEmail, signerLink } from '@/lib/sign/email'
+import { signersWithoutLine } from '@/lib/sign/placement'
+import { emailConfigured, sendMagicLinkEmail, signerLink } from '@/lib/sign/email'
 import { getEnvelope, saveEnvelope } from '@/lib/sign/store'
 import type { Envelope } from '@/lib/sign/types'
 
@@ -36,9 +37,15 @@ export async function POST(request: Request, ctx: Ctx) {
     if (envelope.signers.length === 0) {
       return NextResponse.json({ ok: false, error: 'Add at least one signer first.' }, { status: 400 })
     }
-    if (!envelope.fields.some((f) => f.type === 'signature')) {
+    // Only a draft can still be missing lines; a sent envelope is locked and a
+    // resend must keep working for whoever has not signed yet.
+    const missing = envelope.status === 'draft' ? signersWithoutLine(envelope) : []
+    if (missing.length) {
       return NextResponse.json(
-        { ok: false, error: 'Place at least one signature box first.' },
+        {
+          ok: false,
+          error: `Place a signature line for ${missing.map((s) => s.name || s.email).join(' and ')} first.`,
+        },
         { status: 400 },
       )
     }
@@ -62,7 +69,7 @@ export async function POST(request: Request, ctx: Ctx) {
     // so opening the envelope does not spam invites before the admin hits Send.
     const shouldEmail = body?.email !== false
 
-    const hasResend = Boolean(process.env.RESEND_API_KEY?.trim())
+    const hasResend = emailConfigured()
     const results: {
       email: string
       sent: boolean
@@ -125,7 +132,7 @@ export async function POST(request: Request, ctx: Ctx) {
       skippedAlreadySigned,
       emailed: hasResend && emailedResults.length > 0,
       notice: !hasResend
-        ? 'Opened for signing without email (RESEND_API_KEY not set). Use the links or sign in the editor.'
+        ? 'Email is not set up here, so nothing was emailed. Copy each signing link below and send it yourself.'
         : localLinks
           ? 'Magic links point at localhost — they only work on this computer. Set SIGN_APP_URL to your live site before emailing real clients.'
           : undefined,

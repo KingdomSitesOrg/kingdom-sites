@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import SignHeaderNav from '@/components/sign/SignHeaderNav'
 
 export const metadata: Metadata = {
   title: 'Sign',
@@ -15,14 +16,7 @@ export default function SignLayout({ children }: { children: React.ReactNode }) 
           <Link href="/sign" className="text-sm font-semibold tracking-tight text-ink">
             Kingdom Sites <span className="text-accent">Sign</span>
           </Link>
-          <div className="flex items-center gap-2">
-            <Link href="/sign/pricing" className="btn-ghost-sm">
-              Plans
-            </Link>
-            <Link href="/" className="btn-ghost-sm">
-              kingdom-sites.com
-            </Link>
-          </div>
+          <SignHeaderNav />
         </div>
       </header>
       <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6">{children}</main>

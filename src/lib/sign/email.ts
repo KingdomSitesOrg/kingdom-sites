@@ -32,17 +32,62 @@ export function signerLink(token: string): string {
   return `${appBaseUrl()}/sign/s/${token}`
 }
 
-async function sendResend(opts: {
+/**
+ * A local mail catcher (Mailpit's web address, e.g. http://127.0.0.1:54324).
+ * When set, every Sign email goes there and never to Resend, so a test run
+ * cannot reach a real inbox even if a Resend key is also present.
+ */
+function mailCatcherUrl(): string {
+  return process.env.SIGN_MAIL_CATCHER_URL?.trim().replace(/\/$/, '') || ''
+}
+
+/** True when Sign can deliver email (Resend, or the local catcher). */
+export function emailConfigured(): boolean {
+  return Boolean(mailCatcherUrl() || process.env.RESEND_API_KEY?.trim())
+}
+
+type OutgoingEmail = {
   to: string | string[]
   subject: string
   text: string
   html?: string
   attachments?: { filename: string; content: Buffer }[]
-}): Promise<boolean> {
-  const key = process.env.RESEND_API_KEY?.trim()
-  if (!key) return false
+}
+
+async function sendToCatcher(base: string, to: string[], opts: OutgoingEmail): Promise<boolean> {
+  const from = fromAddress()
+  const match = from.match(/^(.*)<([^>]+)>\s*$/)
+  try {
+    const response = await fetch(`${base}/api/v1/send`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      signal: AbortSignal.timeout(EMAIL_TIMEOUT_MS),
+      body: JSON.stringify({
+        From: match ? { Name: match[1]!.trim(), Email: match[2]!.trim() } : { Email: from },
+        To: to.map((Email) => ({ Email })),
+        Subject: opts.subject,
+        Text: opts.text,
+        HTML: opts.html,
+        Attachments: opts.attachments?.map((a) => ({
+          Filename: a.filename,
+          Content: a.content.toString('base64'),
+          ContentType: 'application/pdf',
+        })),
+      }),
+    })
+    return response.ok
+  } catch {
+    return false
+  }
+}
+
+async function sendResend(opts: OutgoingEmail): Promise<boolean> {
   const to = (Array.isArray(opts.to) ? opts.to : [opts.to]).filter(looksLikeEmail)
   if (to.length === 0) return false
+  const catcher = mailCatcherUrl()
+  if (catcher) return sendToCatcher(catcher, to, opts)
+  const key = process.env.RESEND_API_KEY?.trim()
+  if (!key) return false
 
   try {
     const body: Record<string, unknown> = {
@@ -97,7 +142,7 @@ export async function sendMagicLinkEmail(opts: {
     '',
     `You have been asked to sign “${opts.title}” via Kingdom Sites Sign.`,
     '',
-    `Open this link to review and sign:`,
+    'Open this link to read the document and sign it. It takes about a minute, on a phone or a computer:',
     link,
     '',
     'This link is unique to you. Do not forward it.',
@@ -107,7 +152,8 @@ export async function sendMagicLinkEmail(opts: {
   const html = `
     <p>Hi ${escapeHtml(opts.signerName || 'there')},</p>
     <p>You have been asked to sign <strong>${escapeHtml(opts.title)}</strong> via Kingdom Sites Sign.</p>
-    <p><a href="${link}">Review and sign the document</a></p>
+    <p>It takes about a minute, on a phone or a computer.</p>
+    <p><a href="${link}" style="display:inline-block;padding:12px 20px;border-radius:999px;background:#0a5fcc;color:#fff;text-decoration:none;font-weight:600">Read and sign</a></p>
     <p style="color:#666;font-size:13px">This link is unique to you. Do not forward it.</p>
     <p>— Kingdom Sites</p>
   `
@@ -120,18 +166,24 @@ export async function sendCompletedPdfEmail(opts: {
   pdf: Buffer
   filename: string
 }): Promise<boolean> {
-  const subject = `Completed: ${opts.title}`
+  const subject = `Signed by everyone: ${opts.title}`
   const text = [
-    `The document “${opts.title}” has been signed by all parties.`,
+    `Everyone has signed “${opts.title}”.`,
     '',
-    'The completed PDF is attached.',
+    'The signed PDF is attached. Keep it for your records.',
     '',
     '— Kingdom Sites Sign',
   ].join('\n')
+  const html = `
+    <p>Everyone has signed <strong>${escapeHtml(opts.title)}</strong>.</p>
+    <p>The signed PDF is attached. Keep it for your records.</p>
+    <p>— Kingdom Sites Sign</p>
+  `
   return sendResend({
     to: opts.to,
     subject,
     text,
+    html,
     attachments: [{ filename: opts.filename, content: opts.pdf }],
   })
 }
