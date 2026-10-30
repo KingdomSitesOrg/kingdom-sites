@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { trackEvent } from '@/lib/analytics'
 import { CONTACT_EMAIL, INQUIRE_API } from '@/lib/contact'
 
 /**
@@ -70,11 +69,9 @@ export default function InquiryForm() {
       if (!response.ok || !data.ok) {
         setError(data.error || 'Something went wrong sending that.')
         setStatus('error')
-        trackEvent('inquiry_error', { status: response.status })
         return
       }
 
-      trackEvent('inquiry_submit', { has_message: fields.message.trim() ? 'yes' : 'no' })
       setStatus('sent')
     } catch (error) {
       const timedOut =

@@ -20,9 +20,9 @@ export const LIMITS = {
   questions: 12,
   /** An answer coming back from the browser can't be longer than this. */
   answerChars: 2000,
-  /** Per visitor (IP address). */
+  /** Per visitor (IP address). At most 40 an hour, Thomas's limit (T-382). */
   perTenMinutes: 10,
-  perDay: 40,
+  perHour: 40,
   /** Conversations sent to Thomas, per visitor per day. */
   sendsPerDay: 3,
   /** Spend for the whole site per day (UTC), in US dollars. INTELLIGENCE_DAILY_USD overrides. */
@@ -38,7 +38,7 @@ export function dailyBudgetUsd(): number {
 export const SAY = {
   resting: 'Intelligence is resting for now. Use the contact form at /get-started and Thomas will reply himself.',
   tooFast: 'That is a lot of questions in a few minutes. Give it a little while, or use the contact form at /get-started.',
-  doneForToday: 'That is all the questions for today from here. Thomas reads every message sent through /get-started.',
+  hourFull: 'That is all the questions Intelligence can take from here this hour. Thomas would be glad to hear from you directly: write to him through the contact form at /get-started and he will reply himself.',
   full: 'This conversation is full. Start a new one, or write to Thomas through /get-started.',
   tooLong: `Please keep a question under ${LIMITS.questionChars} characters.`,
   unreadable: 'That could not be read. Start a new conversation and try again.',
@@ -174,13 +174,14 @@ export function signingSecret(apiKey: string): string {
 /* ---------- Per-visitor limits (each server instance keeps its own count) ---------- */
 
 const TEN_MINUTES = 10 * 60 * 1000
+const HOUR = 60 * 60 * 1000
 const DAY = 24 * 60 * 60 * 1000
 const seen = new Map<string, number[]>()
 
 /** Counts the question if it is allowed; says which limit it hit if not. */
-export function takeTurn(visitor: string, now = Date.now()): 'ok' | 'tooFast' | 'doneForToday' {
-  const times = (seen.get(visitor) ?? []).filter((t) => now - t < DAY)
-  if (times.length >= LIMITS.perDay) return 'doneForToday'
+export function takeTurn(visitor: string, now = Date.now()): 'ok' | 'tooFast' | 'hourFull' {
+  const times = (seen.get(visitor) ?? []).filter((t) => now - t < HOUR)
+  if (times.length >= LIMITS.perHour) return 'hourFull'
   if (times.filter((t) => now - t < TEN_MINUTES).length >= LIMITS.perTenMinutes) return 'tooFast'
   times.push(now)
   seen.set(visitor, times)
