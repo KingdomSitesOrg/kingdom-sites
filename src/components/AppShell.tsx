@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import { usePathname, useSelectedLayoutSegment } from 'next/navigation'
 import SiteChrome from '@/components/cinematic/SiteChrome'
+import Intelligence from '@/components/intelligence/Intelligence'
 
 export default function AppShell({
   children,
@@ -46,23 +47,30 @@ export default function AppShell({
       pathname?.startsWith(p),
     )
 
-  // No overflow clipping here — it would make this element the scroll container
-  // and stop the product page's sticky nav from sticking.
-  if (standalone) {
-    return (
-      <>
-        {studioData}
-        <main className="w-full">{children}</main>
-      </>
-    )
-  }
+  // Intelligence, the chat square (T-375), is on every studio page. Not on the
+  // Farzana pages, which are farzana.app's own brand, and not where someone is
+  // signing a document (/sign/s/…). It sits outside the page's own tree, so a
+  // conversation carries on from page to page.
+  const intelligence = section === 'farzana' || pathname?.startsWith('/sign/s/') ? null : <Intelligence />
 
-  // Every other studio page wears the home page's look: its header, its dark
-  // room and its footer (T-365).
   return (
-    <SiteChrome>
-      {studioData}
-      {children}
-    </SiteChrome>
+    <>
+      {standalone ? (
+        // No overflow clipping here — it would make this element the scroll container
+        // and stop the product page's sticky nav from sticking.
+        <>
+          {studioData}
+          <main className="w-full">{children}</main>
+        </>
+      ) : (
+        // Every other studio page wears the home page's look: its header, its dark
+        // room and its footer (T-365).
+        <SiteChrome>
+          {studioData}
+          {children}
+        </SiteChrome>
+      )}
+      {intelligence}
+    </>
   )
 }

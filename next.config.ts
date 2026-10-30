@@ -48,6 +48,8 @@ const FARZANA_PAGES: [clean: string, here: string][] = [
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: ['192.168.1.102'],
+  // Intelligence reads what it knows from this file at run time (T-375).
+  outputFileTracingIncludes: { '/api/intelligence': ['./content/intelligence.md'] },
   images: {
     formats: ['image/avif', 'image/webp'],
     qualities: [75, 95],
