@@ -34,6 +34,9 @@ type Handoff = 'closed' | 'form' | 'confirm' | 'sending' | 'sent'
 const SUGGESTIONS = ['What has Thomas built?', 'What would an app cost?', 'What is AI consultation?']
 const MAX_CHARS = 500
 
+/** Phones (and a phone on its side): the panel is a bottom sheet. Keep in step with intelligence.css. */
+const PHONE = '(max-width: 759px), (max-height: 520px)'
+
 let nextId = 1
 
 export default function Intelligence() {
@@ -53,18 +56,60 @@ export default function Intelligence() {
   const request = useRef<AbortController | null>(null)
   /** Set on close: focus goes back to the square once it is showing again. */
   const returnFocus = useRef(false)
+  const phone = usePhone()
   const ids = useId()
   const panelId = `${ids}-panel`
   const titleId = `${ids}-title`
 
   useEffect(() => () => request.current?.abort(), [])
 
-  // Opening puts the cursor in the question box; closing puts it back on the square.
+  // Opening puts the cursor in the question box (not on a phone, where that
+  // would raise the keyboard before they asked for it); closing puts it back on the square.
   useEffect(() => {
-    if (open) input.current?.focus({ preventScroll: true })
-    else if (returnFocus.current) square.current?.focus({ preventScroll: true })
+    if (open) {
+      if (!window.matchMedia(PHONE).matches) input.current?.focus({ preventScroll: true })
+    } else if (returnFocus.current) square.current?.focus({ preventScroll: true })
     returnFocus.current = false
   }, [open])
+
+  // On a phone the sheet sits on the visual viewport, the part of the screen
+  // that is actually showing: when the keyboard comes up that part shrinks (and
+  // Safari may slide it down the page), and the sheet follows it, so the
+  // question box stays just above the keys. The page behind is locked while it is open.
+  const root = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const el = root.current
+    if (!open || !phone || !el) return
+    const vv = window.visualViewport
+    const place = () => {
+      const height = vv?.height ?? window.innerHeight
+      el.style.setProperty('--ki-vh', `${height}px`)
+      el.style.setProperty('--ki-top', `${vv?.offsetTop ?? 0}px`)
+      // The keys are up when the visible part is well short of the window.
+      if (height < window.innerHeight - 120) el.setAttribute('data-keys', '')
+      else el.removeAttribute('data-keys')
+    }
+    place()
+    vv?.addEventListener('resize', place)
+    vv?.addEventListener('scroll', place)
+
+    const html = document.documentElement
+    const y = window.scrollY
+    const was = { top: document.body.style.top, position: document.body.style.position, left: document.body.style.left, right: document.body.style.right }
+    html.classList.add('ki-lock')
+    document.body.style.position = 'fixed'
+    document.body.style.top = `${-y}px`
+    document.body.style.left = '0'
+    document.body.style.right = '0'
+    return () => {
+      vv?.removeEventListener('resize', place)
+      vv?.removeEventListener('scroll', place)
+      el.removeAttribute('data-keys')
+      html.classList.remove('ki-lock')
+      Object.assign(document.body.style, was)
+      window.scrollTo({ top: y, behavior: 'instant' })
+    }
+  }, [open, phone])
 
   // Escape closes it wherever the focus is, even after a button it was on has gone.
   useEffect(() => {
@@ -80,7 +125,7 @@ export default function Intelligence() {
 
   // Sent: the cursor goes back to the question box.
   useEffect(() => {
-    if (handoff === 'sent') input.current?.focus({ preventScroll: true })
+    if (handoff === 'sent' && !window.matchMedia(PHONE).matches) input.current?.focus({ preventScroll: true })
   }, [handoff])
 
   // Keep the newest words in view as they come in, unless the reader has
@@ -220,7 +265,7 @@ export default function Intelligence() {
   })()
 
   return (
-    <div className={`ki ${sans.variable}`} data-open={open ? '' : undefined}>
+    <div ref={root} className={`ki ${sans.variable}`} data-open={open ? '' : undefined}>
       <button
         ref={square}
         type="button"
@@ -234,6 +279,8 @@ export default function Intelligence() {
         <span className="ki-square-title">Intelligence</span>
         <span className="ki-square-sub">Ask anything about me and what I built</span>
       </button>
+
+      <div className="ki-backdrop" hidden={!open} onClick={close} aria-hidden="true" />
 
       <section
         id={panelId}
@@ -261,7 +308,10 @@ export default function Intelligence() {
         <div ref={log} className="ki-log" role="log" aria-live="polite" aria-busy={busy} aria-label="Conversation">
           {items.length === 0 ? (
             <div className="ki-hello">
-              <p>Ask about the apps and sites Thomas has built, how he works, or what a project of yours might take.</p>
+              <p>
+                <span className="ki-long">Ask about the apps and sites Thomas has built, how he works, or what a project of yours might take.</span>
+                <span className="ki-short">Ask about Thomas&rsquo;s work, or what a project might cost.</span>
+              </p>
               <div className="ki-suggest">
                 {SUGGESTIONS.map((s) => (
                   <button key={s} type="button" className="ki-chip" onClick={() => ask(s)}>
@@ -424,6 +474,18 @@ function Reveal({ text, live }: { text: string; live: boolean }) {
 
 const CALM = '(prefers-reduced-motion: reduce)'
 
+function usePhone() {
+  return useSyncExternalStore(
+    (change) => {
+      const query = window.matchMedia(PHONE)
+      query.addEventListener('change', change)
+      return () => query.removeEventListener('change', change)
+    },
+    () => window.matchMedia(PHONE).matches,
+    () => false,
+  )
+}
+
 function useCalm() {
   return useSyncExternalStore(
     (change) => {
@@ -484,7 +546,7 @@ function Handoff(props: {
 
   // Each step puts the cursor where the visitor goes next.
   useEffect(() => {
-    if (step === 'form') nameInput.current?.focus({ preventScroll: true })
+    if (step === 'form' && !window.matchMedia(PHONE).matches) nameInput.current?.focus({ preventScroll: true })
     if (step === 'confirm') sendButton.current?.focus({ preventScroll: true })
   }, [step])
 
