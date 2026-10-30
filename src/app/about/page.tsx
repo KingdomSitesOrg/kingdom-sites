@@ -61,8 +61,8 @@ export default function About() {
             it into the tools they already use. When you email, you get Thomas, the person who builds it.
           </p>
           <p className="mt-4 text-pretty text-[15px] leading-relaxed text-body sm:text-base">
-            My wife Monisha and I take on a small number of projects at a time, on purpose. We are currently in the Philippines at IGSL — the International Graduate School
-            of Leadership — training in biblical studies and discipleship. Client work carries on
+            My wife Monisha and I take on a small number of projects at a time, on purpose. I am based in Rochester, Minnesota, and I am currently working from abroad. I do not say where.
+            Client work carries on
             from here, on the same timelines as always.
           </p>
           <div className="mt-8 grid gap-4">
