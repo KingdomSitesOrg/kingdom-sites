@@ -91,14 +91,11 @@ Three new pages, one shape (Thomas, T-389): the problem, what I built, how long 
 - **KCUPG quote:** Logan Hazlet will leave a Google review. Once it exists, his words can be quoted on /portfolio/kcupg ("What the client says", the `quote` field in `src/lib/case-studies.ts`), **with his OK**, credited "Logan Hazlet, full-time missionary, Kansas City, MO".
 - Any other quote or result goes in the same way: add it to that project in `src/lib/case-studies.ts` and the part appears.
 
-## T-388: Guides and From the field (article sections)
+## T-388: Guides (article section)
 
-Two article sections, sharing one design:
+**Guides** (/guides): software questions. Three guides: website or app, how a quote works, and running costs. (A second section, From the field, and the Journal page that holds both wait for Thomas's review on their own pull request, T-397.)
 
-- **Guides** (/guides): software questions. Three guides so far: website or app, how a quote works, and running costs.
-- **From the field** (/from-the-field): missions, faith, the persecuted church, prayer and project stories. It stays empty until T-392's articles land.
-
-On each index, the newest article is shown large with its cover, and the older ones sit in a grid below. Each article has a cover drawn in the site's colours, and that cover is also its share card. An article dated in the future stays hidden until its date. `docs/adding-an-article.md` explains how to add one.
+On the index, the newest article is shown large with its cover, and the older ones sit in a grid below. Each article has a cover drawn in the site's colours, and that cover is also its share card. An article dated in the future stays hidden until its date. `docs/adding-an-article.md` explains how to add one.
 
 The church and school guides were removed on Thomas's word (2026-10-30), along with their sitemap entries, data and links. No page says these are the questions people ask most; the Guides heading is Thomas's own line. The blog stays as it is (Rochester business notes).
 
@@ -108,21 +105,19 @@ The church and school guides were removed on Thomas's word (2026-10-30), along w
 - Two sentences in Thomas's voice make claims that no existing page makes:
   - "I will tell you plainly which one fits, even when the answer is the smaller, cheaper one" (Website or app)
   - "Half a page of notes, or a voice memo's worth of talking, is a good start" (How a quote works)
-- The From the field heading, intro and empty-page lines below are mine, not Thomas's.
 
-### Around every article (both sections)
+### Around every guide
 
 | Page, where | New text | Why |
 |---|---|---|
-| Line above the heading | Guides (or From the field) / By Thomas Klein · the date · N min read | Says who wrote it and when, for readers and for Google |
+| Line above the heading | Guides / By Thomas Klein · the date · N min read | Says who wrote it and when, for readers and for Google |
 | Under the heading | Summarize this article (button with the Intelligence sparkle; on blog posts too) | Opens the chat and asks for the article in three or four points; follow-ups keep the article in view |
 | The chat, after a summary | The question box reads "Ask about this article, or anything else"; the visitor's question shows as "Summarize this article: (its title)" | Says what the chat is answering from |
 | "From my portfolio" | The project's name and its existing Portfolio line (no new words) | Links each article to the work that shows it |
 | Author box | Written by / Thomas Klein / Kingdom Sites · Rochester, Minnesota / I make software people actually use: websites, apps and the systems behind them. When you write to me, you get me, the person who builds it. / About me › Portfolio › | The bio sentence is the About page's own |
 | "Sources" | Checked (date). Guides add: Fees change; each link has the current figure. | Every public figure has its source on the page |
 | Closing box, Guides | Have something in mind? / Tell me about it in a few lines. You and I talk first; you get a quote once I understand the project. / Start a conversation | The soft link to Get started |
-| Closing box, From the field | Want to talk about it? / Every message comes to me, and I reply personally. / Start a conversation | Close to the About page's line |
-| List at the bottom | More guides / More from the field | Links the articles to each other |
+| List at the bottom | More guides | Links the articles to each other |
 
 ### /guides (the index)
 
@@ -136,23 +131,12 @@ The church and school guides were removed on Thomas's word (2026-10-30), along w
 | Older articles | Date / heading / description | |
 | Bottom | Have something in mind? / Every enquiry comes to me, and I reply personally. / Start a conversation | Second line is the About page's |
 
-### /from-the-field (the index)
-
-| Where | New text | Why |
-|---|---|---|
-| Search title | From the field: missions, faith and the stories behind the work | Unique title with the section's subjects |
-| Description | Stories from the field: missions, faith, the persecuted church, prayer, and the stories behind the projects, written by Thomas Klein. | The subjects Thomas listed |
-| Label, heading | From the field / From the field. | Short; the section's name |
-| Intro | Missions, faith, the persecuted church, prayer, and the stories behind the projects. | The subjects Thomas listed |
-| Before any story is published | The first stories are on their way. | Until T-392's articles land |
-| Bottom | Want to talk about it? / Every enquiry comes to me, and I reply personally. / Start a conversation | |
-
-### Links to the sections from existing pages
+### Links to Guides from existing pages
 
 | Page, where | New text | Why |
 |---|---|---|
-| Menu (every page), Studio list | Guides, From the field | Links both ways |
-| Footer (every studio page) | Guides, From the field (home and Portfolio footer line: Guides) | Same |
+| Menu (every page), Studio list | Guides | Links both ways |
+| Footer (every studio page) | Guides | Same |
 | /get-started, after "You and I talk first. You get a quote once I understand the project." | How a quote works › | Points to the quote guide where people decide to write |
 | /about, link line at the bottom | · Guides | |
 | /portfolio, under "Yours could be next." | How a quote works · Website or app? · All guides | |

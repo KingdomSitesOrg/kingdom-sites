@@ -14,10 +14,9 @@ export const COVER = { width: 1200, height: 630 }
 const BG = ['#141416', '#101012', '#18171a']
 const FG = '#efebe3'
 const DIM = '#8e8a82'
-/* Warm tones for the stories from the field, cooler ones for the guides. */
+/* Cool tones for the guides. */
 const TONES: Record<string, string[]> = {
   guides: ['#8fa39a', '#a9b5c4', '#c9b48a', '#e3a283'],
-  'from-the-field': ['#e3a283', '#b86f52', '#c9b48a', '#d9c7a7'],
 }
 
 /** A small seeded random number source (mulberry32), seeded from the slug. */

@@ -261,7 +261,7 @@ export default function ArticlePage({ section, slug }: { section: SectionId; slu
         {others.length > 0 && (
           <nav aria-labelledby="more-articles" className="mx-auto mt-16 max-w-2xl">
             <h2 id="more-articles" className="cn-kicker">
-              More {section === 'guides' ? 'guides' : 'from the field'}
+              More {home.name.toLowerCase()}
             </h2>
             <ul className="mt-5 space-y-4">
               {others.map((x) => (
