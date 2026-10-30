@@ -217,19 +217,26 @@ export default function Home() {
       <section aria-labelledby="more" className="cn-wrap mt-32 sm:mt-44">
         <h2 id="more" className="cn-kicker">More work</h2>
         <div className="mt-8 grid gap-x-10 gap-y-12 md:grid-cols-3">
-          {MORE.map((p) => (
-            <Scroll key={p.slug}>
-              <a href={p.href} className="cn-reveal cn-card group block">
-                <p className="cn-dim text-sm">
-                  {p.forWhom} · {ROLE[p.slug]}
-                </p>
-                <h3 className="cn-display cn-h3 mt-2 transition-transform duration-300 group-hover:translate-x-1">
-                  {p.name} <span aria-hidden="true" className="cn-dim">↗</span>
-                </h3>
-                <p className="cn-body mt-3 text-[1.02rem]">{p.line}</p>
-              </a>
-            </Scroll>
-          ))}
+          {MORE.map((p) => {
+            const external = p.href!.startsWith('http')
+            return (
+              <Scroll key={p.slug} className="flex">
+                <a
+                  href={p.href}
+                  className="cn-reveal cn-card group block"
+                  {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                >
+                  <p className="cn-dim cn-case-label text-sm">
+                    {p.forWhom} · {ROLE[p.slug]}
+                  </p>
+                  <h3 className="cn-display cn-h3 cn-case-name mt-2 transition-transform duration-300 group-hover:translate-x-1">
+                    {p.name} <span aria-hidden="true" className="cn-dim">{external ? '↗' : '→'}</span>
+                  </h3>
+                  <p className="cn-body cn-case-line mt-3 text-[1.02rem]">{p.line}</p>
+                </a>
+              </Scroll>
+            )
+          })}
         </div>
       </section>
 
