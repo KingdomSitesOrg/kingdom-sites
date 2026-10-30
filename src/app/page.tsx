@@ -258,12 +258,13 @@ export default function Home() {
         <Credit id="kcupg" />
       </section>
 
-      {/* Why it pays: the business case, in plain words. */}
+      {/* Why it matters: the business case, in plain words. */}
       <section aria-labelledby="pays" className="cn-wrap mt-32 sm:mt-44">
-        <p className="cn-kicker">Why it is worth it</p>
+        <p className="cn-kicker">Why it matters</p>
         <h2 id="pays" className="cn-display cn-h2 mt-5">
-          It should pay its way.
+          In 2026, software is the backbone of nearly every business.
         </h2>
+        <p className="cn-display cn-h3 mt-6">Don&rsquo;t fall behind. Better software = more revenue.</p>
         <div className="cn-pays">
           {PAYS.map((x) => (
             <Scroll key={x.title}>
