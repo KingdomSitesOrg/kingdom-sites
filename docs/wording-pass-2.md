@@ -2,60 +2,81 @@
 
 Every new or changed sentence on the site from the visibility work, so Thomas can review it all in one sitting before the deploy. Each task adds its own section. Page, where on the page, the new text, and why.
 
-## T-388: Guides (answer pages)
+## T-388: Guides and From the field (article sections)
 
-A new section at /guides: an index and three guides, one question each. The church and school guides were removed on Thomas's word (2026-10-30), with their sitemap entries, data and links. No page says these are the questions people ask most; the index heading is Thomas's own line. The blog stays as it is (Rochester business notes); the guides are their own section in the blog's design, because they answer national questions and carry an author box and Article data.
+Two article sections, sharing one design:
+
+- **Guides** (/guides): software questions. Three guides so far: website or app, how a quote works, and running costs.
+- **From the field** (/from-the-field): missions, faith, the persecuted church, prayer and project stories. It stays empty until T-392's articles land.
+
+On each index, the newest article is shown large with its cover, and the older ones sit in a grid below. Each article has a cover drawn in the site's colours, and that cover is also its share card. An article dated in the future stays hidden until its date. `docs/adding-an-article.md` explains how to add one.
+
+The church and school guides were removed on Thomas's word (2026-10-30), along with their sitemap entries, data and links. No page says these are the questions people ask most; the Guides heading is Thomas's own line. The blog stays as it is (Rochester business notes).
 
 **To decide:**
-- The date on every guide is 30 October 2026, the day they were written. If the deploy is next week, they can be re-dated to the deploy day (one line each in `src/lib/guides.ts`).
-- The fee figures were checked on 30 October 2026 against Apple, Google, Stripe, Vercel and Supabase's own pages, linked under "Sources" on each guide.
-- Two sentences are new claims in Thomas's voice that no existing page says: "I will tell you plainly which one fits, even when the answer is the smaller, cheaper one" (Website or app) and "Half a page of notes, or a voice memo's worth of talking, is a good start" (How a quote works).
+- Every guide is dated 30 October 2026, the day it was written. They can be re-dated to the deploy day by changing `published` in each file in `src/content/articles/`.
+- The fee figures were checked on 30 October 2026 against the pages of Apple, Google, Stripe, Vercel and Supabase. Each guide links them under "Sources".
+- Two sentences in Thomas's voice make claims that no existing page makes:
+  - "I will tell you plainly which one fits, even when the answer is the smaller, cheaper one" (Website or app)
+  - "Half a page of notes, or a voice memo's worth of talking, is a good start" (How a quote works)
+- The From the field heading, intro and empty-page lines below are mine, not Thomas's.
 
-### Around the guides (all three pages)
+### Around every article (both sections)
 
 | Page, where | New text | Why |
 |---|---|---|
-| Each guide, line above the heading | Guides / By Thomas Klein · the date | Says who wrote it and when, for readers and for Google |
-| Each guide, "From my portfolio" | The project's name and its existing Portfolio line (no new words) | Links each answer to the work that shows it |
-| Each guide, author box | Written by / Thomas Klein / Kingdom Sites · Rochester, Minnesota / I make software people actually use: websites, apps and the systems behind them. When you write to me, you get me, the person who builds it. / About me › Portfolio › | The bio sentence is the About page's own; the box is asked for in the brief |
-| Guides with figures, "Sources" | Checked October 30, 2026. Fees change; each link has the current figure. | Every public figure has its source on the page |
-| Each guide, closing box | Have something in mind? / Tell me about it in a few lines. You and I talk first; you get a quote once I understand the project. / Start a conversation | The soft link to Get started; same promise as the site's quote line |
-| Each guide, list at the bottom | More guides | Links the guides to each other |
-| Each guide and each blog post, under the heading | Summarize this article (button with the Intelligence sparkle) | Opens the chat and asks for the article in three or four points; follow-ups keep the article in view |
+| Line above the heading | Guides (or From the field) / By Thomas Klein · the date · N min read | Says who wrote it and when, for readers and for Google |
+| Under the heading | Summarize this article (button with the Intelligence sparkle; on blog posts too) | Opens the chat and asks for the article in three or four points; follow-ups keep the article in view |
 | The chat, after a summary | The question box reads "Ask about this article, or anything else"; the visitor's question shows as "Summarize this article: (its title)" | Says what the chat is answering from |
+| "From my portfolio" | The project's name and its existing Portfolio line (no new words) | Links each article to the work that shows it |
+| Author box | Written by / Thomas Klein / Kingdom Sites · Rochester, Minnesota / I make software people actually use: websites, apps and the systems behind them. When you write to me, you get me, the person who builds it. / About me › Portfolio › | The bio sentence is the About page's own |
+| "Sources" | Checked (date). Guides add: Fees change; each link has the current figure. | Every public figure has its source on the page |
+| Closing box, Guides | Have something in mind? / Tell me about it in a few lines. You and I talk first; you get a quote once I understand the project. / Start a conversation | The soft link to Get started |
+| Closing box, From the field | Want to talk about it? / Every message comes to me, and I reply personally. / Start a conversation | Close to the About page's line |
+| List at the bottom | More guides / More from the field | Links the articles to each other |
 
 ### /guides (the index)
 
 | Where | New text | Why |
 |---|---|---|
 | Search title | Guides: websites and apps in plain words | Unique title |
-| Description | Common questions in the software development world, made easy to understand: website or app, how a quote works, and what an app costs to keep running after launch. | Thomas's line (2026-10-30), then every guide's subject |
+| Description | Common questions in the software development world, made easy to understand: websites and apps, how a quote works, and what software costs to keep running. | Thomas's line (2026-10-30), then the subjects |
 | Label, heading | Guides / Common questions in the software development world, made easy to understand. | Thomas's own words (2026-10-30), replacing "The questions people ask me, answered plainly." |
-| Intro | Short guides to choosing, pricing and keeping a website or app, the way I would explain them to you in a conversation. | First person, plain; no claim about which questions are common |
-| Each card | The guide's question, its description, "Read the answer" | |
-| Last card | Have a question that is not here? / Ask me. Every enquiry comes to me, and I reply personally. / Start a conversation | Second sentence is the About page's; fills the grid's last place |
+| Intro | Short guides to choosing, pricing and keeping a website or app, the way I would explain them to you in a conversation. | First person, plain |
+| Newest article | Latest · (date) / its heading / its description / Read it › | |
+| Older articles | Date / heading / description | |
+| Bottom | Have something in mind? / Every enquiry comes to me, and I reply personally. / Start a conversation | Second line is the About page's |
 
-### Links to the guides from existing pages
+### /from-the-field (the index)
+
+| Where | New text | Why |
+|---|---|---|
+| Search title | From the field: missions, faith and the stories behind the work | Unique title with the section's subjects |
+| Description | Stories from the field: missions, faith, the persecuted church, prayer, and the stories behind the projects, written by Thomas Klein. | The subjects Thomas listed |
+| Label, heading | From the field / From the field. | Short; the section's name |
+| Intro | Missions, faith, the persecuted church, prayer, and the stories behind the projects. | The subjects Thomas listed |
+| Before any story is published | The first stories are on their way. | Until T-392's articles land |
+| Bottom | Want to talk about it? / Every enquiry comes to me, and I reply personally. / Start a conversation | |
+
+### Links to the sections from existing pages
 
 | Page, where | New text | Why |
 |---|---|---|
-| Menu (every page), Studio list | Guides | Links both ways |
-| Footer (every studio page; home and Portfolio footer line) | Guides | Same |
+| Menu (every page), Studio list | Guides, From the field | Links both ways |
+| Footer (every studio page) | Guides, From the field (home and Portfolio footer line: Guides) | Same |
 | /get-started, after "You and I talk first. You get a quote once I understand the project." | How a quote works › | Points to the quote guide where people decide to write |
 | /about, link line at the bottom | · Guides | |
 | /portfolio, under "Yours could be next." | How a quote works · Website or app? · All guides | |
 
-
 ### /guides/website-or-app
 
-Why: Answer page 3. Examples are the Portfolio projects; prices only as the chat’s rough ranges; store fees from Apple and Google with sources.
+Why: Answer page 3 of the plan. Examples are the Portfolio projects; prices only as the chat’s rough ranges; store fees from Apple and Google with sources.
 
 | Where | New text |
 |---|---|
-| Search title | Website or app: which does my business need? |
 | Description | Most businesses need a website first; an app is worth it when customers come back often or need what only a phone does well. Real examples, what an app adds to the cost, and three questions to decide. |
 | Heading (h1) | Website or app: which does my business need? |
-| Answer (first two sentences) | Most businesses need a website first, because a website is what people find on Google and what they check before they call. An app is worth it when customers come back often to do the same thing, such as booking, ordering, tracking or learning, or when it needs something only a phone does well. |
+| Opening (the answer) | Most businesses need a website first, because a website is what people find on Google and what they check before they call. An app is worth it when customers come back often to do the same thing, such as booking, ordering, tracking or learning, or when it needs something only a phone does well. |
 | Sub-heading | What a website does best |
 | What a website does best, list | Gets found in search and on Google Maps |
 | What a website does best, list | Works on every phone and computer, with nothing to download |
@@ -91,7 +112,7 @@ Why: Answer page 4: Thomas’s process (talk, understand, plan and quote) from /
 | Search title | How a website or app quote works |
 | Description | You tell me what you have in mind, we talk it through, and once I understand the project you get a plan and a quote. Rough ranges for websites and apps, what moves the price, and what to bring. |
 | Heading (h1) | How does a quote work? |
-| Answer (first two sentences) | You tell me what you have in mind, we talk it through, and once I understand the project you get a clear plan and a quote. There is no price list and no pressure: every project is quoted on what it actually needs. |
+| Opening (the answer) | You tell me what you have in mind, we talk it through, and once I understand the project you get a clear plan and a quote. There is no price list and no pressure: every project is quoted on what it actually needs. |
 | Sub-heading | The four steps |
 | The four steps, list | Tell me what you have in mind. A few lines on the [Start a conversation] form, or an email, is plenty. |
 | The four steps, list | We talk it through. You talk to me directly, the person who builds it: what it has to do, who it is for, and what you use today. |
@@ -131,9 +152,9 @@ Why: Answer page 5: only public figures, each with its source link on the page (
 | Where | New text |
 |---|---|
 | Search title | What it costs to keep an app running after launch |
-| Description | The real running costs of an app: Apple’s 99 USD a year, Google Play’s one-time 25 USD, the stores’ share of sales, hosting and database plans, and the yearly updates Apple and Google require. With sources. |
+| Description | The real running costs of an app: Apple’s 99 USD a year, Google Play’s one-time 25 USD, the stores’ share of sales, hosting, and the yearly updates Apple and Google require. |
 | Heading (h1) | What does it cost to keep an app running after launch? |
-| Answer (first two sentences) | The fixed fees are small and public: Apple’s developer program is 99 USD a year, a Google Play account is a one-time 25 USD, and hosting and a database can start free and grow with use. The larger cost is keeping the app updated, because Apple and Google require apps to keep up with new phone systems, and an app nobody updates is eventually left behind. |
+| Opening (the answer) | The fixed fees are small and public: Apple’s developer program is 99 USD a year, a Google Play account is a one-time 25 USD, and hosting and a database can start free and grow with use. The larger cost is keeping the app updated, because Apple and Google require apps to keep up with new phone systems, and an app nobody updates is eventually left behind. |
 | Sub-heading | The store fees |
 | The store fees, list | Apple Developer Program: 99 USD per membership year ([Apple]). Nonprofits, accredited schools and government bodies that sell nothing through their apps can ask Apple for a fee waiver ([Apple]). |
 | The store fees, list | Google Play: a one-time 25 USD registration fee ([Google]). |
