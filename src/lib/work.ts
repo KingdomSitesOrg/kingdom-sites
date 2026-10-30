@@ -6,8 +6,8 @@
  * Wren Hall, a made-up demo school (its name, crest and figures are demo data,
  * so nothing is blurred and no client is shown); the Ruta screens are the crew
  * app's own App Store pictures, cropped to the screen, with their demo data;
- * the KCUPG dashboard is a capture of the live kcupgs.com (counts by region,
- * no people's details);
+ * the KCUPG dashboard and map are captures of the live kcupgs.com (counts by
+ * region, and businesses and places of worship only, no people's details);
  * the case-study cards are captures of each live site; and the Delta wording
  * comes from deltadevelopmentproject.com. No invented numbers, no client
  * quotes nobody said.
@@ -34,6 +34,8 @@ export const SHOTS = {
   rutaVisit: { src: '/work/ruta-crew-visit.jpg', alt: 'Ruta’s crew app, one visit: the job, its details and the Complete button', w: 660, h: 1434 },
   rutaTime: { src: '/work/ruta-crew-time.jpg', alt: 'Ruta’s crew app, the time clock with the hours worked this week', w: 660, h: 1434 },
   kcupgDashboard: { src: '/work/kcupg-dashboard.jpg', alt: 'KCUPG’s dashboard: Kansas City’s communities at a glance, with people, mapped places and census areas, and each region by size', w: 1800, h: 1125 },
+  kcupgMap: { src: '/work/kcupg-map.jpg', alt: 'KCUPG’s South Asia map of Kansas City: Indian places pinned across the metro, with filters by country and kind of place, and an Ask anything bar', w: 1440, h: 900 },
+  deltaSite: { src: '/work/cards/delta.jpg', alt: 'The Delta Development Project website’s home page: children in a village school', w: 960, h: 600 },
 } satisfies Record<string, Shot>
 
 /* JAM Legio's store listings. The addresses are the stores' own and stay as
@@ -60,7 +62,10 @@ export type Project = {
   line: string
   platforms: string
   status: string
+  /** Where its card leads: its page on this site when it has one. */
   href?: string
+  /** The live product or site, when it lives somewhere else. */
+  site?: string
   /** A capture of the live site or app, for its card on the Portfolio page. */
   card?: Shot
 }
@@ -74,7 +79,8 @@ export const PROJECTS: Project[] = [
     line: 'Education software for schools, training organizations, education businesses or anyone who teaches classes, customized to your needs.',
     platforms: 'Web, phone and desktop',
     status: 'In beta, first school coming soon',
-    href: 'https://farzana.app',
+    href: '/portfolio/farzana-classroom',
+    site: 'https://farzana.app',
   },
   {
     slug: 'latin-game',
@@ -115,7 +121,8 @@ export const PROJECTS: Project[] = [
     line: 'Village schools, vocational training and disaster response in northern Bangladesh and Dhaka.',
     platforms: 'Web',
     status: 'Live',
-    href: 'https://deltadevelopmentproject.com',
+    href: '/portfolio/delta',
+    site: 'https://deltadevelopmentproject.com',
     card: { src: '/work/cards/delta.jpg', alt: 'The Delta Development Project website: children in a village school', w: 960, h: 600 },
   },
   {
@@ -126,7 +133,8 @@ export const PROJECTS: Project[] = [
     line: 'Kansas City’s communities from North Africa to East Asia on one map: people, languages and faith.',
     platforms: 'Web',
     status: 'Live',
-    href: 'https://kcupgs.com',
+    href: '/portfolio/kcupg',
+    site: 'https://kcupgs.com',
     card: { src: '/work/cards/kcupg.jpg', alt: 'The KCUPG dashboard: Kansas City’s communities at a glance, by region', w: 960, h: 600 },
   },
   {
