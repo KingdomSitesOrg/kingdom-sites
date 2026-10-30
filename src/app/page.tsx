@@ -6,45 +6,63 @@ import Scroll from '@/components/cinematic/Scroll'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { OFFER, PROJECTS, SHOTS, type Shot } from '@/lib/work'
 
+const DESCRIPTION =
+  'Websites and iPhone and Android apps for churches, schools and small businesses, designed, built and looked after by Kingdom Sites.'
+
 export const metadata: Metadata = {
-  title: 'Kingdom Sites — websites and apps, made to be used',
-  description:
-    'Websites and iPhone and Android apps for churches, schools and small businesses, designed, built and looked after by Kingdom Sites.',
+  title: 'Kingdom Sites — Made to be used. Made to be yours.',
+  description: DESCRIPTION,
   alternates: { canonical: '/' },
+  openGraph: {
+    title: 'Kingdom Sites — Made to be used. Made to be yours.',
+    description: DESCRIPTION,
+    url: 'https://kingdom-sites.com',
+    siteName: 'Kingdom Sites',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: { card: 'summary_large_image', title: 'Kingdom Sites — Made to be used. Made to be yours.', description: DESCRIPTION },
 }
 
-/* The Farzana story, one chapter per screen. */
-const CHAPTERS: { shot: Shot; url?: string; kicker: string; title: string; body: string }[] = [
+/* The Farzana Classroom story, one chapter per screen. JAM Classes is not open
+   yet: its screens have the class details blurred, and say so. On a phone the
+   story is told in three screens; `deskOnly` chapters show on wider screens. */
+const CHAPTERS: { shot: Shot; url?: string; kicker: string; title: string; body: string; soon?: boolean; deskOnly?: boolean }[] = [
   {
     shot: SHOTS.farzanaSite,
     url: 'farzana.app',
-    kicker: 'Farzana',
+    kicker: 'Farzana Classroom',
     title: 'A platform for schools.',
     body: 'Education software for schools, training organizations and education businesses. One proven platform, with each school’s own features built on top.',
   },
   {
     shot: SHOTS.jamClasses,
     kicker: 'JAM Classes',
-    title: 'A school, running on it.',
-    body: 'JAM with Latin runs its online school on Farzana: classes, flashcards and workbooks, each on its own page.',
+    title: 'A school, built on it.',
+    body: 'An online school for a homeschool Latin programme, built on Farzana Classroom: classes, families and payments in one place.',
+    soon: true,
   },
   {
     shot: SHOTS.jamClass,
     kicker: 'JAM Classes',
-    title: 'A page that sells the class.',
-    body: 'What it teaches, who it is for, and a free sample to try before anyone pays.',
+    title: 'A page for every class.',
+    body: 'Families see what each class is and who it is for, try a sample, and sign up.',
+    soon: true,
+    deskOnly: true,
   },
   {
     shot: SHOTS.jamAdminHome,
     kicker: 'For the teacher',
     title: 'The teacher’s desk.',
     body: 'Students, who was active this week, the month’s sales and every class, on one screen.',
+    soon: true,
   },
   {
     shot: SHOTS.farzanaStudents,
     kicker: 'For the office',
     title: 'Every student, findable.',
     body: 'Search by name. Filter by class, by progress, by when they joined.',
+    deskOnly: true,
   },
 ]
 
@@ -57,7 +75,10 @@ export default function Home() {
       <Scroll mode="sticky" className="cn-hero" aria-label="Kingdom Sites">
         <div className="cn-wrap pt-16 sm:pt-24">
           <p className="cn-kicker">Websites · iPhone and Android apps · Looked after once live</p>
-          <h1 className="cn-display cn-h1 mt-5 max-w-[11ch]">Made to be used.</h1>
+          <h1 className="cn-display cn-h1 mt-5">
+            <span className="block">Made to be used.</span>
+            <span className="block">Made to be yours.</span>
+          </h1>
           <div className="mt-8 grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-end">
             <p className="cn-body max-w-[46ch]">
               Kingdom Sites designs and builds websites and apps for churches, schools and small businesses, then looks
@@ -73,19 +94,19 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="cn-wrap cn-stage relative mt-14 pb-32 sm:mt-20 sm:pb-48">
+        <Scroll prop="--q" className="cn-wrap cn-stage relative mt-14 pb-32 sm:mt-20 sm:pb-48">
           <div className="cn-tilt mx-auto max-w-[1180px]">
-            <Browser shot={SHOTS.jamAdminHome} priority />
+            <Browser shot={SHOTS.jamAdminHome} tag="Coming soon" priority />
           </div>
           <div className="cn-tilt-phone absolute bottom-0 right-[6%] w-[30%] max-w-[250px] sm:right-[8%] sm:w-[19%]">
             <Phone shot={SHOTS.jamClassPhone} priority />
           </div>
-        </div>
+        </Scroll>
       </Scroll>
 
       {/* The Farzana story: the stage holds still, the screens change by chapter. */}
       <div id="farzana" className="scroll-mt-16" />
-      <Scroll mode="sticky" steps={CHAPTERS.length} className="cn-scene" aria-label="Farzana and JAM Classes">
+      <Scroll mode="sticky" steps={CHAPTERS.length} className="cn-scene" aria-label="Farzana Classroom and JAM Classes">
         <div style={{ height: `${CHAPTERS.length * 85}svh` }} className="cn-scene-h">
           <div className="cn-pin">
             <div className="cn-wrap w-full">
@@ -96,6 +117,7 @@ export default function Home() {
                       <div key={c.title} className={`cn-chapter cn-c${i}`}>
                         <p className="cn-kicker">
                           {String(i + 1).padStart(2, '0')} · {c.kicker}
+                          {c.soon ? <span className="cn-soon">Coming soon</span> : null}
                         </p>
                         <h2 className="cn-display cn-h3 mt-4">{c.title}</h2>
                         <p className="cn-body mt-5 max-w-[36ch]">{c.body}</p>
@@ -111,18 +133,19 @@ export default function Home() {
                 <div className="cn-screens">
                   {CHAPTERS.map((c, i) => (
                     <div key={c.title} className={`cn-screen cn-c${i}`}>
-                      <Browser shot={c.shot} url={c.url} />
+                      <Browser shot={c.shot} url={c.url} tag={c.soon ? 'Coming soon' : undefined} />
                     </div>
                   ))}
                 </div>
 
                 {/* On a phone: the same chapters, one after another. */}
                 <div className="cn-stack">
-                  {CHAPTERS.map((c, i) => (
+                  {CHAPTERS.filter((c) => !c.deskOnly).map((c, i) => (
                     <div key={c.title}>
-                      <Browser shot={c.shot} url={c.url} />
+                      <Browser shot={c.shot} url={c.url} tag={c.soon ? 'Coming soon' : undefined} />
                       <p className="cn-kicker mt-6">
                         {String(i + 1).padStart(2, '0')} · {c.kicker}
+                        {c.soon ? <span className="cn-soon">Coming soon</span> : null}
                       </p>
                       <h2 className="cn-display cn-h3 mt-3">{c.title}</h2>
                       <p className="cn-body mt-3">{c.body}</p>
@@ -137,7 +160,7 @@ export default function Home() {
 
       <div className="cn-wrap mt-10 flex justify-center lg:mt-0">
         <Link href="/work/farzana" className="cn-ghost">
-          The whole Farzana story <span aria-hidden="true">→</span>
+          The whole Farzana Classroom story <span aria-hidden="true">→</span>
         </Link>
       </div>
 
