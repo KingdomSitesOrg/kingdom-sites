@@ -12,7 +12,7 @@ import { FILM_POSTER } from '@/lib/film-poster'
    in public/<page>/; the phone copy is the smaller source for narrow screens. */
 const FILM = '/mission/who-will-tell-them.mp4'
 const FILM_PHONE = '/mission/who-will-tell-them-phone.mp4'
-const SIZES = '(min-width: 1180px) 1080px, calc(100vw - 32px)'
+const SIZES = '(min-width: 1180px) 980px, calc(100vw - 32px)'
 
 function PlayIcon({ size }: { size: number }) {
   return (
@@ -65,22 +65,13 @@ export default function MissionFilm() {
 
   return (
     <section aria-label="Who Will Tell Them?, a short film" className="cn-wrap pb-12 pt-8 sm:pb-16 sm:pt-12">
-      <div className="mx-auto max-w-[1080px]">
+      <div className="mx-auto max-w-[980px]">
         <div className="cn-browser" ref={frameRef}>
           <div className="cn-browser-bar">
             <i aria-hidden="true" />
             <i aria-hidden="true" />
             <i aria-hidden="true" />
             <span className="cn-browser-url" aria-hidden="true">Who Will Tell Them?</span>
-            {open ? (
-              <button
-                type="button"
-                onClick={close}
-                className="cn-browser-note ml-auto cursor-pointer transition-colors hover:border-white/40 hover:text-white"
-              >
-                Close film
-              </button>
-            ) : null}
           </div>
 
           <div className="relative aspect-video w-full bg-black">
