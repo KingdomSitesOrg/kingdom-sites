@@ -16,7 +16,7 @@ export default function PrivacyPage() {
     <div className="cn-wrap pb-24 pt-16 sm:pb-32 sm:pt-24"><div className="mx-auto max-w-3xl">
       <p className="cn-kicker cn-rise">Legal</p>
       <h1 className="cn-display cn-h2 cn-rise cn-rise-2 mb-4 mt-5">Privacy Policy</h1>
-      <p className="mb-10 text-sm text-muted">Last updated: August 3, 2026</p>
+      <p className="mb-10 text-sm text-muted">Last updated: October 30, 2026</p>
 
       <section className="space-y-8 text-[15px] leading-relaxed text-body">
         <div>
@@ -40,11 +40,7 @@ export default function PrivacyPage() {
             identify individual visitors.
           </p>
           <p className="mt-3">
-            The site also uses Google Analytics 4 to understand how pages are used — which pages
-            are visited, roughly where traffic comes from, and how people move through the site.
-            Google may set cookies or similar identifiers for this. You can limit this through your
-            browser settings or Google’s ad settings. Error reports may be sent to Sentry so faults
-            can be diagnosed.
+            Error reports may be sent to Sentry so faults can be diagnosed.
           </p>
         </div>
 
@@ -52,7 +48,7 @@ export default function PrivacyPage() {
           <h2 className="mb-2 font-semibold text-ink">Third-Party Services</h2>
           <p>
             The site is hosted on Vercel, whose servers process requests in order to deliver these
-            pages. Analytics data is processed by Vercel and by Google (Google Analytics). Payments
+            pages. Analytics data is processed by Vercel. Payments
             for client projects are handled separately through Wise, which collects what it needs to
             process a payment. Nothing about payments happens on this website.
           </p>

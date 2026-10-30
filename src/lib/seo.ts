@@ -8,6 +8,10 @@ import { AREA_SERVED, SERVICE_CITY, SERVICE_COUNTRY, SERVICE_REGION_CODE } from 
 
 export const SITE_URL = 'https://kingdom-sites.com'
 export const SITE_NAME = 'Kingdom Sites'
+/* The address a share card is built on. A preview build is shared under the
+   preview address, so its title and picture come from the address people share.
+   Production and everything else keep SITE_URL. */
+export const SHARE_URL = process.env.VERCEL_ENV === 'preview' ? 'https://preview.kingdom-sites.com' : SITE_URL
 
 /* The share picture every page falls back to (src/app/opengraph-image.jpg).
    A page that declares its own `openGraph` replaces the inherited one, picture
@@ -91,7 +95,7 @@ export function shareCard(title: string, description: string, path: string) {
     openGraph: {
       title,
       description,
-      url: `${SITE_URL}${path}`,
+      url: `${SHARE_URL}${path}`,
       siteName: SITE_NAME,
       locale: 'en_US',
       type: 'website' as const,

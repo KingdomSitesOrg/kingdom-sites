@@ -56,15 +56,21 @@ describe('parseConversation', () => {
 describe('limits per visitor', () => {
   beforeEach(() => resetVisitorsForTests())
 
-  it('allows 10 questions in 10 minutes and 40 a day', () => {
+  it('allows 10 questions in 10 minutes and 40 an hour, then frees up as the hour passes', () => {
     const start = Date.UTC(2026, 9, 30, 12)
+    const minutes = (m: number) => start + m * 60 * 1000
     for (let i = 0; i < 10; i++) expect(takeTurn('a', start + i)).toBe('ok')
     expect(takeTurn('a', start + 11)).toBe('tooFast')
     expect(takeTurn('b', start + 11)).toBe('ok')
 
-    let t = start + 11 * 60 * 1000
-    for (let i = 0; i < 30; i++) expect(takeTurn('a', (t += 60 * 1000))).toBe('ok')
-    expect(takeTurn('a', t + 11 * 60 * 1000)).toBe('doneForToday')
+    // 30 more, one a minute: 40 inside the hour.
+    for (let m = 12; m < 42; m++) expect(takeTurn('a', minutes(m))).toBe('ok')
+    expect(takeTurn('a', minutes(52))).toBe('hourFull')
+    expect(takeTurn('a', minutes(59))).toBe('hourFull')
+    // Another visitor (another IP address) is not affected.
+    expect(takeTurn('c', minutes(59))).toBe('ok')
+    // An hour after the first ten, they no longer count.
+    expect(takeTurn('a', minutes(61))).toBe('ok')
   })
 
   it('allows three hand-offs a day', () => {
