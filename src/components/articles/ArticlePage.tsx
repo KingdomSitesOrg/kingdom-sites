@@ -9,6 +9,7 @@ import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { SERVICE_CITY, SERVICE_COUNTRY, SERVICE_REGION_CODE } from '@/lib/local'
 import { PERSON_LD, SHARE_URL, SITE_NAME, SITE_URL, jsonLd } from '@/lib/seo'
 import {
+  JOURNAL,
   SECTIONS,
   articlePath,
   blocks,
@@ -105,7 +106,7 @@ function Part({ block }: { block: Block }) {
 }
 
 /**
- * One article, in either section (T-388): the heading, "Summarize this
+ * One article, in either shelf of the Journal (T-388, T-397): the heading, "Summarize this
  * article", the opening, the cover, the text, the related Portfolio projects,
  * the author, sources, and more from the same section. An article not yet
  * published is a 404.
@@ -153,8 +154,9 @@ export default function ArticlePage({ section, slug }: { section: SectionId; slu
       {
         '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: home.name, item: `${SITE_URL}${home.path}` },
-          { '@type': 'ListItem', position: 2, name: a.title, item: url },
+          { '@type': 'ListItem', position: 1, name: JOURNAL.name, item: `${SITE_URL}${JOURNAL.path}` },
+          { '@type': 'ListItem', position: 2, name: home.name, item: `${SITE_URL}${home.path}` },
+          { '@type': 'ListItem', position: 3, name: a.title, item: url },
         ],
       },
     ],
@@ -168,6 +170,12 @@ export default function ArticlePage({ section, slug }: { section: SectionId; slu
         <header className="cn-wrap pb-12 pt-14 sm:pb-16 sm:pt-20">
           <div className="cn-rise mx-auto max-w-2xl">
             <p className="text-[13px] text-muted">
+              <Link href={JOURNAL.path} className="hover:text-accent">
+                {JOURNAL.name}
+              </Link>
+              <span className="mx-2" aria-hidden="true">
+                /
+              </span>
               <Link href={home.path} className="hover:text-accent">
                 {home.name}
               </Link>

@@ -598,7 +598,7 @@ function useCalm() {
 }
 
 /* Site pages, the email address and the products' own sites become links. */
-const PAGES = '(?:get-started|portfolio(?:\\/(?:farzana-classroom|kcupg|delta))?|ai-tooling|about|mission|refer|blog|guides(?:/[a-z0-9-]+)?|latin-game|tap-to-tick|ruta|prayer|ministry|sign)'
+const PAGES = '(?:get-started|portfolio(?:\\/(?:farzana-classroom|kcupg|delta))?|ai-tooling|about|mission|refer|blog|journal|(?:guides|from-the-field)(?:/[a-z0-9-]+)?|latin-game|tap-to-tick|ruta|prayer|ministry|sign)'
 const LINKABLE = new RegExp(
   `(\\/${PAGES}\\b|thomas@kingdom-sites\\.com|\\b(?:farzana\\.app|kcupgs\\.com|getruta\\.com|deltadevelopmentproject\\.com)\\b)`,
   'g',

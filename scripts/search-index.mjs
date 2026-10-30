@@ -35,7 +35,7 @@ function sectionOf(route) {
   if (route === '/') return 'Home'
   if (LEGAL.some((re) => re.test(route))) return 'Legal'
   if (/^\/(portfolio|ruta|latin-game|tap-to-tick)(\/|$)/.test(route)) return 'Portfolio'
-  if (/^\/guides(\/|$)/.test(route)) return 'Guides'
+  if (/^\/(journal|guides|from-the-field)(\/|$)/.test(route)) return 'Journal'
   if (/^\/blog(\/|$)/.test(route)) return 'Blog'
   if (/^\/(ministry|prayer)(\/|$)/.test(route)) return 'Ministries'
   if (/^\/(rochester-mn|churches|schools|local-business)(\/|$)/.test(route)) return 'Who I work with'
