@@ -1,0 +1,101 @@
+/* Direction 1: editorial studio. Paper, ink and one red, used only for the
+   numbers. Everything scoped under .ed so the rest of the site is untouched. */
+.ed {
+  --paper: #f2efe7;
+  --ink: #161513;
+  --soft: #5d5a53;
+  --rule: rgba(22, 21, 19, 0.16);
+  --red: #c4381f;
+  --gutter: clamp(16px, 3.2vw, 44px);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--ed-sans), system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  min-height: 100dvh;
+  overflow-x: clip;
+}
+.ed a { color: inherit; text-decoration: none; }
+.ed ::selection { background: var(--ink); color: var(--paper); }
+
+.ed-wrap { padding-inline: var(--gutter); max-width: 1680px; margin-inline: auto; }
+.ed-serif { font-family: var(--ed-serif), Georgia, serif; font-optical-sizing: auto; }
+.ed-mono { font-family: var(--ed-mono), ui-monospace, monospace; font-size: 12px; letter-spacing: 0.02em; text-transform: uppercase; }
+.ed-num { color: var(--red); }
+.ed-soft { color: var(--soft); }
+.ed-rule { border-top: 1px solid var(--ink); }
+.ed-hair { border-top: 1px solid var(--rule); }
+
+/* Links: an underline that draws in, on things that click only. */
+.ed-link { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size 0.35s ease; padding-bottom: 1px; }
+.ed-link:hover, .ed-link:focus-visible { background-size: 100% 1px; }
+.ed-link-on { background-size: 100% 1px; }
+
+/* Header */
+.ed-head { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 16px; min-height: 64px; border-bottom: 1px solid var(--ink); }
+.ed-brand { font-size: 23px; letter-spacing: -0.01em; }
+.ed-nav { display: flex; gap: clamp(14px, 2.4vw, 36px); align-items: center; font-size: 15px; }
+.ed-nav a { padding-block: 10px; }
+.ed-nav .ed-nav-hide { display: none; }
+@media (min-width: 760px) { .ed-nav .ed-nav-hide { display: inline; } }
+
+/* Hero */
+.ed-h1 { font-size: clamp(2.7rem, 7.4vw, 8.8rem); line-height: 0.94; letter-spacing: -0.035em; font-weight: 400; text-wrap: balance; }
+.ed-h1 em { font-style: italic; }
+.ed-h2 { font-size: clamp(2.2rem, 4.6vw, 4.6rem); line-height: 1; letter-spacing: -0.03em; font-weight: 400; }
+.ed-h3 { font-size: clamp(1.6rem, 2.4vw, 2.4rem); line-height: 1.05; letter-spacing: -0.02em; font-weight: 400; }
+.ed-lede { font-size: clamp(1.1rem, 1.35vw, 1.3rem); line-height: 1.5; max-width: 34ch; }
+
+.ed-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(12px, 1.8vw, 28px); }
+.ed-grid > * { grid-column: 1 / -1; }
+@media (min-width: 900px) {
+  .ed-c1-4 { grid-column: 1 / 5 !important; }
+  .ed-c1-6 { grid-column: 1 / 7 !important; }
+  .ed-c1-8 { grid-column: 1 / 9 !important; }
+  .ed-c5-9 { grid-column: 5 / 9 !important; }
+  .ed-c7-13 { grid-column: 7 / 13 !important; }
+  .ed-c9-13 { grid-column: 9 / 13 !important; }
+  .ed-c10-13 { grid-column: 10 / 13 !important; }
+  .ed-c4-13 { grid-column: 4 / 13 !important; }
+  .ed-c6-13 { grid-column: 6 / 13 !important; }
+  .ed-c4-9 { grid-column: 4 / 9 !important; }
+  .ed-c1-3 { grid-column: 1 / 4 !important; }
+}
+
+/* Work entries */
+.ed-meta { display: grid; grid-template-columns: max-content 1fr; column-gap: 20px; row-gap: 6px; font-size: 14px; }
+.ed-meta dt { color: var(--soft); }
+.ed-shot { display: block; width: 100%; height: auto; border: 1px solid var(--rule); background: #fff; }
+.ed-phone { display: block; width: 100%; height: auto; border-radius: clamp(14px, 2.2vw, 28px); border: 1px solid var(--rule); }
+.ed-cap { font-size: 13px; color: var(--soft); margin-top: 10px; }
+
+/* Index table */
+.ed-index-row { display: grid; grid-template-columns: 1fr; gap: 6px; padding-block: 22px; border-top: 1px solid var(--rule); transition: background-color 0.2s ease; }
+@media (min-width: 900px) {
+  .ed-index-row { grid-template-columns: 2.2fr 1.6fr 4fr 1.6fr; gap: 28px; align-items: baseline; }
+}
+a.ed-index-row:hover { background: rgba(22, 21, 19, 0.035); }
+a.ed-index-row:hover .ed-arrow { transform: translate(3px, -3px); }
+.ed-arrow { display: inline-block; transition: transform 0.25s ease; }
+
+/* Buttons: one style, the ink block. */
+.ed-btn { display: inline-flex; align-items: center; gap: 12px; min-height: 52px; padding: 0 26px; background: var(--ink); color: var(--paper) !important; font-size: 16px; transition: background-color 0.2s ease; }
+.ed-btn:hover { background: #000; }
+.ed-btn:hover .ed-arrow { transform: translateX(4px); }
+
+/* Steps */
+.ed-steps { display: grid; grid-template-columns: 1fr; }
+@media (min-width: 760px) { .ed-steps { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .ed-steps { grid-template-columns: repeat(4, 1fr); } }
+.ed-steps li { border-top: 1px solid var(--ink); padding: 18px 24px 34px 0; }
+.ed-step-n { font-size: clamp(3.6rem, 6vw, 5.6rem); line-height: 1; letter-spacing: -0.04em; }
+
+/* Entrance: lines of type rise once, on load. Off for people who ask for less motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .ed-rise { animation: ed-rise 0.9s cubic-bezier(0.2, 0.7, 0.1, 1) both; }
+  .ed-rise-2 { animation-delay: 0.08s; }
+  .ed-rise-3 { animation-delay: 0.16s; }
+  @keyframes ed-rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+}
+
+.ed-foot { border-top: 1px solid var(--ink); padding-block: 28px 40px; font-size: 14px; }

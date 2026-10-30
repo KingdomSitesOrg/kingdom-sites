@@ -1,199 +1,270 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { RutaPhoneShot } from '@/components/BuildMocks'
-import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
-import { AI_CONSULT, APP_OFFER, HOME_CLUSTER, HERO, PROCESS } from '@/lib/partnership'
+import EditorialChrome from '@/components/editorial/Chrome'
+import { CONTACT_EMAIL, CONTACT_MAILTO, INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
+import { AUDIENCES, OFFER, PROJECTS, SHOTS, STEPS, type Shot } from '@/lib/work'
 
 export const metadata: Metadata = {
-  title: 'Kingdom Sites — mobile application solutions',
+  title: 'Kingdom Sites — websites and apps for churches, schools and small businesses',
   description:
-    'I design, build, ship, and maintain mobile apps — and the software behind them. Have an idea? Start a conversation. No pressure.',
+    'A small studio that designs, builds and looks after websites and iPhone and Android apps. Farzana, JAM Classes, Jam with Latin and more.',
   alternates: { canonical: '/' },
 }
 
+/* The screens are already sized for the page, so they are served as they are. */
+function Pic({ shot, className, priority }: { shot: Shot; className: string; priority?: boolean }) {
+  return (
+    <Image src={shot.src} alt={shot.alt} width={shot.w} height={shot.h} className={className} priority={priority} unoptimized />
+  )
+}
+
+function Meta({ rows }: { rows: [string, string][] }) {
+  return (
+    <dl className="ed-meta">
+      {rows.map(([k, v]) => (
+        <div key={k} className="contents">
+          <dt>{k}</dt>
+          <dd>{v}</dd>
+        </div>
+      ))}
+    </dl>
+  )
+}
+
+const byslug = Object.fromEntries(PROJECTS.map((p) => [p.slug, p]))
+const CONTENTS = [
+  { n: '01', name: 'Farzana', href: '#w-farzana', shot: SHOTS.farzanaStudentsPhone, phone: true },
+  { n: '02', name: 'JAM Classes', href: '#w-jam', shot: SHOTS.jamClassPhone, phone: true },
+  { n: '03', name: 'Jam with Latin', href: '#w-latin', shot: SHOTS.latinMap, phone: true },
+]
+
+const OTHERS = ['ruta', 'delta', 'kcupg', 'prayer'].map((s) => byslug[s])
+
 export default function Home() {
   return (
-    <div className="w-full overflow-x-hidden">
-      {/* 1 — Hero: the Jam with Latin launch, then an invitation to build yours. */}
-      <section aria-label="Jam with Latin is out now" className="hero-wash px-5 pb-20 pt-16 sm:px-8 sm:pb-28 sm:pt-24">
-        <div className="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-16">
-          <div className="text-center lg:text-left">
-            <p className="eyebrow eyebrow-blue">{HERO.eyebrow}</p>
-            <h1 className="mt-4 text-balance text-[2.15rem] font-semibold leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-[3.5rem] xl:text-[3.85rem]">
-              {HERO.title}
-              <span className="mt-3 block text-[0.72em] font-medium leading-snug text-accent sm:mt-4">
-                {HERO.accent}
-              </span>
-            </h1>
-            <p className="mt-7 text-pretty text-base leading-relaxed text-body sm:text-lg">
-              {HERO.sub}
+    <EditorialChrome>
+      {/* Opening: the sentence is the hero. */}
+      <section aria-label="Kingdom Sites" className="ed-wrap pb-16 pt-14 sm:pb-24 sm:pt-20">
+        <p className="ed-mono ed-soft ed-rise">Websites · iPhone and Android apps · The software behind them</p>
+        <h1 className="ed-serif ed-h1 ed-rise ed-rise-2 mt-6 max-w-[19ch]">
+          Websites and apps for churches, schools <em>and the people who run them.</em>
+        </h1>
+        <div className="ed-grid ed-rise ed-rise-3 mt-12 items-start sm:mt-14">
+          <div className="ed-c1-4">
+            <p className="ed-lede">
+              Kingdom Sites is a small studio. Thomas Klein designs and builds every project himself, and stays to look
+              after it once it is live.
             </p>
-            <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
-              <Link href={INQUIRE_PATH} className="btn-primary w-full max-w-[280px] sm:w-auto">
-                {INQUIRE_CTA}
+            <div className="mt-7 flex flex-col items-start gap-3">
+              <Link href={INQUIRE_PATH} className="ed-btn">
+                {INQUIRE_CTA} <span className="ed-arrow" aria-hidden="true">→</span>
               </Link>
-              <Link href={HERO.appHref} className="btn-ghost w-full max-w-[280px] sm:w-auto">
-                {HERO.appCta}
-              </Link>
+              <a href={CONTACT_MAILTO} className="ed-link ed-soft text-sm">
+                or write to {CONTACT_EMAIL}
+              </a>
             </div>
           </div>
-
-          {/* Real screens from the shipped app, straight on the page. */}
-          <div className="flex items-center justify-center pb-6">
-            <Link
-              href={HERO.appHref}
-              aria-label={HERO.appCta}
-              className="mx-auto flex w-full max-w-[480px] items-end justify-center"
-            >
-              {HERO.shots.map((shot, i) => {
-                const middle = i === 1
-                return (
-                  <span
-                    key={shot.src}
-                    className={`relative block overflow-hidden rounded-[26px] shadow-[0_16px_40px_rgba(16,23,37,0.16)] ${
-                      middle
-                        ? 'z-10 w-[40%]'
-                        : `w-[31%] translate-y-5 ${i === 0 ? '-mr-4 sm:-mr-5' : '-ml-4 sm:-ml-5'}`
-                    }`}
-                  >
-                    <Image
-                      src={shot.src}
-                      alt={shot.alt}
-                      width={360}
-                      height={780}
-                      priority={middle}
-                      sizes="(min-width: 1024px) 200px, 40vw"
-                      className="h-auto w-full"
-                    />
+          {/* Contents: the real work, above the fold, as a printed index would list it. */}
+          <ul className="ed-c6-13 mt-12 grid w-full grid-cols-3 items-end gap-3 md:mt-0 md:-mt-24 md:max-w-[460px] md:justify-self-end md:gap-5" aria-label="Selected work">
+            {CONTENTS.map((c) => (
+              <li key={c.href}>
+                <a href={c.href} className="group block">
+                  <span className="block overflow-hidden">
+                    <Pic shot={c.shot} className={`${c.phone ? 'ed-phone' : 'ed-shot'} transition-transform duration-500 group-hover:scale-[1.02]`} priority />
                   </span>
-                )
-              })}
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* 2 — Apps I build + shots + My Work + inquire */}
-      <section aria-label="Apps I build" className="border-t border-line px-5 py-20 sm:px-8 sm:py-28">
-        <div className="mx-auto max-w-6xl">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-balance text-3xl font-semibold tracking-tight text-ink sm:text-5xl">
-              {APP_OFFER.title}
-            </h2>
-            <p className="mt-5 text-pretty text-base leading-relaxed text-body sm:text-lg">
-              {APP_OFFER.sub}
-            </p>
-          </div>
-
-          {/* Tap to Tick and Latin are photos. Ruta is a CSS drawing — not a screenshot. */}
-          <div className="mx-auto mt-14 flex max-w-lg items-end justify-center pb-6 sm:max-w-xl">
-            {HOME_CLUSTER.map((app, i) => {
-              const middle = i === 1
-              return (
-                <Link
-                  key={app.href}
-                  href={app.href}
-                  aria-label={app.name}
-                  className={`relative block overflow-hidden rounded-[26px] shadow-[0_16px_40px_rgba(16,23,37,0.16)] ${
-                    middle
-                      ? 'z-10 w-[42%] max-w-[200px]'
-                      : `w-[30%] max-w-[148px] translate-y-5 ${i === 0 ? '-mr-4 sm:-mr-6' : '-ml-4 sm:-ml-6'}`
-                  }`}
-                >
-                  {'shot' in app ? (
-                    <Image
-                      src={app.shot.src}
-                      alt={app.shot.alt}
-                      width={360}
-                      height={780}
-                      className="h-auto w-full"
-                    />
-                  ) : (
-                    <RutaPhoneShot scene="portal" fill />
-                  )}
-                </Link>
-              )
-            })}
-          </div>
-          <p className="mt-8 text-center text-sm font-medium text-ink">
-            {HOME_CLUSTER.map((app, i) => (
-              <span key={app.name}>
-                {i > 0 && <span className="mx-2 text-muted">·</span>}
-                <Link href={app.href} className="hover:text-accent">
-                  {app.name}
-                </Link>
-              </span>
-            ))}
-          </p>
-
-          <div className="mt-12 flex justify-center">
-            <Link href="/my-work" className="btn-ghost">
-              See all my work <span aria-hidden="true">→</span>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* 3 — How working together starts. No prices: a quote comes after the conversation. */}
-      <section aria-label="How it starts" className="border-t border-line px-5 py-20 sm:px-8 sm:py-28">
-        <div className="mx-auto max-w-6xl">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-balance text-3xl font-semibold tracking-tight text-ink sm:text-5xl">
-              {PROCESS.title}
-            </h2>
-            <p className="mt-5 text-pretty text-base leading-relaxed text-body sm:text-lg">
-              {PROCESS.sub}
-            </p>
-          </div>
-
-          <ol className="mx-auto mt-12 grid max-w-5xl gap-4 sm:mt-14 md:grid-cols-3 md:gap-5">
-            {PROCESS.steps.map((step, i) => (
-              <li key={step.title} className="tile flex gap-4 p-6 sm:p-7 md:block">
-                <span
-                  aria-hidden="true"
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent/10 text-sm font-semibold text-accent"
-                >
-                  {i + 1}
-                </span>
-                <div>
-                  <h3 className="mt-1.5 text-lg font-semibold tracking-tight text-ink md:mt-5">{step.title}</h3>
-                  <p className="mt-2 text-[15px] leading-relaxed text-body">{step.body}</p>
-                </div>
+                  <span className="ed-mono mt-3 block">
+                    <span className="ed-num">{c.n}</span> {c.name}
+                  </span>
+                </a>
               </li>
             ))}
-          </ol>
-
-          <div className="mt-12 flex justify-center sm:mt-14">
-            <Link href={INQUIRE_PATH} className="btn-primary w-full max-w-[280px] sm:w-auto">
-              {INQUIRE_CTA}
-            </Link>
-          </div>
+          </ul>
         </div>
       </section>
 
-      {/* 4 — AI consultation (no dollar amount here) */}
-      <section aria-label="AI consultation" className="band-dark px-5 py-20 sm:px-8 sm:py-28">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-balance text-3xl font-semibold tracking-tight text-white sm:text-5xl">
-            {AI_CONSULT.homeTitle}
-          </h2>
-          <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-white/70 sm:text-lg">
-            {AI_CONSULT.homeSub}
+      {/* 01 Farzana: the screen, big, with the facts beside it. */}
+      <section aria-labelledby="w-farzana" className="ed-wrap">
+        <div className="ed-rule ed-grid pt-5">
+          <p className="ed-mono ed-c1-3">
+            <span className="ed-num">01</span> &nbsp;Selected work
           </p>
-          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link href="/ai-tooling" className="btn-primary">
-              AI consultation
+          <h2 id="w-farzana" className="ed-serif ed-h2 ed-c4-13 mt-3 md:mt-0">Farzana</h2>
+        </div>
+        <div className="ed-grid mt-8">
+          <div className="ed-c1-3 order-2 mt-6 md:order-none md:mt-0">
+            <Meta
+              rows={[
+                ['For', byslug.farzana.forWhom],
+                ['Made', 'Platform, site, brand'],
+                ['Runs on', byslug.farzana.platforms],
+                ['Status', byslug.farzana.status],
+              ]}
+            />
+            <p className="mt-6 text-[15px]">{byslug.farzana.line}</p>
+            <a href="https://farzana.app" className="ed-link mt-4 inline-block text-[15px]">
+              farzana.app <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+          <figure className="ed-c4-13">
+            <Pic shot={SHOTS.farzanaSite} className="ed-shot" priority />
+            <figcaption className="ed-cap">The front door at farzana.app. One sentence, one button, no price list.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      {/* 02 JAM Classes: the school the platform was built with. */}
+      <section aria-labelledby="w-jam" className="ed-wrap mt-24 sm:mt-36">
+        <div className="ed-rule ed-grid pt-5">
+          <p className="ed-mono ed-c1-3">
+            <span className="ed-num">02</span>
+          </p>
+          <h2 id="w-jam" className="ed-serif ed-h2 ed-c4-13 mt-3 md:mt-0">JAM Classes</h2>
+        </div>
+        <div className="ed-grid mt-8 items-start">
+          <figure className="ed-c1-8">
+            <Pic shot={SHOTS.jamAdminHome} className="ed-shot" />
+            <figcaption className="ed-cap">What the teacher sees first: students, who was active this week, sales, and the classes.</figcaption>
+          </figure>
+          <figure className="ed-c9-13 mt-10 md:mt-24">
+            <div className="mx-auto max-w-[300px] md:max-w-none">
+              <Pic shot={SHOTS.jamClassPhone} className="ed-phone" />
+            </div>
+            <figcaption className="ed-cap">A class page on a parent’s phone. Free to start, with a sample to try first.</figcaption>
+          </figure>
+        </div>
+        <div className="ed-grid mt-10">
+          <div className="ed-c4-13 grid gap-8 md:grid-cols-2">
+            <p className="ed-serif text-[1.45rem] leading-snug tracking-tight">{byslug['jam-classes'].line}</p>
+            <Meta
+              rows={[
+                ['For', byslug['jam-classes'].forWhom],
+                ['Made', 'Classes, shop, sign-up, payments'],
+                ['Runs on', byslug['jam-classes'].platforms],
+                ['Status', byslug['jam-classes'].status],
+              ]}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* 03 Jam with Latin: four real phone screens in a row. */}
+      <section aria-labelledby="w-latin" className="ed-wrap mt-24 sm:mt-36">
+        <div className="ed-rule ed-grid pt-5">
+          <p className="ed-mono ed-c1-3">
+            <span className="ed-num">03</span>
+          </p>
+          <h2 id="w-latin" className="ed-serif ed-h2 ed-c4-13 mt-3 md:mt-0">Jam with Latin</h2>
+        </div>
+        <div className="ed-grid mt-8">
+          <p className="ed-c1-3 text-[15px]">
+            {byslug['jam-with-latin'].line}
+            <Link href="/latin-game" className="ed-link mt-4 block w-fit">
+              {byslug['jam-with-latin'].status} <span aria-hidden="true">→</span>
             </Link>
-            <Link
-              href={INQUIRE_PATH}
-              className="text-sm font-medium text-white/75 underline underline-offset-4 hover:text-white"
-            >
-              {INQUIRE_CTA}
+          </p>
+          <ul className="ed-c4-13 mt-8 grid grid-cols-2 gap-4 md:mt-0 md:grid-cols-4 md:gap-6">
+            {[
+              [SHOTS.latinHome, 'Home'],
+              [SHOTS.latinMap, 'The journey'],
+              [SHOTS.latinCase, 'A case challenge'],
+              [SHOTS.latinBoard, 'The leaderboard'],
+            ].map(([shot, label]) => (
+              <li key={label as string}>
+                <Pic shot={shot as Shot} className="ed-phone" />
+                <p className="ed-cap">{label as string}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* Also: the rest, as an index. */}
+      <section aria-labelledby="w-also" className="ed-wrap mt-24 sm:mt-36">
+        <div className="ed-rule ed-grid pt-5">
+          <p className="ed-mono ed-c1-3">
+            <span className="ed-num">04</span>
+          </p>
+          <h2 id="w-also" className="ed-serif ed-h2 ed-c4-13 mt-3 md:mt-0">Also</h2>
+        </div>
+        <div className="mt-8">
+          {[byslug['tap-to-tick'], ...OTHERS].map((p) => (
+            <a key={p.slug} href={p.href} className="ed-index-row">
+              <span className="ed-serif text-[1.7rem] leading-tight tracking-tight">{p.name}</span>
+              <span className="ed-mono ed-soft">{p.forWhom}</span>
+              <span className="text-[15px]">{p.line}</span>
+              <span className="text-[15px] md:text-right">
+                {p.status} <span className="ed-arrow" aria-hidden="true">↗</span>
+              </span>
+            </a>
+          ))}
+          <div className="ed-hair pt-6">
+            <Link href="/work" className="ed-link">
+              Everything, with what we did on each <span aria-hidden="true">→</span>
             </Link>
           </div>
         </div>
       </section>
-    </div>
+
+      {/* What we make, and for whom. */}
+      <section aria-labelledby="make" className="ed-wrap mt-24 sm:mt-36">
+        <div className="ed-rule ed-grid pt-5">
+          <p className="ed-mono ed-c1-3">
+            <span className="ed-num">05</span>
+          </p>
+          <h2 id="make" className="ed-serif ed-h2 ed-c4-13 mt-3 max-w-[18ch] md:mt-0">
+            What we make, and who we make it for.
+          </h2>
+        </div>
+        <div className="ed-grid mt-12">
+          <div className="ed-c4-13 grid gap-x-8 gap-y-10 md:grid-cols-3">
+            {OFFER.map((o) => (
+              <div key={o.title} className="ed-hair pt-4">
+                <h3 className="ed-serif ed-h3">{o.title}</h3>
+                <p className="ed-soft mt-3 text-[15px]">{o.body}</p>
+              </div>
+            ))}
+            {AUDIENCES.map((a) => (
+              <div key={a.title} className="ed-hair pt-4">
+                <p className="ed-mono ed-num">For</p>
+                <h3 className="ed-serif ed-h3 mt-1">{a.title}</h3>
+                <p className="ed-soft mt-3 text-[15px]">{a.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How it starts. */}
+      <section aria-labelledby="steps" className="ed-wrap mt-24 sm:mt-36">
+        <h2 id="steps" className="ed-mono">
+          <span className="ed-num">06</span> &nbsp;How it starts
+        </h2>
+        <ol className="ed-steps mt-5">
+          {STEPS.map((s, i) => (
+            <li key={s.title}>
+              <span className="ed-serif ed-step-n ed-num" aria-hidden="true">
+                {i + 1}
+              </span>
+              <h3 className="ed-serif mt-4 text-[1.5rem] leading-tight tracking-tight">{s.title}</h3>
+              <p className="ed-soft mt-2 max-w-[32ch] text-[15px]">{s.body}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      {/* Close. */}
+      <section aria-label="Start a conversation" className="ed-wrap pb-20 pt-24 sm:pb-28 sm:pt-36">
+        <p className="ed-serif ed-h1 max-w-[13ch]">
+          Tell us what you <em>have in mind.</em>
+        </p>
+        <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
+          <Link href={INQUIRE_PATH} className="ed-btn">
+            {INQUIRE_CTA} <span className="ed-arrow" aria-hidden="true">→</span>
+          </Link>
+          <p className="ed-soft text-[15px]">Every note is read and answered by Thomas.</p>
+        </div>
+      </section>
+    </EditorialChrome>
   )
 }
