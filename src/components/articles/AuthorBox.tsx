@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-/* Who wrote the guide: Thomas, with the About page's own words. */
+/* Who wrote the article: Thomas, with the About page's own words. */
 export default function AuthorBox() {
   return (
     <aside aria-label="About the author" className="tile mx-auto mt-16 max-w-2xl p-6 sm:p-8">

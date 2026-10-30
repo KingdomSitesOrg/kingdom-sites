@@ -3,7 +3,7 @@
 import { SUMMARIZE_EVENT, Spark, type SummarizeRequest } from './Intelligence'
 
 /**
- * "Summarize this article" on a guide or blog post (T-388). It asks the
+ * "Summarize this article" on every article, in Guides, From the field and the blog (T-388). It asks the
  * floating Intelligence chat (on every studio page) to open and sum up this
  * article; the chat sends the article's path, and the route reads its text.
  */

@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import { Fragment } from 'react'
 
-/* A guide's text with its [words](/path) links made real: links on this site
+/* An article's text with its [words](/path) links made real: links on this site
    stay in the tab, sources open in a new one. */
-export default function GuideText({ text }: { text: string }) {
+export default function ArticleText({ text }: { text: string }) {
   const parts = text.split(/(\[[^\]]+\]\([^)]+\))/g)
   return (
     <>

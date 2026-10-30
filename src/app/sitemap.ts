@@ -1,6 +1,9 @@
 import { MetadataRoute } from 'next'
 import { getAllPosts } from '@/lib/blog'
-import { GUIDES } from '@/lib/guides'
+import { SECTIONS, articlePath, publishedIn } from '@/lib/articles'
+
+/* Checked again every hour, so an article joins the sitemap on its publish date (T-388). */
+export const revalidate = 3600
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = 'https://kingdom-sites.com'
@@ -19,7 +22,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/tap-to-tick`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/latin-game`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/refer`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
-    { url: `${base}/guides`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${base}/guides`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.6 },
+    { url: `${base}/from-the-field`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.6 },
     { url: `${base}/blog`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.5 },
     { url: `${base}/tap-to-tick/privacy`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
     { url: `${base}/privacy`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
@@ -33,12 +37,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.4,
   }))
 
-  const guideRoutes: MetadataRoute.Sitemap = GUIDES.map((guide) => ({
-    url: `${base}/guides/${guide.slug}`,
-    lastModified: new Date(guide.updated),
-    changeFrequency: 'monthly' as const,
-    priority: 0.6,
-  }))
+  const articleRoutes: MetadataRoute.Sitemap = (Object.keys(SECTIONS) as (keyof typeof SECTIONS)[])
+    .flatMap((id) => publishedIn(id))
+    .map((a) => ({
+      url: `${base}${articlePath(a)}`,
+      lastModified: new Date(a.updated ?? a.published),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    }))
 
-  return [...staticRoutes, ...guideRoutes, ...blogRoutes]
+  return [...staticRoutes, ...articleRoutes, ...blogRoutes]
 }
