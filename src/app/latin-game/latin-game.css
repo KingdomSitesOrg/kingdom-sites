@@ -1,13 +1,13 @@
 /* The Latin practice game's product page. The app has its own Roman identity —
    navy halls, gold trim, crimson banners, parchment — so every rule here is
-   scoped under .jwl and never touches the Kingdom Sites design.
+   scoped under .lgame and never touches the Kingdom Sites design.
 
    Palette taken from the app's own brand file (resources/brand.ts).
 
-   Note: .jwl uses `overflow-x: clip` rather than `hidden`, which would turn it
+   Note: .lgame uses `overflow-x: clip` rather than `hidden`, which would turn it
    into a scroll container and break the sticky nav inside it. */
 
-.jwl {
+.lgame {
   --navy:       #1A2744;
   --navy-deep:  #121C33;
   --crimson:    #C41E0F;
@@ -42,17 +42,17 @@
   -webkit-text-size-adjust: 100%;
 }
 
-.jwl *,
-.jwl *::before,
-.jwl *::after { box-sizing: border-box; }
+.lgame *,
+.lgame *::before,
+.lgame *::after { box-sizing: border-box; }
 
-.jwl ::selection { background: var(--gold); color: var(--ink); }
-.jwl img { max-width: 100%; display: block; }
-.jwl a { color: inherit; }
+.lgame ::selection { background: var(--gold); color: var(--ink); }
+.lgame img { max-width: 100%; display: block; }
+.lgame a { color: inherit; }
 
-.jwl h1,
-.jwl h2,
-.jwl h3 {
+.lgame h1,
+.lgame h2,
+.lgame h3 {
   font-family: var(--serif);
   color: var(--ink);
   letter-spacing: -0.015em;
@@ -60,179 +60,179 @@
   font-weight: 700;
 }
 
-.jwl .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+.lgame .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
 
 /* ---------- nav ---------- */
-.jwl header {
+.lgame header {
   position: sticky; top: 0; z-index: 100;
   background: var(--navy);
   border-bottom: 2px solid var(--gold-dark);
 }
-.jwl nav {
+.lgame nav {
   max-width: var(--maxw); margin: 0 auto; padding: 0 24px;
   height: 56px; display: flex; align-items: center; justify-content: space-between;
 }
-.jwl .brand {
+.lgame .brand {
   display: flex; align-items: center; gap: 10px;
   font-family: var(--serif); font-size: 17px; font-weight: 700; color: #fff;
   letter-spacing: 0.01em;
 }
-.jwl .brand .crest {
+.lgame .brand .crest {
   width: 28px; height: 28px; border-radius: 8px; flex: none;
   background: var(--crimson); border: 2px solid var(--gold);
   display: grid; place-items: center;
   font-family: var(--serif); font-size: 12px; font-weight: 700; color: var(--gold-light);
 }
-.jwl .nav-right { display: flex; align-items: center; gap: 18px; }
-.jwl .nav-links { display: flex; align-items: center; gap: 24px; font-size: 13.5px; color: rgba(255, 255, 255, 0.72); }
-.jwl .nav-links a { text-decoration: none; transition: color 0.2s; }
-.jwl .nav-links a:hover { color: var(--gold-light); }
+.lgame .nav-right { display: flex; align-items: center; gap: 18px; }
+.lgame .nav-links { display: flex; align-items: center; gap: 24px; font-size: 13.5px; color: rgba(255, 255, 255, 0.72); }
+.lgame .nav-links a { text-decoration: none; transition: color 0.2s; }
+.lgame .nav-links a:hover { color: var(--gold-light); }
 
 /* The way back to Kingdom Sites. Anchored top left on every page, as a plain
    wordmark beside the product's own brand. */
-.jwl .brand-row { display: flex; align-items: center; gap: 13px; min-width: 0; }
-.jwl .ks-anchor {
+.lgame .brand-row { display: flex; align-items: center; gap: 13px; min-width: 0; }
+.lgame .ks-anchor {
   display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
   font-family: var(--sans); font-size: 14px; font-weight: 600; letter-spacing: -0.01em;
   color: rgba(255, 255, 255, 0.92); text-decoration: none; transition: opacity 0.2s;
 }
-.jwl .ks-anchor:hover { opacity: 0.75; }
-.jwl .brand-sep { width: 1px; height: 20px; flex: none; background: rgba(255, 255, 255, 0.18); }
+.lgame .ks-anchor:hover { opacity: 0.75; }
+.lgame .brand-sep { width: 1px; height: 20px; flex: none; background: rgba(255, 255, 255, 0.18); }
 
 /* The phone menu. The section links collapse into a hamburger below 760px, so
    navigation is available on every page at every width. */
-.jwl .nav-toggle {
+.lgame .nav-toggle {
   display: none; align-items: center; justify-content: center;
   width: 34px; height: 34px; padding: 0; margin-right: -6px;
   background: none; border: 0; color: rgba(255, 255, 255, 0.9); cursor: pointer;
 }
-.jwl .mobile-menu {
+.lgame .mobile-menu {
   display: none; flex-direction: column;
   padding: 6px 24px 16px;
   background: var(--navy);
   border-top: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
 }
-.jwl .mobile-menu a {
+.lgame .mobile-menu a {
   padding: 11px 2px; font-size: 15px; color: rgba(255, 255, 255, 0.82); text-decoration: none;
 }
-.jwl .mobile-menu a:active { color: var(--gold-light); }
-.jwl .mobile-menu-sep { height: 1px; margin: 7px 0; background: rgba(255, 255, 255, 0.14); }
+.lgame .mobile-menu a:active { color: var(--gold-light); }
+.lgame .mobile-menu-sep { height: 1px; margin: 7px 0; background: rgba(255, 255, 255, 0.14); }
 
 @media (max-width: 760px) {
-  .jwl .nav-links { display: none; }
-  .jwl .nav-toggle { display: inline-flex; }
-  .jwl .mobile-menu { display: flex; }
-  .jwl .brand { font-size: 15px; white-space: nowrap; }
-  .jwl .nav-right { gap: 10px; }
-  .jwl .btn-gold { padding: 6px 12px; font-size: 12.5px; white-space: nowrap; }
-  .jwl nav { column-gap: 12px; }
+  .lgame .nav-links { display: none; }
+  .lgame .nav-toggle { display: inline-flex; }
+  .lgame .mobile-menu { display: flex; }
+  .lgame .brand { font-size: 15px; white-space: nowrap; }
+  .lgame .nav-right { gap: 10px; }
+  .lgame .btn-gold { padding: 6px 12px; font-size: 12.5px; white-space: nowrap; }
+  .lgame nav { column-gap: 12px; }
 }
 /* Two brands and a button will not fit on a phone, so the wordmark drops and
    the badge alone carries the way home. */
 @media (max-width: 560px) {
-  .jwl .ks-name { display: none; }
-  .jwl .brand-row { gap: 10px; }
+  .lgame .ks-name { display: none; }
+  .lgame .brand-row { gap: 10px; }
 }
 @media (max-width: 400px) {
-  .jwl .brand { font-size: 13.5px; gap: 7px; }
-  .jwl .brand .crest { width: 24px; height: 24px; font-size: 11px; }
+  .lgame .brand { font-size: 13.5px; gap: 7px; }
+  .lgame .brand .crest { width: 24px; height: 24px; font-size: 11px; }
 }
-.jwl .btn-gold {
+.lgame .btn-gold {
   background: var(--gold); color: var(--ink) !important; padding: 7px 15px;
   border-radius: 10px; font-weight: 600; font-size: 13px;
   border: 1px solid var(--gold-dark);
 }
-.jwl .btn-gold:hover { background: var(--gold-light); }
+.lgame .btn-gold:hover { background: var(--gold-light); }
 
 /* ---------- buttons ---------- */
-.jwl .btn {
+.lgame .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 9px;
   padding: 14px 26px; border-radius: 14px;
   font-size: 15.5px; font-weight: 600; letter-spacing: -0.01em;
   white-space: nowrap; text-decoration: none;
   transition: transform 0.18s ease, background 0.18s ease;
 }
-.jwl .btn {
+.lgame .btn {
   background: var(--crimson); color: #fff;
   border: 2px solid rgba(26, 20, 16, 0.12);
   box-shadow: var(--shadow-md);
 }
-.jwl a.btn:hover { transform: translateY(-1.5px); }
+.lgame a.btn:hover { transform: translateY(-1.5px); }
 /* Not on the App Store yet — same shape, plainly not a live link. */
-.jwl span.btn { cursor: default; opacity: 0.94; }
+.lgame span.btn { cursor: default; opacity: 0.94; }
 
 /* ---------- hero ---------- */
-.jwl .hero {
+.lgame .hero {
   position: relative; overflow: hidden; text-align: center;
   padding: 76px 0 0;
   background:
     radial-gradient(ellipse 80% 55% at 50% 0%, rgba(26, 39, 68, 0.13), transparent 68%),
     var(--parchment-2);
 }
-.jwl h1 { font-size: clamp(38px, 6.6vw, 68px); }
-.jwl h1 .gold { color: var(--gold-dark); }
-.jwl h1 .crimson { color: var(--crimson); }
-.jwl .sub {
+.lgame h1 { font-size: clamp(38px, 6.6vw, 68px); }
+.lgame h1 .gold { color: var(--gold-dark); }
+.lgame h1 .crimson { color: var(--crimson); }
+.lgame .sub {
   font-size: clamp(17px, 2.1vw, 20px); color: var(--ink-2);
   max-width: 620px; margin: 22px auto 0; line-height: 1.5;
 }
-.jwl .sub strong { color: var(--ink); font-weight: 700; }
-.jwl .sub a { color: var(--crimson); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
-.jwl .sub a:hover { color: var(--ink); }
-.jwl .cta-row { display: flex; gap: 12px; justify-content: center; align-items: center; margin-top: 32px; flex-wrap: wrap; }
-.jwl .note { font-size: 13px; color: var(--stone); margin-top: 18px; }
-.jwl .note b { color: var(--ink-2); }
+.lgame .sub strong { color: var(--ink); font-weight: 700; }
+.lgame .sub a { color: var(--crimson); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.lgame .sub a:hover { color: var(--ink); }
+.lgame .cta-row { display: flex; gap: 12px; justify-content: center; align-items: center; margin-top: 32px; flex-wrap: wrap; }
+.lgame .note { font-size: 13px; color: var(--stone); margin-top: 18px; }
+.lgame .note b { color: var(--ink-2); }
 
 /* ---------- hero shot ---------- */
-.jwl .hero-shot { margin-top: 56px; padding-bottom: 84px; }
-.jwl .stage { display: flex; justify-content: center; align-items: flex-end; gap: 24px; }
-.jwl .phone {
+.lgame .hero-shot { margin-top: 56px; padding-bottom: 84px; }
+.lgame .stage { display: flex; justify-content: center; align-items: flex-end; gap: 24px; }
+.lgame .phone {
   border-radius: 32px; overflow: hidden; width: 228px; flex: none;
   border: 3px solid var(--navy);
   box-shadow: var(--shadow-lg);
 }
-.jwl .phone.lift { width: 264px; margin-bottom: 20px; border-color: var(--gold-dark); }
-.jwl .phone img { width: 100%; height: auto; }
+.lgame .phone.lift { width: 264px; margin-bottom: 20px; border-color: var(--gold-dark); }
+.lgame .phone img { width: 100%; height: auto; }
 @media (max-width: 760px) {
-  .jwl .stage > .phone:not(.lift) { display: none; }
-  .jwl .phone.lift { width: 260px; margin-bottom: 0; }
+  .lgame .stage > .phone:not(.lift) { display: none; }
+  .lgame .phone.lift { width: 260px; margin-bottom: 0; }
 }
 
 /* ---------- sections ---------- */
-.jwl section { padding: 92px 0; }
-.jwl .band-navy {
+.lgame section { padding: 92px 0; }
+.lgame .band-navy {
   background: var(--navy);
   border-top: 2px solid var(--gold-dark);
   border-bottom: 2px solid var(--gold-dark);
 }
-.jwl .band-navy h2,
-.jwl .band-navy h3 { color: #fff; }
-.jwl .band-navy .lede { color: rgba(255, 255, 255, 0.7); }
-.jwl .band-navy .kicker { color: var(--gold); }
-.jwl .band-parchment { background: var(--parchment); border-top: 1px solid var(--stone-light); border-bottom: 1px solid var(--stone-light); }
+.lgame .band-navy h2,
+.lgame .band-navy h3 { color: #fff; }
+.lgame .band-navy .lede { color: rgba(255, 255, 255, 0.7); }
+.lgame .band-navy .kicker { color: var(--gold); }
+.lgame .band-parchment { background: var(--parchment); border-top: 1px solid var(--stone-light); border-bottom: 1px solid var(--stone-light); }
 
-.jwl .kicker {
+.lgame .kicker {
   font-family: var(--sans); font-size: 11.5px; font-weight: 700;
   letter-spacing: 0.12em; text-transform: uppercase; color: var(--crimson);
   margin-bottom: 14px;
 }
-.jwl h2 { font-size: clamp(28px, 4vw, 40px); }
-.jwl .lede { font-size: 17px; color: var(--ink-2); margin-top: 16px; max-width: 46ch; }
-.jwl .lede b { color: var(--ink); font-weight: 700; }
+.lgame h2 { font-size: clamp(28px, 4vw, 40px); }
+.lgame .lede { font-size: 17px; color: var(--ink-2); margin-top: 16px; max-width: 46ch; }
+.lgame .lede b { color: var(--ink); font-weight: 700; }
 
-.jwl .split { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-.jwl .split.flip .copy { order: 2; }
+.lgame .split { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+.lgame .split.flip .copy { order: 2; }
 @media (max-width: 880px) {
-  .jwl .split { grid-template-columns: 1fr; gap: 36px; }
-  .jwl .split.flip .copy { order: 0; }
-  .jwl section { padding: 68px 0; }
+  .lgame .split { grid-template-columns: 1fr; gap: 36px; }
+  .lgame .split.flip .copy { order: 0; }
+  .lgame section { padding: 68px 0; }
 }
 
 /* ---------- the twelve stops of the march ---------- */
 /* An ordered list styled as a milestone column: each stop numbered the way the
    map numbers it, the Latin name in the serif so the macrons read properly. */
-.jwl .stops {
+.lgame .stops {
   list-style: none;
   counter-reset: stop;
   margin: 26px 0 0;
@@ -242,7 +242,7 @@
   gap: 8px 22px;
   max-width: 46ch;
 }
-.jwl .stops li {
+.lgame .stops li {
   counter-increment: stop;
   display: flex;
   align-items: baseline;
@@ -250,7 +250,7 @@
   padding: 5px 0;
   border-bottom: 1px solid var(--stone-light);
 }
-.jwl .stops li::before {
+.lgame .stops li::before {
   content: counter(stop);
   font-family: var(--sans);
   font-size: 10.5px;
@@ -260,9 +260,9 @@
   text-align: right;
   flex: none;
 }
-.jwl .stop-name { font-family: var(--serif); font-size: 16px; color: var(--ink); }
-.jwl .stops li.stop-aside .stop-name { color: var(--ink-2); font-style: italic; }
-.jwl .stop-kind {
+.lgame .stop-name { font-family: var(--serif); font-size: 16px; color: var(--ink); }
+.lgame .stops li.stop-aside .stop-name { color: var(--ink-2); font-style: italic; }
+.lgame .stop-kind {
   font-family: var(--sans);
   font-size: 10.5px;
   letter-spacing: 0.06em;
@@ -270,75 +270,75 @@
   color: var(--stone);
 }
 @media (max-width: 460px) {
-  .jwl .stops { grid-template-columns: 1fr; }
+  .lgame .stops { grid-template-columns: 1fr; }
 }
 
 /* ---------- cards ---------- */
-.jwl .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 44px; }
-.jwl .grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 44px; }
+.lgame .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 44px; }
+.lgame .grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 44px; }
 @media (max-width: 880px) {
-  .jwl .grid3, .jwl .grid2 { grid-template-columns: 1fr; }
+  .lgame .grid3, .lgame .grid2 { grid-template-columns: 1fr; }
 }
-.jwl .card {
+.lgame .card {
   background: var(--parchment-2); border: 1px solid var(--bronze); border-radius: 16px;
   padding: 24px; box-shadow: var(--shadow-sm);
 }
-.jwl .band-navy .card {
+.lgame .band-navy .card {
   background: rgba(255, 255, 255, 0.06);
   border-color: rgba(232, 185, 35, 0.35);
 }
-.jwl .card .ic {
+.lgame .card .ic {
   width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center;
   font-size: 18px; margin-bottom: 14px; background: var(--navy); color: var(--gold);
   border: 1px solid var(--gold-dark);
 }
-.jwl .card h3 { font-size: 17px; margin-bottom: 7px; }
-.jwl .card p { font-size: 14px; color: var(--ink-2); line-height: 1.55; }
-.jwl .band-navy .card p { color: rgba(255, 255, 255, 0.68); }
+.lgame .card h3 { font-size: 17px; margin-bottom: 7px; }
+.lgame .card p { font-size: 14px; color: var(--ink-2); line-height: 1.55; }
+.lgame .band-navy .card p { color: rgba(255, 255, 255, 0.68); }
 
 /* screens gallery */
-.jwl .gallery {
+.lgame .gallery {
   display: flex; gap: 20px; overflow-x: auto; padding: 8px 24px 28px;
   scroll-snap-type: x mandatory;
 }
-@media (min-width: 1180px) { .jwl .gallery { justify-content: center; } }
-.jwl .gallery::-webkit-scrollbar { height: 6px; }
-.jwl .gallery::-webkit-scrollbar-thumb { background: var(--bronze); border-radius: 3px; }
-.jwl .gshot { flex: none; width: 208px; scroll-snap-align: center; }
-.jwl .gshot img { border-radius: 22px; border: 2px solid var(--navy); box-shadow: var(--shadow-md); height: auto; }
-.jwl .gshot .cap { font-size: 12.5px; color: var(--stone); text-align: center; margin-top: 12px; }
+@media (min-width: 1180px) { .lgame .gallery { justify-content: center; } }
+.lgame .gallery::-webkit-scrollbar { height: 6px; }
+.lgame .gallery::-webkit-scrollbar-thumb { background: var(--bronze); border-radius: 3px; }
+.lgame .gshot { flex: none; width: 208px; scroll-snap-align: center; }
+.lgame .gshot img { border-radius: 22px; border: 2px solid var(--navy); box-shadow: var(--shadow-md); height: auto; }
+.lgame .gshot .cap { font-size: 12.5px; color: var(--stone); text-align: center; margin-top: 12px; }
 
 /* final cta */
-.jwl .final { text-align: center; padding: 100px 0; }
-.jwl .final h2 { font-size: clamp(30px, 4.6vw, 46px); }
+.lgame .final { text-align: center; padding: 100px 0; }
+.lgame .final h2 { font-size: clamp(30px, 4.6vw, 46px); }
 
-.jwl footer {
+.lgame footer {
   background: var(--navy-deep); color: rgba(255, 255, 255, 0.55);
   padding: 30px 0; font-size: 13px;
   border-top: 2px solid var(--gold-dark);
 }
-.jwl footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; }
-.jwl footer a { text-decoration: none; }
-.jwl footer a:hover { color: var(--gold-light); }
+.lgame footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; }
+.lgame footer a { text-decoration: none; }
+.lgame footer a:hover { color: var(--gold-light); }
 
-.jwl .reveal {
+.lgame .reveal {
   opacity: 0; transform: translateY(18px);
   transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.jwl .reveal.in { opacity: 1; transform: none; }
+.lgame .reveal.in { opacity: 1; transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
-  .jwl *, .jwl *::before, .jwl *::after { animation: none !important; transition: none !important; }
-  .jwl .reveal { opacity: 1; transform: none; }
+  .lgame *, .lgame *::before, .lgame *::after { animation: none !important; transition: none !important; }
+  .lgame .reveal { opacity: 1; transform: none; }
 }
 
 /* Printing never scrolls, so reveal sections would come out blank. */
 @media print {
-  .jwl .reveal { opacity: 1 !important; transform: none !important; }
-  .jwl header { position: static; }
+  .lgame .reveal { opacity: 1 !important; transform: none !important; }
+  .lgame header { position: static; }
 }
 
-.jwl .faq { max-width: 720px; }
-.jwl .faq-item { border-bottom: 1px solid var(--stone-light); padding: 16px 0; }
-.jwl .faq-item summary { cursor: pointer; font-weight: 600; font-size: 17px; color: var(--navy); }
-.jwl .faq-item p { margin-top: 10px; font-size: 15px; color: var(--ink-2); line-height: 1.6; }
+.lgame .faq { max-width: 720px; }
+.lgame .faq-item { border-bottom: 1px solid var(--stone-light); padding: 16px 0; }
+.lgame .faq-item summary { cursor: pointer; font-weight: 600; font-size: 17px; color: var(--navy); }
+.lgame .faq-item p { margin-top: 10px; font-size: 15px; color: var(--ink-2); line-height: 1.6; }

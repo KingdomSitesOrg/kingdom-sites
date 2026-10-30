@@ -1,0 +1,127 @@
+/* Direction 2: cinematic. A dark room, and the product screens are the light.
+   No colour of our own beyond near-black and warm white: the screens bring it.
+   Motion reads `--p` (0 to 1) from Scroll.tsx; everything is transform and
+   opacity, and all of it stops for people who ask for less motion. */
+.cn {
+  --bg: #0b0b0c;
+  --bg-2: #141416;
+  --fg: #efebe3;
+  --dim: #8e8a82;
+  --line: rgba(239, 235, 227, 0.12);
+  --gutter: clamp(16px, 3.4vw, 48px);
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--cn-sans), system-ui, sans-serif;
+  font-variation-settings: 'wdth' 100;
+  min-height: 100dvh;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+.cn a { color: inherit; text-decoration: none; }
+.cn-wrap { padding-inline: var(--gutter); max-width: 1560px; margin-inline: auto; }
+.cn-dim { color: var(--dim); }
+
+.cn-display { font-family: var(--cn-sans), system-ui, sans-serif; font-variation-settings: 'wdth' 72; font-weight: 600; letter-spacing: -0.02em; line-height: 0.9; }
+.cn-h1 { font-size: clamp(3.1rem, 9.4vw, 10.5rem); }
+.cn-h2 { font-size: clamp(2.4rem, 6vw, 6.4rem); }
+.cn-h3 { font-size: clamp(1.8rem, 3.2vw, 3rem); line-height: 0.95; }
+.cn-kicker { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dim); font-weight: 500; }
+.cn-body { font-size: clamp(1.05rem, 1.3vw, 1.25rem); line-height: 1.5; color: #cfcbc3; }
+
+/* Header: sits over the hero, solid once you scroll (no JS: it is just dark). */
+.cn-head { position: sticky; top: 0; z-index: 40; background: rgba(11, 11, 12, 0.82); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+.cn-head-in { display: flex; align-items: center; justify-content: space-between; min-height: 60px; gap: 16px; }
+.cn-nav { display: flex; align-items: center; gap: clamp(14px, 2.4vw, 32px); font-size: 15px; }
+.cn-nav a:not(.cn-btn) { color: #cfcbc3; padding-block: 10px; transition: color 0.2s; }
+.cn-nav a:not(.cn-btn):hover { color: var(--fg); }
+.cn-hide-sm { display: none; }
+@media (min-width: 760px) { .cn-hide-sm { display: inline; } }
+
+.cn-btn { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 22px; border-radius: 999px; background: var(--fg); color: var(--bg) !important; font-weight: 600; font-size: 15px; transition: transform 0.2s ease, background-color 0.2s ease; }
+.cn-btn:hover { background: #fff; transform: translateY(-1px); }
+.cn-btn-sm { min-height: 44px; padding: 0 18px; font-size: 14px; }
+.cn-ghost { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 20px; border-radius: 999px; border: 1px solid var(--line); font-size: 15px; transition: border-color 0.2s; }
+.cn-ghost:hover { border-color: rgba(239, 235, 227, 0.4); }
+
+/* Device frames, drawn in CSS around real screenshots. Each screen is clipped to
+   its own rounded shape, concentric with the frame (inner radius = outer radius
+   minus the bezel), and the clip is a clip-path so it holds in Safari under the
+   3D tilt, where overflow + border-radius can let square corners through. */
+.cn-browser { --r: 14px; position: relative; border-radius: var(--r); overflow: hidden; isolation: isolate; background: #1b1b1e; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.07), 0 40px 120px rgba(0, 0, 0, 0.6); }
+.cn-browser-bar { display: flex; align-items: center; gap: 8px; height: 34px; padding: 0 14px; background: #1b1b1e; }
+.cn-browser-bar i { width: 10px; height: 10px; border-radius: 50%; background: #3a3a3e; }
+.cn-browser-url { margin-left: 14px; flex: 1; min-width: 0; max-width: 340px; height: 22px; border-radius: 6px; background: #26262a; font-size: 12px; color: var(--dim); display: flex; align-items: center; padding: 0 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cn-browser img { display: block; width: 100%; height: auto; border-radius: 0 0 var(--r) var(--r); clip-path: inset(0 round 0 0 var(--r) var(--r)); }
+.cn-browser-note { margin-left: auto; flex: none; height: 22px; display: inline-flex; align-items: center; padding: 0 10px; border-radius: 999px; border: 1px solid var(--line); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #cfcbc3; font-weight: 500; white-space: nowrap; }
+.cn-phone { --r: clamp(26px, 3.4vw, 46px); --b: clamp(5px, 0.6vw, 9px); position: relative; border-radius: var(--r); padding: var(--b); background: #050505; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 30px 80px rgba(0, 0, 0, 0.6); }
+.cn-phone img { display: block; width: 100%; height: auto; border-radius: calc(var(--r) - var(--b)); clip-path: inset(0 round calc(var(--r) - var(--b))); }
+
+/* "Coming soon", in the kicker's own voice: an outline, not a sticker. */
+.cn-soon { display: inline-block; margin-left: 10px; padding: 3px 9px; border: 1px solid var(--line); border-radius: 999px; font-size: 11px; letter-spacing: 0.08em; color: #cfcbc3; vertical-align: 1px; white-space: nowrap; }
+
+/* ---------- Hero: the screen lies back, and stands up as you scroll ---------- */
+.cn-hero { position: relative; }
+.cn-stage { perspective: 1600px; perspective-origin: 50% 0%; }
+.cn-tilt { transform-origin: 50% 0%; transform: rotateX(calc(28deg * max(0, 1 - var(--p, 0) * 2.2))) scale(min(1, calc(0.88 + var(--p, 0) * 0.3))); will-change: transform; }
+.cn-tilt-phone { transform: translateY(calc(140px - var(--p, 0) * 420px)); will-change: transform; }
+/* On a phone the hero's text fills the first screen, so the stand-up follows the
+   stage itself (`--q`): it lies back as it comes into view and is upright by the
+   time its top is about a third of the way down the screen. */
+@media (max-width: 759px) {
+  .cn-tilt { transform: rotateX(calc(28deg * max(0, 1 - var(--q, 0) * 2.6))) scale(min(1, calc(0.88 + var(--q, 0) * 0.32))); }
+  .cn-tilt-phone { transform: translateY(calc(60px - var(--q, 0) * 200px)); }
+}
+
+/* ---------- Chaptered scene: pinned stage, screens change by chapter ---------- */
+.cn-scene { position: relative; }
+.cn-pin { position: sticky; top: 60px; height: calc(100svh - 60px); display: grid; align-items: center; }
+.cn-scene-grid { display: grid; gap: 40px; align-items: center; }
+@media (min-width: 1000px) { .cn-scene-grid { grid-template-columns: 0.8fr 1.6fr; gap: 64px; } }
+.cn-chapters { position: relative; min-height: 15rem; }
+.cn-chapter { position: absolute; inset: 0 0 auto 0; opacity: 0; transform: translateY(24px); transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.2, 0.7, 0.1, 1); pointer-events: none; }
+.cn-screens { position: relative; }
+.cn-screen { position: absolute; inset: 0; opacity: 0; transform: translateY(30px) scale(0.97); transition: opacity 0.6s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.1, 1); }
+.cn-screen:first-child { position: relative; }
+.cn-rail { display: flex; gap: 6px; margin-top: 28px; }
+.cn-rail span { height: 3px; flex: 1; max-width: 56px; border-radius: 2px; background: var(--line); transition: background-color 0.4s; }
+[data-step='0'] .cn-c0, [data-step='1'] .cn-c1, [data-step='2'] .cn-c2, [data-step='3'] .cn-c3, [data-step='4'] .cn-c4 { opacity: 1; transform: none; pointer-events: auto; }
+[data-step='0'] .cn-r0, [data-step='1'] .cn-r0, [data-step='1'] .cn-r1, [data-step='2'] .cn-r0, [data-step='2'] .cn-r1, [data-step='2'] .cn-r2,
+[data-step='3'] .cn-rail span:not(.cn-r4), [data-step='4'] .cn-rail span { background: var(--fg); }
+
+/* ---------- Depth row: phones drift at different speeds ---------- */
+.cn-depth { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(10px, 2vw, 32px); align-items: start; }
+.cn-depth > * { will-change: transform; }
+.cn-depth > :nth-child(1) { transform: translateY(calc(80px - var(--p, 0) * 160px)); }
+.cn-depth > :nth-child(2) { transform: translateY(calc(200px - var(--p, 0) * 360px)); }
+.cn-depth > :nth-child(3) { transform: translateY(calc(40px - var(--p, 0) * 80px)); }
+.cn-depth > :nth-child(4) { transform: translateY(calc(160px - var(--p, 0) * 300px)); }
+
+/* ---------- Lines that come on as they cross the middle ---------- */
+.cn-lit { opacity: calc(0.18 + min(1, max(0, (var(--p, 0) - 0.25) * 4)) * 0.82); transform: translateX(calc((1 - min(1, max(0, (var(--p, 0) - 0.2) * 3))) * -24px)); }
+/* On a phone the gutter is too narrow to slide in from the left, and the
+   middle of the screen comes late: rise a little instead, fully lit by the
+   time the line is in the lower part of the screen. */
+@media (max-width: 759px) {
+  .cn-lit { opacity: calc(0.25 + min(1, max(0, (var(--p, 0) - 0.08) * 6)) * 0.75); transform: translateY(calc((1 - min(1, max(0, (var(--p, 0) - 0.05) * 5))) * 20px)); }
+}
+
+/* ---------- Reveal: rises in as it enters ---------- */
+.cn-reveal { opacity: calc(min(1, var(--p, 0) * 3.2)); transform: translateY(calc((1 - min(1, var(--p, 0) * 3)) * 60px)); }
+@media (max-width: 759px) { .cn-reveal { opacity: calc(min(1, var(--p, 0) * 5)); transform: translateY(calc((1 - min(1, var(--p, 0) * 5)) * 40px)); } }
+
+.cn-card { border-top: 1px solid var(--line); padding-top: 18px; }
+.cn-foot { border-top: 1px solid var(--line); padding-block: 28px 44px; font-size: 14px; color: var(--dim); }
+
+@media (prefers-reduced-motion: reduce) {
+  .cn-tilt, .cn-tilt-phone, .cn-depth > *, .cn-lit, .cn-reveal { transform: none !important; opacity: 1 !important; }
+  .cn-chapter, .cn-screen { transition: none; }
+}
+
+/* Phones: no pinning. Each chapter shows its own screen above its words. */
+@media (max-width: 999px) {
+  .cn-scene-h { height: auto !important; }
+  .cn-pin { position: static; height: auto; display: block; }
+  .cn-chapters, .cn-screens, .cn-rail { display: none; }
+  .cn-stack { display: grid !important; gap: 56px; }
+}
+.cn-stack { display: none; }
