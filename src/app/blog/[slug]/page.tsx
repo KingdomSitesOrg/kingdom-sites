@@ -169,12 +169,14 @@ export default async function BlogPostPage({ params }: Props) {
 
     <div className="tile-elevated mx-auto mt-16 max-w-2xl px-6 py-10 text-center sm:px-10">
      <h2 className="cn-display text-balance text-[1.9rem] leading-none text-ink">
-      Have an app idea?
+      Need a website or app in Rochester?
      </h2>
      <p className="mx-auto mt-3 max-w-md text-pretty text-sm leading-relaxed text-body">
-      I build mobile apps and stay after launch. Reach out, and you and I will decide if it is a fit.
+      Kingdom Sites is based in Rochester. I build websites and apps for Rochester businesses, and you talk to me, the
+      person who builds it.
      </p>
      <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+      <Link href="/rochester-mn" className="btn-ghost">Websites and apps for Rochester businesses</Link>
       <Link href={INQUIRE_PATH} className="btn-primary">{INQUIRE_CTA}</Link>
      </div>
     </div>

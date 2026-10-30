@@ -2,12 +2,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import CinematicChrome from '@/components/cinematic/Chrome'
+import { Close } from '@/components/cinematic/Audience'
 import CaseTitle from '@/components/cinematic/CaseTitle'
 import DotNav from '@/components/cinematic/DotNav'
 import { Browser, Phone } from '@/components/cinematic/Frames'
 import LatinPartner from '@/components/cinematic/LatinPartner'
 import Scroll from '@/components/cinematic/Scroll'
-import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { LATIN_STORES, PROJECTS, SHOTS } from '@/lib/work'
 import { shareCard } from '@/lib/seo'
 
@@ -127,10 +127,13 @@ export default function Portfolio() {
             </div>
           </Scroll>
         </div>
-        <div className="cn-wrap mt-12">
+        <div className="cn-wrap mt-12 flex flex-wrap gap-3">
           <a href={farzana.href} className="cn-ghost">
             farzana.app <span aria-hidden="true">↗</span>
           </a>
+          <Link href="/schools" className="cn-ghost">
+            Software for schools <span aria-hidden="true">→</span>
+          </Link>
         </div>
       </section>
 
@@ -258,16 +261,11 @@ export default function Portfolio() {
         </div>
       </section>
 
-      <section aria-label="Start a conversation" className="cn-wrap pb-28 pt-36 text-center sm:pb-40 sm:pt-48">
-        <h2 className="cn-display cn-h1 mx-auto max-w-[12ch]">Yours could be next.</h2>
-        <p className="cn-body mx-auto mt-6 max-w-[40ch]">
-          Tell me what you have in mind. You talk to me, Thomas, the person who will build it, and you get a plan and a quote once I
-          understand it.
-        </p>
-        <Link href={INQUIRE_PATH} className="cn-btn mt-10">
-          {INQUIRE_CTA} <span aria-hidden="true">→</span>
-        </Link>
-      </section>
+      <Close
+        title="Yours could be next."
+        body="Tell me what you have in mind. You talk to me, Thomas, the person who will build it, and you get a plan and a quote once I understand it."
+        secondary={{ href: '/get-started#prices', label: 'Rough prices' }}
+      />
     </CinematicChrome>
   )
 }

@@ -84,10 +84,10 @@ const nextConfig: NextConfig = {
       { source: '/pricing', destination: '/get-started', permanent: true, missing: [FARZANA_HOST] },
       { source: '/seo', destination: '/', permanent: true },
       { source: '/software', destination: '/', permanent: true },
-      { source: '/rochester-mn', destination: '/', permanent: true },
       // The old local SEO page; its own redirect() answered 307 (temporary),
-      // which keeps the old address in Google's index.
-      { source: '/local-business', destination: '/', permanent: true },
+      // which keeps the old address in Google's index. Rochester businesses
+      // have their own page again (T-387), so it goes there.
+      { source: '/local-business', destination: '/rochester-mn', permanent: true },
       // The work pages are one Portfolio page now; the Farzana Classroom case
       // study is its first section.
       { source: '/my-work', destination: '/portfolio', permanent: true },

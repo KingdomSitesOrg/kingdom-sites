@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import aboutImage from '../../../public/Photos/about.jpg'
+import { Close, OtherPages } from '@/components/cinematic/Audience'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { PERSON_LD, jsonLd, shareCard } from '@/lib/seo'
 
@@ -17,7 +18,8 @@ export const metadata: Metadata = {
 
 export default function About() {
   return (
-    <div className="cn-wrap pb-16 pt-16 sm:pb-24 sm:pt-24">
+    <div className="w-full overflow-x-hidden">
+    <div className="cn-wrap pt-16 sm:pt-24">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(PERSON_LD) }} />
       <div className="max-w-3xl">
         <p className="cn-kicker cn-rise">The studio</p>
@@ -114,23 +116,14 @@ export default function About() {
         </div>
       </section>
 
-      <div className="mt-20 border-t border-line pt-12">
-        <Link href={INQUIRE_PATH} className="btn-primary">
-          {INQUIRE_CTA}
-        </Link>
-        <p className="mt-4 text-sm text-body">
-          Every enquiry comes to me, and I reply personally.
-        </p>
-        <p className="mt-3 text-sm text-muted">
-          <Link href="/portfolio" className="underline underline-offset-4">
-            Portfolio
-          </Link>
-          {' · '}
-          <Link href="/ai-tooling" className="underline underline-offset-4">
-            AI consultation
-          </Link>
-        </p>
-      </div>
+    </div>
+
+      <OtherPages here="/about" />
+      <Close
+        title="Yours could be next."
+        body="Tell me what you have in mind. You talk to me, Thomas, the person who will build it, and you get a plan and a quote once I understand it."
+        secondary={{ href: '/portfolio', label: 'See the portfolio' }}
+      />
     </div>
   )
 }
