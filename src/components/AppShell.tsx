@@ -5,6 +5,7 @@ import { usePathname, useSelectedLayoutSegment } from 'next/navigation'
 import SiteChrome from '@/components/cinematic/SiteChrome'
 import Intelligence from '@/components/intelligence/Intelligence'
 import PhoneScrollIndicator from '@/components/PhoneScrollIndicator'
+import { paintDark } from '@/lib/paint-dark'
 
 export default function AppShell({
   children,
@@ -84,6 +85,14 @@ export default function AppShell({
     ['/tap-to-tick', '/latin-game', '/farzana', '/ministry', '/prayer', '/marketing-frame', '/sign', '/calc'].some((p) =>
       pathname?.startsWith(p),
     )
+
+  // The studio's dark pages tell iOS to colour its status bar and bottom edge dark
+  // too, instead of showing the light page canvas behind them.
+  const darkRoom = (ownChrome || !standalone) && section !== 'farzana'
+  useEffect(() => {
+    if (!darkRoom) return
+    return paintDark()
+  }, [darkRoom])
 
   // Intelligence, the chat square (T-375), is on every studio page. Not on the
   // Farzana pages, which are farzana.app's own brand, and not where someone is
