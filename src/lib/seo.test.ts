@@ -4,7 +4,9 @@ import path from 'path'
 import sitemap from '@/app/sitemap'
 import robots from '@/app/robots'
 import nextConfig from '../../next.config'
-import { ORGANIZATION_LD, PERSON_LD, TAP_TO_TICK_LD, jsonLd, shareCard } from '@/lib/seo'
+import { JAM_LEGIO_LD, ORGANIZATION_LD, PERSON_LD, TAP_TO_TICK_LD, jsonLd, shareCard } from '@/lib/seo'
+import { LATIN_STORES } from '@/lib/work'
+import { systemPrompt } from '@/lib/intelligence'
 
 /* The SEO fixes from the T-382 audit, held in place. The rendered pages are
    checked after a build by scripts/seo-check.mjs. */
@@ -89,5 +91,31 @@ describe('share cards', () => {
     expect(card.openGraph.url).toBe('https://kingdom-sites.com/portfolio')
     expect(card.openGraph.images[0].url).toBe('/opengraph-image.jpg')
     expect(fs.existsSync(path.join(APP, 'opengraph-image.jpg'))).toBe(true)
+  })
+})
+
+describe('JAM Legio (T-382)', () => {
+  it('describes the app as Thomas gave it', () => {
+    expect(JAM_LEGIO_LD).toMatchObject({
+      '@type': 'MobileApplication',
+      name: 'JAM Legio',
+      url: 'https://kingdom-sites.com/latin-game',
+      operatingSystem: 'iOS, Android',
+      offers: { price: '19.99', priceCurrency: 'USD' },
+      publisher: { name: 'JAM with Latin LLC' },
+    })
+    expect(JAM_LEGIO_LD.creator.map((c) => c.name)).toEqual(['Kingdom Sites', 'Thomas Klein'])
+    expect(JAM_LEGIO_LD.downloadUrl).toEqual([LATIN_STORES.appStore, LATIN_STORES.googlePlay])
+  })
+
+  it('lets the chat name JAM Legio but never the company behind it', () => {
+    const knowledge = fs.readFileSync(path.resolve(__dirname, '../../content/intelligence.md'), 'utf8')
+    const said = knowledge.replace(/<!--[^]*?-->/g, '')
+    expect(said).toContain('JAM Legio')
+    expect(said).not.toMatch(/JAM with Latin/i)
+    expect(said).not.toMatch(/A Latin learning game \(designed/)
+    const prompt = systemPrompt('')
+    expect(prompt).toContain('JAM Legio')
+    expect(prompt).toMatch(/Never name any company or person behind it other than Thomas/)
   })
 })

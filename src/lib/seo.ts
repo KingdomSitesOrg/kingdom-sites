@@ -5,6 +5,7 @@
  * or star ratings, because none of those are published anywhere on the site.
  */
 import { AREA_SERVED, SERVICE_CITY, SERVICE_COUNTRY, SERVICE_REGION_CODE } from '@/lib/local'
+import { LATIN_STORES } from '@/lib/work'
 
 export const SITE_URL = 'https://kingdom-sites.com'
 export const SITE_NAME = 'Kingdom Sites'
@@ -84,6 +85,30 @@ export const TAP_TO_TICK_LD = {
   applicationCategory: 'FinanceApplication',
   installUrl: 'https://apps.apple.com/us/app/tap-to-tick/id6791948663',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  author: { '@id': PERSON_ID, '@type': 'Person', name: 'Thomas Klein' },
+}
+
+/* JAM Legio, on /latin-game: Thomas (Kingdom Sites) designed and built it;
+   JAM with Latin LLC publishes it (its App Store seller). The price is the
+   App Store's (Thomas, 2026-10-30). The publisher may be named here because
+   this is the one page that carries the partnership credit. */
+export const JAM_LEGIO_LD = {
+  '@context': 'https://schema.org',
+  '@type': 'MobileApplication',
+  name: 'JAM Legio',
+  url: `${SITE_URL}/latin-game`,
+  description:
+    'A Latin vocabulary game for iPhone and Android, for homeschool and classical students: march a Roman legion from Rōma to Gallia learning declensions, verb endings and real Latin sentences.',
+  operatingSystem: 'iOS, Android',
+  applicationCategory: 'EducationalApplication',
+  downloadUrl: [LATIN_STORES.appStore, LATIN_STORES.googlePlay],
+  sameAs: [LATIN_STORES.appStore, LATIN_STORES.googlePlay],
+  offers: { '@type': 'Offer', price: '19.99', priceCurrency: 'USD' },
+  publisher: { '@type': 'Organization', name: 'JAM with Latin LLC' },
+  creator: [
+    { '@id': ORG_ID, '@type': 'ProfessionalService', name: SITE_NAME },
+    { '@id': PERSON_ID, '@type': 'Person', name: 'Thomas Klein' },
+  ],
   author: { '@id': PERSON_ID, '@type': 'Person', name: 'Thomas Klein' },
 }
 
