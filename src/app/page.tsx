@@ -292,8 +292,8 @@ export default function Home() {
       <section aria-label="Start a conversation" className="cn-wrap pb-28 pt-36 text-center sm:pb-40 sm:pt-52">
         <h2 className="cn-display cn-h1 mx-auto max-w-[12ch]">Yours could be next.</h2>
         <p className="cn-body mx-auto mt-6 max-w-[40ch]">
-          A website, an app, or help putting AI to work: tell me what you have in mind. You talk to me, the person who
-          builds it, and you get a plan and a quote once I understand it.
+          A website, an app, or help putting AI to work: tell me what you have in mind. You talk to me, Thomas, the person who
+          will build it, and you get a plan and a quote once I understand it.
         </p>
         <Link href={INQUIRE_PATH} className="cn-btn mt-10">
           {INQUIRE_CTA} <span aria-hidden="true">→</span>

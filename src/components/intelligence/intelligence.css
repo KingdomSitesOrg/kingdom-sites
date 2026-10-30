@@ -165,41 +165,39 @@ html.ki-lock { overflow: hidden; }
 .ki-btn:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
 
 /* ---------- Phones: a compact bottom sheet on the visible part of the screen (T-378) ----------
-   Intelligence.tsx writes the visual viewport's height and top edge into
-   --ki-vh and --ki-top, so with the keyboard up the sheet sits directly above
-   the keys and the message list takes only the room between header and question box.
-   The sheet is only as tall as what is in it, up to a cap; with the keys up it may fill
-   what is left. Keep the media query in step with PHONE in Intelligence.tsx. */
+   Intelligence.tsx writes the visual viewport's height, top edge and bottom gap
+   into --ki-vh, --ki-top and --ki-bottom, so with the keyboard up the sheet sits
+   directly above the keys and the message list takes only the room between header and
+   question box. The sheet is only as tall as what is in it, up to 45% of the visible
+   screen (a short strip when the keys are up). Keep the media query in step with PHONE in Intelligence.tsx. */
 @media (max-width: 759px), (max-height: 520px) {
-  .ki { --ki-vh: 100dvh; --ki-top: 0px; }
+  .ki { --ki-vh: 100dvh; --ki-top: 0px; --ki-bottom: 0px; }
   .ki[data-open] .ki-backdrop {
     display: block; position: fixed; z-index: 59; left: 0; right: 0; top: var(--ki-top); height: var(--ki-vh);
     background: rgba(0, 0, 0, 0.55); touch-action: none; animation: ki-fade 0.2s ease;
   }
   .ki-panel {
-    z-index: 60; left: 0; right: 0; bottom: auto;
-    top: calc(var(--ki-top) + var(--ki-vh)); translate: 0 -100%;
-    height: auto; max-height: min(calc(var(--ki-vh) * 0.75), 520px);
+    z-index: 60; left: 0; right: 0; top: auto; bottom: var(--ki-bottom);
+    height: auto; max-height: calc(var(--ki-vh) * 0.45);
     border-radius: 16px 16px 0 0; border-bottom: 0;
     transform-origin: 50% 100%;
     animation-name: ki-sheet;
   }
-  .ki[data-keys] .ki-panel { max-height: calc(var(--ki-vh) - 8px); }
-  .ki-head { align-items: center; padding: 2px 4px 2px 16px; }
-  .ki-title { font-size: 18px; }
+  .ki[data-keys] .ki-panel { max-height: min(calc(var(--ki-vh) - 8px), 300px); }
+  .ki-head { align-items: center; padding: 0 2px 0 14px; }
+  .ki-title { font-size: 17px; }
   .ki-sub { display: none; }
   .ki-close { margin-top: 0; }
-  .ki-log { flex: 1 1 auto; padding: 12px 16px 6px; gap: 10px; font-size: 15px; line-height: 1.5; -webkit-overflow-scrolling: touch; }
+  .ki-log { flex: 1 1 auto; padding: 8px 14px 4px; gap: 8px; font-size: 14px; line-height: 1.45; -webkit-overflow-scrolling: touch; }
   .ki-long { display: none; }
   .ki-short { display: inline; }
-  .ki-hello p { font-size: 14px; line-height: 1.4; }
-  .ki-suggest { flex-wrap: nowrap; overflow-x: auto; gap: 6px; margin: 10px -16px 0; padding: 0 16px 2px; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .ki-hello p { font-size: 13px; line-height: 1.35; }
+  .ki-suggest { flex-wrap: nowrap; overflow-x: auto; gap: 6px; margin: 8px -14px 0; padding: 0 14px 2px; scrollbar-width: none; overscroll-behavior-x: contain; }
   .ki-suggest::-webkit-scrollbar { display: none; }
   .ki-chip { flex: none; padding: 0 14px; font-size: 13px; white-space: nowrap; }
-  .ki-form { margin: 6px 10px 0; }
+  .ki-form { margin: 4px 10px 0; }
   .ki-full { margin: 6px 10px 0; }
-  .ki-foot { padding: 6px 14px calc(8px + env(safe-area-inset-bottom, 0px)); font-size: 11px; }
-  .ki[data-keys] .ki-foot { padding-bottom: 6px; }
+  .ki-foot { padding: 4px 14px calc(6px + env(safe-area-inset-bottom, 0px)); font-size: 11px; }
   .ki-card { padding: 12px; }
 }
 
