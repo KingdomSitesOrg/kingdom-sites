@@ -47,10 +47,6 @@
   --font-display: var(--font-reem-kufi), "Trebuchet MS", sans-serif;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 /* What shows when a page is dragged past its end. The top half of the viewport
    stays the page colour, the bottom half is the footer's dark — so overscrolling
    at the foot of a page shows dark rather than a band of white. The gradient is
