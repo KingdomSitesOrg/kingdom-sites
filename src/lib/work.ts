@@ -2,9 +2,11 @@
  * The work, in one place, for the home page directions (T-358).
  *
  * Every line here is checked against the product itself or its own site:
- * the Farzana and JAM Classes screens are captures of the running apps, the
- * Delta wording comes from deltadevelopmentproject.com. No invented numbers,
- * no client quotes nobody said.
+ * the Farzana Classroom screens are captures of the running app, shown with
+ * Wren Hall, a made-up demo school (its name, crest and figures are demo data,
+ * so nothing is blurred and no client is shown), and the Delta wording comes
+ * from deltadevelopmentproject.com. No invented numbers, no client quotes
+ * nobody said.
  */
 
 export type Shot = { src: string; alt: string; w: number; h: number }
@@ -12,17 +14,16 @@ export type Shot = { src: string; alt: string; w: number; h: number }
 export const SHOTS = {
   farzanaSite: { src: '/work/farzana-site.jpg', alt: 'Farzana’s home page: “Your organization is unique. Your software should be too.”', w: 1800, h: 1125 },
   farzanaSitePhone: { src: '/work/farzana-site-phone.jpg', alt: 'Farzana’s home page on a phone', w: 780, h: 1688 },
-  farzanaStudents: { src: '/work/farzana-students.jpg', alt: 'Farzana’s student list, with search and filters', w: 1800, h: 1125 },
-  farzanaStudentsPhone: { src: '/work/farzana-students-phone.jpg', alt: 'Farzana’s student list on a phone', w: 780, h: 1688 },
-  jamAdminHome: { src: '/work/jam-admin-home.jpg', alt: 'JAM Classes, the teacher’s home, with the figures and class names blurred: students, weekly activity, sales and classes', w: 1800, h: 1125 },
-  jamAdminClasses: { src: '/work/jam-admin-classes.jpg', alt: 'JAM Classes, the teacher’s list of classes, with the class names blurred', w: 1800, h: 1125 },
-  jamClass: { src: '/work/jam-class.jpg', alt: 'A JAM Classes class page, with the class details blurred', w: 1800, h: 1125 },
-  jamClassPhone: { src: '/work/jam-class-phone.jpg', alt: 'A JAM Classes class page on a phone, with the class details blurred', w: 780, h: 1688 },
-  jamClasses: { src: '/work/jam-classes.jpg', alt: 'JAM Classes, the public list of classes, with the class details blurred', w: 1800, h: 1125 },
-  latinHome: { src: '/latin-game/home.jpg', alt: 'Jam with Latin, the home screen', w: 660, h: 1434 },
-  latinMap: { src: '/latin-game/map.jpg', alt: 'Jam with Latin, the journey map across the Roman world', w: 660, h: 1434 },
-  latinCase: { src: '/latin-game/case-challenge.jpg', alt: 'Jam with Latin, a case challenge', w: 660, h: 1434 },
-  latinBoard: { src: '/latin-game/leaderboard.jpg', alt: 'Jam with Latin, the leaderboard', w: 660, h: 1434 },
+  farzanaStudents: { src: '/work/farzana-students.jpg', alt: 'Farzana Classroom, a demo school’s student list, with search and filters', w: 1800, h: 1125 },
+  farzanaStudentsPhone: { src: '/work/farzana-students-phone.jpg', alt: 'The student list on a phone', w: 780, h: 1688 },
+  farzanaClasses: { src: '/work/demo-classes.jpg', alt: 'Farzana Classroom, a demo school’s public list of classes, each with its price', w: 1800, h: 1125 },
+  farzanaClass: { src: '/work/demo-class.jpg', alt: 'Farzana Classroom, a demo school’s page for its Backyard astronomy class, with a free sample to try', w: 1800, h: 1125 },
+  farzanaClassPhone: { src: '/work/demo-class-phone.jpg', alt: 'The same class page on a phone', w: 780, h: 1688 },
+  farzanaDesk: { src: '/work/demo-desk.jpg', alt: 'Farzana Classroom, a demo school’s analytics: 248 students, 131 active this week, the newest students', w: 1800, h: 1125 },
+  latinHome: { src: '/latin-game/home.jpg', alt: 'A Latin learning game, the home screen', w: 660, h: 1434 },
+  latinMap: { src: '/latin-game/map.jpg', alt: 'A Latin learning game, the journey map across the Roman world', w: 660, h: 1434 },
+  latinCase: { src: '/latin-game/case-challenge.jpg', alt: 'A Latin learning game, a case challenge', w: 660, h: 1434 },
+  latinBoard: { src: '/latin-game/leaderboard.jpg', alt: 'A Latin learning game, the leaderboard', w: 660, h: 1434 },
   tapOverview: { src: '/tap-to-tick/overview.jpg', alt: 'Tap to Tick, a month of spending at a glance', w: 644, h: 1400 },
   tapLog: { src: '/tap-to-tick/log.jpg', alt: 'Tap to Tick, logging a purchase', w: 644, h: 1400 },
 } satisfies Record<string, Shot>
@@ -59,17 +60,8 @@ export const PROJECTS: Project[] = [
     href: 'https://farzana.app',
   },
   {
-    slug: 'jam-classes',
-    name: 'JAM Classes',
-    kind: 'School',
-    forWhom: 'JAM with Latin',
-    line: 'An online school for a homeschool Latin programme, built on Farzana: classes, families and payments in one place.',
-    platforms: 'Web, phone and desktop',
-    status: 'Coming soon',
-  },
-  {
-    slug: 'jam-with-latin',
-    name: 'Jam with Latin',
+    slug: 'latin-game',
+    name: 'A Latin learning game',
     kind: 'App',
     forWhom: 'Latin students',
     line: 'A Latin learning game. Students travel the Roman world city by city, answer case challenges and race each other on the leaderboard.',

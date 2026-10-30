@@ -12,16 +12,16 @@ import { INQUIRE_CTA, INQUIRE_PATH } from './contact'
    offer once the announcement has run its course. */
 export const HERO = {
   eyebrow: 'Out now on the App Store',
-  title: 'Jam with Latin is out now.',
+  title: 'A Latin learning game, out now.',
   accent: 'Want an app like this? I can build yours.',
   sub:
     'A Latin learning game I designed, built, and shipped — live on the App Store and already in students’ hands. Have an idea for an app, a tool, or a system for your business? Tell me about it.',
   appHref: '/latin-game',
-  appCta: 'See Jam with Latin',
+  appCta: 'See the Latin game',
   shots: [
-    { src: '/latin-game/map.jpg', alt: 'Jam with Latin campaign map' },
-    { src: '/latin-game/home.jpg', alt: 'Jam with Latin home screen' },
-    { src: '/latin-game/case-challenge.jpg', alt: 'Jam with Latin case challenge' },
+    { src: '/latin-game/map.jpg', alt: 'A Latin learning game, campaign map' },
+    { src: '/latin-game/home.jpg', alt: 'A Latin learning game, home screen' },
+    { src: '/latin-game/case-challenge.jpg', alt: 'A Latin learning game, case challenge' },
   ],
 }
 
@@ -89,14 +89,14 @@ export const APP_PROOF = [
     shots: [] as const,
   },
   {
-    name: 'Jam with Latin',
+    name: 'A Latin learning game',
     href: '/latin-game',
     line: 'A Latin learning game, live on the App Store — curriculum, play, and a reason for students to come back every day.',
     phone: 'cards' as const,
     shots: [
-      { src: '/latin-game/home.jpg', alt: 'Jam with Latin home screen' },
-      { src: '/latin-game/map.jpg', alt: 'Jam with Latin campaign map' },
-      { src: '/latin-game/leaderboard.jpg', alt: 'Jam with Latin leaderboard' },
+      { src: '/latin-game/home.jpg', alt: 'A Latin learning game, home screen' },
+      { src: '/latin-game/map.jpg', alt: 'A Latin learning game, campaign map' },
+      { src: '/latin-game/leaderboard.jpg', alt: 'A Latin learning game, leaderboard' },
     ],
   },
   {
@@ -137,8 +137,8 @@ export const HOME_CLUSTER = [
   },
   {
     href: '/latin-game',
-    name: 'Jam with Latin',
-    shot: { src: '/latin-game/home.jpg', alt: 'Jam with Latin home screen' },
+    name: 'A Latin learning game',
+    shot: { src: '/latin-game/home.jpg', alt: 'A Latin learning game, home screen' },
   },
 ] as const
 

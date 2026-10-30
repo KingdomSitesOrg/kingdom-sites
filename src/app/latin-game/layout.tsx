@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   },
 }
 
-export default function JamWithLatinLayout({ children }: { children: React.ReactNode }) {
+export default function LatinGameLayout({ children }: { children: React.ReactNode }) {
   // The app's own Roman identity, so no Kingdom Sites header or footer here.
-  return <div className="jwl">{children}</div>
+  return <div className="lgame">{children}</div>
 }
