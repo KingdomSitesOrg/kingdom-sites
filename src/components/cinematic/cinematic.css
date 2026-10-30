@@ -189,18 +189,12 @@ html:has(.cn-head) { background: #0b0b0c; }
 .cn-store svg { flex: none; }
 
 /* ---------- The maker's credit (T-372) ---------- */
-/* "What I built" as its own beat, once, with two credit lines. */
+/* "What I built" as its own beat, once, with its line of text. */
 .cn-credit { display: grid; gap: 28px; padding-block: clamp(56px, 9vw, 120px); border-top: 1px solid var(--line); }
 @media (min-width: 1000px) { .cn-credit { grid-template-columns: 1fr 1.1fr; align-items: end; gap: 64px; } }
-/* Without the big line: the two credits side by side, under the phones. */
-.cn-credit-sm { padding-block: 32px 0; }
-@media (min-width: 1000px) { .cn-credit-sm { grid-template-columns: none; } .cn-credit-sm .cn-credit-list { grid-template-columns: 1fr 1fr; gap: 64px; } }
-.cn-credit-list { display: grid; gap: 22px; margin: 0; }
 .cn-credit-text { margin: 0; font-size: clamp(1.1rem, 1.5vw, 1.4rem); line-height: 1.4; color: var(--fg); max-width: 40ch; }
-.cn-credit-list dt, .cn-for { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); font-weight: 500; }
-.cn-credit-list dd { margin: 6px 0 0; font-size: clamp(1.1rem, 1.5vw, 1.4rem); line-height: 1.4; color: var(--fg); max-width: 40ch; }
 
-/* The Latin game's partner line (LatinPartner.tsx): small, under the game's credits. */
+/* The Latin game's partner line (LatinPartner.tsx): small, under the game's phones. */
 .cn-partner { margin: 28px 0 0; font-size: 14px; line-height: 1.5; color: var(--dim); max-width: 60ch; }
 .cn-partner a { color: var(--fg); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 4px; }
 .cn-partner a:hover { text-decoration-color: currentColor; }

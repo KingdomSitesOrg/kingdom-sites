@@ -185,7 +185,6 @@ export default function Home() {
             ))}
           </div>
         </Scroll>
-        <Credit id="latin" />
         <div className="cn-wrap">
           <LatinPartner />
         </div>
@@ -265,7 +264,6 @@ export default function Home() {
             <Browser shot={SHOTS.kcupgDashboard} product="KCUPG" />
           </div>
         </Scroll>
-        <Credit id="kcupg" />
       </section>
 
       {/* Why it matters: the business case, in plain words. */}
