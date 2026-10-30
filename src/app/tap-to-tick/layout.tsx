@@ -15,6 +15,7 @@ export const metadata: Metadata = {
     siteName: 'Tap to Tick',
     locale: 'en_US',
     type: 'website',
+    images: [{ url: `${SHARE_URL}/tap-to-tick/opengraph-image`, width: 1200, height: 630 }],
   },
 }
 
