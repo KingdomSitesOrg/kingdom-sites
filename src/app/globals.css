@@ -715,3 +715,39 @@ body {
 .rating-slider[data-unset]::-moz-range-progress { background: transparent; }
 .rating-slider:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 5px rgba(10, 99, 201, 0.22); }
 .rating-slider:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 5px rgba(10, 99, 201, 0.22); }
+
+/* A hand on everything that does something when clicked (T-380). Browsers show
+   an arrow on buttons by default, so every clickable thing gets the hand here, and
+   disabled controls show not-allowed. It sits in the base layer, so a component's
+   own cursor rule and the cursor-* utilities still win over it. */
+@layer base {
+  button,
+  [role='button'],
+  [role='tab'],
+  [role='switch'],
+  [role='checkbox'],
+  [role='radio'],
+  [role='option'],
+  [role='menuitem'],
+  a[href],
+  summary,
+  label[for],
+  select,
+  input[type='button'],
+  input[type='submit'],
+  input[type='reset'],
+  input[type='checkbox'],
+  input[type='radio'],
+  input[type='file'],
+  input[type='image'] {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  input:disabled,
+  select:disabled,
+  textarea:disabled,
+  [aria-disabled='true'] {
+    cursor: not-allowed;
+  }
+}
