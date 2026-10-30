@@ -128,9 +128,14 @@ export default function Portfolio() {
           </Scroll>
         </div>
         <div className="cn-wrap mt-12">
-          <a href={farzana.href} className="cn-ghost">
-            farzana.app <span aria-hidden="true">↗</span>
-          </a>
+          <div className="flex flex-wrap gap-3">
+            <Link href={farzana.href!} className="cn-ghost">
+              The Farzana Classroom story <span aria-hidden="true">→</span>
+            </Link>
+            <a href={farzana.site} className="cn-ghost">
+              farzana.app <span aria-hidden="true">↗</span>
+            </a>
+          </div>
         </div>
       </section>
 

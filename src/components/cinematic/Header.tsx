@@ -13,11 +13,12 @@ const MENU: { title: string; links: { href: string; here?: string; label: string
     title: 'Portfolio',
     links: [
       { href: '/portfolio', label: 'Full portfolio' },
-      // On the Portfolio page this glides to the Farzana section; from anywhere else it opens the page at the top.
-      { href: '/portfolio', here: '#farzana', label: 'Farzana Classroom' },
+      { href: '/portfolio/farzana-classroom', label: 'Farzana Classroom' },
       { href: '/ruta', label: 'Ruta' },
       { href: '/tap-to-tick', label: 'Tap to Tick' },
       { href: '/latin-game', label: 'JAM Legio' },
+      { href: '/portfolio/kcupg', label: 'KCUPG' },
+      { href: '/portfolio/delta', label: 'Delta' },
     ],
   },
   {
