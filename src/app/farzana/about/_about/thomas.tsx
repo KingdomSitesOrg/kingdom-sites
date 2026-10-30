@@ -19,7 +19,7 @@ import { Diamond } from "../../_ui/diamond";
 
 /**
  * Thomas's own story: a Classical Conversations graduate who learned Latin
- * the hard way and built a Latin game because of it, with three Latin words to
+ * the hard way and built a Latin game, JAM Legio, because of it, with three Latin words to
  * try beside it. Then the ministry Thomas and his wife Monisha want to do,
  * which Farzana fuels, and the studio behind it.
  */
@@ -37,8 +37,8 @@ export function Thomas() {
             Latin, and it was hard.
           </p>
           <p className="text-pretty text-lg text-muted">
-            So I built a Latin learning game, a Roman-legion adventure that
-            teaches classical Latin, now on the App Store. Farzana comes from the same
+            So I built JAM Legio, a Latin learning game: a Roman-legion
+            adventure that teaches classical Latin, now on the App Store. Farzana comes from the same
             place: wanting students to become learned, and wanting a teacher’s
             week to be about teaching.
           </p>
@@ -49,7 +49,7 @@ export function Thomas() {
             className={buttonClass({ variant: "outline", className: "bg-surface" })}
           >
             <AppleLogoIcon weight="bold" />
-            Get the game on the App Store
+            Get JAM Legio on the App Store
           </a>
         </Reveal>
         <Reveal delay={100}>
@@ -149,7 +149,7 @@ function LatinQuiz() {
               className={buttonClass({ size: "sm" })}
             >
               <AppleLogoIcon weight="bold" />
-              Get the game
+              Get JAM Legio
             </a>
             <button type="button" onClick={again} className={buttonClass({ size: "sm", variant: "ghost" })}>
               <ArrowClockwiseIcon weight="bold" />

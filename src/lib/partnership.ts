@@ -72,14 +72,14 @@ export const APP_PROOF = [
     shots: [] as const,
   },
   {
-    name: 'A Latin learning game',
+    name: 'JAM Legio',
     href: '/latin-game',
     line: 'A Latin learning game for iPhone and Android: curriculum, play, and a reason for students to come back every day.',
     phone: 'cards' as const,
     shots: [
-      { src: '/latin-game/home.jpg', alt: 'The Latin learning game, the home screen' },
-      { src: '/latin-game/map.jpg', alt: 'The Latin learning game, the journey map' },
-      { src: '/latin-game/leaderboard.jpg', alt: 'The Latin learning game, the leaderboard' },
+      { src: '/latin-game/home.jpg', alt: 'JAM Legio, the home screen' },
+      { src: '/latin-game/map.jpg', alt: 'JAM Legio, the journey map' },
+      { src: '/latin-game/leaderboard.jpg', alt: 'JAM Legio, the leaderboard' },
     ],
   },
   {

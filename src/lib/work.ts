@@ -24,10 +24,10 @@ export const SHOTS = {
   farzanaClass: { src: '/work/demo-class.jpg', alt: 'Farzana Classroom, a demo school’s page for its Backyard astronomy class, with a free sample to try', w: 1800, h: 1125 },
   farzanaClassPhone: { src: '/work/demo-class-phone.jpg', alt: 'The same class page on a phone', w: 780, h: 1688 },
   farzanaDesk: { src: '/work/demo-desk.jpg', alt: 'Farzana Classroom, a demo school’s analytics: 248 students, 131 active this week, the newest students', w: 1800, h: 1125 },
-  latinHome: { src: '/latin-game/home.jpg', alt: 'A Latin learning game, the home screen', w: 660, h: 1434 },
-  latinMap: { src: '/latin-game/map.jpg', alt: 'A Latin learning game, the journey map across the Roman world', w: 660, h: 1434 },
-  latinCase: { src: '/latin-game/case-challenge.jpg', alt: 'A Latin learning game, a case challenge', w: 660, h: 1434 },
-  latinBoard: { src: '/latin-game/leaderboard.jpg', alt: 'A Latin learning game, the leaderboard', w: 660, h: 1434 },
+  latinHome: { src: '/latin-game/home.jpg', alt: 'JAM Legio, the home screen', w: 660, h: 1434 },
+  latinMap: { src: '/latin-game/map.jpg', alt: 'JAM Legio, the journey map across the Roman world', w: 660, h: 1434 },
+  latinCase: { src: '/latin-game/case-challenge.jpg', alt: 'JAM Legio, a case challenge', w: 660, h: 1434 },
+  latinBoard: { src: '/latin-game/leaderboard.jpg', alt: 'JAM Legio, the leaderboard', w: 660, h: 1434 },
   tapOverview: { src: '/tap-to-tick/overview.jpg', alt: 'Tap to Tick, a month of spending at a glance', w: 644, h: 1400 },
   tapLog: { src: '/tap-to-tick/log.jpg', alt: 'Tap to Tick, logging a purchase', w: 644, h: 1400 },
   rutaQueue: { src: '/work/ruta-crew-queue.jpg', alt: 'Ruta’s crew app, the day’s visits in order, with the next one in progress', w: 660, h: 1434 },
@@ -36,8 +36,8 @@ export const SHOTS = {
   kcupgDashboard: { src: '/work/kcupg-dashboard.jpg', alt: 'KCUPG’s dashboard: Kansas City’s communities at a glance, with people, mapped places and census areas, and each region by size', w: 1800, h: 1125 },
 } satisfies Record<string, Shot>
 
-/* The Latin learning game's store listings. The addresses are the stores' own
-   and stay as they are; nothing on the page names the client. */
+/* JAM Legio's store listings. The addresses are the stores' own and stay as
+   they are. */
 export const LATIN_STORES = {
   appStore: 'https://apps.apple.com/us/app/jam-legio/id6797884645',
   googlePlay: 'https://play.google.com/store/apps/details?id=com.jamwithlatin.app',
@@ -78,7 +78,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: 'latin-game',
-    name: 'A Latin learning game',
+    name: 'JAM Legio',
     kind: 'App',
     forWhom: 'Latin students',
     line: 'A Latin learning game. Students travel the Roman world city by city, answer case challenges and race each other on the leaderboard.',

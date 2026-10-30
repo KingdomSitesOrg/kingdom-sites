@@ -12,7 +12,7 @@ import { LATIN_STORES, PROJECTS, SHOTS } from '@/lib/work'
 import { shareCard } from '@/lib/seo'
 
 const DESCRIPTION =
-  'The portfolio of Kingdom Sites: Farzana Classroom, education software for schools; a Latin learning game for iPhone and Android; contract work on Ruta; and the websites and tools around them.'
+  'The portfolio of Kingdom Sites: Farzana Classroom, education software for schools; JAM Legio, a Latin learning game for iPhone and Android; contract work on Ruta; and the websites and tools around them.'
 
 export const metadata: Metadata = {
   title: 'Portfolio',
@@ -32,7 +32,7 @@ const DEMO = 'Demo school'
 
 const SECTIONS = [
   { id: 'farzana', label: 'Farzana Classroom' },
-  { id: 'latin-game', label: 'The Latin learning game' },
+  { id: 'latin-game', label: 'JAM Legio' },
   { id: 'ruta', label: 'Ruta' },
   { id: 'more', label: 'And the rest' },
 ]
@@ -134,15 +134,15 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* The Latin learning game: phones at different depths. */}
+      {/* JAM Legio, the Latin learning game: phones at different depths. */}
       <section id="latin-game" tabIndex={-1} aria-labelledby="latin-h" className="mt-32 scroll-mt-16 sm:mt-48">
         <div className="cn-wrap">
           <p className="cn-kicker">02 · App</p>
-          <h2 id="latin-h" className="cn-display cn-h2 mt-4">The Latin learning game</h2>
+          <h2 id="latin-h" className="cn-display cn-h2 mt-4">JAM Legio</h2>
           <div className="mt-8 grid gap-10 lg:grid-cols-[1.3fr_1fr]">
             <div>
               <p className="cn-body max-w-[48ch]">
-                Students march a legion north across Italy, thirteen stops from Rōma to Gallia, and every city teaches one
+                A Latin learning game for iPhone and Android. Students march a legion north across Italy, thirteen stops from Rōma to Gallia, and every city teaches one
                 piece of the classical curriculum. Nine ways to drill the grammar, and a leaderboard to race each other
                 on.
               </p>
@@ -154,7 +154,7 @@ export default function Portfolio() {
                   <PlayStoreIcon /> Google Play
                 </a>
                 <Link href="/latin-game" className="cn-ghost">
-                  See the game <span aria-hidden="true">→</span>
+                  See JAM Legio <span aria-hidden="true">→</span>
                 </Link>
               </div>
               <LatinPartner />

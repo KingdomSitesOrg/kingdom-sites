@@ -7,8 +7,9 @@
   - Public facts only: what the site's own pages say, and public facts about
     the products. No money, family details beyond what /about says, health,
     clients' internal details, or logins.
-  - Never name the Latin game's client or its app; the game is "a Latin
-    learning game". The class platform is Farzana Classroom.
+  - The Latin learning game is JAM Legio, by name (Thomas, 2026-10-30). Never
+    name the company it was made with; only the /latin-game page credits it.
+    The class platform is Farzana Classroom.
   - No invented numbers. If a figure is not on the site, it does not go here.
 -->
 
@@ -24,7 +25,7 @@
 ## Background
 
 - Thomas is a software engineer who works across the whole of a product: design, the web and phone apps, the backend and databases, payments and sign-in, and putting it live on the App Store, Google Play and the web.
-- His own products include Farzana Classroom, a Latin learning game, Tap to Tick and KCUPG (below). He also works as a contractor on the team behind Ruta, a live service-management platform for landscaping businesses.
+- His own products include Farzana Classroom, JAM Legio (a Latin learning game), Tap to Tick and KCUPG (below). He also works as a contractor on the team behind Ruta, a live service-management platform for landscaping businesses.
 - He uses AI tools in his own daily work, which is where his AI consultation comes from.
 
 ## What he makes
@@ -62,10 +63,10 @@ Ministries, missionaries raising support and churches get their website built fo
 - Runs on the web, phones and desktop. Status: in beta, first school coming soon. Website: farzana.app. The screens on this site show Wren Hall, a made-up demo school.
 - "Farzana" means intelligent, or learned, in Persian.
 
-### A Latin learning game (designed and built by Thomas)
-- A Roman-legion Latin practice game for iPhone and Android, for homeschool and classical students. Students march a legion north across Italy, thirteen stops from Rōma to Gallia; every city teaches one piece of the classical curriculum. Nine ways to drill the grammar (declensions, verb endings, real Latin sentences), case challenges, and a leaderboard to race each other on.
+### JAM Legio, a Latin learning game (designed and built by Thomas)
+- JAM Legio is a Roman-legion Latin game for iPhone and Android, for homeschool and classical students. Students march a legion north across Italy, thirteen stops from Rōma to Gallia; every city teaches one piece of the classical curriculum. Nine ways to drill the grammar (declensions, verb endings, real Latin sentences), case challenges, and a leaderboard to race each other on.
 - What Thomas made: the design, the iPhone and Android apps, the levels and the leaderboard.
-- On the App Store and Google Play. More at /latin-game.
+- JAM Legio is on the App Store and Google Play. More at /latin-game.
 
 ### Ruta (contract work)
 - Ruta is service-management software for landscaping and maintenance businesses: an office app, a phone app for the crews, and a portal for customers. Thomas works on it as a contractor on Ruta's team. The product is Ruta's; he did not start the company.

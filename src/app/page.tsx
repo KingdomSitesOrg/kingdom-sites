@@ -165,17 +165,17 @@ export default function Home() {
         <LitLink href="/portfolio" label="The whole Farzana Classroom story" />
       </div>
 
-      {/* The Latin learning game: phones at different depths. */}
+      {/* JAM Legio, the Latin learning game: phones at different depths. */}
       <section aria-labelledby="latin" className="mt-32 sm:mt-44">
         <div className="cn-wrap grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-end">
           <h2 id="latin" className="cn-display cn-h2">
             In students’ pockets.
           </h2>
           <p className="cn-body max-w-[44ch]">
-            A Latin learning game for iPhone and Android. Students travel the Roman world city by city, answer case
+            JAM Legio, a Latin learning game for iPhone and Android. Students travel the Roman world city by city, answer case
             challenges and race each other on the leaderboard.{' '}
             <Link href="/latin-game" className="text-[var(--fg)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-current">
-              See the game
+              See JAM Legio
             </Link>
           </p>
         </div>

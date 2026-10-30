@@ -20,7 +20,7 @@ export const FILM_PATH = '/farzana#film'
 export const ABOUT_PATH = '/farzana/about'
 export const PRICING_PATH = '/farzana/pricing'
 
-/** Thomas's Latin learning game, on the App Store. */
+/** JAM Legio, Thomas's Latin learning game, on the App Store. */
 export const LATIN_GAME_URL = 'https://apps.apple.com/us/app/jam-legio/id6797884645'
 
 /**
