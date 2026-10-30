@@ -1,4 +1,4 @@
-import { MADE } from '@/lib/work'
+import { MADE, type Made } from '@/lib/work'
 import Scroll from './Scroll'
 
 type Key = keyof typeof MADE
@@ -9,7 +9,7 @@ type Key = keyof typeof MADE
  * once, after the first product); without one, just the two credit lines.
  */
 export function Credit({ id, title }: { id: Key; title?: string }) {
-  const m = MADE[id]
+  const m: Made = MADE[id]
   return (
     <Scroll className="cn-wrap">
       <div className={`cn-reveal cn-credit${title ? '' : ' cn-credit-sm'}`}>

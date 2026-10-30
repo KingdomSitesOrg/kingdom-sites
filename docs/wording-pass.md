@@ -47,3 +47,20 @@ Every change below was chosen by Thomas in the wording chat. Page, then old, the
 ## Intelligence chat's knowledge file (content/intelligence.md)
 
 Updated to match the above: Farzana line, Farzana builder line, Websites, Apps, AI consultation, "The software behind them" removed.
+
+## About
+
+| Where | Old | New |
+|---|---|---|
+| Line under the heading | Design, build, ship, and maintain — Thomas, one engineer, on purpose, so you always know who you are talking to. | I design, build, ship and maintain everything myself, on purpose, so you always know who you are talking to. |
+| Bio, paragraph 1 | My name is Thomas Klein — a software engineer who designs, builds, ships, and maintains mobile apps for people with an idea and more to do after launch. I would rather stay with a handful of products for years than ship a one-off and disappear. | My name is Thomas Klein. I am first and foremost a problem solver and an engineer. I want to help you accomplish your goals, and I do this with a purpose to glorify God. (his words; "problem solver, and engineer" fixed to "a problem solver and an engineer") |
+| Bio, paragraph 2 | The work is mobile-led software people actually use, plus the systems and AI that make it real. I also help businesses use AI well... When you email, you get Thomas, the person who builds it. | I make software people actually use: websites, apps and the systems behind them. I also help you use AI to bring in more revenue, save time and grow your business. When you write to me, you get me, the person who builds it. |
+| Bio, paragraph 3 | My wife Monisha and I take on a small number of projects at a time, on purpose. I am based in Rochester, Minnesota, and currently working from abroad. Client work carries on from here... | My wife Monisha and I are currently working from abroad. Kingdom Sites is based in Rochester, Minnesota, and client work carries on as always, on the same timelines. (no "small number of projects", as asked) |
+| Card 1 | Design, build, ship, maintain — not a handoff / I design, build, ship, and stay... | I build it and I maintain it / I build and maintain the app, so don't worry about maintenance. (his words) |
+| Card 2 (Portfolio) | Contract work on Ruta, plus a Latin learning game ... Tap to Tick (a personal iOS expense app). | Farzana Classroom, education software I built from the ground up; a Latin learning game for iPhone and Android; Tap to Tick, my own iPhone expense app; and contract work on Ruta. |
+| Card 3 (free websites) | ...get the site built for free* — the same care every client gets. It is one of the ways this business goes toward the advance of the gospel. | ...get their website built for free*, with the same care as every client. It is one of the ways I put this business toward the gospel. |
+| Bottom line | Every enquiry goes to Thomas and gets a personal reply. | Every enquiry comes to me, and I reply personally. |
+
+## Mission
+
+Thomas: "don't re-write anything in missions." Nothing on the Mission page was changed.
