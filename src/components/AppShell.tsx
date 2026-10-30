@@ -35,11 +35,12 @@ export default function AppShell({
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
     ) : null
 
-  // T-358 preview: this direction's pages carry their own header and footer.
-  const direction = pathname === '/' || pathname === '/work/farzana'
+  // The home page and the Farzana Classroom case study draw their own
+  // header and footer (CinematicChrome) around their scroll scenes.
+  const ownChrome = pathname === '/' || pathname === '/work/farzana'
 
   const standalone =
-    direction ||
+    ownChrome ||
     section === 'farzana' ||
     ['/tap-to-tick', '/latin-game', '/farzana', '/ministry', '/prayer', '/marketing-frame', '/sign', '/calc'].some((p) =>
       pathname?.startsWith(p),

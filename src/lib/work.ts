@@ -12,8 +12,8 @@
 export type Shot = { src: string; alt: string; w: number; h: number }
 
 export const SHOTS = {
-  farzanaSite: { src: '/work/farzana-site.jpg', alt: 'Farzana’s home page: “Your organization is unique. Your software should be too.”', w: 1800, h: 1125 },
-  farzanaSitePhone: { src: '/work/farzana-site-phone.jpg', alt: 'Farzana’s home page on a phone', w: 780, h: 1688 },
+  farzanaSite: { src: '/work/farzana-site.jpg', alt: 'Farzana Classroom’s home page: “Your organization is unique. Your software should be too.”', w: 1800, h: 1125 },
+  farzanaSitePhone: { src: '/work/farzana-site-phone.jpg', alt: 'Farzana Classroom’s home page on a phone', w: 780, h: 1688 },
   farzanaStudents: { src: '/work/farzana-students.jpg', alt: 'Farzana Classroom, a demo school’s student list, with search and filters', w: 1800, h: 1125 },
   farzanaStudentsPhone: { src: '/work/farzana-students-phone.jpg', alt: 'The student list on a phone', w: 780, h: 1688 },
   farzanaClasses: { src: '/work/demo-classes.jpg', alt: 'Farzana Classroom, a demo school’s public list of classes, each with its price', w: 1800, h: 1125 },
@@ -51,7 +51,7 @@ export type Project = {
 export const PROJECTS: Project[] = [
   {
     slug: 'farzana',
-    name: 'Farzana',
+    name: 'Farzana Classroom',
     kind: 'Platform',
     forWhom: 'Schools and education businesses',
     line: 'Education software for schools, training organizations and education businesses. One proven platform, with the features each school actually needs built on top.',
@@ -144,7 +144,7 @@ export const AUDIENCES = [
   },
   {
     title: 'Schools',
-    body: 'Classes, students, families and payments in one place, on Farzana, shaped to how your school already works.',
+    body: 'Classes, students, families and payments in one place, on Farzana Classroom, shaped to how your school already works.',
   },
   {
     title: 'Small businesses',
