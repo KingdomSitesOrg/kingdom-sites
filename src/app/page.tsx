@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import CinematicChrome from '@/components/cinematic/Chrome'
 import { Browser, Phone } from '@/components/cinematic/Frames'
 import { Credit } from '@/components/cinematic/Maker'
+import LitLink from '@/components/cinematic/LitLink'
 import Scroll from '@/components/cinematic/Scroll'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { OFFER, PAYS, PROJECTS, SHOTS, type Shot } from '@/lib/work'
@@ -160,9 +161,7 @@ export default function Home() {
       </Scroll>
 
       <div className="cn-wrap mt-10 flex justify-center lg:mt-0">
-        <Link href="/portfolio#farzana" className="cn-ghost">
-          The whole Farzana Classroom story <span aria-hidden="true">→</span>
-        </Link>
+        <LitLink href="/portfolio#farzana" label="The whole Farzana Classroom story" />
       </div>
 
       {/* The Latin learning game: phones at different depths. */}
