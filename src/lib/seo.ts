@@ -25,8 +25,8 @@ export const SITE_OG_IMAGE = {
 }
 
 /* The home page's title in search results: what the business does and where,
-   in the words people search for (T-387). The visible headline stays "Made to
-   be used. Made to be yours." */
+   in the words people search for (T-387). The visible headline, on the page and
+   the share picture, is "Kingdom Sites will build it. What do you want?" (T-403). */
 export const SITE_TITLE = 'Kingdom Sites — Websites and apps for businesses, Rochester MN'
 
 /* The home page's description. The root layout uses it too, as the fallback
