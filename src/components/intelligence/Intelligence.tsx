@@ -335,12 +335,9 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
       >
         <span className="ki-edge" aria-hidden="true" />
         <header className="ki-head">
-          <div>
-            <h2 id={titleId} className="ki-title">
-              <Spark /> Intelligence
-            </h2>
-            <p className="ki-sub">Ask anything about me and what I built</p>
-          </div>
+          <h2 id={titleId} className="ki-title">
+            <Spark /> Intelligence
+          </h2>
           {inline ? null : (
             <button type="button" className="ki-close" aria-label="Close Intelligence" onClick={close}>
               <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true">
