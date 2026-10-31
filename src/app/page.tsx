@@ -79,7 +79,7 @@ export default function Home() {
               <Link href={INQUIRE_PATH} className="cn-btn">
                 {INQUIRE_CTA} <span aria-hidden="true">→</span>
               </Link>
-              <a href="#farzana" className="cn-ghost">
+              <a href="#latin" className="cn-ghost">
                 See the portfolio <span aria-hidden="true">↓</span>
               </a>
             </div>
@@ -98,8 +98,34 @@ export default function Home() {
       {/* Right after the first window and phone: What I built. Said once. */}
       <Credit id="farzana" title="What I built" />
 
+      {/* JAM Legio, the Latin learning game: phones at different depths. */}
+      <section aria-labelledby="latin" className="mt-32 sm:mt-44">
+        <div className="cn-wrap grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-end">
+          <h2 id="latin" className="cn-display cn-h2 scroll-mt-16">
+            In students’ pockets.
+          </h2>
+          <p className="cn-body max-w-[44ch]">
+            JAM Legio, a Latin learning game for iPhone and Android. Students travel the Roman world city by city, answer case
+            challenges and race each other on the leaderboard.{' '}
+            <Link href="/latin-game" className="text-[var(--fg)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-current">
+              See JAM Legio
+            </Link>
+          </p>
+        </div>
+        <Scroll className="cn-wrap mt-16 pb-6 sm:mt-24">
+          <div className="cn-depth mx-auto max-w-[1180px]">
+            {[SHOTS.latinHome, SHOTS.latinMap, SHOTS.latinCase, SHOTS.latinBoard].map((s) => (
+              <Phone key={s.src} shot={s} />
+            ))}
+          </div>
+        </Scroll>
+        <div className="cn-wrap">
+          <LatinPartner />
+        </div>
+      </section>
+
       {/* The Farzana story: the stage holds still, the screens change by chapter. */}
-      <div id="farzana" className="scroll-mt-16" />
+      <div id="farzana" className="mt-32 scroll-mt-16 sm:mt-44" />
       {/* One chapter is a still screen: it is not pinned, so there is no scroll to walk through (T-381 left one). */}
       <Scroll mode="sticky" steps={CHAPTERS.length} className={`cn-scene${CHAPTERS.length > 1 ? '' : ' cn-scene-still'}`} aria-label="Farzana Classroom">
         <div style={CHAPTERS.length > 1 ? { height: `${CHAPTERS.length * 85}svh` } : undefined} className="cn-scene-h">
@@ -165,29 +191,31 @@ export default function Home() {
         <LitLink href="/portfolio/farzana-classroom" label="The whole Farzana Classroom story" />
       </div>
 
-      {/* JAM Legio, the Latin learning game: phones at different depths. */}
-      <section aria-labelledby="latin" className="mt-32 sm:mt-44">
+      {/* Ruta, the crew app's own screens, built like JAM Legio's chapter. Ruta is a
+          team's product: the credit line under the phones says I work on it (T-400).
+          Order (T-402, Thomas): JAM Legio, Farzana, Ruta, then the rest. */}
+      <section aria-labelledby="ruta" className="mt-32 sm:mt-44">
         <div className="cn-wrap grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-end">
-          <h2 id="latin" className="cn-display cn-h2">
-            In students’ pockets.
+          <h2 id="ruta" className="cn-display cn-h2">
+            In the crew’s hands.
           </h2>
           <p className="cn-body max-w-[44ch]">
-            JAM Legio, a Latin learning game for iPhone and Android. Students travel the Roman world city by city, answer case
-            challenges and race each other on the leaderboard.{' '}
-            <Link href="/latin-game" className="text-[var(--fg)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-current">
-              See JAM Legio
+            Ruta, service-management software for landscaping and maintenance businesses: an office app, a portal for
+            customers, and a phone app the crews take from visit to visit.{' '}
+            <Link href="/ruta" className="text-[var(--fg)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-current">
+              See Ruta
             </Link>
           </p>
         </div>
         <Scroll className="cn-wrap mt-16 pb-6 sm:mt-24">
-          <div className="cn-depth mx-auto max-w-[1180px]">
-            {[SHOTS.latinHome, SHOTS.latinMap, SHOTS.latinCase, SHOTS.latinBoard].map((s) => (
+          <div className="cn-depth cn-depth-row mx-auto max-w-[1180px]">
+            {[SHOTS.rutaQueue, SHOTS.rutaVisit, SHOTS.rutaTime].map((s) => (
               <Phone key={s.src} shot={s} />
             ))}
           </div>
         </Scroll>
         <div className="cn-wrap">
-          <LatinPartner />
+          <RutaCredit />
         </div>
       </section>
 
@@ -240,34 +268,6 @@ export default function Home() {
               </Scroll>
             )
           })}
-        </div>
-      </section>
-
-      {/* Ruta, the crew app's own screens, built like JAM Legio's chapter. Ruta is a
-          team's product: the credit line under the phones says I work on it (T-400).
-          It sits right before KCUPG, as the Ruta card did (T-372). */}
-      <section aria-labelledby="ruta" className="mt-32 sm:mt-44">
-        <div className="cn-wrap grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-end">
-          <h2 id="ruta" className="cn-display cn-h2">
-            In the crew’s hands.
-          </h2>
-          <p className="cn-body max-w-[44ch]">
-            Ruta, service-management software for landscaping and maintenance businesses: an office app, a portal for
-            customers, and a phone app the crews take from visit to visit.{' '}
-            <Link href="/ruta" className="text-[var(--fg)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-current">
-              See Ruta
-            </Link>
-          </p>
-        </div>
-        <Scroll className="cn-wrap mt-16 pb-6 sm:mt-24">
-          <div className="cn-depth cn-depth-row mx-auto max-w-[1180px]">
-            {[SHOTS.rutaQueue, SHOTS.rutaVisit, SHOTS.rutaTime].map((s) => (
-              <Phone key={s.src} shot={s} />
-            ))}
-          </div>
-        </Scroll>
-        <div className="cn-wrap">
-          <RutaCredit />
         </div>
       </section>
 
