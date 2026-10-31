@@ -17,7 +17,7 @@ const SITE = 'https://kingdom-sites.com'
    noindex and left out. */
 const ROUTES = [
   '/', '/about', '/portfolio', '/get-started', '/ai-tooling', '/mission', '/ministry', '/prayer',
-  '/ruta', '/tap-to-tick', '/latin-game', '/blog', '/refer', '/privacy', '/terms',
+  '/ruta', '/tap-to-tick', '/latin-game', '/refer', '/privacy', '/terms',
   '/portfolio/farzana-classroom', '/portfolio/kcupg', '/portfolio/delta',
 ]
 
