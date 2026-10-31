@@ -67,9 +67,9 @@ export const SECTIONS: Record<SectionId, Section> = {
     name: 'Journal',
     title: 'Journal: missions, faith and the stories behind the work',
     description:
-      'The Journal of Thomas Klein: missions, faith, the persecuted church, prayer, and the stories behind the projects.',
+      'The Journal of Thomas Klein. Tech, Faith, missions, news and anything in between. My thoughts.',
     heading: ['The ', 'Journal.'],
-    intro: 'Missions, faith, the persecuted church, prayer, and the stories behind the projects.',
+    intro: 'Tech, Faith, missions, news and anything in between. My thoughts.',
     empty: 'The first stories are on their way.',
     cta: { heading: 'Want to talk about it?', text: 'Every message comes to me, and I reply personally.' },
   },
