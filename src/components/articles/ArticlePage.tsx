@@ -5,7 +5,6 @@ import ArticleText from '@/components/articles/ArticleText'
 import AuthorBox from '@/components/articles/AuthorBox'
 import Cover from '@/components/articles/Cover'
 import QuoteCard from '@/components/articles/QuoteCard'
-import SummarizeButton from '@/components/intelligence/SummarizeButton'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { SERVICE_CITY, SERVICE_COUNTRY, SERVICE_REGION_CODE } from '@/lib/local'
 import { PERSON_LD, SHARE_URL, SITE_NAME, SITE_URL, jsonLd } from '@/lib/seo'
@@ -111,8 +110,7 @@ function Part({ block }: { block: Block }) {
 }
 
 /**
- * One article, in the Journal or Guides (T-388, T-399): the heading, "Summarize this
- * article", the opening, the cover, the text, the related Portfolio projects,
+ * One article, in the Journal or Guides (T-388, T-399): the heading, the opening, the cover, the text, the related Portfolio projects,
  * the author, sources, and more from the same section. An article not yet
  * published is a 404.
  */
@@ -194,9 +192,6 @@ export default function ArticlePage({ section, slug }: { section: SectionId; slu
               {minutes} min read
             </p>
             <h1 className="cn-display cn-h3 mt-5 text-balance">{a.title}</h1>
-            <div className="mt-5">
-              <SummarizeButton path={`${section}/${a.slug}`} title={a.title} />
-            </div>
             <p className="mt-6 text-pretty text-lg leading-relaxed text-ink sm:text-xl">{a.lede}</p>
           </div>
           <div className="mx-auto mt-10 max-w-3xl">

@@ -1,5 +1,4 @@
 import { ARTICLES } from '@/content/articles'
-import { getPost } from '@/lib/blog'
 import { PROJECTS, SHOTS } from '@/lib/work'
 
 /**
@@ -163,7 +162,7 @@ export function blocks(body: string): Block[] {
     })
 }
 
-/** The words alone, links read as their words, bold as plain words. */
+/** The words alone (for the reading time), links read as their words, bold as plain words. */
 export function plainText(a: Article): string {
   return `${a.lede}\n${blocks(a.body)
     .map((b) => ('items' in b ? b.items.map((i) => `- ${i}`).join('\n') : b.type === 'h2' ? `\n${b.text}` : b.type === 'quote' && b.cite ? `${b.text} (${b.cite})` : b.text))
@@ -189,32 +188,4 @@ export function relatedProjects(a: Article) {
 
 export function formatDate(iso: string) {
   return new Date(`${iso}T12:00:00Z`).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })
-}
-
-/* ---------- For Intelligence's "Summarize this article" ---------- */
-
-export type ArticleText = { path: string; title: string; text: string }
-
-const PATH = /^(journal|guides|blog)\/([a-z0-9-]{1,100})$/
-/** The longest article text sent with a question (the blog posts run to about 6,000 characters). */
-const MAX_CHARS = 12_000
-
-/**
- * The browser names the article by its path ("journal/…", "guides/…"
- * or "blog/…"); the text always comes from here, never from the browser, and
- * an article not yet published is not found.
- */
-export function findArticle(path: unknown, now = new Date()): ArticleText | null {
-  if (typeof path !== 'string') return null
-  const m = path.match(PATH)
-  if (!m) return null
-  const [, section, slug] = m
-  if (section === 'blog') {
-    const p = getPost(slug)
-    if (!p) return null
-    const text = [p.excerpt, ...p.body.map((b) => ('items' in b ? b.items.map((i) => `- ${i}`).join('\n') : b.text))].join('\n')
-    return { path, title: p.title, text: text.slice(0, MAX_CHARS) }
-  }
-  const a = getArticle(section as SectionId, slug, now)
-  return a ? { path, title: a.title, text: plainText(a).slice(0, MAX_CHARS) } : null
 }

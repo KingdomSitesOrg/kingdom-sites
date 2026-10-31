@@ -28,34 +28,56 @@ export function Browser({ shot, product, note, priority }: { shot: Shot; product
    shot's own tone and a blurred copy, so nothing pops in empty. Lazy phones
    are marked for WarmImages, which fetches them a screen or two ahead. */
 export function Phone({ shot, eager, sizes = PHONE_SIZES }: { shot: Shot; eager?: boolean; sizes?: string }) {
+  return (
+    <div className="cn-phone">
+      <PhoneScreen shot={shot} eager={eager} sizes={sizes} />
+    </div>
+  )
+}
+
+/* The same screenshot in a drawn iPhone (T-403): a titanium rim, the black
+   bezel, the Dynamic Island, the side buttons and a faint sheen on the glass.
+   Everything is in proportion to the phone's width, so it holds at any size. */
+export function IPhone({ shot, eager, sizes = PHONE_SIZES }: { shot: Shot; eager?: boolean; sizes?: string }) {
+  return (
+    <div className="cn-iphone">
+      <i className="cn-iphone-key cn-iphone-action" aria-hidden="true" />
+      <i className="cn-iphone-key cn-iphone-up" aria-hidden="true" />
+      <i className="cn-iphone-key cn-iphone-down" aria-hidden="true" />
+      <i className="cn-iphone-key cn-iphone-power" aria-hidden="true" />
+      <div className="cn-iphone-bezel">
+        <div className="cn-iphone-screen">
+          <PhoneScreen shot={shot} eager={eager} sizes={sizes} />
+          <span className="cn-iphone-island" aria-hidden="true" />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function PhoneScreen({ shot, eager, sizes }: { shot: Shot; eager?: boolean; sizes: string }) {
   const opt = PHONE_SHOTS[shot.src]
   if (!opt) {
-    return (
-      <div className="cn-phone">
-        <Image src={shot.src} alt={shot.alt} width={shot.w} height={shot.h} loading={eager ? 'eager' : 'lazy'} unoptimized />
-      </div>
-    )
+    return <Image src={shot.src} alt={shot.alt} width={shot.w} height={shot.h} loading={eager ? 'eager' : 'lazy'} unoptimized />
   }
   const set = (ext: string) => opt.widths.map((w) => `/opt/${opt.name}-${w}.${ext} ${w}w`).join(', ')
   return (
-    <div className="cn-phone">
-      <picture>
-        <source type="image/avif" srcSet={set('avif')} sizes={sizes} />
-        <source type="image/webp" srcSet={set('webp')} sizes={sizes} />
-        <img
-          src={`/opt/${opt.name}-${opt.widths[1] ?? opt.widths[0]}.jpg`}
-          srcSet={set('jpg')}
-          sizes={sizes}
-          alt={shot.alt}
-          width={shot.w}
-          height={shot.h}
-          loading={eager ? 'eager' : 'lazy'}
-          decoding="async"
-          data-warm={eager ? undefined : ''}
-          style={{ backgroundColor: opt.tone, backgroundImage: `url(${opt.blur})`, backgroundSize: 'cover' }}
-        />
-      </picture>
-    </div>
+    <picture>
+      <source type="image/avif" srcSet={set('avif')} sizes={sizes} />
+      <source type="image/webp" srcSet={set('webp')} sizes={sizes} />
+      <img
+        src={`/opt/${opt.name}-${opt.widths[1] ?? opt.widths[0]}.jpg`}
+        srcSet={set('jpg')}
+        sizes={sizes}
+        alt={shot.alt}
+        width={shot.w}
+        height={shot.h}
+        loading={eager ? 'eager' : 'lazy'}
+        decoding="async"
+        data-warm={eager ? undefined : ''}
+        style={{ backgroundColor: opt.tone, backgroundImage: `url(${opt.blur})`, backgroundSize: 'cover' }}
+      />
+    </picture>
   )
 }
 

@@ -72,6 +72,20 @@ html:has(.cn-head) { background: #0b0b0c; }
 .cn-phone { --r: clamp(26px, 3.4vw, 46px); --b: clamp(5px, 0.6vw, 9px); position: relative; border-radius: var(--r); padding: var(--b); background: #050505; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 30px 80px rgba(0, 0, 0, 0.6); }
 .cn-phone picture { display: block; }
 .cn-phone img { display: block; width: 100%; height: auto; border-radius: calc(var(--r) - var(--b)); clip-path: inset(0 round calc(var(--r) - var(--b))); }
+/* A drawn iPhone around a screenshot (T-403, the Journal's JAM Legio article).
+   Sized by its width (container units): rim, bezel, Dynamic Island and side
+   keys all scale with it, and the screen's corners stay concentric. */
+.cn-iphone { container-type: inline-size; position: relative; padding: 1.6cqw; border-radius: 17cqw; background: linear-gradient(150deg, #5a5a5f 0%, #2a2a2e 22%, #1c1c1f 50%, #3a3a3f 78%, #141416 100%); box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.35), 0 1.5cqw 3cqw rgba(0, 0, 0, 0.35), 0 12cqw 26cqw -6cqw rgba(0, 0, 0, 0.75); }
+.cn-iphone-bezel { padding: 3.4cqw; border-radius: 15.4cqw; background: #030303; box-shadow: inset 0 0 0 0.6cqw #0c0c0d; }
+.cn-iphone-screen { position: relative; border-radius: 12cqw; overflow: hidden; clip-path: inset(0 round 12cqw); background: #000; }
+.cn-iphone-screen picture, .cn-iphone-screen img { display: block; width: 100%; height: auto; }
+.cn-iphone-screen::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(118deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.03) 28%, transparent 46%); }
+.cn-iphone-island { position: absolute; z-index: 1; top: 2.6cqw; left: 50%; width: 30%; height: 8.6cqw; transform: translateX(-50%); border-radius: 999px; background: #000; box-shadow: inset 0 0 0 0.4cqw #111; }
+.cn-iphone-key { position: absolute; width: 1.4cqw; border-radius: 1cqw; background: linear-gradient(90deg, #1e1e21, #55555a 55%, #2a2a2e); }
+.cn-iphone-action { left: -1cqw; top: 23cqw; height: 9cqw; }
+.cn-iphone-up { left: -1cqw; top: 38cqw; height: 17cqw; }
+.cn-iphone-down { left: -1cqw; top: 58cqw; height: 17cqw; }
+.cn-iphone-power { right: -1cqw; top: 44cqw; height: 26cqw; }
 
 /* "Coming soon", in the kicker's own voice: an outline, not a sticker. */
 .cn-soon { display: inline-block; margin-left: 10px; padding: 3px 9px; border: 1px solid var(--line); border-radius: 999px; font-size: 11px; letter-spacing: 0.08em; color: #cfcbc3; vertical-align: 1px; white-space: nowrap; }
