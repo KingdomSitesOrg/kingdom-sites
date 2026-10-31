@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 
 const project = (slug: string) => PROJECTS.find((p) => p.slug === slug)!
 const farzana = project('farzana')
-const latin = project('jam-legio')
+const latin = project('latin-game')
 const ruta = project('ruta')
 const CASES = ['tap-to-tick', 'delta', 'kcupg', 'prayer', 'ministry', 'sign'].map(project)
 

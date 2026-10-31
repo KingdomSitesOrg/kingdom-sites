@@ -83,7 +83,8 @@ export const PROJECTS: Project[] = [
     site: 'https://farzana.app',
   },
   {
-    slug: 'jam-legio',
+    // Internal ID only (other branches' related lists name it); the page is /jam-legio.
+    slug: 'latin-game',
     name: 'JAM Legio',
     kind: 'App',
     forWhom: 'Latin students',
