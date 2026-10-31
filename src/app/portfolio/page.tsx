@@ -115,18 +115,13 @@ export default function Portfolio() {
           </Scroll>
         </Scroll>
 
-        <div className="cn-wrap grid gap-14 lg:grid-cols-2 lg:gap-10">
-          <Scroll>
-            <div className="cn-reveal">
-              <Browser shot={SHOTS.farzanaClass} product={PRODUCT} note={DEMO} />
-            </div>
-          </Scroll>
-          <Scroll>
-            <div className="cn-reveal lg:mt-32">
-              <Browser shot={SHOTS.farzanaDesk} product={PRODUCT} note={DEMO} />
-            </div>
-          </Scroll>
-        </div>
+        {/* Two windows side by side, drifting in like the phones in a depth row (T-403). */}
+        <Scroll className="cn-wrap pb-6">
+          <div className="cn-depth cn-depth-pair mx-auto max-w-[1180px]">
+            <Browser shot={SHOTS.farzanaClass} product={PRODUCT} note={DEMO} />
+            <Browser shot={SHOTS.farzanaDesk} product={PRODUCT} note={DEMO} />
+          </div>
+        </Scroll>
         <div className="cn-wrap mt-12">
           <div className="flex flex-wrap gap-3">
             <Link href={farzana.href!} className="cn-ghost">

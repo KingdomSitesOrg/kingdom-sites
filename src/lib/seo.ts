@@ -21,10 +21,13 @@ export const SITE_OG_IMAGE = {
   url: '/opengraph-image.jpg',
   width: 1200,
   height: 630,
-  alt: 'Kingdom Sites — Made to be used. Made to be yours.',
+  alt: 'Kingdom Sites will build it. What do you want?',
 }
 
-export const SITE_TITLE = 'Kingdom Sites — Made to be used. Made to be yours.'
+/* The home page's title in search results: what the business does and where,
+   in the words people search for (T-387). The visible headline, on the page and
+   the share picture, is "Kingdom Sites will build it. What do you want?" (T-403). */
+export const SITE_TITLE = 'Kingdom Sites — Websites and apps for businesses, Rochester MN'
 
 /* The home page's description. The root layout uses it too, as the fallback
    for any page without its own, so the business reads the same everywhere. */
