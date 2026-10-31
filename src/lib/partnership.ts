@@ -43,13 +43,11 @@ export const PRICE_GUIDE = {
     { what: 'Simpler apps', price: 'around $3,000 to $5,000' },
     { what: 'Larger systems', price: 'around $6,000 to $10,000 and up' },
   ],
-  note: 'You get an exact quote after we talk.',
 }
 
 /* Why one engineer instead of an agency (T-387), in Thomas's words from the
    About page where he has said them already. */
 export const ONE_ENGINEER = {
-  kicker: 'Why one engineer',
   title: 'One engineer, not an agency.',
   points: [
     {

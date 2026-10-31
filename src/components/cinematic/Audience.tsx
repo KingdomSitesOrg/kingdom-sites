@@ -151,8 +151,7 @@ export function Close({
 export function OneEngineer({ className = 'cn-wrap mt-28 sm:mt-40' }: { className?: string }) {
   return (
     <section aria-labelledby="one-engineer" className={className}>
-      <p className="cn-kicker">{ONE_ENGINEER.kicker}</p>
-      <h2 id="one-engineer" className="cn-display cn-h2 mt-5 max-w-[14ch]">
+      <h2 id="one-engineer" className="cn-display cn-h2 max-w-[14ch]">
         {ONE_ENGINEER.title}
       </h2>
       <div className="mt-12 grid gap-x-10 gap-y-10 md:grid-cols-3">
@@ -172,7 +171,7 @@ export function PriceGuide({ className }: { className?: string }) {
   return (
     <div className={className}>
       <h2 className="cn-kicker">{PRICE_GUIDE.title}</h2>
-      <dl className="mt-4 grid gap-0">
+      <dl className="mt-4 grid gap-0 border-b border-[var(--line)]">
         {PRICE_GUIDE.rows.map((r) => (
           <div key={r.what} className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-t border-[var(--line)] py-3">
             <dt className="text-[15px] font-medium text-[var(--fg)]">{r.what}</dt>
@@ -180,7 +179,6 @@ export function PriceGuide({ className }: { className?: string }) {
           </div>
         ))}
       </dl>
-      <p className="border-t border-[var(--line)] pt-3 text-[14px] leading-relaxed text-[var(--dim)]">{PRICE_GUIDE.note}</p>
     </div>
   )
 }
