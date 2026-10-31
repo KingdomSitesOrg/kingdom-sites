@@ -106,9 +106,6 @@ export default function ArticleIndex({ section: id }: { section: SectionId }) {
 
         <div className="mx-auto mt-24 max-w-3xl text-center sm:mt-32">
           <h2 className="cn-display cn-h3 text-balance">{section.cta.heading}</h2>
-          <p className="mx-auto mt-3 max-w-lg text-pretty text-[15px] leading-relaxed text-body">
-            Every enquiry comes to me, and I reply personally.
-          </p>
           <div className="mt-6 flex justify-center">
             <Link href={INQUIRE_PATH} className="btn-primary">
               {INQUIRE_CTA}
