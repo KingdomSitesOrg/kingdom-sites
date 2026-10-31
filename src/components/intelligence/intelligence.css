@@ -45,7 +45,6 @@
   animation: ki-drift 11s ease-in-out infinite alternate; will-change: transform;
 }
 .ki-square-title { font-variation-settings: 'wdth' 72; font-weight: 600; font-size: 16px; letter-spacing: -0.01em; line-height: 1; }
-.ki-square-sub { font-size: 10.5px; line-height: 1.25; color: var(--dim); }
 @media (min-width: 760px) {
   .ki { --edge: 24px; }
   /* Clear of the home bar on an iPad or an opened-out fold phone; 24px on a desktop (no inset). */
@@ -53,7 +52,6 @@
   .ki-square .ki-spark { width: 34px; height: 34px; margin-bottom: 8px; }
   .ki-glow { top: -26px; left: -26px; width: 130px; height: 130px; }
   .ki-square-title { font-size: 23px; }
-  .ki-square-sub { font-size: 12.5px; }
 }
 /* A light passes over the square on hover, and keeps passing while it thinks. */
 .ki-square::after {
