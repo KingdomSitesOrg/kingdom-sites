@@ -10,7 +10,7 @@ const INDEX: SearchIndex = {
   pages: [
     page({ u: '/', t: 'Kingdom Sites', s: 'Home', b: 'I build websites and apps for businesses, churches and anyone who needs software.' }),
     page({ u: '/portfolio', t: 'Portfolio', s: 'Portfolio', h: ['Farzana Classroom', 'JAM Legio', 'Ruta'], b: 'Education software, software for landscapers.' }),
-    page({ u: '/latin-game', t: 'JAM Legio', s: 'Portfolio', d: 'A Latin game.', b: 'March from Rōma to Gallia. Learn real Latin on the way.' }),
+    page({ u: '/jam-legio', t: 'JAM Legio', s: 'Portfolio', d: 'A Latin game.', b: 'March from Rōma to Gallia. Learn real Latin on the way.' }),
     page({ u: '/churches', t: 'Websites and apps for churches', s: 'Who I work with', b: 'Giving, sermons and a church app.' }),
     page({ u: '/privacy', t: 'Privacy Policy', s: 'Legal', l: 1, d: 'How Kingdom Sites handles your data, including churches.' }),
   ],
@@ -21,14 +21,14 @@ const text = (pieces: { text: string }[]) => pieces.map((p) => p.text).join('')
 
 describe('site search', () => {
   it('finds a word at the start of a word, in any case and without accents', () => {
-    expect(urls('LATIN')).toEqual(['/latin-game'])
-    expect(urls('roma')).toEqual(['/latin-game'])
-    expect(urls('leg')).toEqual(['/latin-game', '/portfolio'])
+    expect(urls('LATIN')).toEqual(['/jam-legio'])
+    expect(urls('roma')).toEqual(['/jam-legio'])
+    expect(urls('leg')).toEqual(['/jam-legio', '/portfolio'])
     expect(urls('atin')).toEqual([])
   })
 
   it('puts a title match above a heading match', () => {
-    expect(urls('legio')[0]).toBe('/latin-game')
+    expect(urls('legio')[0]).toBe('/jam-legio')
     expect(urls('legio')).toContain('/portfolio')
   })
 

@@ -17,7 +17,7 @@ const SITE = 'https://kingdom-sites.com'
    noindex and left out. */
 const ROUTES = [
   '/', '/about', '/portfolio', '/get-started', '/ai-tooling', '/mission', '/ministry', '/prayer',
-  '/ruta', '/tap-to-tick', '/latin-game', '/refer', '/privacy', '/terms',
+  '/ruta', '/tap-to-tick', '/jam-legio', '/refer', '/privacy', '/terms',
   '/portfolio/farzana-classroom', '/portfolio/kcupg', '/portfolio/delta',
 ]
 
@@ -58,17 +58,17 @@ for (const route of ROUTES) {
   // JAM Legio is named by its name; the old stand-in names are gone (T-382).
   const text = html.replace(/<script[^]*?<\/script>/g, '')
   if (/Latin practice game|A Latin learning game ·/.test(text)) problems.push('still calls JAM Legio by an old name')
-  if (['/', '/portfolio', '/latin-game'].includes(route) && !text.includes('JAM Legio')) problems.push('does not name JAM Legio')
+  if (['/', '/portfolio', '/jam-legio'].includes(route) && !text.includes('JAM Legio')) problems.push('does not name JAM Legio')
   // JAM with Latin appears only in the partnership credit (the partner line, and
-  // /latin-game's description and app data), never anywhere else on a page.
-  // On /latin-game the credit area also holds Alexis Carrico's words, credited
+  // /jam-legio's description and app data), never anywhere else on a page.
+  // On /jam-legio the credit area also holds Alexis Carrico's words, credited
   // "Alexis Carrico, JAM with Latin" (Thomas, T-389).
   let outsideCredit = text.replace(/<p class="[^"]*partner[^"]*">[^]*?<\/p>/g, '')
-  if (route === '/latin-game') {
+  if (route === '/jam-legio') {
     outsideCredit = outsideCredit.replace(/<meta[^>]*>/g, '').replace(/<figure class="partner-quote">[^]*?<\/figure>/g, '')
   }
   if (/JAM with Latin/i.test(outsideCredit)) problems.push('names JAM with Latin outside the partnership credit')
-  if (route === '/latin-game') {
+  if (route === '/jam-legio') {
     if (!/JAM Legio/.test(title ?? '') || !/Latin game/i.test(title ?? '')) problems.push(`title should carry JAM Legio and "Latin game": ${title}`)
     if (!/Latin vocabulary game/i.test(meta(html, 'description') ?? '')) problems.push('description should carry "Latin vocabulary game"')
     const app = [...html.matchAll(/<script type="application\/ld\+json">([^]*?)<\/script>/g)]

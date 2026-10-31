@@ -72,10 +72,15 @@ const nextConfig: NextConfig = {
   // These used to 404; they now land on the right page.
   async redirects() {
     return [
-      { source: '/jam-with-latin', destination: '/latin-game', permanent: true },
-      { source: '/jamwithlatin', destination: '/latin-game', permanent: true },
-      { source: '/latin', destination: '/latin-game', permanent: true },
-      { source: '/latingame', destination: '/latin-game', permanent: true },
+      { source: '/jam-with-latin', destination: '/jam-legio', permanent: true },
+      { source: '/jamwithlatin', destination: '/jam-legio', permanent: true },
+      { source: '/latin', destination: '/jam-legio', permanent: true },
+      { source: '/latingame', destination: '/jam-legio', permanent: true },
+      // The Latin game page moved to the app's name (T-405, 2026-10-31). Google,
+      // the App Store and Google Play still link to /latin-game; the page, its
+      // screenshots and its share card all follow to the same path under /jam-legio.
+      { source: '/latin-game', destination: '/jam-legio', permanent: true },
+      { source: '/latin-game/:path*', destination: '/jam-legio/:path*', permanent: true },
       { source: '/why-us', destination: '/mission', permanent: true },
       // The local business pitch used to live at /grow; it is the home page now.
       { source: '/grow', destination: '/', permanent: true },

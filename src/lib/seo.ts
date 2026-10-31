@@ -88,7 +88,7 @@ export const TAP_TO_TICK_LD = {
   author: { '@id': PERSON_ID, '@type': 'Person', name: 'Thomas Klein' },
 }
 
-/* JAM Legio, on /latin-game: Thomas (Kingdom Sites) designed and built it;
+/* JAM Legio, on /jam-legio: Thomas (Kingdom Sites) designed and built it;
    JAM with Latin LLC publishes it (its App Store seller). The price is the
    App Store's (Thomas, 2026-10-30). The publisher may be named here because
    this is the one page that carries the partnership credit. */
@@ -96,7 +96,7 @@ export const JAM_LEGIO_LD = {
   '@context': 'https://schema.org',
   '@type': 'MobileApplication',
   name: 'JAM Legio',
-  url: `${SITE_URL}/latin-game`,
+  url: `${SITE_URL}/jam-legio`,
   description:
     'A Latin vocabulary game for iPhone and Android, for homeschool and classical students: march a Roman legion from Rōma to Gallia learning declensions, verb endings and real Latin sentences.',
   operatingSystem: 'iOS, Android',
