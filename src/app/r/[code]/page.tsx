@@ -58,7 +58,6 @@ export default async function ReferralLinkPage({ params }: { params: Promise<{ c
 
       <section className="cn-wrap pb-24 sm:pb-32">
         <div className="tile-elevated flex flex-col gap-4 p-7 sm:p-10">
-          <p className="cn-kicker">For schools and education</p>
           <h2 className="cn-display cn-h3">Farzana Classroom</h2>
           <p className="max-w-3xl text-pretty text-[15px] leading-relaxed text-body">
             Farzana Classroom is the education software I build for schools, training organizations and

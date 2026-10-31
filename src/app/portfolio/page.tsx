@@ -272,6 +272,19 @@ export default function Portfolio() {
         <Link href={INQUIRE_PATH} className="cn-btn mt-10">
           {INQUIRE_CTA} <span aria-hidden="true">→</span>
         </Link>
+        <p className="cn-dim mt-8 text-sm">
+          <Link href="/guides/how-a-quote-works" className="underline underline-offset-4">
+            How a quote works
+          </Link>
+          {' · '}
+          <Link href="/guides/website-or-app" className="underline underline-offset-4">
+            Website or app?
+          </Link>
+          {' · '}
+          <Link href="/guides" className="underline underline-offset-4">
+            All guides
+          </Link>
+        </p>
       </section>
     </CinematicChrome>
   )

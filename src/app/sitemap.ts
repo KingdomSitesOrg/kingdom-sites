@@ -1,4 +1,8 @@
 import { MetadataRoute } from 'next'
+import { SECTIONS, articlePath, publishedIn } from '@/lib/articles'
+
+/* Checked again every hour, so an article joins the sitemap on its publish date (T-388). */
+export const revalidate = 3600
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = 'https://kingdom-sites.com'
@@ -21,10 +25,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/tap-to-tick`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/latin-game`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/refer`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${base}/journal`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.6 },
+    { url: `${base}/guides`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.6 },
     { url: `${base}/tap-to-tick/privacy`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
     { url: `${base}/privacy`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
     { url: `${base}/terms`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
   ]
 
-  return staticRoutes
+  const articleRoutes: MetadataRoute.Sitemap = (Object.keys(SECTIONS) as (keyof typeof SECTIONS)[])
+    .flatMap((id) => publishedIn(id))
+    .map((a) => ({
+      url: `${base}${articlePath(a)}`,
+      lastModified: new Date(a.updated ?? a.published),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    }))
+
+  return [...staticRoutes, ...articleRoutes]
 }

@@ -13,9 +13,9 @@ type Art =
 
 type RollItem =
   | { line: string; stat?: undefined; tail?: undefined; art?: Art }
-  | { stat: string; tail: string; art: Art }
+  | { stat: string; tail: string; source?: string; art: Art }
 
-function isCountryLine(item: RollItem): item is { stat: string; tail: string; art: Art } {
+function isCountryLine(item: RollItem): item is { stat: string; tail: string; source?: string; art: Art } {
   return typeof item.stat === 'string'
 }
 
@@ -24,9 +24,10 @@ function isCountryLine(item: RollItem): item is { stat: string; tail: string; ar
    drawing alternates sides as you go down. */
 const ROLL: RollItem[] = [
   { line: 'Millions of people have no idea who Jesus is.' },
-  ...COUNTRY_STATS.map(({ country, stat, tail }, i): RollItem => ({
+  ...COUNTRY_STATS.map(({ country, stat, tail, source }, i): RollItem => ({
     stat,
     tail,
+    source,
     art: { kind: 'country', country, side: i % 2 === 0 ? 'left' : 'right' },
   })),
   {
@@ -168,6 +169,9 @@ function Slide({
                 <span className="text-ink">{item.stat}</span>
                 {' '}
                 <span className="text-body">{item.tail}</span>
+                {item.source ? (
+                  <span className="mt-3 block font-sans text-sm font-normal tracking-normal text-muted">Source: {item.source}</span>
+                ) : null}
               </>
             ) : (
               item.line
