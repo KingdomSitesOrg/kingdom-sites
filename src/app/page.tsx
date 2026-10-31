@@ -69,9 +69,9 @@ export default function Home() {
             <span className="block">Kingdom Sites will build it.</span>
             <span className="block">What do you want?</span>
           </h1>
-          <Link href="/portfolio" className="cn-hero-link mt-6 sm:mt-8">
-            See what others built <span aria-hidden="true">→</span>
-          </Link>
+          <a href="#latin" className="cn-hero-link mt-6 sm:mt-8">
+            See what others built <span aria-hidden="true">↓</span>
+          </a>
           <div className="mt-8 grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-end">
             <p className="cn-body max-w-[46ch]">
               I build websites and apps for businesses, churches and anyone who needs software. These screens are
@@ -81,9 +81,6 @@ export default function Home() {
               <Link href={INQUIRE_PATH} className="cn-btn">
                 {INQUIRE_CTA} <span aria-hidden="true">→</span>
               </Link>
-              <a href="#latin" className="cn-ghost">
-                See the portfolio <span aria-hidden="true">↓</span>
-              </a>
             </div>
           </div>
         </div>
