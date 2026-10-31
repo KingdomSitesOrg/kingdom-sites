@@ -30,7 +30,7 @@ export default {
   body: `
 ## A sub-heading
 
-A paragraph. Paragraphs are separated by a blank line. Links look like [the Prayer kit](/prayer) or [a source](https://example.com).
+A paragraph. Paragraphs are separated by a blank line. Links look like [the Prayer kit](/prayer) or [a source](https://example.com). Two asterisks on each side make words **bold**.
 
 - A list item
 - Another
