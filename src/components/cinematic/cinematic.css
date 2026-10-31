@@ -210,7 +210,7 @@ html:has(.cn-head) { background: #0b0b0c; }
 @media (min-width: 1000px) { .cn-credit { grid-template-columns: 1fr 1.1fr; align-items: end; gap: 64px; } }
 .cn-credit-text { margin: 0; font-size: clamp(1.1rem, 1.5vw, 1.4rem); line-height: 1.4; color: var(--fg); max-width: 40ch; }
 
-/* JAM Legio's partner line (LatinPartner.tsx): small, under the game's phones. */
+/* JAM Legio's partner line (LatinPartner.tsx) and Ruta's credit (RutaCredit.tsx): small, under the phones. */
 .cn-partner { margin: 28px 0 0; font-size: 14px; line-height: 1.5; color: var(--dim); max-width: 60ch; }
 .cn-partner a { color: var(--fg); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 4px; }
 .cn-partner a:hover { text-decoration-color: currentColor; }
