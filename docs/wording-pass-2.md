@@ -100,9 +100,9 @@ Thomas, 2026-10-31: "when you do, I wanted it renamed to just journal and then g
 | Menu (every page), Studio list | Journal, Guides (in that order) | Thomas's names and order |
 | Footer (every studio page, home and Portfolio) | Journal, Guides | Same |
 | /about, link line at the bottom | · Journal · Guides | Same |
-| /journal | The articles formerly under From the field: label "Journal", heading "The Journal.", intro "Missions, faith, the persecuted church, prayer, and the stories behind the projects." | /journal is the articles |
+| /journal | The articles formerly under From the field: label "Journal", heading "The Journal.", intro "Tech, Faith, missions, news and anything in between. My thoughts." (Thomas's words, 2026-10-31, T-403) | /journal is the articles |
 | /journal search title | Journal: missions, faith and the stories behind the work | The From the field title, renamed |
-| /journal description | The Journal of Thomas Klein: missions, faith, the persecuted church, prayer, and the stories behind the projects. | Same |
+| /journal description | The Journal of Thomas Klein. Tech, Faith, missions, news and anything in between. My thoughts. | Thomas's intro (T-403) |
 | /guides | Unchanged: the three guides and the five guide-type articles | /guides is the guides |
 | Line above each section page's heading | Journal (or Guides) | No more "Journal /" breadcrumb |
 | Line above each article's heading | Journal (or Guides) / By Thomas Klein · date · N min read | Same |
@@ -133,7 +133,7 @@ Thomas, 2026-10-31: "Journal, two shelves". One menu item and one page, **/journ
 | Site search, empty panel | Every page: the portfolio, the apps, the Journal, the blog and the ministries. | Was "guides" |
 | Intelligence's knowledge | The Journal, its two shelves and the three guide pages; "New articles appear on their own dates; point people to /journal for the latest." | So the chat can send people there; future articles are not named, so it cannot mention one before its date |
 
-**To decide:** the Journal heading, description and intro are mine, not Thomas's.
+**To decide:** the Journal heading is mine, not Thomas's. (Its intro and description are now his words, T-403.)
 
 ## T-388: Guides and From the field (article sections)
 
