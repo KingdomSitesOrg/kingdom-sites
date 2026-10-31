@@ -140,7 +140,7 @@ export type Block =
 /**
  * The plain Markdown an article is written in: paragraphs separated by a
  * blank line, "## " sub-headings, "- " lists, "1. " numbered lists, "> "
- * quotes, and [words](/path) links. Nothing else is needed or read.
+ * quotes, [words](/path) links and **bold** words. Nothing else is needed or read.
  */
 export function blocks(body: string): Block[] {
   return body
@@ -156,11 +156,13 @@ export function blocks(body: string): Block[] {
     })
 }
 
-/** The words alone, links read as their words. */
+/** The words alone, links read as their words, bold as plain words. */
 export function plainText(a: Article): string {
   return `${a.lede}\n${blocks(a.body)
     .map((b) => ('items' in b ? b.items.map((i) => `- ${i}`).join('\n') : b.type === 'h2' ? `\n${b.text}` : b.text))
-    .join('\n')}`.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .join('\n')}`
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
 }
 
 /** Words, for the "about N minutes" line. */
