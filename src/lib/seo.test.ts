@@ -110,7 +110,7 @@ describe('JAM Legio (T-382)', () => {
     expect(JAM_LEGIO_LD).toMatchObject({
       '@type': 'MobileApplication',
       name: 'JAM Legio',
-      url: 'https://kingdom-sites.com/latin-game',
+      url: 'https://kingdom-sites.com/jam-legio',
       operatingSystem: 'iOS, Android',
       offers: { price: '19.99', priceCurrency: 'USD' },
       publisher: { name: 'JAM with Latin LLC' },

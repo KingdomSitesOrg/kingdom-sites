@@ -17,7 +17,7 @@ const MENU: { title: string; links: { href: string; here?: string; label: string
       { href: '/portfolio/farzana-classroom', label: 'Farzana Classroom' },
       { href: '/ruta', label: 'Ruta' },
       { href: '/tap-to-tick', label: 'Tap to Tick' },
-      { href: '/latin-game', label: 'JAM Legio' },
+      { href: '/jam-legio', label: 'JAM Legio' },
       { href: '/portfolio/kcupg', label: 'KCUPG' },
       { href: '/portfolio/delta', label: 'Delta' },
     ],

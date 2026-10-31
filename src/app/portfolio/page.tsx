@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 
 const project = (slug: string) => PROJECTS.find((p) => p.slug === slug)!
 const farzana = project('farzana')
-const latin = project('latin-game')
+const latin = project('jam-legio')
 const ruta = project('ruta')
 const CASES = ['tap-to-tick', 'delta', 'kcupg', 'prayer', 'ministry', 'sign'].map(project)
 
@@ -32,7 +32,7 @@ const DEMO = 'Demo school'
 
 const SECTIONS = [
   { id: 'farzana', label: 'Farzana Classroom' },
-  { id: 'latin-game', label: 'JAM Legio' },
+  { id: 'jam-legio', label: 'JAM Legio' },
   { id: 'ruta', label: 'Ruta' },
   { id: 'more', label: 'And the rest' },
 ]
@@ -140,7 +140,7 @@ export default function Portfolio() {
       </section>
 
       {/* JAM Legio, the Latin learning game: phones at different depths. */}
-      <section id="latin-game" tabIndex={-1} aria-labelledby="latin-h" className="mt-32 scroll-mt-16 sm:mt-48">
+      <section id="jam-legio" tabIndex={-1} aria-labelledby="latin-h" className="mt-32 scroll-mt-16 sm:mt-48">
         <div className="cn-wrap">
           <p className="cn-kicker">02 · App</p>
           <h2 id="latin-h" className="cn-display cn-h2 mt-4">JAM Legio</h2>
@@ -158,7 +158,7 @@ export default function Portfolio() {
                 <a href={LATIN_STORES.googlePlay} className="cn-ghost cn-store">
                   <PlayStoreIcon /> Google Play
                 </a>
-                <Link href="/latin-game" className="cn-ghost">
+                <Link href="/jam-legio" className="cn-ghost">
                   See JAM Legio <span aria-hidden="true">→</span>
                 </Link>
               </div>

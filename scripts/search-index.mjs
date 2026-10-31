@@ -34,7 +34,7 @@ const LEGAL = [/\/privacy$/, /^\/terms$/]
 function sectionOf(route) {
   if (route === '/') return 'Home'
   if (LEGAL.some((re) => re.test(route))) return 'Legal'
-  if (/^\/(portfolio|ruta|latin-game|tap-to-tick)(\/|$)/.test(route)) return 'Portfolio'
+  if (/^\/(portfolio|ruta|jam-legio|tap-to-tick)(\/|$)/.test(route)) return 'Portfolio'
   if (/^\/guides(\/|$)/.test(route)) return 'Guides'
   if (/^\/blog(\/|$)/.test(route)) return 'Blog'
   if (/^\/(ministry|prayer)(\/|$)/.test(route)) return 'Ministries'
