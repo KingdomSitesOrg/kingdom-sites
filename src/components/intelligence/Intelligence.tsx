@@ -319,7 +319,6 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
       >
         <Spark />
         <span className="ki-square-title">Intelligence</span>
-        <span className="ki-square-sub">Ask anything about me and what I built</span>
       </button>
       )}
 
