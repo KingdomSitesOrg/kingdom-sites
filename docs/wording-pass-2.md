@@ -858,7 +858,7 @@ Most of the time, nobody thinks about who owns what. The site works, the app wor
 
 Then something changes. They move on, get busy, raise their prices, or simply stop answering. And it turns out the domain name was registered in their name, the app sits in their App Store account, and the code lives on their computer. Getting it back can take months, cost real money, or not be possible at all.
 
-I would rather you never find yourself there, with me or with anyone. That is part of what my line "Made to be used. Made to be yours." means.
+I would rather you never find yourself there, with me or with anyone.
 
 #### The checklist
 
