@@ -3,11 +3,11 @@ import { getPost } from '@/lib/blog'
 import { PROJECTS } from '@/lib/work'
 
 /**
- * The Journal (T-397): one page, /journal, holding the site's two article
- * sections (T-388) as two shelves: Guides (software questions) and From the
- * field (missions, faith, the persecuted church, prayer and project stories).
- * Each section also has its own page. Every article is one file in src/content/articles/, listed in its
- * index.ts; docs/adding-an-article.md says how to add one.
+ * The site's two article sections (T-388, T-399), each with its own page and
+ * menu item: the Journal, /journal (missions, faith, the persecuted church,
+ * prayer and the stories behind the projects), and Guides, /guides (software
+ * questions in plain words). Every article is one file in src/content/articles/,
+ * listed in its index.ts; docs/adding-an-article.md says how to add one.
  *
  * Scheduled publishing: an article dated in the future does not exist yet
  * anywhere on the site (index, sitemap, its own address, the chat) until its
@@ -15,11 +15,11 @@ import { PROJECTS } from '@/lib/work'
  * appears on the day without a deploy.
  */
 
-export type SectionId = 'guides' | 'from-the-field'
+export type SectionId = 'journal' | 'guides'
 
 export type Article = {
   section: SectionId
-  /** The address: /guides/<slug> or /from-the-field/<slug>. Lowercase words and hyphens. */
+  /** The address: /journal/<slug> or /guides/<slug>. Lowercase words and hyphens. */
   slug: string
   /** The page's one heading. A guide's is its question. */
   title: string
@@ -59,7 +59,20 @@ export type Section = {
   cta: { heading: string; text: string }
 }
 
+/** In menu order: Journal, then Guides. */
 export const SECTIONS: Record<SectionId, Section> = {
+  journal: {
+    id: 'journal',
+    path: '/journal',
+    name: 'Journal',
+    title: 'Journal: missions, faith and the stories behind the work',
+    description:
+      'The Journal of Thomas Klein: missions, faith, the persecuted church, prayer, and the stories behind the projects.',
+    heading: ['The ', 'Journal.'],
+    intro: 'Missions, faith, the persecuted church, prayer, and the stories behind the projects.',
+    empty: 'The first stories are on their way.',
+    cta: { heading: 'Want to talk about it?', text: 'Every message comes to me, and I reply personally.' },
+  },
   guides: {
     id: 'guides',
     path: '/guides',
@@ -75,32 +88,6 @@ export const SECTIONS: Record<SectionId, Section> = {
       text: 'Tell me about it in a few lines. You and I talk first; you get a quote once I understand the project.',
     },
   },
-  'from-the-field': {
-    id: 'from-the-field',
-    path: '/from-the-field',
-    name: 'From the field',
-    title: 'From the field: missions, faith and the stories behind the work',
-    description:
-      'Stories from the field: missions, faith, the persecuted church, prayer, and the stories behind the projects, written by Thomas Klein.',
-    heading: ['From the ', 'field.'],
-    intro: 'Missions, faith, the persecuted church, prayer, and the stories behind the projects.',
-    empty: 'The first stories are on their way.',
-    cta: { heading: 'Want to talk about it?', text: 'Every message comes to me, and I reply personally.' },
-  },
-}
-
-/** The page that holds both sections (T-397). */
-export const JOURNAL = {
-  path: '/journal',
-  name: 'Journal',
-  /** Search title. */
-  title: 'Journal: guides and stories from the field',
-  description:
-    'The Journal of Thomas Klein: plain-word guides to the software questions people ask, and stories from the field about missions, faith, prayer and the projects.',
-  heading: ['The ', 'Journal.'] as [plain: string, quiet: string],
-  intro: 'Guides to the software questions people ask me, and stories from the field: missions, faith, the persecuted church, prayer and the projects.',
-  /** The order of the shelves on /journal. */
-  shelves: ['guides', 'from-the-field'] as SectionId[],
 }
 
 /** Today's date in Rochester, Minnesota, as YYYY-MM-DD. */
@@ -198,12 +185,12 @@ export function formatDate(iso: string) {
 
 export type ArticleText = { path: string; title: string; text: string }
 
-const PATH = /^(guides|from-the-field|blog)\/([a-z0-9-]{1,100})$/
+const PATH = /^(journal|guides|blog)\/([a-z0-9-]{1,100})$/
 /** The longest article text sent with a question (the blog posts run to about 6,000 characters). */
 const MAX_CHARS = 12_000
 
 /**
- * The browser names the article by its path ("guides/…", "from-the-field/…"
+ * The browser names the article by its path ("journal/…", "guides/…"
  * or "blog/…"); the text always comes from here, never from the browser, and
  * an article not yet published is not found.
  */

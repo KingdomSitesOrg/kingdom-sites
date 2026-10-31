@@ -9,13 +9,13 @@ type Props = { params: Promise<{ slug: string }> }
 export const revalidate = 3600
 
 export function generateStaticParams() {
-  return publishedIn('from-the-field').map((a) => ({ slug: a.slug }))
+  return publishedIn('journal').map((a) => ({ slug: a.slug }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  return articleMetadata('from-the-field', (await params).slug)
+  return articleMetadata('journal', (await params).slug)
 }
 
-export default async function FromTheFieldArticle({ params }: Props) {
-  return <ArticlePage section="from-the-field" slug={(await params).slug} />
+export default async function JournalArticle({ params }: Props) {
+  return <ArticlePage section="journal" slug={(await params).slug} />
 }

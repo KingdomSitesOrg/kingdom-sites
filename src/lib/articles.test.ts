@@ -8,7 +8,7 @@ import type { Article } from '@/lib/articles'
    Rochester, Minnesota. */
 
 const FUTURE: Article = {
-  section: 'from-the-field',
+  section: 'journal',
   slug: 'not-yet',
   title: 'Not yet',
   description: 'A story for later.',
@@ -37,21 +37,21 @@ describe('scheduled publishing', () => {
   })
 
   it('keeps a future article out of the index, its address and the chat until then', () => {
-    expect(publishedIn('from-the-field', BEFORE).map((a) => a.slug)).not.toContain('not-yet')
-    expect(getArticle('from-the-field', 'not-yet', BEFORE)).toBeUndefined()
-    expect(findArticle('from-the-field/not-yet', BEFORE)).toBeNull()
+    expect(publishedIn('journal', BEFORE).map((a) => a.slug)).not.toContain('not-yet')
+    expect(getArticle('journal', 'not-yet', BEFORE)).toBeUndefined()
+    expect(findArticle('journal/not-yet', BEFORE)).toBeNull()
 
-    expect(publishedIn('from-the-field', ON).map((a) => a.slug)).toContain('not-yet')
-    expect(getArticle('from-the-field', 'not-yet', ON)?.title).toBe('Not yet')
-    expect(findArticle('from-the-field/not-yet', ON)?.title).toBe('Not yet')
+    expect(publishedIn('journal', ON).map((a) => a.slug)).toContain('not-yet')
+    expect(getArticle('journal', 'not-yet', ON)?.title).toBe('Not yet')
+    expect(findArticle('journal/not-yet', ON)?.title).toBe('Not yet')
   })
 
   it('keeps it out of the sitemap', () => {
     vi.useFakeTimers()
     vi.setSystemTime(BEFORE)
-    expect(sitemap().map((e) => e.url)).not.toContain('https://kingdom-sites.com/from-the-field/not-yet')
+    expect(sitemap().map((e) => e.url)).not.toContain('https://kingdom-sites.com/journal/not-yet')
     vi.setSystemTime(ON)
-    expect(sitemap().map((e) => e.url)).toContain('https://kingdom-sites.com/from-the-field/not-yet')
+    expect(sitemap().map((e) => e.url)).toContain('https://kingdom-sites.com/journal/not-yet')
     vi.useRealTimers()
   })
 

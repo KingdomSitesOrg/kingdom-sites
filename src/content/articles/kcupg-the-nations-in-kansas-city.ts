@@ -1,7 +1,7 @@
 import type { Article } from '@/lib/articles'
 
 export default {
-  section: 'from-the-field',
+  section: 'journal',
   slug: 'kcupg-the-nations-in-kansas-city',
   title: 'The nations are in Kansas City: what the KCUPG maps show',
   seoTitle: 'KCUPG: the 10/40 Window communities of Kansas City, mapped',

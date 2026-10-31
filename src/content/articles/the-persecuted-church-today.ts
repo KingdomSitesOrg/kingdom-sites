@@ -1,7 +1,7 @@
 import type { Article } from '@/lib/articles'
 
 export default {
-  section: 'from-the-field',
+  section: 'journal',
   slug: 'the-persecuted-church-today',
   title: 'The persecuted church today: what the numbers say, and what we can do',
   seoTitle: 'The persecuted church in 2026: the numbers, and how to pray',
@@ -27,7 +27,7 @@ Every January, Open Doors publishes its World Watch List: the 50 countries where
 - **4,849** Christians were murdered, by Open Doors' count for the year the list covers.
 - **3,632** churches and Christian properties were attacked.
 
-North Korea is first on the list again, followed by Somalia, Yemen, Sudan and Eritrea. Nigeria is seventh. Bangladesh, the country my film [Who Will Tell Them?](/from-the-field/why-i-made-who-will-tell-them) is about, is on the list too.
+North Korea is first on the list again, followed by Somalia, Yemen, Sudan and Eritrea. Nigeria is seventh. Bangladesh, the country my film [Who Will Tell Them?](/journal/why-i-made-who-will-tell-them) is about, is on the list too.
 
 Numbers like these are counted carefully, and they are still only what could be counted. Behind each one is a family, a congregation, a village.
 

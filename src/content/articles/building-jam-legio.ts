@@ -1,7 +1,7 @@
 import type { Article } from '@/lib/articles'
 
 export default {
-  section: 'from-the-field',
+  section: 'journal',
   slug: 'building-jam-legio',
   title: 'Building JAM Legio: a Latin game made in partnership with JAM with Latin',
   seoTitle: 'Building JAM Legio, a Latin learning game for iPhone and Android',

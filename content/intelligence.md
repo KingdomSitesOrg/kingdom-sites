@@ -82,7 +82,8 @@ Ministries, missionaries raising support and churches get their website built fo
 - The website for a project of SIM Bangladesh working with river-bank and urban communities in northern Bangladesh and Dhaka: village schools, vocational training and disaster response. Live at deltadevelopmentproject.com; the full story is at /portfolio/delta.
 
 ### Smaller sites and tools on kingdom-sites.com
-- **Journal** (/journal): Thomas's articles, on two shelves. **Guides** (/guides) are short answers, in plain words, to the questions people ask before buying software, among them Website or app? (/guides/website-or-app), How a quote works (/guides/how-a-quote-works) and What it costs to keep an app running (/guides/cost-to-keep-an-app-running). **From the field** (/from-the-field) holds stories about missions, faith, the persecuted church, prayer and the projects. New articles appear on their own dates; point people to /journal for the latest. Every article has a "Summarize this article" button that asks this chat for a short summary.
+- **Journal** (/journal): Thomas's articles about missions, faith, the persecuted church, prayer and the stories behind the projects.
+- **Guides** (/guides): short answers, in plain words, to the questions people ask before buying software, among them Website or app? (/guides/website-or-app), How a quote works (/guides/how-a-quote-works) and What it costs to keep an app running (/guides/cost-to-keep-an-app-running). New articles and guides appear on their own dates. Every article has a "Summarize this article" button that asks this chat for a short summary.
 - **Prayer** (/prayer): a kit for a weekly prayer meeting for the unreached: a verse, a story, prayer points and free guides to download.
 - **Ministry** (/ministry): short, hand-drawn walkthroughs of books of the Bible in English and Bangla, free to watch, download and share.
 - **Sign** (/sign): send a PDF agreement and have it signed online.

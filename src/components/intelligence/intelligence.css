@@ -292,7 +292,7 @@ html.ki-lock { overflow: hidden; }
   .ki-think { animation: ki-pulse 1.2s ease-in-out infinite alternate; }
 }
 
-/* "Summarize this article" on Journal articles and blog posts (T-388): the site's quiet pill. */
+/* "Summarize this article" on Journal articles, guides and blog posts (T-388): the site's quiet pill. */
 .ki-summarize { background: none; color: var(--fg, #efebe3); font: inherit; font-size: 14px; min-height: 44px; padding: 0 18px; gap: 8px; cursor: pointer; }
 .ki-summarize .ki-spark { width: 13px; height: 13px; flex: none; }
 .ki-summarize:focus-visible { outline: 2px solid var(--fg, #efebe3); outline-offset: 3px; }

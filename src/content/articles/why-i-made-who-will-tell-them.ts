@@ -1,7 +1,7 @@
 import type { Article } from '@/lib/articles'
 
 export default {
-  section: 'from-the-field',
+  section: 'journal',
   slug: 'why-i-made-who-will-tell-them',
   title: 'Why I made "Who Will Tell Them?"',
   seoTitle: 'Why I made "Who Will Tell Them?", a short film about Bangladesh',
