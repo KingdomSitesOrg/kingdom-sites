@@ -23,8 +23,9 @@ import {
   type SectionId,
 } from '@/lib/articles'
 
-/* The share picture: the article's photo, or its drawn cover as a PNG. */
+/* The share picture: the article's photo, its app's share card (phones), or its drawn cover as a PNG. */
 function shareImage(a: Article) {
+  if (a.phones) return { url: a.phones.share.photo, width: a.phones.share.width, height: a.phones.share.height, alt: a.phones.share.alt }
   return a.cover
     ? { url: a.cover.photo, width: a.cover.width, height: a.cover.height, alt: a.cover.alt }
     : { url: `/covers/${a.section}/${a.slug}`, width: 1200, height: 630, alt: a.title }

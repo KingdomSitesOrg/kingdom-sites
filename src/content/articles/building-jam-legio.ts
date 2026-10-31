@@ -15,6 +15,11 @@ export default {
     { label: 'JAM Legio on Google Play', href: 'https://play.google.com/store/apps/details?id=com.jamwithlatin.app' },
     { label: 'JAM with Latin', href: 'https://jamwithlatin.com' },
   ],
+  /* The app's own screens (T-403, Thomas). */
+  phones: {
+    shots: ['latinMap', 'latinCase', 'latinBoard'],
+    share: { photo: '/latin-game/share-card.png', alt: 'JAM Legio: march from Rōma to Gallia and learn real Latin', width: 1200, height: 630 },
+  },
   body: `
 ## What JAM Legio is
 

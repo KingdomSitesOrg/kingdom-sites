@@ -1,6 +1,6 @@
 import { ARTICLES } from '@/content/articles'
 import { getPost } from '@/lib/blog'
-import { PROJECTS } from '@/lib/work'
+import { PROJECTS, SHOTS } from '@/lib/work'
 
 /**
  * The site's two article sections (T-388, T-399), each with its own page and
@@ -36,6 +36,8 @@ export type Article = {
   keywords?: string[]
   /** A real photo already in public/ (the path from public, e.g. "/Photos/mission-field.jpg"); without one, a cover is drawn. */
   cover?: { photo: string; alt: string; width: number; height: number }
+  /** Instead of a cover: real app screenshots side by side, by their name in SHOTS (src/lib/work.ts), with a share picture (T-403). */
+  phones?: { shots: (keyof typeof SHOTS)[]; share: { photo: string; alt: string; width: number; height: number } }
   /** Portfolio projects to link (slugs from src/lib/work.ts). */
   related?: string[]
   /** Where public figures come from. */

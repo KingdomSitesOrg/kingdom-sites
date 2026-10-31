@@ -8,7 +8,6 @@
  */
 
 import { ARTICLES } from '@/content/articles'
-import { legioMapSvg } from '@/lib/covers-legio-map'
 
 export const COVER = { width: 1200, height: 630 }
 
@@ -130,16 +129,8 @@ const DRAWINGS: Draw[] = [
   },
 ]
 
-/* Covers drawn for one article: the JAM Legio march on a map of Italy. */
-const OWN: Record<string, () => string> = {
-  'journal/building-jam-legio': legioMapSvg,
-}
-
 /** The cover as an SVG document. */
 export function coverSvg(slug: string, section: string): string {
-  /* An article whose cover is drawn by hand rather than from its slug (T-403). */
-  const own = OWN[`${section}/${slug}`]
-  if (own) return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${COVER.width} ${COVER.height}" width="${COVER.width}" height="${COVER.height}" preserveAspectRatio="xMidYMid slice">${own()}</svg>`
   const rnd = random(`${section}/${slug}`)
   const tones = TONES[section] ?? TONES.guides
   const a = tones[Math.floor(rnd() * tones.length)]
