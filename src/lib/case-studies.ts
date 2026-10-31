@@ -115,7 +115,7 @@ export const CASE_STUDIES = {
         caption: 'What the teacher sees: every student, with search and filters.',
       },
     ],
-    related: ['jam-legio', 'kcupg', 'tap-to-tick'],
+    related: ['latin-game', 'kcupg', 'tap-to-tick'],
   },
 
   kcupg: {
