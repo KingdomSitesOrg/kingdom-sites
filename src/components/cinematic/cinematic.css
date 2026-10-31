@@ -116,6 +116,17 @@ html:has(.cn-head) { background: #0b0b0c; }
 .cn-depth > :nth-child(2) { transform: translateY(calc(200px - var(--p, 0) * 360px)); }
 .cn-depth > :nth-child(3) { transform: translateY(calc(40px - var(--p, 0) * 80px)); }
 .cn-depth > :nth-child(4) { transform: translateY(calc(160px - var(--p, 0) * 300px)); }
+/* Two desktop windows in a depth row (T-403): side by side with the phones' gap,
+   moving like the first two phones. On a phone the bars are smaller and drop the
+   product name, keeping the demo-school note. */
+.cn-depth-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 759px) {
+  .cn-depth-pair .cn-browser { --r: 9px; }
+  .cn-depth-pair .cn-browser-bar { height: 22px; gap: 4px; padding: 0 7px; }
+  .cn-depth-pair .cn-browser-bar i { width: 5px; height: 5px; }
+  .cn-depth-pair .cn-browser-url { display: none; }
+  .cn-depth-pair .cn-browser-note { height: 13px; padding: 0 5px; font-size: 7px; }
+}
 
 /* ---------- Lines that come on as they cross the middle ---------- */
 .cn-lit { opacity: calc(0.18 + min(1, max(0, (var(--p, 0) - 0.25) * 4)) * 0.82); transform: translateX(calc((1 - min(1, max(0, (var(--p, 0) - 0.2) * 3))) * -24px)); }

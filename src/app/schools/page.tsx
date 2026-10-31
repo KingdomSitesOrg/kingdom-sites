@@ -140,18 +140,13 @@ export default function Schools() {
             </div>
           </div>
         </div>
-        <div className="cn-wrap mt-16 grid gap-14 lg:grid-cols-2 lg:gap-10">
-          <Scroll>
-            <div className="cn-reveal">
-              <Browser shot={SHOTS.farzanaClass} product={PRODUCT} note={DEMO} />
-            </div>
-          </Scroll>
-          <Scroll>
-            <div className="cn-reveal lg:mt-32">
-              <Browser shot={SHOTS.farzanaDesk} product={PRODUCT} note={DEMO} />
-            </div>
-          </Scroll>
-        </div>
+        {/* Two windows side by side, drifting in like the phones in a depth row (T-403). */}
+        <Scroll className="cn-wrap mt-16 pb-6">
+          <div className="cn-depth cn-depth-pair mx-auto max-w-[1180px]">
+            <Browser shot={SHOTS.farzanaClass} product={PRODUCT} note={DEMO} />
+            <Browser shot={SHOTS.farzanaDesk} product={PRODUCT} note={DEMO} />
+          </div>
+        </Scroll>
       </section>
 
       <section id="latin" aria-labelledby="latin-h" className="mt-28 scroll-mt-20 sm:mt-40">
