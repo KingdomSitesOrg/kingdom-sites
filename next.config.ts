@@ -101,6 +101,10 @@ const nextConfig: NextConfig = {
       // the addresses are free when Guides come back.
       { source: '/guides', destination: '/', permanent: false },
       { source: '/guides/:slug*', destination: '/', permanent: false },
+      // The old Blog is off the site for now (T-401); the pages stay in the
+      // project, but its addresses land on the home page. Temporary (307).
+      { source: '/blog', destination: '/', permanent: false },
+      { source: '/blog/:slug*', destination: '/', permanent: false },
       { source: '/edu', destination: 'https://farzana.app', permanent: false },
       { source: '/edu/:path*', destination: 'https://farzana.app', permanent: false },
       ...FARZANA_PAGES.flatMap(([clean, here]) => [

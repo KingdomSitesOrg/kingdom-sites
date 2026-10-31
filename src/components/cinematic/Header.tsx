@@ -28,7 +28,6 @@ const MENU: { title: string; links: { href: string; here?: string; label: string
       { href: '/about', label: 'About' },
       { href: '/mission', label: 'Mission' },
       { href: '/ai-tooling', label: 'AI consultation' },
-      { href: '/blog', label: 'Blog' },
       { href: '/refer', label: 'Refer someone' },
     ],
   },
