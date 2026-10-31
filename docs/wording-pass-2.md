@@ -962,13 +962,7 @@ JAM Legio is built from one codebase for both iPhone and Android, so every new l
 
 Both stores review every release, and both keep changing their requirements as phones change. Keeping an app current is ongoing work, not a one-time job, which is why I build and maintain what I make.
 
-#### What I took from it
-
-Two things.
-
-First, a good partner makes better software. People who teach Latin know where students get stuck, and that is not something a developer can guess.
-
-Second, education software has to be right before it is fun. A game that teaches a wrong ending a thousand times is worse than no game at all. Getting the Latin right was never the part to rush.
+(T-403, Thomas 2026-10-31: the "What I took from it" section is removed.)
 
 If you run a school, a program or a ministry and have an idea for an app like this, I would be glad to [hear about it](/get-started). You can see more of my work on the [Portfolio](/portfolio).
 

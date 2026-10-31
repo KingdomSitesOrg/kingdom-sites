@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import ArticleText from '@/components/articles/ArticleText'
 import AuthorBox from '@/components/articles/AuthorBox'
 import Cover from '@/components/articles/Cover'
+import QuoteCard from '@/components/articles/QuoteCard'
 import SummarizeButton from '@/components/intelligence/SummarizeButton'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { SERVICE_CITY, SERVICE_COUNTRY, SERVICE_REGION_CODE } from '@/lib/local'
@@ -69,12 +70,13 @@ function Part({ block }: { block: Block }) {
   }
   if (block.type === 'quote') {
     return (
-      <blockquote className="border-l-[3px] border-accent/40 pl-5 text-[16.5px] font-medium leading-relaxed text-ink">
-        <p>
+      block.cite ? (
+        <QuoteCard text={block.text} cite={block.cite} />
+      ) : (
+        <blockquote className="border-l-[3px] border-accent/40 pl-5 text-[16.5px] font-medium leading-relaxed text-ink">
           <ArticleText text={block.text} />
-        </p>
-        {block.cite ? <footer className="mt-2 text-[15px] font-normal text-muted">— {block.cite}</footer> : null}
-      </blockquote>
+        </blockquote>
+      )
     )
   }
   if (block.type === 'ol') {
