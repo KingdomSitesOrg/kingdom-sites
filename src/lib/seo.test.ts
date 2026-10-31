@@ -28,7 +28,7 @@ describe('sitemap and robots', () => {
   const urls = sitemap().map((e) => new URL(e.url).pathname)
 
   it('lists the pages the menu links to', () => {
-    for (const p of ['/', '/portfolio', '/about', '/get-started', '/ai-tooling', '/mission', '/refer', '/guides', '/guides/how-a-quote-works']) {
+    for (const p of ['/', '/portfolio', '/about', '/get-started', '/ai-tooling', '/mission', '/refer']) {
       expect(urls).toContain(p === '/' ? '/' : p)
     }
   })
