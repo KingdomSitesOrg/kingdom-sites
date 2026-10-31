@@ -96,6 +96,11 @@ const nextConfig: NextConfig = {
       // Edu is now Farzana, at farzana.app. The film's end card and links
       // already shared say /edu or /farzana; temporary, since the pages move
       // from this project to the Farzana app itself at launch.
+      // Guides were live for one night (#54) and are back under review; anyone
+      // holding one of those links lands on the home page. Temporary (307), so
+      // the addresses are free when Guides come back.
+      { source: '/guides', destination: '/', permanent: false },
+      { source: '/guides/:slug*', destination: '/', permanent: false },
       { source: '/edu', destination: 'https://farzana.app', permanent: false },
       { source: '/edu/:path*', destination: 'https://farzana.app', permanent: false },
       ...FARZANA_PAGES.flatMap(([clean, here]) => [
