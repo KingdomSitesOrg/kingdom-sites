@@ -135,7 +135,7 @@ export type Block =
   | { type: 'h2'; text: string }
   | { type: 'ul'; items: string[] }
   | { type: 'ol'; items: string[] }
-  | { type: 'quote'; text: string }
+  | { type: 'quote'; text: string; cite?: string }
 
 /**
  * The plain Markdown an article is written in: paragraphs separated by a
@@ -151,7 +151,12 @@ export function blocks(body: string): Block[] {
       if (lines.length === 1 && lines[0].startsWith('## ')) return { type: 'h2' as const, text: lines[0].slice(3).trim() }
       if (lines.every((l) => /^[-*] /.test(l))) return { type: 'ul' as const, items: lines.map((l) => l.slice(2).trim()) }
       if (lines.every((l) => /^\d+\. /.test(l))) return { type: 'ol' as const, items: lines.map((l) => l.replace(/^\d+\.\s+/, '')) }
-      if (lines.every((l) => l.startsWith('>'))) return { type: 'quote' as const, text: lines.map((l) => l.replace(/^>\s?/, '')).join(' ') }
+      if (lines.every((l) => l.startsWith('>'))) {
+        /* A last line starting with "— " is who said it, shown under the quote. */
+        const said = lines.map((l) => l.replace(/^>\s?/, ''))
+        const cite = said.length > 1 && said[said.length - 1].startsWith('— ') ? said.pop()!.slice(2).trim() : undefined
+        return { type: 'quote' as const, text: said.join(' '), ...(cite ? { cite } : {}) }
+      }
       return { type: 'p' as const, text: lines.join(' ') }
     })
 }
@@ -159,7 +164,7 @@ export function blocks(body: string): Block[] {
 /** The words alone, links read as their words, bold as plain words. */
 export function plainText(a: Article): string {
   return `${a.lede}\n${blocks(a.body)
-    .map((b) => ('items' in b ? b.items.map((i) => `- ${i}`).join('\n') : b.type === 'h2' ? `\n${b.text}` : b.text))
+    .map((b) => ('items' in b ? b.items.map((i) => `- ${i}`).join('\n') : b.type === 'h2' ? `\n${b.text}` : b.type === 'quote' && b.cite ? `${b.text} (${b.cite})` : b.text))
     .join('\n')}`
     .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
     .replace(/\*\*([^*]+)\*\*/g, '$1')
