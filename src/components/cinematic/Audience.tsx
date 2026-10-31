@@ -129,7 +129,7 @@ export function Close({
         <a href={CONTACT_MAILTO} className="text-[var(--fg)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-current">
           {CONTACT_EMAIL}
         </a>
-        . Every enquiry comes to me, and I reply personally.
+        .
       </p>
       {links?.length ? (
         <p className="cn-dim mt-8 text-sm">

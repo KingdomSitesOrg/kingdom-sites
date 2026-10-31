@@ -93,11 +93,10 @@ html.ki-lock { overflow: hidden; }
   animation: ki-edge 1.4s linear infinite;
 }
 
-.ki-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 16px 12px 14px 20px; border-bottom: 1px solid var(--line); }
+.ki-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 12px 14px 20px; border-bottom: 1px solid var(--line); }
 .ki-title { display: flex; align-items: center; gap: 8px; margin: 0; font-variation-settings: 'wdth' 72; font-weight: 600; font-size: 24px; letter-spacing: -0.01em; line-height: 1; }
 .ki-title .ki-spark { width: 14px; height: 14px; }
-.ki-sub { margin: 6px 0 0; font-size: 13px; color: var(--dim); }
-.ki-close { flex: none; display: grid; place-items: center; width: 44px; height: 44px; margin-top: -8px; border-radius: 999px; color: var(--body); background: none; border: 0; cursor: pointer; transition: background-color 0.2s, color 0.2s; }
+.ki-close { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 999px; color: var(--body); background: none; border: 0; cursor: pointer; transition: background-color 0.2s, color 0.2s; }
 .ki-close:hover { background: rgba(239, 235, 227, 0.08); color: var(--fg); }
 .ki-close:focus-visible { outline: 2px solid var(--fg); outline-offset: -2px; }
 
@@ -202,7 +201,6 @@ html.ki-lock { overflow: hidden; }
   .ki:not(.ki--inline)[data-keys] .ki-panel { max-height: min(calc(var(--ki-vh) - 8px), 300px); }
   .ki-head { align-items: center; padding: 0 2px 0 14px; }
   .ki-title { font-size: 17px; }
-  .ki-sub { display: none; }
   .ki-close { margin-top: 0; }
   .ki-log { flex: 1 1 auto; padding: 8px 14px 4px; gap: 8px; font-size: 14px; line-height: 1.45; -webkit-overflow-scrolling: touch; }
   .ki-long { display: none; }
@@ -253,14 +251,12 @@ html.ki-lock { overflow: hidden; }
 }
 .ki--inline .ki-head { padding: 12px 16px; align-items: center; }
 .ki--inline .ki-title { font-size: 19px; }
-.ki--inline .ki-sub { display: block; margin-top: 4px; }
 /* The page around it already says what this is: one short line, so the pills fit above the question box. */
 .ki--inline .ki-long { display: none; }
 .ki--inline .ki-short { display: inline; }
 @media (max-width: 759px), (max-height: 520px) {
   .ki--inline .ki-panel { height: 360px; }
   .ki--inline .ki-title { font-size: 17px; }
-  .ki--inline .ki-sub { display: none; }
   .ki--inline .ki-head { padding: 8px 14px; }
   .ki--inline .ki-log { flex: 1; }
   .ki--inline .ki-foot { padding-bottom: 8px; }

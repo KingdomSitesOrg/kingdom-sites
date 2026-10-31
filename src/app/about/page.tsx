@@ -53,8 +53,7 @@ export default function About() {
         </div>
 
         <div className="lg:col-span-7">
-          <p className="cn-kicker">Engineering: design, build, ship, maintain</p>
-          <h2 className="cn-display cn-h3 mt-3">
+          <h2 className="cn-display cn-h3">
             Thomas Klein
           </h2>
           <p className="mt-5 text-pretty text-base leading-relaxed text-body sm:text-lg">
