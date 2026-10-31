@@ -129,10 +129,6 @@ export default function About() {
           <Link href="/ai-tooling" className="underline underline-offset-4">
             AI consultation
           </Link>
-          {' · '}
-          <Link href="/guides" className="underline underline-offset-4">
-            Guides
-          </Link>
         </p>
       </div>
     </div>
