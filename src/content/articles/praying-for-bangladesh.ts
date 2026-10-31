@@ -1,7 +1,7 @@
 import type { Article } from '@/lib/articles'
 
 export default {
-  section: 'from-the-field',
+  section: 'journal',
   slug: 'praying-for-bangladesh',
   title: 'How to pray for the unreached in Bangladesh',
   seoTitle: 'Praying for the unreached in Bangladesh',
@@ -19,7 +19,7 @@ export default {
   body: `
 ## The numbers
 
-These are the figures my film [Who Will Tell Them?](/from-the-field/why-i-made-who-will-tell-them) opens with, checked again on October 30, 2026:
+These are the figures my film [Who Will Tell Them?](/journal/why-i-made-who-will-tell-them) opens with, checked again on October 30, 2026:
 
 - **176,513,000** people in Bangladesh (Joshua Project)
 - **277** people groups, of which **255** are unreached (Joshua Project)

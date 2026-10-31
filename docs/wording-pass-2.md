@@ -91,7 +91,27 @@ Three new pages, one shape (Thomas, T-389): the problem, what I built, how long 
 - **KCUPG quote:** Logan Hazlet will leave a Google review. Once it exists, his words can be quoted on /portfolio/kcupg ("What the client says", the `quote` field in `src/lib/case-studies.ts`), **with his OK**, credited "Logan Hazlet, full-time missionary, Kansas City, MO".
 - Any other quote or result goes in the same way: add it to that project in `src/lib/case-studies.ts` and the part appears.
 
-## T-397: the Journal (one page, two shelves)
+## T-399: Journal and Guides, two sections
+
+Thomas, 2026-10-31: "when you do, I wanted it renamed to just journal and then guides." Replaces T-397's one page with two shelves. The name "From the field" is gone.
+
+| Where | New text | Why |
+|---|---|---|
+| Menu (every page), Studio list | Journal, Guides (in that order) | Thomas's names and order |
+| Footer (every studio page, home and Portfolio) | Journal, Guides | Same |
+| /about, link line at the bottom | · Journal · Guides | Same |
+| /journal | The articles formerly under From the field: label "Journal", heading "The Journal.", intro "Missions, faith, the persecuted church, prayer, and the stories behind the projects." | /journal is the articles |
+| /journal search title | Journal: missions, faith and the stories behind the work | The From the field title, renamed |
+| /journal description | The Journal of Thomas Klein: missions, faith, the persecuted church, prayer, and the stories behind the projects. | Same |
+| /guides | Unchanged: the three guides and the five guide-type articles | /guides is the guides |
+| Line above each section page's heading | Journal (or Guides) | No more "Journal /" breadcrumb |
+| Line above each article's heading | Journal (or Guides) / By Thomas Klein · date · N min read | Same |
+| /from-the-field and /from-the-field/(article) | Redirect to /journal and /journal/(article) | Old preview links keep working |
+| Site search, result label | Journal for /journal and its articles, Guides for /guides and the guides | Two sections |
+| Site search, empty panel | Every page: the portfolio, the apps, the Journal, the guides, the blog and the ministries. | Names both |
+| Intelligence's knowledge | Journal (/journal) and Guides (/guides) as two entries | So the chat sends people to the right one |
+
+## T-397: the Journal (one page, two shelves) — replaced by T-399 above
 
 Thomas, 2026-10-31: "Journal, two shelves". One menu item and one page, **/journal**, holding Guides and From the field as two labelled groups. /guides and /from-the-field stay as each shelf's own page, so every existing link still works. The blog (/blog, the Rochester business notes) is not part of the Journal and keeps its own menu item.
 
@@ -116,6 +136,8 @@ Thomas, 2026-10-31: "Journal, two shelves". One menu item and one page, **/journ
 **To decide:** the Journal heading, description and intro are mine, not Thomas's.
 
 ## T-388: Guides and From the field (article sections)
+
+(T-399: From the field is now the Journal, at /journal.)
 
 Two article sections, sharing one design:
 
@@ -295,20 +317,20 @@ Why: Answer page 5: only public figures, each with its source link on the page (
 
 ## T-392: the first ten articles (one every 3 days)
 
-Ten articles, alternating Guides and From the field, every 3 days from the day after next week's deploy (assumed Friday, November 6, 2026). Each goes live by itself at midnight Rochester time on its date; nothing is visible before then (a Vercel preview shows them all early, for review). To shift the whole calendar, change the `published` line in each file in `src/content/articles/`.
+Ten articles, alternating Guides and Journal, every 3 days from the day after next week's deploy (assumed Friday, November 6, 2026). Each goes live by itself at midnight Rochester time on its date; nothing is visible before then (a Vercel preview shows them all early, for review). To shift the whole calendar, change the `published` line in each file in `src/content/articles/`.
 
 | # | Date | Section | Title | Kind |
 |---|---|---|---|---|
 | 1 | Sat Nov 7 | Guides | What is an MVP, and why should you start small? | Guide |
-| 2 | Tue Nov 10 | From the field | Why I made "Who Will Tell Them?" | Story |
+| 2 | Tue Nov 10 | Journal | Why I made "Who Will Tell Them?" | Story |
 | 3 | Fri Nov 13 | Guides | AI superintelligence: the good, the dangers, and what I actually think | **Opinion: read closely** |
-| 4 | Mon Nov 16 | From the field | The persecuted church today: what the numbers say, and what we can do | News (Open Doors, ICC, Day of Prayer on Nov 1) |
+| 4 | Mon Nov 16 | Journal | The persecuted church today: what the numbers say, and what we can do | News (Open Doors, ICC, Day of Prayer on Nov 1) |
 | 5 | Thu Nov 19 | Guides | A new AI model is out. What does it mean for a small team? | News (Anthropic's Claude 5.5 models) |
-| 6 | Sun Nov 22 | From the field | How to pray for the unreached in Bangladesh | Prayer |
+| 6 | Sun Nov 22 | Journal | How to pray for the unreached in Bangladesh | Prayer |
 | 7 | Wed Nov 25 | Guides | How long does it take to build an app? | Guide |
-| 8 | Sat Nov 28 | From the field | The nations are in Kansas City: what the KCUPG maps show | Story |
+| 8 | Sat Nov 28 | Journal | The nations are in Kansas City: what the KCUPG maps show | Story |
 | 9 | Tue Dec 1 | Guides | Do you own your website or app? What to make sure is in your name | Guide |
-| 10 | Fri Dec 4 | From the field | Building JAM Legio: a Latin game made in partnership with JAM with Latin | Story |
+| 10 | Fri Dec 4 | Journal | Building JAM Legio: a Latin game made in partnership with JAM with Latin | Story |
 
 **To decide:**
 - **#3 is your opinion piece.** It is built only from your four points (a few dangers and bad things along the way; beneficial in the end and taken fairly seriously; a little fear-mongering that also helps big tech companies, but some truth in it; your grandma's "moderation in everything"). It quotes one sentence from Anthropic's 2023 "Core views on AI safety" and Philippians 4:5 (KJV), and adds two lines of faith you did not dictate: "God is sovereign over the world, including the parts of it we invent" and "What people most need is not more intelligence but a new heart." Cut anything that is not yours.

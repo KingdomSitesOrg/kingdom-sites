@@ -265,7 +265,7 @@ function SearchPanel({ onClose }: { onClose: (returnFocus: boolean) => void }) {
           ) : typed && loaded.state === 'loading' ? (
             <p className="ss-hint">Searching…</p>
           ) : (
-            <p className="ss-hint">Every page: the portfolio, the apps, the Journal, the blog and the ministries.</p>
+            <p className="ss-hint">Every page: the portfolio, the apps, the Journal, the guides, the blog and the ministries.</p>
           )}
         </div>
 

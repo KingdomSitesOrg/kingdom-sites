@@ -1,5 +1,5 @@
 import { ARTICLES } from '@/content/articles'
-import { JOURNAL, SECTIONS, articlePath, today } from '@/lib/articles'
+import { SECTIONS, articlePath, today } from '@/lib/articles'
 import { SITE_URL } from '@/lib/seo'
 
 /**
@@ -11,7 +11,7 @@ import { SITE_URL } from '@/lib/seo'
  *   every page's words with the live site's and writes the changed addresses
  *   to /indexnow.json; the next daily run sends them.
  * - A scheduled article's day: on its publish (or update) date the article,
- *   its shelf, the Journal page and the sitemap are sent.
+ *   its section's page (Journal or Guides) and the sitemap are sent.
  *
  * The daily run is the Vercel cron in vercel.json, calling /api/indexnow.
  * The key is public by design: IndexNow checks it against the file
@@ -30,7 +30,7 @@ export function dueToday(now = new Date()): string[] {
   const due = ARTICLES.filter((a) => a.published === day || a.updated === day)
   if (due.length === 0) return []
   return [
-    ...new Set([...due.map(articlePath), ...due.map((a) => SECTIONS[a.section].path), JOURNAL.path, '/sitemap.xml']),
+    ...new Set([...due.map(articlePath), ...due.map((a) => SECTIONS[a.section].path), '/sitemap.xml']),
   ]
 }
 

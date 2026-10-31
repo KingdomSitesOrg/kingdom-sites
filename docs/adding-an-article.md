@@ -1,21 +1,21 @@
-# Adding an article to the Journal
+# Adding an article to the Journal or Guides
 
-The Journal (`/journal`, T-397) is one page with two shelves, the site's two article sections (T-388):
+The site has two article sections (T-388, T-399), each with its own page and menu item, in this order:
 
+- **Journal** at `/journal`: missions, faith, the persecuted church, the Bangladesh film, prayer, KCUPG and other project stories.
 - **Guides** at `/guides`: software questions, made easy to understand.
-- **From the field** at `/from-the-field`: missions, faith, the persecuted church, the Bangladesh film, prayer, KCUPG and other project stories.
 
-Each article is one file in `src/content/articles/`, listed once in `src/content/articles/index.ts`. The Journal shows the newest article from either shelf large, then each shelf's articles with their covers. Each section's own page (`/guides`, `/from-the-field`) shows its newest article large, with its cover, and the older ones in a grid below, newest first. Every article page gets the author box, the "Summarize this article" button, its structured data, a share card and a place in the sitemap automatically.
+Each article is one file in `src/content/articles/`, listed once in `src/content/articles/index.ts`. Each section's page (`/journal`, `/guides`) shows its newest article large, with its cover, and the older ones in a grid below, newest first. Every article page gets the author box, the "Summarize this article" button, its structured data, a share card and a place in the sitemap automatically.
 
 ## 1. Write the file
 
-`src/content/articles/<slug>.ts`. The slug is the address, in lowercase words joined by hyphens: `/from-the-field/<slug>`.
+`src/content/articles/<slug>.ts`. The slug is the address, in lowercase words joined by hyphens: `/journal/<slug>` or `/guides/<slug>`.
 
 ```ts
 import type { Article } from '@/lib/articles'
 
 export default {
-  section: 'from-the-field', // or 'guides'
+  section: 'journal', // or 'guides'
   slug: 'praying-for-bangladesh',
   title: 'Why we pray for Bangladesh every week', // the page's one heading
   seoTitle: 'Praying for Bangladesh', // optional: the search title, if it should differ from the heading
@@ -52,14 +52,14 @@ Add two lines to `src/content/articles/index.ts`: the import at the top, and the
 ## 3. The cover
 
 - **A photo:** only a real photo already in `public/` (never stock pictures). Give its path from `public/`, its width and height in pixels (`file public/Photos/x.jpg` shows them), and alt text that says what it shows.
-- **No photo:** leave `cover` out. A simple abstract picture is drawn from the slug, in the site's colours: warm tones for From the field, cooler ones for Guides. Each slug gets its own picture, and it stays the same from build to build. If you change the slug, the picture changes too.
+- **No photo:** leave `cover` out. A simple abstract picture is drawn from the slug, in the site's colours: warm tones for the Journal, cooler ones for Guides. Each slug gets its own picture, and it stays the same from build to build. If you change the slug, the picture changes too.
 - The cover is also the share card. A drawn cover is served as a PNG at `/covers/<section>/<slug>`.
 
 ## 4. Scheduled publishing
 
 `published` is the day the article goes live, at midnight in Rochester, Minnesota (America/Chicago). Until then it is not on its index, in the sitemap, at its address (which returns 404), as a share card, or in the chat's "Summarize this article". The section pages, the article pages and the sitemap are checked again every hour, so the article appears within an hour of midnight on its date, with no deploy.
 
-On its date (and on its `updated` date) a daily job tells Bing and the other IndexNow search engines about the article, its shelf, the Journal and the sitemap, around 1 to 2 a.m. Rochester time. A production deploy's new and changed pages go out the same way, at the next daily run. Production only; see `src/lib/indexnow.ts`.
+On its date (and on its `updated` date) a daily job tells Bing and the other IndexNow search engines about the article, its section's page and the sitemap, around 1 to 2 a.m. Rochester time. A production deploy's new and changed pages go out the same way, at the next daily run. Production only; see `src/lib/indexnow.ts`.
 
 ## 5. Check it
 

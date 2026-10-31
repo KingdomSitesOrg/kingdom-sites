@@ -96,6 +96,9 @@ const nextConfig: NextConfig = {
       // Edu is now Farzana, at farzana.app. The film's end card and links
       // already shared say /edu or /farzana; temporary, since the pages move
       // from this project to the Farzana app itself at launch.
+      // "From the field" is the Journal now (T-399).
+      { source: '/from-the-field', destination: '/journal', permanent: true },
+      { source: '/from-the-field/:slug', destination: '/journal/:slug', permanent: true },
       { source: '/edu', destination: 'https://farzana.app', permanent: false },
       { source: '/edu/:path*', destination: 'https://farzana.app', permanent: false },
       ...FARZANA_PAGES.flatMap(([clean, here]) => [

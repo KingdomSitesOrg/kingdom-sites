@@ -133,6 +133,10 @@ export default function About() {
           <Link href="/journal" className="underline underline-offset-4">
             Journal
           </Link>
+          {' · '}
+          <Link href="/guides" className="underline underline-offset-4">
+            Guides
+          </Link>
         </p>
       </div>
     </div>

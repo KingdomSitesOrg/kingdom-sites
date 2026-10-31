@@ -1,18 +1,20 @@
 import type { Metadata } from 'next'
-import JournalIndex from '@/components/articles/JournalIndex'
-import { JOURNAL } from '@/lib/articles'
+import ArticleIndex from '@/components/articles/ArticleIndex'
+import { SECTIONS } from '@/lib/articles'
 import { shareCard } from '@/lib/seo'
+
+const SECTION = SECTIONS.journal
 
 /* Checked again every hour, so an article appears on its publish date without a deploy (T-388). */
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: JOURNAL.title,
-  description: JOURNAL.description,
-  alternates: { canonical: JOURNAL.path },
-  ...shareCard(`${JOURNAL.name} — Kingdom Sites`, JOURNAL.description, JOURNAL.path),
+  title: SECTION.title,
+  description: SECTION.description,
+  alternates: { canonical: SECTION.path },
+  ...shareCard(`${SECTION.name} — Kingdom Sites`, SECTION.description, SECTION.path),
 }
 
-export default function Journal() {
-  return <JournalIndex />
+export default function JournalIndex() {
+  return <ArticleIndex section="journal" />
 }

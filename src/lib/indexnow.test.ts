@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { ARTICLES } from '@/content/articles'
-import { articlePath } from '@/lib/articles'
+import { SECTIONS, articlePath } from '@/lib/articles'
 import { INDEXNOW_KEY, changedSinceDeploy, dueToday, indexNowBody } from '@/lib/indexnow'
 import { GET } from '@/app/api/indexnow/route'
 
@@ -30,7 +30,7 @@ describe('IndexNow', () => {
     const a = ARTICLES.find((x) => x.published > '2026-10-31')!
     const day = new Date(`${a.published}T12:00:00-06:00`)
     const before = new Date(day.getTime() - 24 * 60 * 60 * 1000)
-    expect(dueToday(day)).toEqual(expect.arrayContaining([articlePath(a), '/journal', '/sitemap.xml']))
+    expect(dueToday(day)).toEqual(expect.arrayContaining([articlePath(a), SECTIONS[a.section].path, '/sitemap.xml']))
     expect(dueToday(before)).not.toContain(articlePath(a))
   })
 
