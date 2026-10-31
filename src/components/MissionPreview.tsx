@@ -67,6 +67,7 @@ export default function MissionPreview() {
               >
                 <span className="text-[#f0b48c]">{current.stat}</span>{' '}
                 <span>{current.tail}</span>
+                {current.source ? <span className="mt-1 block text-xs font-normal tracking-normal text-white/60">Source: {current.source}</span> : null}
               </p>
             </div>
 

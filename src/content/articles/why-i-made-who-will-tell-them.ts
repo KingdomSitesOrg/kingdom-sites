@@ -28,7 +28,7 @@ That last question is the whole film. Not as an accusation, but as an honest que
 
 Bangladesh is a country of rivers and crowded streets, and of lives as full and complicated as our own. It is also one of the places where the gap is widest between how many people live there and how many have ever had someone explain the gospel to them in their own language.
 
-Joshua Project, a research ministry that tracks people groups, counts about 176.5 million people in Bangladesh, in 277 people groups. It lists 255 of those groups as unreached, and 174,587,000 people as living in them: 98.9% of the people it tracks there. Fewer than 1 in 100 people in Bangladesh follow Jesus: 0.5% by Joshua Project's count, 0.7% by Operation World's.
+Joshua Project, a research ministry that tracks people groups, counts about 176.5 million people in Bangladesh, in 277 people groups. It lists 255 of those groups as unreached, and 174,587,000 people as living in them: 98.9% of the people it tracks there. Fewer than 1 in 100 people in Bangladesh follow Jesus: 0.5%, by Joshua Project's count.
 
 Operation World also says this: "The Bengali, or Shaikh, people (240 million globally) remain the largest unreached people group in the world."
 

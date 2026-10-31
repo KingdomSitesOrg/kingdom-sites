@@ -24,7 +24,7 @@ These are the figures my film [Who Will Tell Them?](/journal/why-i-made-who-will
 - **176,513,000** people in Bangladesh (Joshua Project)
 - **277** people groups, of which **255** are unreached (Joshua Project)
 - **174,587,000** people live in unreached people groups: **98.9%** (Joshua Project)
-- Fewer than **1 in 100** follow Jesus: **0.5%** Christian by Joshua Project's count, **0.7%** by Operation World's, with **0.4%** evangelical
+- Fewer than **1 in 100** follow Jesus: **0.5%** Christian (Joshua Project)
 
 "Unreached" describes a community where the local church lacks the numbers and resources to bring the gospel to its own people. It does not mean no one has ever heard. It means that, for most people, there is no church nearby that speaks their language and lives their culture, and no one likely to explain the gospel to them.
 

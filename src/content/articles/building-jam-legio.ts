@@ -36,14 +36,11 @@ Alexis Carrico, the leader and founder of [JAM with Latin](https://jamwithlatin.
 > "You are a GENIUS. My 14 year old is doing so much Latin to "beat" me in the leader boards in your new game app! Thank you!! (It is also helping my Latin...)"
 > — Susanna
 
-## Teaching the grammar teachers teach
+## Good Latin, built well
 
-The thing I cared about most was that the game teaches real Latin, not a simplified version that a teacher would have to correct later.
+JAM with Latin cares a great deal about the quality of the learning, and I care about the quality of the software. Together that made an app that teaches classical Latin step by step: it starts with basic words and builds up to reading full Latin sentences.
 
-- **Correct macrons throughout**, so students learn each word as it is actually written.
-- **Real case forms.** In the case challenges, every choice is a correctly declined form of the noun, not a near-miss invented to trick you. You have to know which case is needed, not spot the typo.
-- **The classical order:** declensions, then verbs, then sentences. That way it sits alongside Henle, Classical Conversations and other classical curricula rather than competing with them.
-- **Sentences built only from words you have already learned.** From Vērōna on, students read short Latin sentences, and nothing in them is new.
+The leaderboard adds something a textbook cannot: a reason to compete. When students can see who is ahead, they want to catch up, and every coin they chase is more Latin practised. That is what Susanna describes above. The competition is what drives the learning.
 
 ## Making practice feel like a game
 

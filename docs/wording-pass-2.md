@@ -335,7 +335,7 @@ Ten articles, alternating Guides and Journal, every 3 days from the day after ne
 **To decide:**
 - **#3 is your opinion piece.** It is built only from your four points (a few dangers and bad things along the way; beneficial in the end and taken fairly seriously; a little fear-mongering that also helps big tech companies, but some truth in it; your grandma's "moderation in everything"). It quotes one sentence from Anthropic's 2023 "Core views on AI safety" and Philippians 4:5 (KJV), and adds two lines of faith you did not dictate: "God is sovereign over the world, including the parts of it we invent" and "What people most need is not more intelligence but a new heart." Cut anything that is not yours.
 - **The two news pieces** are written so they stay true after their date: #4 uses the 2026 World Watch List (current until Open Doors publishes the 2027 list in January) and looks back on the Day of Prayer (Sunday, November 1, per Open Doors Australia); #5 names the Claude 5.5 release dates and ends with how to judge the next model. Neither copies the sources: quotes are one sentence at most, credited and linked.
-- **Bangladesh figures differ by source.** The articles use Joshua Project (0.5% Christian) and Operation World (0.7% Christian, 0.4% evangelical), checked October 30, 2026, the same as the film. The Mission page's line "About 0.4% of Bangladesh is Christian" matches Operation World's *evangelical* figure, not its Christian one. You said not to change the Mission page, so it is left as it is.
+- **Bangladesh figure (decided by Thomas, 2026-10-31, T-403):** one figure everywhere, Joshua Project's current 0.5% Christian (checked October 31, 2026), cited: both articles and the Mission page's "About 0.5% of Bangladesh is Christian" (was 0.4%), with "Source: Joshua Project, 2026" under it on the Mission page and the home page's Mission card.
 - **JAM with Latin is named only in #10**, as partner, as the brief allows. Elsewhere it is only JAM Legio.
 - **Not written yet:** IGSL training and Farzana Classroom's story. Nothing on the site or in the repos says enough about either to write them without inventing; they need a few facts from you.
 - **New claims in your voice that no page says yet** (check each is true):
@@ -438,7 +438,7 @@ That last question is the whole film. Not as an accusation, but as an honest que
 
 Bangladesh is a country of rivers and crowded streets, and of lives as full and complicated as our own. It is also one of the places where the gap is widest between how many people live there and how many have ever had someone explain the gospel to them in their own language.
 
-Joshua Project, a research ministry that tracks people groups, counts about 176.5 million people in Bangladesh, in 277 people groups. It lists 255 of those groups as unreached, and 174,587,000 people as living in them: 98.9% of the people it tracks there. Fewer than 1 in 100 people in Bangladesh follow Jesus: 0.5% by Joshua Project's count, 0.7% by Operation World's.
+Joshua Project, a research ministry that tracks people groups, counts about 176.5 million people in Bangladesh, in 277 people groups. It lists 255 of those groups as unreached, and 174,587,000 people as living in them: 98.9% of the people it tracks there. Fewer than 1 in 100 people in Bangladesh follow Jesus: 0.5%, by Joshua Project's count.
 
 Operation World also says this: "The Bengali, or Shaikh, people (240 million globally) remain the largest unreached people group in the world."
 
@@ -676,7 +676,7 @@ These are the figures my film [Who Will Tell Them?](/from-the-field/why-i-made-w
 - **176,513,000** people in Bangladesh (Joshua Project)
 - **277** people groups, of which **255** are unreached (Joshua Project)
 - **174,587,000** people live in unreached people groups: **98.9%** (Joshua Project)
-- Fewer than **1 in 100** follow Jesus: **0.5%** Christian by Joshua Project's count, **0.7%** by Operation World's, with **0.4%** evangelical
+- Fewer than **1 in 100** follow Jesus: **0.5%** Christian (Joshua Project)
 
 "Unreached" describes a community where the local church lacks the numbers and resources to bring the gospel to its own people. It does not mean no one has ever heard. It means that, for most people, there is no church nearby that speaks their language and lives their culture, and no one likely to explain the gospel to them.
 
@@ -937,14 +937,13 @@ Alexis Carrico, the leader and founder of [JAM with Latin](https://jamwithlatin.
 
 (T-403, Thomas 2026-10-31: his words, replacing the whole "The partnership" section; the quote is a customer's, verbatim.)
 
-#### Teaching the grammar teachers teach
+#### Good Latin, built well
 
-The thing I cared about most was that the game teaches real Latin, not a simplified version that a teacher would have to correct later.
+JAM with Latin cares a great deal about the quality of the learning, and I care about the quality of the software. Together that made an app that teaches classical Latin step by step: it starts with basic words and builds up to reading full Latin sentences.
 
-- **Correct macrons throughout**, so students learn each word as it is actually written.
-- **Real case forms.** In the case challenges, every choice is a correctly declined form of the noun, not a near-miss invented to trick you. You have to know which case is needed, not spot the typo.
-- **The classical order:** declensions, then verbs, then sentences. That way it sits alongside Henle, Classical Conversations and other classical curricula rather than competing with them.
-- **Sentences built only from words you have already learned.** From Vērōna on, students read short Latin sentences, and nothing in them is new.
+The leaderboard adds something a textbook cannot: a reason to compete. When students can see who is ahead, they want to catch up, and every coin they chase is more Latin practised. That is what Susanna describes above. The competition is what drives the learning.
+
+(T-403, Thomas 2026-10-31: replaces "Teaching the grammar teachers teach" and its four points, from his direction.)
 
 #### Making practice feel like a game
 
