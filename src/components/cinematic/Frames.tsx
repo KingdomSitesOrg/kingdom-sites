@@ -41,14 +41,16 @@ export function Phone({ shot, eager, sizes = PHONE_SIZES }: { shot: Shot; eager?
 export function IPhone({ shot, eager, sizes = PHONE_SIZES }: { shot: Shot; eager?: boolean; sizes?: string }) {
   return (
     <div className="cn-iphone">
-      <i className="cn-iphone-key cn-iphone-action" aria-hidden="true" />
-      <i className="cn-iphone-key cn-iphone-up" aria-hidden="true" />
-      <i className="cn-iphone-key cn-iphone-down" aria-hidden="true" />
-      <i className="cn-iphone-key cn-iphone-power" aria-hidden="true" />
-      <div className="cn-iphone-bezel">
-        <div className="cn-iphone-screen">
-          <PhoneScreen shot={shot} eager={eager} sizes={sizes} />
-          <span className="cn-iphone-island" aria-hidden="true" />
+      <div className="cn-iphone-body">
+        <i className="cn-iphone-key cn-iphone-action" aria-hidden="true" />
+        <i className="cn-iphone-key cn-iphone-up" aria-hidden="true" />
+        <i className="cn-iphone-key cn-iphone-down" aria-hidden="true" />
+        <i className="cn-iphone-key cn-iphone-power" aria-hidden="true" />
+        <div className="cn-iphone-bezel">
+          <div className="cn-iphone-screen">
+            <PhoneScreen shot={shot} eager={eager} sizes={sizes} />
+            <span className="cn-iphone-island" aria-hidden="true" />
+          </div>
         </div>
       </div>
     </div>
