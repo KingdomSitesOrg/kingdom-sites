@@ -70,7 +70,10 @@ function Part({ block }: { block: Block }) {
   if (block.type === 'quote') {
     return (
       <blockquote className="border-l-[3px] border-accent/40 pl-5 text-[16.5px] font-medium leading-relaxed text-ink">
-        <ArticleText text={block.text} />
+        <p>
+          <ArticleText text={block.text} />
+        </p>
+        {block.cite ? <footer className="mt-2 text-[15px] font-normal text-muted">— {block.cite}</footer> : null}
       </blockquote>
     )
   }

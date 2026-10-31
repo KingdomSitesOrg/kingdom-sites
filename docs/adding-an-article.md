@@ -39,6 +39,7 @@ A paragraph. Paragraphs are separated by a blank line. Links look like [the Pray
 2. The next step
 
 > A quote, on lines starting with ">".
+> — Who said it (optional: a last line starting with "— ")
 `,
 } satisfies Article
 ```

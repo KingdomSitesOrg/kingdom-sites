@@ -24,7 +24,12 @@ The march has thirteen stops, from Rōma north to Gallia, on a real map of Italy
 
 It is on the [App Store](https://apps.apple.com/us/app/jam-legio/id6797884645) and [Google Play](https://play.google.com/store/apps/details?id=com.jamwithlatin.app). There is no email sign-up and there are no ads.
 
-Made in partnership with [JAM with Latin](https://jamwithlatin.com), whose designers made its graphics. I built the app for iPhone and Android.
+## How it started
+
+Alexis Carrico, the leader and founder of [JAM with Latin](https://jamwithlatin.com), reached out because people wanted an app, but she didn't know what to do, how to build it, or what it should look and feel like. We collaborated to build a fun, interactive way to study Latin, and this is what learners are saying now:
+
+> "You are a GENIUS. My 14 year old is doing so much Latin to "beat" me in the leader boards in your new game app! Thank you!! (It is also helping my Latin...)"
+> — Susanna
 
 ## Teaching the grammar teachers teach
 
