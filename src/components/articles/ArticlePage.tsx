@@ -250,7 +250,6 @@ export default function ArticlePage({ section, slug }: { section: SectionId; slu
       <div className="cn-wrap pb-24 sm:pb-32">
         <div className="tile-elevated mx-auto mt-16 max-w-2xl px-6 py-10 text-center sm:px-10">
           <h2 className="cn-display text-balance text-[1.9rem] leading-none text-ink">{home.cta.heading}</h2>
-          <p className="mx-auto mt-3 max-w-md text-pretty text-sm leading-relaxed text-body">{home.cta.text}</p>
           <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <Link href={INQUIRE_PATH} className="btn-primary">
               {INQUIRE_CTA}

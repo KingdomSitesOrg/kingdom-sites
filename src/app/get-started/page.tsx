@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import InquiryForm from '@/components/InquiryForm'
 import { OneEngineer, PriceGuide } from '@/components/cinematic/Audience'
 import { IntelligenceInline } from '@/components/intelligence/Intelligence'
-import { INQUIRY, QUOTE_LINE } from '@/lib/partnership'
+import { INQUIRY } from '@/lib/partnership'
 import { shareCard } from '@/lib/seo'
 
 const DESCRIPTION =
@@ -29,7 +29,6 @@ export default function GetStarted() {
           </h1>
           <p className="cn-body cn-rise cn-rise-3 mt-6 max-w-[46ch] text-pretty">{INQUIRY.sub}</p>
           <p className="cn-rise cn-rise-3 mt-4 max-w-[46ch] text-[15px] leading-relaxed text-muted">
-            {QUOTE_LINE}{' '}
             <Link href="/guides/how-a-quote-works" className="link-accent">
               How a quote works <span aria-hidden="true">›</span>
             </Link>

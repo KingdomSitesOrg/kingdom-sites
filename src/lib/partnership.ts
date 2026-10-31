@@ -34,8 +34,6 @@ export const PROCESS = {
   ],
 }
 
-export const QUOTE_LINE = 'You and I talk first. You get a quote once I understand the project.'
-
 /* Rough sizes, the same ranges the chat gives (content/intelligence.md). Never a
    quote: the exact price comes after we talk. */
 export const PRICE_GUIDE = {

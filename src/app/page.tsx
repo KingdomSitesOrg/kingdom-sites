@@ -68,8 +68,7 @@ export default function Home() {
       {/* Hero: the words, then a real screen lying back that stands up as you scroll. */}
       <Scroll mode="sticky" className="cn-hero" aria-label="Kingdom Sites">
         <div className="cn-wrap pt-16 sm:pt-24">
-          <p className="cn-kicker">Websites · iPhone and Android apps</p>
-          <h1 className="cn-display cn-h1 mt-5">
+          <h1 className="cn-display cn-h1">
             <span className="block">Made to be used.</span>
             <span className="block">Made to be yours.</span>
           </h1>
