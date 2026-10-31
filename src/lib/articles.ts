@@ -96,9 +96,10 @@ export function today(now = new Date()): string {
 }
 
 /* A Vercel preview deployment shows scheduled articles too, so they can be
-   read on a preview link before their day (T-392). Production and local builds
-   keep them hidden until their date. */
-const SHOW_SCHEDULED = process.env.VERCEL_ENV === 'preview'
+   read on a preview link before their day (T-392). So does a review dev server
+   started with SHOW_SCHEDULED_ARTICLES=1 (T-403). Production and ordinary local
+   builds keep them hidden until their date. */
+const SHOW_SCHEDULED = process.env.VERCEL_ENV === 'preview' || process.env.SHOW_SCHEDULED_ARTICLES === '1'
 
 export function isPublished(a: Article, now = new Date()): boolean {
   return SHOW_SCHEDULED || a.published <= today(now)
