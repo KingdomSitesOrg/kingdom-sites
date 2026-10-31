@@ -99,6 +99,10 @@ const nextConfig: NextConfig = {
       // "From the field" is the Journal now (T-399).
       { source: '/from-the-field', destination: '/journal', permanent: true },
       { source: '/from-the-field/:slug', destination: '/journal/:slug', permanent: true },
+      // The old Blog is off the site for now (T-401); the pages stay in the
+      // project, but its addresses land on the home page. Temporary (307).
+      { source: '/blog', destination: '/', permanent: false },
+      { source: '/blog/:slug*', destination: '/', permanent: false },
       { source: '/edu', destination: 'https://farzana.app', permanent: false },
       { source: '/edu/:path*', destination: 'https://farzana.app', permanent: false },
       ...FARZANA_PAGES.flatMap(([clean, here]) => [
