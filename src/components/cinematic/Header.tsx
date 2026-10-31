@@ -30,7 +30,6 @@ const MENU: { title: string; links: { href: string; here?: string; label: string
       { href: '/ai-tooling', label: 'AI consultation' },
       { href: '/journal', label: 'Journal' },
       { href: '/guides', label: 'Guides' },
-      { href: '/blog', label: 'Blog' },
       { href: '/refer', label: 'Refer someone' },
     ],
   },
