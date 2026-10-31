@@ -928,13 +928,9 @@ The march has thirteen stops, from Rōma north to Gallia, on a real map of Italy
 
 It is on the [App Store](https://apps.apple.com/us/app/jam-legio/id6797884645) and [Google Play](https://play.google.com/store/apps/details?id=com.jamwithlatin.app). There is no email sign-up and there are no ads.
 
-#### The partnership
+Made in partnership with [JAM with Latin](https://jamwithlatin.com), whose designers made its graphics. I built the app for iPhone and Android.
 
-JAM Legio is made in partnership with [JAM with Latin](https://jamwithlatin.com), and its graphics come from JAM with Latin's own designers. The app is published under their name on both stores, which is how I think it should be: it is their program, for their families.
-
-My part was the software: building the app for iPhone and Android, getting it through both app stores, and keeping it working since.
-
-A partnership like this works when each side does what it is good at. They know Latin teaching and the families they serve. I know how to turn that into an app that a student actually wants to open.
+(T-403, Thomas 2026-10-31: replaces the whole "The partnership" section.)
 
 #### Teaching the grammar teachers teach
 
