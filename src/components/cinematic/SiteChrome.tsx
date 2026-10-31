@@ -11,9 +11,13 @@ const YOUTUBE_URL = 'https://www.youtube.com/@tkklein/videos'
 const PAGE_LINKS = [
   { href: '/portfolio', label: 'Portfolio' },
   { href: '/ai-tooling', label: 'AI consultation' },
+  { href: '/rochester-mn', label: 'Rochester businesses' },
+  { href: '/churches', label: 'Churches' },
+  { href: '/schools', label: 'Schools' },
   { href: '/about', label: 'Studio' },
   { href: '/mission', label: 'Mission' },
   { href: '/refer', label: 'Refer someone' },
+  { href: '/guides', label: 'Guides' },
   { href: '/privacy', label: 'Privacy Policy' },
   { href: '/terms', label: 'Terms' },
 ]

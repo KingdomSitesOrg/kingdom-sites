@@ -24,14 +24,21 @@ export const SITE_OG_IMAGE = {
   alt: 'Kingdom Sites — Made to be used. Made to be yours.',
 }
 
-export const SITE_TITLE = 'Kingdom Sites — Made to be used. Made to be yours.'
+/* The home page's title in search results: what the business does and where,
+   in the words people search for (T-387). The visible headline, on the page and
+   the share picture, is "Kingdom Sites will build it. What do you want?" (T-403). */
+export const SITE_TITLE = 'Kingdom Sites — Websites and apps for businesses, Rochester MN'
 
 /* The home page's description. The root layout uses it too, as the fallback
    for any page without its own, so the business reads the same everywhere. */
 export const SITE_DESCRIPTION =
-  'Websites, iPhone and Android apps and AI consultation for businesses, churches and anyone who needs software, designed and built by Kingdom Sites.'
+  'Websites, iPhone and Android apps and AI consultation for businesses, churches and anyone who needs software, built by Thomas Klein in Rochester, MN.'
+
+/* The studio's own profiles, as the footer links them. */
+export const SAME_AS = ['https://www.facebook.com/share/1EzdtfSCs3/?mibextid=wwXIfr', 'https://www.youtube.com/@tkklein']
 
 const ORG_ID = `${SITE_URL}/#organization`
+const WEBSITE_ID = `${SITE_URL}/#website`
 const PERSON_ID = `${SITE_URL}/about#thomas`
 
 export const ORGANIZATION_LD = {
@@ -43,6 +50,8 @@ export const ORGANIZATION_LD = {
   description: SITE_DESCRIPTION,
   email: 'thomas@kingdom-sites.com',
   image: `${SITE_URL}${SITE_OG_IMAGE.url}`,
+  logo: `${SITE_URL}/marketing/logo-mark.png`,
+  sameAs: SAME_AS,
   /* City and state only: the base is Rochester, Minnesota (T-376); there is no
      public street address. */
   address: {
@@ -59,6 +68,20 @@ export const ORGANIZATION_LD = {
     'AI consultation',
   ],
   areaServed: AREA_SERVED,
+}
+
+/* The site itself, on the home page, so Google shows "Kingdom Sites" as the
+   site's name in results instead of the address (T-387). */
+export const WEBSITE_LD = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': WEBSITE_ID,
+  name: SITE_NAME,
+  alternateName: ['kingdom-sites.com'],
+  url: `${SITE_URL}/`,
+  description: SITE_DESCRIPTION,
+  inLanguage: 'en-US',
+  publisher: { '@id': ORG_ID },
 }
 
 /* Thomas, as the About page describes him. */
@@ -110,6 +133,44 @@ export const JAM_LEGIO_LD = {
     { '@id': PERSON_ID, '@type': 'Person', name: 'Thomas Klein' },
   ],
   author: { '@id': PERSON_ID, '@type': 'Person', name: 'Thomas Klein' },
+}
+
+/* A service page (Rochester, churches, schools): what is offered, by whom and
+   for whom, in the page's own words. Facts only, as everywhere in this file. */
+export function serviceLd({
+  name,
+  description,
+  path,
+  audience,
+  areaServed,
+}: {
+  name: string
+  description: string
+  path: string
+  audience?: string
+  areaServed?: object[]
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name,
+    description,
+    url: `${SITE_URL}${path}`,
+    provider: { '@id': ORG_ID, '@type': 'ProfessionalService', name: SITE_NAME },
+    ...(audience ? { audience: { '@type': 'Audience', audienceType: audience } } : {}),
+    ...(areaServed ? { areaServed } : {}),
+  }
+}
+
+/* Questions and answers a page shows word for word. Only for real Q&A on the
+   page: Google treats FAQ data that the visitor cannot read as spam. */
+export type Faq = { q: string; a: string }
+export function faqLd(items: Faq[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: items.map(({ q, a }) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+  }
 }
 
 /* The projects with a case study on this site (T-389), as each page and the

@@ -39,14 +39,12 @@
 .ki-square:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
 .ki-square .ki-spark { position: absolute; top: 10px; left: 10px; width: 14px; height: 14px; }
 .ki-square-title { font-variation-settings: 'wdth' 72; font-weight: 600; font-size: 16px; letter-spacing: -0.01em; line-height: 1; }
-.ki-square-sub { font-size: 10.5px; line-height: 1.25; color: var(--dim); }
 @media (min-width: 760px) {
   .ki { --edge: 24px; }
   /* Clear of the home bar on an iPad or an opened-out fold phone; 24px on a desktop (no inset). */
   .ki-square { bottom: max(24px, calc(env(safe-area-inset-bottom, 0px) + 12px)); width: 152px; height: 152px; padding: 16px; gap: 5px; }
   .ki-square .ki-spark { top: 16px; left: 16px; width: 16px; height: 16px; }
   .ki-square-title { font-size: 23px; }
-  .ki-square-sub { font-size: 12.5px; }
 }
 /* A light passes over the square on hover, and keeps passing while it thinks. */
 .ki-square::after {
@@ -93,11 +91,10 @@ html.ki-lock { overflow: hidden; }
   animation: ki-edge 1.4s linear infinite;
 }
 
-.ki-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 16px 12px 14px 20px; border-bottom: 1px solid var(--line); }
+.ki-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 12px 14px 20px; border-bottom: 1px solid var(--line); }
 .ki-title { display: flex; align-items: center; gap: 8px; margin: 0; font-variation-settings: 'wdth' 72; font-weight: 600; font-size: 24px; letter-spacing: -0.01em; line-height: 1; }
 .ki-title .ki-spark { width: 14px; height: 14px; }
-.ki-sub { margin: 6px 0 0; font-size: 13px; color: var(--dim); }
-.ki-close { flex: none; display: grid; place-items: center; width: 44px; height: 44px; margin-top: -8px; border-radius: 999px; color: var(--body); background: none; border: 0; cursor: pointer; transition: background-color 0.2s, color 0.2s; }
+.ki-close { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 999px; color: var(--body); background: none; border: 0; cursor: pointer; transition: background-color 0.2s, color 0.2s; }
 .ki-close:hover { background: rgba(239, 235, 227, 0.08); color: var(--fg); }
 .ki-close:focus-visible { outline: 2px solid var(--fg); outline-offset: -2px; }
 
@@ -113,8 +110,13 @@ html.ki-lock { overflow: hidden; }
 .ki-q { align-self: flex-end; max-width: 85%; margin: 0; padding: 9px 14px; border-radius: 14px 14px 4px 14px; background: rgba(239, 235, 227, 0.09); color: var(--fg); white-space: pre-wrap; overflow-wrap: anywhere; }
 .ki-q[data-aside] { opacity: 0.6; }
 .ki-a { color: var(--body); overflow-wrap: anywhere; }
-.ki-words { margin: 0; }
+.ki-words { margin: 0; white-space: pre-line; }
 .ki-words + .ki-words { margin-top: 10px; }
+/* A summary's points (T-388). */
+.ki-list { margin: 0; padding-left: 1.15em; list-style: disc; }
+.ki-list li + li { margin-top: 6px; }
+.ki-list li::marker { color: var(--dim, rgba(239, 235, 227, 0.5)); }
+:is(.ki-words, .ki-list) + :is(.ki-words, .ki-list) { margin-top: 10px; }
 .ki-a a, .ki-note a, .ki-card-error a { color: var(--fg); text-decoration: underline; text-decoration-color: rgba(239, 235, 227, 0.35); text-underline-offset: 3px; }
 .ki-a a:hover, .ki-note a:hover { text-decoration-color: currentColor; }
 .ki-word { animation: ki-word 0.35s ease both; }
@@ -197,7 +199,6 @@ html.ki-lock { overflow: hidden; }
   .ki:not(.ki--inline)[data-keys] .ki-panel { max-height: min(calc(var(--ki-vh) - 8px), 300px); }
   .ki-head { align-items: center; padding: 0 2px 0 14px; }
   .ki-title { font-size: 17px; }
-  .ki-sub { display: none; }
   .ki-close { margin-top: 0; }
   .ki-log { flex: 1 1 auto; padding: 8px 14px 4px; gap: 8px; font-size: 14px; line-height: 1.45; -webkit-overflow-scrolling: touch; }
   .ki-long { display: none; }
@@ -248,14 +249,12 @@ html.ki-lock { overflow: hidden; }
 }
 .ki--inline .ki-head { padding: 12px 16px; align-items: center; }
 .ki--inline .ki-title { font-size: 19px; }
-.ki--inline .ki-sub { display: block; margin-top: 4px; }
 /* The page around it already says what this is: one short line, so the pills fit above the question box. */
 .ki--inline .ki-long { display: none; }
 .ki--inline .ki-short { display: inline; }
 @media (max-width: 759px), (max-height: 520px) {
   .ki--inline .ki-panel { height: 360px; }
   .ki--inline .ki-title { font-size: 17px; }
-  .ki--inline .ki-sub { display: none; }
   .ki--inline .ki-head { padding: 8px 14px; }
   .ki--inline .ki-log { flex: 1; }
   .ki--inline .ki-foot { padding-bottom: 8px; }
@@ -286,3 +285,8 @@ html.ki-lock { overflow: hidden; }
   .ki-think-word { animation: none; color: var(--dim); background: none; }
   .ki-think { animation: ki-pulse 1.2s ease-in-out infinite alternate; }
 }
+
+/* "Summarize this article" on guides and blog posts (T-388): the site's quiet pill. */
+.ki-summarize { background: none; color: var(--fg, #efebe3); font: inherit; font-size: 14px; min-height: 44px; padding: 0 18px; gap: 8px; cursor: pointer; }
+.ki-summarize .ki-spark { width: 13px; height: 13px; flex: none; }
+.ki-summarize:focus-visible { outline: 2px solid var(--fg, #efebe3); outline-offset: 3px; }
