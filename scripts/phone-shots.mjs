@@ -8,10 +8,10 @@ import { createRequire } from 'node:module'
 
 const sharp = createRequire(import.meta.url)('sharp')
 const SHOTS = [
-  '/latin-game/home.jpg',
-  '/latin-game/map.jpg',
-  '/latin-game/case-challenge.jpg',
-  '/latin-game/leaderboard.jpg',
+  '/jam-legio/home.jpg',
+  '/jam-legio/map.jpg',
+  '/jam-legio/case-challenge.jpg',
+  '/jam-legio/leaderboard.jpg',
   '/work/ruta-crew-queue.jpg',
   '/work/ruta-crew-visit.jpg',
   '/work/ruta-crew-time.jpg',

@@ -174,7 +174,7 @@ export default function Home() {
           <p className="cn-body max-w-[44ch]">
             JAM Legio, a Latin learning game for iPhone and Android. Students travel the Roman world city by city, answer case
             challenges and race each other on the leaderboard.{' '}
-            <Link href="/latin-game" className="text-[var(--fg)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-current">
+            <Link href="/jam-legio" className="text-[var(--fg)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-current">
               See JAM Legio
             </Link>
           </p>

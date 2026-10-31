@@ -62,6 +62,8 @@ Thomas asked: *"What are some more tangible things I can do to be seen? I feel l
 
 **The site rule (updated 2026-10-30):** the site names the app, JAM Legio. It never mentions JAM with Latin except in the partnership credit shown with the game (and the app data on /latin-game).
 
+**Address change (2026-10-31, T-405):** the page moved from /latin-game to **/jam-legio**. /latin-game and everything under it answer a permanent (308) redirect to the same place under /jam-legio, so the links below still work; the store listings and any credit should point at /jam-legio directly.
+
 **What is true today** (checked 30 October):
 - **App Store:** the app is **JAM Legio**, sold by JAM with Latin LLC ($19.99). Its developer website link already points to **kingdom-sites.com/latin-game**.
 - **Google Play:** the listing appears to link only to jamwithlatin.com.
@@ -72,9 +74,9 @@ Thomas asked: *"What are some more tangible things I can do to be seen? I feel l
 
 | Done | Action | Who | Effort | Expected result |
 |---|---|---|---|---|
-| ✅ | **App Store developer link** to kingdom-sites.com/latin-game. | Already done | – | Anyone who opens the App Store listing from a "JAM with Latin app" search is one tap from the site. |
-| ☐ | **Google Play developer website** set to kingdom-sites.com/latin-game too, if Alexis agrees (it is JAM with Latin's listing). | Thomas, with Alexis's OK | 10 minutes in Play Console | The same one-tap path from the Play listing. |
-| ☐ | **Ask Alexis for a credit on jamwithlatin.com:** "Website and app by Kingdom Sites", linking to kingdom-sites.com/latin-game, in the footer or on the app page. | Thomas asks Alexis | One message | The strongest step: it puts a link on the very page that wins "JAM with Latin" searches, and it is what AI answers read when asked who built the app. Likely the main source of the 35 visitors already. |
+| ☐ | **App Store developer link** to kingdom-sites.com/latin-game (done 2026-10-30); change it to kingdom-sites.com/jam-legio now the page has moved. | Thomas (App Store Connect) | 5 minutes | Anyone who opens the App Store listing from a "JAM with Latin app" search is one tap from the site. |
+| ☐ | **Google Play developer website** set to kingdom-sites.com/jam-legio too, if Alexis agrees (it is JAM with Latin's listing). | Thomas, with Alexis's OK | 10 minutes in Play Console | The same one-tap path from the Play listing. |
+| ☐ | **Ask Alexis for a credit on jamwithlatin.com:** "Website and app by Kingdom Sites", linking to kingdom-sites.com/jam-legio, in the footer or on the app page. | Thomas asks Alexis | One message | The strongest step: it puts a link on the very page that wins "JAM with Latin" searches, and it is what AI answers read when asked who built the app. Likely the main source of the 35 visitors already. |
 | ✅ | **/latin-game names the app and carries its structured data** (done 2026-10-30): JAM Legio by name across the site; a `MobileApplication` entry with JAM with Latin LLC as publisher, Kingdom Sites (Thomas Klein) as creator, iPhone and Android, $19.99 and both store links. | Done | – | Google and AI answers can connect "JAM Legio" and "Latin game" to kingdom-sites.com/latin-game. |
 | ✅ | **/latin-game title and description** carry "Latin game" and "Latin vocabulary game" (done 2026-10-30: "JAM Legio — a Latin game for homeschool and classical students"). | Done | – | The most likely first steady search clicks on the whole site, once the new site is live. |
 | ☐ | **Off the site:** list the Latin game as a project on the Business Profile, Clutch and GoodFirms ("JAM Legio, a Latin game built with JAM with Latin"). | Thomas decides whether the rule extends off the site; Thomas adds them | 15 minutes each | These pages can show up for "JAM with Latin app" and tell AI answers who built it. **Thomas's call:** the rule is about the site; whether it also covers these profiles is his decision. |
