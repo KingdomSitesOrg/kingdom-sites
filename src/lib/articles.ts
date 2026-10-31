@@ -57,7 +57,7 @@ export type Section = {
   /** The card on an empty index. */
   empty: string
   /** The closing box on its articles. */
-  cta: { heading: string; text: string }
+  cta: { heading: string }
 }
 
 /** In menu order: Journal, then Guides. */
@@ -72,7 +72,7 @@ export const SECTIONS: Record<SectionId, Section> = {
     heading: ['The ', 'Journal.'],
     intro: 'Tech, Faith, missions, news and anything in between. My thoughts.',
     empty: 'The first stories are on their way.',
-    cta: { heading: 'Want to talk about it?', text: 'Every message comes to me, and I reply personally.' },
+    cta: { heading: 'Want to talk about it?' },
   },
   guides: {
     id: 'guides',
@@ -84,10 +84,7 @@ export const SECTIONS: Record<SectionId, Section> = {
     heading: ['Common questions in the software development world, ', 'made easy to understand.'],
     intro: 'Short guides to choosing, pricing and keeping a website or app, the way I would explain them to you in a conversation.',
     empty: 'The first guides are on their way.',
-    cta: {
-      heading: 'Have something in mind?',
-      text: 'Tell me about it in a few lines. You and I talk first; you get a quote once I understand the project.',
-    },
+    cta: { heading: 'Have something in mind?' },
   },
 }
 

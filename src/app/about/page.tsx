@@ -51,8 +51,7 @@ export default function About() {
         </div>
 
         <div className="lg:col-span-7">
-          <p className="cn-kicker">Engineering: design, build, ship, maintain</p>
-          <h2 className="cn-display cn-h3 mt-3">
+          <h2 className="cn-display cn-h3">
             Thomas Klein
           </h2>
           <p className="mt-5 text-pretty text-base leading-relaxed text-body sm:text-lg">
@@ -118,10 +117,7 @@ export default function About() {
         <Link href={INQUIRE_PATH} className="btn-primary">
           {INQUIRE_CTA}
         </Link>
-        <p className="mt-4 text-sm text-body">
-          Every enquiry comes to me, and I reply personally.
-        </p>
-        <p className="mt-3 text-sm text-muted">
+        <p className="mt-4 text-sm text-muted">
           <Link href="/portfolio" className="underline underline-offset-4">
             Portfolio
           </Link>
