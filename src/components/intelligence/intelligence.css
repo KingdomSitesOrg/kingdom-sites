@@ -39,14 +39,12 @@
 .ki-square:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
 .ki-square .ki-spark { position: absolute; top: 10px; left: 10px; width: 14px; height: 14px; }
 .ki-square-title { font-variation-settings: 'wdth' 72; font-weight: 600; font-size: 16px; letter-spacing: -0.01em; line-height: 1; }
-.ki-square-sub { font-size: 10.5px; line-height: 1.25; color: var(--dim); }
 @media (min-width: 760px) {
   .ki { --edge: 24px; }
   /* Clear of the home bar on an iPad or an opened-out fold phone; 24px on a desktop (no inset). */
   .ki-square { bottom: max(24px, calc(env(safe-area-inset-bottom, 0px) + 12px)); width: 152px; height: 152px; padding: 16px; gap: 5px; }
   .ki-square .ki-spark { top: 16px; left: 16px; width: 16px; height: 16px; }
   .ki-square-title { font-size: 23px; }
-  .ki-square-sub { font-size: 12.5px; }
 }
 /* A light passes over the square on hover, and keeps passing while it thinks. */
 .ki-square::after {
