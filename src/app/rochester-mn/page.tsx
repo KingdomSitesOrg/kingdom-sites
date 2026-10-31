@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { Close, HowItStarts, Needs, OtherPages, ProofCards, Questions, type Proof } from '@/components/cinematic/Audience'
-import { getAllPosts } from '@/lib/blog'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { AREA_SERVED } from '@/lib/local'
 import { jsonLd, serviceLd, shareCard, type Faq } from '@/lib/seo'
@@ -80,7 +79,6 @@ const QUESTIONS: Faq[] = [
 ]
 
 export default function Rochester() {
-  const posts = getAllPosts()
   return (
     <div className="w-full overflow-x-hidden">
       <script
@@ -126,33 +124,17 @@ export default function Rochester() {
       </section>
 
       <section aria-labelledby="found" className="cn-wrap mt-28 sm:mt-40">
-        <div className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20">
-          <div>
-            <p className="cn-kicker">Getting found in Rochester</p>
-            <h2 id="found" className="cn-display cn-h2 mt-5">
-              Most customers start with a search.
-            </h2>
-            <p className="cn-body mt-8 max-w-[46ch] text-pretty">
-              Someone needs a lawn crew, a coffee near Mayo Clinic or a bike tune-up, and they open Google or Maps on their
-              phone. A website is one part of being found there; your Google Business Profile, your reviews and the words
-              people actually type matter just as much. These posts are plain advice on all of it.
-            </p>
-          </div>
-          <div>
-            <p className="cn-kicker">From the blog</p>
-            <ul className="mt-5 grid gap-5">
-              {posts.map((p) => (
-                <li key={p.slug} className="cn-card">
-                  <Link
-                    href={`/blog/${p.slug}`}
-                    className="text-[17px] font-medium leading-snug text-[var(--fg)] underline decoration-transparent underline-offset-4 transition-colors hover:decoration-current"
-                  >
-                    {p.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+        {/* The "From the blog" list left with the old Blog (T-401). */}
+        <div>
+          <p className="cn-kicker">Getting found in Rochester</p>
+          <h2 id="found" className="cn-display cn-h2 mt-5">
+            Most customers start with a search.
+          </h2>
+          <p className="cn-body mt-8 max-w-[46ch] text-pretty">
+            Someone needs a lawn crew, a coffee near Mayo Clinic or a bike tune-up, and they open Google or Maps on their
+            phone. A website is one part of being found there; your Google Business Profile, your reviews and the words
+            people actually type matter just as much.
+          </p>
         </div>
       </section>
 
