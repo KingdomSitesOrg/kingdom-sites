@@ -65,10 +65,13 @@ export default function Home() {
       {/* Hero: the words, then a real screen lying back that stands up as you scroll. */}
       <Scroll mode="sticky" className="cn-hero" aria-label="Kingdom Sites">
         <div className="cn-wrap pt-16 sm:pt-24">
-          <h1 className="cn-display cn-h1">
-            <span className="block">Made to be used.</span>
-            <span className="block">Made to be yours.</span>
+          <h1 className="cn-display cn-h1 cn-h1-hero">
+            <span className="block">Kingdom Sites will build it.</span>
+            <span className="block">What do you want?</span>
           </h1>
+          <Link href="/portfolio" className="cn-hero-link mt-6 sm:mt-8">
+            See what others built <span aria-hidden="true">→</span>
+          </Link>
           <div className="mt-8 grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-end">
             <p className="cn-body max-w-[46ch]">
               I build websites and apps for businesses, churches and anyone who needs software. These screens are
