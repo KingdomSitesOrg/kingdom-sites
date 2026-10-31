@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { Phone } from '@/components/cinematic/Frames'
+import { IPhone } from '@/components/cinematic/Frames'
 import type { Article } from '@/lib/articles'
 import { coverSvg } from '@/lib/covers'
 import { SHOTS } from '@/lib/work'
@@ -9,15 +9,14 @@ import { SHOTS } from '@/lib/work'
 export default function Cover({ article, priority = false, sizes }: { article: Article; priority?: boolean; sizes: string }) {
   const photo = article.cover
   if (article.phones) {
-    /* The same card shape, a little smaller, with the phones in the site's own
-       frames; each screenshot is served at the width it is shown, never larger
+    /* The same card shape, a little smaller, with the phones in drawn iPhones; each screenshot is served at the width it is shown, never larger
        than the original (T-403). */
     return (
       <span className="mx-auto block w-[90%] overflow-hidden rounded-[12px] bg-surface shadow-[0_0_0_1px_rgba(255,255,255,0.07)]">
-        <span className="flex aspect-[40/21] items-center justify-center gap-[4%] [&_.cn-phone]:[--b:4px] [&_.cn-phone]:[--r:clamp(14px,2.2vw,24px)]">
+        <span className="flex aspect-[40/21] items-center justify-center gap-[4%]">
           {article.phones.shots.map((key) => (
-            <span key={key} className="block w-[20%]">
-              <Phone shot={SHOTS[key]} eager={priority} sizes="(min-width: 900px) 150px, 18vw" />
+            <span key={key} className="block w-[22%]">
+              <IPhone shot={SHOTS[key]} eager={priority} sizes="(min-width: 900px) 165px, 20vw" />
             </span>
           ))}
         </span>

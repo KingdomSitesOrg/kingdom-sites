@@ -23,7 +23,7 @@ vi.mock('@/content/articles', async (importOriginal) => {
 })
 
 const { ARTICLES } = await import('@/content/articles')
-const { SECTIONS, blocks, findArticle, getArticle, isPublished, publishedIn } = await import('@/lib/articles')
+const { SECTIONS, blocks, getArticle, isPublished, publishedIn } = await import('@/lib/articles')
 const { PROJECTS } = await import('@/lib/work')
 const sitemap = (await import('@/app/sitemap')).default
 
@@ -36,14 +36,12 @@ describe('scheduled publishing', () => {
     expect(isPublished(FUTURE, ON)).toBe(true)
   })
 
-  it('keeps a future article out of the index, its address and the chat until then', () => {
+  it('keeps a future article out of the index and its address until then', () => {
     expect(publishedIn('journal', BEFORE).map((a) => a.slug)).not.toContain('not-yet')
     expect(getArticle('journal', 'not-yet', BEFORE)).toBeUndefined()
-    expect(findArticle('journal/not-yet', BEFORE)).toBeNull()
 
     expect(publishedIn('journal', ON).map((a) => a.slug)).toContain('not-yet')
     expect(getArticle('journal', 'not-yet', ON)?.title).toBe('Not yet')
-    expect(findArticle('journal/not-yet', ON)?.title).toBe('Not yet')
   })
 
   it('keeps it out of the sitemap', () => {

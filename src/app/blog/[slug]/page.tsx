@@ -3,7 +3,6 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getAllPosts, getPost, formatPostDate, type BlogBlock } from '@/lib/blog'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
-import SummarizeButton from '@/components/intelligence/SummarizeButton'
 import { SHARE_URL } from '@/lib/seo'
 
 type Props = { params: Promise<{ slug: string }> }
@@ -147,9 +146,6 @@ export default async function BlogPostPage({ params }: Props) {
      <h1 className="cn-display cn-h3 mt-5 text-balance">
       {post.title}
      </h1>
-     <div className="mt-5">
-      <SummarizeButton path={`blog/${post.slug}`} title={post.title} />
-     </div>
      <p className="mt-5 text-pretty text-base leading-relaxed text-body sm:text-lg">{post.excerpt}</p>
      <div className="mt-5 flex flex-wrap gap-2">
       {post.tags.map((tag) => (
