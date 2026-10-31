@@ -25,6 +25,7 @@ export default {
   updated: '2026-11-20', // optional
   keywords: ['pray for Bangladesh', 'unreached people groups'], // optional
   cover: { photo: '/Photos/mission-field.jpg', alt: 'What the photo shows', width: 1244, height: 700 }, // optional; without it a cover is drawn
+  // phones: { shots: ['latinMap', 'latinCase'], share: { photo, alt, width, height } }, // optional, instead of cover: app screenshots side by side (names from SHOTS in src/lib/work.ts)
   related: ['prayer', 'ministry'], // optional: Portfolio projects, by their slug in src/lib/work.ts
   sources: [{ label: 'Who says it', href: 'https://…' }], // optional: where any figure comes from
   body: `

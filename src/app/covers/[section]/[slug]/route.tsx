@@ -11,13 +11,13 @@ import { COVER, coverDataUri } from '@/lib/covers'
 export const revalidate = 3600
 
 export function generateStaticParams() {
-  return ARTICLES.filter((a) => !a.cover && isPublished(a)).map((a) => ({ section: a.section, slug: a.slug }))
+  return ARTICLES.filter((a) => !a.cover && !a.phones && isPublished(a)).map((a) => ({ section: a.section, slug: a.slug }))
 }
 
 export async function GET(_request: Request, { params }: { params: Promise<{ section: string; slug: string }> }) {
   const { section, slug } = await params
   const a = getArticle(section as SectionId, slug)
-  if (!a || a.cover) return new Response('Not found', { status: 404 })
+  if (!a || a.cover || a.phones) return new Response('Not found', { status: 404 })
   return new ImageResponse(
     (
       // eslint-disable-next-line @next/next/no-img-element
