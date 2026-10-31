@@ -2,12 +2,11 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 /* The chat route itself, with Claude replaced by a stand-in (T-382): the
    40-an-hour limit per IP address, the message a visitor sees at the limit,
-   failures reaching Sentry, and the article a summary reads (T-388). */
+   and failures reaching Sentry. */
 
-const { captureException, answerWith, asked } = vi.hoisted(() => ({
+const { captureException, answerWith } = vi.hoisted(() => ({
   captureException: vi.fn(),
   answerWith: { fail: false },
-  asked: { system: [] as { text: string }[] },
 }))
 
 vi.mock('@sentry/nextjs', () => ({ captureException }))
@@ -23,17 +22,14 @@ vi.mock('@/lib/intelligence-server', async (importOriginal) => {
     readKnowledge: () => 'What Thomas builds.',
     anthropic: () => ({
       messages: {
-        stream: (params: { system: { text: string }[] }) => {
-          asked.system = params.system
-          return {
-            async *[Symbol.asyncIterator]() {
-              if (answerWith.fail) throw new Error('Claude is unavailable')
-              yield { type: 'content_block_delta', delta: { type: 'text_delta', text: 'Thomas builds apps.' } }
-            },
-            finalMessage: async () => ({ content: [], stop_reason: 'end_turn', usage: {} }),
-            abort: () => {},
-          }
-        },
+        stream: () => ({
+          async *[Symbol.asyncIterator]() {
+            if (answerWith.fail) throw new Error('Claude is unavailable')
+            yield { type: 'content_block_delta', delta: { type: 'text_delta', text: 'Thomas builds apps.' } }
+          },
+          finalMessage: async () => ({ content: [], stop_reason: 'end_turn', usage: {} }),
+          abort: () => {},
+        }),
       },
     }),
   }
@@ -42,12 +38,12 @@ vi.mock('@/lib/intelligence-server', async (importOriginal) => {
 const { POST } = await import('./route')
 const { SAY, resetVisitorsForTests } = await import('@/lib/intelligence')
 
-const ask = (ip: string, extra: object = {}) =>
+const ask = (ip: string) =>
   POST(
     new Request('https://kingdom-sites.com/api/intelligence', {
       method: 'POST',
       headers: { 'content-type': 'application/json', 'x-forwarded-for': ip },
-      body: JSON.stringify({ messages: [{ role: 'user', content: 'What do you build?' }], ...extra }),
+      body: JSON.stringify({ messages: [{ role: 'user', content: 'What do you build?' }] }),
     }),
   )
 
@@ -81,24 +77,6 @@ describe('POST /api/intelligence', () => {
     // An hour after the first question, the visitor can ask again.
     vi.advanceTimersByTime(20 * 60_000)
     expect((await ask('203.0.113.7')).status).toBe(200)
-  })
-
-  it('reads the named article from the site itself for "Summarize this article" (T-388)', async () => {
-    await (await ask('203.0.113.9', { article: 'guides/how-a-quote-works' })).text()
-    expect(asked.system).toHaveLength(2)
-    expect(asked.system[1].text).toContain('titled "How does a quote work?"')
-    expect(asked.system[1].text).toContain('You tell me what you have in mind')
-    expect(asked.system[1].text).toContain('three or four bullet points')
-
-    const post = (await import('@/lib/blog')).getAllPosts()[0]
-    await (await ask('203.0.113.9', { article: `blog/${post.slug}` })).text()
-    expect(asked.system[1].text).toContain(post.title)
-
-    // Anything that is not one of the site's own articles is ignored: no text from the browser is read.
-    for (const article of ['guides/church-website-and-app', '../content/intelligence', 'https://example.com', 42]) {
-      await (await ask('203.0.113.9', { article })).text()
-      expect(asked.system, String(article)).toHaveLength(1)
-    }
   })
 
   it('reports a failed answer to Sentry and tells the visitor', async () => {

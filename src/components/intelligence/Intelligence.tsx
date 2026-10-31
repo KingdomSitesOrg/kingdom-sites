@@ -16,11 +16,6 @@ import { paintDark } from '@/lib/paint-dark'
  * Someone who wants a quote can send the conversation to Thomas: a short form
  * asks for their name and email, shows them back with exactly what will be
  * shared, and only their own "Send to Thomas" sends it (/api/intelligence/send).
- *
- * A guide or blog post's "Summarize this article" button (SummarizeButton)
- * opens it and asks for that article in a few bullet points. The article's
- * path goes with that question and every follow-up, so the route reads the
- * article's own text (T-388); a new conversation forgets it.
  */
 
 type Item = {
@@ -44,11 +39,6 @@ const MAX_CHARS = 500
 export const ASK_EVENT = 'ki:ask'
 export type AskRequest = { question: string }
 
-/** Fired by SummarizeButton; the floating chat answers it. Keep the question in step with SUMMARIZE_QUESTION in src/lib/intelligence.ts. */
-export const SUMMARIZE_EVENT = 'ki:summarize'
-export type SummarizeRequest = { path: string; title: string }
-const SUMMARIZE_QUESTION = 'Summarize this article: '
-
 /** Phones (and a phone on its side): the panel is a bottom sheet. Keep in step with intelligence.css. */
 const PHONE = '(max-width: 759px), (max-height: 520px)'
 /** Wide touch screens (iPad, a fold phone opened out): a wide panel on the visible part of the screen. Keep in step with intelligence.css. */
@@ -68,8 +58,6 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
   const [email, setEmail] = useState('')
   const [handoffError, setHandoffError] = useState('')
   const [full, setFull] = useState(false)
-  /** The article the conversation is about, once its Summarize button was pressed. */
-  const [about, setAbout] = useState<SummarizeRequest | null>(null)
 
   const square = useRef<HTMLButtonElement>(null)
   const input = useRef<HTMLTextAreaElement>(null)
@@ -85,31 +73,6 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
   const titleId = `${ids}-title`
 
   useEffect(() => () => request.current?.abort(), [])
-
-  // "Summarize this article": open, and ask about that article. A conversation
-  // that is full starts again; one already waiting for an answer is left alone.
-  const summarize = useRef<(r: SummarizeRequest) => void>(() => {})
-  summarize.current = (r) => {
-    if (busy) {
-      setOpen(true)
-      return
-    }
-    const fresh = full
-    if (fresh) {
-      setItems([])
-      setFull(false)
-      setHandoff('closed')
-    }
-    setAbout(r)
-    setOpen(true)
-    ask(SUMMARIZE_QUESTION + r.title, { article: r.path, from: fresh ? [] : items, focusAfter: true })
-  }
-  useEffect(() => {
-    if (inline) return
-    const on = (e: Event) => summarize.current((e as CustomEvent<SummarizeRequest>).detail)
-    window.addEventListener(SUMMARIZE_EVENT, on)
-    return () => window.removeEventListener(SUMMARIZE_EVENT, on)
-  }, [inline])
 
   // Opening puts the cursor in the question box (not on a phone, where that
   // would raise the keyboard before they asked for it); closing puts it back on the square.
@@ -242,15 +205,12 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
     setItems((list) => list.map((i) => (i.id === id ? { ...i, ...change } : i)))
   }
 
-  async function ask(
-    question: string,
-    { article = about?.path, from = items, focusAfter = false }: { article?: string; from?: Item[]; focusAfter?: boolean } = {},
-  ) {
+  async function ask(question: string) {
     const text = question.trim()
-    if (!text || busy || (full && from === items)) return
+    if (!text || busy || full) return
     const asked: Item = { id: nextId++, role: 'user', text }
     const answer: Item = { id: nextId++, role: 'assistant', text: '', live: true }
-    const messages = [...history(from), { role: 'user', content: text }]
+    const messages = [...history(items), { role: 'user', content: text }]
     setItems((list) => [...list, asked, answer])
     setDraft('')
     setBusy(true)
@@ -271,7 +231,7 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
       const response = await fetch('/api/intelligence', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(article ? { messages, article } : { messages }),
+        body: JSON.stringify({ messages }),
         signal: controller.signal,
       })
       if (!response.ok || !response.body) {
@@ -301,9 +261,6 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
             finished = true
             patch(answer.id, { text: words.trim(), sig: event.sig, live: false })
             if (event.offer) setHandoff((h) => (h === 'sent' ? h : 'form'))
-            // After a summary the question box is ready for a follow-up (not on
-            // touch screens, where the keyboard would cover the summary).
-            if (focusAfter && !window.matchMedia(NO_AUTOFOCUS).matches) input.current?.focus({ preventScroll: true })
           } else if (event.error) {
             fail(event.error)
             return
@@ -462,7 +419,6 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
                 setItems([])
                 setFull(false)
                 setHandoff('closed')
-                setAbout(null)
               }}
             >
               Start a new conversation
@@ -485,7 +441,7 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
               rows={1}
               maxLength={MAX_CHARS}
               value={draft}
-              placeholder={about ? 'Ask about this article, or anything else' : 'Ask a question'}
+              placeholder="Ask a question"
               onChange={(e) => setDraft(e.target.value)}
               onFocus={(e) => {
                 // Fallback: once the keyboard has finished rising, make sure the box is in view.
@@ -527,7 +483,7 @@ export function IntelligenceInline() {
   return <Intelligence inline />
 }
 
-export function Spark() {
+function Spark() {
   return (
     <svg className="ki-spark" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
       <path d="M8 0.8c.5 3.6 2.6 5.7 7.2 7.2-4.6 1.5-6.7 3.6-7.2 7.2C7.5 11.6 5.4 9.5.8 8 5.4 6.5 7.5 4.4 8 .8z" fill="currentColor" />
@@ -598,53 +554,32 @@ function useCalm() {
 }
 
 /* Site pages, the email address and the products' own sites become links. */
-const PAGES = '(?:get-started|portfolio(?:\\/(?:farzana-classroom|kcupg|delta))?|ai-tooling|about|mission|refer|blog|guides(?:/[a-z0-9-]+)?|latin-game|tap-to-tick|ruta|prayer|ministry|sign)'
+const PAGES = '(?:get-started|portfolio(?:\\/(?:farzana-classroom|kcupg|delta))?|ai-tooling|about|mission|refer|blog|latin-game|tap-to-tick|ruta|prayer|ministry|sign)'
 const LINKABLE = new RegExp(
   `(\\/${PAGES}\\b|thomas@kingdom-sites\\.com|\\b(?:farzana\\.app|kcupgs\\.com|getruta\\.com|deltadevelopmentproject\\.com)\\b)`,
   'g',
 )
 
-/** A summary's "• " lines are shown as a list. */
-const BULLET = /^\s*[•*-]\s+/
-
 function Linked({ text }: { text: string }) {
   const paragraphs = text.split(/\n{2,}/)
   return (
     <>
-      {paragraphs.map((para, p) => {
-        const lines = para.split('\n').filter((l) => l.trim())
-        if (lines.length > 0 && lines.every((l) => BULLET.test(l))) {
-          return (
-            <ul key={p} className="ki-list">
-              {lines.map((l, i) => (
-                <li key={i}>
-                  <Links text={l.replace(BULLET, '')} />
-                </li>
-              ))}
-            </ul>
-          )
-        }
-        return (
-          <p key={p} className="ki-words">
-            <Links text={para} />
-          </p>
-        )
-      })}
+      {paragraphs.map((para, p) => (
+        <p key={p} className="ki-words">
+          {para.split(LINKABLE).map((part, i) => {
+            if (i % 2 === 0) return <Fragment key={i}>{part}</Fragment>
+            const href = part.startsWith('/') ? part : part.includes('@') ? `mailto:${part}` : `https://${part}`
+            const external = href.startsWith('https://')
+            return (
+              <a key={i} href={href} {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
+                {part}
+              </a>
+            )
+          })}
+        </p>
+      ))}
     </>
   )
-}
-
-function Links({ text }: { text: string }) {
-  return text.split(LINKABLE).map((part, i) => {
-    if (i % 2 === 0) return <Fragment key={i}>{part}</Fragment>
-    const href = part.startsWith('/') ? part : part.includes('@') ? `mailto:${part}` : `https://${part}`
-    const external = href.startsWith('https://')
-    return (
-      <a key={i} href={href} {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
-        {part}
-      </a>
-    )
-  })
 }
 
 function Handoff(props: {
