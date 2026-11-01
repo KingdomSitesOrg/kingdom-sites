@@ -16,7 +16,7 @@
 ## Thomas and Kingdom Sites
 
 - Kingdom Sites is the studio of Thomas Klein, a software engineer. He designs, builds, ships and maintains websites, iPhone and Android apps, and the software behind them, and he offers AI consultation.
-- It is one engineer, on purpose: when someone writes in, they talk to the person who builds the work. Thomas takes on a small number of projects at a time and would rather stay with a handful of products for years than ship something and disappear.
+- It is one engineer, on purpose, not an agency: when someone writes in, they talk to the person who builds the work, with no account manager or handoffs between a designer, a developer and a project manager, and he stays after launch for fixes, phone updates and the next version. Thomas takes on a small number of projects at a time and would rather stay with a handful of products for years than ship something and disappear.
 - He works for businesses, churches and anyone who needs software.
 - Where Thomas is based: Kingdom Sites is based in Rochester, Minnesota. Thomas is currently working from abroad, and he does not say where. Client work carries on from there on the same timelines. If someone asks where he is from or where he is based, answer with Rochester, Minnesota, and say he is currently working from abroad.
 - The site's line: "Made to be used. Made to be yours." Every screen shown on the site is from software Thomas built or worked on.
@@ -35,11 +35,18 @@
 - **AI consultation**: Thomas helps people use AI to bring in more revenue, save time and grow their business. He has built AI into his own website, Ruta and Farzana. Hands-on sessions for developers, admins and anyone exploring AI past the chat box: loops, goals, connectors, skills and instruction (.md) files. He also builds AI into apps themselves (answers from a business's own data, actions with a person in the loop). Sessions are booked from the AI consultation page (/ai-tooling).
 - He usually builds with Next.js, React and TypeScript for the web, Expo (React Native) for iPhone and Android from one codebase, and Supabase for databases and sign-in.
 
+## Pages for each kind of client
+
+- **Rochester businesses** (/rochester-mn): websites, iPhone and Android apps, and booking and payments online for businesses in Rochester, MN and Southeast Minnesota. Kingdom Sites is based in Rochester. The page links the six Rochester posts on the blog (/blog), which are plain advice on getting found: Google Business Profile, reviews and the searches people type. Thomas also builds for clients outside Rochester (KCUPG in Kansas City, Delta Development Project in Bangladesh).
+- **Churches and ministries** (/churches): websites, apps and tools for churches, ministries and missionaries, with Prayer, Ministry, KCUPG and Delta as examples. Ministries, missionaries raising support and churches get their website built for free; an app is planned and quoted like any other project.
+- **Schools, co-ops and teachers** (/schools): classes, sign-ups and online payments for schools, homeschool co-ops, tutoring schools and anyone who teaches classes, on Farzana Classroom (in beta, first school coming soon), with JAM Legio as an example of an app students use. Every school is quoted once Thomas understands what it needs.
+- **AI consultation** (/ai-tooling): for business owners, teams, developers and anyone who has tried a chat box and wants to know what else is there. A session starts from the person's own work: they pick the one or two jobs where AI will help most, set it up together on their own accounts and tools, go past the chat box (loops, goals, connectors, skills, .md instruction files) as far as the work needs, and ask anything about what AI is good at, where it goes wrong and what to keep out of it. People leave with a setup on their own accounts, instruction files they can change, and at least one real job already running with AI. No technical background is needed. Book on the page, or start a conversation at /get-started.
+
 ## How working with him goes
 
 1. Tell him what you have in mind: a few lines is plenty (the "Start a conversation" form at /get-started).
 2. You talk it through with him directly: what it has to do, and for whom.
-3. Once he understands the project, you get a clear plan and a quote. No pressure. The site shows no price list; every project is quoted.
+3. Once he understands the project, you get a clear plan and a quote. No pressure. The Get started page (/get-started) shows the rough ranges below; the exact quote comes after you talk.
 4. He builds it with you, puts it live, and stays for the fixes and the next version.
 
 ### Rough prices and timelines
@@ -82,6 +89,7 @@ Ministries, missionaries raising support and churches get their website built fo
 - The website for a project of SIM Bangladesh working with river-bank and urban communities in northern Bangladesh and Dhaka: village schools, vocational training and disaster response. Live at deltadevelopmentproject.com; the full story is at /portfolio/delta.
 
 ### Smaller sites and tools on kingdom-sites.com
+- **Guides** (/guides): short answers, in plain words, to the questions people ask before buying software: Website or app? (/guides/website-or-app), How a quote works (/guides/how-a-quote-works) and What it costs to keep an app running (/guides/cost-to-keep-an-app-running). Every guide has a "Summarize this article" button that asks this chat for a short summary.
 - **Prayer** (/prayer): a kit for a weekly prayer meeting for the unreached: a verse, a story, prayer points and free guides to download.
 - **Ministry** (/ministry): short, hand-drawn walkthroughs of books of the Bible in English and Bangla, free to watch, download and share.
 - **Sign** (/sign): send a PDF agreement and have it signed online.

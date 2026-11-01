@@ -84,10 +84,10 @@ const nextConfig: NextConfig = {
       { source: '/pricing', destination: '/get-started', permanent: true, missing: [FARZANA_HOST] },
       { source: '/seo', destination: '/', permanent: true },
       { source: '/software', destination: '/', permanent: true },
-      { source: '/rochester-mn', destination: '/', permanent: true },
       // The old local SEO page; its own redirect() answered 307 (temporary),
-      // which keeps the old address in Google's index.
-      { source: '/local-business', destination: '/', permanent: true },
+      // which keeps the old address in Google's index. Rochester businesses
+      // have their own page again (T-387), so it goes there.
+      { source: '/local-business', destination: '/rochester-mn', permanent: true },
       // The work pages are one Portfolio page now; the Farzana Classroom case
       // study is its first section.
       { source: '/my-work', destination: '/portfolio', permanent: true },
@@ -96,11 +96,6 @@ const nextConfig: NextConfig = {
       // Edu is now Farzana, at farzana.app. The film's end card and links
       // already shared say /edu or /farzana; temporary, since the pages move
       // from this project to the Farzana app itself at launch.
-      // Guides were live for one night (#54) and are back under review; anyone
-      // holding one of those links lands on the home page. Temporary (307), so
-      // the addresses are free when Guides come back.
-      { source: '/guides', destination: '/', permanent: false },
-      { source: '/guides/:slug*', destination: '/', permanent: false },
       // The old Blog is off the site for now (T-401); the pages stay in the
       // project, but its addresses land on the home page. Temporary (307).
       { source: '/blog', destination: '/', permanent: false },

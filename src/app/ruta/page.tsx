@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Close } from '@/components/cinematic/Audience'
 import { RutaPhoneShot } from '@/components/BuildMocks'
 import { INQUIRE_PATH } from '@/lib/contact'
 
@@ -71,6 +72,11 @@ export default function Ruta() {
           </div>
         </div>
       </section>
+      <Close
+        title="Yours could be next."
+        body="Tell me what you have in mind. You talk to me, Thomas, the person who will build it, and you get a plan and a quote once I understand it."
+        secondary={{ href: '/portfolio', label: 'See the portfolio' }}
+      />
     </div>
   )
 }

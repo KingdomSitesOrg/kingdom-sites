@@ -28,6 +28,8 @@ html.cn-menu-lock { overflow: hidden; }
 .cn-menu-in { display: flex; flex-direction: column; justify-content: space-between; gap: 48px; min-height: 100%; padding-block: clamp(28px, 6vh, 72px) calc(32px + env(safe-area-inset-bottom, 0px)); }
 .cn-menu-groups { display: grid; gap: 36px; }
 @media (min-width: 760px) { .cn-menu-groups { grid-template-columns: 1fr 1fr; gap: 48px; max-width: 1100px; } }
+/* Three groups side by side once there is room for them (T-387). */
+@media (min-width: 1100px) { .cn-menu-groups { grid-template-columns: repeat(3, auto); justify-content: start; column-gap: 96px; max-width: none; } }
 .cn-menu .cn-menu-link { display: inline-block; padding-block: 2px; font-size: clamp(2.1rem, 4.6vw, 4.2rem); line-height: 1.04; color: var(--fg); transition: color 0.2s, transform 0.3s ease; }
 .cn-menu-link:hover { transform: translateX(6px); }
 .cn-menu-link[aria-current='page'] { color: var(--dim); }

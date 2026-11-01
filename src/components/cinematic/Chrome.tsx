@@ -19,6 +19,10 @@ export default function CinematicChrome({ children }: { children: React.ReactNod
         <p className="flex flex-wrap gap-x-6 gap-y-2">
           <a href={CONTACT_MAILTO} className="hover:text-[var(--fg)]">{CONTACT_EMAIL}</a>
           <Link href="/ai-tooling" className="hover:text-[var(--fg)]">AI consultation</Link>
+          <Link href="/rochester-mn" className="hover:text-[var(--fg)]">Rochester businesses</Link>
+          <Link href="/churches" className="hover:text-[var(--fg)]">Churches</Link>
+          <Link href="/schools" className="hover:text-[var(--fg)]">Schools</Link>
+          <Link href="/guides" className="hover:text-[var(--fg)]">Guides</Link>
           <Link href="/prayer" className="hover:text-[var(--fg)]">Prayer</Link>
           <Link href={INQUIRE_PATH} className="hover:text-[var(--fg)]">{INQUIRE_CTA}</Link>
         </p>

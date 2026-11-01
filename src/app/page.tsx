@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import CinematicChrome from '@/components/cinematic/Chrome'
+import { Close, OneEngineer } from '@/components/cinematic/Audience'
 import CaseTitle from '@/components/cinematic/CaseTitle'
 import { Browser, Phone } from '@/components/cinematic/Frames'
 import { Credit } from '@/components/cinematic/Maker'
@@ -8,8 +9,8 @@ import LatinPartner from '@/components/cinematic/LatinPartner'
 import LitLink from '@/components/cinematic/LitLink'
 import Scroll from '@/components/cinematic/Scroll'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
-import { SHARE_URL, SITE_DESCRIPTION as DESCRIPTION, SITE_OG_IMAGE, SITE_TITLE } from '@/lib/seo'
-import { OFFER, PAYS, PROJECTS, SHOTS, type Shot } from '@/lib/work'
+import { SHARE_URL, SITE_DESCRIPTION as DESCRIPTION, SITE_OG_IMAGE, SITE_TITLE, WEBSITE_LD, jsonLd } from '@/lib/seo'
+import { OFFER, PAYS, PROJECTS, SHOTS, TESTIMONIAL, type Shot } from '@/lib/work'
 
 export const metadata: Metadata = {
   title: SITE_TITLE,
@@ -62,11 +63,12 @@ const ROLE: Record<string, string> = {
 export default function Home() {
   return (
     <CinematicChrome>
+      {/* The site's name for search results (T-387); the business itself is in the layout. */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(WEBSITE_LD) }} />
       {/* Hero: the words, then a real screen lying back that stands up as you scroll. */}
       <Scroll mode="sticky" className="cn-hero" aria-label="Kingdom Sites">
         <div className="cn-wrap pt-16 sm:pt-24">
-          <p className="cn-kicker">Websites · iPhone and Android apps</p>
-          <h1 className="cn-display cn-h1 mt-5">
+          <h1 className="cn-display cn-h1">
             <span className="block">Made to be used.</span>
             <span className="block">Made to be yours.</span>
           </h1>
@@ -191,6 +193,18 @@ export default function Home() {
         </div>
       </section>
 
+      {/* What a client says, next to the work it was about (T-387). */}
+      <section aria-label="What a client says" className="cn-wrap mt-24 sm:mt-32">
+        <Scroll>
+          <figure className="cn-reveal text-center">
+            <blockquote className="cn-display cn-h3 mx-auto max-w-[26ch] text-balance">&ldquo;{TESTIMONIAL.quote}&rdquo;</blockquote>
+            <figcaption className="cn-kicker mt-6">
+              {TESTIMONIAL.name}, {TESTIMONIAL.of}
+            </figcaption>
+          </figure>
+        </Scroll>
+      </section>
+
       {/* What I make: each line comes on as it reaches the middle of the screen. */}
       <section aria-labelledby="make" className="cn-wrap mt-24 sm:mt-36">
         <p id="make" className="cn-kicker">What I make</p>
@@ -290,17 +304,15 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Why one engineer instead of an agency (T-387). */}
+      <OneEngineer className="cn-wrap mt-32 sm:mt-44" />
+
       {/* Close. */}
-      <section aria-label="Start a conversation" className="cn-wrap pb-28 pt-36 text-center sm:pb-40 sm:pt-52">
-        <h2 className="cn-display cn-h1 mx-auto max-w-[12ch]">Yours could be next.</h2>
-        <p className="cn-body mx-auto mt-6 max-w-[40ch]">
-          A website, an app, or help putting AI to work: tell me what you have in mind. You talk to me, Thomas, the person who
-          will build it, and you get a plan and a quote once I understand it.
-        </p>
-        <Link href={INQUIRE_PATH} className="cn-btn mt-10">
-          {INQUIRE_CTA} <span aria-hidden="true">→</span>
-        </Link>
-      </section>
+      <Close
+        title="Yours could be next."
+        body="A website, an app, or help putting AI to work: tell me what you have in mind. You talk to me, Thomas, the person who will build it, and you get a plan and a quote once I understand it."
+        secondary={{ href: '/get-started#prices', label: 'Rough prices' }}
+      />
     </CinematicChrome>
   )
 }

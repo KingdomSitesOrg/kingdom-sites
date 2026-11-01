@@ -203,6 +203,13 @@ export const MADE = {
   },
 } satisfies Record<string, Made>
 
+/** What a client said, with her OK to share it (T-387). */
+export const TESTIMONIAL = {
+  quote: 'Hard worker, listens to our needs, creative and worked hard to get the project done both correctly and on time.',
+  name: 'Alexis Carrico',
+  of: 'JAM Legio',
+}
+
 /** The business case, said plainly, before the closing call (T-372; wording replaced T-374). */
 export const PAYS = [
   {
