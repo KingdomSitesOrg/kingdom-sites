@@ -105,8 +105,7 @@ export default function InquiryForm() {
           {'Got it, ' + (fields.name.trim().split(' ')[0] || 'thanks') + '.'}
         </h2>
         <p className="mt-3 text-[15px] leading-relaxed text-body">
-          Your note is in my inbox. I read each one and reply within a day about whether working
-          together is a fit.
+          Your note is in my inbox.
         </p>
         <p className="mt-4 text-[15px] leading-relaxed text-body">
           Prefer email? Reach me at{' '}
@@ -161,9 +160,6 @@ export default function InquiryForm() {
               Message
               <span className="ml-1 font-normal text-muted">(optional)</span>
             </label>
-            <p className="mt-1 text-[13px] leading-relaxed text-muted">
-              A website, an app, help using AI, something you want to work through — whatever you have.
-            </p>
             <textarea
               id="message"
               rows={6}
@@ -188,11 +184,10 @@ export default function InquiryForm() {
           </div>
         </fieldset>
 
-        <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+        <div>
           <button type="submit" className="btn-primary" disabled={sending}>
             {sending ? 'Sending…' : 'Send'}
           </button>
-          <span className="text-[13px] text-muted">I reply within a day.</span>
         </div>
 
         {status === 'error' && (
