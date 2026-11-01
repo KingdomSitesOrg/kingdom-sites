@@ -6,6 +6,7 @@ import { Browser, Phone } from '@/components/cinematic/Frames'
 import { Credit } from '@/components/cinematic/Maker'
 import LatinPartner from '@/components/cinematic/LatinPartner'
 import LitLink from '@/components/cinematic/LitLink'
+import RutaCredit from '@/components/cinematic/RutaCredit'
 import Scroll from '@/components/cinematic/Scroll'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { SHARE_URL, SITE_DESCRIPTION as DESCRIPTION, SITE_OG_IMAGE, SITE_TITLE } from '@/lib/seo'
@@ -49,13 +50,12 @@ const CHAPTERS: { shot: Shot; note?: string; kicker: string; title: string; body
   },
 ]
 
-/* Ruta last, so the KCUPG chapter comes right after it (Thomas, T-372). */
-const MORE = ['tap-to-tick', 'delta', 'ruta'].map((s) => PROJECTS.find((p) => p.slug === s)!)
+/* Ruta has its own chapter now (T-400), so it is not repeated here. */
+const MORE = ['tap-to-tick', 'delta'].map((s) => PROJECTS.find((p) => p.slug === s)!)
 
-/* Who made what, said on each card. Ruta is a team's product; I work on it. */
+/* Who made what, said on each card. */
 const ROLE: Record<string, string> = {
   'tap-to-tick': 'Designed and built by me',
-  ruta: 'Contract work, on the team',
   delta: 'Designed and built by me',
 }
 
@@ -65,11 +65,13 @@ export default function Home() {
       {/* Hero: the words, then a real screen lying back that stands up as you scroll. */}
       <Scroll mode="sticky" className="cn-hero" aria-label="Kingdom Sites">
         <div className="cn-wrap pt-16 sm:pt-24">
-          <p className="cn-kicker">Websites · iPhone and Android apps</p>
-          <h1 className="cn-display cn-h1 mt-5">
-            <span className="block">Made to be used.</span>
-            <span className="block">Made to be yours.</span>
+          <h1 className="cn-display cn-h1 cn-h1-hero">
+            <span className="block">Kingdom Sites will build it.</span>
+            <span className="block">What do you want?</span>
           </h1>
+          <a href="#latin" className="cn-hero-link mt-6 sm:mt-8">
+            See what others built <span aria-hidden="true">↓</span>
+          </a>
           <div className="mt-8 grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-end">
             <p className="cn-body max-w-[46ch]">
               I build websites and apps for businesses, churches and anyone who needs software. These screens are
@@ -79,9 +81,6 @@ export default function Home() {
               <Link href={INQUIRE_PATH} className="cn-btn">
                 {INQUIRE_CTA} <span aria-hidden="true">→</span>
               </Link>
-              <a href="#farzana" className="cn-ghost">
-                See the portfolio <span aria-hidden="true">↓</span>
-              </a>
             </div>
           </div>
         </div>
@@ -98,8 +97,34 @@ export default function Home() {
       {/* Right after the first window and phone: What I built. Said once. */}
       <Credit id="farzana" title="What I built" />
 
+      {/* JAM Legio, the Latin learning game: phones at different depths. */}
+      <section aria-labelledby="latin" className="mt-32 sm:mt-44">
+        <div className="cn-wrap grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-end">
+          <h2 id="latin" className="cn-display cn-h2 scroll-mt-16">
+            In students’ pockets.
+          </h2>
+          <p className="cn-body max-w-[44ch]">
+            JAM Legio, a Latin learning game for iPhone and Android. Students travel the Roman world city by city, answer case
+            challenges and race each other on the leaderboard.{' '}
+            <Link href="/latin-game" className="text-[var(--fg)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-current">
+              See JAM Legio
+            </Link>
+          </p>
+        </div>
+        <Scroll className="cn-wrap mt-16 pb-6 sm:mt-24">
+          <div className="cn-depth mx-auto max-w-[1180px]">
+            {[SHOTS.latinHome, SHOTS.latinMap, SHOTS.latinCase, SHOTS.latinBoard].map((s) => (
+              <Phone key={s.src} shot={s} />
+            ))}
+          </div>
+        </Scroll>
+        <div className="cn-wrap">
+          <LatinPartner />
+        </div>
+      </section>
+
       {/* The Farzana story: the stage holds still, the screens change by chapter. */}
-      <div id="farzana" className="scroll-mt-16" />
+      <div id="farzana" className="mt-32 scroll-mt-16 sm:mt-44" />
       {/* One chapter is a still screen: it is not pinned, so there is no scroll to walk through (T-381 left one). */}
       <Scroll mode="sticky" steps={CHAPTERS.length} className={`cn-scene${CHAPTERS.length > 1 ? '' : ' cn-scene-still'}`} aria-label="Farzana Classroom">
         <div style={CHAPTERS.length > 1 ? { height: `${CHAPTERS.length * 85}svh` } : undefined} className="cn-scene-h">
@@ -165,29 +190,31 @@ export default function Home() {
         <LitLink href="/portfolio/farzana-classroom" label="The whole Farzana Classroom story" />
       </div>
 
-      {/* JAM Legio, the Latin learning game: phones at different depths. */}
-      <section aria-labelledby="latin" className="mt-32 sm:mt-44">
+      {/* Ruta, the crew app's own screens, built like JAM Legio's chapter. Ruta is a
+          team's product: the credit line under the phones says I work on it (T-400).
+          Order (T-402, Thomas): JAM Legio, Farzana, Ruta, then the rest. */}
+      <section aria-labelledby="ruta" className="mt-32 sm:mt-44">
         <div className="cn-wrap grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-end">
-          <h2 id="latin" className="cn-display cn-h2">
-            In students’ pockets.
+          <h2 id="ruta" className="cn-display cn-h2">
+            In the crew’s hands.
           </h2>
           <p className="cn-body max-w-[44ch]">
-            JAM Legio, a Latin learning game for iPhone and Android. Students travel the Roman world city by city, answer case
-            challenges and race each other on the leaderboard.{' '}
-            <Link href="/latin-game" className="text-[var(--fg)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-current">
-              See JAM Legio
+            Ruta, service-management software for landscaping and maintenance businesses: an office app, a portal for
+            customers, and a phone app the crews take from visit to visit.{' '}
+            <Link href="/ruta" className="text-[var(--fg)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-current">
+              See Ruta
             </Link>
           </p>
         </div>
         <Scroll className="cn-wrap mt-16 pb-6 sm:mt-24">
-          <div className="cn-depth mx-auto max-w-[1180px]">
-            {[SHOTS.latinHome, SHOTS.latinMap, SHOTS.latinCase, SHOTS.latinBoard].map((s) => (
+          <div className="cn-depth cn-depth-row mx-auto max-w-[1180px]">
+            {[SHOTS.rutaQueue, SHOTS.rutaVisit, SHOTS.rutaTime].map((s) => (
               <Phone key={s.src} shot={s} />
             ))}
           </div>
         </Scroll>
         <div className="cn-wrap">
-          <LatinPartner />
+          <RutaCredit />
         </div>
       </section>
 
@@ -219,7 +246,7 @@ export default function Home() {
       {/* More work. */}
       <section aria-labelledby="more" className="cn-wrap mt-32 sm:mt-44">
         <h2 id="more" className="cn-kicker">More from my portfolio</h2>
-        <div className="mt-8 grid gap-x-10 gap-y-12 md:grid-cols-3">
+        <div className="mt-8 grid gap-x-10 gap-y-12 md:grid-cols-2">
           {MORE.map((p) => {
             const external = p.href!.startsWith('http')
             return (
@@ -282,7 +309,8 @@ export default function Home() {
           {PAYS.map((x) => (
             <Scroll key={x.title}>
               <div className="cn-reveal">
-                <h3 className="cn-display cn-h3">{x.title}</h3>
+                <p className="cn-kicker">Software can enable you to…</p>
+                <h3 className="cn-display cn-h3 mt-3">{x.title}</h3>
                 <p className="cn-body mt-4 max-w-[40ch]">{x.body}</p>
               </div>
             </Scroll>

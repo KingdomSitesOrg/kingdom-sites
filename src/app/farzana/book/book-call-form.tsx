@@ -122,8 +122,7 @@ export function BookCallForm() {
         </span>
         <h2>Got it, {first}.</h2>
         <p className="text-muted">
-          Your request is in my inbox. I’ll reply within a day with a time
-          that works.
+          Your request is in my inbox.
         </p>
         <p className="text-sm text-muted">
           Prefer email? Write to{" "}
@@ -237,7 +236,7 @@ export function BookCallForm() {
         </p>
       ) : null}
 
-      <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center">
+      <div>
         <button
           type="submit"
           disabled={sending}
@@ -245,7 +244,6 @@ export function BookCallForm() {
         >
           {sending ? <Spinner /> : "Request a call"}
         </button>
-        <span className="text-sm text-muted">I reply within a day.</span>
       </div>
     </form>
   );

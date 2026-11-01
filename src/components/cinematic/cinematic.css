@@ -23,6 +23,12 @@
 
 .cn-display { font-family: var(--cn-sans), system-ui, sans-serif; font-variation-settings: 'wdth' 72; font-weight: 600; letter-spacing: -0.02em; line-height: 0.9; }
 .cn-h1 { font-size: clamp(3.1rem, 9.4vw, 10.5rem); }
+/* The home headline (T-403): a little smaller than other display headings so each
+   sentence is one line on a laptop; on a phone the first breaks evenly. Under it, the
+   link down the page to the portfolio. */
+.cn-h1-hero { font-size: clamp(2.6rem, 7.2vw, 8.6rem); text-wrap: balance; }
+.cn-hero-link { display: inline-flex; align-items: center; gap: 10px; font-size: clamp(17px, 1.4vw, 20px); color: var(--fg); text-decoration: underline; text-decoration-color: rgba(239, 235, 227, 0.35); text-underline-offset: 6px; transition: text-decoration-color 0.2s; }
+.cn-hero-link:hover { text-decoration-color: var(--fg); }
 .cn-h2 { font-size: clamp(2.4rem, 6vw, 6.4rem); }
 .cn-h3 { font-size: clamp(1.8rem, 3.2vw, 3rem); line-height: 0.95; }
 .cn-kicker { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dim); font-weight: 500; }
@@ -116,6 +122,17 @@ html:has(.cn-head) { background: #0b0b0c; }
 .cn-depth > :nth-child(2) { transform: translateY(calc(200px - var(--p, 0) * 360px)); }
 .cn-depth > :nth-child(3) { transform: translateY(calc(40px - var(--p, 0) * 80px)); }
 .cn-depth > :nth-child(4) { transform: translateY(calc(160px - var(--p, 0) * 300px)); }
+/* Two desktop windows in a depth row (T-403): side by side with the phones' gap,
+   moving like the first two phones. On a phone the bars are smaller and drop the
+   product name, keeping the demo-school note. */
+.cn-depth-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 759px) {
+  .cn-depth-pair .cn-browser { --r: 9px; }
+  .cn-depth-pair .cn-browser-bar { height: 22px; gap: 4px; padding: 0 7px; }
+  .cn-depth-pair .cn-browser-bar i { width: 5px; height: 5px; }
+  .cn-depth-pair .cn-browser-url { display: none; }
+  .cn-depth-pair .cn-browser-note { height: 13px; padding: 0 5px; font-size: 7px; }
+}
 
 /* ---------- Lines that come on as they cross the middle ---------- */
 .cn-lit { opacity: calc(0.18 + min(1, max(0, (var(--p, 0) - 0.25) * 4)) * 0.82); transform: translateX(calc((1 - min(1, max(0, (var(--p, 0) - 0.2) * 3))) * -24px)); }
@@ -210,7 +227,7 @@ html:has(.cn-head) { background: #0b0b0c; }
 @media (min-width: 1000px) { .cn-credit { grid-template-columns: 1fr 1.1fr; align-items: end; gap: 64px; } }
 .cn-credit-text { margin: 0; font-size: clamp(1.1rem, 1.5vw, 1.4rem); line-height: 1.4; color: var(--fg); max-width: 40ch; }
 
-/* JAM Legio's partner line (LatinPartner.tsx): small, under the game's phones. */
+/* JAM Legio's partner line (LatinPartner.tsx) and Ruta's credit (RutaCredit.tsx): small, under the phones. */
 .cn-partner { margin: 28px 0 0; font-size: 14px; line-height: 1.5; color: var(--dim); max-width: 60ch; }
 .cn-partner a { color: var(--fg); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 4px; }
 .cn-partner a:hover { text-decoration-color: currentColor; }
