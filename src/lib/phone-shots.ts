@@ -2,8 +2,8 @@
    screenshot in public/opt/, its average tone and a tiny blurred copy for
    the placeholder. Do not edit by hand. */
 export const PHONE_SHOTS: Record<string, { name: string; widths: number[]; tone: string; blur: string }> = {
-  "/latin-game/home.jpg": {
-    "name": "latin-game-home",
+  "/jam-legio/home.jpg": {
+    "name": "jam-legio-home",
     "widths": [
       240,
       360,
@@ -13,8 +13,8 @@ export const PHONE_SHOTS: Record<string, { name: string; widths: number[]; tone:
     "tone": "rgb(248,232,200)",
     "blur": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAAaAAwDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAABAUBA//EACYQAAIBAwIEBwAAAAAAAAAAAAECAwAEEQUxEiEiMhQjJEFRUoH/xAAWAQEBAQAAAAAAAAAAAAAAAAAEAQP/xAAZEQADAAMAAAAAAAAAAAAAAAAAAQMCEmH/2gAMAwEAAhEDEQA/ACXGtrbvwtals7EOKQLwY6ogDvgODVVJNGJzLpkrZ39OeZrXl0jPlWTxL9WiIqq7M3HEVCl9Og8PeHgQBQOXI/orleJdiUCUGRgvcSKLZSSC3TrbtHvVOVmJGWO3zQNei0z/2Q=="
   },
-  "/latin-game/map.jpg": {
-    "name": "latin-game-map",
+  "/jam-legio/map.jpg": {
+    "name": "jam-legio-map",
     "widths": [
       240,
       360,
@@ -24,8 +24,8 @@ export const PHONE_SHOTS: Record<string, { name: string; widths: number[]; tone:
     "tone": "rgb(24,168,248)",
     "blur": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAAaAAwDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAQQCAwUG/8QAHxAAAgEEAwEBAAAAAAAAAAAAAQIDAAQREiExQVEF/8QAFQEBAQAAAAAAAAAAAAAAAAAABAX/xAAcEQACAwEAAwAAAAAAAAAAAAABAgADESETMXH/2gAMAwEAAhEDEQA/AOu1AbzmiAopeS5hWQDfZm+c4oxvKyAgbD71RxUxzefeQxdc3dmJayRoZDI4U6HHPdRX9K+hykds0i9hsE5pqCGJsbRoeD2oq+MlUAUkAeCrN5VydEBVX461YH3P/9k="
   },
-  "/latin-game/case-challenge.jpg": {
-    "name": "latin-game-case-challenge",
+  "/jam-legio/case-challenge.jpg": {
+    "name": "jam-legio-case-challenge",
     "widths": [
       240,
       360,
@@ -35,8 +35,8 @@ export const PHONE_SHOTS: Record<string, { name: string; widths: number[]; tone:
     "tone": "rgb(248,232,200)",
     "blur": "data:image/jpeg;base64,/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAAaAAwDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAgMFBP/EACQQAAIBAwMDBQAAAAAAAAAAAAEDAgAEIQUREiIxUSMzQWGC/8QAFgEBAQEAAAAAAAAAAAAAAAAAAgME/8QAGREBAQADAQAAAAAAAAAAAAAAAQACBDFB/9oADAMBAAIRAxEAPwB5VcTO409wHkDBoDBwwbFsPoiq0NbtFKWmbZGcAAemsl7rNu5wklh48QMj5omwvYuqeUpy1tZx29SPfOxpA09Y36WZ8VRjlMZHv5ptv7f6NQcbWZX/2Q=="
   },
-  "/latin-game/leaderboard.jpg": {
-    "name": "latin-game-leaderboard",
+  "/jam-legio/leaderboard.jpg": {
+    "name": "jam-legio-leaderboard",
     "widths": [
       240,
       360,

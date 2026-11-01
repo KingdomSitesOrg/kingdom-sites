@@ -319,7 +319,6 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
       >
         <Spark />
         <span className="ki-square-title">Intelligence</span>
-        <span className="ki-square-sub">Ask anything about me and what I built</span>
       </button>
       )}
 
@@ -335,12 +334,9 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
       >
         <span className="ki-edge" aria-hidden="true" />
         <header className="ki-head">
-          <div>
-            <h2 id={titleId} className="ki-title">
-              <Spark /> Intelligence
-            </h2>
-            <p className="ki-sub">Ask anything about me and what I built</p>
-          </div>
+          <h2 id={titleId} className="ki-title">
+            <Spark /> Intelligence
+          </h2>
           {inline ? null : (
             <button type="button" className="ki-close" aria-label="Close Intelligence" onClick={close}>
               <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true">
@@ -554,7 +550,7 @@ function useCalm() {
 }
 
 /* Site pages, the email address and the products' own sites become links. */
-const PAGES = '(?:get-started|portfolio(?:\\/(?:farzana-classroom|kcupg|delta))?|ai-tooling|about|mission|refer|latin-game|tap-to-tick|ruta|prayer|ministry|sign)'
+const PAGES = '(?:get-started|portfolio(?:\\/(?:farzana-classroom|kcupg|delta))?|ai-tooling|about|mission|refer|jam-legio|tap-to-tick|ruta|prayer|ministry|sign)'
 const LINKABLE = new RegExp(
   `(\\/${PAGES}\\b|thomas@kingdom-sites\\.com|\\b(?:farzana\\.app|kcupgs\\.com|getruta\\.com|deltadevelopmentproject\\.com)\\b)`,
   'g',

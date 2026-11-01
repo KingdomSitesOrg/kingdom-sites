@@ -33,8 +33,6 @@ export const PROCESS = {
   ],
 }
 
-export const QUOTE_LINE = 'You and I talk first. You get a quote once I understand the project.'
-
 export const AI_CONSULT = {
   name: 'AI consultation',
   homeTitle: 'I also do AI consultation.',
@@ -73,13 +71,13 @@ export const APP_PROOF = [
   },
   {
     name: 'JAM Legio',
-    href: '/latin-game',
+    href: '/jam-legio',
     line: 'A Latin learning game for iPhone and Android: curriculum, play, and a reason for students to come back every day.',
     phone: 'cards' as const,
     shots: [
-      { src: '/latin-game/home.jpg', alt: 'JAM Legio, the home screen' },
-      { src: '/latin-game/map.jpg', alt: 'JAM Legio, the journey map' },
-      { src: '/latin-game/leaderboard.jpg', alt: 'JAM Legio, the leaderboard' },
+      { src: '/jam-legio/home.jpg', alt: 'JAM Legio, the home screen' },
+      { src: '/jam-legio/map.jpg', alt: 'JAM Legio, the journey map' },
+      { src: '/jam-legio/leaderboard.jpg', alt: 'JAM Legio, the leaderboard' },
     ],
   },
   {

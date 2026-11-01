@@ -8,7 +8,7 @@
     the products. No money, family details beyond what /about says, health,
     clients' internal details, or logins.
   - The Latin learning game is JAM Legio, by name (Thomas, 2026-10-30). Never
-    name the company it was made with; only the /latin-game page credits it.
+    name the company it was made with; only the /jam-legio page credits it.
     The class platform is Farzana Classroom.
   - No invented numbers. If a figure is not on the site, it does not go here.
 -->
@@ -66,7 +66,7 @@ Ministries, missionaries raising support and churches get their website built fo
 ### JAM Legio, a Latin learning game (designed and built by Thomas)
 - JAM Legio is a Roman-legion Latin game for iPhone and Android, for homeschool and classical students. Students march a legion north across Italy, thirteen stops from Rōma to Gallia; every city teaches one piece of the classical curriculum. Nine ways to drill the grammar (declensions, verb endings, real Latin sentences), case challenges, and a leaderboard to race each other on.
 - What Thomas made: the design, the iPhone and Android apps, the levels and the leaderboard.
-- JAM Legio is on the App Store and Google Play. More at /latin-game.
+- JAM Legio is on the App Store and Google Play. More at /jam-legio.
 
 ### Ruta (contract work)
 - Ruta is service-management software for landscaping and maintenance businesses: an office app, a phone app for the crews, and a portal for customers. Thomas works on it as a contractor on Ruta's team. The product is Ruta's; he did not start the company.

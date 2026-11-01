@@ -24,10 +24,10 @@ export const SHOTS = {
   farzanaClass: { src: '/work/demo-class.jpg', alt: 'Farzana Classroom, a demo school’s page for its Backyard astronomy class, with a free sample to try', w: 1800, h: 1125 },
   farzanaClassPhone: { src: '/work/demo-class-phone.jpg', alt: 'The same class page on a phone', w: 780, h: 1688 },
   farzanaDesk: { src: '/work/demo-desk.jpg', alt: 'Farzana Classroom, a demo school’s analytics: 248 students, 131 active this week, the newest students', w: 1800, h: 1125 },
-  latinHome: { src: '/latin-game/home.jpg', alt: 'JAM Legio, the home screen', w: 660, h: 1434 },
-  latinMap: { src: '/latin-game/map.jpg', alt: 'JAM Legio, the journey map across the Roman world', w: 660, h: 1434 },
-  latinCase: { src: '/latin-game/case-challenge.jpg', alt: 'JAM Legio, a case challenge', w: 660, h: 1434 },
-  latinBoard: { src: '/latin-game/leaderboard.jpg', alt: 'JAM Legio, the leaderboard', w: 660, h: 1434 },
+  latinHome: { src: '/jam-legio/home.jpg', alt: 'JAM Legio, the home screen', w: 660, h: 1434 },
+  latinMap: { src: '/jam-legio/map.jpg', alt: 'JAM Legio, the journey map across the Roman world', w: 660, h: 1434 },
+  latinCase: { src: '/jam-legio/case-challenge.jpg', alt: 'JAM Legio, a case challenge', w: 660, h: 1434 },
+  latinBoard: { src: '/jam-legio/leaderboard.jpg', alt: 'JAM Legio, the leaderboard', w: 660, h: 1434 },
   tapOverview: { src: '/tap-to-tick/overview.jpg', alt: 'Tap to Tick, a month of spending at a glance', w: 644, h: 1400 },
   tapLog: { src: '/tap-to-tick/log.jpg', alt: 'Tap to Tick, logging a purchase', w: 644, h: 1400 },
   rutaQueue: { src: '/work/ruta-crew-queue.jpg', alt: 'Ruta’s crew app, the day’s visits in order, with the next one in progress', w: 660, h: 1434 },
@@ -83,6 +83,7 @@ export const PROJECTS: Project[] = [
     site: 'https://farzana.app',
   },
   {
+    // Internal ID only (other branches' related lists name it); the page is /jam-legio.
     slug: 'latin-game',
     name: 'JAM Legio',
     kind: 'App',
@@ -90,7 +91,7 @@ export const PROJECTS: Project[] = [
     line: 'A Latin learning game. Students travel the Roman world city by city, answer case challenges and race each other on the leaderboard.',
     platforms: 'iPhone and Android',
     status: 'On the App Store and Google Play',
-    href: '/latin-game',
+    href: '/jam-legio',
   },
   {
     slug: 'tap-to-tick',
