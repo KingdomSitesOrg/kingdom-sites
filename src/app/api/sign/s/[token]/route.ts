@@ -2,7 +2,10 @@ import { after, NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
 import { appendAudit } from '@/lib/sign/audit'
 import { emailCompletedEnvelope, stampAndPersistCompleted } from '@/lib/sign/complete'
+import { emailConfigured } from '@/lib/sign/email'
 import { signerPublicView } from '@/lib/sign/pdf'
+import { isWellFormedSignerToken, unsignedLines } from '@/lib/sign/placement'
+import type { Envelope } from '@/lib/sign/types'
 import {
   findEnvelopeBySignerToken,
   getEnvelope,
@@ -15,10 +18,16 @@ export const maxDuration = 60
 
 type Ctx = { params: Promise<{ token: string }> }
 
+/** What the signer's page needs, plus whether copies of the signed PDF go out by email. */
+function publicView(envelope: Envelope, signerId: string) {
+  const view = signerPublicView(envelope, signerId)
+  return view ? { ...view, emailsCopies: emailConfigured() } : null
+}
+
 export async function GET(_request: Request, ctx: Ctx) {
   try {
     const { token } = await ctx.params
-    const found = await findEnvelopeBySignerToken(token)
+    const found = isWellFormedSignerToken(token) ? await findEnvelopeBySignerToken(token) : null
     if (!found) {
       return NextResponse.json({ ok: false, error: 'Link not found or expired.' }, { status: 404 })
     }
@@ -27,7 +36,7 @@ export async function GET(_request: Request, ctx: Ctx) {
     // and could snap the other signature box back to defaults.
     return NextResponse.json({
       ok: true,
-      view: signerPublicView(envelope, signerId),
+      view: publicView(envelope, signerId),
     })
   } catch (error) {
     Sentry.captureException(error)
@@ -38,7 +47,7 @@ export async function GET(_request: Request, ctx: Ctx) {
 export async function POST(request: Request, ctx: Ctx) {
   try {
     const { token } = await ctx.params
-    const found = await findEnvelopeBySignerToken(token)
+    const found = isWellFormedSignerToken(token) ? await findEnvelopeBySignerToken(token) : null
     if (!found) {
       return NextResponse.json({ ok: false, error: 'Link not found or expired.' }, { status: 404 })
     }
@@ -60,7 +69,7 @@ export async function POST(request: Request, ctx: Ctx) {
       return NextResponse.json({
         ok: true,
         alreadySigned: true,
-        view: signerPublicView(envelope, signerId),
+        view: publicView(envelope, signerId),
       })
     }
 
@@ -74,7 +83,7 @@ export async function POST(request: Request, ctx: Ctx) {
           return NextResponse.json({
             ok: true,
             alreadySigned: true,
-            view: signerPublicView(envelope, signerId),
+            view: publicView(envelope, signerId),
           })
         }
       }
@@ -84,7 +93,22 @@ export async function POST(request: Request, ctx: Ctx) {
       signaturePng?: string
       typedName?: string
       dateText?: string
+      signedFieldIds?: unknown
     } | null
+
+    // Every one of this signer's lines must be signed, not just the first.
+    const missingLines = unsignedLines(envelope, signerId, body?.signedFieldIds)
+    if (missingLines.length) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: `Sign all your lines first: ${missingLines.length} still to sign (page ${missingLines
+            .map((f) => f.page)
+            .join(', page ')}).`,
+        },
+        { status: 400 },
+      )
+    }
 
     let signaturePng = body?.signaturePng?.trim() || ''
     const typedName = body?.typedName?.trim() || ''
@@ -134,7 +158,7 @@ export async function POST(request: Request, ctx: Ctx) {
     // (after() alone was flaky); completed-PDF delivery stays in after().
     envelope = await saveEnvelope(envelope)
     const allSigned = envelope.signers.every((s) => s.status === 'signed')
-    const signedView = signerPublicView(envelope, signerId)
+    const signedView = publicView(envelope, signerId)
 
     if (allSigned) {
       // Await stamp+save on the request path — after() alone is flaky on some runtimes.
@@ -148,7 +172,7 @@ export async function POST(request: Request, ctx: Ctx) {
       if (completedEnv) {
         envelope = completedEnv
       }
-      const finalView = signerPublicView(envelope, signerId)
+      const finalView = publicView(envelope, signerId)
       const completedOk = Boolean(completedEnv?.completedPdfKey)
       if (completedEnv) {
         const toEmail = completedEnv
