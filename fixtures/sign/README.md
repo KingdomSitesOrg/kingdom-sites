@@ -1,8 +1,11 @@
 # Sign fixtures
 
-Canonical contract PDF for Jam with Latin (Sept 2026):
+A made-up contract for testing Kingdom Sites Sign locally:
 
-- `MSA_and_SOW2_Jam_with_Latin_Sept2026.pdf` — 3 pages (full MSA + SOW #2)
+- `Sample_MSA_and_SOW_Wren_Hall.pdf` — 3 pages: a sample Master Services
+  Agreement, a sample Statement of Work, and a signature page. Wren Hall
+  School is fictional and every figure in it is a placeholder.
 
-Split MSA-only / SOW-only drafts were moved to
-`~/Documents/Jam-contracts-archive-Sept2026/`.
+Upload it from `/sign/new` after signing in with `ADMIN_EMAIL` / `ADMIN_PASSWORD`.
+
+Never commit a real client contract here: this repository is public.
