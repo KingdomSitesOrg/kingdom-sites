@@ -59,6 +59,24 @@ const ROLE: Record<string, string> = {
   delta: 'Designed and built by me',
 }
 
+/* Farzana is still being built: say so, and invite custom work (T-423). */
+function InDevelopment() {
+  return (
+    <div className="mt-6">
+      <span className="cn-soon" style={{ marginLeft: 0 }}>
+        In development
+      </span>
+      <p className="mt-3 text-[15px] leading-6" style={{ color: 'var(--dim)' }}>
+        Want something custom like this?{' '}
+        <Link href={INQUIRE_PATH} className="underline decoration-[var(--line)] underline-offset-4 hover:decoration-current" style={{ color: 'var(--fg)' }}>
+          Reach out
+        </Link>
+        .
+      </p>
+    </div>
+  )
+}
+
 export default function Home() {
   return (
     <CinematicChrome>
@@ -119,6 +137,7 @@ export default function Home() {
                           <span className="cn-for">For them</span>
                           {c.gives}
                         </p>
+                        <InDevelopment />
                       </div>
                     ))}
                   </div>
@@ -152,6 +171,7 @@ export default function Home() {
                         <span className="cn-for">For them</span>
                         {c.gives}
                       </p>
+                      <InDevelopment />
                     </div>
                   ))}
                 </div>
