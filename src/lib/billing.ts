@@ -26,25 +26,22 @@ export function hasAnyLinks() {
 }
 
 
-/** Kingdom Sites Sign — SaaS plans (Payment Links). */
+/**
+ * Kingdom Sites Sign — subscription plans. Prices and limits live here; Stripe
+ * holds the matching recurring Price, found by its lookup key (same key in
+ * test and live mode), so no price id is written into the code.
+ */
 export type SignPlanId = 'starter' | 'growth'
 
 export type SignPlan = {
   id: SignPlanId
   name: string
   priceMonthly: number
+  /** Documents that can be sent for signing per billing month. */
   contractLimit: number
-  /** Stripe Payment Link — set after creating products in Stripe Dashboard */
-  paymentLink: string
+  /** Stripe Price lookup_key for the monthly price. */
+  lookupKey: string
 }
-
-export const SIGN_STARTER_LINK =
-  process.env.NEXT_PUBLIC_SIGN_STARTER_LINK?.trim() ||
-  'https://buy.stripe.com/aFa00j3pygPRgbqarD5Ne07'
-
-export const SIGN_GROWTH_LINK =
-  process.env.NEXT_PUBLIC_SIGN_GROWTH_LINK?.trim() ||
-  'https://buy.stripe.com/dRm4gzgckfLN7EU2Zb5Ne06'
 
 export const SIGN_PLANS: SignPlan[] = [
   {
@@ -52,13 +49,21 @@ export const SIGN_PLANS: SignPlan[] = [
     name: 'Sign Starter',
     priceMonthly: 1,
     contractLimit: 5,
-    paymentLink: SIGN_STARTER_LINK,
+    lookupKey: 'sign_starter_monthly',
   },
   {
     id: 'growth',
     name: 'Sign Growth',
     priceMonthly: 10,
     contractLimit: 20,
-    paymentLink: SIGN_GROWTH_LINK,
+    lookupKey: 'sign_growth_monthly',
   },
 ]
+
+export function signPlan(id: string | null | undefined): SignPlan | undefined {
+  return SIGN_PLANS.find((p) => p.id === id)
+}
+
+export function signPlanByLookupKey(key: string | null | undefined): SignPlan | undefined {
+  return SIGN_PLANS.find((p) => p.lookupKey === key)
+}

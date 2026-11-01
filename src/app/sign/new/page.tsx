@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import { getAdminSession } from '@/lib/sign/auth'
+import { getSignUser } from '@/lib/sign/auth'
 import NewEnvelopeForm from '@/components/sign/NewEnvelopeForm'
 import SignSteps from '@/components/sign/SignSteps'
 
 export const dynamic = 'force-dynamic'
 
 export default async function SignNewPage() {
-  const session = await getAdminSession()
+  const session = await getSignUser()
   if (!session) redirect('/sign/login')
   return (
     <div className="mx-auto max-w-lg">

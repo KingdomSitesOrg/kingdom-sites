@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
-import { AuthError, getAdminSession, newId, newSignerToken } from '@/lib/sign/auth'
+import { AuthError, canAccessEnvelope, getSignUser, newId, newSignerToken } from '@/lib/sign/auth'
 import { appendAudit } from '@/lib/sign/audit'
 import { lockedEnvelopeStructuralError, maxPageInRawFields, mergeSigner, sanitizeField } from '@/lib/sign/placement'
 import { deleteEnvelope, getEnvelope, saveEnvelope } from '@/lib/sign/store'
@@ -12,10 +12,11 @@ export const maxDuration = 60
 
 type Ctx = { params: Promise<{ id: string }> }
 
-async function requireAdmin() {
-  const session = await getAdminSession()
-  if (!session) throw new AuthError()
-  return session
+/** Thomas or a customer account; documents are then limited to what that user owns. */
+async function requireUser() {
+  const user = await getSignUser()
+  if (!user) throw new AuthError()
+  return user
 }
 
 function normalizeRole(raw: unknown, fallback = 'Signer'): string {
@@ -25,10 +26,11 @@ function normalizeRole(raw: unknown, fallback = 'Signer'): string {
 
 export async function GET(_request: Request, ctx: Ctx) {
   try {
-    await requireAdmin()
+    const user = await requireUser()
     const { id } = await ctx.params
     const envelope = await getEnvelope(id)
-    if (!envelope) {
+    // Someone else's document answers exactly like a missing one.
+    if (!envelope || !canAccessEnvelope(user, envelope)) {
       return NextResponse.json({ ok: false, error: 'Not found' }, { status: 404 })
     }
     return NextResponse.json({ ok: true, envelope })
@@ -43,10 +45,10 @@ export async function GET(_request: Request, ctx: Ctx) {
 
 export async function PATCH(request: Request, ctx: Ctx) {
   try {
-    const session = await requireAdmin()
+    const user = await requireUser()
     const { id } = await ctx.params
     let existing = await getEnvelope(id)
-    if (!existing) {
+    if (!existing || !canAccessEnvelope(user, existing)) {
       return NextResponse.json({ ok: false, error: 'Not found' }, { status: 404 })
     }
     const body = (await request.json().catch(() => null)) as {
@@ -148,7 +150,7 @@ export async function PATCH(request: Request, ctx: Ctx) {
       role: normalizeRole(s.role, 'Signer'),
     }))
 
-    envelope = appendAudit(envelope, 'updated', session.email)
+    envelope = appendAudit(envelope, 'updated', user.email)
     // Return merged blob state so admin UI does not flash pending over a durable Client signature.
     // A draft save that sends its lines is the whole set, so a removed line stays removed.
     envelope = await saveEnvelope(envelope, { replaceFields: Array.isArray(body.fields) })
@@ -164,8 +166,12 @@ export async function PATCH(request: Request, ctx: Ctx) {
 
 export async function DELETE(_request: Request, ctx: Ctx) {
   try {
-    await requireAdmin()
+    const user = await requireUser()
     const { id } = await ctx.params
+    const envelope = await getEnvelope(id)
+    if (!envelope || !canAccessEnvelope(user, envelope)) {
+      return NextResponse.json({ ok: false, error: 'Not found' }, { status: 404 })
+    }
     await deleteEnvelope(id)
     return NextResponse.json({ ok: true })
   } catch (error) {
