@@ -6,12 +6,13 @@ import { COUNTRY_SHAPES, type CountryId } from './countryShapes'
 /* The share of each country that is Christian, rounded from national censuses
    and Joshua Project country profiles. Used on the Mission page and in the
    preview card on the home page, so the two never drift apart. */
-export const COUNTRY_STATS: { country: CountryId; stat: string; tail: string }[] = [
+export const COUNTRY_STATS: { country: CountryId; stat: string; tail: string; source?: string }[] = [
   { country: 'afghanistan', stat: 'Under 0.1%', tail: 'of Afghanistan is Christian' },
   { country: 'somalia', stat: 'Under 0.1%', tail: 'of Somalia is Christian' },
   { country: 'yemen', stat: 'Under 0.2%', tail: 'of Yemen is Christian' },
   { country: 'oman', stat: 'Under 0.1%', tail: 'of Omanis are Christian' },
-  { country: 'bangladesh', stat: 'About 0.4%', tail: 'of Bangladesh is Christian' },
+  /* Bangladesh: one figure on every page, Joshua Project's, checked October 31, 2026 (T-403, Thomas). */
+  { country: 'bangladesh', stat: 'About 0.5%', tail: 'of Bangladesh is Christian', source: 'Joshua Project, 2026' },
   { country: 'pakistan', stat: 'Under 2%', tail: 'of Pakistan is Christian' },
   { country: 'india', stat: 'About 2%', tail: 'of India is Christian' },
 ]

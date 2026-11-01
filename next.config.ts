@@ -96,11 +96,9 @@ const nextConfig: NextConfig = {
       // Edu is now Farzana, at farzana.app. The film's end card and links
       // already shared say /edu or /farzana; temporary, since the pages move
       // from this project to the Farzana app itself at launch.
-      // Guides were live for one night (#54) and are back under review; anyone
-      // holding one of those links lands on the home page. Temporary (307), so
-      // the addresses are free when Guides come back.
-      { source: '/guides', destination: '/', permanent: false },
-      { source: '/guides/:slug*', destination: '/', permanent: false },
+      // "From the field" is the Journal now (T-399).
+      { source: '/from-the-field', destination: '/journal', permanent: true },
+      { source: '/from-the-field/:slug', destination: '/journal/:slug', permanent: true },
       // The old Blog is off the site for now (T-401); the pages stay in the
       // project, but its addresses land on the home page. Temporary (307).
       { source: '/blog', destination: '/', permanent: false },

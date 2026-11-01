@@ -35,6 +35,7 @@ function sectionOf(route) {
   if (route === '/') return 'Home'
   if (LEGAL.some((re) => re.test(route))) return 'Legal'
   if (/^\/(portfolio|ruta|latin-game|tap-to-tick)(\/|$)/.test(route)) return 'Portfolio'
+  if (/^\/journal(\/|$)/.test(route)) return 'Journal'
   if (/^\/guides(\/|$)/.test(route)) return 'Guides'
   if (/^\/blog(\/|$)/.test(route)) return 'Blog'
   if (/^\/(ministry|prayer)(\/|$)/.test(route)) return 'Ministries'
@@ -142,7 +143,7 @@ for (const file of htmlFiles(APP)) {
 }
 
 // Home first, then the order a visitor meets the site: sections, then top-level pages before their children.
-const ORDER = ['Home', 'Portfolio', 'Studio', 'Who I work with', 'Guides', 'Get started', 'Blog', 'Ministries', 'Tools', 'Legal']
+const ORDER = ['Home', 'Portfolio', 'Studio', 'Who I work with', 'Journal', 'Guides', 'Get started', 'Blog', 'Ministries', 'Tools', 'Legal']
 pages.push(...ON_DEMAND.filter((p) => !pages.some((q) => q.u === p.u)))
 pages.sort((a, b) => ORDER.indexOf(a.s) - ORDER.indexOf(b.s) || a.u.split('/').length - b.u.split('/').length || a.u.localeCompare(b.u))
 

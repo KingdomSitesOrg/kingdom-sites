@@ -33,8 +33,6 @@ export const PROCESS = {
   ],
 }
 
-export const QUOTE_LINE = 'You and I talk first. You get a quote once I understand the project.'
-
 export const AI_CONSULT = {
   name: 'AI consultation',
   homeTitle: 'I also do AI consultation.',
