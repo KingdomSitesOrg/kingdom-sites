@@ -7,15 +7,19 @@
 .kf-poster, .kf-poster img, .kf-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 .kf-poster img { display: block; object-fit: cover; }
 
-/* On a phone held upright the stage is only as tall as the laptop needs (the
-   script sets it), centred on the screen, its top and bottom edges fading
-   into the page so there is no hard band. */
+/* The stage's top and bottom fade into the page, so the strip dissolves into
+   the room and the room into what follows: no hard line anywhere. */
+.kf-stage { -webkit-mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent); }
+
+/* On a phone held upright with no upright film yet, the script makes the stage
+   only as tall as the laptop needs (the computer's film, cropped). */
 @media (orientation: portrait) {
-  .kf { height: calc(62vw + 275svh); }
-  .kf-stage { height: 62vw; top: calc(60px + (100svh - 60px - 62vw) / 2); }
-  .kf-poster img { object-fit: contain; }
-  .kf-stage { -webkit-mask-image: linear-gradient(to bottom, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(to bottom, transparent, #000 7%, #000 93%, transparent); }
+  .kf-poster img { object-fit: cover; }
 }
+
+/* The floating Intelligence card fades out while the film is on screen. */
+.ki-square { transition: opacity 0.35s ease, visibility 0s, transform 0.25s ease, border-color 0.25s ease; }
+html[data-kf-film] .ki:not([data-open]) .ki-square { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.35s ease, visibility 0s linear 0.35s, transform 0.25s ease, border-color 0.25s ease; }
 
 /* The live screen: the app at its own size, 1800 x 1095, put onto the display. */
 .kf-live { position: absolute; left: 0; top: 0; width: 1800px; height: 1095px; transform-origin: 0 0; overflow: hidden; opacity: 0; pointer-events: none; background: rgb(188 193 205); backface-visibility: hidden; will-change: transform, opacity; --kf-cur: 1; }

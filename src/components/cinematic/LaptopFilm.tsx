@@ -368,7 +368,10 @@ export default function LaptopFilm() {
       const fs = set()
       const b = lbox()
       W = stage.clientWidth
-      if (kind === 'phone') {
+      // A phone uses its own upright film when there is one; until then it
+      // borrows the computer's film, cropped to the laptop.
+      const borrowed = kind === 'phone' && (fs.fit === 'contain' || fs.dir === man.desktop.dir)
+      if (borrowed) {
         // The laptop, with a little room round it, across the whole width.
         const m = b.w * 0.06
         const cx = Math.max(0, b.x - m)
@@ -385,16 +388,22 @@ export default function LaptopFilm() {
         ox = -cx * s
         oy = Math.min(0, Math.max(H - fs.h * s, (H - ch * s) / 2 - cy * s))
       } else {
+        // The whole screen below the header (the stylesheet's sizes).
         stage.style.height = ''
         stage.style.top = ''
         section.style.height = ''
         H = stage.clientHeight
         // Fill the stage, unless that would cut off the laptop; and keep the laptop in view.
-        const m = b.w * 0.04
-        s = Math.min(Math.max(W / fs.w, H / fs.h), W / (b.w + m * 2), H / (b.h + m * 2))
+        // An upright phone film is framed for the phone already: it always fills the stage.
+        const m = kind === 'phone' ? 0 : b.w * 0.04
+        const cover = Math.max(W / fs.w, H / fs.h)
+        s = kind === 'phone' ? cover : Math.min(cover, W / (b.w + m * 2), H / (b.h + m * 2))
         const within = (lo: number, hi: number, v: number) => Math.min(hi, Math.max(lo, v))
         ox = within(-(b.x - m) * s, W - (b.x + b.w + m) * s, (W - fs.w * s) / 2)
         oy = within(-(b.y - m) * s, H - (b.y + b.h + m) * s, (H - fs.h * s) / 2)
+        // Never past the frame's own edges.
+        if (fs.w * s >= W) ox = within(W - fs.w * s, 0, ox)
+        if (fs.h * s >= H) oy = within(H - fs.h * s, 0, oy)
       }
       const r = section.getBoundingClientRect()
       top = r.top + window.scrollY
@@ -508,6 +517,13 @@ export default function LaptopFilm() {
       steer()
     })
     io.observe(stage)
+    // The floating Intelligence card steps aside while the film is on screen.
+    const root = document.documentElement
+    const aside = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) root.dataset.kfFilm = ''
+      else delete root.dataset.kfFilm
+    })
+    aside.observe(section)
     const ro = new ResizeObserver(() => measure())
     ro.observe(document.body)
     window.addEventListener('scroll', schedule, { passive: true })
@@ -520,6 +536,8 @@ export default function LaptopFilm() {
       cancelAnimationFrame(raf)
       loop?.stop()
       io.disconnect()
+      aside.disconnect()
+      delete root.dataset.kfFilm
       ro.disconnect()
       window.removeEventListener('scroll', schedule)
       window.removeEventListener('resize', measure)
@@ -537,6 +555,7 @@ export default function LaptopFilm() {
       </p>
       <div ref={stageRef} className="kf-stage" aria-hidden="true">
         <picture ref={posterRef} className="kf-poster">
+          <source media="(orientation: portrait)" srcSet={`${FILM_BASE}/phone/0001.jpg`} />
           <img src={`${FILM_BASE}/desktop/0001.jpg`} alt="" fetchPriority="high" />
         </picture>
         <canvas ref={canvasRef} className="kf-canvas" />

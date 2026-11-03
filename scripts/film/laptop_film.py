@@ -32,7 +32,17 @@ SCREEN_IMAGE = os.path.join(ROOT, "public", "work", "farzana-classroom-home.webp
 HDRI = os.path.join(ROOT, "design", "laptop-film", "assets", "studio_small_09_2k.hdr")
 
 FRAMES = 96
-ASPECTS = {"desktop": (1600, 1000), "phone": (720, 1280)}
+ASPECTS = {"desktop": (1600, 1000), "phone": (780, 1400)}
+ASPECT = "desktop"     # set by main() before the scene is built (props differ per camera)
+
+# Prop placement per camera: (x, y, yaw deg). The portrait camera is narrow
+# and tall, so its props sit closer in and in front of the laptop.
+PROPS = {
+    "desktop": {"tin": (0.29, -0.175, -24), "loose": (0.17, -0.285, 38),
+                "bookA": (-0.385, 0.175, 13), "bookB": (-0.378, 0.168, 4), "mug": (0.335, 0.215, -55)},
+    "phone": {"tin": (0.115, -0.265, -16), "loose": (-0.085, -0.33, 24),
+              "bookA": (-0.255, 0.135, 13), "bookB": (-0.248, 0.128, 4), "mug": (0.235, 0.200, -60)},
+}
 
 # ---------------------------------------------------------------- dimensions
 BASE_W, BASE_D, BASE_H = 0.356, 0.248, 0.0080
@@ -797,8 +807,9 @@ def build_room(scene):
     tin_m = mat_simple("Tin", (0.030, 0.075, 0.058), 0.38, metallic=0.7)
     tin_root = bpy.data.objects.new("PencilTin", None)
     scene.collection.objects.link(tin_root)
-    tin_root.location = (0.29, -0.175, 0.0)
-    tin_root.rotation_euler = (0, 0, math.radians(-24))
+    P = PROPS[ASPECT]
+    tin_root.location = (P["tin"][0], P["tin"][1], 0.0)
+    tin_root.rotation_euler = (0, 0, math.radians(P["tin"][2]))
     tin = slab("Tin", 0.195, 0.072, 0.0, 0.0115, 0.006, segs=6)
     inner = slab("TinInner", 0.189, 0.066, 0.0012, 0.04, 0.004, segs=6)
     boolean_cut(tin, [inner])
@@ -813,10 +824,10 @@ def build_room(scene):
         p.location = (0.004 * ((i % 2) - 0.5), -0.0235 + i * 0.0078, 0.0047)
     loose = pencil("PencilLoose", 0.168)
     loose.rotation_euler = Euler((math.radians(30), math.radians(90), 0), "XYZ")
-    loose.rotation_euler = (Euler((0, 0, math.radians(38))).to_matrix() @
+    loose.rotation_euler = (Euler((0, 0, math.radians(P["loose"][2]))).to_matrix() @
                             Euler((0, math.radians(90), 0)).to_matrix() @
                             Euler((0, 0, math.radians(30))).to_matrix()).to_euler()
-    loose.location = (0.17, -0.285, 0.0032)
+    loose.location = (P["loose"][0], P["loose"][1], 0.0032)
 
     # two closed books at back left
     def book(name, w, d, h, cover_col, loc, yaw):
@@ -846,8 +857,8 @@ def build_room(scene):
         pages.data.materials.append(pm); pages.parent = root
         return root
 
-    book("BookA", 0.240, 0.168, 0.028, (0.055, 0.11, 0.085), (-0.385, 0.175, 0.0), 13)
-    book("BookB", 0.215, 0.150, 0.022, (0.30, 0.06, 0.04), (-0.378, 0.168, 0.028), 4)
+    book("BookA", 0.240, 0.168, 0.028, (0.055, 0.11, 0.085), (P["bookA"][0], P["bookA"][1], 0.0), P["bookA"][2])
+    book("BookB", 0.215, 0.150, 0.022, (0.30, 0.06, 0.04), (P["bookB"][0], P["bookB"][1], 0.028), P["bookB"][2])
 
     # a plain ceramic mug at back right
     mug = slab("Mug", 0.084, 0.084, 0.0, 0.095, 0.0419, segs=16)
@@ -864,8 +875,8 @@ def build_room(scene):
     mug.data.materials.append(mug_m); handle.data.materials.append(mug_m)
     mroot = bpy.data.objects.new("MugRoot", None)
     scene.collection.objects.link(mroot)
-    mroot.location = (0.335, 0.215, 0.0)
-    mroot.rotation_euler = (0, 0, math.radians(-55))
+    mroot.location = (P["mug"][0], P["mug"][1], 0.0)
+    mroot.rotation_euler = (0, 0, math.radians(P["mug"][2]))
     mug.parent = mroot; handle.parent = mroot
 
 
@@ -1242,7 +1253,17 @@ _DESK_KEYS = [
     (86, -13.15, 11.05, 1.067, FINAL_TARGET),
     (96, -13.0, 11.0, 1.060, FINAL_TARGET),
 ]
-CAM_KEYS = {"desktop": _DESK_KEYS, "phone": _DESK_KEYS}   # phone film parked
+PHONE_TARGET = (0.016, 0.010, 0.112)
+_PHONE_KEYS = [
+    # same timing and angles; closer, so the laptop fills the portrait width
+    (1, -42.0, 9.5, 0.66, (0.0, 0.00, 0.050)),
+    (20, -39.0, 10.0, 0.62, (0.0, 0.01, 0.060)),
+    (45, -31.0, 11.0, 0.64, (0.03, 0.04, 0.105)),
+    (62, -22.0, 11.5, 0.65, (0.02, 0.03, 0.115)),
+    (86, -13.15, 11.05, 0.648, PHONE_TARGET),
+    (96, -13.0, 11.0, 0.644, PHONE_TARGET),
+]
+CAM_KEYS = {"desktop": _DESK_KEYS, "phone": _PHONE_KEYS}
 
 
 def camera_state(aspect, f):
@@ -1329,6 +1350,8 @@ def main():
     ap.add_argument("--overwrite", action="store_true", help="seq: re-render existing frames")
     args = ap.parse_args(argv)
 
+    global ASPECT
+    ASPECT = args.aspect
     scene = build_scene()
     out = os.path.join(ROOT, args.out) if not os.path.isabs(args.out) else args.out
     os.makedirs(out, exist_ok=True)
@@ -1348,10 +1371,10 @@ def main():
         return
 
     if args.mode == "geometry":
-        w, h = ASPECTS["desktop"]
+        w, h = ASPECTS[args.aspect]
         scene.render.resolution_x, scene.render.resolution_y = w, h
         scene.render.resolution_percentage = 100
-        apply_frame(scene, "desktop", FRAMES)
+        apply_frame(scene, args.aspect, FRAMES)
         _, _, c = screen_frame()
 
         def px(co):
@@ -1373,7 +1396,8 @@ def main():
         x0, y0, x1, y1 = math.floor(min(xs)), math.floor(min(ys)), math.ceil(max(xs)), math.ceil(max(ys))
         geo = {"frame": FRAMES, "w": w, "h": h, "screenQuad": quad,
                "laptopBox": {"x": x0, "y": y0, "w": x1 - x0, "h": y1 - y0}}
-        path = os.path.join(out, "final-geometry.json")
+        path = os.path.join(out, "final-geometry.json" if args.aspect == "desktop"
+                            else "final-geometry-%s.json" % args.aspect)
         with open(path, "w") as fh:
             json.dump(geo, fh, indent=2)
         print("GEOMETRY", json.dumps(geo))

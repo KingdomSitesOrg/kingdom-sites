@@ -273,7 +273,7 @@ export default function Home() {
       <aside aria-labelledby="strata" className="cn-wrap mt-24 sm:mt-32">
         <Link
           href="/strata"
-          className="group grid grid-cols-[112px_1fr] items-center gap-4 border-t border-[var(--line)] pt-6 sm:grid-cols-[minmax(0,280px)_1fr] sm:gap-8"
+          className="group grid grid-cols-[112px_1fr] items-center gap-4 pt-6 sm:grid-cols-[minmax(0,280px)_1fr] sm:gap-8"
         >
           <span className="cn-shot cn-case-frame block">
             {/* eslint-disable-next-line @next/next/no-img-element */}
