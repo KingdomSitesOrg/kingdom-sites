@@ -2,10 +2,10 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import CinematicChrome from '@/components/cinematic/Chrome'
 import CaseTitle from '@/components/cinematic/CaseTitle'
-import { Browser, MacWindow, Phone } from '@/components/cinematic/Frames'
-import { geistSerif } from '@/components/cinematic/fonts'
+import { Browser, Phone } from '@/components/cinematic/Frames'
 import { Credit } from '@/components/cinematic/Maker'
 import LatinPartner from '@/components/cinematic/LatinPartner'
+import LaptopFilm from '@/components/cinematic/LaptopFilm'
 import LitLink from '@/components/cinematic/LitLink'
 import Scroll from '@/components/cinematic/Scroll'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
@@ -34,9 +34,10 @@ export const metadata: Metadata = {
 }
 
 /* The Farzana Classroom story, one chapter per screen. The school screens show
-   Wren Hall, a made-up demo school, and say so in the window's note. The home
-   page shows Farzana in three places at most (Thomas, T-372): the hero's window
-   and these chapters. The hero's window carries no note. */
+   Wren Hall, a made-up demo school, and say so in the window's note. */
+/* Farzana's booking page (it lives at farzana.app/book; this address takes you there). */
+const FARZANA_BOOK = '/farzana/book'
+
 const PRODUCT = 'Farzana Classroom'
 const DEMO = 'Demo school'
 const CHAPTERS: { shot: Shot; note?: string; kicker: string; title: string; body: string; gives: string }[] = [
@@ -60,46 +61,42 @@ const ROLE: Record<string, string> = {
   delta: 'Designed and built by me',
 }
 
-/* The home page's look: Geist Serif on warm paper, chosen by Thomas on
-   2026-11-03. The look sets the ground of the whole page, so the hero runs on
-   into what follows. */
 export default function Home() {
   return (
-    <CinematicChrome look="paper" fontClass={geistSerif.variable}>
-      {/* Hero: the work first. A line saying who is talking, one headline, one
-          line, one tap, then one real screen of Farzana Classroom in a Mac
-          window with a line from me beside it. The ground runs on past the
-          window and fades into the page's own ground below, so there is no
-          edge. On a phone the window runs off the right edge so the screen
-          stays readable. Nothing is pinned: scrolling moves the page. */}
-      <section className="cn-sw" aria-label="Kingdom Sites">
-        <div className="cn-wrap cn-sw-in">
-          <p className="cn-sw-kick">Thomas Klein. Software and the thinking before it.</p>
-          <h1 className="cn-sw-h1">I turn ideas into software people want to use.</h1>
-          <div className="cn-sw-row">
-            <p className="cn-sw-sub">I think it through with you, then design and build it, fast and well. This one is mine.</p>
-            <div className="cn-sw-acts">
-              <Link href={INQUIRE_PATH} className="cn-btn cn-sw-btn">
-                {INQUIRE_CTA} <span aria-hidden="true">→</span>
-              </Link>
-              <a href="#farzana" className="cn-sw-link">
-                See the portfolio <span aria-hidden="true">↓</span>
-              </a>
-            </div>
-          </div>
+    <CinematicChrome>
+      {/* The top: a plain strip, so it is clear at once what this site is. */}
+      <section aria-label="Kingdom Sites" className="cn-wrap kf-strip">
+        <h1 className="cn-display cn-h2">
+          <span className="block">Made to be used.</span>
+          <span className="block">Made to be yours.</span>
+        </h1>
+        <p className="cn-body mt-6 max-w-[46ch]">I build websites and apps for businesses, churches and anyone who needs software.</p>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <Link href={INQUIRE_PATH} className="cn-btn">
+            {INQUIRE_CTA} <span aria-hidden="true">→</span>
+          </Link>
+          <a href="#farzana" className="cn-ghost">
+            See the portfolio <span aria-hidden="true">↓</span>
+          </a>
         </div>
-        <div className="cn-sw-stage">
-          <div className="cn-wrap">
-            <figure className="cn-sw-fig">
-              <div className="cn-sw-window">
-                <MacWindow shot={SHOTS.classroomHome} title={PRODUCT} priority />
-              </div>
-              {/* The school on screen is practice data, so the caption quotes none of it and does not call it a demo (Thomas: never say demo school). */}
-              <figcaption className="cn-sw-cap">
-                <b>{PRODUCT}</b> A school platform I designed and built from the ground up, payments to quiz results.
-              </figcaption>
-            </figure>
-          </div>
+      </section>
+
+      {/* The film: a laptop opens on Farzana Classroom, the camera goes into the
+          screen, and the app on it becomes the real thing you can click. */}
+      <LaptopFilm />
+
+      <section aria-labelledby="real-demo" className="cn-wrap kf-ask">
+        <h2 id="real-demo" className="cn-display cn-h2 mx-auto">
+          <span className="block">Want a real demo?</span>
+          <span className="block">Or your own custom software?</span>
+        </h2>
+        <div className="mt-10 flex flex-wrap justify-center gap-3">
+          <Link href={FARZANA_BOOK} className="cn-btn">
+            Book a Farzana demo <span aria-hidden="true">→</span>
+          </Link>
+          <Link href={INQUIRE_PATH} className="cn-ghost">
+            {INQUIRE_CTA} <span aria-hidden="true">→</span>
+          </Link>
         </div>
       </section>
 

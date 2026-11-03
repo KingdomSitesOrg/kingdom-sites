@@ -21,36 +21,6 @@ export function Browser({ shot, product, note, priority }: { shot: Shot; product
   )
 }
 
-/* A Mac window, drawn in CSS around one real screenshot: a light title bar
-   with the three coloured dots and, at most, the product's name. */
-export function MacWindow({ shot, title, priority }: { shot: Shot; title?: string; priority?: boolean }) {
-  return (
-    <div className="cn-mac">
-      <div className="cn-mac-bar" aria-hidden="true">
-        <span className="cn-mac-dots">
-          <i />
-          <i />
-          <i />
-        </span>
-        {title ? <span className="cn-mac-title">{title}</span> : null}
-      </div>
-      <div className="cn-mac-screen">
-        <picture>
-          <img
-            src={shot.src}
-            alt={shot.alt}
-            width={shot.w}
-            height={shot.h}
-            loading={priority ? 'eager' : 'lazy'}
-            fetchPriority={priority ? 'high' : undefined}
-            decoding="async"
-          />
-        </picture>
-      </div>
-    </div>
-  )
-}
-
 /* Phones are never preloaded; `eager` only skips lazy loading (the hero's).
    A phone whose screenshot has sized copies (scripts/phone-shots.mjs) is drawn
    as a <picture>: AVIF, then WebP, then a baseline JPEG every Safari shows,

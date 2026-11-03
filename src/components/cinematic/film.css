@@ -1,0 +1,59 @@
+/* The home page film (LaptopFilm.tsx): a tall section with a pinned stage.
+   The canvas draws the frame for the scroll; the live app sits on top of it,
+   placed and faded by the script. Everything moves by transform and opacity. */
+.kf { position: relative; height: 460svh; }
+.kf-stage { position: sticky; top: 60px; height: calc(100svh - 60px); overflow: hidden; background: var(--bg); }
+.kf-poster, .kf-poster img, .kf-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.kf-poster img { display: block; object-fit: cover; }
+.kf-canvas { opacity: 0; }
+
+/* The live app: its box is the laptop's display at first, then the stage. */
+.kf-app { position: absolute; left: 0; top: 0; width: 0; height: 0; overflow: hidden; opacity: 0; pointer-events: none; background: rgb(188 193 205); will-change: transform, opacity; }
+.kf-app.is-live { pointer-events: auto; }
+.kf-screen { position: relative; container-type: inline-size; }
+.kf-shots { position: relative; }
+.kf-shots img { display: block; width: 100%; height: auto; opacity: 0; transition: opacity 0.18s ease-out; }
+.kf-shots img + img { position: absolute; inset: 0; }
+.kf-shots img.is-on { opacity: 1; }
+
+/* Hot spots over the screenshot. A sidebar item darkens on hover exactly as
+   the app's own selected item does (multiply over the sidebar's grey). */
+.kf-hot { position: absolute; display: block; padding: 0; border: 0; background: transparent; cursor: pointer; border-radius: 0.34cqw; mix-blend-mode: multiply; transition: background-color 0.12s ease-out; -webkit-tap-highlight-color: transparent; }
+.kf-hot:hover, .kf-hot:focus-visible { background: rgb(226 229 234); }
+.kf-hot:active { background: rgb(214 218 226); }
+.kf-hot[aria-current]:hover { background: transparent; }
+.kf-hot:focus-visible { outline: max(2px, 0.12cqw) solid rgb(30 45 80); outline-offset: 0; }
+/* A card lifts a hair instead. */
+.kf-card { border-radius: 0.5cqw; mix-blend-mode: normal; }
+.kf-card:hover, .kf-card:focus-visible { background: rgb(30 45 80 / 0.05); box-shadow: 0 0 0 max(1px, 0.1cqw) rgb(30 45 80 / 0.35); }
+.kf-card:active { background: rgb(30 45 80 / 0.09); }
+
+/* Less motion: no pin and no scrub. The last frame stands still with the app on it. */
+@media (prefers-reduced-motion: reduce) {
+  .kf { height: auto; }
+  .kf-stage { position: relative; top: auto; }
+  .kf-shots img, .kf-hot { transition: none; }
+}
+
+/* The call to action after the film. */
+.kf-ask { text-align: center; padding-block: clamp(88px, 12vw, 168px) clamp(72px, 9vw, 128px); }
+
+/* The plain strip at the top: a little over half the screen on a computer;
+   on a phone, short enough that the film shows below it in the first screen. */
+.kf-strip { display: flex; flex-direction: column; justify-content: center; padding-block: 40px 48px; }
+@media (min-width: 760px) { .kf-strip { min-height: calc(60svh - 61px); padding-block: 48px; } }
+
+/* The phone layout the laptop's screen turns into, on phones held upright.
+   The screen is cut off at the bottom, the way the app sits before you scroll
+   it, and the app's own tab bar stays pinned below. */
+.kf-phone { position: absolute; inset: 0; display: flex; flex-direction: column; opacity: 0; background: rgb(188 193 205); }
+.kf-phone:empty { display: none; }
+.kf-ph-body { position: relative; flex: 1 1 auto; min-height: 0; overflow: hidden; container-type: inline-size; }
+.kf-ph-tabs { position: relative; flex: none; container-type: inline-size; }
+.kf-tab { border-radius: 1.1cqw; }
+.kf-still { display: block; width: 100%; height: auto; }
+
+/* While the app on the laptop is live, the site's floating Intelligence card
+   steps aside so it never sits on top of the app people are trying. */
+.ki-square { transition: opacity 0.2s ease-out, visibility 0.2s; }
+body:has(.kf-app.is-live) .ki-square { opacity: 0; visibility: hidden; pointer-events: none; }

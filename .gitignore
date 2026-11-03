@@ -55,3 +55,6 @@ CLAUDE.md
 
 # site search index, written after each build (scripts/search-index.mjs)
 /public/search-index.json
+
+# placeholder film frames for building the home page film (the real ones are in public/film)
+/public/film-dev/
