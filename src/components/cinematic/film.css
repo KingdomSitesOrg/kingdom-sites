@@ -19,7 +19,7 @@
 
 /* The floating Intelligence card fades out while the film is on screen. */
 .ki-square { transition: opacity 0.35s ease, visibility 0s, transform 0.25s ease, border-color 0.25s ease; }
-html[data-kf-film] .ki:not([data-open]) .ki-square { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.35s ease, visibility 0s linear 0.35s, transform 0.25s ease, border-color 0.25s ease; }
+html[data-kf-film] .ki:not([data-open]) .ki-square, html[data-kf-aside] .ki:not([data-open]) .ki-square { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.35s ease, visibility 0s linear 0.35s, transform 0.25s ease, border-color 0.25s ease; }
 
 /* The live screen: the app at its own size, 1800 x 1095, put onto the display. */
 .kf-live { position: absolute; left: 0; top: 0; width: 1800px; height: 1095px; transform-origin: 0 0; overflow: hidden; opacity: 0; pointer-events: none; background: rgb(188 193 205); backface-visibility: hidden; will-change: transform, opacity; --kf-cur: 1; }
@@ -60,3 +60,68 @@ html[data-kf-film] .ki:not([data-open]) .ki-square { opacity: 0; visibility: hid
    on a phone, short enough that the film shows below it in the first screen. */
 .kf-strip { display: flex; flex-direction: column; justify-content: center; padding-block: 40px 48px; }
 @media (min-width: 760px) { .kf-strip { min-height: calc(60svh - 61px); padding-block: 48px; } }
+
+/* The top line's changing word: every word in one grid cell, so the line keeps
+   its size; the new word rises in as the old one rises out. */
+.kf-words { display: inline-grid; vertical-align: top; white-space: nowrap; }
+.kf-words > span { grid-area: 1 / 1; opacity: 0; transform: translateY(0.32em); filter: blur(6px); transition: opacity 0.55s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), filter 0.55s ease; }
+.kf-words > span.is-on { opacity: 1; transform: none; filter: none; }
+.kf-words > span.is-off { transform: translateY(-0.32em); }
+@media (prefers-reduced-motion: reduce) {
+  .kf-words > span { transition: none; }
+}
+
+/* Steam over the mug (LaptopFilm.tsx places it on the cup each frame). */
+.kf-steam { position: absolute; left: 0; top: 0; pointer-events: none; visibility: hidden; will-change: transform; }
+
+/* Lights on: the room starts dark and comes up a moment after the page opens. */
+.kf-dark { position: absolute; inset: 0; background: #0b0b0c; pointer-events: none; animation: kf-lights 1.8s cubic-bezier(0.3, 0, 0.2, 1) 0.45s both; }
+@keyframes kf-lights {
+  0% { opacity: 1; }
+  35% { opacity: 0.55; }
+  100% { opacity: 0; visibility: hidden; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .kf-dark { display: none; }
+}
+
+/* After the film: the story line, then the app's own screens. */
+.kf-story { text-align: center; padding-top: clamp(88px, 12vw, 168px); }
+.kf-shots-grid { display: grid; gap: clamp(20px, 3vw, 40px); margin-top: clamp(48px, 7vw, 96px); }
+@media (min-width: 900px) { .kf-shots-grid { grid-template-columns: 1fr 1fr; } .kf-shots-grid > :first-child { grid-column: 1 / -1; } }
+
+/* STRATA: a wide band in its own colours, deep blue with an ember glow, that
+   fades in from the page and back out to it, so there is no hard edge. Three
+   of its stills cross-fade slowly in one frame. */
+.kf-strata { position: relative; margin-top: clamp(120px, 14vw, 200px); padding-block: clamp(96px, 12vw, 176px); text-align: center; isolation: isolate; }
+.kf-strata::before { content: ''; position: absolute; inset: 0; z-index: -1; background:
+  radial-gradient(60% 45% at 50% 62%, rgb(255 120 40 / 0.16), transparent 70%),
+  radial-gradient(80% 60% at 50% 40%, rgb(30 80 190 / 0.45), transparent 75%),
+  linear-gradient(to bottom, var(--bg), #08142e 22%, #0a1838 60%, #08142e 80%, var(--bg)); }
+.kf-strata-tag { display: inline-block; padding: 5px 12px; border-radius: 999px; border: 1px solid rgb(255 150 80 / 0.45); color: #ffb27a; font-size: 12px; letter-spacing: 0.08em; }
+.kf-strata-name { margin-top: 22px; font-size: clamp(3.4rem, 11vw, 9rem); letter-spacing: 0.04em; background: linear-gradient(180deg, #ffffff, #9cc4ff 70%, #5b8fe6); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.kf-strata-film { position: relative; margin: clamp(40px, 6vw, 72px) auto 0; max-width: 1180px; aspect-ratio: 16 / 10; border-radius: clamp(14px, 1.6vw, 22px); overflow: hidden; background: #060c1c; box-shadow: 0 0 0 1px rgb(120 170 255 / 0.18), 0 40px 120px rgb(20 60 160 / 0.45), 0 0 90px rgb(255 120 40 / 0.12); }
+.kf-strata-film img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; animation: kf-strata 15s linear infinite; }
+.kf-strata-film img:nth-child(2) { animation-delay: 5s; }
+.kf-strata-film img:nth-child(3) { animation-delay: 10s; }
+@keyframes kf-strata {
+  0% { opacity: 0; transform: scale(1.06); }
+  8% { opacity: 1; }
+  33% { opacity: 1; }
+  41% { opacity: 0; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .kf-strata-film img { animation: none; }
+  .kf-strata-film img:first-child { opacity: 1; }
+}
+
+/* The note form at the bottom, in the page's dark colours (the form itself
+   uses the site's light colour names; this re-points them). */
+.kf-form { --color-surface: #141416; --color-surface-2: #1b1b1e; --color-ink: #efebe3; --color-body: #cfcbc3; --color-muted: #8e8a82; --color-line: rgba(239, 235, 227, 0.1); --color-line-strong: rgba(239, 235, 227, 0.18); --color-accent: #efebe3; --color-accent-hover: #ffffff; text-align: left; }
+.kf-form .tile-elevated { box-shadow: 0 30px 80px rgb(0 0 0 / 0.45); }
+.kf-form .btn-primary { color: #0b0b0c; box-shadow: none; font-weight: 600; }
+.kf-form input, .kf-form textarea { background: #0f0f11; }
+@media (max-width: 759px) {
+  html[data-kf-past] .ki:not([data-open]) .ki-square { opacity: 0; visibility: hidden; pointer-events: none; }
+}

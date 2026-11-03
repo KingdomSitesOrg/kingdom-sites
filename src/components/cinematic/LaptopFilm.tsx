@@ -21,7 +21,16 @@ export const FILM_BASE = '/film'
 type Kind = 'desktop' | 'phone'
 type Rect = { x: number; y: number; w: number; h: number }
 type Pt = [number, number]
-type FilmSet = { w: number; h: number; dir: string; fit?: 'cover' | 'contain'; screenQuad?: Pt[]; laptopBox?: Rect }
+/* `steam`: for each frame, the middle of the mug's opening and its radius, in frame pixels. */
+type FilmSet = {
+  w: number
+  h: number
+  dir: string
+  fit?: 'cover' | 'contain'
+  screenQuad?: Pt[]
+  laptopBox?: Rect
+  steam?: [number, number, number][]
+}
 type Manifest = { frames: number; ext: string; desktop: FilmSet; phone: FilmSet }
 
 /* Used until the manifest arrives, and for anything it leaves out. */
@@ -272,12 +281,119 @@ function startLoop(el: {
   }
 }
 
+/**
+ * Steam over the mug: a few dozen soft puffs rise from the cup, widen, drift
+ * and fade, on a small canvas that sits on the mug's opening. It runs on its
+ * own clock, so it keeps rising while the page holds still.
+ */
+function startSteam(canvas: HTMLCanvasElement) {
+  const ctx = canvas.getContext('2d')
+  // One soft puff, drawn once and stamped many times.
+  const puff = document.createElement('canvas')
+  puff.width = puff.height = 64
+  const pc = puff.getContext('2d')
+  if (pc) {
+    const g = pc.createRadialGradient(32, 32, 0, 32, 32, 32)
+    g.addColorStop(0, 'rgba(255,255,255,1)')
+    g.addColorStop(0.45, 'rgba(255,255,255,0.45)')
+    g.addColorStop(1, 'rgba(255,255,255,0)')
+    pc.fillStyle = g
+    pc.fillRect(0, 0, 64, 64)
+  }
+  type P = { x: number; age: number; life: number; seed: number; drift: number }
+  const ps: P[] = []
+  let r = 0
+  let dpr = 1
+  let raf = 0
+  let last = 0
+  let running = false
+  let dead = false
+  let spawn = 0
+
+  // The canvas is 7 radii wide and 12 tall; the cup's opening is at the middle of its bottom edge.
+  const place = (x: number, y: number, radius: number, scale: number) => {
+    const nr = Math.max(4, radius * scale)
+    if (Math.abs(nr - r) > 0.5) {
+      r = nr
+      dpr = Math.min(2, window.devicePixelRatio || 1)
+      canvas.width = Math.round(r * 7 * dpr)
+      canvas.height = Math.round(r * 12 * dpr)
+      canvas.style.width = `${r * 7}px`
+      canvas.style.height = `${r * 12}px`
+    }
+    canvas.style.transform = `translate(${(x - r * 3.5).toFixed(1)}px, ${(y - r * 12).toFixed(1)}px)`
+    canvas.style.visibility = 'visible'
+  }
+  const hide = () => {
+    canvas.style.visibility = 'hidden'
+  }
+
+  const frame = (t: number) => {
+    raf = 0
+    if (!running || dead || !ctx) return
+    const dt = Math.min(0.05, last ? (t - last) / 1000 : 0.016)
+    last = t
+    spawn += dt * 14
+    while (spawn >= 1) {
+      spawn -= 1
+      ps.push({ x: (Math.random() - 0.5) * 1.1, age: 0, life: 3.2 + Math.random() * 1.8, seed: Math.random() * 100, drift: (Math.random() - 0.5) * 0.5 })
+    }
+    const w = canvas.width
+    const h = canvas.height
+    const R = r * dpr
+    ctx.clearRect(0, 0, w, h)
+    for (let i = ps.length - 1; i >= 0; i--) {
+      const p = ps[i]
+      p.age += dt
+      const k = p.age / p.life
+      if (k >= 1) {
+        ps.splice(i, 1)
+        continue
+      }
+      // Up about ten radii over its life, slowing; a slow sway that grows as it rises.
+      const rise = 10 * (1 - Math.pow(1 - k, 1.6))
+      const sway = Math.sin(p.seed + p.age * 1.3) * (0.35 + rise * 0.16) + p.drift * rise * 0.5
+      const cx = w / 2 + (p.x + sway) * R
+      const cy = h - rise * R - 0.15 * R
+      const size = R * (0.9 + k * 2.6)
+      // In quickly, out slowly; faint throughout, the way steam is.
+      const a = Math.min(1, k * 6) * Math.pow(1 - k, 1.4) * 0.11
+      ctx.globalAlpha = a
+      ctx.drawImage(puff, cx - size / 2, cy - size / 2, size, size * 1.25)
+    }
+    ctx.globalAlpha = 1
+    raf = requestAnimationFrame(frame)
+  }
+
+  return {
+    place,
+    hide,
+    play() {
+      if (running || dead) return
+      running = true
+      last = 0
+      raf = requestAnimationFrame(frame)
+    },
+    pause() {
+      running = false
+      cancelAnimationFrame(raf)
+      raf = 0
+    },
+    stop() {
+      dead = true
+      running = false
+      cancelAnimationFrame(raf)
+    },
+  }
+}
+
 export default function LaptopFilm() {
   const sectionRef = useRef<HTMLElement>(null)
   const stageRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const posterRef = useRef<HTMLPictureElement>(null)
   const liveRef = useRef<HTMLDivElement>(null)
+  const steamRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
     const section = sectionRef.current
@@ -285,8 +401,10 @@ export default function LaptopFilm() {
     const canvas = canvasRef.current
     const live = liveRef.current
     const poster = posterRef.current
+    const steamCanvas = steamRef.current
     const ctx = canvas?.getContext('2d')
-    if (!section || !stage || !canvas || !live || !ctx) return
+    if (!section || !stage || !canvas || !live || !ctx || !steamCanvas) return
+    const steam = startSteam(steamCanvas)
     const q = <T extends HTMLElement>(s: string) => live.querySelector(s) as T
 
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -440,6 +558,8 @@ export default function LaptopFilm() {
     }
     let loop: ReturnType<typeof startLoop> | null = null
     const steer = () => {
+      if (!reduce.matches && inView && !document.hidden) steam.play()
+      else steam.pause()
       const want = !reduce.matches && inView && !document.hidden && lastFade > 0
       if (want && !loop) loop = startLoop(els)
       if (!loop) return
@@ -473,6 +593,9 @@ export default function LaptopFilm() {
         if (drawn < 0 && poster) poster.style.visibility = 'hidden'
         drawn = idx
         drawnKey = key
+        const at = fs.steam?.[idx]
+        if (at && !reduce.matches) steam.place(ox + at[0] * s, oy + at[1] * s, at[2], s)
+        else steam.hide()
       }
 
       // The live screen comes up over the render's own screen on the last frames.
@@ -522,6 +645,9 @@ export default function LaptopFilm() {
     const aside = new IntersectionObserver((entries) => {
       if (entries.some((e) => e.isIntersecting)) root.dataset.kfFilm = ''
       else delete root.dataset.kfFilm
+      // Past the film, a phone has no room beside the text for the card.
+      if (entries.some((e) => !e.isIntersecting && e.boundingClientRect.bottom < 0)) root.dataset.kfPast = ''
+      else delete root.dataset.kfPast
     })
     aside.observe(section)
     const ro = new ResizeObserver(() => measure())
@@ -535,9 +661,11 @@ export default function LaptopFilm() {
       dead = true
       cancelAnimationFrame(raf)
       loop?.stop()
+      steam.stop()
       io.disconnect()
       aside.disconnect()
       delete root.dataset.kfFilm
+      delete root.dataset.kfPast
       ro.disconnect()
       window.removeEventListener('scroll', schedule)
       window.removeEventListener('resize', measure)
@@ -559,6 +687,7 @@ export default function LaptopFilm() {
           <img src={`${FILM_BASE}/desktop/0001.jpg`} alt="" fetchPriority="high" />
         </picture>
         <canvas ref={canvasRef} className="kf-canvas" />
+        <canvas ref={steamRef} className="kf-steam" />
         <div ref={liveRef} className="kf-live">
           <div className="kf-shots">
             {(Object.keys(SHOTS) as Screen[]).map((k) => (
@@ -585,6 +714,8 @@ export default function LaptopFilm() {
           </div>
           <div className="kf-glass" />
         </div>
+        {/* The room is dark when the page opens, and the light comes up on it a moment later. */}
+        <div className="kf-dark" />
       </div>
     </section>
   )

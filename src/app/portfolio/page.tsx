@@ -8,7 +8,7 @@ import { Browser, Phone } from '@/components/cinematic/Frames'
 import LatinPartner from '@/components/cinematic/LatinPartner'
 import Scroll from '@/components/cinematic/Scroll'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
-import { LATIN_STORES, PROJECTS, SHOTS } from '@/lib/work'
+import { LATIN_STORES, PROJECTS, SHOTS, type Project } from '@/lib/work'
 import { shareCard } from '@/lib/seo'
 
 const DESCRIPTION =
@@ -25,15 +25,39 @@ const project = (slug: string) => PROJECTS.find((p) => p.slug === slug)!
 const farzana = project('farzana')
 const latin = project('latin-game')
 const ruta = project('ruta')
-const CASES = ['tap-to-tick', 'delta', 'kcupg', 'prayer', 'ministry', 'sign'].map(project)
+const kcupg = project('kcupg')
+
+/* STRATA is a concept site on this site, not a client: it sits with the rest,
+   and its card says so. */
+const STRATA: Project = {
+  slug: 'strata',
+  name: 'STRATA',
+  kind: 'Concept site',
+  forWhom: 'A made-up 3D printing company',
+  line: 'A test of how far a website can go: a printed part goes from idea to factory floor as you scroll.',
+  platforms: 'Web',
+  status: 'Concept',
+  href: '/strata',
+  card: { src: '/work/strata-still.webp', alt: 'A 3D printed part on a turntable, from the STRATA concept site', w: 1600, h: 1000 },
+}
+const CASES = [...['tap-to-tick', 'delta', 'prayer', 'ministry', 'sign'].map(project), STRATA]
 
 const PRODUCT = 'Farzana Classroom'
-const DEMO = 'Demo school'
+
+/* What the KCUPG dashboard and map do, from its case study. */
+const KCUPG_BUILT = [
+  'A dashboard of the whole metro, every region side by side',
+  'Six regions, from North Africa to East Asia, each with its own map',
+  'Real places to meet people, filtered by country and kind of place',
+  'Search by place, language or neighborhood, or ask the assistant',
+  'People counts from the US Census Bureau, so nobody is counted twice',
+]
 
 const SECTIONS = [
   { id: 'farzana', label: 'Farzana Classroom' },
   { id: 'latin-game', label: 'JAM Legio' },
   { id: 'ruta', label: 'Ruta' },
+  { id: 'kcupg', label: 'KCUPG' },
   { id: 'more', label: 'And the rest' },
 ]
 
@@ -110,7 +134,7 @@ export default function Portfolio() {
           </div>
           <Scroll prop="--q" className="cn-wrap cn-stage mt-14 pb-20 sm:mt-20 sm:pb-28">
             <div className="cn-tilt mx-auto max-w-[1180px]">
-              <Browser shot={SHOTS.farzanaHome} product={PRODUCT} note={DEMO} priority />
+              <Browser shot={SHOTS.appClass} product={PRODUCT} priority />
             </div>
           </Scroll>
         </Scroll>
@@ -118,12 +142,12 @@ export default function Portfolio() {
         <div className="cn-wrap grid gap-14 lg:grid-cols-2 lg:gap-10">
           <Scroll>
             <div className="cn-reveal">
-              <Browser shot={SHOTS.farzanaClass} product={PRODUCT} note={DEMO} />
+              <Browser shot={SHOTS.appStudents} product={PRODUCT} />
             </div>
           </Scroll>
           <Scroll>
             <div className="cn-reveal lg:mt-32">
-              <Browser shot={SHOTS.farzanaDesk} product={PRODUCT} note={DEMO} />
+              <Browser shot={SHOTS.appAnalytics} product={PRODUCT} />
             </div>
           </Scroll>
         </div>
@@ -232,9 +256,63 @@ export default function Portfolio() {
         </Scroll>
       </section>
 
+      {/* KCUPG: a website of my own design and build, with its dashboard and map. */}
+      <section id="kcupg" tabIndex={-1} aria-labelledby="kcupg-h" className="mt-24 scroll-mt-16 sm:mt-36">
+        <div className="cn-wrap">
+          <p className="cn-kicker">04 · Website</p>
+          <h2 id="kcupg-h" className="cn-display cn-h2 mt-4">KCUPG</h2>
+          <div className="mt-8 grid gap-10 lg:grid-cols-[1.3fr_1fr]">
+            <div>
+              <p className="cn-body max-w-[48ch]">
+                For local ministry in Kansas City, I built a dashboard of the city’s communities from North Africa to East Asia:
+                people, languages and faiths, and the places to meet them, on one map.
+              </p>
+              <ul className="mt-8 space-y-2.5">
+                {KCUPG_BUILT.map((item) => (
+                  <li key={item} className="flex gap-3 text-[15px] leading-relaxed text-[#cfcbc3]">
+                    <span className="mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--fg)]" aria-hidden="true" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <Facts
+                rows={[
+                  ['For', 'Local ministry in Kansas City'],
+                  ['Made', 'Designed and built by me'],
+                  ['Runs on', kcupg.platforms],
+                  ['Status', kcupg.status],
+                ]}
+              />
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link href={kcupg.href!} className="cn-ghost">
+                  The KCUPG story <span aria-hidden="true">→</span>
+                </Link>
+                <a href={kcupg.site} target="_blank" rel="noopener noreferrer" className="cn-ghost">
+                  kcupgs.com <span aria-hidden="true">↗</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="cn-wrap mt-16 grid gap-14 sm:mt-20 lg:grid-cols-2 lg:gap-10">
+          <Scroll>
+            <div className="cn-reveal">
+              <Browser shot={SHOTS.kcupgDashboard} product="KCUPG" />
+            </div>
+          </Scroll>
+          <Scroll>
+            <div className="cn-reveal lg:mt-32">
+              <Browser shot={SHOTS.kcupgMap} product="KCUPG" />
+            </div>
+          </Scroll>
+        </div>
+      </section>
+
       {/* Everything else, short: a picture, a name, a line. */}
       <section id="more" tabIndex={-1} aria-labelledby="more-h" className="cn-wrap mt-24 scroll-mt-16 sm:mt-36">
-        <p className="cn-kicker">04 · And the rest</p>
+        <p className="cn-kicker">05 · And the rest</p>
         <h2 id="more-h" className="cn-display cn-h2 mt-4">Websites, tools and other cool stuff.</h2>
         <div className="mt-14 grid gap-x-8 gap-y-14 md:grid-cols-2 xl:grid-cols-3">
           {CASES.map((p) => {
