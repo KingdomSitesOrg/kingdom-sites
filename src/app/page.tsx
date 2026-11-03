@@ -94,9 +94,9 @@ export default function Home() {
               <div className="cn-sw-window">
                 <MacWindow shot={SHOTS.classroomHome} title={PRODUCT} priority />
               </div>
-              {/* The school on screen is demo data, so the caption says so and quotes none of it. */}
+              {/* The school on screen is practice data, so the caption quotes none of it and does not call it a demo (Thomas: never say demo school). */}
               <figcaption className="cn-sw-cap">
-                <b>{PRODUCT}</b> A school platform I designed and built from the ground up. The school on screen is a demo.
+                <b>{PRODUCT}</b> A school platform I designed and built from the ground up, payments to quiz results.
               </figcaption>
             </figure>
           </div>
