@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import CinematicChrome from '@/components/cinematic/Chrome'
 import CaseTitle from '@/components/cinematic/CaseTitle'
 import { Browser, MacWindow, Phone } from '@/components/cinematic/Frames'
-import { figtree, switzer } from '@/components/cinematic/fonts'
+import { switzer } from '@/components/cinematic/fonts'
 import { Credit } from '@/components/cinematic/Maker'
 import LatinPartner from '@/components/cinematic/LatinPartner'
 import LitLink from '@/components/cinematic/LitLink'
@@ -60,22 +60,14 @@ const ROLE: Record<string, string> = {
   delta: 'Designed and built by me',
 }
 
-/* The hero has two looks while Thomas chooses: Figtree on a dark green ground
-   (the default) and Switzer on cobalt (?look=switzer). The server reads the
-   address, so the page arrives in its look with no flicker. The look also sets
-   the ground of the whole page, so the hero runs on into what follows. */
-type Look = 'figtree' | 'switzer'
-
-export default async function Home({ searchParams }: { searchParams: Promise<{ look?: string | string[] }> }) {
-  const { look: asked } = await searchParams
-  const look: Look = asked === 'switzer' ? 'switzer' : 'figtree'
-  const font = look === 'switzer' ? switzer : figtree
+/* The home page's look, chosen by Thomas on 2026-11-03: Switzer on cobalt. The
+   look sets the ground of the whole page, so the hero runs on into what follows. */
+export default function Home() {
   return (
-    <CinematicChrome look={look} fontClass={font.variable}>
+    <CinematicChrome look="switzer" fontClass={switzer.variable}>
       {/* Hero: the work first. One real screen of Farzana Classroom in a Mac
-          window, one line, one tap. Switzer: cream on cobalt. Figtree: white
-          to lime on dark green hills, one lime light under the window. Either
-          way the ground runs on past the window and fades into the page's
+          window, one line, one tap, cream Switzer on cobalt. The ground runs
+          on past the window and fades into the page's
           own ground below, so there is no edge. On a phone the window runs
           off the right edge so the screen stays readable. Nothing is pinned:
           scrolling moves the page. */}

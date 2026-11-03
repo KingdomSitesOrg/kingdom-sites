@@ -1,4 +1,4 @@
-import { Archivo, Figtree } from 'next/font/google'
+import { Archivo } from 'next/font/google'
 import localFont from 'next/font/local'
 
 /* Direction 2 (cinematic): one family, Archivo, narrowed for the big lines
@@ -17,8 +17,3 @@ export const switzer = localFont({
   display: 'swap',
   variable: '--sw-sans',
 })
-
-/* The home page hero's second look (?look=figtree, the default while Thomas
-   tries it): Figtree from Google Fonts, served from this site at build. One
-   variable file covers every weight the hero uses (500 to 800). */
-export const figtree = Figtree({ subsets: ['latin'], display: 'swap', variable: '--fig-sans' })
