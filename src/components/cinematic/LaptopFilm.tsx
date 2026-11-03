@@ -333,10 +333,10 @@ function startSteam(canvas: HTMLCanvasElement) {
     if (!running || dead || !ctx) return
     const dt = Math.min(0.05, last ? (t - last) / 1000 : 0.016)
     last = t
-    spawn += dt * 14
+    spawn += dt * 34
     while (spawn >= 1) {
       spawn -= 1
-      ps.push({ x: (Math.random() - 0.5) * 1.1, age: 0, life: 3.2 + Math.random() * 1.8, seed: Math.random() * 100, drift: (Math.random() - 0.5) * 0.5 })
+      ps.push({ x: (Math.random() - 0.5) * 1.3, age: 0, life: 3.2 + Math.random() * 1.8, seed: Math.random() * 100, drift: (Math.random() - 0.5) * 0.5 })
     }
     const w = canvas.width
     const h = canvas.height
@@ -354,12 +354,12 @@ function startSteam(canvas: HTMLCanvasElement) {
       const rise = 10 * (1 - Math.pow(1 - k, 1.6))
       const sway = Math.sin(p.seed + p.age * 1.3) * (0.35 + rise * 0.16) + p.drift * rise * 0.5
       const cx = w / 2 + (p.x + sway) * R
-      const cy = h - rise * R - 0.15 * R
-      const size = R * (0.9 + k * 2.6)
+      const cy = h - rise * R
+      const size = R * (0.32 + k * 1.9)
       // In quickly, out slowly; faint throughout, the way steam is.
-      const a = Math.min(1, k * 6) * Math.pow(1 - k, 1.4) * 0.11
+      const a = Math.min(1, k * 12) * Math.pow(1 - k, 1.3) * 0.15
       ctx.globalAlpha = a
-      ctx.drawImage(puff, cx - size / 2, cy - size / 2, size, size * 1.25)
+      ctx.drawImage(puff, cx - size / 2, cy - size, size, size * 2)
     }
     ctx.globalAlpha = 1
     raf = requestAnimationFrame(frame)
