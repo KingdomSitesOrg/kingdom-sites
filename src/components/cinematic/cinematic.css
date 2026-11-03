@@ -354,3 +354,111 @@ html:has(.cn[data-look='switzer']), body:has(.cn[data-look='switzer']) { --bg: #
 .cn[data-look] .cn-browser-url { background: rgba(255, 255, 255, 0.06); }
 .cn[data-look] .cn-ghost.cn-glow.is-glow { border-color: var(--accent); }
 .cn[data-look] .cn-glow.is-glow .cn-glow-text { text-shadow: 0 0 16px color-mix(in srgb, var(--accent) 45%, transparent); }
+
+/* ---------- Two trial looks (?look=geist, ?look=brodine), 2026-11-03 ---------- */
+/* Both are light pages: the hero's ground runs past the window and fades into a
+   page ground of the same family, grain included, so there is no edge. The
+   same rules as Switzer hold: one ground for the whole page, and the first beat
+   below the hero takes the hero's face and accent. No italics, no gold. */
+
+/* Geist Serif (Triangle) on warm paper: ink type, one cobalt accent. */
+.cn[data-look='geist'] {
+  --bg: #efe9dd;
+  --bg-2: #e6dfd1;
+  --fg: #14131a;
+  --dim: #6e695f;
+  --line: rgba(20, 19, 26, 0.13);
+  --accent: #1538d6;
+  --head-face: var(--font-geist-serif-triangle);
+}
+html:has(.cn[data-look='geist']), body:has(.cn[data-look='geist']) { --bg: #efe9dd; }
+
+/* Brodine on a soft sky blue: ink type, the same cobalt for the button. */
+.cn[data-look='brodine'] {
+  --bg: #e8f0f9;
+  --bg-2: #dae5f2;
+  --fg: #10141f;
+  --dim: #5b6577;
+  --line: rgba(16, 20, 31, 0.13);
+  --accent: #1538d6;
+  --head-face: var(--br-sans);
+}
+html:has(.cn[data-look='brodine']), body:has(.cn[data-look='brodine']) { --bg: #e8f0f9; }
+
+/* What a light page changes in the shared parts: body text, the header's
+   links, buttons, frames and the dots, all from the look's own ink. */
+.cn:is([data-look='geist'], [data-look='brodine']) .cn-body { color: color-mix(in srgb, var(--fg) 78%, var(--bg)); }
+.cn:is([data-look='geist'], [data-look='brodine']) .cn-nav a:not(.cn-btn) { color: color-mix(in srgb, var(--fg) 74%, var(--bg)); }
+.cn:is([data-look='geist'], [data-look='brodine']) .cn-nav a:not(.cn-btn):hover { color: var(--fg); }
+.cn:is([data-look='geist'], [data-look='brodine']) .cn-btn:hover { background: color-mix(in srgb, var(--fg) 86%, var(--accent)); }
+.cn:is([data-look='geist'], [data-look='brodine']) .cn-ghost:hover { border-color: color-mix(in srgb, var(--fg) 40%, transparent); }
+.cn:is([data-look='geist'], [data-look='brodine']) .cn-ghost.cn-glow { color: color-mix(in srgb, var(--fg) 78%, var(--bg)); }
+.cn:is([data-look='geist'], [data-look='brodine']) .cn-ghost.cn-glow.is-glow { color: var(--fg); }
+.cn:is([data-look='geist'], [data-look='brodine']) :is(.cn-menu-btn, .ss-btn):hover { background: color-mix(in srgb, var(--fg) 8%, transparent); }
+.cn:is([data-look='geist'], [data-look='brodine']) .cn-browser { box-shadow: 0 0 0 1px color-mix(in srgb, var(--fg) 10%, transparent), 0 30px 80px -24px rgba(40, 32, 20, 0.32); }
+.cn:is([data-look='geist'], [data-look='brodine']) .cn-browser-bar i { background: color-mix(in srgb, var(--fg) 20%, var(--bg-2)); }
+.cn:is([data-look='geist'], [data-look='brodine']) .cn-browser-url { background: color-mix(in srgb, var(--fg) 6%, var(--bg)); }
+.cn:is([data-look='geist'], [data-look='brodine']) :is(.cn-browser-note, .cn-soon) { color: color-mix(in srgb, var(--fg) 72%, var(--bg)); }
+.cn:is([data-look='geist'], [data-look='brodine']) .cn-phone { box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 30px 70px -22px rgba(40, 32, 20, 0.4); }
+.cn:is([data-look='geist'], [data-look='brodine']) .cn-shot { box-shadow: 0 0 0 1px color-mix(in srgb, var(--fg) 10%, transparent); }
+.cn:is([data-look='geist'], [data-look='brodine']) .cn-dot { background: color-mix(in srgb, var(--fg) 26%, transparent); box-shadow: none; }
+.cn:is([data-look='geist'], [data-look='brodine']) .cn-dots a:hover .cn-dot { background: color-mix(in srgb, var(--fg) 55%, transparent); }
+.cn:is([data-look='geist'], [data-look='brodine']) .cn-dot-tip { background: var(--bg); }
+.cn[data-look='brodine'] :is(.cn-browser, .cn-phone) { --shade: 18, 34, 70; }
+.cn[data-look='brodine'] .cn-browser { box-shadow: 0 0 0 1px color-mix(in srgb, var(--fg) 10%, transparent), 0 30px 80px -24px rgba(var(--shade), 0.3); }
+.cn[data-look='brodine'] .cn-phone { box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 30px 70px -22px rgba(var(--shade), 0.38); }
+
+/* The hero on a light page: ink type, the cobalt button, an underlined link. */
+.cn:is([data-look='geist'], [data-look='brodine']) .cn-sw { color: var(--fg); font-family: var(--cn-sans), system-ui, sans-serif; font-variation-settings: 'wdth' 100; }
+.cn:is([data-look='geist'], [data-look='brodine']) .cn-sw-h1 { font-family: var(--head-face), var(--cn-sans), serif; font-weight: 400; font-synthesis: none; }
+.cn:is([data-look='geist'], [data-look='brodine']) .cn-sw-sub { font-weight: 400; color: color-mix(in srgb, var(--fg) 76%, var(--bg)); }
+.cn:is([data-look='geist'], [data-look='brodine']) .cn-sw .cn-btn.cn-sw-btn { background: var(--accent); color: #f8f5ee !important; font-weight: 600; }
+.cn:is([data-look='geist'], [data-look='brodine']) .cn-sw .cn-btn.cn-sw-btn:hover { background: #0f2bb0; }
+.cn:is([data-look='geist'], [data-look='brodine']) .cn-sw-link { color: var(--fg); text-decoration-color: color-mix(in srgb, var(--fg) 30%, transparent) !important; }
+.cn:is([data-look='geist'], [data-look='brodine']) .cn-sw-link:hover { color: var(--fg); text-decoration-color: currentColor !important; }
+.cn:is([data-look='geist'], [data-look='brodine']) :is(.cn-sw-btn, .cn-sw-link):focus-visible { outline-color: var(--accent); }
+
+/* Geist: paper with a little warm light from above and a fine grain. The
+   headline is the serif's one weight, slightly tight, with room between lines;
+   one thin ink rule sets the line and the button apart from it. */
+.cn[data-look='geist'] .cn-sw {
+  background:
+    linear-gradient(to bottom, rgba(239, 233, 221, 0) 0%, rgba(239, 233, 221, 0.18) 20%, rgba(239, 233, 221, 0.45) 42%, rgba(239, 233, 221, 0.74) 66%, rgba(239, 233, 221, 0.93) 84%, #efe9dd 97%) 0 calc(100% + 2px) / 100% calc(var(--join) + 4px) no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.24 0 0 0 0 0.18 0 0 0 0 0.1 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    radial-gradient(90% 60% at 50% -8%, rgba(255, 252, 244, 0.9), rgba(255, 252, 244, 0) 70%),
+    #f2ece2;
+}
+.cn[data-look='geist'] .cn-sw-h1 { font-size: clamp(2.75rem, 6.3vw, 5.9rem); line-height: 1.04; letter-spacing: -0.024em; }
+.cn[data-look='geist'] .cn-sw-row { padding-top: clamp(18px, 2vw, 28px); border-top: 1px solid var(--line); }
+.cn[data-look='geist'] .cn-mac {
+  box-shadow:
+    0 0 0 1px rgba(64, 46, 22, 0.16),
+    0 2px 6px rgba(64, 46, 22, 0.1),
+    0 24px 48px -12px rgba(74, 52, 24, 0.22),
+    0 60px 120px -24px rgba(74, 52, 24, 0.3);
+}
+.cn[data-look='geist'] .cn-mac-bar { background: linear-gradient(#e7e2d8, #d9d3c7); border-bottom-color: rgba(64, 46, 22, 0.14); }
+.cn[data-look='geist'] .cn-mac-title { color: #4c473e; }
+
+/* Brodine: a soft sky, a touch deeper as it comes down, with one white light
+   from above. The headline is Brodine's one weight, which is already bold. */
+.cn[data-look='brodine'] .cn-sw {
+  background:
+    linear-gradient(to bottom, rgba(232, 240, 249, 0) 0%, rgba(232, 240, 249, 0.18) 20%, rgba(232, 240, 249, 0.45) 42%, rgba(232, 240, 249, 0.74) 66%, rgba(232, 240, 249, 0.93) 84%, #e8f0f9 97%) 0 calc(100% + 2px) / 100% calc(var(--join) + 4px) no-repeat,
+    radial-gradient(80% 55% at 50% -6%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0) 70%),
+    linear-gradient(to bottom, #dce9f7, #c4d9f1 70%, #c4d9f1);
+}
+.cn[data-look='brodine'] .cn-sw-h1 { font-size: clamp(2.5rem, 5.8vw, 5.4rem); line-height: 1.06; letter-spacing: -0.018em; word-spacing: -0.1em; }
+.cn[data-look='brodine'] .cn-sw-row { margin-top: clamp(28px, 3.6vw, 52px); }
+.cn[data-look='brodine'] .cn-mac {
+  box-shadow:
+    0 0 0 1px rgba(18, 34, 70, 0.16),
+    0 2px 6px rgba(18, 34, 70, 0.1),
+    0 24px 48px -12px rgba(18, 34, 70, 0.22),
+    0 60px 120px -24px rgba(18, 34, 70, 0.28);
+}
+
+/* The first beat below the hero, in each trial's face at its one weight. */
+.cn:is([data-look='geist'], [data-look='brodine']) :is(.cn-credit, .cn-scene) .cn-display { font-weight: 400; font-synthesis: none; letter-spacing: -0.02em; line-height: 1.04; }
+/* Brodine's tall ascenders and long descenders want more room between lines. */
+.cn[data-look='brodine'] :is(.cn-credit, .cn-scene) .cn-display { word-spacing: -0.1em; line-height: 1.16; }

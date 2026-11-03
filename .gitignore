@@ -55,3 +55,6 @@ CLAUDE.md
 
 # site search index, written after each build (scripts/search-index.mjs)
 /public/search-index.json
+
+# Brodine: a font trial with no commercial licence; it stays out of git
+/public/fonts/brodine/

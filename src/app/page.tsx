@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import CinematicChrome from '@/components/cinematic/Chrome'
 import CaseTitle from '@/components/cinematic/CaseTitle'
 import { Browser, MacWindow, Phone } from '@/components/cinematic/Frames'
-import { switzer } from '@/components/cinematic/fonts'
+import { brodine, geistSerif, switzer } from '@/components/cinematic/fonts'
 import { Credit } from '@/components/cinematic/Maker'
 import LatinPartner from '@/components/cinematic/LatinPartner'
 import LitLink from '@/components/cinematic/LitLink'
@@ -60,13 +60,23 @@ const ROLE: Record<string, string> = {
   delta: 'Designed and built by me',
 }
 
-/* The home page's look, chosen by Thomas on 2026-11-03: Switzer on cobalt. The
-   look sets the ground of the whole page, so the hero runs on into what follows. */
-export default function Home() {
+/* The home page's look: Switzer on cobalt, chosen by Thomas on 2026-11-03, is
+   the default. Two trial looks sit beside it while he compares: Geist Serif on
+   warm paper (?look=geist) and Brodine on a soft sky blue (?look=brodine). The
+   server reads the address, so the page arrives in its look with no flicker.
+   The look sets the ground of the whole page, so the hero runs on into what
+   follows. */
+const LOOKS = { switzer, geist: geistSerif, brodine }
+type Look = keyof typeof LOOKS
+
+export default async function Home({ searchParams }: { searchParams: Promise<{ look?: string | string[] }> }) {
+  const { look: asked } = await searchParams
+  const look: Look = asked === 'geist' || asked === 'brodine' ? asked : 'switzer'
   return (
-    <CinematicChrome look="switzer" fontClass={switzer.variable}>
+    <CinematicChrome look={look} fontClass={LOOKS[look].variable}>
       {/* Hero: the work first. One real screen of Farzana Classroom in a Mac
-          window, one line, one tap, cream Switzer on cobalt. The ground runs
+          window, one line, one tap, cream Switzer on cobalt (or a trial look).
+          The ground runs
           on past the window and fades into the page's
           own ground below, so there is no edge. On a phone the window runs
           off the right edge so the screen stays readable. Nothing is pinned:
