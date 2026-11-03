@@ -66,29 +66,22 @@ export default function Home() {
     <CinematicChrome>
       {/* The top: a plain strip, so it is clear at once what this site is. */}
       <section aria-label="Kingdom Sites" className="cn-wrap kf-strip">
-        <h1 className="cn-display cn-h2">
-          <span className="block">Made to be used.</span>
-          <span className="block">Made to be yours.</span>
-        </h1>
-        <p className="cn-body mt-6 max-w-[46ch]">I build websites and apps for businesses, churches and anyone who needs software.</p>
-        <div className="mt-8 flex flex-wrap gap-3">
+        <h1 className="cn-display cn-h2">I build websites and apps.</h1>
+        <div className="mt-8">
           <Link href={INQUIRE_PATH} className="cn-btn">
             {INQUIRE_CTA} <span aria-hidden="true">→</span>
           </Link>
-          <a href="#farzana" className="cn-ghost">
-            See the portfolio <span aria-hidden="true">↓</span>
-          </a>
         </div>
       </section>
 
-      {/* The film: a laptop opens on Farzana Classroom, the camera goes into the
-          screen, and the app on it becomes the real thing you can click. */}
+      {/* The film: a laptop on a desk opens on Farzana Classroom, and the app
+          on its screen is in use, on a loop, as the page scrolls on. */}
       <LaptopFilm />
 
       <section aria-labelledby="real-demo" className="cn-wrap kf-ask">
-        <h2 id="real-demo" className="cn-display cn-h2 mx-auto">
-          <span className="block">Want a real demo?</span>
-          <span className="block">Or your own custom software?</span>
+        <p className="cn-body mx-auto max-w-[40ch]">Someone asked me for custom classroom software. This is what I built.</p>
+        <h2 id="real-demo" className="cn-display cn-h2 mx-auto mt-6 max-w-[22ch]">
+          Want software like this, or something else entirely?
         </h2>
         <div className="mt-10 flex flex-wrap justify-center gap-3">
           <Link href={FARZANA_BOOK} className="cn-btn">
@@ -275,6 +268,28 @@ export default function Home() {
           </div>
         </Scroll>
       </section>
+
+      {/* An aside, after the real work: STRATA is a concept site, not a client. */}
+      <aside aria-labelledby="strata" className="cn-wrap mt-24 sm:mt-32">
+        <Link
+          href="/strata"
+          className="group grid grid-cols-[112px_1fr] items-center gap-4 border-t border-[var(--line)] pt-6 sm:grid-cols-[minmax(0,280px)_1fr] sm:gap-8"
+        >
+          <span className="cn-shot cn-case-frame block">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/work/strata-still.webp" alt="A 3D printed part on a turntable, from the STRATA concept site" width={1600} height={1000} loading="lazy" className="!object-[70%_50%]" />
+          </span>
+          <span className="block">
+            <span className="cn-soon !ml-0">Concept site</span>
+            <span id="strata" className="mt-3 block text-[0.98rem] leading-snug text-[var(--fg)] sm:text-[1.05rem]">
+              STRATA, a made-up 3D printing company. A test of how far a website can go.
+            </span>
+            <span className="cn-dim mt-3 inline-flex items-center gap-2 text-sm group-hover:text-[var(--fg)]">
+              Open the concept site <span aria-hidden="true">→</span>
+            </span>
+          </span>
+        </Link>
+      </aside>
 
       {/* Why it matters: the business case, in plain words. */}
       <section aria-labelledby="pays" className="cn-wrap mt-32 sm:mt-44">
