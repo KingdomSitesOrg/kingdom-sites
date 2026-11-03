@@ -1,0 +1,94 @@
+/*
+ * #start print reveal (STORYBOARD 7.9). PrintScene writes --h (revealed share, in 84 steps), --x (nozzle position)
+ * and data-phase="printing" while the scrub runs. Without it (server HTML, reduced motion, static mode) the scene
+ * shows the finished print and the CTA block.
+ */
+.saas-print {
+  --h: 1;
+  --x: 0.96;
+}
+
+.saas-print [data-subject] {
+  clip-path: inset(calc((1 - var(--h)) * 100%) 0 0 0);
+}
+
+.saas-print [data-ghost] {
+  clip-path: inset(0 0 calc(var(--h) * 100%) 0);
+}
+
+.saas-print [data-heat] {
+  transition: opacity 1.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Silhouette (SVG user units, 42 mm tall) and still (HTML box) versions of the six-step cooling band. */
+.saas-print rect[data-heat] {
+  transform: translateY(calc((1 - var(--h)) * 42px));
+}
+
+.saas-print div[data-heat] {
+  top: calc((1 - var(--h)) * 100%);
+}
+
+.saas-print [data-scan],
+.saas-print [data-nozzle] {
+  bottom: calc(var(--h) * 100%);
+  transition:
+    opacity 600ms cubic-bezier(0.16, 1, 0.3, 1),
+    translate 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.saas-print [data-nozzle] {
+  left: calc(var(--x) * 100%);
+}
+
+.saas-print [data-bed-glow] {
+  opacity: calc(0.25 + var(--h) * 0.75);
+  transition: opacity 1.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.saas-print [data-status='done'] {
+  transition: opacity 500ms cubic-bezier(0.16, 1, 0.3, 1) 150ms;
+}
+
+.saas-print [data-status='printing'] {
+  opacity: 0;
+}
+
+.saas-print [data-cta-item] {
+  transition:
+    opacity 600ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: calc(var(--i, 0) * 80ms + 120ms);
+}
+
+/* ---- Finished: the nozzle lifts and dims, the seam goes out, the last layers cool. ---- */
+.saas-print:not([data-phase='printing']) [data-nozzle] {
+  translate: 0 -18px;
+  opacity: 0.3;
+}
+
+.saas-print:not([data-phase='printing']) [data-scan],
+.saas-print:not([data-phase='printing']) [data-heat] {
+  opacity: 0;
+}
+
+.saas-print:not([data-phase='printing']) [data-bed-glow] {
+  opacity: 0.35;
+}
+
+/* ---- Printing: status reads PRINTING; the CTA block waits below, still focusable. ---- */
+.saas-print[data-phase='printing'] [data-status='printing'] {
+  opacity: 1;
+}
+
+.saas-print[data-phase='printing'] [data-status='done'] {
+  opacity: 0;
+  transition-delay: 0ms;
+}
+
+.saas-print[data-phase='printing'] [data-cta]:not(:focus-within) [data-cta-item] {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  transition-duration: 280ms;
+  transition-delay: 0ms;
+}

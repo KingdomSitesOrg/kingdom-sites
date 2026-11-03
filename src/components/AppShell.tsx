@@ -45,6 +45,8 @@ export default function AppShell({
       const link = (e.target as Element).closest?.('a[href]') as HTMLAnchorElement | null
       if (!link) return
       backForward.current = false
+      // The STRATA concept page scrolls with its own smooth scroller and chapter navigation.
+      if (location.pathname.startsWith('/strata')) return
       const to = new URL(link.href)
       if (to.origin !== location.origin || to.pathname !== location.pathname || !to.hash) return
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
@@ -82,7 +84,7 @@ export default function AppShell({
   const standalone =
     ownChrome ||
     section === 'farzana' ||
-    ['/tap-to-tick', '/latin-game', '/farzana', '/ministry', '/prayer', '/marketing-frame', '/sign', '/calc', '/full-potential'].some((p) =>
+    ['/tap-to-tick', '/latin-game', '/farzana', '/ministry', '/prayer', '/marketing-frame', '/sign', '/calc', '/full-potential', '/strata'].some((p) =>
       pathname?.startsWith(p),
     )
 
@@ -99,8 +101,10 @@ export default function AppShell({
   // signing a document (/sign/s/…). It sits outside the page's own tree, so a
   // conversation carries on from page to page.
   // The Get started page has the chat built into the page, so no second one floats there.
+  // Nor on the STRATA concept page (/strata), which is a made-up company's site, full bleed.
+  const concept = section === 'strata'
   const intelligence =
-    section === 'farzana' || pathname?.startsWith('/sign/s/') || pathname === '/get-started' ? null : <Intelligence />
+    concept || section === 'farzana' || pathname?.startsWith('/sign/s/') || pathname === '/get-started' ? null : <Intelligence />
 
   return (
     <>
@@ -120,7 +124,7 @@ export default function AppShell({
         </SiteChrome>
       )}
       {intelligence}
-      <PhoneScrollIndicator />
+      {concept ? null : <PhoneScrollIndicator />}
     </>
   )
 }

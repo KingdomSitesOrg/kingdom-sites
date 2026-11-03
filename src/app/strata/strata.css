@@ -1,0 +1,481 @@
+/*
+ * STRATA concept site (/strata only). Loaded by src/app/strata/layout.tsx, never by the rest of Kingdom Sites.
+ *
+ * Kept apart from the studio's own stylesheet (src/app/globals.css), which still loads on every page:
+ * - STRATA's Tailwind output sits in its own cascade layers (strata-theme, strata-base, strata-utilities),
+ *   declared after the studio's layers, so on /strata STRATA's utilities and tokens win over the studio's.
+ * - It only scans src/strata and src/app/strata for class names, and the studio's stylesheet skips both (@source not).
+ * - No second preflight: the studio's preflight (the same Tailwind 4 reset) already loads on every page.
+ * - Tokens and element styles only apply inside .strata-root (or to <html> while a .strata-root is on the page),
+ *   so nothing here touches a studio page even if this file were loaded there.
+ */
+@layer theme, base, components, utilities, strata-theme, strata-base, strata-utilities;
+@import "tailwindcss/theme.css" layer(strata-theme);
+@import "tailwindcss/utilities.css" layer(strata-utilities) source(none);
+@source "../../strata";
+@source "./";
+
+/*
+ * STRATA design tokens (STORYBOARD 3.1, 3.5). The palette below is canonical: every colour on the page
+ * comes from these custom properties. Tailwind utilities are derived mechanically: --bg-0 -> bg-bg-0,
+ * --text-2 -> text-text-2, --molten -> bg-molten / text-molten, --line -> border-line.
+ * JS mirror: src/ui/tokens.ts. GLSL mirror: src/shaders/palette.ts. Table + contrast: tokens.md.
+ */
+:root:has(.strata-root),
+.strata-root {
+  --bg-0: #03050a;
+  --bg-1: #070a12;
+  --bg-2: #0b1020;
+  --bg-3: #111829;
+  --line: #1c2436;
+  --line-strong: #2a3449;
+  --text-1: #f3f5f9;
+  --text-2: #a9b2c3;
+  --text-3: #7a8499;
+  --molten: #ff6a1a;
+  --molten-hot: #ffb36b;
+  --molten-core: #ffe7c2;
+  --molten-deep: #b83e0c;
+  --resin: #38e1ff;
+  --resin-deep: #0fa3c7;
+  --uv: #7c6cff;
+  --ok: #5ef2a6;
+  --text-on-molten: #120802;
+  --stress-lo: #2d6bff;
+  --stress-mid: #ffd43b;
+  --stress-hi: #ff3b2f;
+
+  /* Extras with no storyboard equivalent. */
+  --hud-line: rgb(243 245 249 / 0.16);
+  --warn: #ffb547;
+  --danger: #ff5a64;
+
+  /* Copy panel over the canvas (3.1). Swapped for the solid variant on the low tier and in static mode. */
+  --panel-bg: rgb(3 5 10 / 0.8);
+  --panel-bg-solid: rgb(3 5 10 / 0.9);
+  --panel-filter: blur(16px);
+  --panel-radius: 16px;
+
+  /* Type (3.5): next/font sets --font-inter-tight, --font-inter and --font-geist-mono on <html>. */
+  --font-display: var(--font-inter-tight), "Helvetica Neue", Arial, sans-serif;
+  --font-text: var(--font-inter), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", Menlo, monospace;
+
+  color-scheme: dark;
+
+  --duration-instant: 90ms;
+  --duration-fast: 160ms;
+  --duration-base: 260ms;
+  --duration-slow: 520ms;
+  --duration-scene: 900ms;
+
+  /* Stacking layers: canvas < chapters < hud < nav < overlay. */
+  --z-canvas: 0;
+  --z-chapters: 10;
+  --z-hud: 20;
+  --z-nav: 40;
+  --z-overlay: 60;
+
+  --focus-ring: var(--resin);
+  --grain-url: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+:root[data-quality="low"]:has(.strata-root),
+:root[data-mode="static"]:has(.strata-root),
+:root[data-quality="low"] .strata-root,
+:root[data-mode="static"] .strata-root {
+  --panel-bg: var(--panel-bg-solid);
+  --panel-filter: none;
+}
+
+@theme inline {
+  --color-bg-0: var(--bg-0);
+  --color-bg-1: var(--bg-1);
+  --color-bg-2: var(--bg-2);
+  --color-bg-3: var(--bg-3);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-hud-line: var(--hud-line);
+  --color-text-1: var(--text-1);
+  --color-text-2: var(--text-2);
+  --color-text-3: var(--text-3);
+  --color-molten: var(--molten);
+  --color-molten-hot: var(--molten-hot);
+  --color-molten-core: var(--molten-core);
+  --color-molten-deep: var(--molten-deep);
+  --color-resin: var(--resin);
+  --color-resin-deep: var(--resin-deep);
+  --color-uv: var(--uv);
+  --color-ok: var(--ok);
+  --color-text-on-molten: var(--text-on-molten);
+  --color-stress-lo: var(--stress-lo);
+  --color-stress-mid: var(--stress-mid);
+  --color-stress-hi: var(--stress-hi);
+  --color-warn: var(--warn);
+  --color-danger: var(--danger);
+
+  /* Faces come from next/font variables set on <html> in layout.tsx. */
+  --font-display: var(--font-inter-tight), "Helvetica Neue", Arial, sans-serif;
+  --font-text: var(--font-inter), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans: var(--font-inter), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+@theme {
+  /* Type (3.5). h2: Inter Tight 600, clamp(2.25rem, 5.2vw, 5.5rem), 0.98, -0.035em. */
+  --text-h2: clamp(2.25rem, 5.2vw, 5.5rem);
+  --text-h2--line-height: 0.98;
+  --text-h2--letter-spacing: -0.035em;
+  --text-h2--font-weight: 600;
+  --text-h3: 1.25rem;
+  --text-h3--line-height: 1.625rem;
+  --text-h3--letter-spacing: -0.012em;
+  --text-h3--font-weight: 600;
+  --text-ui: 0.9375rem;
+  --text-ui--line-height: 1.375rem;
+  --text-ui--font-weight: 500;
+
+  /* Display sizes for hero lines, counters and prices (Inter Tight 500/600 only). */
+  --text-display-2xl: clamp(3.25rem, 1.15rem + 9.3vw, 9.75rem);
+  --text-display-2xl--line-height: 0.9;
+  --text-display-2xl--letter-spacing: -0.045em;
+  --text-display-2xl--font-weight: 600;
+  --text-display-xl: clamp(2.625rem, 1.2rem + 6.2vw, 6.75rem);
+  --text-display-xl--line-height: 0.94;
+  --text-display-xl--letter-spacing: -0.04em;
+  --text-display-xl--font-weight: 600;
+  --text-display-lg: clamp(2.25rem, 5.2vw, 5.5rem);
+  --text-display-lg--line-height: 0.98;
+  --text-display-lg--letter-spacing: -0.035em;
+  --text-display-lg--font-weight: 600;
+  --text-display-md: clamp(1.875rem, 1.3rem + 2.5vw, 3.5rem);
+  --text-display-md--line-height: 1.04;
+  --text-display-md--letter-spacing: -0.03em;
+  --text-display-md--font-weight: 600;
+  --text-display-sm: clamp(1.5rem, 1.17rem + 1.45vw, 2.5rem);
+  --text-display-sm--line-height: 1.1;
+  --text-display-sm--letter-spacing: -0.022em;
+  --text-display-sm--font-weight: 600;
+  --text-title: clamp(1.1875rem, 1.06rem + 0.55vw, 1.5rem);
+  --text-title--line-height: 1.25;
+  --text-title--letter-spacing: -0.012em;
+  --text-lead: clamp(1.0625rem, 0.95rem + 0.5vw, 1.375rem);
+  --text-lead--line-height: 1.5;
+  --text-lead--letter-spacing: -0.008em;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.5;
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.4;
+  /* HUD labels: Geist Mono 11 px uppercase, 0.12em. */
+  --text-micro: 0.6875rem;
+  --text-micro--line-height: 1.3;
+  --text-micro--letter-spacing: 0.12em;
+
+  --tracking-hud: 0.12em;
+  --tracking-eyebrow: 0.14em;
+
+  /* Spacing rhythm on top of Tailwind's 4 px grid. */
+  --spacing-gutter: clamp(1rem, 0.55rem + 2.4vw, 2.5rem);
+  --spacing-section: clamp(6rem, 3.6rem + 8.2vw, 10rem);
+  --spacing-section-sm: clamp(3.5rem, 2.5rem + 4.4vw, 6.5rem);
+  --spacing-stack: clamp(1.25rem, 1rem + 1vw, 2rem);
+
+  --container-prose: 42rem;
+  --container-page: 75rem;
+  --container-wide: 90rem;
+
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 0.875rem;
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.75rem;
+  --radius-panel: 1rem;
+  --radius-pill: 999px;
+
+  /* Glows and depth. */
+  --shadow-panel: inset 0 1px 0 0 rgb(255 255 255 / 0.05), 0 30px 80px -32px rgb(0 0 0 / 0.85);
+  --shadow-lift: inset 0 1px 0 0 rgb(255 255 255 / 0.06), 0 18px 48px -18px rgb(0 0 0 / 0.9);
+  --shadow-glow-molten: 0 0 0 1px rgb(255 106 26 / 0.45), 0 8px 36px -6px rgb(255 106 26 / 0.5);
+  --shadow-glow-molten-lg: 0 0 0 1px rgb(255 179 107 / 0.6), 0 12px 56px -4px rgb(255 106 26 / 0.65);
+  --shadow-glow-resin: 0 0 0 1px rgb(56 225 255 / 0.4), 0 8px 36px -6px rgb(56 225 255 / 0.45);
+  --shadow-glow-uv: 0 0 0 1px rgb(124 108 255 / 0.45), 0 8px 36px -6px rgb(124 108 255 / 0.5);
+  --drop-shadow-molten: 0 0 10px rgb(255 106 26 / 0.65);
+  --drop-shadow-resin: 0 0 10px rgb(56 225 255 / 0.55);
+
+  /* Motion (3.6). UI micro-interactions: ease-out-expo at 240-700 ms. */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
+  --ease-snap: cubic-bezier(0.2, 0.9, 0.1, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --animate-marquee: marquee var(--marquee-duration, 40s) linear infinite;
+  --animate-hud-pulse: hud-pulse 1.2s var(--ease-out-quart) infinite;
+  --animate-caret: caret 1.05s steps(1, end) infinite;
+  --animate-scroll-cue: scroll-cue 1.8s var(--ease-in-out-quint) infinite;
+  --animate-scan: scan 3.2s var(--ease-in-out-quint) infinite;
+
+  @keyframes marquee {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-50%, 0, 0); }
+  }
+  @keyframes hud-pulse {
+    0% { transform: scale(1); opacity: 0.75; }
+    80%, 100% { transform: scale(2.8); opacity: 0; }
+  }
+  @keyframes caret {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  @keyframes scroll-cue {
+    0% { transform: translateY(-100%); opacity: 0; }
+    30% { opacity: 1; }
+    100% { transform: translateY(200%); opacity: 0; }
+  }
+  @keyframes scan {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+  }
+}
+
+/* The page canvas behind STRATA. Unlayered and more specific than the studio's own html/body rules,
+   which are unlayered too; they only match while a .strata-root is on the page. */
+html:has(.strata-root) {
+  background: #03050a;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  scrollbar-color: #2a3449 #03050a;
+  scrollbar-width: thin;
+}
+
+html:has(.strata-root) body {
+  min-height: 100svh;
+  background: #03050a;
+  color: #f3f5f9;
+  overflow-x: clip;
+}
+
+html:has(.strata-root)::-webkit-scrollbar { width: 10px; height: 10px; }
+html:has(.strata-root)::-webkit-scrollbar-track { background: #03050a; }
+html:has(.strata-root)::-webkit-scrollbar-thumb {
+  background: #2a3449;
+  border: 3px solid #03050a;
+  border-radius: 999px;
+}
+
+@layer strata-base {
+  .strata-root {
+    min-height: 100svh;
+    background: var(--bg-0);
+    color: var(--text-1);
+    font-family: var(--font-text);
+    font-size: 1rem;
+    line-height: 1.625;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+  }
+
+  .strata-root :is(h1, h2, h3, h4) {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  .strata-root p { text-wrap: pretty; }
+
+  .strata-root ::selection {
+    background: var(--molten);
+    color: var(--text-on-molten);
+  }
+
+  /* Focus ring everywhere (8.2): 2 px solid resin, 3 px offset. */
+  .strata-root :focus { outline: none; }
+  .strata-root :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 3px;
+  }
+
+  .strata-root ::-webkit-scrollbar { width: 10px; height: 10px; }
+  .strata-root ::-webkit-scrollbar-track { background: var(--bg-0); }
+  .strata-root ::-webkit-scrollbar-thumb {
+    background: var(--line-strong);
+    border: 3px solid var(--bg-0);
+    border-radius: 999px;
+  }
+  .strata-root ::-webkit-scrollbar-thumb:hover { background: var(--text-3); }
+
+  .strata-root [hidden] { display: none !important; }
+}
+
+/* Reduced motion: CSS animation and transitions stop. Mark a rare essential one with data-motion="essential". */
+@media (prefers-reduced-motion: reduce) {
+  .strata-root *:not([data-motion="essential"]),
+  .strata-root *:not([data-motion="essential"])::before,
+  .strata-root *:not([data-motion="essential"])::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.001ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------- Utilities ---------- */
+
+/* Body copy: 16/26 on phones, 18/30 from 768 px. */
+@utility text-body {
+  font-size: 1rem;
+  line-height: 1.625rem;
+  @media (width >= 48rem) {
+    font-size: 1.125rem;
+    line-height: 1.875rem;
+  }
+}
+
+/* Eyebrow (strata-eyebrow; the studio owns .eyebrow): Geist Mono 12 px uppercase, 0.14em, molten ("02 — The model"). */
+@utility strata-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--molten);
+}
+
+/* HUD label: Geist Mono 11 px uppercase, 0.12em. Over the canvas pair it with text-text-2. */
+@utility hud-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-micro);
+  line-height: var(--text-micro--line-height);
+  letter-spacing: var(--tracking-hud);
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+/* HUD value: Geist Mono 500, 13 px, tabular. */
+@utility hud-value {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.2;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums slashed-zero;
+  font-feature-settings: "tnum", "zero";
+}
+
+/*
+ * The copy-panel material (3.1): rgba(3,5,10,0.80) + 16 px blur on high and medium, rgba(3,5,10,0.90)
+ * without blur on low and in static mode (switched by data-quality / data-mode on <html>), 1 px --line.
+ * copy-panel adds the 16 px radius. Use it behind every piece of copy or HUD over the canvas.
+ */
+@utility glass {
+  background: var(--panel-bg);
+  -webkit-backdrop-filter: var(--panel-filter);
+  backdrop-filter: var(--panel-filter);
+  border: 1px solid var(--line);
+}
+@utility copy-panel {
+  background: var(--panel-bg);
+  -webkit-backdrop-filter: var(--panel-filter);
+  backdrop-filter: var(--panel-filter);
+  border: 1px solid var(--line);
+  border-radius: var(--panel-radius);
+}
+/* Solid panel (never blurred): large areas over the canvas, or many panels at once. */
+@utility glass-lite {
+  background: var(--panel-bg-solid);
+  border: 1px solid var(--line);
+}
+
+/* Repeating horizontal print layers. --layer-h sets the pitch, --layer-c the line colour. */
+@utility layer-lines {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent calc(var(--layer-h, 6px) - 1px),
+    var(--layer-c, var(--line)) calc(var(--layer-h, 6px) - 1px),
+    var(--layer-c, var(--line)) var(--layer-h, 6px)
+  );
+}
+
+/* Film grain overlay via ::after for surfaces (never over text blocks). Strength: --grain-opacity. */
+@utility grain {
+  position: relative;
+  isolation: isolate;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: var(--grain-url);
+    background-size: 180px 180px;
+    opacity: var(--grain-opacity, 0.05);
+    mix-blend-mode: overlay;
+    border-radius: inherit;
+    z-index: 1;
+  }
+}
+
+@utility hairline {
+  border: 1px solid var(--line);
+}
+@utility hairline-t {
+  border-top: 1px solid var(--line);
+}
+@utility hairline-b {
+  border-bottom: 1px solid var(--line);
+}
+@utility hairline-strong {
+  border: 1px solid var(--line-strong);
+}
+
+@utility text-glow-molten {
+  text-shadow: 0 0 18px rgb(255 106 26 / 0.55);
+}
+@utility text-glow-resin {
+  text-shadow: 0 0 18px rgb(56 225 255 / 0.5);
+}
+
+/* Fades content to transparent at the left/right edges (marquees, rails). */
+@utility mask-fade-x {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 var(--fade, 12%), #000 calc(100% - var(--fade, 12%)), transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 var(--fade, 12%), #000 calc(100% - var(--fade, 12%)), transparent);
+}
+@utility mask-fade-y {
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 var(--fade, 18%), #000 calc(100% - var(--fade, 18%)), transparent);
+  mask-image: linear-gradient(180deg, transparent, #000 var(--fade, 18%), #000 calc(100% - var(--fade, 18%)), transparent);
+}
+
+/* Paints only a 1px ring of the element's background (for glowing borders). */
+@utility border-mask {
+  padding: 1px;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+
+@utility sr-only-focusable {
+  &:not(:focus-visible) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+}
+
+@utility z-canvas { z-index: var(--z-canvas); }
+@utility z-chapters { z-index: var(--z-chapters); }
+@utility z-hud { z-index: var(--z-hud); }
+@utility z-nav { z-index: var(--z-nav); }
+@utility z-overlay { z-index: var(--z-overlay); }

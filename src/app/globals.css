@@ -1,4 +1,7 @@
 @import "tailwindcss";
+/* The STRATA concept page (/strata) brings its own Tailwind build (src/app/strata/strata.css). */
+@source not "../strata";
+@source not "./strata";
 
 /* Light, warm-neutral palette. Colour does the work that gradients used to:
    near-black ink for headlines, a single blue for actions, terracotta for small
