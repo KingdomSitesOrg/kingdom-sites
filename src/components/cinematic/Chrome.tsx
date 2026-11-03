@@ -6,8 +6,9 @@ import { sans } from './fonts'
 import './cinematic.css'
 
 /** Direction 2's own header and footer around a page. A page can name a look
- *  (the home page's hero looks): it sets the ground and accent of the whole
- *  page, header and footer included, and `fontClass` brings that look's font. */
+ *  (the home page's warm paper): it sets the ground and accent of the whole
+ *  page, header and footer included, and `fontClass` brings that look's font.
+ *  Without a look, the page keeps the dark room. */
 export default function CinematicChrome({ children, look, fontClass }: { children: React.ReactNode; look?: string; fontClass?: string }) {
   return (
     <div className={`cn ${sans.variable}${fontClass ? ` ${fontClass}` : ''}`} data-look={look}>

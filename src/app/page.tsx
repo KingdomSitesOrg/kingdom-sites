@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import CinematicChrome from '@/components/cinematic/Chrome'
 import CaseTitle from '@/components/cinematic/CaseTitle'
 import { Browser, MacWindow, Phone } from '@/components/cinematic/Frames'
-import { brodine, geistSerif, switzer } from '@/components/cinematic/fonts'
+import { geistSerif } from '@/components/cinematic/fonts'
 import { Credit } from '@/components/cinematic/Maker'
 import LatinPartner from '@/components/cinematic/LatinPartner'
 import LitLink from '@/components/cinematic/LitLink'
@@ -60,29 +60,21 @@ const ROLE: Record<string, string> = {
   delta: 'Designed and built by me',
 }
 
-/* The home page's look: Switzer on cobalt, chosen by Thomas on 2026-11-03, is
-   the default. Two trial looks sit beside it while he compares: Geist Serif on
-   warm paper (?look=geist) and Brodine on a soft sky blue (?look=brodine). The
-   server reads the address, so the page arrives in its look with no flicker.
-   The look sets the ground of the whole page, so the hero runs on into what
-   follows. */
-const LOOKS = { switzer, geist: geistSerif, brodine }
-type Look = keyof typeof LOOKS
-
-export default async function Home({ searchParams }: { searchParams: Promise<{ look?: string | string[] }> }) {
-  const { look: asked } = await searchParams
-  const look: Look = asked === 'geist' || asked === 'brodine' ? asked : 'switzer'
+/* The home page's look: Geist Serif on warm paper, chosen by Thomas on
+   2026-11-03. The look sets the ground of the whole page, so the hero runs on
+   into what follows. */
+export default function Home() {
   return (
-    <CinematicChrome look={look} fontClass={LOOKS[look].variable}>
-      {/* Hero: the work first. One real screen of Farzana Classroom in a Mac
-          window, one line, one tap, cream Switzer on cobalt (or a trial look).
-          The ground runs
-          on past the window and fades into the page's
-          own ground below, so there is no edge. On a phone the window runs
-          off the right edge so the screen stays readable. Nothing is pinned:
-          scrolling moves the page. */}
+    <CinematicChrome look="paper" fontClass={geistSerif.variable}>
+      {/* Hero: the work first. A line saying who is talking, one headline, one
+          line, one tap, then one real screen of Farzana Classroom in a Mac
+          window with a line from me beside it. The ground runs on past the
+          window and fades into the page's own ground below, so there is no
+          edge. On a phone the window runs off the right edge so the screen
+          stays readable. Nothing is pinned: scrolling moves the page. */}
       <section className="cn-sw" aria-label="Kingdom Sites">
         <div className="cn-wrap cn-sw-in">
+          <p className="cn-sw-kick">Thomas Klein. Software and the thinking before it.</p>
           <h1 className="cn-sw-h1">I turn ideas into software people want to use.</h1>
           <div className="cn-sw-row">
             <p className="cn-sw-sub">I think it through with you, then design and build it, fast and well. This one is mine.</p>
@@ -98,9 +90,15 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ l
         </div>
         <div className="cn-sw-stage">
           <div className="cn-wrap">
-            <div className="cn-sw-window">
-              <MacWindow shot={SHOTS.classroomHome} title={PRODUCT} priority />
-            </div>
+            <figure className="cn-sw-fig">
+              <div className="cn-sw-window">
+                <MacWindow shot={SHOTS.classroomHome} title={PRODUCT} priority />
+              </div>
+              {/* The school on screen is demo data, so the caption says so and quotes none of it. */}
+              <figcaption className="cn-sw-cap">
+                <b>{PRODUCT}</b> A school platform I designed and built from the ground up. The school on screen is a demo.
+              </figcaption>
+            </figure>
           </div>
         </div>
       </section>

@@ -286,3 +286,19 @@ html.ki-lock { overflow: hidden; }
   .ki-think-word { animation: none; color: var(--dim); background: none; }
   .ki-think { animation: ki-pulse 1.2s ease-in-out infinite alternate; }
 }
+
+/* ---------- On the home page's warm paper (2026-11-03) ---------- */
+/* The closed square becomes a sheet of the same paper, a shade lighter than the
+   ground, with the Mac window's 12px corners, its thin warm edge and its warm
+   shadow, and ink lettering. The open panel keeps its dark room. */
+body:has(.cn[data-look]) .ki-square {
+  background: #efe9dd;
+  color: #14131a;
+  border-color: rgba(64, 46, 22, 0.18);
+  box-shadow: 0 2px 6px rgba(64, 46, 22, 0.1), 0 18px 40px -12px rgba(74, 52, 24, 0.3);
+}
+body:has(.cn[data-look]) .ki-square:hover { border-color: rgba(20, 19, 26, 0.4); }
+body:has(.cn[data-look]) .ki-square:focus-visible { outline-color: #1538d6; }
+body:has(.cn[data-look]) .ki-square-sub { color: #57524a; }
+body:has(.cn[data-look]) .ki-square::after { background: linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, 0.55) 50%, transparent 70%); }
+body:has(.cn[data-look]) .ki-square .ki-spark { color: #1538d6; }

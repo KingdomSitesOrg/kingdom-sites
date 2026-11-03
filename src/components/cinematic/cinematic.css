@@ -224,49 +224,114 @@ html:has(.cn-head) { background: #0b0b0c; }
 @media (min-width: 760px) { .cn-pays { grid-template-columns: 1fr 1fr; } }
 .cn-pays > * { border-top: 1px solid var(--line); padding-top: 20px; }
 
-/* ---------- Home hero: Switzer, cream on cobalt, the work in a Mac window ---------- */
-/* The ground is deep cobalt with a soft light from above and a fine grain; the
-   window stands across the edge where the blue meets the dark page below, so
-   the hero and the page read as one piece. No scroll motion: it simply scrolls. */
+/* ---------- The home page's look: Geist Serif on warm paper (chosen 2026-11-03) ---------- */
+/* The look is set on the page's outer wrapper (data-look), so one ground runs
+   through the whole page: header, hero, every section and the footer. The hero's
+   own ground carries on past the Mac window and fades into it over several
+   hundred pixels, grain included, so there is no edge anywhere. The first beat
+   below the hero ("What I built" and the Farzana chapter) takes the hero's
+   headline face and accent, so it reads as the same page. Only the home page
+   names a look; the Portfolio page keeps the dark room. No italics, no gold.
+   The paper is a step darker than the first trial, with the light from above
+   turned down by half (Thomas, 2026-11-03: "a hair darker"). */
+.cn[data-look] {
+  --top: #e9e2d4;
+  --bg: #e3dbcc;
+  --bg-2: #dad1c0;
+  --fg: #14131a;
+  --dim: #57524a;
+  --line: rgba(20, 19, 26, 0.14);
+  --accent: #1538d6;
+  --head-face: var(--font-geist-serif-triangle);
+}
+html:has(.cn[data-look]), body:has(.cn[data-look]) { --bg: #e3dbcc; background: var(--bg); }
+.cn[data-look] .cn-head { background: var(--top); }
+
+/* What a light page changes in the shared parts: body text, the header's
+   links, buttons, frames and the dots, all from the look's own ink. */
+.cn[data-look] .cn-body { color: color-mix(in srgb, var(--fg) 80%, var(--bg)); }
+.cn[data-look] .cn-nav a:not(.cn-btn) { color: color-mix(in srgb, var(--fg) 78%, var(--bg)); }
+.cn[data-look] .cn-nav a:not(.cn-btn):hover { color: var(--fg); }
+.cn[data-look] .cn-btn:hover { background: color-mix(in srgb, var(--fg) 86%, var(--accent)); }
+.cn[data-look] .cn-ghost:hover { border-color: color-mix(in srgb, var(--fg) 40%, transparent); }
+.cn[data-look] .cn-ghost.cn-glow { color: color-mix(in srgb, var(--fg) 80%, var(--bg)); }
+.cn[data-look] .cn-ghost.cn-glow.is-glow { color: var(--fg); border-color: var(--accent); }
+.cn[data-look] .cn-glow.is-glow .cn-glow-text { text-shadow: 0 0 16px color-mix(in srgb, var(--accent) 45%, transparent); }
+.cn[data-look] :is(.cn-menu-btn, .ss-btn):hover { background: color-mix(in srgb, var(--fg) 8%, transparent); }
+.cn[data-look] .cn-browser, .cn[data-look] .cn-browser-bar { background: var(--bg-2); }
+.cn[data-look] .cn-browser { box-shadow: 0 0 0 1px color-mix(in srgb, var(--fg) 10%, transparent), 0 30px 80px -24px rgba(40, 32, 20, 0.32); }
+.cn[data-look] .cn-browser-bar i { background: color-mix(in srgb, var(--fg) 20%, var(--bg-2)); }
+.cn[data-look] .cn-browser-url { background: color-mix(in srgb, var(--fg) 6%, var(--bg)); }
+.cn[data-look] :is(.cn-browser-note, .cn-soon) { color: color-mix(in srgb, var(--fg) 76%, var(--bg)); }
+.cn[data-look] .cn-phone { box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 30px 70px -22px rgba(40, 32, 20, 0.4); }
+.cn[data-look] .cn-shot { box-shadow: 0 0 0 1px color-mix(in srgb, var(--fg) 10%, transparent); }
+.cn[data-look] .cn-dot { background: color-mix(in srgb, var(--fg) 26%, transparent); box-shadow: none; }
+.cn[data-look] .cn-dots a:hover .cn-dot { background: color-mix(in srgb, var(--fg) 55%, transparent); }
+.cn[data-look] .cn-dot-tip { background: var(--bg); }
+
+/* ---------- Home hero: one line about me, the headline, the work in a Mac window ---------- */
+/* Paper with a little warm light from above and a fine grain. It runs on below
+   the window, then fades into the page's ground (--join is how far the fade
+   reaches, --pad the room under the window). No scroll motion: it simply scrolls. */
 .cn-sw {
-  --sw-blue: #1235cf;
-  --sw-cream: #f6eedc;
+  --join: clamp(440px, 52vw, 780px);
+  --pad: clamp(120px, 15vw, 230px);
   position: relative;
   isolation: isolate;
-  color: var(--sw-cream);
-  font-family: var(--sw-sans), var(--cn-sans), system-ui, sans-serif;
-  font-variation-settings: normal;
+  color: var(--fg);
   background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
-    radial-gradient(90% 60% at 50% -8%, rgba(92, 128, 255, 0.55), rgba(92, 128, 255, 0) 70%),
-    var(--sw-blue);
+    linear-gradient(to bottom, rgba(227, 219, 204, 0) 0%, rgba(227, 219, 204, 0.18) 20%, rgba(227, 219, 204, 0.45) 42%, rgba(227, 219, 204, 0.74) 66%, rgba(227, 219, 204, 0.93) 84%, #e3dbcc 97%) 0 calc(100% + 2px) / 100% calc(var(--join) + 4px) no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.24 0 0 0 0 0.18 0 0 0 0 0.1 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    radial-gradient(90% 60% at 50% -8%, rgba(250, 246, 237, 0.45), rgba(250, 246, 237, 0) 70%),
+    var(--top);
 }
-.cn-sw-in { padding-top: clamp(40px, 6vw, 72px); }
+.cn-sw-in { padding-top: clamp(40px, 6vw, 80px); }
+
+/* Who is talking, before the headline: small, spaced capitals in the body face. */
+.cn-sw-kick { margin: 0 0 clamp(18px, 2.2vw, 30px); font-size: 12.5px; font-weight: 500; line-height: 1.5; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim); text-wrap: balance; }
+@media (min-width: 760px) { .cn-sw-kick { font-size: 13px; } }
+
+/* The headline: Geist Serif's one weight, given room. Two lines on a desktop,
+   then a short ink rule under it, flush left. */
 .cn-sw-h1 {
   margin: 0;
   max-width: 16ch;
-  font-weight: 800;
-  font-size: clamp(2.6rem, 6vw, 5.6rem);
-  line-height: 0.96;
-  letter-spacing: -0.035em;
+  font-family: var(--head-face), var(--cn-sans), serif;
+  font-weight: 400;
+  font-synthesis: none;
+  font-size: clamp(2.75rem, 6.3vw, 5.9rem);
+  line-height: 1.04;
+  letter-spacing: -0.024em;
   text-wrap: balance;
 }
-@media (min-width: 1000px) { .cn-sw-h1 { max-width: 21ch; } }
-.cn-sw-row { display: grid; gap: 24px; margin-top: clamp(20px, 2.6vw, 36px); }
+@media (min-width: 1000px) { .cn-sw-h1 { max-width: 12.5em; font-size: clamp(4.4rem, 7.3vw, 7.4rem); line-height: 1.02; letter-spacing: -0.028em; } }
+.cn-sw-h1::after { content: ''; display: block; width: 64px; height: 2px; margin-top: clamp(24px, 2.8vw, 40px); background: var(--fg); }
+
+.cn-sw-row { display: grid; gap: 24px; margin-top: clamp(20px, 2.4vw, 32px); }
 @media (min-width: 1000px) { .cn-sw-row { grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 48px; } }
-.cn-sw-sub { margin: 0; max-width: 40ch; font-weight: 500; font-size: clamp(1.06rem, 1.35vw, 1.3rem); line-height: 1.45; color: rgba(246, 238, 220, 0.86); }
+.cn-sw-sub { margin: 0; max-width: 40ch; font-weight: 400; font-size: clamp(1.06rem, 1.35vw, 1.3rem); line-height: 1.45; color: color-mix(in srgb, var(--fg) 80%, var(--bg)); }
 .cn-sw-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; }
-.cn-sw .cn-btn.cn-sw-btn { background: var(--sw-cream); color: #0d2aa8 !important; font-weight: 700; font-size: 16px; }
-.cn-sw .cn-btn.cn-sw-btn:hover { background: #fff; }
-.cn-sw-link { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; font-weight: 600; font-size: 16px; color: rgba(246, 238, 220, 0.82); text-decoration: underline !important; text-decoration-color: rgba(246, 238, 220, 0.35) !important; text-underline-offset: 6px; transition: color 0.2s, text-decoration-color 0.2s; }
-.cn-sw-link:hover { color: var(--sw-cream); text-decoration-color: currentColor !important; }
-.cn-sw-btn:focus-visible, .cn-sw-link:focus-visible { outline: 2px solid var(--sw-cream); outline-offset: 3px; }
+.cn-sw .cn-btn.cn-sw-btn { background: var(--accent); color: #f8f5ee !important; font-weight: 600; font-size: 16px; }
+.cn-sw .cn-btn.cn-sw-btn:hover { background: #0f2bb0; }
+.cn-sw-link { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; font-weight: 600; font-size: 16px; color: var(--fg); text-decoration: underline !important; text-decoration-color: color-mix(in srgb, var(--fg) 30%, transparent) !important; text-underline-offset: 6px; transition: text-decoration-color 0.2s; }
+.cn-sw-link:hover { text-decoration-color: currentColor !important; }
+.cn-sw-btn:focus-visible, .cn-sw-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
-/* The stage: blue down to about 60% of the window, then the page's own dark. */
-.cn-sw-stage { margin-top: clamp(36px, 5vw, 64px); padding-bottom: clamp(48px, 7vw, 96px); background: linear-gradient(to bottom, transparent 0, transparent 62%, var(--bg) 62%); }
+/* The stage: the window, and a line from me beside it. On a desktop the window
+   sits a little left of centre, in line with the headline, and the caption takes
+   the room on its right; below that width the caption sits under the window. */
+.cn-sw-stage { margin-top: clamp(40px, 5vw, 72px); padding-bottom: var(--pad); }
+.cn-sw-fig { margin: 0; }
 .cn-sw-window { max-width: 1180px; margin-inline: auto; }
+.cn-sw-cap { margin: 20px 0 0; max-width: 34ch; font-size: 15px; line-height: 1.55; color: color-mix(in srgb, var(--fg) 80%, var(--bg)); text-wrap: pretty; }
+.cn-sw-cap b { display: block; margin-bottom: 4px; font-weight: 600; color: var(--fg); }
+@media (min-width: 1000px) {
+  .cn-sw-fig { display: grid; grid-template-columns: minmax(0, 1fr) minmax(190px, 15rem); gap: clamp(32px, 3.4vw, 56px); align-items: start; }
+  .cn-sw-window { max-width: none; margin-inline: 0; }
+  .cn-sw-cap { margin: 0; padding-top: 4px; }
+}
 
-/* The Mac window. */
+/* The Mac window, with a warm shadow on the paper. */
 .cn-mac {
   --r: 12px;
   position: relative;
@@ -275,28 +340,30 @@ html:has(.cn-head) { background: #0b0b0c; }
   isolation: isolate;
   background: #e7e7ea;
   box-shadow:
-    0 0 0 1px rgba(4, 16, 80, 0.35),
-    0 2px 6px rgba(4, 14, 70, 0.22),
-    0 24px 48px -12px rgba(3, 10, 60, 0.45),
-    0 60px 120px -24px rgba(2, 6, 40, 0.6);
+    0 0 0 1px rgba(64, 46, 22, 0.18),
+    0 2px 6px rgba(64, 46, 22, 0.1),
+    0 24px 48px -12px rgba(74, 52, 24, 0.24),
+    0 60px 120px -24px rgba(74, 52, 24, 0.32);
 }
 /* The thin inner line, over the screenshot too, as on a real window. */
 .cn-mac::after { content: ''; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.55); pointer-events: none; z-index: 2; }
-.cn-mac-bar { position: relative; display: flex; align-items: center; justify-content: center; height: 38px; background: linear-gradient(#f0f0f2, #e2e2e6); border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
+.cn-mac-bar { position: relative; display: flex; align-items: center; justify-content: center; height: 38px; background: linear-gradient(#e4ded3, #d6cfc2); border-bottom: 1px solid rgba(64, 46, 22, 0.14); }
 .cn-mac-dots { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); display: flex; gap: 8px; }
 .cn-mac-dots i { width: 12px; height: 12px; border-radius: 50%; background: #ff5f57; box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.22); }
 .cn-mac-dots i:nth-child(2) { background: #febc2e; }
 .cn-mac-dots i:nth-child(3) { background: #28c840; }
-.cn-mac-title { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', system-ui, sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0; color: #4b4b52; white-space: nowrap; }
+.cn-mac-title { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', system-ui, sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0; color: #4c473e; white-space: nowrap; }
 .cn-mac-screen { position: relative; background: #c4c9d3; }
 .cn-mac-screen picture { display: block; }
 .cn-mac-screen img { display: block; width: 100%; height: auto; }
 
 /* On a phone the window keeps the real desktop screen, at a size where its
    words read, and runs off the right edge of the screen: the sidebar, the
-   counts and the first class show; the rest is the window carrying on. */
+   counts and the first class show; the rest is the window carrying on. The
+   stage clips only sideways, so the window's shadow is not cut off in a line;
+   browsers without overflow-x: clip keep a plain clip. */
 @media (max-width: 759px) {
-  .cn-sw-stage { overflow: hidden; background: linear-gradient(to bottom, transparent 0, transparent 64%, var(--bg) 64%); }
+  .cn-sw-stage { overflow: hidden; overflow-x: clip; overflow-y: visible; }
   .cn-sw-window { width: clamp(640px, 196vw, 1100px); max-width: none; margin-inline: 0; }
   .cn-mac-bar { height: 30px; justify-content: flex-start; padding-left: 74px; }
   .cn-mac-dots { left: 12px; gap: 7px; }
@@ -304,161 +371,16 @@ html:has(.cn-head) { background: #0b0b0c; }
   .cn-mac-title { font-size: 12px; }
 }
 
-/* ---------- The home page's look: Switzer on cobalt (chosen 2026-11-03) ---------- */
-/* The look is set on the page's outer wrapper, so one ground runs through the
-   whole page: header, hero, every section and the footer. The hero's own ground
-   carries on past the Mac window and fades into it over several hundred pixels,
-   grain included, so there is no edge anywhere. The first beat below the hero
-   ("What I built" and the Farzana chapter) takes the hero's headline face and
-   accent, so it reads as the same page. */
-.cn[data-look='switzer'] {
-  --bg: #070b26;
-  --bg-2: #0f1538;
-  --fg: #f3ecdc;
-  --dim: #9093ad;
-  --line: rgba(246, 238, 220, 0.12);
-  --accent: #93a8ff;
-  --head-face: var(--sw-sans);
-}
-html:has(.cn[data-look]), body:has(.cn[data-look]), .cn[data-look] .cn-head { background: var(--bg); }
-
-html:has(.cn[data-look='switzer']), body:has(.cn[data-look='switzer']) { --bg: #070b26; }
-
-/* The hero runs on below the window, then fades into the page's ground. */
-.cn[data-look] .cn-sw { --join: clamp(440px, 52vw, 780px); --pad: clamp(120px, 15vw, 230px); }
-.cn[data-look] .cn-sw-stage { background: none; padding-bottom: var(--pad); }
-/* On a phone the window still runs off the right edge, but the stage clips only
-   sideways, so the window's glow is not cut off in a line above it. Browsers
-   without overflow-x: clip keep the stage's plain clip. */
-@media (max-width: 759px) { .cn[data-look] .cn-sw-stage { overflow-x: clip; overflow-y: visible; } }
-.cn[data-look='switzer'] .cn-sw {
-  background:
-    linear-gradient(to bottom, rgba(7, 11, 38, 0) 0%, rgba(7, 11, 38, 0.18) 20%, rgba(7, 11, 38, 0.45) 42%, rgba(7, 11, 38, 0.74) 66%, rgba(7, 11, 38, 0.93) 84%, #070b26 97%) 0 calc(100% + 2px) / 100% calc(var(--join) + 4px) no-repeat,
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
-    radial-gradient(90% 60% at 50% -8%, rgba(92, 128, 255, 0.55), rgba(92, 128, 255, 0) 70%),
-    var(--sw-blue);
-}
-
-/* The first beat below the hero speaks the hero's language. */
+/* The first beat below the hero speaks the hero's language: the serif at its
+   one weight, the cobalt for the small labels, no line above it. */
 .cn[data-look] :is(.cn-credit, .cn-scene) .cn-display {
   font-family: var(--head-face), var(--cn-sans), system-ui, sans-serif;
   font-variation-settings: normal;
-  font-weight: 800;
-  letter-spacing: -0.035em;
-  line-height: 0.98;
+  font-weight: 400;
+  font-synthesis: none;
+  letter-spacing: -0.02em;
+  line-height: 1.04;
 }
 .cn[data-look] .cn-credit { border-top-color: transparent; }
 .cn[data-look] .cn-scene :is(.cn-kicker, .cn-for) { color: var(--accent); }
 .cn[data-look] .cn-scene .cn-gives { border-top-color: var(--line); }
-.cn[data-look] .cn-browser, .cn[data-look] .cn-browser-bar { background: var(--bg-2); }
-.cn[data-look] .cn-browser-url { background: rgba(255, 255, 255, 0.06); }
-.cn[data-look] .cn-ghost.cn-glow.is-glow { border-color: var(--accent); }
-.cn[data-look] .cn-glow.is-glow .cn-glow-text { text-shadow: 0 0 16px color-mix(in srgb, var(--accent) 45%, transparent); }
-
-/* ---------- Two trial looks (?look=geist, ?look=brodine), 2026-11-03 ---------- */
-/* Both are light pages: the hero's ground runs past the window and fades into a
-   page ground of the same family, grain included, so there is no edge. The
-   same rules as Switzer hold: one ground for the whole page, and the first beat
-   below the hero takes the hero's face and accent. No italics, no gold. */
-
-/* Geist Serif (Triangle) on warm paper: ink type, one cobalt accent. */
-.cn[data-look='geist'] {
-  --bg: #efe9dd;
-  --bg-2: #e6dfd1;
-  --fg: #14131a;
-  --dim: #6e695f;
-  --line: rgba(20, 19, 26, 0.13);
-  --accent: #1538d6;
-  --head-face: var(--font-geist-serif-triangle);
-}
-html:has(.cn[data-look='geist']), body:has(.cn[data-look='geist']) { --bg: #efe9dd; }
-
-/* Brodine on a soft sky blue: ink type, the same cobalt for the button. */
-.cn[data-look='brodine'] {
-  --bg: #e8f0f9;
-  --bg-2: #dae5f2;
-  --fg: #10141f;
-  --dim: #5b6577;
-  --line: rgba(16, 20, 31, 0.13);
-  --accent: #1538d6;
-  --head-face: var(--br-sans);
-}
-html:has(.cn[data-look='brodine']), body:has(.cn[data-look='brodine']) { --bg: #e8f0f9; }
-
-/* What a light page changes in the shared parts: body text, the header's
-   links, buttons, frames and the dots, all from the look's own ink. */
-.cn:is([data-look='geist'], [data-look='brodine']) .cn-body { color: color-mix(in srgb, var(--fg) 78%, var(--bg)); }
-.cn:is([data-look='geist'], [data-look='brodine']) .cn-nav a:not(.cn-btn) { color: color-mix(in srgb, var(--fg) 74%, var(--bg)); }
-.cn:is([data-look='geist'], [data-look='brodine']) .cn-nav a:not(.cn-btn):hover { color: var(--fg); }
-.cn:is([data-look='geist'], [data-look='brodine']) .cn-btn:hover { background: color-mix(in srgb, var(--fg) 86%, var(--accent)); }
-.cn:is([data-look='geist'], [data-look='brodine']) .cn-ghost:hover { border-color: color-mix(in srgb, var(--fg) 40%, transparent); }
-.cn:is([data-look='geist'], [data-look='brodine']) .cn-ghost.cn-glow { color: color-mix(in srgb, var(--fg) 78%, var(--bg)); }
-.cn:is([data-look='geist'], [data-look='brodine']) .cn-ghost.cn-glow.is-glow { color: var(--fg); }
-.cn:is([data-look='geist'], [data-look='brodine']) :is(.cn-menu-btn, .ss-btn):hover { background: color-mix(in srgb, var(--fg) 8%, transparent); }
-.cn:is([data-look='geist'], [data-look='brodine']) .cn-browser { box-shadow: 0 0 0 1px color-mix(in srgb, var(--fg) 10%, transparent), 0 30px 80px -24px rgba(40, 32, 20, 0.32); }
-.cn:is([data-look='geist'], [data-look='brodine']) .cn-browser-bar i { background: color-mix(in srgb, var(--fg) 20%, var(--bg-2)); }
-.cn:is([data-look='geist'], [data-look='brodine']) .cn-browser-url { background: color-mix(in srgb, var(--fg) 6%, var(--bg)); }
-.cn:is([data-look='geist'], [data-look='brodine']) :is(.cn-browser-note, .cn-soon) { color: color-mix(in srgb, var(--fg) 72%, var(--bg)); }
-.cn:is([data-look='geist'], [data-look='brodine']) .cn-phone { box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 30px 70px -22px rgba(40, 32, 20, 0.4); }
-.cn:is([data-look='geist'], [data-look='brodine']) .cn-shot { box-shadow: 0 0 0 1px color-mix(in srgb, var(--fg) 10%, transparent); }
-.cn:is([data-look='geist'], [data-look='brodine']) .cn-dot { background: color-mix(in srgb, var(--fg) 26%, transparent); box-shadow: none; }
-.cn:is([data-look='geist'], [data-look='brodine']) .cn-dots a:hover .cn-dot { background: color-mix(in srgb, var(--fg) 55%, transparent); }
-.cn:is([data-look='geist'], [data-look='brodine']) .cn-dot-tip { background: var(--bg); }
-.cn[data-look='brodine'] :is(.cn-browser, .cn-phone) { --shade: 18, 34, 70; }
-.cn[data-look='brodine'] .cn-browser { box-shadow: 0 0 0 1px color-mix(in srgb, var(--fg) 10%, transparent), 0 30px 80px -24px rgba(var(--shade), 0.3); }
-.cn[data-look='brodine'] .cn-phone { box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 30px 70px -22px rgba(var(--shade), 0.38); }
-
-/* The hero on a light page: ink type, the cobalt button, an underlined link. */
-.cn:is([data-look='geist'], [data-look='brodine']) .cn-sw { color: var(--fg); font-family: var(--cn-sans), system-ui, sans-serif; font-variation-settings: 'wdth' 100; }
-.cn:is([data-look='geist'], [data-look='brodine']) .cn-sw-h1 { font-family: var(--head-face), var(--cn-sans), serif; font-weight: 400; font-synthesis: none; }
-.cn:is([data-look='geist'], [data-look='brodine']) .cn-sw-sub { font-weight: 400; color: color-mix(in srgb, var(--fg) 76%, var(--bg)); }
-.cn:is([data-look='geist'], [data-look='brodine']) .cn-sw .cn-btn.cn-sw-btn { background: var(--accent); color: #f8f5ee !important; font-weight: 600; }
-.cn:is([data-look='geist'], [data-look='brodine']) .cn-sw .cn-btn.cn-sw-btn:hover { background: #0f2bb0; }
-.cn:is([data-look='geist'], [data-look='brodine']) .cn-sw-link { color: var(--fg); text-decoration-color: color-mix(in srgb, var(--fg) 30%, transparent) !important; }
-.cn:is([data-look='geist'], [data-look='brodine']) .cn-sw-link:hover { color: var(--fg); text-decoration-color: currentColor !important; }
-.cn:is([data-look='geist'], [data-look='brodine']) :is(.cn-sw-btn, .cn-sw-link):focus-visible { outline-color: var(--accent); }
-
-/* Geist: paper with a little warm light from above and a fine grain. The
-   headline is the serif's one weight, slightly tight, with room between lines;
-   one thin ink rule sets the line and the button apart from it. */
-.cn[data-look='geist'] .cn-sw {
-  background:
-    linear-gradient(to bottom, rgba(239, 233, 221, 0) 0%, rgba(239, 233, 221, 0.18) 20%, rgba(239, 233, 221, 0.45) 42%, rgba(239, 233, 221, 0.74) 66%, rgba(239, 233, 221, 0.93) 84%, #efe9dd 97%) 0 calc(100% + 2px) / 100% calc(var(--join) + 4px) no-repeat,
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.24 0 0 0 0 0.18 0 0 0 0 0.1 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
-    radial-gradient(90% 60% at 50% -8%, rgba(255, 252, 244, 0.9), rgba(255, 252, 244, 0) 70%),
-    #f2ece2;
-}
-.cn[data-look='geist'] .cn-sw-h1 { font-size: clamp(2.75rem, 6.3vw, 5.9rem); line-height: 1.04; letter-spacing: -0.024em; }
-.cn[data-look='geist'] .cn-sw-row { padding-top: clamp(18px, 2vw, 28px); border-top: 1px solid var(--line); }
-.cn[data-look='geist'] .cn-mac {
-  box-shadow:
-    0 0 0 1px rgba(64, 46, 22, 0.16),
-    0 2px 6px rgba(64, 46, 22, 0.1),
-    0 24px 48px -12px rgba(74, 52, 24, 0.22),
-    0 60px 120px -24px rgba(74, 52, 24, 0.3);
-}
-.cn[data-look='geist'] .cn-mac-bar { background: linear-gradient(#e7e2d8, #d9d3c7); border-bottom-color: rgba(64, 46, 22, 0.14); }
-.cn[data-look='geist'] .cn-mac-title { color: #4c473e; }
-
-/* Brodine: a soft sky, a touch deeper as it comes down, with one white light
-   from above. The headline is Brodine's one weight, which is already bold. */
-.cn[data-look='brodine'] .cn-sw {
-  background:
-    linear-gradient(to bottom, rgba(232, 240, 249, 0) 0%, rgba(232, 240, 249, 0.18) 20%, rgba(232, 240, 249, 0.45) 42%, rgba(232, 240, 249, 0.74) 66%, rgba(232, 240, 249, 0.93) 84%, #e8f0f9 97%) 0 calc(100% + 2px) / 100% calc(var(--join) + 4px) no-repeat,
-    radial-gradient(80% 55% at 50% -6%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0) 70%),
-    linear-gradient(to bottom, #dce9f7, #c4d9f1 70%, #c4d9f1);
-}
-.cn[data-look='brodine'] .cn-sw-h1 { font-size: clamp(2.5rem, 5.8vw, 5.4rem); line-height: 1.06; letter-spacing: -0.018em; word-spacing: -0.1em; }
-.cn[data-look='brodine'] .cn-sw-row { margin-top: clamp(28px, 3.6vw, 52px); }
-.cn[data-look='brodine'] .cn-mac {
-  box-shadow:
-    0 0 0 1px rgba(18, 34, 70, 0.16),
-    0 2px 6px rgba(18, 34, 70, 0.1),
-    0 24px 48px -12px rgba(18, 34, 70, 0.22),
-    0 60px 120px -24px rgba(18, 34, 70, 0.28);
-}
-
-/* The first beat below the hero, in each trial's face at its one weight. */
-.cn:is([data-look='geist'], [data-look='brodine']) :is(.cn-credit, .cn-scene) .cn-display { font-weight: 400; font-synthesis: none; letter-spacing: -0.02em; line-height: 1.04; }
-/* Brodine's tall ascenders and long descenders want more room between lines. */
-.cn[data-look='brodine'] :is(.cn-credit, .cn-scene) .cn-display { word-spacing: -0.1em; line-height: 1.16; }
