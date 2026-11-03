@@ -5,10 +5,12 @@ import WarmImages from './WarmImages'
 import { sans } from './fonts'
 import './cinematic.css'
 
-/** Direction 2's own header and footer around a page. */
-export default function CinematicChrome({ children }: { children: React.ReactNode }) {
+/** Direction 2's own header and footer around a page. A page can name a look
+ *  (the home page's hero looks): it sets the ground and accent of the whole
+ *  page, header and footer included, and `fontClass` brings that look's font. */
+export default function CinematicChrome({ children, look, fontClass }: { children: React.ReactNode; look?: string; fontClass?: string }) {
   return (
-    <div className={`cn ${sans.variable}`}>
+    <div className={`cn ${sans.variable}${fontClass ? ` ${fontClass}` : ''}`} data-look={look}>
       <CinematicHeader />
 
       <main>{children}</main>

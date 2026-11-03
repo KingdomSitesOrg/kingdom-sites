@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import CinematicChrome from '@/components/cinematic/Chrome'
 import CaseTitle from '@/components/cinematic/CaseTitle'
 import { Browser, MacWindow, Phone } from '@/components/cinematic/Frames'
-import { switzer } from '@/components/cinematic/fonts'
+import { figtree, switzer } from '@/components/cinematic/fonts'
 import { Credit } from '@/components/cinematic/Maker'
 import LatinPartner from '@/components/cinematic/LatinPartner'
 import LitLink from '@/components/cinematic/LitLink'
@@ -60,15 +60,26 @@ const ROLE: Record<string, string> = {
   delta: 'Designed and built by me',
 }
 
-export default function Home() {
+/* The hero has two looks while Thomas chooses: Figtree on a dark green ground
+   (the default) and Switzer on cobalt (?look=switzer). The server reads the
+   address, so the page arrives in its look with no flicker. The look also sets
+   the ground of the whole page, so the hero runs on into what follows. */
+type Look = 'figtree' | 'switzer'
+
+export default async function Home({ searchParams }: { searchParams: Promise<{ look?: string | string[] }> }) {
+  const { look: asked } = await searchParams
+  const look: Look = asked === 'switzer' ? 'switzer' : 'figtree'
+  const font = look === 'switzer' ? switzer : figtree
   return (
-    <CinematicChrome>
+    <CinematicChrome look={look} fontClass={font.variable}>
       {/* Hero: the work first. One real screen of Farzana Classroom in a Mac
-          window on Switzer's cobalt, one line, one tap. The window sits across
-          the edge where the blue meets the page below; on a phone it runs off
-          the right edge so the screen stays readable. Nothing is pinned:
+          window, one line, one tap. Switzer: cream on cobalt. Figtree: white
+          to lime on dark green hills, one lime light under the window. Either
+          way the ground runs on past the window and fades into the page's
+          own ground below, so there is no edge. On a phone the window runs
+          off the right edge so the screen stays readable. Nothing is pinned:
           scrolling moves the page. */}
-      <section className={`cn-sw ${switzer.variable}`} aria-label="Kingdom Sites">
+      <section className="cn-sw" aria-label="Kingdom Sites">
         <div className="cn-wrap cn-sw-in">
           <h1 className="cn-sw-h1">I turn ideas into software people want to use.</h1>
           <div className="cn-sw-row">
