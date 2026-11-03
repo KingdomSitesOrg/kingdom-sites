@@ -522,6 +522,7 @@ def mat_floor():
 
 # ------------------------------------------------------------------ the room
 WALL_Y = 0.95          # wall (and whiteboard) about three feet behind the laptop
+SKETCH = {"width": 1.0, "alpha": 1.0, "red": (0.42, 0.05, 0.04)}   # marker strokes
 
 
 def colour_ramp(N, stops):
@@ -643,7 +644,8 @@ def whiteboard_image():
         ll = dx * dx + dy * dy or 1.0
         t = np.clip(((X - x0) * dx + (Y - y0) * dy) / ll, 0, 1)
         d = np.hypot(X - (x0 + t * dx), Y - (y0 + t * dy))
-        cov = np.clip(w / 2 + 0.8 - d, 0, 1) * a
+        w = w * SKETCH["width"]
+        cov = np.clip(w / 2 + 0.8 - d, 0, 1) * a * SKETCH["alpha"]
         sub = alpha[ya:yb, xa:xb]
         upd = cov > sub
         sub[upd] = cov[upd]
@@ -673,7 +675,7 @@ def whiteboard_image():
             a2 = ang + math.pi - s * 0.45
             seg(q, (q[0] + 22 * math.cos(a2), q[1] + 22 * math.sin(a2)), 7.0, col, 0.95)
 
-    blue, black, red = (0.04, 0.10, 0.32), (0.03, 0.03, 0.035), (0.42, 0.05, 0.04)
+    blue, black, red = (0.04, 0.10, 0.32), (0.03, 0.03, 0.035), SKETCH["red"]
     box(80, 90, 330, 230, blue)
     for i in range(3):
         squiggle(105, 130 + i * 32, rng.uniform(120, 190), blue)
@@ -1047,7 +1049,7 @@ def build_scene():
     area("Key", (-1.05, -0.10, 0.95), (0.0, 0.02, 0.05), 1.0, 0.55, 5, temp=4500, spread=35)
     area("Rim", (0.6, 1.4, 0.9), (0.0, 0.0, 0.05), 0.9, 0.25, 3.0, temp=7600, spread=40)
     area("Top", (0.25, 0.35, 1.6), (0.0, 0.05, 0.0), 0.8, 0.8, 3, temp=5600, spread=60)
-    area("BoardWash", (0.25, 0.30, 1.35), (0.18, WALL_Y, 0.50), 1.4, 0.30, 11.0, temp=4700, spread=75)
+    area("BoardWash", (0.25, WALL_Y - 0.65, 1.35), (0.18, WALL_Y, 0.50), 1.4, 0.30, 11.0, temp=4700, spread=75)
 
     # reflection card: a soft gradient panel only glossy rays can see, so
     # the aluminium has a studio softbox to reflect (classic product trick)
@@ -1350,8 +1352,13 @@ def main():
     ap.add_argument("--overwrite", action="store_true", help="seq: re-render existing frames")
     args = ap.parse_args(argv)
 
-    global ASPECT
+    global ASPECT, WALL_Y, SKETCH
     ASPECT = args.aspect
+    if ASPECT == "phone":
+        # portrait camera sees the board large: push it back and keep the
+        # sketch faint, thin and muted so the eye stays on the laptop
+        WALL_Y = 1.55
+        SKETCH = {"width": 0.5, "alpha": 0.45, "red": (0.20, 0.10, 0.09)}
     scene = build_scene()
     out = os.path.join(ROOT, args.out) if not os.path.isabs(args.out) else args.out
     os.makedirs(out, exist_ok=True)
