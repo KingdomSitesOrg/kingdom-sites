@@ -1,0 +1,6 @@
+{
+  "frames": 120,
+  "desktop": { "w": 1600, "h": 1000, "dir": "/film/desktop/", "screen": { "x": 0, "y": 0, "w": 1600, "h": 1000 } },
+  "phone": { "w": 1600, "h": 1000, "dir": "/film/desktop/", "fit": "contain", "screen": { "x": 0, "y": 0, "w": 1600, "h": 1000 } },
+  "ext": "jpg"
+}

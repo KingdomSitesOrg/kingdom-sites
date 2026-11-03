@@ -15,11 +15,11 @@ import './film.css'
  *
  * Switch to the finished frames by changing FILM_BASE to '/film'.
  */
-export const FILM_BASE = '/film-dev'
+export const FILM_BASE = '/film'
 
 type Kind = 'desktop' | 'phone'
 type Rect = { x: number; y: number; w: number; h: number }
-type FilmSet = { w: number; h: number; dir: string; screen: Rect }
+type FilmSet = { w: number; h: number; dir: string; screen: Rect; fit?: 'cover' | 'contain' }
 type Manifest = { frames: number; ext: string; desktop: FilmSet; phone: FilmSet }
 
 /* Used until the manifest arrives, and if it cannot be read. */
@@ -335,7 +335,11 @@ export default function LaptopFilm() {
       }
       if (idx >= 0 && (idx !== drawn || kind !== drawnKind)) {
         const img = imgs[kind][idx]!
-        const s = Math.max(canvas.width / img.naturalWidth, canvas.height / img.naturalHeight)
+        // A set can ask to be shown whole (contain) instead of filling the stage (cover):
+        // the phone uses the desktop film that way until it has its own.
+        const fit = set.fit === 'contain' ? Math.min : Math.max
+        const s = fit(canvas.width / img.naturalWidth, canvas.height / img.naturalHeight)
+        if (set.fit === 'contain') ctx.clearRect(0, 0, canvas.width, canvas.height)
         const dw = img.naturalWidth * s
         const dh = img.naturalHeight * s
         ctx.imageSmoothingQuality = 'high'
@@ -346,8 +350,8 @@ export default function LaptopFilm() {
         drawnKind = kind
       }
 
-      // The laptop's display, through the same cover-fit as the frame.
-      const s = Math.max(W / set.w, H / set.h)
+      // The laptop's display, through the same fit as the frame.
+      const s = (set.fit === 'contain' ? Math.min : Math.max)(W / set.w, H / set.h)
       const ox = (W - set.w * s) / 2
       const oy = (H - set.h * s) / 2
       const from = { x: ox + set.screen.x * s, y: oy + set.screen.y * s, w: set.screen.w * s, h: set.screen.h * s }
