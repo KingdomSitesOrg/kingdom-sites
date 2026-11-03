@@ -2,7 +2,8 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import CinematicChrome from '@/components/cinematic/Chrome'
 import CaseTitle from '@/components/cinematic/CaseTitle'
-import { Browser, Phone } from '@/components/cinematic/Frames'
+import { Browser, MacWindow, Phone } from '@/components/cinematic/Frames'
+import { switzer } from '@/components/cinematic/fonts'
 import { Credit } from '@/components/cinematic/Maker'
 import LatinPartner from '@/components/cinematic/LatinPartner'
 import LitLink from '@/components/cinematic/LitLink'
@@ -35,7 +36,7 @@ export const metadata: Metadata = {
 /* The Farzana Classroom story, one chapter per screen. The school screens show
    Wren Hall, a made-up demo school, and say so in the window's note. The home
    page shows Farzana in three places at most (Thomas, T-372): the hero's window
-   and phone, and these two chapters. */
+   and these chapters. The hero's window carries no note. */
 const PRODUCT = 'Farzana Classroom'
 const DEMO = 'Demo school'
 const CHAPTERS: { shot: Shot; note?: string; kicker: string; title: string; body: string; gives: string }[] = [
@@ -62,38 +63,34 @@ const ROLE: Record<string, string> = {
 export default function Home() {
   return (
     <CinematicChrome>
-      {/* Hero: the words, then a real screen lying back that stands up as you scroll. */}
-      <Scroll mode="sticky" className="cn-hero" aria-label="Kingdom Sites">
-        <div className="cn-wrap pt-16 sm:pt-24">
-          <p className="cn-kicker">Websites · iPhone and Android apps</p>
-          <h1 className="cn-display cn-h1 mt-5">
-            <span className="block">Made to be used.</span>
-            <span className="block">Made to be yours.</span>
-          </h1>
-          <div className="mt-8 grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-end">
-            <p className="cn-body max-w-[46ch]">
-              I build websites and apps for businesses, churches and anyone who needs software. These screens are
-              all from my own work.
-            </p>
-            <div className="flex flex-wrap gap-3 lg:justify-end">
-              <Link href={INQUIRE_PATH} className="cn-btn">
+      {/* Hero: the work first. One real screen of Farzana Classroom in a Mac
+          window on Switzer's cobalt, one line, one tap. The window sits across
+          the edge where the blue meets the page below; on a phone it runs off
+          the right edge so the screen stays readable. Nothing is pinned:
+          scrolling moves the page. */}
+      <section className={`cn-sw ${switzer.variable}`} aria-label="Kingdom Sites">
+        <div className="cn-wrap cn-sw-in">
+          <h1 className="cn-sw-h1">I turn ideas into software people want to use.</h1>
+          <div className="cn-sw-row">
+            <p className="cn-sw-sub">I think it through with you, then design and build it, fast and well. This one is mine.</p>
+            <div className="cn-sw-acts">
+              <Link href={INQUIRE_PATH} className="cn-btn cn-sw-btn">
                 {INQUIRE_CTA} <span aria-hidden="true">→</span>
               </Link>
-              <a href="#farzana" className="cn-ghost">
+              <a href="#farzana" className="cn-sw-link">
                 See the portfolio <span aria-hidden="true">↓</span>
               </a>
             </div>
           </div>
         </div>
-        <Scroll prop="--q" className="cn-wrap cn-stage relative mt-14 pb-32 sm:mt-20 sm:pb-48">
-          <div className="cn-tilt mx-auto max-w-[1180px]">
-            <Browser shot={SHOTS.farzanaDesk} product={PRODUCT} note={DEMO} priority />
+        <div className="cn-sw-stage">
+          <div className="cn-wrap">
+            <div className="cn-sw-window">
+              <MacWindow shot={SHOTS.classroomHome} title={PRODUCT} priority />
+            </div>
           </div>
-          <div className="cn-tilt-phone absolute bottom-0 right-[6%] w-[30%] max-w-[250px] sm:right-[8%] sm:w-[19%]">
-            <Phone shot={SHOTS.farzanaClassPhone} eager sizes="(min-width: 1320px) 250px, (min-width: 640px) 19vw, 30vw" />
-          </div>
-        </Scroll>
-      </Scroll>
+        </div>
+      </section>
 
       {/* Right after the first window and phone: What I built. Said once. */}
       <Credit id="farzana" title="What I built" />

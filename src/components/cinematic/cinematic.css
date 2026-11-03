@@ -224,3 +224,83 @@ html:has(.cn-head) { background: #0b0b0c; }
 @media (min-width: 760px) { .cn-pays { grid-template-columns: 1fr 1fr; } }
 .cn-pays > * { border-top: 1px solid var(--line); padding-top: 20px; }
 
+
+/* ---------- Home hero: Switzer, cream on cobalt, the work in a Mac window ---------- */
+/* The ground is deep cobalt with a soft light from above and a fine grain; the
+   window stands across the edge where the blue meets the dark page below, so
+   the hero and the page read as one piece. No scroll motion: it simply scrolls. */
+.cn-sw {
+  --sw-blue: #1235cf;
+  --sw-cream: #f6eedc;
+  position: relative;
+  isolation: isolate;
+  color: var(--sw-cream);
+  font-family: var(--sw-sans), var(--cn-sans), system-ui, sans-serif;
+  font-variation-settings: normal;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    radial-gradient(90% 60% at 50% -8%, rgba(92, 128, 255, 0.55), rgba(92, 128, 255, 0) 70%),
+    var(--sw-blue);
+}
+.cn-sw-in { padding-top: clamp(40px, 6vw, 72px); }
+.cn-sw-h1 {
+  margin: 0;
+  max-width: 16ch;
+  font-weight: 800;
+  font-size: clamp(2.6rem, 6vw, 5.6rem);
+  line-height: 0.96;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+@media (min-width: 1000px) { .cn-sw-h1 { max-width: 21ch; } }
+.cn-sw-row { display: grid; gap: 24px; margin-top: clamp(20px, 2.6vw, 36px); }
+@media (min-width: 1000px) { .cn-sw-row { grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 48px; } }
+.cn-sw-sub { margin: 0; max-width: 40ch; font-weight: 500; font-size: clamp(1.06rem, 1.35vw, 1.3rem); line-height: 1.45; color: rgba(246, 238, 220, 0.86); }
+.cn-sw-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; }
+.cn-sw .cn-btn.cn-sw-btn { background: var(--sw-cream); color: #0d2aa8 !important; font-weight: 700; font-size: 16px; }
+.cn-sw .cn-btn.cn-sw-btn:hover { background: #fff; }
+.cn-sw-link { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; font-weight: 600; font-size: 16px; color: rgba(246, 238, 220, 0.82); text-decoration: underline !important; text-decoration-color: rgba(246, 238, 220, 0.35) !important; text-underline-offset: 6px; transition: color 0.2s, text-decoration-color 0.2s; }
+.cn-sw-link:hover { color: var(--sw-cream); text-decoration-color: currentColor !important; }
+.cn-sw-btn:focus-visible, .cn-sw-link:focus-visible { outline: 2px solid var(--sw-cream); outline-offset: 3px; }
+
+/* The stage: blue down to about 60% of the window, then the page's own dark. */
+.cn-sw-stage { margin-top: clamp(36px, 5vw, 64px); padding-bottom: clamp(48px, 7vw, 96px); background: linear-gradient(to bottom, transparent 0, transparent 62%, var(--bg) 62%); }
+.cn-sw-window { max-width: 1180px; margin-inline: auto; }
+
+/* The Mac window. */
+.cn-mac {
+  --r: 12px;
+  position: relative;
+  border-radius: var(--r);
+  overflow: hidden;
+  isolation: isolate;
+  background: #e7e7ea;
+  box-shadow:
+    0 0 0 1px rgba(4, 16, 80, 0.35),
+    0 2px 6px rgba(4, 14, 70, 0.22),
+    0 24px 48px -12px rgba(3, 10, 60, 0.45),
+    0 60px 120px -24px rgba(2, 6, 40, 0.6);
+}
+/* The thin inner line, over the screenshot too, as on a real window. */
+.cn-mac::after { content: ''; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.55); pointer-events: none; z-index: 2; }
+.cn-mac-bar { position: relative; display: flex; align-items: center; justify-content: center; height: 38px; background: linear-gradient(#f0f0f2, #e2e2e6); border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
+.cn-mac-dots { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); display: flex; gap: 8px; }
+.cn-mac-dots i { width: 12px; height: 12px; border-radius: 50%; background: #ff5f57; box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.22); }
+.cn-mac-dots i:nth-child(2) { background: #febc2e; }
+.cn-mac-dots i:nth-child(3) { background: #28c840; }
+.cn-mac-title { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', system-ui, sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0; color: #4b4b52; white-space: nowrap; }
+.cn-mac-screen { position: relative; background: #c4c9d3; }
+.cn-mac-screen picture { display: block; }
+.cn-mac-screen img { display: block; width: 100%; height: auto; }
+
+/* On a phone the window keeps the real desktop screen, at a size where its
+   words read, and runs off the right edge of the screen: the sidebar, the
+   counts and the first class show; the rest is the window carrying on. */
+@media (max-width: 759px) {
+  .cn-sw-stage { overflow: hidden; background: linear-gradient(to bottom, transparent 0, transparent 64%, var(--bg) 64%); }
+  .cn-sw-window { width: clamp(640px, 196vw, 1100px); max-width: none; margin-inline: 0; }
+  .cn-mac-bar { height: 30px; justify-content: flex-start; padding-left: 74px; }
+  .cn-mac-dots { left: 12px; gap: 7px; }
+  .cn-mac-dots i { width: 11px; height: 11px; }
+  .cn-mac-title { font-size: 12px; }
+}
