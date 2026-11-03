@@ -298,7 +298,7 @@ body:has(.cn[data-look]) .ki-square {
   box-shadow: 0 2px 6px rgba(64, 46, 22, 0.1), 0 18px 40px -12px rgba(74, 52, 24, 0.3);
 }
 body:has(.cn[data-look]) .ki-square:hover { border-color: rgba(20, 19, 26, 0.4); }
-body:has(.cn[data-look]) .ki-square:focus-visible { outline-color: #1538d6; }
+body:has(.cn[data-look]) .ki-square:focus-visible { outline-color: #14131a; }
 body:has(.cn[data-look]) .ki-square-sub { color: #57524a; }
 body:has(.cn[data-look]) .ki-square::after { background: linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, 0.55) 50%, transparent 70%); }
-body:has(.cn[data-look]) .ki-square .ki-spark { color: #1538d6; }
+body:has(.cn[data-look]) .ki-square .ki-spark { color: #14131a; }

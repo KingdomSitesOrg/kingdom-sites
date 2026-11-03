@@ -241,7 +241,7 @@ html:has(.cn-head) { background: #0b0b0c; }
   --fg: #14131a;
   --dim: #57524a;
   --line: rgba(20, 19, 26, 0.14);
-  --accent: #1538d6;
+  --accent: #14131a; /* ink. The page has two colours, paper and ink; nothing else (Thomas, 2026-11-03: no random blue). */
   --head-face: var(--font-geist-serif-triangle);
 }
 html:has(.cn[data-look]), body:has(.cn[data-look]) { --bg: #e3dbcc; background: var(--bg); }
@@ -252,7 +252,7 @@ html:has(.cn[data-look]), body:has(.cn[data-look]) { --bg: #e3dbcc; background: 
 .cn[data-look] .cn-body { color: color-mix(in srgb, var(--fg) 80%, var(--bg)); }
 .cn[data-look] .cn-nav a:not(.cn-btn) { color: color-mix(in srgb, var(--fg) 78%, var(--bg)); }
 .cn[data-look] .cn-nav a:not(.cn-btn):hover { color: var(--fg); }
-.cn[data-look] .cn-btn:hover { background: color-mix(in srgb, var(--fg) 86%, var(--accent)); }
+.cn[data-look] .cn-btn:hover { background: #2b2935; }
 .cn[data-look] .cn-ghost:hover { border-color: color-mix(in srgb, var(--fg) 40%, transparent); }
 .cn[data-look] .cn-ghost.cn-glow { color: color-mix(in srgb, var(--fg) 80%, var(--bg)); }
 .cn[data-look] .cn-ghost.cn-glow.is-glow { color: var(--fg); border-color: var(--accent); }
@@ -372,7 +372,7 @@ html:has(.cn[data-look]), body:has(.cn[data-look]) { --bg: #e3dbcc; background: 
 }
 
 /* The first beat below the hero speaks the hero's language: the serif at its
-   one weight, the cobalt for the small labels, no line above it. */
+   one weight, ink for the small labels, no line above it. */
 .cn[data-look] :is(.cn-credit, .cn-scene) .cn-display {
   font-family: var(--head-face), var(--cn-sans), system-ui, sans-serif;
   font-variation-settings: normal;
