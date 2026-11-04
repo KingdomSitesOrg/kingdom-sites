@@ -100,7 +100,7 @@ export default function AppShell({
   const standalone =
     ownChrome ||
     section === 'farzana' ||
-    ['/tap-to-tick', '/latin-game', '/farzana', '/ministry', '/prayer', '/marketing-frame', '/sign', '/calc', '/full-potential', '/strata'].some((p) =>
+    ['/tap-to-tick', '/latin-game', '/farzana', '/ministry', '/prayer', '/marketing-frame', '/sign', '/calc', '/full-potential', '/strata', '/inbox'].some((p) =>
       pathname?.startsWith(p),
     )
 
@@ -117,10 +117,11 @@ export default function AppShell({
   // signing a document (/sign/s/…). It sits outside the page's own tree, so a
   // conversation carries on from page to page.
   // The Get started page has the chat built into the page, so no second one floats there.
-  // Nor on the STRATA concept page (/strata), which is a made-up company's site, full bleed.
+  // Nor on the STRATA concept page (/strata), which is a made-up company's site, full bleed,
+  // nor in Thomas's own message inbox (/inbox).
   const concept = section === 'strata'
   const intelligence =
-    concept || section === 'farzana' || pathname?.startsWith('/sign/s/') || pathname === '/get-started' ? null : <Intelligence />
+    concept || section === 'farzana' || pathname?.startsWith('/sign/s/') || pathname === '/get-started' || pathname?.startsWith('/inbox') ? null : <Intelligence />
 
   return (
     <>

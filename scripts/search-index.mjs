@@ -26,7 +26,7 @@ const ON_DEMAND = [
 ]
 
 /** Never in search, whatever the page says about itself. */
-const PRIVATE = [/^\/farzana(\/|$)/, /^\/sign\//, /^\/calc$/, /^\/billing$/, /^\/feedback$/, /^\/refer\/track\//, /^\/r\//]
+const PRIVATE = [/^\/farzana(\/|$)/, /^\/sign\//, /^\/inbox$/, /^\/calc$/, /^\/billing$/, /^\/feedback$/, /^\/refer\/track\//, /^\/r\//]
 
 const LEGAL = [/\/privacy$/, /^\/terms$/]
 
