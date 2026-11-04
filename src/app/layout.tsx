@@ -86,6 +86,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* A page opened fresh (or reloaded) starts at its top: without this the
+            browser first puts it back where it was left, then AppShell moves it
+            to the top, a visible jump (AppShell does the same as a page is left). */}
+        <script dangerouslySetInnerHTML={{ __html: "try{history.scrollRestoration='manual'}catch(e){}" }} />
+      </head>
       <body className={inter.className}>
         {/* The studio's structured data goes on every page but the Farzana
             ones, which describe their own product (AppShell). */}

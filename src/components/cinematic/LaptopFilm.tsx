@@ -7,7 +7,8 @@ import './film.css'
  * The home page film: a laptop on a desk opens, the camera settles with the
  * whole laptop in view, and on its screen Farzana Classroom is in use: a
  * cursor goes round the app, clicking a class, the students and Analytics,
- * on a loop. Once most of the scene is in view, the opening plays by itself,
+ * on a loop. The page opens on the closed laptop as the lights come up; once
+ * the visitor scrolls and most of the scene is in view, the opening plays by itself,
  * and the page keeps scrolling freely the whole time (nothing is pinned).
  *
  * The film is a sequence of still frames drawn on a canvas as the page
@@ -51,9 +52,12 @@ const FALLBACK: Manifest = {
   phone: { w: 1600, h: 1000, dir: 'desktop', screenQuad: QUAD, laptopBox: BOX },
 }
 
-/* The opening starts once the top of the scene is this far up the window,
-   and never before the room's lights have come up (film.css, kf-lights). */
+/* The page opens on the dark room, the lights come up on the closed laptop
+   (film.css, kf-lights), and it waits there. The opening plays once the visitor
+   has scrolled (at least this far) and the top of the scene is this far up the
+   window; never before the lights are up. */
 const START_AT = 0.45
+const SCROLLED_PX = 40
 const LIGHTS_MS = 1500
 /* The live screen fades in over the last few frames. */
 const FADE_FRAMES = 6
@@ -589,7 +593,7 @@ export default function LaptopFilm() {
       // Once most of the scene is in view, the opening plays by itself.
       // (Read live, not from the last measure: fonts and images can still move it.
       // Not before the manifest: until then a phone lays the stage out differently.)
-      if (!auto && manReady && !reduce.matches && performance.now() >= LIGHTS_MS && stage.getBoundingClientRect().top <= window.innerHeight * START_AT) auto = { start: performance.now() }
+      if (!auto && manReady && !reduce.matches && performance.now() >= LIGHTS_MS && window.scrollY >= SCROLLED_PX && stage.getBoundingClientRect().top <= window.innerHeight * START_AT) auto = { start: performance.now() }
       let at = reduce.matches ? n - 1 : 0
       if (auto && !reduce.matches) {
         const t = clamp((performance.now() - auto.start) / AUTO_MS)

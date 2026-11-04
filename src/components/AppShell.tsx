@@ -34,6 +34,23 @@ export default function AppShell({
     window.scrollTo(0, 0)
   }, [pathname])
 
+  // A page opened fresh or reloaded starts at its top, not where it was left
+  // and then moved to the top (a visible jump). The browser decides that when
+  // the page is left, so restoring is switched off then; while the page is up it
+  // stays on, so back and forward between pages of the site restore as usual.
+  useEffect(() => {
+    history.scrollRestoration = 'auto'
+    const onHide = () => {
+      history.scrollRestoration = 'manual'
+    }
+    window.addEventListener('pagehide', onHide)
+    window.addEventListener('beforeunload', onHide)
+    return () => {
+      window.removeEventListener('pagehide', onHide)
+      window.removeEventListener('beforeunload', onHide)
+    }
+  }, [])
+
   useEffect(() => {
     const onPop = () => {
       backForward.current = true

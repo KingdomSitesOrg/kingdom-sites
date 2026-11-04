@@ -175,28 +175,29 @@ html.ki-lock { overflow: hidden; }
 .ki-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 .ki-btn:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
 
-/* ---------- Phones: a compact bottom sheet on the visible part of the screen (T-378) ----------
-   Intelligence.tsx writes the visual viewport's height, top edge and bottom gap
-   into --ki-vh, --ki-top and --ki-bottom, so with the keyboard up the sheet sits
-   directly above the keys and the message list takes only the room between header and
-   question box. The sheet is only as tall as what is in it, up to 45% of the visible
-   screen (a short strip when the keys are up). Keep the media query in step with PHONE in Intelligence.tsx. */
+/* ---------- Phones: a panel floating near the top, where search opens (T-378) ----------
+   The same place and shape as the search bar (search.css): near the top of the
+   visible screen, over a dimmed, blurred page, only as tall as what is in it.
+   Intelligence.tsx writes the visual viewport's height and top edge into --ki-vh
+   and --ki-top, so with the keyboard up the panel ends above the keys and the
+   message list takes only the room between header and question box. Keep the
+   media query in step with PHONE in Intelligence.tsx. */
 @media (max-width: 759px), (max-height: 520px) {
   .ki { --ki-vh: 100dvh; --ki-top: 0px; --ki-bottom: 0px; }
   .ki:not(.ki--inline)[data-open] .ki-backdrop {
     display: block; position: fixed; z-index: 59; left: 0; right: 0; top: var(--ki-top); height: var(--ki-vh);
-    background: rgba(0, 0, 0, 0.55); touch-action: none; margin-bottom: -400px; padding-bottom: 400px; box-sizing: content-box; animation: ki-fade 0.2s ease;
+    background: rgba(0, 0, 0, 0.5); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); touch-action: none; margin-bottom: -400px; padding-bottom: 400px; box-sizing: content-box; animation: ki-fade 0.2s ease;
   }
   .ki:not(.ki--inline) .ki-panel {
-    z-index: 60; left: 0; right: 0; top: auto; bottom: var(--ki-bottom);
-    height: auto; max-height: calc(var(--ki-vh) * 0.45);
-    border-radius: 16px 16px 0 0; border-bottom: 0;
-    /* The sheet's own colour carries on below it, so no page shows between it and the keyboard. */
-    box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.5), 0 400px 0 0 var(--bg-2);
-    transform-origin: 50% 100%;
-    animation-name: ki-sheet;
+    z-index: 60;
+    left: calc(12px + env(safe-area-inset-left, 0px)); right: calc(12px + env(safe-area-inset-right, 0px));
+    top: calc(var(--ki-top) + env(safe-area-inset-top, 0px) + 12px); bottom: auto;
+    height: auto; max-height: calc(var(--ki-vh) - 24px - env(safe-area-inset-top, 0px));
+    border-radius: 18px;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04), 0 24px 70px rgba(0, 0, 0, 0.6);
+    transform-origin: 50% 0;
+    animation-name: ki-drop;
   }
-  .ki:not(.ki--inline)[data-keys] .ki-panel { max-height: min(calc(var(--ki-vh) - 8px), 300px); }
   .ki-head { align-items: center; padding: 0 2px 0 14px; }
   .ki-title { font-size: 17px; }
   .ki-sub { display: none; }
@@ -210,7 +211,7 @@ html.ki-lock { overflow: hidden; }
   .ki-chip { flex: none; padding: 0 14px; font-size: 13px; white-space: nowrap; }
   .ki-form { margin: 4px 10px 0; }
   .ki-full { margin: 6px 10px 0; }
-  .ki-foot { padding: 4px 14px calc(6px + env(safe-area-inset-bottom, 0px)); font-size: 11px; }
+  .ki-foot { padding: 4px 14px 8px; font-size: 11px; }
   .ki-card { padding: 12px; }
 }
 
@@ -288,3 +289,6 @@ html.ki-lock { overflow: hidden; }
   .ki-think-word { animation: none; color: var(--dim); background: none; }
   .ki-think { animation: ki-pulse 1.2s ease-in-out infinite alternate; }
 }
+
+/* The phone panel drops in from just above, as search does. */
+@keyframes ki-drop { from { opacity: 0; transform: translateY(-8px) scale(0.98); } to { opacity: 1; transform: none; } }
