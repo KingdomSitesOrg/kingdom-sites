@@ -60,6 +60,12 @@ const FALLBACK: Manifest = {
 const LIGHTS_MS = 1000
 /* The live screen fades in over the last few frames. */
 const FADE_FRAMES = 6
+/* The film ends on this render frame. The camera comes to rest here; after it,
+   the render's "hold" (frames 88 to 96) still creeps back by a fraction of a
+   pixel a frame while the focus settles, which reads as a stutter, so those
+   frames are never loaded or shown. */
+const END_FRAME = 87
+const lastFrame = (m: Manifest) => Math.min(m.frames, END_FRAME)
 /* How long the lid takes to open, and so how long scrolling holds. */
 const AUTO_MS = 3000
 /* The cursor's moves run this much faster than the times written in the loop. */
@@ -468,7 +474,7 @@ export default function LaptopFilm() {
     const load = (k: Kind) => {
       if (started[k]) return
       started[k] = true
-      const n = man.frames
+      const n = lastFrame(man)
       // The phone set may reuse the desktop frames: share what is already loaded.
       const same = man.phone.dir === man.desktop.dir
       if (same && k === 'phone' && started.desktop) {
@@ -588,7 +594,8 @@ export default function LaptopFilm() {
     const steer = () => {
       if (!reduce.matches && inView && !document.hidden) steam.play()
       else steam.pause()
-      const want = !reduce.matches && inView && !document.hidden && lastFade > 0
+      // The cursor starts once the film has finished, so its last frames have the page to themselves.
+      const want = !reduce.matches && inView && !document.hidden && lastFade >= 1
       if (want && !loop) loop = startLoop(els)
       if (!loop) return
       if (want) loop.play()
@@ -598,7 +605,7 @@ export default function LaptopFilm() {
     const tick = () => {
       raf = 0
       const fs = set()
-      const n = man.frames
+      const n = lastFrame(man)
 
       // The scene fills the screen: the opening plays, and scrolling holds while it does.
       // (Not before the manifest: until then a phone lays the stage out differently.)
