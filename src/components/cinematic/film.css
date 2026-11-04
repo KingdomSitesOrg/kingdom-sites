@@ -1,11 +1,14 @@
 /* The home page film (LaptopFilm.tsx): one screen-tall stage that scrolls
-   with the page. The canvas draws the film's frame; the live screen sits on
-   the laptop's display through a matrix3d the script works out from its
-   corners. Everything moves by transform and opacity. */
+   with the page. A video plays the film (the browser decodes and scales it
+   itself); the live screen sits on the laptop's display through a matrix3d
+   the script works out from its corners. Everything moves by transform and
+   opacity. */
 .kf { position: relative; }
 .kf-stage { position: relative; height: calc(100svh - 60px); overflow: hidden; background: var(--bg); }
-.kf-poster, .kf-poster img, .kf-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-.kf-poster img { display: block; object-fit: cover; }
+.kf-poster, .kf-poster img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.kf-poster img { display: block; object-fit: cover; max-width: none; }
+/* The script gives the video (and the first picture under it) the frame's exact place and size. */
+.kf-video { position: absolute; left: 0; top: 0; display: block; max-width: none; object-fit: fill; transform-origin: 0 0; pointer-events: none; background: transparent; }
 
 /* The stage's top and bottom fade into the page, so the strip dissolves into
    the room and the room into what follows: no hard line anywhere. A shade in
@@ -21,9 +24,16 @@
 }
 
 
-/* The live screen: the app at its own size, cropped to the render's 16:10 display. */
-.kf-live { position: absolute; left: 0; top: 0; width: 1752px; height: 1095px; transform-origin: 0 0; overflow: hidden; border-radius: 33.1px; opacity: 0; pointer-events: none; background: rgb(188 193 205); backface-visibility: hidden; will-change: transform, opacity; --kf-cur: 1; }
-.kf-shots img { position: absolute; inset: 0; display: block; width: 1800px; max-width: none; height: 100%; opacity: 0; transition: opacity 0.18s ease-out; }
+/* The live screen: the app at its own size, cropped to the render's 16:10 display.
+   The display's rounded corners are drawn by each piece itself (the screenshots,
+   their backing, the glass, the dimming), never by clipping the whole layer:
+   a rounded clip round a layer that moves in 3D, with the cursor moving inside
+   it, made the browser redraw a mask on every frame, and the last second of the
+   film and the cursor demo stuttered. Nothing inside reaches the corners. */
+.kf-live { position: absolute; left: 0; top: 0; width: 1752px; height: 1095px; transform-origin: 0 0; opacity: 0; pointer-events: none; backface-visibility: hidden; will-change: transform, opacity; --kf-cur: 1; }
+.kf-shots { position: absolute; inset: 0; border-radius: 33.1px; background: rgb(188 193 205); }
+/* The screenshots are 1800 px wide: the left 1752 px show, at full size. */
+.kf-shots img { position: absolute; left: 0; top: 0; display: block; width: 1752px; max-width: none; height: 100%; object-fit: none; object-position: 0 0; border-radius: 33.1px; opacity: 0; transition: opacity 0.18s ease-out; }
 .kf-shots img.is-on { opacity: 1; }
 
 /* What the cursor does to the app: a hovered sidebar item, the selected one
@@ -40,7 +50,7 @@
 .kf-arrow svg { display: block; }
 
 /* Glass: a faint sheen across the screen and a little shade toward its edges. */
-.kf-glass { position: absolute; inset: 0; background:
+.kf-glass { position: absolute; inset: 0; border-radius: 33.1px; background:
   linear-gradient(118deg, rgb(255 255 255 / 0.07) 0%, rgb(255 255 255 / 0.02) 34%, rgb(255 255 255 / 0) 52%),
   radial-gradient(130% 120% at 50% 45%, rgb(0 0 0 / 0) 58%, rgb(0 0 0 / 0.16) 100%); }
 
@@ -151,7 +161,7 @@ html.kf-hold { overflow: hidden; scrollbar-gutter: stable; }
 .kf-form input, .kf-form textarea { background: #0f0f11; }
 
 /* Dims the live screen while the display wakes up during the opening. */
-.kf-dim { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; }
+.kf-dim { position: absolute; inset: 0; border-radius: 33.1px; background: #000; opacity: 0; pointer-events: none; }
 
 /* The work after the film: a centred section title with a hairline under it,
    then each piece in its own lightly outlined panel (the name centred, a line
