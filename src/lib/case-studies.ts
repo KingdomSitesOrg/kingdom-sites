@@ -54,7 +54,6 @@ export type CaseStudy = {
 }
 
 const FARZANA = 'Farzana Classroom'
-const DEMO = 'Demo school'
 
 export const CASE_STUDIES = {
   'farzana-classroom': {
@@ -76,7 +75,7 @@ export const CASE_STUDIES = {
       ['Status', 'In beta, first school coming soon'],
     ],
     site: { href: 'https://farzana.app', label: 'farzana.app' },
-    hero: { shot: SHOTS.farzanaHome, product: FARZANA, note: DEMO, title: 'Home', caption: '' },
+    hero: { shot: SHOTS.appClass, product: FARZANA, title: 'A class', caption: '' },
     problem: [
       'Some platforms take a cut of every class you sell, on top of payment fees and software fees.',
       'And running email campaigns, managing students, payments and products is hard when it is spread across different tools. Farzana Classroom combines it all.',
@@ -96,21 +95,19 @@ export const CASE_STUDIES = {
       title: 'Coming soon',
       text: [
         'Farzana Classroom is coming soon, and I welcome custom builds on top of it.',
-        'The screens on this page show Wren Hall, a made-up demo school, so no real family is shown.',
+        'The schools and students on these screens are made up, so no real family is shown.',
       ],
     },
     figures: [
       {
         shot: SHOTS.farzanaClass,
         product: FARZANA,
-        note: DEMO,
         title: 'A class page',
         caption: 'What a family sees: the class, its price, and a free sample to try before signing up.',
       },
       {
-        shot: SHOTS.farzanaStudents,
+        shot: SHOTS.appStudents,
         product: FARZANA,
-        note: DEMO,
         title: 'The student list',
         caption: 'What the teacher sees: every student, with search and filters.',
       },
@@ -155,9 +152,9 @@ export const CASE_STUDIES = {
     took: { text: ['Built in two weeks, and updated every week with more information.'] },
     result: [
       'KCUPG is live at kcupgs.com, free to use, with no sign-in. It started as a map of the city’s South Asian communities and now covers six regions.',
-      'Churches in Kansas City see which communities live where, and where to meet them. Logan Hazlet, a full-time missionary in Kansas City, Missouri, uses it.',
+      'Churches in Kansas City see which communities live where, and where to meet them. Logan, a full-time missionary in Kansas City, Missouri, uses it.',
     ],
-    /* No quote yet: Logan Hazlet will leave a Google review; quote it here
+    /* No quote yet: Logan will leave a Google review; quote it here
        once it exists, with his OK (docs/wording-pass-2.md). */
     figures: [
       {

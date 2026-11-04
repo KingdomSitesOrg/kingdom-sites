@@ -26,7 +26,7 @@ const ON_DEMAND = [
 ]
 
 /** Never in search, whatever the page says about itself. */
-const PRIVATE = [/^\/farzana(\/|$)/, /^\/sign\//, /^\/calc$/, /^\/billing$/, /^\/feedback$/, /^\/refer\/track\//, /^\/r\//]
+const PRIVATE = [/^\/farzana(\/|$)/, /^\/sign\//, /^\/inbox$/, /^\/calc$/, /^\/billing$/, /^\/feedback$/, /^\/refer\/track\//, /^\/r\//]
 
 const LEGAL = [/\/privacy$/, /^\/terms$/]
 
@@ -122,10 +122,19 @@ function* htmlFiles(dir) {
   }
 }
 
-if (!fs.existsSync(APP)) {
-  console.error(`search-index: no build at ${path.relative(process.cwd(), APP)}; run next build first`)
+/* On Vercel, Next.js 16.4 no longer leaves the rendered pages in .next/server/app,
+   so there the index committed with the code (public/search-index.json, written
+   by a local build) is kept as it is, rather than failing the deploy. */
+const keepCommitted = (why) => {
+  if (process.env.VERCEL && fs.existsSync(OUT)) {
+    console.warn(`search-index: ${why}; keeping the committed ${path.relative(process.cwd(), OUT)}`)
+    process.exit(0)
+  }
+  console.error(`search-index: ${why}`)
   process.exit(1)
 }
+
+if (!fs.existsSync(APP)) keepCommitted(`no build at ${path.relative(process.cwd(), APP)}; run next build first`)
 
 // Addresses that send the visitor elsewhere (next.config.ts redirects) are not pages to find.
 const manifest = JSON.parse(fs.readFileSync(path.join(NEXT, 'routes-manifest.json'), 'utf8'))
@@ -146,10 +155,7 @@ const ORDER = ['Home', 'Portfolio', 'Studio', 'Who I work with', 'Guides', 'Get 
 pages.push(...ON_DEMAND.filter((p) => !pages.some((q) => q.u === p.u)))
 pages.sort((a, b) => ORDER.indexOf(a.s) - ORDER.indexOf(b.s) || a.u.split('/').length - b.u.split('/').length || a.u.localeCompare(b.u))
 
-if (pages.length < 5) {
-  console.error(`search-index: only ${pages.length} pages found in ${APP}; refusing to write a near-empty index`)
-  process.exit(1)
-}
+if (pages.length < 5) keepCommitted(`only ${pages.length} pages found in ${APP}; refusing to write a near-empty index`)
 
 fs.mkdirSync(path.dirname(OUT), { recursive: true })
 fs.writeFileSync(OUT, JSON.stringify({ v: 1, pages }))

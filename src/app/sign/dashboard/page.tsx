@@ -21,6 +21,9 @@ export default async function SignDashboardPage() {
         </div>
         <div className="flex items-center gap-2">
           <LogoutButton />
+          <Link href="/inbox" className="btn-ghost-sm">
+            Messages
+          </Link>
           <Link href="/sign/referrals" className="btn-ghost-sm">
             Referrals
           </Link>

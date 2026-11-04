@@ -36,15 +36,15 @@ export function dailyBudgetUsd(): number {
 
 /** What visitors read when the answer is no. Plain words, and always a way to reach Thomas. */
 export const SAY = {
-  resting: 'Intelligence is resting for now. Use the contact form at /get-started and Thomas will reply himself.',
+  resting: 'Instant is resting for now. Write to Thomas on his tab, or use the contact form at /get-started, and he will reply himself.',
   tooFast: 'That is a lot of questions in a few minutes. Give it a little while, or use the contact form at /get-started.',
-  hourFull: 'That is all the questions Intelligence can take from here this hour. Thomas would be glad to hear from you directly: write to him through the contact form at /get-started and he will reply himself.',
+  hourFull: 'That is all the questions Instant can take from here this hour. Thomas would be glad to hear from you directly: write to him through the contact form at /get-started and he will reply himself.',
   full: 'This conversation is full. Start a new one, or write to Thomas through /get-started.',
   tooLong: `Please keep a question under ${LIMITS.questionChars} characters.`,
   unreadable: 'That could not be read. Start a new conversation and try again.',
   failed: 'Something went wrong getting an answer. Try again in a moment, or use /get-started.',
-  declined: 'That is not something Intelligence can help with. Ask about Thomas and the things he has built.',
-  offer: 'Add your name and email below, and check what will be sent to Thomas.',
+  declined: 'That is not something Instant can help with. Ask about Thomas and the things he has built.',
+  offer: 'Write to Thomas on his tab below. He replies within 12 to 24 hours.',
   needName: 'Please add your name.',
   badEmail: 'That email address does not look right.',
   sendLimit: 'This has already been sent to Thomas today. He will reply by email; for anything more, use /get-started.',
@@ -58,7 +58,7 @@ export const SAY = {
  * block, so it can be cached between questions.
  */
 export function systemPrompt(knowledge: string): string {
-  return `You are Intelligence, the assistant on kingdom-sites.com, the website of Kingdom Sites, the software studio of Thomas Klein. You answer visitors' questions about Thomas and the work he has built, using only the facts in <knowledge> below.
+  return `You are Instant, the AI assistant in Ask Thomas on kingdom-sites.com, the website of Kingdom Sites, the software studio of Thomas Klein. You answer visitors' questions about Thomas and the work he has built, using only the facts in <knowledge> below.
 
 Voice: you speak about Thomas in the third person ("Thomas built…", "he offers…"). You are not Thomas. If someone asks who you are, say you are the site's assistant, answering from what is on the site, and that Thomas reads every message sent through the contact form at /get-started.
 
@@ -75,7 +75,7 @@ When a visitor wants something built, or asks what it would cost:
 - First ask one or two short clarifying questions at a time about what they want: what kind of thing it is (a website, an app, something else), who will use it, the must-have features, and when they need it. Don't ask everything at once.
 - Once you have a picture, give the rough range from <knowledge> that fits, and say plainly it is a rough range, not a quote. Keep asking a short clarifying question where it would help.
 - Then ask: "Should I send this to Thomas so he can give you a direct quote?"
-- If they say yes, call the offer_send_to_thomas tool, with a one-line message such as "Great, add your name and email below and check what will be sent." The site then shows them a short form for their name and email, with exactly what will be shared, and they confirm it there. Don't ask for their name or email in the chat yourself, and never say a message was sent: the form tells them.
+- If they say yes, call the offer_send_to_thomas tool, with a one-line message such as "Great, write to Thomas on his tab; he replies within 12 to 24 hours." The site then opens the Thomas tab, where they write to him directly, with their name and email, and can bring this conversation along. Don't ask for their name or email in the chat yourself, and never say a message was sent: that tab shows them.
 - Churches, ministries and missionaries raising support get their website built for free; mention it when it applies.
 - Thomas is taking on new projects. Invite people to get in touch.
 
@@ -85,13 +85,13 @@ ${knowledge}
 }
 
 /**
- * The one tool: it sends nothing. It tells the page to show the visitor the
- * name-and-email form, and the visitor's own "Send to Thomas" is what sends.
+ * The one tool: it sends nothing. It tells the page to open the Thomas tab,
+ * where the visitor writes to him themselves (components/intelligence/Messages.tsx).
  */
 export const OFFER_TOOL = {
   name: 'offer_send_to_thomas',
   description:
-    'Shows the visitor a short form on the page to send this conversation to Thomas for a direct quote. The visitor types their name and email there and confirms. Call it only after the visitor has said yes to sending their project to Thomas.',
+    'Opens the Thomas tab on the page, where the visitor writes to Thomas directly for a quote, with their name and email, and can bring this conversation along. Call it only after the visitor has said yes to sending their project to Thomas.',
   input_schema: { type: 'object' as const, properties: {}, additionalProperties: false },
 }
 
@@ -209,7 +209,7 @@ export function resetVisitorsForTests() {
 /** The conversation as Thomas reads it, under the summary. */
 export function transcript(turns: Turn[]): string {
   return turns
-    .map((t) => `${t.role === 'user' ? 'Visitor' : 'Intelligence'}: ${t.content}`)
+    .map((t) => `${t.role === 'user' ? 'Visitor' : 'Instant'}: ${t.content}`)
     .join('\n\n')
     .slice(0, 8000)
 }

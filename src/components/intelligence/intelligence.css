@@ -22,31 +22,28 @@
    the bottom of the page and rise about 40px into it (measured on the iPhone Duo folded),
    and no CSS or JS value reports them: the safe-area inset there is 0 and the visual
    viewport is the full window. So the lift is that height, on top of the home-bar inset. */
+/* The button: a small pill in the page's own colours, always in the corner.
+   Small enough that it never covers what people are reading. */
 .ki-square {
   position: fixed; z-index: 35;
-  right: var(--edge); bottom: calc(max(12px, env(safe-area-inset-bottom, 0px)) + 52px);
-  width: 104px; height: 104px; padding: 10px;
-  display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end; gap: 3px;
-  text-align: left; cursor: pointer; overflow: hidden; isolation: isolate;
-  /* Solid: a see-through square lets the hero's tilted window show through. */
+  right: var(--edge); bottom: max(14px, calc(env(safe-area-inset-bottom, 0px) + 8px));
+  height: 44px; padding: 0 18px 0 14px;
+  display: inline-flex; align-items: center; gap: 8px;
+  cursor: pointer; overflow: hidden; isolation: isolate;
   background: var(--bg-2);
-  border: 1px solid var(--line); border-radius: 12px;
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(239, 235, 227, 0.18); border-radius: 999px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
   color: var(--fg);
   transition: transform 0.25s ease, border-color 0.25s ease;
 }
-.ki-square:hover { transform: translateY(-2px); border-color: rgba(239, 235, 227, 0.32); }
+.ki-square:hover { transform: translateY(-1px); border-color: rgba(239, 235, 227, 0.4); }
 .ki-square:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
-.ki-square .ki-spark { position: absolute; top: 10px; left: 10px; width: 14px; height: 14px; }
-.ki-square-title { font-variation-settings: 'wdth' 72; font-weight: 600; font-size: 16px; letter-spacing: -0.01em; line-height: 1; }
-.ki-square-sub { font-size: 10.5px; line-height: 1.25; color: var(--dim); }
+.ki-square .ki-spark { position: static; width: 14px; height: 14px; flex: none; }
+.ki-square-title { font-weight: 600; font-size: 14px; line-height: 1; }
 @media (min-width: 760px) {
   .ki { --edge: 24px; }
-  /* Clear of the home bar on an iPad or an opened-out fold phone; 24px on a desktop (no inset). */
-  .ki-square { bottom: max(24px, calc(env(safe-area-inset-bottom, 0px) + 12px)); width: 152px; height: 152px; padding: 16px; gap: 5px; }
-  .ki-square .ki-spark { top: 16px; left: 16px; width: 16px; height: 16px; }
-  .ki-square-title { font-size: 23px; }
-  .ki-square-sub { font-size: 12.5px; }
+  .ki-square { bottom: max(24px, calc(env(safe-area-inset-bottom, 0px) + 12px)); height: 46px; }
+  .ki-square-title { font-size: 15px; }
 }
 /* A light passes over the square on hover, and keeps passing while it thinks. */
 .ki-square::after {
@@ -57,6 +54,11 @@
 .ki-square:hover::after { animation: ki-pass 1.1s ease forwards; }
 .ki-square[data-busy]::after { animation: ki-pass 1.6s linear infinite; }
 .ki[data-open] .ki-square { visibility: hidden; }
+/* Phones: the button fades out while the page's message form is on screen (Intelligence.tsx). */
+@media (max-width: 759px) {
+  .ki-square { transition: transform 0.25s ease, border-color 0.25s ease, opacity 0.25s ease, visibility 0.25s; }
+  .ki[data-by-form] .ki-square { opacity: 0; visibility: hidden; pointer-events: none; }
+}
 
 /* ---------- The panel ---------- */
 .ki-panel {
@@ -150,10 +152,51 @@ html.ki-lock { overflow: hidden; }
 .ki-full { margin: 8px 12px 0; display: flex; justify-content: center; }
 
 .ki-foot { margin: 0; padding: 8px 16px 12px; font-size: 12px; line-height: 1.4; color: var(--dim); text-align: center; }
+/* "Send this to Thomas": a small pill under the last answer, in the conversation. */
+.ki-send { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 12px; border-radius: 999px; border: 1px solid rgba(239, 235, 227, 0.22); background: rgba(239, 235, 227, 0.06); color: var(--fg); font: inherit; font-size: 13px; font-weight: 500; cursor: pointer; transition: border-color 0.2s, background-color 0.2s; animation: ki-fade 0.3s ease; }
+.ki-send:hover { border-color: rgba(239, 235, 227, 0.45); background: rgba(239, 235, 227, 0.1); }
+.ki-send:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
 .ki-link { min-height: 32px; padding: 0; background: none; border: 0; color: var(--fg); font: inherit; text-decoration: underline; text-decoration-color: rgba(239, 235, 227, 0.35); text-underline-offset: 3px; cursor: pointer; }
 .ki-link:hover { text-decoration-color: currentColor; }
 .ki-link:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; border-radius: 4px; }
 .ki-link:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ---------- Two tabs along the bottom: Instant and Thomas ---------- */
+.ki-view { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.ki-view[hidden] { display: none; }
+.ki-tabs { flex: none; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 6px 8px 8px; border-top: 1px solid var(--line); }
+.ki-tab { position: relative; display: flex; align-items: center; justify-content: center; gap: 7px; min-height: 44px; border: 0; border-radius: 12px; background: none; color: var(--dim); font: inherit; font-size: 14px; font-weight: 500; cursor: pointer; transition: color 0.2s, background-color 0.2s; }
+.ki-tab .ki-spark { width: 13px; height: 13px; }
+.ki-tab:hover { color: var(--fg); }
+.ki-tab[aria-pressed="true"] { color: var(--fg); background: rgba(239, 235, 227, 0.08); }
+.ki-tab:focus-visible { outline: 2px solid var(--fg); outline-offset: -2px; }
+/* An answer from Thomas not seen yet: a dot on his tab and on the button. */
+.ki-dot { position: absolute; top: 8px; right: 10px; width: 9px; height: 9px; border-radius: 50%; background: #ff7a45; box-shadow: 0 0 0 2px var(--bg-2); }
+.ki-dot-tab { position: static; margin-left: -2px; box-shadow: none; }
+
+/* ---------- Thomas: writing to him (Messages.tsx) ---------- */
+.km-log { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 16px 18px 10px; display: flex; flex-direction: column; gap: 12px; font-size: 15px; line-height: 1.5; }
+.km-start { gap: 8px; }
+.km-intro { margin-bottom: 6px; }
+.km-intro-title { margin: 0; font-variation-settings: 'wdth' 72; font-weight: 600; font-size: 21px; letter-spacing: -0.01em; color: var(--fg); }
+.km-intro-text { margin: 6px 0 0; font-size: 14px; color: var(--body); }
+.km-textarea { min-height: 96px; padding: 10px 12px; resize: vertical; line-height: 1.45; }
+.km-trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.km-check { display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: var(--body); cursor: pointer; }
+.km-check input { width: 16px; height: 16px; accent-color: var(--fg); }
+.km-go { align-self: flex-start; margin-top: 6px; }
+/* The promise sits in the header's second line; on a phone, where that line is hidden, it heads the thread instead. */
+.km-promise { display: none; margin: 0 auto 2px; padding: 4px 12px; border-radius: 999px; background: rgba(239, 235, 227, 0.06); font-size: 12px; color: var(--dim); text-align: center; }
+.km-msg { display: flex; flex-direction: column; gap: 3px; }
+.km-mine { align-items: flex-end; }
+.km-his { align-items: flex-start; }
+.km-bubble { max-width: 85%; margin: 0; padding: 9px 14px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.km-mine .km-bubble { border-radius: 14px 14px 4px 14px; background: rgba(239, 235, 227, 0.09); color: var(--fg); }
+.km-his .km-bubble { border-radius: 14px 14px 14px 4px; background: var(--fg); color: #141416; }
+.km-who { font-size: 12px; font-weight: 600; color: var(--fg); }
+.km-when { font-size: 11px; color: var(--dim); }
+.km-status { margin: 0; font-size: 12.5px; color: var(--dim); text-align: right; }
+.km-error { margin: 6px 14px 0; }
 
 /* ---------- Send to Thomas ---------- */
 .ki-card { display: grid; gap: 8px; padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); font-size: 14px; animation: ki-word 0.3s ease both; }
@@ -173,29 +216,31 @@ html.ki-lock { overflow: hidden; }
 .ki-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 .ki-btn:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
 
-/* ---------- Phones: a compact bottom sheet on the visible part of the screen (T-378) ----------
-   Intelligence.tsx writes the visual viewport's height, top edge and bottom gap
-   into --ki-vh, --ki-top and --ki-bottom, so with the keyboard up the sheet sits
-   directly above the keys and the message list takes only the room between header and
-   question box. The sheet is only as tall as what is in it, up to 45% of the visible
-   screen (a short strip when the keys are up). Keep the media query in step with PHONE in Intelligence.tsx. */
+/* ---------- Phones: a panel floating near the top, where search opens (T-378) ----------
+   The same place and shape as the search bar (search.css): near the top of the
+   visible screen, over a dimmed, blurred page, only as tall as what is in it.
+   Intelligence.tsx writes the visual viewport's height and top edge into --ki-vh
+   and --ki-top, so with the keyboard up the panel ends above the keys and the
+   message list takes only the room between header and question box. Keep the
+   media query in step with PHONE in Intelligence.tsx. */
 @media (max-width: 759px), (max-height: 520px) {
   .ki { --ki-vh: 100dvh; --ki-top: 0px; --ki-bottom: 0px; }
   .ki:not(.ki--inline)[data-open] .ki-backdrop {
     display: block; position: fixed; z-index: 59; left: 0; right: 0; top: var(--ki-top); height: var(--ki-vh);
-    background: rgba(0, 0, 0, 0.55); touch-action: none; margin-bottom: -400px; padding-bottom: 400px; box-sizing: content-box; animation: ki-fade 0.2s ease;
+    background: rgba(0, 0, 0, 0.5); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); touch-action: none; margin-bottom: -400px; padding-bottom: 400px; box-sizing: content-box; animation: ki-fade 0.2s ease;
   }
   .ki:not(.ki--inline) .ki-panel {
-    z-index: 60; left: 0; right: 0; top: auto; bottom: var(--ki-bottom);
-    height: auto; max-height: calc(var(--ki-vh) * 0.45);
-    border-radius: 16px 16px 0 0; border-bottom: 0;
-    /* The sheet's own colour carries on below it, so no page shows between it and the keyboard. */
-    box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.5), 0 400px 0 0 var(--bg-2);
-    transform-origin: 50% 100%;
-    animation-name: ki-sheet;
+    z-index: 60;
+    left: calc(12px + env(safe-area-inset-left, 0px)); right: calc(12px + env(safe-area-inset-right, 0px));
+    top: calc(var(--ki-top) + env(safe-area-inset-top, 0px) + 12px); bottom: auto;
+    height: auto; max-height: calc(var(--ki-vh) - 24px - env(safe-area-inset-top, 0px));
+    border-radius: 18px;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04), 0 24px 70px rgba(0, 0, 0, 0.6);
+    transform-origin: 50% 0;
+    animation-name: ki-drop;
   }
-  .ki:not(.ki--inline)[data-keys] .ki-panel { max-height: min(calc(var(--ki-vh) - 8px), 300px); }
   .ki-head { align-items: center; padding: 0 2px 0 14px; }
+  .km-promise { display: block; }
   .ki-title { font-size: 17px; }
   .ki-sub { display: none; }
   .ki-close { margin-top: 0; }
@@ -208,7 +253,7 @@ html.ki-lock { overflow: hidden; }
   .ki-chip { flex: none; padding: 0 14px; font-size: 13px; white-space: nowrap; }
   .ki-form { margin: 4px 10px 0; }
   .ki-full { margin: 6px 10px 0; }
-  .ki-foot { padding: 4px 14px calc(6px + env(safe-area-inset-bottom, 0px)); font-size: 11px; }
+  .ki-foot { padding: 4px 14px 8px; font-size: 11px; }
   .ki-card { padding: 12px; }
 }
 
@@ -286,3 +331,6 @@ html.ki-lock { overflow: hidden; }
   .ki-think-word { animation: none; color: var(--dim); background: none; }
   .ki-think { animation: ki-pulse 1.2s ease-in-out infinite alternate; }
 }
+
+/* The phone panel drops in from just above, as search does. */
+@keyframes ki-drop { from { opacity: 0; transform: translateY(-8px) scale(0.98); } to { opacity: 1; transform: none; } }

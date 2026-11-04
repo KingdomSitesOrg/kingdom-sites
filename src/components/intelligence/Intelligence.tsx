@@ -1,9 +1,11 @@
 'use client'
 
 import { Fragment, useEffect, useId, useRef, useState, useSyncExternalStore } from 'react'
+import { usePathname } from 'next/navigation'
 import { sans } from '@/components/cinematic/fonts'
 import './intelligence.css'
 import { paintDark } from '@/lib/paint-dark'
+import Messages, { hasChatLink } from './Messages'
 
 /**
  * Intelligence (T-375): the square in the bottom-right corner of every studio
@@ -13,9 +15,10 @@ import { paintDark } from '@/lib/paint-dark'
  * answer comes in word by word. With less motion asked for, the placeholder
  * only pulses and the words simply appear.
  *
- * Someone who wants a quote can send the conversation to Thomas: a short form
- * asks for their name and email, shows them back with exactly what will be
- * shared, and only their own "Send to Thomas" sends it (/api/intelligence/send).
+ * A tab bar at the bottom switches between Instant (these answers) and Thomas
+ * (Messages.tsx): writing to Thomas himself, who answers within a day, with the
+ * conversation with Instant brought along if they like. "Send this to Thomas",
+ * under an answer once they have described a project, opens that tab.
  */
 
 type Item = {
@@ -30,9 +33,11 @@ type Item = {
   aside?: boolean
 }
 
-type Handoff = 'closed' | 'form' | 'confirm' | 'sending' | 'sent'
+type Tab = 'instant' | 'thomas'
 
 const SUGGESTIONS = ['What has Thomas built?', 'What would an app cost?', 'What is AI consultation?']
+/* How many of their own words a visitor writes before "Send this to Thomas" is offered. */
+const SEND_WORDS = 15
 const MAX_CHARS = 500
 
 /** Fired by site search when nothing on the site matches (T-391): the chat opens and asks exactly that. */
@@ -53,10 +58,8 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
   const [items, setItems] = useState<Item[]>([])
   const [draft, setDraft] = useState('')
   const [busy, setBusy] = useState(false)
-  const [handoff, setHandoff] = useState<Handoff>('closed')
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [handoffError, setHandoffError] = useState('')
+  const [tab, setTab] = useState<Tab>('instant')
+  const [unread, setUnread] = useState(false)
   const [full, setFull] = useState(false)
 
   const square = useRef<HTMLButtonElement>(null)
@@ -68,6 +71,18 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
   const phone = useMedia(PHONE)
   const wideTouch = useMedia(WIDE_TOUCH)
   const sheet = phone || wideTouch
+  const pathname = usePathname()
+  /* On a phone the message form comes first: while the page's form (#talk) is on
+     screen, the button steps aside so it never sits on top of it. */
+  const [byForm, setByForm] = useState(false)
+  useEffect(() => {
+    const form = inline ? null : document.getElementById('talk')
+    setByForm(false)
+    if (!form) return
+    const io = new IntersectionObserver(([e]) => setByForm(e.isIntersecting), { rootMargin: '0px 0px -12% 0px' })
+    io.observe(form)
+    return () => io.disconnect()
+  }, [pathname, inline])
   const ids = useId()
   const panelId = `${ids}-panel`
   const titleId = `${ids}-title`
@@ -148,10 +163,15 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
     return () => document.removeEventListener('keydown', onKey)
   }, [open])
 
-  // Sent: the cursor goes back to the question box.
+  // The link in Thomas's email: open on his tab, then tidy the address.
   useEffect(() => {
-    if (handoff === 'sent' && !inline && !window.matchMedia(NO_AUTOFOCUS).matches) input.current?.focus({ preventScroll: true })
-  }, [handoff])
+    if (inline || !hasChatLink()) return
+    setOpen(true)
+    setTab('thomas')
+    const url = new URL(window.location.href)
+    url.searchParams.delete('chat')
+    window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash)
+  }, [inline])
 
   // Site search found nothing: open and ask what they typed (the chat built into
   // the Get started page answers there, where no floating one is). One already
@@ -260,7 +280,7 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
           } else if (event.done) {
             finished = true
             patch(answer.id, { text: words.trim(), sig: event.sig, live: false })
-            if (event.offer) setHandoff((h) => (h === 'sent' ? h : 'form'))
+            if (event.offer) setTab('thomas')
           } else if (event.error) {
             fail(event.error)
             return
@@ -269,32 +289,10 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
       }
       if (!finished) fail('The answer was cut off. Try asking again.')
     } catch (error) {
-      if ((error as Error).name !== 'AbortError') fail('Intelligence could not be reached. Check your connection and try again.')
+      if ((error as Error).name !== 'AbortError') fail('Instant could not be reached. Check your connection and try again.')
     } finally {
       setBusy(false)
       request.current = null
-    }
-  }
-
-  async function sendToThomas() {
-    setHandoff('sending')
-    setHandoffError('')
-    try {
-      const response = await fetch('/api/intelligence/send', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: history(items), name, email, company: '' }),
-      })
-      const said = (await response.json().catch(() => null)) as { ok?: boolean; error?: string } | null
-      if (!response.ok || !said?.ok) {
-        setHandoffError(said?.error || 'That could not be sent just now. Please use the contact form at /get-started instead.')
-        setHandoff('confirm')
-        return
-      }
-      setHandoff('sent')
-    } catch {
-      setHandoffError('That could not be sent just now. Please use the contact form at /get-started instead.')
-      setHandoff('confirm')
     }
   }
 
@@ -304,9 +302,19 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
     const last = kept[kept.length - 1]
     return last?.role === 'assistant' && !!last.sig
   })()
+  // Worth sending to Thomas only once the visitor has told it something of their
+  // own: their own words (not a suggestion tapped), adding up to a real
+  // description. A bare "what would an app cost?" is not enough.
+  const toldEnough = (() => {
+    const own = items.filter((i) => i.role === 'user' && !SUGGESTIONS.includes(i.text.trim()))
+    const words = (t: string) => t.trim().split(/\s+/).filter(Boolean).length
+    const total = own.reduce((n, i) => n + words(i.text), 0)
+    return total >= SEND_WORDS && own.some((i) => words(i.text) >= 6)
+  })()
+  const offerSend = answered && lastIsAnswer && toldEnough && !busy
 
   return (
-    <div ref={root} className={`ki ${inline ? 'ki--inline ' : ''}${sans.variable}`} data-open={open ? '' : undefined}>
+    <div ref={root} className={`ki ${inline ? 'ki--inline ' : ''}${sans.variable}`} data-open={open ? '' : undefined} data-by-form={byForm ? '' : undefined}>
       {inline ? null : (
       <button
         ref={square}
@@ -318,8 +326,14 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
         onClick={() => setOpen(true)}
       >
         <Spark />
-        <span className="ki-square-title">Intelligence</span>
-        <span className="ki-square-sub">Ask anything about me and what I built</span>
+        <span className="ki-square-title">Ask Thomas</span>
+        <span className="sr-only">: ask about me and what I built, or write to me</span>
+        {unread ? (
+          <>
+            <span className="ki-dot" aria-hidden="true" />
+            <span className="sr-only"> (Thomas has answered)</span>
+          </>
+        ) : null}
       </button>
       )}
 
@@ -337,12 +351,18 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
         <header className="ki-head">
           <div>
             <h2 id={titleId} className="ki-title">
-              <Spark /> Intelligence
+              {tab === 'thomas' ? (
+                'Thomas Klein'
+              ) : (
+                <>
+                  <Spark /> Ask Thomas
+                </>
+              )}
             </h2>
-            <p className="ki-sub">Ask anything about me and what I built</p>
+            <p className="ki-sub">{tab === 'thomas' ? 'Replies within 12 to 24 hours' : 'Ask anything about me and what I built'}</p>
           </div>
           {inline ? null : (
-            <button type="button" className="ki-close" aria-label="Close Intelligence" onClick={close}>
+            <button type="button" className="ki-close" aria-label="Close Ask Thomas" onClick={close}>
               <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true">
                 <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
               </svg>
@@ -350,6 +370,7 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
           )}
         </header>
 
+        <div className="ki-view" hidden={tab !== 'instant'}>
         <div ref={log} className="ki-log" role="log" aria-live="polite" aria-busy={busy} aria-label="Conversation">
           {items.length === 0 ? (
             <div className="ki-hello">
@@ -381,33 +402,24 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
               <Thinking key={item.id} />
             ) : (
               <div key={item.id} className="ki-a">
-                <span className="ki-sr">Intelligence: </span>
+                <span className="ki-sr">Instant: </span>
                 <Reveal text={item.text} live={!!item.live} />
               </div>
             ),
           )}
 
-          {handoff !== 'closed' ? (
-            <Handoff
-              step={handoff}
-              name={name}
-              email={email}
-              error={handoffError}
-              onName={setName}
-              onEmail={setEmail}
-              onContinue={() => {
-                setHandoffError('')
-                setHandoff('confirm')
-              }}
-              onEdit={() => setHandoff('form')}
-              onSend={sendToThomas}
-              onCancel={() => setHandoff('closed')}
-            />
+          {offerSend ? (
+            <button type="button" className="ki-send" onClick={() => setTab('thomas')}>
+              Send this to Thomas
+              <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
           ) : null}
         </div>
 
         <p className="ki-sr" role="status">
-          {busy ? 'Intelligence is thinking.' : ''}
+          {busy ? 'Instant is thinking.' : ''}
         </p>
 
         {full ? (
@@ -418,7 +430,6 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
               onClick={() => {
                 setItems([])
                 setFull(false)
-                setHandoff('closed')
               }}
             >
               Start a new conversation
@@ -463,16 +474,34 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
           </form>
         )}
         <p className="ki-foot">
-          {answered && lastIsAnswer && handoff === 'closed' && !busy ? (
-            <>
-              <button type="button" className="ki-link" onClick={() => setHandoff('form')}>
-                Send this to Thomas
-              </button>
-              {' · '}
-            </>
-          ) : null}
-          Answers by Claude Haiku from this site, and can be wrong.
+          Instant answers use AI, grounded in my responses.
         </p>
+        </div>
+
+        <div className="ki-view" hidden={tab !== 'thomas'}>
+          <Messages
+            active={open && tab === 'thomas'}
+            inline={inline}
+            aiAnswered={answered}
+            aiHistory={() => history(items)}
+            onUnread={setUnread}
+          />
+        </div>
+
+        {/* Two tabs along the bottom: Instant (these answers) and Thomas himself. */}
+        <nav className="ki-tabs" aria-label="Who to ask">
+          <button type="button" className="ki-tab" aria-pressed={tab === 'instant'} onClick={() => setTab('instant')}>
+            <Spark />
+            Instant
+          </button>
+          <button type="button" className="ki-tab" aria-pressed={tab === 'thomas'} onClick={() => setTab('thomas')}>
+            <svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true">
+              <path d="M2.5 4.5a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H7l-3 2.5v-2.5h0.5a2 2 0 0 1-2-2z" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+            </svg>
+            Thomas
+            {unread ? <span className="ki-dot ki-dot-tab" aria-label="New answer" /> : null}
+          </button>
+        </nav>
       </section>
     </div>
   )
@@ -579,131 +608,5 @@ function Linked({ text }: { text: string }) {
         </p>
       ))}
     </>
-  )
-}
-
-function Handoff(props: {
-  step: Handoff
-  name: string
-  email: string
-  error: string
-  onName: (v: string) => void
-  onEmail: (v: string) => void
-  onContinue: () => void
-  onEdit: () => void
-  onSend: () => void
-  onCancel: () => void
-}) {
-  const id = useId()
-  const { step } = props
-  const nameInput = useRef<HTMLInputElement>(null)
-  const sendButton = useRef<HTMLButtonElement>(null)
-
-  // Each step puts the cursor where the visitor goes next.
-  useEffect(() => {
-    if (step === 'form' && !window.matchMedia(PHONE).matches) nameInput.current?.focus({ preventScroll: true })
-    if (step === 'confirm') sendButton.current?.focus({ preventScroll: true })
-  }, [step])
-
-  if (step === 'sent') {
-    return (
-      <div className="ki-card" role="status">
-        <p className="ki-card-title">
-          <Check /> Sent to Thomas
-        </p>
-        <p className="ki-card-text">He will reply to you at {props.email}.</p>
-      </div>
-    )
-  }
-
-  const shared = (
-    <p className="ki-card-small">
-      Thomas gets your name, your email, a short summary of what you are looking for, and this conversation, the same
-      way as a message from the contact form. He replies by email. Nothing is sent to you, and nothing goes anywhere
-      else.
-    </p>
-  )
-
-  if (step === 'confirm' || step === 'sending') {
-    return (
-      <div className="ki-card">
-        <p className="ki-card-title">Check before it goes</p>
-        <dl className="ki-card-facts">
-          <dt>Name</dt>
-          <dd>{props.name}</dd>
-          <dt>Email</dt>
-          <dd>{props.email}</dd>
-        </dl>
-        {shared}
-        {props.error ? (
-          <div className="ki-card-error" role="alert">
-            <Linked text={props.error} />
-          </div>
-        ) : null}
-        <div className="ki-card-actions">
-          <button ref={sendButton} type="button" className="ki-btn" disabled={step === 'sending'} onClick={props.onSend}>
-            {step === 'sending' ? 'Sending…' : 'Send to Thomas'}
-          </button>
-          <button type="button" className="ki-link" disabled={step === 'sending'} onClick={props.onEdit}>
-            Edit
-          </button>
-        </div>
-      </div>
-    )
-  }
-
-  return (
-    <form
-      className="ki-card"
-      onSubmit={(e) => {
-        e.preventDefault()
-        props.onContinue()
-      }}
-    >
-      <p className="ki-card-title">Send this to Thomas</p>
-      <label htmlFor={`${id}-name`} className="ki-label">
-        Your name
-      </label>
-      <input
-        ref={nameInput}
-        id={`${id}-name`}
-        className="ki-input"
-        autoComplete="name"
-        required
-        maxLength={100}
-        value={props.name}
-        onChange={(e) => props.onName(e.target.value)}
-      />
-      <label htmlFor={`${id}-email`} className="ki-label">
-        Your email
-      </label>
-      <input
-        id={`${id}-email`}
-        className="ki-input"
-        type="email"
-        autoComplete="email"
-        required
-        maxLength={200}
-        value={props.email}
-        onChange={(e) => props.onEmail(e.target.value)}
-      />
-      {shared}
-      <div className="ki-card-actions">
-        <button type="submit" className="ki-btn">
-          Continue
-        </button>
-        <button type="button" className="ki-link" onClick={props.onCancel}>
-          Not now
-        </button>
-      </div>
-    </form>
-  )
-}
-
-function Check() {
-  return (
-    <svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true">
-      <path d="M3 8.5l3.2 3L13 4.5" stroke="currentColor" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
   )
 }

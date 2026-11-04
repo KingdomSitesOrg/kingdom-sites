@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-export default function LoginForm() {
+export default function LoginForm({ next = '/sign/dashboard' }: { next?: string }) {
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -25,7 +25,7 @@ export default function LoginForm() {
         setError(data?.error || 'Could not sign in.')
         return
       }
-      router.replace('/sign/dashboard')
+      router.replace(next)
       router.refresh()
     } catch {
       setError('Network error.')

@@ -1,0 +1,132 @@
+{
+  "version": 1,
+  "chapters": {
+    "ignition": {
+      "stills": [
+        0.6,
+        0.98
+      ],
+      "desktop": [
+        "ignition-0-desktop.webp",
+        "ignition-1-desktop.webp"
+      ],
+      "mobile": []
+    },
+    "idea": {
+      "stills": [
+        0.3,
+        0.7,
+        0.97
+      ],
+      "desktop": [
+        "idea-0-desktop.webp",
+        "idea-1-desktop.webp",
+        "idea-2-desktop.webp"
+      ],
+      "mobile": []
+    },
+    "model": {
+      "stills": [
+        0.07,
+        0.24,
+        0.44,
+        0.64,
+        0.9
+      ],
+      "desktop": [
+        "model-0-desktop.webp",
+        "model-1-desktop.webp",
+        "model-2-desktop.webp",
+        "model-3-desktop.webp",
+        "model-4-desktop.webp"
+      ],
+      "mobile": []
+    },
+    "optimize": {
+      "stills": [
+        0.05,
+        0.4,
+        0.62,
+        0.82
+      ],
+      "desktop": [
+        "optimize-0-desktop.webp",
+        "optimize-1-desktop.webp",
+        "optimize-2-desktop.webp",
+        "optimize-3-desktop.webp"
+      ],
+      "mobile": []
+    },
+    "slice": {
+      "stills": [
+        0.05,
+        0.3,
+        0.9
+      ],
+      "desktop": [
+        "slice-0-desktop.webp",
+        "slice-1-desktop.webp",
+        "slice-2-desktop.webp"
+      ],
+      "mobile": []
+    },
+    "print": {
+      "stills": [
+        0.16,
+        0.5,
+        0.78,
+        0.97
+      ],
+      "desktop": [
+        "print-0-desktop.webp",
+        "print-1-desktop.webp",
+        "print-2-desktop.webp",
+        "print-3-desktop.webp"
+      ],
+      "mobile": []
+    },
+    "machines": {
+      "stills": [
+        0.14,
+        0.44,
+        0.57,
+        0.72,
+        0.88
+      ],
+      "desktop": [
+        "machines-0-desktop.webp",
+        "machines-1-desktop.webp",
+        "machines-2-desktop.webp",
+        "machines-3-desktop.webp",
+        "machines-4-desktop.webp"
+      ],
+      "mobile": []
+    },
+    "fleet": {
+      "stills": [
+        0.06,
+        0.4,
+        0.84
+      ],
+      "desktop": [
+        "fleet-0-desktop.webp",
+        "fleet-1-desktop.webp",
+        "fleet-2-desktop.webp"
+      ],
+      "mobile": []
+    },
+    "object": {
+      "stills": [
+        0.25,
+        0.58,
+        0.88
+      ],
+      "desktop": [
+        "object-0-desktop.webp",
+        "object-1-desktop.webp",
+        "object-2-desktop.webp"
+      ],
+      "mobile": []
+    }
+  }
+}

@@ -66,7 +66,7 @@ export const APP_PROOF = [
   {
     name: 'Ruta',
     href: '/ruta',
-    line: 'Contract work on a live service-management platform for landscaping businesses.',
+    line: 'Helped build a live service-management platform for landscaping businesses, on Ruta’s team.',
     phone: 'queue' as const,
     phones: ['spend', 'queue', 'cards'] as const,
     shots: [] as const,

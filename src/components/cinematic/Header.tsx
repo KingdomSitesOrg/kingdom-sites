@@ -93,8 +93,11 @@ export default function CinematicHeader() {
   return (
     <header className="cn-head" data-menu={open ? 'open' : undefined}>
       <div className="cn-wrap cn-head-in">
-        <Link href="/" className="cn-display text-[22px] tracking-tight" style={{ lineHeight: 1 }}>
-          Kingdom Sites
+        <Link href="/" className="cn-logo">
+          <span className="cn-display text-[22px] tracking-tight" style={{ lineHeight: 1 }}>
+            Kingdom Sites
+          </span>
+          <span className="cn-logo-by">by Thomas Klein</span>
         </Link>
         <nav aria-label="Main" className="cn-nav">
           {/* First on a desktop; on a phone, CSS moves it next to the menu button (search.css). */}

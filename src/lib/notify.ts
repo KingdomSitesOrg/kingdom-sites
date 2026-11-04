@@ -4,10 +4,12 @@ import { CALL_GIFT, JOIN_GIFT } from '@/lib/referrals'
 
 /**
  * The site's forms' one email sender (Resend, from the verified
- * kingdom-sites.com address): `notifyThomas` tells Thomas about an enquiry or
- * a referral, and `emailReferrer` sends a new referrer their own two links
- * (T-293, Thomas, 2026-10-29). Nothing else here writes to anyone. Needs
- * RESEND_API_KEY; LEAD_TO_EMAIL overrides Thomas's inbox for testing.
+ * kingdom-sites.com address): `notifyThomas` tells Thomas about an enquiry, a
+ * referral or a new message, `emailReferrer` sends a new referrer their own two
+ * links (T-293, Thomas, 2026-10-29), and `emailMessageReply` tells a visitor
+ * Thomas has answered their message, with the link back to it (2026-11-04).
+ * Nothing else here writes to anyone. Needs RESEND_API_KEY; LEAD_TO_EMAIL
+ * overrides Thomas's inbox for testing.
  */
 
 const EMAIL_TIMEOUT_MS = 8_000
@@ -60,6 +62,28 @@ export async function emailReferrer(
     'Kingdom Sites',
   ].join('\n')
   return sendMail([to], 'Your Kingdom Sites referral link', body, CONTACT_EMAIL)
+}
+
+/**
+ * Thomas answered a visitor's message (lib/chat): his words, and the link that
+ * opens the conversation on the site so they can answer. Replies go to Thomas.
+ */
+export async function emailMessageReply(to: string, name: string, reply: string, link: string) {
+  if (!looksLikeEmail(to)) return false
+  const first = name.trim().split(/\s+/)[0] || 'there'
+  const body = [
+    `Hi ${first},`,
+    '',
+    'Thomas answered your message on kingdom-sites.com:',
+    '',
+    reply,
+    '',
+    'Carry on the conversation here:',
+    link,
+    '',
+    'Kingdom Sites',
+  ].join('\n')
+  return sendMail([to], 'Thomas answered your message', body, CONTACT_EMAIL)
 }
 
 async function sendMail(to: string[], subject: string, body: string, replyTo: string) {

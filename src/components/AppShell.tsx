@@ -4,7 +4,6 @@ import { useEffect, useLayoutEffect, useRef } from 'react'
 import { usePathname, useSelectedLayoutSegment } from 'next/navigation'
 import SiteChrome from '@/components/cinematic/SiteChrome'
 import Intelligence from '@/components/intelligence/Intelligence'
-import PhoneScrollIndicator from '@/components/PhoneScrollIndicator'
 import { paintDark } from '@/lib/paint-dark'
 
 export default function AppShell({
@@ -35,6 +34,23 @@ export default function AppShell({
     window.scrollTo(0, 0)
   }, [pathname])
 
+  // A page opened fresh or reloaded starts at its top, not where it was left
+  // and then moved to the top (a visible jump). The browser decides that when
+  // the page is left, so restoring is switched off then; while the page is up it
+  // stays on, so back and forward between pages of the site restore as usual.
+  useEffect(() => {
+    history.scrollRestoration = 'auto'
+    const onHide = () => {
+      history.scrollRestoration = 'manual'
+    }
+    window.addEventListener('pagehide', onHide)
+    window.addEventListener('beforeunload', onHide)
+    return () => {
+      window.removeEventListener('pagehide', onHide)
+      window.removeEventListener('beforeunload', onHide)
+    }
+  }, [])
+
   useEffect(() => {
     const onPop = () => {
       backForward.current = true
@@ -45,6 +61,8 @@ export default function AppShell({
       const link = (e.target as Element).closest?.('a[href]') as HTMLAnchorElement | null
       if (!link) return
       backForward.current = false
+      // The STRATA concept page scrolls with its own smooth scroller and chapter navigation.
+      if (location.pathname.startsWith('/strata')) return
       const to = new URL(link.href)
       if (to.origin !== location.origin || to.pathname !== location.pathname || !to.hash) return
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
@@ -82,7 +100,7 @@ export default function AppShell({
   const standalone =
     ownChrome ||
     section === 'farzana' ||
-    ['/tap-to-tick', '/latin-game', '/farzana', '/ministry', '/prayer', '/marketing-frame', '/sign', '/calc', '/full-potential'].some((p) =>
+    ['/tap-to-tick', '/latin-game', '/farzana', '/ministry', '/prayer', '/marketing-frame', '/sign', '/calc', '/full-potential', '/strata', '/inbox'].some((p) =>
       pathname?.startsWith(p),
     )
 
@@ -99,8 +117,11 @@ export default function AppShell({
   // signing a document (/sign/s/…). It sits outside the page's own tree, so a
   // conversation carries on from page to page.
   // The Get started page has the chat built into the page, so no second one floats there.
+  // Nor on the STRATA concept page (/strata), which is a made-up company's site, full bleed,
+  // nor in Thomas's own message inbox (/inbox).
+  const concept = section === 'strata'
   const intelligence =
-    section === 'farzana' || pathname?.startsWith('/sign/s/') || pathname === '/get-started' ? null : <Intelligence />
+    concept || section === 'farzana' || pathname?.startsWith('/sign/s/') || pathname === '/get-started' || pathname?.startsWith('/inbox') ? null : <Intelligence />
 
   return (
     <>
@@ -120,7 +141,8 @@ export default function AppShell({
         </SiteChrome>
       )}
       {intelligence}
-      <PhoneScrollIndicator />
+      {/* Without the script nothing would mark the reveals as in view (Scroll.tsx): show them as they are. */}
+      <noscript dangerouslySetInnerHTML={{ __html: '<style>.cn-reveal{opacity:1!important;transform:none!important}</style>' }} />
     </>
   )
 }

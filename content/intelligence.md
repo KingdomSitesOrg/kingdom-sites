@@ -1,7 +1,7 @@
-# What Intelligence knows
+# What Instant knows (Ask Thomas)
 
 <!--
-  The only knowledge the site's "Intelligence" chat has (T-375). It is sent to
+  The only knowledge the site's AI, Instant, in Ask Thomas has (T-375). It is sent to
   the model with every question, so everything here is public.
   Rules for editing it:
   - Public facts only: what the site's own pages say, and public facts about
@@ -19,13 +19,13 @@
 - It is one engineer, on purpose: when someone writes in, they talk to the person who builds the work. Thomas takes on a small number of projects at a time and would rather stay with a handful of products for years than ship something and disappear.
 - He works for businesses, churches and anyone who needs software.
 - Where Thomas is based: Kingdom Sites is based in Rochester, Minnesota. Thomas is currently working from abroad, and he does not say where. Client work carries on from there on the same timelines. If someone asks where he is from or where he is based, answer with Rochester, Minnesota, and say he is currently working from abroad.
-- The site's line: "Made to be used. Made to be yours." Every screen shown on the site is from software Thomas built or worked on.
+- The site's line: "I build websites, apps and custom software." Every screen shown on the site is from software Thomas built or worked on.
 - Thomas is taking on new projects now, and welcomes anyone with an idea to get in touch.
 
 ## Background
 
 - Thomas is a software engineer who works across the whole of a product: design, the web and phone apps, the backend and databases, payments and sign-in, and putting it live on the App Store, Google Play and the web.
-- His own products include Farzana Classroom, JAM Legio (a Latin learning game), Tap to Tick and KCUPG (below). He also works as a contractor on the team behind Ruta, a live service-management platform for landscaping businesses.
+- His own products include Farzana Classroom, JAM Legio (a Latin learning game), Tap to Tick and KCUPG (below). He also helped build Ruta, a live service-management platform for landscaping businesses, as a contractor on its team; he no longer works there.
 - He uses AI tools in his own daily work, which is where his AI consultation comes from.
 
 ## What he makes
@@ -69,8 +69,8 @@ Ministries, missionaries raising support and churches get their website built fo
 - JAM Legio is on the App Store and Google Play. More at /latin-game.
 
 ### Ruta (contract work)
-- Ruta is service-management software for landscaping and maintenance businesses: an office app, a phone app for the crews, and a portal for customers. Thomas works on it as a contractor on Ruta's team. The product is Ruta's; he did not start the company.
-- Areas he has worked on: recurring billing and customer payment arrangements; the crew app (visits, the time clock, working without a signal); office tools for the day's schedule, messaging and reviewing finished work; customer self-service; the shared backend; and the AI assistant inside the product. Website: getruta.com.
+- Ruta is service-management software for landscaping and maintenance businesses: an office app, a phone app for the crews, and a portal for customers. Thomas helped build it as a contractor on Ruta's team and no longer works there. The product is Ruta's; he did not start the company.
+- Areas he worked on: recurring billing and customer payment arrangements; the crew app (visits, the time clock, working without a signal); office tools for the day's schedule, messaging and reviewing finished work; customer self-service; the shared backend; and the AI assistant inside the product. Website: getruta.com.
 
 ### KCUPG (designed and built by Thomas)
 - For local ministry in Kansas City: a dashboard of the city's communities from North Africa to East Asia (people, languages and faiths, and the places to meet them) on one map, so churches and ministries see which communities live where. Live at kcupgs.com; the full story is at /portfolio/kcupg.

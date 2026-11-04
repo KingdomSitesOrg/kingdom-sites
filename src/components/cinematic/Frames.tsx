@@ -27,6 +27,10 @@ export function Browser({ shot, product, note, priority }: { shot: Shot; product
    each at the width the screen needs. Until it arrives, the screen shows the
    shot's own tone and a blurred copy, so nothing pops in empty. Lazy phones
    are marked for WarmImages, which fetches them a screen or two ahead. */
+/* A phone in a row of app screens (.cn-apps): about three quarters of a phone's
+   width, or a third of a 1080 px row. */
+export const APP_PHONE_SIZES = '(max-width: 759px) 72vw, 340px'
+
 export function Phone({ shot, eager, sizes = PHONE_SIZES }: { shot: Shot; eager?: boolean; sizes?: string }) {
   const opt = PHONE_SHOTS[shot.src]
   if (!opt) {

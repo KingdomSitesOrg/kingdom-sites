@@ -34,6 +34,9 @@
 .cn-head { position: fixed; top: 0; left: 0; right: 0; z-index: 40; background: #0b0b0c; border-bottom: 1px solid var(--line); }
 body:has(.cn-head) { padding-top: 61px; background: #0b0b0c; }
 html:has(.cn-head) { background: #0b0b0c; }
+/* The name, and who makes it, under it in small type. */
+.cn-logo { display: flex; flex-direction: column; gap: 3px; }
+.cn-logo-by { font-size: 11px; line-height: 1; letter-spacing: 0.02em; color: var(--dim); white-space: nowrap; }
 .cn-head-in { display: flex; align-items: center; justify-content: space-between; min-height: 60px; gap: 16px; }
 .cn-nav { display: flex; align-items: center; gap: clamp(14px, 2.4vw, 32px); font-size: 15px; }
 .cn-nav a:not(.cn-btn) { color: #cfcbc3; padding-block: 10px; transition: color 0.2s; }
@@ -64,14 +67,30 @@ html:has(.cn-head) { background: #0b0b0c; }
    minus the bezel), and the clip is a clip-path so it holds in Safari under the
    3D tilt, where overflow + border-radius can let square corners through. */
 .cn-browser { --r: 14px; position: relative; border-radius: var(--r); overflow: hidden; isolation: isolate; background: #1b1b1e; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.07), 0 40px 120px rgba(0, 0, 0, 0.6); }
-.cn-browser-bar { display: flex; align-items: center; gap: 8px; height: 34px; padding: 0 14px; background: #1b1b1e; }
-.cn-browser-bar i { width: 10px; height: 10px; border-radius: 50%; background: #3a3a3e; }
-.cn-browser-url { margin-left: 14px; flex: 1; min-width: 0; max-width: 340px; height: 22px; border-radius: 6px; background: #26262a; font-size: 12px; color: var(--dim); display: flex; align-items: center; padding: 0 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* The window's bar keeps a Mac's proportions at any size: about 3 percent of the
+   window's width tall (a 28 pt bar on a 1000 pt window), its lights and address
+   scaled with it, so a phone shows a small window, not a thick bar. */
+.cn-browser { container-type: inline-size; }
+.cn-browser-bar { display: flex; align-items: center; gap: clamp(3px, 0.75cqw, 8px); height: clamp(14px, 3.2cqw, 34px); padding: 0 clamp(6px, 1.4cqw, 14px); background: #1b1b1e; }
+.cn-browser-bar i { flex: none; width: clamp(5px, 1cqw, 11px); height: clamp(5px, 1cqw, 11px); border-radius: 50%; background: #3a3a3e; }
+/* A real window's close, minimise and full-screen lights. */
+.cn-browser-bar i:nth-of-type(1) { background: #ff5f57; }
+.cn-browser-bar i:nth-of-type(2) { background: #febc2e; }
+.cn-browser-bar i:nth-of-type(3) { background: #28c840; }
+.cn-browser-url { margin-left: clamp(6px, 1.4cqw, 14px); flex: 1; min-width: 0; max-width: 340px; height: clamp(9px, 2.1cqw, 22px); border-radius: clamp(3px, 0.6cqw, 6px); background: #26262a; font-size: clamp(6px, 1.15cqw, 12px); color: var(--dim); display: flex; align-items: center; padding: 0 clamp(4px, 1cqw, 10px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .cn-browser img { display: block; width: 100%; height: auto; border-radius: 0 0 var(--r) var(--r); clip-path: inset(0 round 0 0 var(--r) var(--r)); }
-.cn-browser-note { margin-left: auto; flex: none; height: 22px; display: inline-flex; align-items: center; padding: 0 10px; border-radius: 999px; border: 1px solid var(--line); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #cfcbc3; font-weight: 500; white-space: nowrap; }
+/* Two windows side by side show the same window shape, even when one
+   screenshot is a touch taller: the extra is trimmed off the bottom. */
+.cn-pair .cn-browser img { aspect-ratio: 16 / 10; object-fit: cover; object-position: top; }
+.cn-browser-note { margin-left: auto; flex: none; height: clamp(9px, 2.1cqw, 22px); font-size: clamp(6px, 1.05cqw, 11px); display: inline-flex; align-items: center; padding: 0 clamp(4px, 1cqw, 10px); border-radius: 999px; border: 1px solid var(--line); letter-spacing: 0.08em; text-transform: uppercase; color: #cfcbc3; font-weight: 500; white-space: nowrap; }
 .cn-phone { --r: clamp(26px, 3.4vw, 46px); --b: clamp(5px, 0.6vw, 9px); position: relative; border-radius: var(--r); padding: var(--b); background: #050505; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 30px 80px rgba(0, 0, 0, 0.6); }
 .cn-phone picture { display: block; }
 .cn-phone img { display: block; width: 100%; height: auto; border-radius: calc(var(--r) - var(--b)); clip-path: inset(0 round calc(var(--r) - var(--b))); }
+/* The Dynamic Island, on every phone: an iPhone's proportions (126 x 37 pt, 11 pt
+   from the top, on a 393 pt screen), scaled with the frame, between the status
+   bar's time and its icons. */
+.cn-phone { container-type: inline-size; }
+.cn-phone::after { content: ''; position: absolute; z-index: 2; left: 50%; top: calc(var(--b) + 2.6cqw); width: 30.5cqw; height: 9cqw; transform: translateX(-50%); border-radius: 999px; background: #000; pointer-events: none; }
 
 /* "Coming soon", in the kicker's own voice: an outline, not a sticker. */
 .cn-soon { display: inline-block; margin-left: 10px; padding: 3px 9px; border: 1px solid var(--line); border-radius: 999px; font-size: 11px; letter-spacing: 0.08em; color: #cfcbc3; vertical-align: 1px; white-space: nowrap; }
@@ -126,9 +145,12 @@ html:has(.cn-head) { background: #0b0b0c; }
   .cn-lit { opacity: calc(0.25 + min(1, max(0, (var(--p, 0) - 0.08) * 6)) * 0.75); transform: translateY(calc((1 - min(1, max(0, (var(--p, 0) - 0.05) * 5))) * 20px)); }
 }
 
-/* ---------- Reveal: rises in as it enters ---------- */
-.cn-reveal { opacity: calc(min(1, var(--p, 0) * 3.2)); transform: translateY(calc((1 - min(1, var(--p, 0) * 3)) * 60px)); }
-@media (max-width: 759px) { .cn-reveal { opacity: calc(min(1, var(--p, 0) * 5)); transform: translateY(calc((1 - min(1, var(--p, 0) * 5)) * 40px)); } }
+/* ---------- Reveal: rises in once as it enters ----------
+   Scroll.tsx sets data-in on the wrapper when it comes into view; the rise is
+   one transition the browser runs on its own, not tied to each scroll frame. */
+.cn-reveal { opacity: 0; transform: translateY(48px); transition: opacity 0.7s ease, transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1); }
+[data-in] > .cn-reveal { opacity: 1; transform: none; }
+@media (max-width: 759px) { .cn-reveal { transform: translateY(32px); } }
 
 .cn-card { border-top: 1px solid var(--line); padding-top: 18px; }
 .cn-foot { border-top: 1px solid var(--line); padding-block: 28px 44px; font-size: 14px; color: var(--dim); }
@@ -224,3 +246,12 @@ html:has(.cn-head) { background: #0b0b0c; }
 @media (min-width: 760px) { .cn-pays { grid-template-columns: 1fr 1fr; } }
 .cn-pays > * { border-top: 1px solid var(--line); padding-top: 20px; }
 
+/* App screens: three phones, the same size, level, in one row on a computer;
+   on a phone, big enough to read, side by side in a row you swipe. Used on
+   the home page and the portfolio. */
+.cn-apps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 48px); max-width: 1080px; margin-inline: auto; }
+@media (max-width: 759px) {
+  .cn-apps { display: flex; gap: 14px; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); overscroll-behavior-x: contain; scrollbar-width: none; padding-bottom: 8px; }
+  .cn-apps::-webkit-scrollbar { display: none; }
+  .cn-apps > * { flex: 0 0 72%; scroll-snap-align: start; }
+}

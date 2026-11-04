@@ -1,15 +1,15 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import CinematicChrome from '@/components/cinematic/Chrome'
-import CaseTitle from '@/components/cinematic/CaseTitle'
-import { Browser, Phone } from '@/components/cinematic/Frames'
-import { Credit } from '@/components/cinematic/Maker'
+import BuildWords from '@/components/cinematic/BuildWords'
+import { APP_PHONE_SIZES, Browser, Phone } from '@/components/cinematic/Frames'
 import LatinPartner from '@/components/cinematic/LatinPartner'
-import LitLink from '@/components/cinematic/LitLink'
+import LaptopFilm from '@/components/cinematic/LaptopFilm'
 import Scroll from '@/components/cinematic/Scroll'
-import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
+import InquiryForm from '@/components/InquiryForm'
+import { INQUIRE_CTA } from '@/lib/contact'
 import { SHARE_URL, SITE_DESCRIPTION as DESCRIPTION, SITE_OG_IMAGE, SITE_TITLE } from '@/lib/seo'
-import { OFFER, PAYS, PROJECTS, SHOTS, type Shot } from '@/lib/work'
+import { SHOTS } from '@/lib/work'
 
 export const metadata: Metadata = {
   title: SITE_TITLE,
@@ -32,274 +32,179 @@ export const metadata: Metadata = {
   },
 }
 
-/* The Farzana Classroom story, one chapter per screen. The school screens show
-   Wren Hall, a made-up demo school, and say so in the window's note. The home
-   page shows Farzana in three places at most (Thomas, T-372): the hero's window
-   and phone, and these two chapters. */
-const PRODUCT = 'Farzana Classroom'
-const DEMO = 'Demo school'
-const CHAPTERS: { shot: Shot; note?: string; kicker: string; title: string; body: string; gives: string }[] = [
-  {
-    shot: SHOTS.farzanaHome,
-    note: DEMO,
-    kicker: 'Farzana Classroom',
-    title: 'A platform for schools.',
-    body: 'Education software for schools, training organizations, education businesses or anyone who teaches classes, customized to your needs.',
-    gives: 'Classes, families and payments in one place, not three tools stitched together.',
-  },
+/* Farzana's booking page (it lives at farzana.app/book; this address takes you there). */
+const FARZANA_BOOK = '/farzana/book'
+
+/* A quiet text link: underlined, no pill. */
+const TEXT_LINK = 'text-[var(--fg)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-current'
+
+/* Three of STRATA's own stills, its most colourful, cross-fading in the band. */
+const STRATA_STILLS = [
+  { src: '/strata/stills/fleet-1-desktop.webp', alt: 'Rows of 3D printers glowing in a dark hall, from the STRATA concept site' },
+  { src: '/strata/stills/optimize-3-desktop.webp', alt: 'A 3D printed part mapped in orange and blue by the stress it carries' },
+  { src: '/strata/stills/machines-0-desktop.webp', alt: 'A printer laying down a part in blue light' },
 ]
-
-/* Ruta last, so the KCUPG chapter comes right after it (Thomas, T-372). */
-const MORE = ['tap-to-tick', 'delta', 'ruta'].map((s) => PROJECTS.find((p) => p.slug === s)!)
-
-/* Who made what, said on each card. Ruta is a team's product; I work on it. */
-const ROLE: Record<string, string> = {
-  'tap-to-tick': 'Designed and built by me',
-  ruta: 'Contract work, on the team',
-  delta: 'Designed and built by me',
-}
 
 export default function Home() {
   return (
     <CinematicChrome>
-      {/* Hero: the words, then a real screen lying back that stands up as you scroll. */}
-      <Scroll mode="sticky" className="cn-hero" aria-label="Kingdom Sites">
-        <div className="cn-wrap pt-16 sm:pt-24">
-          <p className="cn-kicker">Websites · iPhone and Android apps</p>
-          <h1 className="cn-display cn-h1 mt-5">
-            <span className="block">Made to be used.</span>
-            <span className="block">Made to be yours.</span>
-          </h1>
-          <div className="mt-8 grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-end">
-            <p className="cn-body max-w-[46ch]">
-              I build websites and apps for businesses, churches and anyone who needs software. These screens are
-              all from my own work.
-            </p>
-            <div className="flex flex-wrap gap-3 lg:justify-end">
-              <Link href={INQUIRE_PATH} className="cn-btn">
-                {INQUIRE_CTA} <span aria-hidden="true">→</span>
+      {/* The top: one line whose last word changes, and one button. */}
+      <section aria-label="Kingdom Sites" className="cn-wrap kf-strip">
+        <BuildWords />
+        <div className="mt-8">
+          <Link href="#talk" className="cn-btn">
+            {INQUIRE_CTA} <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+      </section>
+
+      {/* The film: the room lights up, a laptop on a desk opens on Farzana
+          Classroom, and the app on its screen is in use, on a loop. */}
+      <LaptopFilm />
+
+      {/* What the film was: a request, and the app it became. */}
+      <section aria-labelledby="story" className="cn-wrap kf-story">
+        <h2 id="story" className="cn-display cn-h2 mx-auto max-w-[18ch]">
+          Someone asked me to build them custom classroom software.
+        </h2>
+        <p className="cn-body mx-auto mt-6 max-w-[40ch]">Now it’s coming to life.</p>
+        <div className="kf-shots-grid mx-auto max-w-[1180px] text-left">
+          <Scroll mode="reveal">
+            <div className="cn-reveal">
+              <Browser shot={SHOTS.appClass} product="Farzana Classroom" />
+            </div>
+          </Scroll>
+          <Scroll mode="reveal">
+            <div className="cn-reveal">
+              <Browser shot={SHOTS.appStudents} product="Farzana Classroom" />
+            </div>
+          </Scroll>
+          <Scroll mode="reveal">
+            <div className="cn-reveal">
+              <Browser shot={SHOTS.appAnalytics} product="Farzana Classroom" />
+            </div>
+          </Scroll>
+        </div>
+        <h3 className="cn-display cn-h2 mx-auto mt-24 max-w-[18ch] sm:mt-32">Want software like this, or something else entirely?</h3>
+        <div className="mt-10 flex flex-wrap justify-center gap-3">
+          {/* /farzana/* forwards to farzana.app, which the browser may not pre-load from here. */}
+          <Link href={FARZANA_BOOK} prefetch={false} className="cn-btn">
+            Book a Farzana demo <span aria-hidden="true">→</span>
+          </Link>
+          <Link href="#talk" className="cn-ghost">
+            {INQUIRE_CTA} <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+      </section>
+
+      {/* Apps: a heading and a divider, then JAM Legio and Ruta, each in its own
+          outlined panel: the name, a line under it, and its phones. */}
+      <section aria-labelledby="apps" className="cn-wrap mt-32 sm:mt-48">
+        <h2 id="apps" className="cn-display cn-h2 kf-section-title">
+          I also do mobile apps.
+        </h2>
+        <hr className="kf-divider" />
+
+        <div className="kf-panel">
+          <div className="kf-panel-head">
+            <h3 className="cn-display cn-h3">JAM Legio</h3>
+            <p className="cn-body">
+              A Latin learning game for iPhone and Android.{' '}
+              <Link href="/latin-game" className={TEXT_LINK}>
+                See JAM Legio
               </Link>
-              <a href="#farzana" className="cn-ghost">
-                See the portfolio <span aria-hidden="true">↓</span>
-              </a>
-            </div>
+            </p>
+            <LatinPartner className="cn-partner !mt-2" />
           </div>
-        </div>
-        <Scroll prop="--q" className="cn-wrap cn-stage relative mt-14 pb-32 sm:mt-20 sm:pb-48">
-          <div className="cn-tilt mx-auto max-w-[1180px]">
-            <Browser shot={SHOTS.farzanaDesk} product={PRODUCT} note={DEMO} priority />
-          </div>
-          <div className="cn-tilt-phone absolute bottom-0 right-[6%] w-[30%] max-w-[250px] sm:right-[8%] sm:w-[19%]">
-            <Phone shot={SHOTS.farzanaClassPhone} eager sizes="(min-width: 1320px) 250px, (min-width: 640px) 19vw, 30vw" />
-          </div>
-        </Scroll>
-      </Scroll>
-
-      {/* Right after the first window and phone: What I built. Said once. */}
-      <Credit id="farzana" title="What I built" />
-
-      {/* The Farzana story: the stage holds still, the screens change by chapter. */}
-      <div id="farzana" className="scroll-mt-16" />
-      {/* One chapter is a still screen: it is not pinned, so there is no scroll to walk through (T-381 left one). */}
-      <Scroll mode="sticky" steps={CHAPTERS.length} className={`cn-scene${CHAPTERS.length > 1 ? '' : ' cn-scene-still'}`} aria-label="Farzana Classroom">
-        <div style={CHAPTERS.length > 1 ? { height: `${CHAPTERS.length * 85}svh` } : undefined} className="cn-scene-h">
-          <div className="cn-pin">
-            <div className="cn-wrap w-full">
-              <div className="cn-scene-grid">
-                <div>
-                  <div className="cn-chapters">
-                    {CHAPTERS.map((c, i) => (
-                      <div key={c.title} className={`cn-chapter cn-c${i}`}>
-                        <p className="cn-kicker">
-                          {String(i + 1).padStart(2, '0')} · {c.kicker}
-                        </p>
-                        <h2 className="cn-display cn-h3 mt-4">{c.title}</h2>
-                        <p className="cn-body mt-5 max-w-[36ch]">{c.body}</p>
-                        <p className="cn-gives">
-                          <span className="cn-for">For them</span>
-                          {c.gives}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                  {CHAPTERS.length > 1 ? (
-                    <div className="cn-rail" aria-hidden="true">
-                      {CHAPTERS.map((c, i) => (
-                        <span key={c.title} className={`cn-r${i}`} />
-                      ))}
-                    </div>
-                  ) : null}
-                </div>
-                <div className="cn-screens">
-                  {CHAPTERS.map((c, i) => (
-                    <div key={c.title} className={`cn-screen cn-c${i}`}>
-                      <Browser shot={c.shot} product={PRODUCT} note={c.note} />
-                    </div>
-                  ))}
-                </div>
-
-                {/* On a phone: the same chapters, one after another. */}
-                <div className="cn-stack">
-                  {CHAPTERS.map((c, i) => (
-                    <div key={c.title}>
-                      <Browser shot={c.shot} product={PRODUCT} note={c.note} />
-                      <p className="cn-kicker mt-6">
-                        {String(i + 1).padStart(2, '0')} · {c.kicker}
-                      </p>
-                      <h2 className="cn-display cn-h3 mt-3">{c.title}</h2>
-                      <p className="cn-body mt-3">{c.body}</p>
-                      <p className="cn-gives">
-                        <span className="cn-for">For them</span>
-                        {c.gives}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Scroll>
-
-      <div className="cn-wrap mt-10 flex justify-center lg:mt-0">
-        <LitLink href="/portfolio/farzana-classroom" label="The whole Farzana Classroom story" />
-      </div>
-
-      {/* JAM Legio, the Latin learning game: phones at different depths. */}
-      <section aria-labelledby="latin" className="mt-32 sm:mt-44">
-        <div className="cn-wrap grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-end">
-          <h2 id="latin" className="cn-display cn-h2">
-            In students’ pockets.
-          </h2>
-          <p className="cn-body max-w-[44ch]">
-            JAM Legio, a Latin learning game for iPhone and Android. Students travel the Roman world city by city, answer case
-            challenges and race each other on the leaderboard.{' '}
-            <Link href="/latin-game" className="text-[var(--fg)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-current">
-              See JAM Legio
-            </Link>
-          </p>
-        </div>
-        <Scroll className="cn-wrap mt-16 pb-6 sm:mt-24">
-          <div className="cn-depth mx-auto max-w-[1180px]">
-            {[SHOTS.latinHome, SHOTS.latinMap, SHOTS.latinCase, SHOTS.latinBoard].map((s) => (
-              <Phone key={s.src} shot={s} />
+          <div className="cn-apps">
+            {[SHOTS.latinHome, SHOTS.latinMap, SHOTS.latinCase].map((s) => (
+              <Phone key={s.src} shot={s} sizes={APP_PHONE_SIZES} />
             ))}
           </div>
-        </Scroll>
-        <div className="cn-wrap">
-          <LatinPartner />
+        </div>
+
+        {/* Ruta is a team's product: the line says I helped build it, not that I made it. */}
+        <div className="kf-panel">
+          <div className="kf-panel-head">
+            <h3 className="cn-display cn-h3">Ruta</h3>
+            <p className="cn-body">
+              The crew app for landscaping businesses. I helped build it on Ruta’s team.{' '}
+              <Link href="/ruta" className={TEXT_LINK}>
+                See Ruta
+              </Link>
+            </p>
+          </div>
+          <div className="cn-apps">
+            {[SHOTS.rutaQueue, SHOTS.rutaVisit, SHOTS.rutaTime].map((s) => (
+              <Phone key={s.src} shot={s} sizes={APP_PHONE_SIZES} />
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* What I make: each line comes on as it reaches the middle of the screen. */}
-      <section aria-labelledby="make" className="cn-wrap mt-24 sm:mt-36">
-        <p id="make" className="cn-kicker">What I make</p>
-        <div className="mt-8 space-y-10 sm:space-y-14">
-          {OFFER.map((o) => (
-            <Scroll key={o.title}>
-              <div className="cn-lit grid gap-4 border-t border-[var(--line)] pt-6 lg:grid-cols-[1.4fr_1fr] lg:items-baseline">
-                <h3 className="cn-display cn-h2">{o.title}</h3>
-                <p className="cn-body">
-                  {o.body}
-                  {o.href ? (
-                    <>
-                      {' '}
-                      <Link href={o.href} className="text-[var(--fg)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-current">
-                        About AI consultation
-                      </Link>
-                    </>
-                  ) : null}
-                </p>
+      {/* KCUPG: a website, its dashboard and its map, in the same kind of panel. */}
+      <section aria-labelledby="kcupg" className="cn-wrap mt-20 sm:mt-28">
+        <div className="kf-panel">
+          <div className="kf-panel-head">
+            <h2 id="kcupg" className="cn-display cn-h3">
+              KCUPG
+            </h2>
+            <p className="cn-body">
+              A map of Kansas City’s communities, for local ministry.{' '}
+              <Link href="/portfolio/kcupg" className={TEXT_LINK}>
+                See KCUPG
+              </Link>
+            </p>
+          </div>
+          <div className="kf-browsers">
+            <Scroll mode="reveal">
+              <div className="cn-reveal">
+                <Browser shot={SHOTS.kcupgDashboard} product="KCUPG" />
               </div>
             </Scroll>
-          ))}
-        </div>
-      </section>
-
-      {/* More work. */}
-      <section aria-labelledby="more" className="cn-wrap mt-32 sm:mt-44">
-        <h2 id="more" className="cn-kicker">More from my portfolio</h2>
-        <div className="mt-8 grid gap-x-10 gap-y-12 md:grid-cols-3">
-          {MORE.map((p) => {
-            const external = p.href!.startsWith('http')
-            return (
-              <Scroll key={p.slug} className="flex">
-                <a
-                  href={p.href}
-                  className="cn-reveal cn-card group block"
-                  {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                >
-                  <p className="cn-dim text-sm">
-                    {p.forWhom} · {ROLE[p.slug]}
-                  </p>
-                  <h3 className="cn-display cn-h3 cn-case-name mt-2">
-                    <CaseTitle name={p.name} />
-                  </h3>
-                  <p className="cn-body cn-case-line mt-3 text-[1.02rem]">{p.line}</p>
-                </a>
-              </Scroll>
-            )
-          })}
-        </div>
-      </section>
-
-      {/* KCUPG: one window, then what I made and what it does for them. */}
-      <section aria-labelledby="kcupg" className="mt-32 sm:mt-44">
-        <div className="cn-wrap grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-end">
-          <div>
-            <p className="cn-kicker">KCUPG · Local ministry in Kansas City</p>
-            <h2 id="kcupg" className="cn-display cn-h2 mt-5">
-              A city’s communities, at a glance.
-            </h2>
+            <Scroll mode="reveal">
+              <div className="cn-reveal">
+                <Browser shot={SHOTS.kcupgMap} product="KCUPG" />
+              </div>
+            </Scroll>
           </div>
-          <p className="cn-body max-w-[44ch]">
-            For local ministry in Kansas City, I built a dashboard of the city’s communities from North Africa to East
-            Asia: people, languages and faiths, and the places to meet them, on one map.{' '}
-            <Link href="/portfolio/kcupg" className="text-[var(--fg)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-current">
-              The KCUPG story
+        </div>
+      </section>
+
+      {/* STRATA: a concept site, in its own colours, wide and centred. */}
+      <section aria-labelledby="strata" className="kf-strata">
+        <div className="cn-wrap">
+          <span className="kf-strata-tag">Concept site</span>
+          <h2 id="strata" className="cn-display kf-strata-name">
+            STRATA
+          </h2>
+          <p className="cn-body kf-strata-sub mx-auto max-w-[36ch]">
+            Don’t just think about a website. Think about an experience. See how far a website can go.
+          </p>
+          <Link href="/strata" className="kf-strata-film block" aria-label="Open the STRATA concept site">
+            {STRATA_STILLS.map((s) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img key={s.src} src={s.src} alt={s.alt} width={1600} height={1000} loading="lazy" decoding="async" />
+            ))}
+          </Link>
+          <Link href="/strata" className="cn-btn mt-12">
+            Open the concept site <span aria-hidden="true">→</span>
+          </Link>
+          <p className="mt-10 text-sm">
+            <Link href="/portfolio" className={TEXT_LINK}>
+              See all my work
             </Link>
-            {' · '}
-            <a href="https://kcupgs.com" target="_blank" rel="noopener" className="text-[var(--fg)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-current">
-              Open KCUPG
-            </a>
           </p>
         </div>
-        <Scroll className="cn-wrap mt-14 sm:mt-20">
-          <div className="cn-reveal mx-auto max-w-[1180px]">
-            <Browser shot={SHOTS.kcupgDashboard} product="KCUPG" />
-          </div>
-        </Scroll>
       </section>
 
-      {/* Why it matters: the business case, in plain words. */}
-      <section aria-labelledby="pays" className="cn-wrap mt-32 sm:mt-44">
-        <p className="cn-kicker">Why it matters</p>
-        <h2 id="pays" className="cn-display cn-h2 mt-5">
-          In 2026, software is the backbone of nearly every business.
-        </h2>
-        <p className="cn-display cn-h3 mt-6">Don&rsquo;t fall behind. Better software = more revenue.</p>
-        <div className="cn-pays">
-          {PAYS.map((x) => (
-            <Scroll key={x.title}>
-              <div className="cn-reveal">
-                <h3 className="cn-display cn-h3">{x.title}</h3>
-                <p className="cn-body mt-4 max-w-[40ch]">{x.body}</p>
-              </div>
-            </Scroll>
-          ))}
+      {/* Close: the note form, right here on the page. */}
+      <section id="talk" aria-label="Start a conversation" className="cn-wrap scroll-mt-20 pb-28 pt-32 text-center sm:pb-40 sm:pt-44">
+        <h2 className="cn-display cn-h2 mx-auto max-w-[22ch]">Yours could be next.</h2>
+        <p className="cn-body mx-auto mt-6 max-w-[40ch]">A website, an app, or AI put to work: tell me what you have in mind.</p>
+        <div className="kf-form mx-auto mt-12 max-w-[560px]">
+          <InquiryForm />
         </div>
-      </section>
-
-      {/* Close. */}
-      <section aria-label="Start a conversation" className="cn-wrap pb-28 pt-36 text-center sm:pb-40 sm:pt-52">
-        <h2 className="cn-display cn-h1 mx-auto max-w-[12ch]">Yours could be next.</h2>
-        <p className="cn-body mx-auto mt-6 max-w-[40ch]">
-          A website, an app, or help putting AI to work: tell me what you have in mind. You talk to me, Thomas, the person who
-          will build it, and you get a plan and a quote once I understand it.
-        </p>
-        <Link href={INQUIRE_PATH} className="cn-btn mt-10">
-          {INQUIRE_CTA} <span aria-hidden="true">→</span>
-        </Link>
       </section>
     </CinematicChrome>
   )

@@ -44,7 +44,10 @@ const FARZANA_PAGES: [clean: string, here: string][] = [
 ]
 
 const nextConfig: NextConfig = {
-  allowedDevOrigins: ['192.168.1.102'],
+  // Thomas's phone reaches the dev server on the home network and over Tailscale.
+  allowedDevOrigins: ['192.168.1.102', '100.69.115.38', 'localhost'],
+  // No dev badge in the corner: it sat on the film's play button during review.
+  devIndicators: false,
   // Intelligence reads what it knows from this file at run time (T-375).
   outputFileTracingIncludes: { '/api/intelligence': ['./content/intelligence.md'] },
   images: {

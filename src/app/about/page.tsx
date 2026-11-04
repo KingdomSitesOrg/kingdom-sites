@@ -85,8 +85,8 @@ export default function About() {
               <h3 className="text-sm font-semibold tracking-tight text-ink">Portfolio</h3>
               <p className="mt-2 text-sm leading-relaxed text-body">
                 Farzana Classroom, education software I built from the ground up; JAM Legio, a Latin learning game
-                for iPhone and Android; Tap to Tick, my own iPhone expense app; and contract work on
-                Ruta.{' '}
+                for iPhone and Android; Tap to Tick, my own iPhone expense app; and Ruta, which I
+                helped build on Ruta’s team.{' '}
                 <Link href="/portfolio" className="link-accent">
                   Portfolio <span aria-hidden="true">›</span>
                 </Link>

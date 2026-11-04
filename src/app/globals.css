@@ -1,4 +1,7 @@
 @import "tailwindcss";
+/* The STRATA concept page (/strata) brings its own Tailwind build (src/app/strata/strata.css). */
+@source not "../strata";
+@source not "./strata";
 
 /* Light, warm-neutral palette. Colour does the work that gradients used to:
    near-black ink for headlines, a single blue for actions, terracotta for small
@@ -64,15 +67,6 @@ html {
 ::-webkit-scrollbar-track { background: #0b0b0c; }
 ::-webkit-scrollbar-thumb { background: rgba(239, 235, 227, 0.4); border-radius: 5px; border: 2px solid #0b0b0c; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(239, 235, 227, 0.6); }
-
-/* Touch screens (phones): iOS Safari shows its own bar only while scrolling and no page
-   can force it, so PhoneScrollIndicator.tsx draws a slim marker on the right edge. */
-.scroll-marker { display: none; position: fixed; top: 0; bottom: 0; right: 0; width: 10px; z-index: 60; pointer-events: none; opacity: 0; transition: opacity 0.4s ease; }
-.scroll-marker.is-on { opacity: 1; }
-.scroll-marker-thumb { position: absolute; top: 0; right: 2px; width: 4px; height: 40px; border-radius: 2px; background: rgba(239, 235, 227, 0.4); will-change: transform; }
-@media (hover: none) {
-  .scroll-marker { display: block; }
-}
 
 body {
   font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
