@@ -2,14 +2,14 @@
    The canvas draws the frame for the scroll; the live screen sits on the
    laptop's display through a matrix3d the script works out from its corners.
    Everything moves by transform and opacity. */
-.kf { position: relative; height: calc(100svh - 60px + 275svh); }
+.kf { position: relative; height: calc(100svh - 60px + 120svh); }
 .kf-stage { position: sticky; top: 60px; height: calc(100svh - 60px); overflow: hidden; background: var(--bg); }
 .kf-poster, .kf-poster img, .kf-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 .kf-poster img { display: block; object-fit: cover; }
 
 /* The stage's top and bottom fade into the page, so the strip dissolves into
    the room and the room into what follows: no hard line anywhere. */
-.kf-stage { -webkit-mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent); }
+.kf-scene { position: absolute; inset: 0; -webkit-mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent); }
 
 /* On a phone held upright with no upright film yet, the script makes the stage
    only as tall as the laptop needs (the computer's film, cropped). */
@@ -17,9 +17,6 @@
   .kf-poster img { object-fit: cover; }
 }
 
-/* The floating Intelligence card fades out while the film is on screen. */
-.ki-square { transition: opacity 0.35s ease, visibility 0s, transform 0.25s ease, border-color 0.25s ease; }
-html[data-kf-film] .ki:not([data-open]) .ki-square, html[data-kf-aside] .ki:not([data-open]) .ki-square { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.35s ease, visibility 0s linear 0.35s, transform 0.25s ease, border-color 0.25s ease; }
 
 /* The live screen: the app at its own size, 1800 x 1095, put onto the display. */
 .kf-live { position: absolute; left: 0; top: 0; width: 1800px; height: 1095px; transform-origin: 0 0; overflow: hidden; border-radius: 34px; opacity: 0; pointer-events: none; background: rgb(188 193 205); backface-visibility: hidden; will-change: transform, opacity; --kf-cur: 1; }
@@ -122,9 +119,23 @@ html[data-kf-film] .ki:not([data-open]) .ki-square, html[data-kf-aside] .ki:not(
 .kf-form .tile-elevated { box-shadow: 0 30px 80px rgb(0 0 0 / 0.45); }
 .kf-form .btn-primary { color: #0b0b0c; box-shadow: none; font-weight: 600; }
 .kf-form input, .kf-form textarea { background: #0f0f11; }
-@media (max-width: 759px) {
-  html[data-kf-past] .ki:not([data-open]) .ki-square { opacity: 0; visibility: hidden; pointer-events: none; }
-}
 
 /* Dims the live screen while the display wakes up during the opening. */
 .kf-dim { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; }
+
+/* The film's controls: two small round buttons and a thin bar, bottom left. */
+.kf-controls { position: absolute; left: var(--gutter, 16px); bottom: max(14px, calc(env(safe-area-inset-bottom, 0px) + 8px)); z-index: 2; display: flex; align-items: center; gap: 8px; }
+@media (min-width: 760px) { .kf-controls { bottom: 24px; } }
+.kf-btn { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 999px; color: var(--fg); background: rgb(20 20 22 / 0.72); border: 1px solid rgb(239 235 227 / 0.18); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); cursor: pointer; transition: border-color 0.2s ease, transform 0.2s ease; }
+.kf-btn:hover { border-color: rgb(239 235 227 / 0.45); }
+.kf-btn:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+.kf-btn:active { transform: scale(0.94); }
+.kf-i-pause { display: none; }
+.kf-controls[data-playing] .kf-i-pause { display: block; }
+.kf-controls[data-playing] .kf-i-play { display: none; }
+.kf-bar { position: relative; width: 56px; height: 2px; margin-left: 4px; border-radius: 2px; background: rgb(239 235 227 / 0.2); overflow: hidden; }
+@media (min-width: 760px) { .kf-bar { width: 80px; } }
+.kf-bar-open, .kf-bar-loop { position: absolute; inset: 0; background: var(--fg); transform-origin: 0 50%; transform: scaleX(0); }
+.kf-controls[data-phase="open"] .kf-bar-loop { visibility: hidden; }
+.kf-controls[data-phase="loop"] .kf-bar-open { visibility: hidden; }
+@media (prefers-reduced-motion: reduce) { .kf-controls { display: none; } }

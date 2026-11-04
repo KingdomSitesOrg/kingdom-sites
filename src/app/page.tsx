@@ -6,7 +6,6 @@ import { Browser, Phone } from '@/components/cinematic/Frames'
 import LatinPartner from '@/components/cinematic/LatinPartner'
 import LaptopFilm from '@/components/cinematic/LaptopFilm'
 import Scroll from '@/components/cinematic/Scroll'
-import StepAside from '@/components/cinematic/StepAside'
 import InquiryForm from '@/components/InquiryForm'
 import { INQUIRE_CTA } from '@/lib/contact'
 import { SHARE_URL, SITE_DESCRIPTION as DESCRIPTION, SITE_OG_IMAGE, SITE_TITLE } from '@/lib/seo'
@@ -143,6 +142,33 @@ export default function Home() {
         </Scroll>
       </section>
 
+      {/* KCUPG: a website, its dashboard and its map. */}
+      <section aria-labelledby="kcupg" className="mt-32 sm:mt-48">
+        <div className="cn-wrap grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-end">
+          <h2 id="kcupg" className="cn-display cn-h2">
+            KCUPG
+          </h2>
+          <p className="cn-body max-w-[44ch]">
+            A map of Kansas City’s communities, for local ministry.{' '}
+            <Link href="/portfolio/kcupg" className={TEXT_LINK}>
+              See KCUPG
+            </Link>
+          </p>
+        </div>
+        <div className="cn-wrap mx-auto mt-14 grid max-w-[1260px] gap-8 sm:mt-20 lg:grid-cols-2 lg:gap-10">
+          <Scroll>
+            <div className="cn-reveal">
+              <Browser shot={SHOTS.kcupgDashboard} product="KCUPG" />
+            </div>
+          </Scroll>
+          <Scroll>
+            <div className="cn-reveal lg:mt-24">
+              <Browser shot={SHOTS.kcupgMap} product="KCUPG" />
+            </div>
+          </Scroll>
+        </div>
+      </section>
+
       {/* STRATA: a concept site, in its own colours, wide and centred. */}
       <section aria-labelledby="strata" className="kf-strata">
         <div className="cn-wrap">
@@ -150,7 +176,6 @@ export default function Home() {
           <h2 id="strata" className="cn-display kf-strata-name">
             STRATA
           </h2>
-          <p className="cn-body mx-auto mt-6 max-w-[40ch]">A made-up 3D printing company. A test of how far a website can go.</p>
           <Link href="/strata" className="kf-strata-film block" aria-label="Open the STRATA concept site">
             {STRATA_STILLS.map((s) => (
               // eslint-disable-next-line @next/next/no-img-element
@@ -169,13 +194,13 @@ export default function Home() {
       </section>
 
       {/* Close: the note form, right here on the page. */}
-      <StepAside id="talk" label="Start a conversation" className="cn-wrap scroll-mt-20 pb-28 pt-32 text-center sm:pb-40 sm:pt-44">
+      <section id="talk" aria-label="Start a conversation" className="cn-wrap scroll-mt-20 pb-28 pt-32 text-center sm:pb-40 sm:pt-44">
         <h2 className="cn-display cn-h2 mx-auto max-w-[22ch]">Yours could be next.</h2>
         <p className="cn-body mx-auto mt-6 max-w-[40ch]">A website, an app, or AI put to work: tell me what you have in mind.</p>
         <div className="kf-form mx-auto mt-12 max-w-[560px]">
           <InquiryForm />
         </div>
-      </StepAside>
+      </section>
     </CinematicChrome>
   )
 }

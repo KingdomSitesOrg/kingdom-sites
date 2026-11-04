@@ -84,23 +84,26 @@ html.ss-lock { overflow: hidden; }
 .ss-ask:hover { background: #fff; }
 .ss-ask:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
 
-/* ---------- Phones (and a phone on its side): the whole visible screen ---------- */
+/* ---------- Phones (and a phone on its side): a floating bar ----------
+   A search bar that floats near the top over a dimmed page, only as tall as
+   what it shows; results scroll inside it, above the keyboard. */
 @media (max-width: 759px), (max-height: 520px) {
-  .ss-backdrop { display: none; }
+  .ss-backdrop { background: rgba(0, 0, 0, 0.5); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
   .ss-panel {
-    width: 100%; max-height: none; height: 100%; margin: 0;
-    border: 0; border-radius: 0; box-shadow: none;
-    padding-top: env(safe-area-inset-top, 0px);
-    padding-left: env(safe-area-inset-left, 0px); padding-right: env(safe-area-inset-right, 0px);
-    animation-name: ss-sheet;
+    width: calc(100% - 24px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
+    margin-top: calc(env(safe-area-inset-top, 0px) + 12px);
+    max-height: calc(100% - 24px - env(safe-area-inset-top, 0px));
+    border-radius: 18px;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04), 0 24px 70px rgba(0, 0, 0, 0.6);
   }
-  .ss-bar { gap: 10px; padding: 6px 4px 6px 16px; }
+  .ss-bar { gap: 10px; padding: 4px 4px 4px 16px; }
   .ss-input { min-height: 48px; font-size: 17px; }
-  .ss-list { padding: 4px 4px max(12px, env(safe-area-inset-bottom, 0px)); }
+  .ss-hint { padding: 14px 16px 16px; font-size: 13px; }
+  .ss-list { padding: 4px; }
   .ss-result { padding: 12px; }
   .ss-title { font-size: 17px; }
   .ss-enter { display: none !important; }
-  .ss-hint, .ss-none { padding-inline: 16px; }
+  .ss-none { padding-inline: 16px; }
 }
 
 @keyframes ss-fade { from { opacity: 0; } to { opacity: 1; } }

@@ -21,10 +21,10 @@ export const SITE_OG_IMAGE = {
   url: '/opengraph-image.jpg',
   width: 1200,
   height: 630,
-  alt: 'Kingdom Sites — Made to be used. Made to be yours.',
+  alt: 'Kingdom Sites — I build websites, apps and custom software. A laptop on a desk running Farzana Classroom.',
 }
 
-export const SITE_TITLE = 'Kingdom Sites — Made to be used. Made to be yours.'
+export const SITE_TITLE = 'Kingdom Sites — I build websites, apps and custom software.'
 
 /* The home page's description. The root layout uses it too, as the fallback
    for any page without its own, so the business reads the same everywhere. */
