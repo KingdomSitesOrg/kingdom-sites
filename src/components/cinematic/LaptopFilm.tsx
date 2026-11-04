@@ -7,9 +7,9 @@ import './film.css'
  * The home page film: a laptop on a desk opens, the camera settles with the
  * whole laptop in view, and on its screen Farzana Classroom is in use: a
  * cursor goes round the app, clicking a class, the students and Analytics,
- * on a loop. Once the scene fills the screen, the opening plays by itself;
- * the page holds it for a moment, then scrolls on while the loop keeps
- * playing. Small controls play, pause and replay it, with a progress bar.
+ * on a loop. Once most of the scene is in view, the opening plays by itself,
+ * and the page keeps scrolling freely the whole time (nothing is pinned).
+ * Small controls play, pause and replay it, with a progress bar.
  *
  * The film is a sequence of still frames drawn on a canvas as the page
  * scrolls. The manifest beside the frames says how many there are, where the
@@ -52,17 +52,18 @@ const FALLBACK: Manifest = {
   phone: { w: 1600, h: 1000, dir: 'desktop', screenQuad: QUAD, laptopBox: BOX },
 }
 
-/* The pinned stretch: the opening plays over the first part (about two and a
-   quarter screens of scrolling), then the last frame holds for about half a
-   screen. The live screen fades in over the last few frames. */
-/* The stage holds for a little over a screen of scrolling while the opening
-   plays; the opening itself runs by the clock once the scene fills the screen. */
-const PIN_SCREENS = 1.2
+/* The opening starts once the top of the scene is this far up the window,
+   and never before the room's lights have come up (film.css, kf-lights). */
+const START_AT = 0.45
+const LIGHTS_MS = 1500
+/* The live screen fades in over the last few frames. */
 const FADE_FRAMES = 6
 /* How long the lid takes to open. */
 const AUTO_MS = 4000
-/* One round of the cursor loop, the sum of its moves and pauses below. */
-const CYCLE_MS = 17270
+/* The cursor's moves run this much faster than the times written in the loop. */
+const SPEED = 1.15
+/* One round of the cursor loop: its pauses (6670 ms) and its moves (10600 ms, sped up). */
+const CYCLE_MS = 6670 + 10600 / SPEED
 
 /* The app's screenshots: 1800 x 1095, the app's own beta strip cropped off. */
 const APP_W = 1800
@@ -92,6 +93,8 @@ const mid = (r: Rect): Pt => [r.x + r.w * 0.42, r.y + r.h / 2]
 const ARROW_W = 25
 /* ...but never smaller than this on the page, so it can always be seen. */
 const MIN_ARROW_PX = 13
+/* ...and then drawn at this size: a smaller, lighter arrow. */
+const ARROW_SCALE = 0.8
 
 const clamp = (v: number) => Math.min(1, Math.max(0, v))
 const frameUrl = (m: Manifest, kind: Kind, i: number) => {
@@ -193,7 +196,7 @@ function startLoop(el: {
       const y = (1 - s) * (1 - s) * from[1] + 2 * (1 - s) * s * c[1] + s * s * to[1]
       frames.push({ transform: `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)` })
     }
-    const a = track(el.cursor.animate(frames, { duration: ms, easing: 'linear', fill: 'forwards' }))
+    const a = track(el.cursor.animate(frames, { duration: ms / SPEED, easing: 'linear', fill: 'forwards' }))
     await a.finished
     pos = to
     place(to)
@@ -323,18 +326,21 @@ function startSteam(canvas: HTMLCanvasElement) {
   let dead = false
   let spawn = 0
 
-  // The canvas is 7 radii wide and 12 tall; the cup's opening is at the middle of its bottom edge.
+  // The canvas is 7 radii wide and 6 tall; the cup's opening is at the middle of its bottom edge.
+  // The canvas is rebuilt only when the cup's size changes a lot; in between it
+  // is scaled, so the camera's move never makes it reallocate every frame.
   const place = (x: number, y: number, radius: number, scale: number) => {
     const nr = Math.max(4, radius * scale)
-    if (Math.abs(nr - r) > 0.5) {
+    if (!r || Math.abs(nr / r - 1) > 0.25) {
       r = nr
       dpr = Math.min(2, window.devicePixelRatio || 1)
       canvas.width = Math.round(r * 7 * dpr)
-      canvas.height = Math.round(r * 12 * dpr)
+      canvas.height = Math.round(r * 6 * dpr)
       canvas.style.width = `${r * 7}px`
-      canvas.style.height = `${r * 12}px`
+      canvas.style.height = `${r * 6}px`
     }
-    canvas.style.transform = `translate(${(x - r * 3.5).toFixed(1)}px, ${(y - r * 12).toFixed(1)}px)`
+    const k = nr / r
+    canvas.style.transform = `translate(${(x - nr * 3.5).toFixed(1)}px, ${(y - nr * 6).toFixed(1)}px) scale(${k.toFixed(4)})`
     canvas.style.visibility = 'visible'
   }
   const hide = () => {
@@ -346,10 +352,10 @@ function startSteam(canvas: HTMLCanvasElement) {
     if (!running || dead || !ctx) return
     const dt = Math.min(0.05, last ? (t - last) / 1000 : 0.016)
     last = t
-    spawn += dt * 12
+    spawn += dt * 10
     while (spawn >= 1) {
       spawn -= 1
-      ps.push({ x: (Math.random() - 0.5) * 1.2, age: 0, life: 11 + Math.random() * 5, seed: Math.random() * 100, drift: (Math.random() - 0.5) * 0.5 })
+      ps.push({ x: (Math.random() - 0.5) * 1.2, age: 0, life: 9 + Math.random() * 4, seed: Math.random() * 100, drift: (Math.random() - 0.5) * 0.5 })
     }
     const w = canvas.width
     const h = canvas.height
@@ -363,12 +369,12 @@ function startSteam(canvas: HTMLCanvasElement) {
         ps.splice(i, 1)
         continue
       }
-      // Up about ten radii over its life, slowing; a slow sway that grows as it rises.
-      const rise = 9.5 * Math.pow(k, 1.15)
-      const sway = Math.sin(p.seed + p.age * 0.38) * (0.2 + rise * 0.14) + p.drift * rise * 0.45
+      // Up about three radii over its life, just above the cup, then gone; a slow sway that grows as it rises.
+      const rise = 3.4 * Math.pow(k, 1.15)
+      const sway = Math.sin(p.seed + p.age * 0.38) * (0.2 + rise * 0.2) + p.drift * rise * 0.6
       const cx = w / 2 + (p.x + sway) * R
       const cy = h - rise * R
-      const size = R * (0.28 + k * 1.7)
+      const size = R * (0.28 + k * 1.3)
       // In quickly, out slowly; faint throughout, the way steam is.
       const a = Math.min(1, k * 30) * Math.pow(1 - k, 1.5) * 0.13
       ctx.globalAlpha = a
@@ -444,7 +450,6 @@ export default function LaptopFilm() {
     const started: Record<Kind, boolean> = { desktop: false, phone: false }
 
     // Measured on resize only, so the scroll loop never reads layout.
-    let pinTop = 0
     let W = 0
     let H = 0
     let dpr = 1
@@ -495,10 +500,14 @@ export default function LaptopFilm() {
         const i = order[next++]
         const img = new Image()
         img.decoding = 'async'
+        // Decoded before it is used, so drawing it never stalls the opening.
         img.onload = () => {
-          ok[i] = true
-          schedule()
-          pump()
+          const done = () => {
+            ok[i] = true
+            schedule()
+            pump()
+          }
+          img.decode().then(done, done)
         }
         img.onerror = () => pump()
         img.src = frameUrl(man, k, i)
@@ -526,16 +535,12 @@ export default function LaptopFilm() {
         // Room above and below: more of the desk and the room, never past the frame's edges.
         const h = Math.round(Math.min(fs.h * s, ch * s + W * 0.32))
         stage.style.height = `${h}px`
-        stage.style.top = `max(60px, calc(60px + (100svh - 60px - ${h}px) / 2))`
-        section.style.height = `calc(${h}px + ${PIN_SCREENS * 100}svh)`
         H = h
         ox = -cx * s
         oy = Math.min(0, Math.max(H - fs.h * s, (H - ch * s) / 2 - cy * s))
       } else {
         // The whole screen below the header (the stylesheet's sizes).
         stage.style.height = ''
-        stage.style.top = ''
-        section.style.height = ''
         H = stage.clientHeight
         // Fill the stage, unless that would cut off the laptop; and keep the laptop in view.
         // An upright phone film is framed for the phone already: it always fills the stage.
@@ -549,17 +554,21 @@ export default function LaptopFilm() {
         if (fs.w * s >= W) ox = within(W - fs.w * s, 0, ox)
         if (fs.h * s >= H) oy = within(H - fs.h * s, 0, oy)
       }
-      pinTop = parseFloat(getComputedStyle(stage).top) || 0
       dpr = Math.min(2, window.devicePixelRatio || 1)
-      canvas.width = Math.round(W * dpr)
-      canvas.height = Math.round(H * dpr)
+      // Resizing a canvas clears it and costs a new buffer: only when the size really changes.
+      const cw = Math.round(W * dpr)
+      const ch = Math.round(H * dpr)
+      if (canvas.width !== cw || canvas.height !== ch) {
+        canvas.width = cw
+        canvas.height = ch
+      }
 
       // The live screen, on the display's four corners.
       const qd = quad().map(([x, y]) => [ox + x * s, oy + y * s] as Pt)
       live.style.transform = quadMatrix(APP_W, APP_H, qd)
       const screenPx = Math.hypot(qd[1][0] - qd[0][0], qd[1][1] - qd[0][1])
       const arrowPx = (ARROW_W * screenPx) / APP_W
-      live.style.setProperty('--kf-cur', String(Math.max(1, MIN_ARROW_PX / Math.max(1, arrowPx))))
+      live.style.setProperty('--kf-cur', String(Math.max(1, MIN_ARROW_PX / Math.max(1, arrowPx)) * ARROW_SCALE))
       drawn = -1
       schedule()
     }
@@ -596,10 +605,10 @@ export default function LaptopFilm() {
       const fs = set()
       const n = man.frames
 
-      // Once the scene fills the screen, the opening plays by itself.
+      // Once most of the scene is in view, the opening plays by itself.
       // (Read live, not from the last measure: fonts and images can still move it.
       // Not before the manifest: until then a phone lays the stage out differently.)
-      if (!auto && manReady && !reduce.matches && stage.getBoundingClientRect().top <= pinTop + 2) auto = { start: performance.now() }
+      if (!auto && manReady && !reduce.matches && performance.now() >= LIGHTS_MS && stage.getBoundingClientRect().top <= window.innerHeight * START_AT) auto = { start: performance.now() }
       let at = reduce.matches ? n - 1 : 0
       if (auto && !reduce.matches) {
         const t = auto.held ?? clamp((performance.now() - auto.start) / AUTO_MS)
@@ -651,9 +660,14 @@ export default function LaptopFilm() {
 
     // The controls: play or pause, replay, and the progress bar (the opening,
     // then each round of the loop).
+    let painted = ''
     const paint = (at: number, n: number) => {
-      controls.dataset.phase = lastFade >= 1 ? 'loop' : 'open'
+      const phase = lastFade >= 1 ? 'loop' : 'open'
       const on = auto ? (auto.held === undefined && at < n - 1) || (lastFade >= 1 && !userPaused) : false
+      // Written only when it changes, so a frame of the opening touches nothing else.
+      if (painted === `${phase}:${on}`) return
+      painted = `${phase}:${on}`
+      controls.dataset.phase = phase
       if (on) controls.dataset.playing = ''
       else delete controls.dataset.playing
       toggle.setAttribute('aria-label', on ? 'Pause the film' : 'Play the film')
@@ -686,7 +700,10 @@ export default function LaptopFilm() {
       steer()
       schedule()
     }
-    const onScroll = () => schedule()
+    // Scrolling only matters until the opening has started.
+    const onScroll = () => {
+      if (!auto) schedule()
+    }
     toggle.addEventListener('click', onToggle)
     replay.addEventListener('click', onReplay)
 
@@ -708,6 +725,7 @@ export default function LaptopFilm() {
     }
 
     measure()
+    const lights = window.setTimeout(schedule, Math.max(0, LIGHTS_MS - performance.now()))
     fetch(`${FILM_BASE}/manifest.json`)
       .then((r) => (r.ok ? (r.json() as Promise<Manifest>) : FALLBACK))
       .catch(() => FALLBACK)
@@ -724,8 +742,9 @@ export default function LaptopFilm() {
       steer()
     })
     io.observe(stage)
+    // The stage's own size, not the page's: pictures loading further down never re-measure the film.
     const ro = new ResizeObserver(() => measure())
-    ro.observe(document.body)
+    ro.observe(stage)
     window.addEventListener('scroll', onScroll, { passive: true })
     window.addEventListener('resize', measure)
     document.addEventListener('visibilitychange', steer)
@@ -734,6 +753,7 @@ export default function LaptopFilm() {
     return () => {
       dead = true
       cancelAnimationFrame(raf)
+      window.clearTimeout(lights)
       loop?.stop()
       steam.stop()
       io.disconnect()

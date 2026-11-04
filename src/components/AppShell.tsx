@@ -4,7 +4,6 @@ import { useEffect, useLayoutEffect, useRef } from 'react'
 import { usePathname, useSelectedLayoutSegment } from 'next/navigation'
 import SiteChrome from '@/components/cinematic/SiteChrome'
 import Intelligence from '@/components/intelligence/Intelligence'
-import PhoneScrollIndicator from '@/components/PhoneScrollIndicator'
 import { paintDark } from '@/lib/paint-dark'
 
 export default function AppShell({
@@ -124,7 +123,6 @@ export default function AppShell({
         </SiteChrome>
       )}
       {intelligence}
-      {concept ? null : <PhoneScrollIndicator />}
     </>
   )
 }
