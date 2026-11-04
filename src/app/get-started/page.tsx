@@ -21,9 +21,9 @@ export default function GetStarted() {
           Intelligence on the left, the note on the right. A desktop's wider columns from lg.
           On a phone, one column: the intro, then the note, then Intelligence (the left
           column dissolves into the grid and the three are put in that order). */}
-      <div className="cn-wrap grid gap-12 pb-20 pt-16 sm:pb-28 sm:pt-24 min-[760px]:grid-cols-2 min-[760px]:gap-8 lg:grid-cols-[1fr_minmax(0,560px)] lg:gap-20">
+      <div className="cn-wrap grid grid-cols-[minmax(0,1fr)] gap-12 pb-20 pt-16 sm:pb-28 sm:pt-24 min-[760px]:grid-cols-2 min-[760px]:gap-8 lg:grid-cols-[1fr_minmax(0,560px)] lg:gap-20">
         <section className="min-w-0 max-[759px]:contents min-[760px]:max-lg:flex min-[760px]:max-lg:flex-col lg:sticky lg:top-28 lg:self-start">
-          <div className="max-[759px]:order-1">
+          <div className="min-w-0 max-[759px]:order-1">
           <p className="cn-kicker cn-rise">Start a conversation</p>
           <h1 className="cn-display cn-h2 cn-rise cn-rise-2 mt-5 text-balance">
             Tell me what you have <span className="text-accent">in mind.</span>
@@ -31,12 +31,12 @@ export default function GetStarted() {
           <p className="cn-body cn-rise cn-rise-3 mt-6 max-w-[46ch] text-pretty">{INQUIRY.sub}</p>
           <p className="cn-rise cn-rise-3 mt-4 max-w-[46ch] text-[15px] leading-relaxed text-muted">{QUOTE_LINE}</p>
           </div>
-          <div className="ki-fill cn-rise cn-rise-3 max-[759px]:order-3 min-[760px]:mt-8">
+          <div className="ki-fill min-w-0 cn-rise cn-rise-3 max-[759px]:order-3 min-[760px]:mt-8">
             <IntelligenceInline />
           </div>
         </section>
 
-        <section aria-label="Enquiry" className="cn-rise cn-rise-3 max-[759px]:order-2">
+        <section aria-label="Enquiry" className="min-w-0 cn-rise cn-rise-3 max-[759px]:order-2">
           <h2 className="mb-4 text-lg font-semibold tracking-tight text-ink">{INQUIRY.formTitle}</h2>
           <InquiryForm />
         </section>
