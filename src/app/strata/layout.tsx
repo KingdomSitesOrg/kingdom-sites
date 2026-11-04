@@ -1,9 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { Inter, Inter_Tight } from "next/font/google";
-// Geist Mono comes from Vercel's own package (font files on disk): fetching it
-// from Google failed the production build ("next/font/google queries have
-// exactly one entry"). Same font, same --font-geist-mono variable.
+// The production build failed on Google fonts asked for by fixed weights
+// ("next/font/google queries have exactly one entry"): Inter and Inter Tight
+// load as variable fonts (every weight in one file, as the site's other fonts
+// do), and Geist Mono comes from Vercel's own package, as font files on disk.
 import { GeistMono } from "geist/font/mono";
 import "./strata.css";
 
@@ -16,14 +17,12 @@ import "./strata.css";
 
 const display = Inter_Tight({
   variable: "--font-inter-tight",
-  weight: ["500", "600"],
   subsets: ["latin"],
   display: "swap",
 });
 
 const text = Inter({
   variable: "--font-inter",
-  weight: ["400", "500"],
   subsets: ["latin"],
   display: "swap",
 });
