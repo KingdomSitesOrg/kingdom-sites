@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
+import { SHARE_URL } from '@/lib/seo'
 import { CHAT, inboxRow, isTestAddress, newId, oneLine, shouldAlert, tidy } from '@/lib/chat/chat'
 import { changeConversation, listConversations, readConversation } from '@/lib/chat/store'
 import { emailMessageReply } from '@/lib/notify'
+import { fromThisSite } from '@/lib/intelligence-server'
 import { getAdminSession } from '@/lib/sign/auth'
 
 /**
@@ -22,6 +24,8 @@ const WATCHING_MS = 45_000
 const refuse = (error: string, status: number) => NextResponse.json({ ok: false, error }, { status })
 
 function origin(request: Request): string {
+  // Live, links always point at the site itself, whatever address the request named.
+  if (process.env.VERCEL) return SHARE_URL
   const host = request.headers.get('x-forwarded-host') || request.headers.get('host')
   const proto = request.headers.get('x-forwarded-proto') || (host?.startsWith('localhost') ? 'http' : 'https')
   return host ? `${proto}://${host}` : new URL(request.url).origin
@@ -47,6 +51,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    if (!fromThisSite(request)) return refuse('Sign in first.', 403)
     if (!(await getAdminSession())) return refuse('Sign in first.', 401)
     const raw = (await request.json().catch(() => null)) as Record<string, unknown> | null
     const id = oneLine(raw?.id, 40)

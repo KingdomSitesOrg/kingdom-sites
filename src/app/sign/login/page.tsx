@@ -5,7 +5,7 @@ import LoginForm from '@/components/sign/LoginForm'
 export const dynamic = 'force-dynamic'
 
 /* Where to go after signing in: a page on this site (?next=/inbox), never elsewhere. */
-const nextPath = (next: unknown) => (typeof next === 'string' && /^\/(?!\/)/.test(next) ? next : '/sign/dashboard')
+const nextPath = (next: unknown) => (typeof next === 'string' && /^\/(?![/\\])/.test(next) && !next.includes('\\') ? next : '/sign/dashboard')
 
 export default async function SignLoginPage({ searchParams }: { searchParams: Promise<{ next?: string }> }) {
   const next = nextPath((await searchParams).next)

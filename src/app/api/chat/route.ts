@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
+import { SHARE_URL } from '@/lib/seo'
 import {
   CHAT,
   CHAT_SAY,
@@ -35,6 +36,8 @@ const refuse = (error: string, status: number) => NextResponse.json({ ok: false,
 
 /** Where the site is being reached, so the links in emails go back to the same place. */
 function origin(request: Request): string {
+  // Live, links always point at the site itself, whatever address the request named.
+  if (process.env.VERCEL) return SHARE_URL
   const host = request.headers.get('x-forwarded-host') || request.headers.get('host')
   const proto = request.headers.get('x-forwarded-proto') || (host?.startsWith('localhost') ? 'http' : 'https')
   return host ? `${proto}://${host}` : new URL(request.url).origin
