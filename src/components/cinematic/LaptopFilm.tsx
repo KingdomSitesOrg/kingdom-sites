@@ -607,7 +607,7 @@ export default function LaptopFilm() {
         const head = headBottom()
         if (top <= head + 2) {
           // Come to rest exactly on it, unless they were already far past it (a reload further down).
-          if (top > -window.innerHeight * 0.3) {
+          if (top > -window.innerHeight * 0.3 && performance.now() - jumpedAt > JUMP_MS) {
             window.scrollTo({ top: window.scrollY + top - head, behavior: 'instant' })
             hold(AUTO_MS)
           }
@@ -687,6 +687,17 @@ export default function LaptopFilm() {
     const keys = (e: KeyboardEvent) => {
       if ([' ', 'PageDown', 'PageUp', 'ArrowDown', 'ArrowUp', 'Home', 'End'].includes(e.key) && !(e.target as HTMLElement)?.closest?.('input, textarea, [contenteditable]')) e.preventDefault()
     }
+    // A link to somewhere further down (the hero's "Start a conversation") passes
+    // the scene on its way: it plays, but does not stop the page there.
+    const JUMP_MS = 1500
+    let jumpedAt = -Infinity
+    const onJump = (e: MouseEvent) => {
+      if ((e.target as HTMLElement)?.closest?.('a[href^="#"]')) jumpedAt = performance.now()
+    }
+    const onHash = () => {
+      jumpedAt = performance.now()
+    }
+
     let holdTimer = 0
     const release = () => {
       window.clearTimeout(holdTimer)
@@ -778,6 +789,8 @@ export default function LaptopFilm() {
     const ro = new ResizeObserver(() => measure())
     ro.observe(stage)
     window.addEventListener('scroll', onScroll, { passive: true })
+    document.addEventListener('click', onJump, true)
+    window.addEventListener('hashchange', onHash)
     window.addEventListener('resize', measure)
     document.addEventListener('visibilitychange', steer)
     document.addEventListener('visibilitychange', onVisible)
@@ -794,6 +807,8 @@ export default function LaptopFilm() {
       io.disconnect()
       ro.disconnect()
       window.removeEventListener('scroll', onScroll)
+      document.removeEventListener('click', onJump, true)
+      window.removeEventListener('hashchange', onHash)
       window.removeEventListener('resize', measure)
       document.removeEventListener('visibilitychange', steer)
       document.removeEventListener('visibilitychange', onVisible)

@@ -63,6 +63,9 @@
    so the film starts low, its top just showing below the line. */
 .kf-strip { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding-block: 40px 48px; min-height: calc(52svh - 61px); }
 @media (min-width: 760px) { .kf-strip { min-height: calc(64svh - 61px); padding-block: 48px; } }
+/* The headline's words are padded so their tails show, and that padding reaches
+   over the button below; the button sits in front so it can always be clicked. */
+.kf-strip .cn-btn { position: relative; z-index: 1; }
 
 /* The top line's changing word: every word in one grid cell, so the line keeps
    its size; the new word rises in as the old one rises out. Each word's box

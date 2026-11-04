@@ -10,6 +10,8 @@ import { useEffect, useState } from 'react'
    (film.css) covers the moment its font arrives, so nothing jumps. */
 const WORDS = ['apps.', 'websites.', 'custom software.', 'web apps.']
 const EVERY_MS = 2200
+/* The first word turns over sooner, so the line gets moving quickly. */
+const FIRST_MS = 1400
 
 export default function BuildWords() {
   const [i, setI] = useState(0)
@@ -17,10 +19,15 @@ export default function BuildWords() {
   useEffect(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)')
     if (reduce.matches) return
-    const t = window.setInterval(() => {
-      if (!document.hidden) setI((n) => (n + 1) % WORDS.length)
-    }, EVERY_MS)
-    return () => window.clearInterval(t)
+    let t = 0
+    const next = (ms: number) => {
+      t = window.setTimeout(() => {
+        if (!document.hidden) setI((n) => (n + 1) % WORDS.length)
+        next(EVERY_MS)
+      }, ms)
+    }
+    next(FIRST_MS)
+    return () => window.clearTimeout(t)
   }, [])
 
   return (
