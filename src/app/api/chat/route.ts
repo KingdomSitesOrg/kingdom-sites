@@ -129,6 +129,7 @@ export async function POST(request: Request) {
         doc.messages.push({ id: newId(), from: 'visitor', text, at: now })
         doc.updatedAt = now
         doc.visitorSeenAt = now
+        doc.archived = false
         return shouldAlert(doc.thomasAlertedAt, doc.thomasSeenAt, Date.now())
       })
       if (!changed) return refuse(CHAT_SAY.missing, 404)

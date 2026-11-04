@@ -27,6 +27,8 @@ export type Conversation = {
   visitorSeenAt?: string
   thomasAlertedAt?: string
   visitorAlertedAt?: string
+  /** Thomas filed it away; a new message from the visitor brings it back. */
+  archived?: boolean
 }
 
 /** What the visitor's browser gets: never the key or anything of Thomas's. */
@@ -40,6 +42,11 @@ export type InboxRow = {
   updatedAt: string
   last: { from: Sender; text: string }
   unread: boolean
+  archived: boolean
+  /** The visitor wrote last: it is waiting on Thomas. */
+  waiting: boolean
+  count: number
+  createdAt: string
 }
 
 export const CHAT = {
@@ -117,6 +124,10 @@ export function inboxRow(c: Conversation): InboxRow {
     updatedAt: c.updatedAt,
     last: last ? { from: last.from, text: last.text.slice(0, 160) } : { from: 'visitor', text: '' },
     unread: !!lastVisitor && (!c.thomasSeenAt || c.thomasSeenAt < lastVisitor.at),
+    archived: !!c.archived,
+    waiting: last?.from === 'visitor',
+    count: c.messages.length,
+    createdAt: c.createdAt,
   }
 }
 

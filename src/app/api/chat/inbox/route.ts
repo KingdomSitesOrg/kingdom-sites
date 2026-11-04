@@ -9,7 +9,8 @@ import { getAdminSession } from '@/lib/sign/auth'
  * Thomas's side of Messages, behind his admin sign-in (the one Sign uses).
  * GET lists every conversation, or with ?id= opens one (and marks it read);
  * POST answers one, and emails the visitor his answer with the link back,
- * unless they are on the page and have seen it already.
+ * unless they are on the page and have seen it already; or, with an action,
+ * files it away (archive), brings it back (unarchive) or marks it unread.
  */
 
 export const runtime = 'nodejs'
@@ -49,6 +50,15 @@ export async function POST(request: Request) {
     if (!(await getAdminSession())) return refuse('Sign in first.', 401)
     const raw = (await request.json().catch(() => null)) as Record<string, unknown> | null
     const id = oneLine(raw?.id, 40)
+    const action = raw?.action
+    if (action === 'archive' || action === 'unarchive' || action === 'unread') {
+      const changed = await changeConversation(id, (doc) => {
+        if (action === 'unread') doc.thomasSeenAt = undefined
+        else doc.archived = action === 'archive'
+      })
+      if (!changed) return refuse('That conversation could not be found.', 404)
+      return NextResponse.json({ ok: true, row: inboxRow(changed.doc) })
+    }
     const text = tidy(raw?.text, CHAT.messageChars)
     if (!text) return refuse('Write an answer first.', 400)
     const now = new Date().toISOString()
