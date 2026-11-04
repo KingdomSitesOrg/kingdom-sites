@@ -152,6 +152,10 @@ html.ki-lock { overflow: hidden; }
 .ki-full { margin: 8px 12px 0; display: flex; justify-content: center; }
 
 .ki-foot { margin: 0; padding: 8px 16px 12px; font-size: 12px; line-height: 1.4; color: var(--dim); text-align: center; }
+/* "Send this to Thomas": a small pill under the last answer, in the conversation. */
+.ki-send { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 12px; border-radius: 999px; border: 1px solid rgba(239, 235, 227, 0.22); background: rgba(239, 235, 227, 0.06); color: var(--fg); font: inherit; font-size: 13px; font-weight: 500; cursor: pointer; transition: border-color 0.2s, background-color 0.2s; animation: ki-fade 0.3s ease; }
+.ki-send:hover { border-color: rgba(239, 235, 227, 0.45); background: rgba(239, 235, 227, 0.1); }
+.ki-send:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
 .ki-link { min-height: 32px; padding: 0; background: none; border: 0; color: var(--fg); font: inherit; text-decoration: underline; text-decoration-color: rgba(239, 235, 227, 0.35); text-underline-offset: 3px; cursor: pointer; }
 .ki-link:hover { text-decoration-color: currentColor; }
 .ki-link:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; border-radius: 4px; }

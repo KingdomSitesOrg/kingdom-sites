@@ -34,6 +34,8 @@ type Item = {
 type Handoff = 'closed' | 'form' | 'confirm' | 'sending' | 'sent'
 
 const SUGGESTIONS = ['What has Thomas built?', 'What would an app cost?', 'What is AI consultation?']
+/* How many of their own words a visitor writes before "Send this to Thomas" is offered. */
+const SEND_WORDS = 15
 const MAX_CHARS = 500
 
 /** Fired by site search when nothing on the site matches (T-391): the chat opens and asks exactly that. */
@@ -317,6 +319,16 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
     const last = kept[kept.length - 1]
     return last?.role === 'assistant' && !!last.sig
   })()
+  // Worth sending to Thomas only once the visitor has told it something of their
+  // own: their own words (not a suggestion tapped), adding up to a real
+  // description. A bare "what would an app cost?" is not enough.
+  const toldEnough = (() => {
+    const own = items.filter((i) => i.role === 'user' && !SUGGESTIONS.includes(i.text.trim()))
+    const words = (t: string) => t.trim().split(/\s+/).filter(Boolean).length
+    const total = own.reduce((n, i) => n + words(i.text), 0)
+    return total >= SEND_WORDS && own.some((i) => words(i.text) >= 6)
+  })()
+  const offerSend = answered && lastIsAnswer && toldEnough && handoff === 'closed' && !busy
 
   return (
     <div ref={root} className={`ki ${inline ? 'ki--inline ' : ''}${sans.variable}`} data-open={open ? '' : undefined} data-by-form={byForm ? '' : undefined}>
@@ -400,6 +412,15 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
             ),
           )}
 
+          {offerSend ? (
+            <button type="button" className="ki-send" onClick={() => setHandoff('form')}>
+              Send this to Thomas
+              <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          ) : null}
+
           {handoff !== 'closed' ? (
             <Handoff
               step={handoff}
@@ -476,14 +497,6 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
           </form>
         )}
         <p className="ki-foot">
-          {answered && lastIsAnswer && handoff === 'closed' && !busy ? (
-            <>
-              <button type="button" className="ki-link" onClick={() => setHandoff('form')}>
-                Send this to Thomas
-              </button>
-              {' · '}
-            </>
-          ) : null}
           Powered by Kingdom Sites Intelligence. Uses AI, grounded in my responses.
         </p>
       </section>
