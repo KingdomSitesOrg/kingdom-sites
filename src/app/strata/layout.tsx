@@ -1,6 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
-import { Inter, Inter_Tight, Geist_Mono } from "next/font/google";
+import { Inter, Inter_Tight } from "next/font/google";
+// Geist Mono comes from Vercel's own package (font files on disk): fetching it
+// from Google failed the production build ("next/font/google queries have
+// exactly one entry"). Same font, same --font-geist-mono variable.
+import { GeistMono } from "geist/font/mono";
 import "./strata.css";
 
 /*
@@ -24,12 +28,7 @@ const text = Inter({
   display: "swap",
 });
 
-const mono = Geist_Mono({
-  variable: "--font-geist-mono",
-  weight: ["400", "500"],
-  subsets: ["latin"],
-  display: "swap",
-});
+const mono = GeistMono;
 
 const DESCRIPTION =
   "A concept site by Kingdom Sites: a scroll film in WebGL for STRATA, a made-up 3D printing company.";
