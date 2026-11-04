@@ -80,12 +80,12 @@ export default function Home() {
             </div>
           </Scroll>
           <Scroll mode="reveal">
-            <div className="cn-reveal lg:mt-24">
+            <div className="cn-reveal">
               <Browser shot={SHOTS.appAnalytics} product="Farzana Classroom" />
             </div>
           </Scroll>
         </div>
-        <h3 className="cn-display cn-h3 mx-auto mt-24 max-w-[22ch] sm:mt-32">Want software like this, or something else entirely?</h3>
+        <h3 className="cn-display cn-h2 mx-auto mt-24 max-w-[18ch] sm:mt-32">Want software like this, or something else entirely?</h3>
         <div className="mt-10 flex flex-wrap justify-center gap-3">
           <Link href={FARZANA_BOOK} className="cn-btn">
             Book a Farzana demo <span aria-hidden="true">→</span>
@@ -96,26 +96,25 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Apps: JAM Legio, then Ruta, each a line and its phones. */}
-      <section aria-labelledby="apps" className="mt-32 sm:mt-48">
-        <div className="cn-wrap">
-          <h2 id="apps" className="cn-display cn-h2">
-            I also do mobile apps.
-          </h2>
-          <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-end">
+      {/* Apps: a heading and a divider, then JAM Legio and Ruta, each in its own
+          outlined panel: the name, a line under it, and its phones. */}
+      <section aria-labelledby="apps" className="cn-wrap mt-32 sm:mt-48">
+        <h2 id="apps" className="cn-display cn-h2 kf-section-title">
+          I also do mobile apps.
+        </h2>
+        <hr className="kf-divider" />
+
+        <div className="kf-panel">
+          <div className="kf-panel-head">
             <h3 className="cn-display cn-h3">JAM Legio</h3>
-            <div>
-              <p className="cn-body max-w-[44ch]">
-                A Latin learning game for iPhone and Android.{' '}
-                <Link href="/latin-game" className={TEXT_LINK}>
-                  See JAM Legio
-                </Link>
-              </p>
-              <LatinPartner className="cn-partner !mt-3" />
-            </div>
+            <p className="cn-body">
+              A Latin learning game for iPhone and Android.{' '}
+              <Link href="/latin-game" className={TEXT_LINK}>
+                See JAM Legio
+              </Link>
+            </p>
+            <LatinPartner className="cn-partner !mt-2" />
           </div>
-        </div>
-        <div className="cn-wrap mt-12 sm:mt-20">
           <div className="cn-apps">
             {[SHOTS.latinHome, SHOTS.latinMap, SHOTS.latinCase].map((s) => (
               <Phone key={s.src} shot={s} sizes={APP_PHONE_SIZES} />
@@ -124,16 +123,16 @@ export default function Home() {
         </div>
 
         {/* Ruta is a team's product: the line says I build on it, not that I made it. */}
-        <div className="cn-wrap mt-32 grid gap-6 sm:mt-44 lg:grid-cols-[1fr_1fr] lg:items-end">
-          <h3 className="cn-display cn-h3">Ruta</h3>
-          <p className="cn-body max-w-[44ch]">
-            The crew app for landscaping businesses. I build on Ruta’s team.{' '}
-            <Link href="/ruta" className={TEXT_LINK}>
-              See Ruta
-            </Link>
-          </p>
-        </div>
-        <div className="cn-wrap mt-12 sm:mt-20">
+        <div className="kf-panel">
+          <div className="kf-panel-head">
+            <h3 className="cn-display cn-h3">Ruta</h3>
+            <p className="cn-body">
+              The crew app for landscaping businesses. I build on Ruta’s team.{' '}
+              <Link href="/ruta" className={TEXT_LINK}>
+                See Ruta
+              </Link>
+            </p>
+          </div>
           <div className="cn-apps">
             {[SHOTS.rutaQueue, SHOTS.rutaVisit, SHOTS.rutaTime].map((s) => (
               <Phone key={s.src} shot={s} sizes={APP_PHONE_SIZES} />
@@ -142,30 +141,32 @@ export default function Home() {
         </div>
       </section>
 
-      {/* KCUPG: a website, its dashboard and its map. */}
-      <section aria-labelledby="kcupg" className="mt-32 sm:mt-48">
-        <div className="cn-wrap grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-end">
-          <h2 id="kcupg" className="cn-display cn-h2">
-            KCUPG
-          </h2>
-          <p className="cn-body max-w-[44ch]">
-            A map of Kansas City’s communities, for local ministry.{' '}
-            <Link href="/portfolio/kcupg" className={TEXT_LINK}>
-              See KCUPG
-            </Link>
-          </p>
-        </div>
-        <div className="cn-wrap mx-auto mt-14 grid max-w-[1260px] gap-8 sm:mt-20 lg:grid-cols-2 lg:gap-10">
-          <Scroll mode="reveal">
-            <div className="cn-reveal">
-              <Browser shot={SHOTS.kcupgDashboard} product="KCUPG" />
-            </div>
-          </Scroll>
-          <Scroll mode="reveal">
-            <div className="cn-reveal lg:mt-24">
-              <Browser shot={SHOTS.kcupgMap} product="KCUPG" />
-            </div>
-          </Scroll>
+      {/* KCUPG: a website, its dashboard and its map, in the same kind of panel. */}
+      <section aria-labelledby="kcupg" className="cn-wrap mt-20 sm:mt-28">
+        <div className="kf-panel">
+          <div className="kf-panel-head">
+            <h2 id="kcupg" className="cn-display cn-h3">
+              KCUPG
+            </h2>
+            <p className="cn-body">
+              A map of Kansas City’s communities, for local ministry.{' '}
+              <Link href="/portfolio/kcupg" className={TEXT_LINK}>
+                See KCUPG
+              </Link>
+            </p>
+          </div>
+          <div className="kf-browsers">
+            <Scroll mode="reveal">
+              <div className="cn-reveal">
+                <Browser shot={SHOTS.kcupgDashboard} product="KCUPG" />
+              </div>
+            </Scroll>
+            <Scroll mode="reveal">
+              <div className="cn-reveal">
+                <Browser shot={SHOTS.kcupgMap} product="KCUPG" />
+              </div>
+            </Scroll>
+          </div>
         </div>
       </section>
 

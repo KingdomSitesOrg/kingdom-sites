@@ -156,7 +156,12 @@ class Director {
       const s = this.sections[i];
       const pr = this.progress(i);
       pr.time = this.time;
-      if (!s) continue;
+      // A chapter not (or no longer) on the page: never counts as visible, so a
+      // handoff is never worked out against a section that is not there.
+      if (!s) {
+        pr.visible = false;
+        continue;
+      }
       const raw = (y - s.top) / s.pinned;
       pr.raw = raw;
       pr.p = clamp01(raw);
@@ -172,13 +177,14 @@ class Director {
     for (let i = 0; i < n; i++) {
       if (!this.progress(i).visible) continue;
       const next = i + 1 < n ? this.progress(i + 1) : null;
-      if (next?.visible) {
+      const nextSection = this.sections[i + 1];
+      if (next?.visible && nextSection) {
         const enter = this.defs[i + 1].enter;
         h.active = true;
         h.outgoing = i;
         h.incoming = i + 1;
         h.t = next.enter;
-        h.seam = (this.sections[i + 1]!.top - y) / (this.canvasHeight || window.innerHeight);
+        h.seam = (nextSection.top - y) / (this.canvasHeight || window.innerHeight);
         h.style = enter.style;
         h.via = enter.style === 'cut' ? (enter.via ?? 'dark') : 'dark';
       } else {

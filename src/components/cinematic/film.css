@@ -110,7 +110,7 @@ html.kf-hold { overflow: hidden; scrollbar-gutter: stable; }
 
 /* After the film: the story line, then the app's own screens. */
 .kf-story { text-align: center; padding-top: clamp(88px, 12vw, 168px); }
-.kf-shots-grid { display: grid; gap: clamp(20px, 3vw, 40px); margin-top: clamp(48px, 7vw, 96px); }
+.kf-shots-grid { display: grid; align-items: start; gap: clamp(20px, 3vw, 40px); margin-top: clamp(48px, 7vw, 96px); }
 @media (min-width: 900px) { .kf-shots-grid { grid-template-columns: 1fr 1fr; } .kf-shots-grid > :first-child { grid-column: 1 / -1; } }
 
 /* STRATA: a wide band in its own colours, deep blue with an ember glow, that
@@ -149,3 +149,19 @@ html.kf-hold { overflow: hidden; scrollbar-gutter: stable; }
 
 /* Dims the live screen while the display wakes up during the opening. */
 .kf-dim { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; }
+
+/* The work after the film: a centred section title with a hairline under it,
+   then each piece in its own lightly outlined panel (the name centred, a line
+   under it, then its screens), so nothing floats loose on the page. */
+.kf-section-title { text-align: center; }
+.kf-divider { width: min(240px, 40%); height: 1px; margin: clamp(28px, 4vw, 44px) auto 0; border: 0; background: linear-gradient(90deg, transparent, rgb(239 235 227 / 0.35), transparent); }
+.kf-panel { --pad: clamp(20px, 4vw, 56px); margin-top: clamp(40px, 6vw, 72px); padding: var(--pad); border: 1px solid rgb(239 235 227 / 0.09); border-radius: clamp(20px, 2.4vw, 32px); background: linear-gradient(180deg, rgb(239 235 227 / 0.03), rgb(239 235 227 / 0.012)); }
+.kf-panel-head { max-width: 46ch; margin: 0 auto clamp(32px, 5vw, 56px); text-align: center; }
+.kf-panel-head .cn-body { margin: 14px auto 0; }
+.kf-panel-head .cn-partner { margin-inline: auto; }
+.kf-browsers { display: grid; gap: clamp(16px, 2.5vw, 32px); align-items: start; }
+@media (min-width: 900px) { .kf-browsers { grid-template-columns: 1fr 1fr; } }
+/* On a phone the row of phones reaches the panel's edges, so it can be swiped. */
+@media (max-width: 759px) {
+  .kf-panel .cn-apps { margin-inline: calc(-1 * var(--pad)); padding-inline: var(--pad); scroll-padding-inline: var(--pad); }
+}
