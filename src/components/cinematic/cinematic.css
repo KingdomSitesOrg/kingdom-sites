@@ -80,6 +80,11 @@ html:has(.cn-head) { background: #0b0b0c; }
 .cn-phone { --r: clamp(26px, 3.4vw, 46px); --b: clamp(5px, 0.6vw, 9px); position: relative; border-radius: var(--r); padding: var(--b); background: #050505; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 30px 80px rgba(0, 0, 0, 0.6); }
 .cn-phone picture { display: block; }
 .cn-phone img { display: block; width: 100%; height: auto; border-radius: calc(var(--r) - var(--b)); clip-path: inset(0 round calc(var(--r) - var(--b))); }
+/* The Dynamic Island, on every phone: an iPhone's proportions (126 x 37 pt, 11 pt
+   from the top, on a 393 pt screen), scaled with the frame, between the status
+   bar's time and its icons. */
+.cn-phone { container-type: inline-size; }
+.cn-phone::after { content: ''; position: absolute; z-index: 2; left: 50%; top: calc(var(--b) + 2.6cqw); width: 30.5cqw; height: 9cqw; transform: translateX(-50%); border-radius: 999px; background: #000; pointer-events: none; }
 
 /* "Coming soon", in the kicker's own voice: an outline, not a sticker. */
 .cn-soon { display: inline-block; margin-left: 10px; padding: 3px 9px; border: 1px solid var(--line); border-radius: 999px; font-size: 11px; letter-spacing: 0.08em; color: #cfcbc3; vertical-align: 1px; white-space: nowrap; }
