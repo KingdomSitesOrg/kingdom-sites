@@ -87,7 +87,8 @@ export default function Home() {
         </div>
         <h3 className="cn-display cn-h2 mx-auto mt-24 max-w-[18ch] sm:mt-32">Want software like this, or something else entirely?</h3>
         <div className="mt-10 flex flex-wrap justify-center gap-3">
-          <Link href={FARZANA_BOOK} className="cn-btn">
+          {/* /farzana/* forwards to farzana.app, which the browser may not pre-load from here. */}
+          <Link href={FARZANA_BOOK} prefetch={false} className="cn-btn">
             Book a Farzana demo <span aria-hidden="true">→</span>
           </Link>
           <Link href="#talk" className="cn-ghost">
