@@ -53,8 +53,8 @@ CLAUDE.md
 # Kingdom Sites Sign local storage
 .data/
 
-# site search index, written after each build (scripts/search-index.mjs)
-/public/search-index.json
+# The site search index (public/search-index.json) is committed: a local build
+# writes it (scripts/search-index.mjs), and Vercel's build keeps it.
 
 # placeholder film frames for building the home page film (the real ones are in public/film)
 /public/film-dev/
