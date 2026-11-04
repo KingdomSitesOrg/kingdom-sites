@@ -6,6 +6,12 @@ on:
   pull_request:
     branches: [dev, main]
 
+# A newer run on the same branch or pull request cancels the older one still
+# running, so only the latest push is billed to the end.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   snyk:
     runs-on: blacksmith-2vcpu-ubuntu-2404
