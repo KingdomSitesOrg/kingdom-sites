@@ -54,10 +54,10 @@
 /* After the film: a line, then the question. */
 .kf-ask { text-align: center; padding-block: clamp(88px, 12vw, 168px) clamp(72px, 9vw, 128px); }
 
-/* The plain strip at the top: a little over half the screen on a computer;
-   on a phone, short enough that the film shows below it in the first screen. */
-.kf-strip { display: flex; flex-direction: column; justify-content: center; padding-block: 40px 48px; }
-@media (min-width: 760px) { .kf-strip { min-height: calc(60svh - 61px); padding-block: 48px; } }
+/* The plain strip at the top: a little over half the screen, on a phone too,
+   so the film starts low, its top just showing below the line. */
+.kf-strip { display: flex; flex-direction: column; justify-content: center; padding-block: 40px 48px; min-height: calc(52svh - 61px); }
+@media (min-width: 760px) { .kf-strip { min-height: calc(64svh - 61px); padding-block: 48px; } }
 
 /* The top line's changing word: every word in one grid cell, so the line keeps
    its size; the new word rises in as the old one rises out. Each word's box
@@ -85,15 +85,21 @@
 /* Steam over the mug (LaptopFilm.tsx places it on the cup each frame). */
 .kf-steam { position: absolute; left: 0; top: 0; pointer-events: none; visibility: hidden; transform-origin: 0 0; will-change: transform; }
 
-/* Lights on: the room starts dark and comes up a moment after the page opens. */
-.kf-dark { position: absolute; inset: 0; background: #0b0b0c; pointer-events: none; animation: kf-lights 1.8s cubic-bezier(0.3, 0, 0.2, 1) 0.45s both; }
+/* Lights on: the room starts dark and comes up once it is in view, a moment
+   after the page opens (LaptopFilm.tsx sets data-lit). Without the script, it is
+   never dark (the noscript style in LaptopFilm.tsx). */
+.kf-dark { position: absolute; inset: 0; background: #0b0b0c; pointer-events: none; }
+.kf-stage[data-lit] .kf-dark { animation: kf-lights 1.8s cubic-bezier(0.3, 0, 0.2, 1) both; }
+/* The top of the room in shadow, so the scene starts with some mystery: the
+   light falls from below, the upper third dark. It clears as the lid opens. */
+.kf-shade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to bottom, #0b0b0c 0%, rgb(11 11 12 / 0.85) 10%, rgb(11 11 12 / 0.45) 22%, rgb(11 11 12 / 0) 38%); }
 @keyframes kf-lights {
   0% { opacity: 1; }
   35% { opacity: 0.55; }
   100% { opacity: 0; visibility: hidden; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .kf-dark { display: none; }
+  .kf-dark, .kf-shade { display: none; }
 }
 
 /* After the film: the story line, then the app's own screens. */

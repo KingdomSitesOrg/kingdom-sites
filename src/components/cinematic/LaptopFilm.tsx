@@ -52,13 +52,13 @@ const FALLBACK: Manifest = {
   phone: { w: 1600, h: 1000, dir: 'desktop', screenQuad: QUAD, laptopBox: BOX },
 }
 
-/* The page opens on the dark room, the lights come up on the closed laptop
-   (film.css, kf-lights), and it waits there. The opening plays once the visitor
-   has scrolled (at least this far) and the top of the scene is this far up the
-   window; never before the lights are up. */
-const START_AT = 0.45
-const SCROLLED_PX = 40
-const LIGHTS_MS = 1500
+/* The page opens on the dark room, low on the screen. The lights come up on
+   the closed laptop once the scene is in view, and no sooner than this after the
+   page opens (film.css, kf-lights); then it waits. The opening plays as soon as
+   the visitor starts to scroll, once the lights are mostly up. */
+const LIGHTS_MS = 1200
+const LIT_SETTLE_MS = 700
+const SCROLLED_PX = 16
 /* The live screen fades in over the last few frames. */
 const FADE_FRAMES = 6
 /* How long the lid takes to open. */
@@ -426,6 +426,7 @@ export default function LaptopFilm() {
     const steam = startSteam(steamCanvas)
     const q = <T extends HTMLElement>(s: string) => live.querySelector(s) as T
     const dim = q<HTMLElement>('.kf-dim')
+    const shadeEl = stage.querySelector('.kf-shade') as HTMLElement
 
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)')
     const portrait = window.matchMedia('(orientation: portrait)')
@@ -449,6 +450,10 @@ export default function LaptopFilm() {
     let raf = 0
     let dead = false
     let inView = false
+    // When the lights came on (0 until then).
+    let litAt = 0
+    let lightsTimer = 0
+    let shaded = -1
 
     const set = () => ({ ...FALLBACK[kind], ...man[kind] })
     const quad = () => set().screenQuad ?? QUAD
@@ -590,15 +595,20 @@ export default function LaptopFilm() {
       const fs = set()
       const n = man.frames
 
-      // Once most of the scene is in view, the opening plays by itself.
-      // (Read live, not from the last measure: fonts and images can still move it.
-      // Not before the manifest: until then a phone lays the stage out differently.)
-      if (!auto && manReady && !reduce.matches && performance.now() >= LIGHTS_MS && window.scrollY >= SCROLLED_PX && stage.getBoundingClientRect().top <= window.innerHeight * START_AT) auto = { start: performance.now() }
+      // Once the lights are up and the visitor starts to scroll, the opening plays by itself.
+      // (Not before the manifest: until then a phone lays the stage out differently.)
+      if (!auto && manReady && !reduce.matches && litAt && performance.now() >= litAt + LIT_SETTLE_MS && window.scrollY >= SCROLLED_PX) auto = { start: performance.now() }
       let at = reduce.matches ? n - 1 : 0
       if (auto && !reduce.matches) {
         const t = clamp((performance.now() - auto.start) / AUTO_MS)
         at = t * (n - 1)
         if (t < 1) schedule()
+      }
+      // The top of the room stays in shadow until the lid opens, then clears.
+      const shade = reduce.matches ? 0 : Number((1 - Math.min(1, (at / (n - 1)) * 2.2)).toFixed(3))
+      if (shade !== shaded) {
+        shaded = shade
+        shadeEl.style.opacity = String(shade)
       }
       const want = Math.round(at)
       let idx = -1
@@ -664,7 +674,15 @@ export default function LaptopFilm() {
     }
 
     measure()
-    const lights = window.setTimeout(schedule, Math.max(0, LIGHTS_MS - performance.now()))
+    // Lights on: the scene in view, and not before LIGHTS_MS after the page opened.
+    const lightUp = () => {
+      if (litAt || lightsTimer || dead) return
+      lightsTimer = window.setTimeout(() => {
+        litAt = performance.now()
+        stage.dataset.lit = ''
+        window.setTimeout(schedule, LIT_SETTLE_MS)
+      }, Math.max(0, LIGHTS_MS - performance.now()))
+    }
     fetch(`${FILM_BASE}/manifest.json`)
       .then((r) => (r.ok ? (r.json() as Promise<Manifest>) : FALLBACK))
       .catch(() => FALLBACK)
@@ -678,6 +696,7 @@ export default function LaptopFilm() {
 
     const io = new IntersectionObserver((entries) => {
       inView = entries.some((e) => e.isIntersecting)
+      if (inView) lightUp()
       steer()
     })
     io.observe(stage)
@@ -692,7 +711,7 @@ export default function LaptopFilm() {
     return () => {
       dead = true
       cancelAnimationFrame(raf)
-      window.clearTimeout(lights)
+      window.clearTimeout(lightsTimer)
       loop?.stop()
       steam.stop()
       io.disconnect()
@@ -746,8 +765,10 @@ export default function LaptopFilm() {
           <div className="kf-glass" />
           <div className="kf-dim" />
         </div>
-        {/* The room is dark when the page opens, and the light comes up on it a moment later. */}
+        {/* The top of the room in shadow until the lid opens; the room dark until the light comes up. */}
+        <div className="kf-shade" />
         <div className="kf-dark" />
+        <noscript dangerouslySetInnerHTML={{ __html: '<style>.kf-dark{display:none}</style>' }} />
         </div>
       </div>
     </section>
