@@ -9,7 +9,6 @@ import './film.css'
  * cursor goes round the app, clicking a class, the students and Analytics,
  * on a loop. Once most of the scene is in view, the opening plays by itself,
  * and the page keeps scrolling freely the whole time (nothing is pinned).
- * Small controls play, pause and replay it, with a progress bar.
  *
  * The film is a sequence of still frames drawn on a canvas as the page
  * scrolls. The manifest beside the frames says how many there are, where the
@@ -62,8 +61,6 @@ const FADE_FRAMES = 6
 const AUTO_MS = 4000
 /* The cursor's moves run this much faster than the times written in the loop. */
 const SPEED = 1.15
-/* One round of the cursor loop: its pauses (6670 ms) and its moves (10600 ms, sped up). */
-const CYCLE_MS = 6670 + 10600 / SPEED
 
 /* The app's screenshots: 1800 x 1095, the app's own beta strip cropped off. */
 const APP_W = 1800
@@ -141,7 +138,6 @@ function startLoop(el: {
   hover: HTMLElement
   sel: HTMLElement
   ring: HTMLElement
-  bar: HTMLElement
 }) {
   let paused = true
   let dead = false
@@ -235,9 +231,6 @@ function startLoop(el: {
 
   const run = async () => {
     while (!dead) {
-      // The progress bar fills once per round, and pauses with the loop.
-      for (const a of el.bar.getAnimations()) a.cancel()
-      track(el.bar.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], { duration: CYCLE_MS, easing: 'linear', fill: 'forwards' }))
       show('home')
       pos = [1100, 760]
       place(pos)
@@ -278,7 +271,7 @@ function startLoop(el: {
     /* cancelled when the page leaves */
   })
 
-  const all = () => [...el.live.getAnimations({ subtree: true }), ...el.bar.getAnimations()]
+  const all = () => el.live.getAnimations({ subtree: true })
   return {
     play() {
       if (!paused) return
@@ -413,11 +406,6 @@ export default function LaptopFilm() {
   const posterRef = useRef<HTMLPictureElement>(null)
   const liveRef = useRef<HTMLDivElement>(null)
   const steamRef = useRef<HTMLCanvasElement>(null)
-  const controlsRef = useRef<HTMLDivElement>(null)
-  const toggleRef = useRef<HTMLButtonElement>(null)
-  const replayRef = useRef<HTMLButtonElement>(null)
-  const barOpenRef = useRef<HTMLSpanElement>(null)
-  const barLoopRef = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
     const section = sectionRef.current
@@ -426,17 +414,11 @@ export default function LaptopFilm() {
     const live = liveRef.current
     const poster = posterRef.current
     const steamCanvas = steamRef.current
-    const controls = controlsRef.current
-    const toggle = toggleRef.current
-    const replay = replayRef.current
-    const barOpen = barOpenRef.current
-    const barLoop = barLoopRef.current
     const ctx = canvas?.getContext('2d')
-    if (!section || !stage || !canvas || !live || !ctx || !steamCanvas || !controls || !toggle || !replay || !barOpen || !barLoop) return
-    // Set by the play and replay buttons: the opening plays by the clock, or holds where it was paused.
-    let auto: { start: number; held?: number } | null = null
+    if (!section || !stage || !canvas || !live || !ctx || !steamCanvas) return
+    // When the opening started playing, by the clock.
+    let auto: { start: number } | null = null
     let manReady = false
-    let userPaused = false
     const steam = startSteam(steamCanvas)
     const q = <T extends HTMLElement>(s: string) => live.querySelector(s) as T
     const dim = q<HTMLElement>('.kf-dim')
@@ -587,13 +569,12 @@ export default function LaptopFilm() {
       hover: q<HTMLElement>('.kf-hover'),
       sel: q<HTMLElement>('.kf-sel'),
       ring: q<HTMLElement>('.kf-ring'),
-      bar: barLoop,
     }
     let loop: ReturnType<typeof startLoop> | null = null
     const steer = () => {
-      if (!reduce.matches && inView && !document.hidden && !userPaused) steam.play()
+      if (!reduce.matches && inView && !document.hidden) steam.play()
       else steam.pause()
-      const want = !reduce.matches && inView && !document.hidden && lastFade > 0 && !userPaused
+      const want = !reduce.matches && inView && !document.hidden && lastFade > 0
       if (want && !loop) loop = startLoop(els)
       if (!loop) return
       if (want) loop.play()
@@ -611,11 +592,10 @@ export default function LaptopFilm() {
       if (!auto && manReady && !reduce.matches && performance.now() >= LIGHTS_MS && stage.getBoundingClientRect().top <= window.innerHeight * START_AT) auto = { start: performance.now() }
       let at = reduce.matches ? n - 1 : 0
       if (auto && !reduce.matches) {
-        const t = auto.held ?? clamp((performance.now() - auto.start) / AUTO_MS)
+        const t = clamp((performance.now() - auto.start) / AUTO_MS)
         at = t * (n - 1)
-        if (t < 1 && auto.held === undefined) schedule()
+        if (t < 1) schedule()
       }
-      barOpen.style.transform = `scaleX(${(at / (n - 1)).toFixed(4)})`
       const want = Math.round(at)
       let idx = -1
       for (let d = 0; d < n && idx < 0; d++) {
@@ -655,57 +635,12 @@ export default function LaptopFilm() {
         if (!fs.screenQuads || reduce.matches) live.style.opacity = fade.toFixed(3)
         steer()
       }
-      paint(at, n)
     }
 
-    // The controls: play or pause, replay, and the progress bar (the opening,
-    // then each round of the loop).
-    let painted = ''
-    const paint = (at: number, n: number) => {
-      const phase = lastFade >= 1 ? 'loop' : 'open'
-      const on = auto ? (auto.held === undefined && at < n - 1) || (lastFade >= 1 && !userPaused) : false
-      // Written only when it changes, so a frame of the opening touches nothing else.
-      if (painted === `${phase}:${on}`) return
-      painted = `${phase}:${on}`
-      controls.dataset.phase = phase
-      if (on) controls.dataset.playing = ''
-      else delete controls.dataset.playing
-      toggle.setAttribute('aria-label', on ? 'Pause the film' : 'Play the film')
-    }
-    const onToggle = () => {
-      const t = auto ? (auto.held ?? clamp((performance.now() - auto.start) / AUTO_MS)) : 0
-      if (!auto) {
-        auto = { start: performance.now() }
-        userPaused = false
-      } else if (auto.held !== undefined) {
-        // Carry on from where the opening was paused.
-        auto = { start: performance.now() - auto.held * AUTO_MS }
-        userPaused = false
-      } else if (t < 1) {
-        // Pause the opening where it is.
-        auto.held = t
-        userPaused = true
-      } else {
-        userPaused = !userPaused
-      }
-      steer()
-      schedule()
-    }
-    const onReplay = () => {
-      auto = { start: performance.now() }
-      userPaused = false
-      loop?.stop()
-      loop = null
-      lastFade = -1
-      steer()
-      schedule()
-    }
     // Scrolling only matters until the opening has started.
     const onScroll = () => {
       if (!auto) schedule()
     }
-    toggle.addEventListener('click', onToggle)
-    replay.addEventListener('click', onReplay)
 
     function schedule() {
       if (!raf && !dead) raf = requestAnimationFrame(tick)
@@ -759,8 +694,6 @@ export default function LaptopFilm() {
       io.disconnect()
       ro.disconnect()
       window.removeEventListener('scroll', onScroll)
-      toggle.removeEventListener('click', onToggle)
-      replay.removeEventListener('click', onReplay)
       window.removeEventListener('resize', measure)
       document.removeEventListener('visibilitychange', steer)
       portrait.removeEventListener('change', onOrient)
@@ -811,27 +744,6 @@ export default function LaptopFilm() {
         </div>
         {/* The room is dark when the page opens, and the light comes up on it a moment later. */}
         <div className="kf-dark" />
-        </div>
-        {/* Play or pause, replay, and a thin bar: the opening, then each round of the loop. */}
-        <div ref={controlsRef} className="kf-controls" data-phase="open">
-          <button ref={toggleRef} type="button" className="kf-btn" aria-label="Play the film">
-            <svg className="kf-i-play" viewBox="0 0 16 16" width="12" height="12" aria-hidden="true">
-              <path d="M4.5 2.8v10.4L13 8z" fill="currentColor" />
-            </svg>
-            <svg className="kf-i-pause" viewBox="0 0 16 16" width="12" height="12" aria-hidden="true">
-              <path d="M4 3h2.8v10H4zM9.2 3H12v10H9.2z" fill="currentColor" />
-            </svg>
-          </button>
-          <button ref={replayRef} type="button" className="kf-btn" aria-label="Replay the film">
-            <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true">
-              <path d="M3.2 8a4.8 4.8 0 1 0 1.5-3.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-              <path d="M2.6 2.4v3.4H6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-          <span className="kf-bar" aria-hidden="true">
-            <span ref={barOpenRef} className="kf-bar-open" />
-            <span ref={barLoopRef} className="kf-bar-loop" />
-          </span>
         </div>
       </div>
     </section>

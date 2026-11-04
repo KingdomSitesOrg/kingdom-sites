@@ -132,20 +132,3 @@
 
 /* Dims the live screen while the display wakes up during the opening. */
 .kf-dim { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; }
-
-/* The film's controls: two small round buttons and a thin bar, bottom left. */
-.kf-controls { position: absolute; left: var(--gutter, 16px); bottom: max(14px, calc(env(safe-area-inset-bottom, 0px) + 8px)); z-index: 2; display: flex; align-items: center; gap: 8px; }
-@media (min-width: 760px) { .kf-controls { bottom: 24px; } }
-.kf-btn { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 999px; color: var(--fg); background: rgb(20 20 22 / 0.86); border: 1px solid rgb(239 235 227 / 0.18); cursor: pointer; transition: border-color 0.2s ease, transform 0.2s ease; }
-.kf-btn:hover { border-color: rgb(239 235 227 / 0.45); }
-.kf-btn:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
-.kf-btn:active { transform: scale(0.94); }
-.kf-i-pause { display: none; }
-.kf-controls[data-playing] .kf-i-pause { display: block; }
-.kf-controls[data-playing] .kf-i-play { display: none; }
-.kf-bar { position: relative; width: 56px; height: 2px; margin-left: 4px; border-radius: 2px; background: rgb(239 235 227 / 0.2); overflow: hidden; }
-@media (min-width: 760px) { .kf-bar { width: 80px; } }
-.kf-bar-open, .kf-bar-loop { position: absolute; inset: 0; background: var(--fg); transform-origin: 0 50%; transform: scaleX(0); }
-.kf-controls[data-phase="open"] .kf-bar-loop { visibility: hidden; }
-.kf-controls[data-phase="loop"] .kf-bar-open { visibility: hidden; }
-@media (prefers-reduced-motion: reduce) { .kf-controls { display: none; } }
