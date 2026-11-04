@@ -69,6 +69,12 @@ LID_T = 0.0065
 CORNER_R = 0.0120      # concentric with the display's rounded corners
 PIVOT = Vector((0.0, BASE_D / 2, BASE_TOP + LID_GAP))
 LID_OPEN_DEG = 105.0
+# As on a real MacBook, the display's bottom edge runs on past the hinge, so
+# when the lid is open it drops down behind the back of the base (into a slot
+# cut there) instead of resting on top of it with a gap and a hinge bar showing.
+# The extra is all below the visible chin: the active area does not move.
+LID_TUCK = 0.0060
+TUCK_SLOT = 0.0035     # how far the slot reaches forward from the base's back edge
 
 # Display active area in lid-local coordinates (lid runs along -Y from the
 # hinge; the inside face is local z = 0 and faces local -Z).
@@ -1206,7 +1212,6 @@ def build_scene():
     rubber = mat_simple("Rubber", (0.008, 0.008, 0.008), 0.7, spec=0.3)
     well_m = mat_simple("WellFloor", (0.10, 0.102, 0.108), 0.45, metallic=1.0)
     pad_m = mat_simple("TrackpadGlass", (0.085, 0.087, 0.092), 0.49, metallic=0.7, spec=0.5)
-    hinge_m = mat_simple("Hinge", (0.06, 0.062, 0.066), 0.32, metallic=1.0)
     screen_m = mat_screen()
     floor_m = mat_floor()
 
@@ -1226,7 +1231,10 @@ def build_scene():
     scoop = bpy.context.active_object
     scoop.name = "Scoop"
     scoop.scale = (0.036, 0.0055, 0.0032)
-    boolean_cut(base, [well, pad_cut, scoop])
+    # the slot the display's bottom edge drops into behind the keyboard deck
+    slot = slab("TuckSlot", BASE_W + 0.02, TUCK_SLOT + 0.02, FOOT_H + 0.0004, BASE_TOP + 0.01, 0.0005,
+                segs=2, cy=BASE_D / 2 - TUCK_SLOT + (TUCK_SLOT + 0.02) / 2)
+    boolean_cut(base, [well, pad_cut, scoop, slot])
     add_bevel(base, 0.0007, segments=4, angle=30)
     base.data.materials.append(alu)
 
@@ -1254,37 +1262,29 @@ def build_scene():
                      cx=sx * (BASE_W / 2 - 0.03), cy=sy * (BASE_D / 2 - 0.026))
             f.data.materials.append(rubber)
 
-    bpy.ops.mesh.primitive_cylinder_add(vertices=48, radius=0.0042, depth=BASE_W - 0.07,
-                                        location=(0, PIVOT.y - 0.0028, PIVOT.z - 0.0022),
-                                        rotation=(0, math.radians(90), 0))
-    hinge = bpy.context.active_object
-    hinge.name = "Hinge"
-    for p in hinge.data.polygons:
-        p.use_smooth = True
-    add_bevel(hinge, 0.0006, segments=3, angle=40)
-    hinge.data.materials.append(hinge_m)
+    # no separate hinge bar: it sits inside, hidden by the display's tucked edge (LID_TUCK)
 
     # lid --------------------------------------------------------------
     pivot = bpy.data.objects.new("LidPivot", None)
     scene.collection.objects.link(pivot)
     pivot.location = PIVOT
-    lid = slab("Lid", BASE_W, BASE_D, 0.0, LID_T, CORNER_R, segs=12, cy=-BASE_D / 2)
+    lid = slab("Lid", BASE_W, BASE_D + LID_TUCK, 0.0, LID_T, CORNER_R, segs=12, cy=-BASE_D / 2 + LID_TUCK / 2)
     add_bevel(lid, 0.0007, segments=4, angle=30)
     lid.data.materials.append(alu_lid)
     lid.parent = pivot
-    glass = slab("ScreenGlass", BASE_W - 0.0042, BASE_D - 0.0042, GLASS_FRONT,
-                 0.0003, CORNER_R - 0.0021, segs=12, cy=-BASE_D / 2)
+    glass = slab("ScreenGlass", BASE_W - 0.0042, BASE_D + LID_TUCK - 0.0042, GLASS_FRONT,
+                 0.0003, CORNER_R - 0.0021, segs=12, cy=-BASE_D / 2 + LID_TUCK / 2)
     add_bevel(glass, 0.00018, segments=2, angle=40)
     glass.data.materials.append(screen_m)
     glass.parent = pivot
     bm = bmesh.new()
-    cw, cdp, cr, zc = BASE_W - 0.0042, BASE_D - 0.0042, CORNER_R - 0.0021, GLASS_FRONT - 0.00015
+    cw, cdp, cr, zc = BASE_W - 0.0042, BASE_D + LID_TUCK - 0.0042, CORNER_R - 0.0021, GLASS_FRONT - 0.00015
     pts = []
     for (ccx, ccy, a0) in [(cw / 2 - cr, cdp / 2 - cr, 0), (-cw / 2 + cr, cdp / 2 - cr, 90),
                            (-cw / 2 + cr, -cdp / 2 + cr, 180), (cw / 2 - cr, -cdp / 2 + cr, 270)]:
         for k in range(13):
             ang = math.radians(a0 + 90.0 * k / 12)
-            pts.append((ccx + cr * math.cos(ang), ccy - BASE_D / 2 + cr * math.sin(ang)))
+            pts.append((ccx + cr * math.cos(ang), ccy - BASE_D / 2 + LID_TUCK / 2 + cr * math.sin(ang)))
     face = bm.faces.new([bm.verts.new((x, y, zc)) for x, y in reversed(pts)])
     me = bpy.data.meshes.new("CoverGlass")
     bm.to_mesh(me); bm.free()
@@ -1393,7 +1393,7 @@ def build_scene():
             lap.objects.link(o)
     shell = bpy.data.collections.new("Shell")   # the aluminium body only
     scene.collection.children.link(shell)
-    for n in ("Base", "Lid", "Hinge", "ScreenGlass"):
+    for n in ("Base", "Lid", "ScreenGlass"):
         shell.objects.link(scene.objects[n])
     scene.objects["Rim"].light_linking.receiver_collection = lap
     for o in (cb, cl):
