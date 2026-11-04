@@ -1,17 +1,23 @@
 """Laptop product film for the Kingdom Sites home page.
 
-Builds a generic 16-inch laptop in a dark studio, opens the lid, wakes the
-screen and dollies into the display. Everything is procedural; the only inputs
-are the screen image (public/work/farzana-classroom-home.webp) and one Poly
-Haven studio HDRI (design/laptop-film/assets/).
+Builds a generic 16-inch laptop on a walnut desk in front of a whiteboard,
+opens the lid, wakes the screen and settles on the whole laptop. Everything is
+procedural; the inputs are the screen image
+(public/work/farzana-classroom-home.webp), one Poly Haven studio HDRI
+(design/laptop-film/assets/), and two Pillow-drawn textures: key legends
+(keyboard_legends.py) and the whiteboard's marker work (whiteboard_texture.py).
 
 Run headless from the repository root:
 
   Blender -b -P scripts/film/laptop_film.py -- --mode still --aspect desktop \
-      --frames 10,45,75 --samples 1024 --out design/laptop-film/stills
+      --frames 1,48,96 --samples 160 --noise 0.015 --out design/film-renders/v4/stills
   Blender -b -P scripts/film/laptop_film.py -- --mode seq --aspect desktop \
-      --frames 1-120 --samples 160 --out public/film/desktop
-  Blender -b -P scripts/film/laptop_film.py -- --mode manifest
+      --frames 1-96 --samples 160 --noise 0.015 --quality 82 --out public/film/desktop
+  Blender -b -P scripts/film/laptop_film.py -- --mode manifest --out public/film
+
+The manifest holds, per aspect, the display's corners on the last frame
+(screenQuad), the laptop's box (laptopBox) and, for every frame, the mug's
+opening and rim radius in frame pixels (steam).
 
 Units are metres. Z is up, the laptop's front faces -Y, its hinge is at +Y.
 """
@@ -30,6 +36,8 @@ from mathutils import Euler, Matrix, Vector
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 SCREEN_IMAGE = os.path.join(ROOT, "public", "work", "farzana-classroom-home.webp")
 HDRI = os.path.join(ROOT, "design", "laptop-film", "assets", "studio_small_09_2k.hdr")
+# the website's typeface (Archivo, variable weight and width), for the mug
+MUG_FONT = os.path.join(ROOT, "design", "film-renders", "v4", "tex", "Archivo-latin-variable.woff2")
 
 FRAMES = 96
 ASPECTS = {"desktop": (1600, 1000), "phone": (780, 1400)}
@@ -38,27 +46,32 @@ ASPECT = "desktop"     # set by main() before the scene is built (props differ p
 # Prop placement per camera: (x, y, yaw deg). The portrait camera is narrow
 # and tall, so its props sit closer in and in front of the laptop.
 PROPS = {
-    "desktop": {"tin": (0.29, -0.175, -24), "loose": (0.17, -0.285, 38),
-                "bookA": (-0.385, 0.175, 13), "bookB": (-0.378, 0.168, 4), "mug": (0.335, 0.215, -55)},
-    "phone": {"tin": (0.115, -0.265, -16), "loose": (-0.085, -0.33, 24),
-              "bookA": (-0.255, 0.135, 13), "bookB": (-0.248, 0.128, 4), "mug": (0.235, 0.200, -60)},
+    "desktop": {"bookA": (-0.385, 0.175, 13), "bookB": (-0.378, 0.168, 4), "mug": (0.335, 0.215, -55)},
+    "phone": {"bookA": (-0.345, 0.150, 13), "bookB": (-0.338, 0.143, 4), "mug": (0.272, 0.200, -60)},
 }
 
 # ---------------------------------------------------------------- dimensions
-BASE_W, BASE_D, BASE_H = 0.356, 0.248, 0.0080
+# Display active area, 16:10, with thin bezels like a current MacBook Pro:
+# 5.5 mm at the sides, 6 mm at the top, 7.5 mm above the hinge. The lid
+# (and so the base, which matches it) is as deep as that needs.
+ACT_SIDE_MARGIN = 0.0055
+ACT_TOP_MARGIN = 0.0060
+ACT_BOTTOM_MARGIN = 0.0075
+BASE_W = 0.356
+ACT_W = BASE_W - 2 * ACT_SIDE_MARGIN
+ACT_H = ACT_W / 1.6
+ACT_RADIUS = ACT_W * 34.0 / 1800.0   # rounded display corners, as on the website's live layer
+BASE_D, BASE_H = ACT_TOP_MARGIN + ACT_H + ACT_BOTTOM_MARGIN, 0.0080
 FOOT_H = 0.0008
 BASE_TOP = FOOT_H + BASE_H
 LID_GAP = 0.0005
 LID_T = 0.0065
-CORNER_R = 0.0115
+CORNER_R = 0.0120      # concentric with the display's rounded corners
 PIVOT = Vector((0.0, BASE_D / 2, BASE_TOP + LID_GAP))
 LID_OPEN_DEG = 105.0
 
-# Display active area, 16:10, in lid-local coordinates (lid runs along -Y from
-# the hinge; the inside face is local z = 0 and faces local -Z).
-ACT_W = 0.342
-ACT_H = ACT_W / 1.6
-ACT_TOP_MARGIN = 0.007
+# Display active area in lid-local coordinates (lid runs along -Y from the
+# hinge; the inside face is local z = 0 and faces local -Z).
 ACT_Y0 = -(BASE_D - ACT_TOP_MARGIN - ACT_H)  # hinge-side edge of active area
 GLASS_FRONT = -0.0002                          # local z of the glass surface
 
@@ -207,14 +220,15 @@ def mat_aluminium(name, color, grilles=False):
     bsdf = N["Principled BSDF"]
     bsdf.inputs["Metallic"].default_value = 1.0
     bsdf.inputs["Base Color"].default_value = (*color, 1)
-    bsdf.inputs["Anisotropic"].default_value = 0.25
+    bsdf.inputs["Anisotropic"].default_value = 0.12
     tc = N.new("ShaderNodeTexCoord")
     tan = N.new("ShaderNodeTangent")
     tan.direction_type = "RADIAL"
     tan.axis = "Y"
     L.new(tan.outputs["Tangent"], bsdf.inputs["Tangent"])
 
-    # roughness: 0.3 with a broad and a fine noise so highlights break up
+    # roughness: matte satin (bead-blasted), 0.44 with a broad and a fine
+    # noise so the soft highlights break up
     n_big = N.new("ShaderNodeTexNoise")
     n_big.inputs["Scale"].default_value = 18.0
     n_big.inputs["Detail"].default_value = 3.0
@@ -224,8 +238,8 @@ def mat_aluminium(name, color, grilles=False):
     n_fine.inputs["Detail"].default_value = 2.0
     L.new(tc.outputs["Object"], n_fine.inputs["Vector"])
     r1 = N.new("ShaderNodeMapRange")
-    r1.inputs["To Min"].default_value = 0.26
-    r1.inputs["To Max"].default_value = 0.34
+    r1.inputs["To Min"].default_value = 0.40
+    r1.inputs["To Max"].default_value = 0.48
     L.new(n_big.outputs["Fac"], r1.inputs["Value"])
     r2 = N.new("ShaderNodeMapRange")
     r2.inputs["To Min"].default_value = -0.035
@@ -260,7 +274,8 @@ def mat_aluminium(name, color, grilles=False):
         absx = N.new("ShaderNodeMath"); absx.operation = "ABSOLUTE"
         L.new(sep.outputs["X"], absx.inputs[0])
         mx = band(absx.outputs[0], 0.1475, 0.1665)
-        my = band(sep.outputs["Y"], -0.006, 0.098)
+        _kl, _kf = keyboard_layout()
+        my = band(sep.outputs["Y"], _kf - 0.004, KB_BACK)
         mz = band(sep.outputs["Z"], BASE_TOP - 0.0003, BASE_TOP + 0.001)
         mxy = N.new("ShaderNodeMath"); mxy.operation = "MULTIPLY"
         L.new(mx, mxy.inputs[0]); L.new(my, mxy.inputs[1])
@@ -438,15 +453,19 @@ def screen_image_agx_inverse():
 
 
 def mat_cover_glass():
-    """Cover glass: fully transmissive, reflects by Fresnel only."""
+    """Cover glass: fully transmissive, reflects by Fresnel only, damped by an
+    anti-reflective coating so the opening lid never flashes."""
     m, N, L = new_mat("CoverGlass")
     N.remove(N["Principled BSDF"])
     tr = N.new("ShaderNodeBsdfTransparent")
     gl = N.new("ShaderNodeBsdfGlossy")
-    gl.inputs["Roughness"].default_value = 0.035
+    gl.inputs["Roughness"].default_value = 0.05
     fr = N.new("ShaderNodeFresnel")
     fr.inputs["IOR"].default_value = 1.52
-    L.new(fr.outputs["Fac"], gl.inputs["Color"])
+    ar = N.new("ShaderNodeMath"); ar.operation = "MULTIPLY"
+    ar.inputs[1].default_value = 0.5
+    L.new(fr.outputs["Fac"], ar.inputs[0])
+    L.new(ar.outputs[0], gl.inputs["Color"])
     add = N.new("ShaderNodeAddShader")
     L.new(tr.outputs[0], add.inputs[0]); L.new(gl.outputs[0], add.inputs[1])
     L.new(add.outputs[0], N["Material Output"].inputs["Surface"])
@@ -473,19 +492,37 @@ def mat_screen():
     v.inputs[1].default_value = -1.0 / ACT_H
     v.inputs[2].default_value = ACT_Y0 / ACT_H
     L.new(sep.outputs["Y"], v.inputs[0])
-    # active-area mask (u in [0, 1] before the crop scale, v in [0, 1])
-    def inside(sock, hi):
-        a = N.new("ShaderNodeMath"); a.operation = "GREATER_THAN"
-        a.inputs[1].default_value = 0.0; L.new(sock, a.inputs[0])
-        bb = N.new("ShaderNodeMath"); bb.operation = "LESS_THAN"
-        bb.inputs[1].default_value = hi; L.new(sock, bb.inputs[0])
-        c = N.new("ShaderNodeMath"); c.operation = "MULTIPLY"
-        L.new(a.outputs[0], c.inputs[0]); L.new(bb.outputs[0], c.inputs[1])
-        return c.outputs[0]
-    mu = inside(u.outputs[0], IMG_U_SCALE)
-    mv = inside(v.outputs[0], 1.0)
-    mask = N.new("ShaderNodeMath"); mask.operation = "MULTIPLY"
-    L.new(mu, mask.inputs[0]); L.new(mv, mask.inputs[1])
+    # rounded corners, radius ACT_RADIUS: a signed distance to the rounded
+    # rectangle, anti-aliased over 0.3 mm
+    ctr = N.new("ShaderNodeVectorMath"); ctr.operation = "SUBTRACT"
+    ctr.inputs[1].default_value = (0.0, ACT_Y0 - ACT_H / 2, 0.0)
+    L.new(tc.outputs["Object"], ctr.inputs[0])
+    flat = N.new("ShaderNodeVectorMath"); flat.operation = "MULTIPLY"
+    flat.inputs[1].default_value = (1.0, 1.0, 0.0)
+    L.new(ctr.outputs[0], flat.inputs[0])
+    ab = N.new("ShaderNodeVectorMath"); ab.operation = "ABSOLUTE"
+    L.new(flat.outputs[0], ab.inputs[0])
+    q = N.new("ShaderNodeVectorMath"); q.operation = "SUBTRACT"
+    q.inputs[1].default_value = (ACT_W / 2 - ACT_RADIUS, ACT_H / 2 - ACT_RADIUS, 0.0)
+    L.new(ab.outputs[0], q.inputs[0])
+    qp = N.new("ShaderNodeVectorMath"); qp.operation = "MAXIMUM"
+    qp.inputs[1].default_value = (0.0, 0.0, 0.0)
+    L.new(q.outputs[0], qp.inputs[0])
+    ql = N.new("ShaderNodeVectorMath"); ql.operation = "LENGTH"
+    L.new(qp.outputs[0], ql.inputs[0])
+    qs = N.new("ShaderNodeSeparateXYZ")
+    L.new(q.outputs[0], qs.inputs["Vector"])
+    qm = N.new("ShaderNodeMath"); qm.operation = "MAXIMUM"
+    L.new(qs.outputs["X"], qm.inputs[0]); L.new(qs.outputs["Y"], qm.inputs[1])
+    qn = N.new("ShaderNodeMath"); qn.operation = "MINIMUM"
+    qn.inputs[1].default_value = 0.0
+    L.new(qm.outputs[0], qn.inputs[0])
+    sd = N.new("ShaderNodeMath"); sd.operation = "ADD"
+    L.new(ql.outputs["Value"], sd.inputs[0]); L.new(qn.outputs[0], sd.inputs[1])
+    mask = N.new("ShaderNodeMapRange")
+    mask.inputs["From Min"].default_value = ACT_RADIUS + 0.00015
+    mask.inputs["From Max"].default_value = ACT_RADIUS - 0.00015
+    L.new(sd.outputs[0], mask.inputs["Value"])
     cmb = N.new("ShaderNodeCombineXYZ")
     L.new(u.outputs[0], cmb.inputs["X"]); L.new(v.outputs[0], cmb.inputs["Y"])
     img = N.new("ShaderNodeTexImage")
@@ -522,7 +559,16 @@ def mat_floor():
 
 # ------------------------------------------------------------------ the room
 WALL_Y = 0.95          # wall (and whiteboard) about three feet behind the laptop
-SKETCH = {"width": 1.0, "alpha": 1.0, "red": (0.42, 0.05, 0.04)}   # marker strokes
+# what sits on the whiteboard's tray, per camera: eraser (x, yaw) and three
+# markers [(x, yaw)], x from the board's centre; each camera sees a different
+# part of the tray past the laptop
+# board centre x and the strength of the board-only fill light, per camera
+# (the phone camera sees the whole board, further back and more square-on)
+BOARD = {"desktop": {"x": 0.18, "fill": 26.0}, "phone": {"x": 0.30, "fill": 12.0}}
+TRAY = {
+    "desktop": {"eraser": (-0.40, 4), "markers": [(0.255, 3), (0.300, -4), (0.345, 8)]},
+    "phone": {"eraser": (0.10, -3), "markers": [(0.255, 3), (0.300, -4), (0.345, 8)]},
+}
 
 
 def colour_ramp(N, stops):
@@ -624,93 +670,22 @@ def mat_wood():
     return m
 
 
-def whiteboard_image():
-    """A faint marker sketch of a software plan: boxes, arrows, squiggles."""
-    import numpy as np
-    W, H = 1200, 800
-    rng = np.random.default_rng(7)
-    alpha = np.zeros((H, W), np.float32)
-    rgb = np.ones((H, W, 3), np.float32)
-    yy, xx = np.mgrid[0:H, 0:W]
-
-    def seg(p, q, w, col, a=0.8):
-        x0, y0 = p; x1, y1 = q
-        xa, xb = int(max(0, min(x0, x1) - w - 2)), int(min(W, max(x0, x1) + w + 3))
-        ya, yb = int(max(0, min(y0, y1) - w - 2)), int(min(H, max(y0, y1) + w + 3))
-        if xa >= xb or ya >= yb:
-            return
-        X = xx[ya:yb, xa:xb]; Y = yy[ya:yb, xa:xb]
-        dx, dy = x1 - x0, y1 - y0
-        ll = dx * dx + dy * dy or 1.0
-        t = np.clip(((X - x0) * dx + (Y - y0) * dy) / ll, 0, 1)
-        d = np.hypot(X - (x0 + t * dx), Y - (y0 + t * dy))
-        w = w * SKETCH["width"]
-        cov = np.clip(w / 2 + 0.8 - d, 0, 1) * a * SKETCH["alpha"]
-        sub = alpha[ya:yb, xa:xb]
-        upd = cov > sub
-        sub[upd] = cov[upd]
-        rgb[ya:yb, xa:xb][upd] = col
-
-    def poly(pts, w, col, a=0.8):
-        for p, q in zip(pts[:-1], pts[1:]):
-            seg(p, q, w, col, a)
-
-    def box(x0, y0, x1, y1, col):
-        j = lambda: rng.uniform(-3, 3)
-        poly([(x0 + j(), y0 + j()), (x1 + j(), y0 + j()), (x1 + j(), y1 + j()),
-              (x0 + j(), y1 + j()), (x0 + j(), y0 + j())], 8, col, 0.95)
-
-    def squiggle(x0, y, length, col, amp=5.0):
-        pts = []
-        ph = rng.uniform(0, 6)
-        for i in range(int(length / 4)):
-            x = x0 + i * 4
-            pts.append((x, y + amp * math.sin(ph + i * rng.uniform(0.7, 1.2)) * rng.uniform(0.4, 1.0)))
-        poly(pts, 6.0, col, 0.9)
-
-    def arrow(p, q, col):
-        seg(p, q, 7.0, col, 0.95)
-        ang = math.atan2(q[1] - p[1], q[0] - p[0])
-        for s in (-1, 1):
-            a2 = ang + math.pi - s * 0.45
-            seg(q, (q[0] + 22 * math.cos(a2), q[1] + 22 * math.sin(a2)), 7.0, col, 0.95)
-
-    blue, black, red = (0.04, 0.10, 0.32), (0.03, 0.03, 0.035), SKETCH["red"]
-    box(80, 90, 330, 230, blue)
-    for i in range(3):
-        squiggle(105, 130 + i * 32, rng.uniform(120, 190), blue)
-    box(470, 70, 760, 220, black)
-    for i in range(3):
-        squiggle(495, 110 + i * 34, rng.uniform(140, 230), black)
-    box(880, 110, 1120, 260, blue)
-    for i in range(3):
-        squiggle(905, 150 + i * 34, rng.uniform(110, 180), blue)
-    arrow((335, 160), (462, 150), black)
-    arrow((765, 150), (872, 180), black)
-    box(420, 400, 760, 590, red)
-    for i in range(4):
-        squiggle(445, 440 + i * 34, rng.uniform(150, 280), red)
-    arrow((615, 228), (600, 392), red)
-    for i in range(5):
-        seg((95, 380 + i * 52), (103, 380 + i * 52), 9, black)
-        squiggle(125, 380 + i * 52, rng.uniform(110, 200), black)
-    poly([(880, 420), (900, 470), (960, 440), (1010, 520), (1080, 480), (1110, 560)], 4, blue, 0.6)
-    # ghosts of earlier, erased sketches
-    for _ in range(9):
-        cx, cy = rng.uniform(80, 1120), rng.uniform(60, 740)
-        r = rng.uniform(40, 140)
-        g = np.exp(-(((xx - cx) / r) ** 2 + ((yy - cy) / (r * 0.4)) ** 2)) * 0.06
-        upd = g > alpha
-        alpha[upd] = g[upd]; rgb[upd] = (0.2, 0.2, 0.22)
-    white = np.array((0.80, 0.80, 0.77), np.float32)   # #E8E8E4
-    col = white * (1 - alpha[..., None]) + rgb * alpha[..., None]
-    px = np.ones((H, W, 4), np.float32)
-    px[..., :3] = col[::-1]
-    img = bpy.data.images.new("WhiteboardSketch", W, H, alpha=False, float_buffer=True)
-    img.colorspace_settings.name = "Linear Rec.709"
-    img.pixels.foreach_set(px.ravel())
-    img.pack()
-    return img
+def whiteboard_textures():
+    """The board's marker work, drawn with Pillow (system Python) at
+    4800 x 3200 px for this camera; returns (colour, mask) image paths.
+    Cached: redrawn only when whiteboard_texture.py is newer."""
+    import shutil
+    import subprocess
+    work = os.path.join(ROOT, "design", "laptop-film", "work")
+    os.makedirs(work, exist_ok=True)
+    gen = os.path.join(ROOT, "scripts", "film", "whiteboard_texture.py")
+    png = os.path.join(work, "whiteboard-%s.png" % ASPECT)
+    mask = os.path.join(work, "whiteboard-%s-mask.png" % ASPECT)
+    if not (os.path.exists(png) and os.path.exists(mask)
+            and os.path.getmtime(png) > os.path.getmtime(gen)):
+        py = shutil.which("python3") or "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3"
+        subprocess.run([py, gen, ASPECT, png, mask], check=True)
+    return png, mask
 
 
 def build_room(scene):
@@ -730,107 +705,133 @@ def build_room(scene):
     floor.data.materials.append(wall_m)
 
     # whiteboard -------------------------------------------------------
-    bw, bh, bcx, bcz = 1.20, 0.80, 0.18, 0.56
+    # white glossy board (matte where there is paper or ink), a thin
+    # aluminium frame with grey corner caps, and a tray with markers and an
+    # eraser. The marker work is a 4800 px texture.
+    bw, bh, bcx, bcz = 1.20, 0.80, BOARD[ASPECT]["x"], 0.56
     rot = Euler((math.radians(90), 0, 0))
     board_m, N, L = new_mat("WhiteboardPanel")
     bb = N["Principled BSDF"]
     tc = N.new("ShaderNodeTexCoord")
-    tex = N.new("ShaderNodeTexImage"); tex.image = whiteboard_image()
+    png, mask_png = whiteboard_textures()
+    tex = N.new("ShaderNodeTexImage")
+    tex.image = bpy.data.images.load(png)
+    tex.image.pack()
+    tex.interpolation = "Cubic"
     L.new(tc.outputs["Generated"], tex.inputs["Vector"])
     L.new(tex.outputs["Color"], bb.inputs["Base Color"])
-    bb.inputs["Roughness"].default_value = 0.18
-    bb.inputs["Coat Weight"].default_value = 0.35
-    bb.inputs["Coat Roughness"].default_value = 0.08
+    mtex = N.new("ShaderNodeTexImage")
+    mtex.image = bpy.data.images.load(mask_png)
+    mtex.image.colorspace_settings.name = "Non-Color"
+    mtex.image.pack()
+    L.new(tc.outputs["Generated"], mtex.inputs["Vector"])
+    rough = N.new("ShaderNodeMapRange")
+    rough.inputs["To Min"].default_value = 0.14
+    rough.inputs["To Max"].default_value = 0.75
+    L.new(mtex.outputs["Color"], rough.inputs["Value"])
+    L.new(rough.outputs["Result"], bb.inputs["Roughness"])
+    coat = N.new("ShaderNodeMapRange")
+    coat.inputs["To Min"].default_value = 0.15
+    coat.inputs["To Max"].default_value = 0.0
+    L.new(mtex.outputs["Color"], coat.inputs["Value"])
+    L.new(coat.outputs["Result"], bb.inputs["Coat Weight"])
+    bb.inputs["Coat Roughness"].default_value = 0.06
     panel = slab("WhiteboardPanel", bw, bh, 0.0, 0.010, 0.002, segs=2)
     panel.rotation_euler = rot
     panel.location = (bcx, WALL_Y, bcz)
     panel.data.materials.append(board_m)
-    frame_m = mat_simple("BoardFrame", (0.55, 0.56, 0.58), 0.3, metallic=1.0)
-    t = 0.022
+
+    frame_m, N, L = new_mat("BoardFrame")
+    fb = N["Principled BSDF"]
+    fb.inputs["Base Color"].default_value = (0.78, 0.79, 0.80, 1)
+    fb.inputs["Metallic"].default_value = 1.0
+    fb.inputs["Anisotropic"].default_value = 0.5
+    fn = N.new("ShaderNodeTexNoise")
+    fn.inputs["Scale"].default_value = 400.0
+    fr_ = N.new("ShaderNodeMapRange")
+    fr_.inputs["To Min"].default_value = 0.28
+    fr_.inputs["To Max"].default_value = 0.36
+    L.new(fn.outputs["Fac"], fr_.inputs["Value"])
+    L.new(fr_.outputs["Result"], fb.inputs["Roughness"])
+    cap_m = mat_simple("BoardCorner", (0.10, 0.10, 0.105), 0.45, spec=0.4)
+    t = 0.013                      # thin frame: 13 mm face, 14 mm deep
     for (fw, fh, ox, oz) in [(bw + 2 * t, t, 0, bh / 2 + t / 2), (bw + 2 * t, t, 0, -bh / 2 - t / 2),
                              (t, bh, -bw / 2 - t / 2, 0), (t, bh, bw / 2 + t / 2, 0)]:
-        bar = slab("BoardFrame", fw, fh, 0.0, 0.016, 0.003, segs=3)
+        bar = slab("BoardFrame", fw, fh, 0.0, 0.014, 0.0025, segs=3)
         add_bevel(bar, 0.0012, segments=3)
         bar.rotation_euler = rot
         bar.location = (bcx + ox, WALL_Y, bcz + oz)
         bar.data.materials.append(frame_m)
-    tray = slab("MarkerTray", 0.55, 0.065, 0.0, 0.010, 0.004, segs=3)
-    add_bevel(tray, 0.0015, segments=3)
-    tray.location = (bcx, WALL_Y - 0.0325, bcz - bh / 2 - t - 0.012)
+    for sx in (-1, 1):
+        for sz in (-1, 1):
+            cc = slab("BoardCorner", 0.030, 0.030, 0.0, 0.0175, 0.006, segs=4)
+            add_bevel(cc, 0.002, segments=3)
+            cc.rotation_euler = rot
+            cc.location = (bcx + sx * (bw / 2 + t / 2), WALL_Y, bcz + sz * (bh / 2 + t / 2))
+            cc.data.materials.append(cap_m)
+
+    # tray: a shallow aluminium channel under the board
+    tray_w = 0.90
+    tray_z = bcz - bh / 2 - t - 0.006
+    tray = slab("MarkerTray", tray_w, 0.072, 0.0, 0.006, 0.003, segs=3)
+    add_bevel(tray, 0.0012, segments=3)
+    tray.location = (bcx, WALL_Y - 0.036, tray_z - 0.006)
     tray.data.materials.append(frame_m)
-    lip = slab("MarkerTrayLip", 0.55, 0.004, 0.0, 0.018, 0.0015, segs=2)
-    lip.location = (bcx, WALL_Y - 0.063, bcz - bh / 2 - t - 0.012)
+    lip = slab("MarkerTrayLip", tray_w, 0.004, 0.0, 0.016, 0.0015, segs=2)
+    add_bevel(lip, 0.0008, segments=2)
+    lip.location = (bcx, WALL_Y - 0.070, tray_z - 0.006)
     lip.data.materials.append(frame_m)
-    for i, (mx, col) in enumerate([(-0.12, (0.04, 0.08, 0.30)), (-0.05, (0.03, 0.03, 0.03)),
-                                   (0.10, (0.40, 0.04, 0.03))]):
-        bpy.ops.mesh.primitive_cylinder_add(vertices=24, radius=0.0085, depth=0.13,
-                                            location=(bcx + mx, WALL_Y - 0.035, bcz - bh / 2 - t - 0.002),
-                                            rotation=(0, math.radians(90), math.radians(6 * (i - 1))))
-        mk = bpy.context.active_object; mk.name = "Marker"
-        for p in mk.data.polygons:
-            p.use_smooth = True
-        mk.data.materials.append(mat_simple("Marker%d" % i, col, 0.35, spec=0.5))
+    for ex in (-1, 1):
+        end = slab("MarkerTrayEnd", 0.004, 0.072, 0.0, 0.016, 0.0015, segs=2,
+                   cx=ex * (tray_w / 2 - 0.002))
+        end.location = (bcx, WALL_Y - 0.036, tray_z - 0.006)
+        end.data.materials.append(cap_m)
 
-    # props ------------------------------------------------------------
-    paint = mat_simple("PencilPaint", (0.80, 0.46, 0.012), 0.28, spec=0.5, coat=0.5)
-    ferrule = mat_simple("Ferrule", (0.80, 0.74, 0.58), 0.28, metallic=1.0)
-    eraser = mat_simple("Eraser", (0.78, 0.30, 0.33), 0.75, spec=0.3)
-    wood = mat_simple("PencilWood", (0.52, 0.34, 0.18), 0.7, spec=0.3)
-    graphite = mat_simple("Graphite", (0.03, 0.03, 0.032), 0.35, metallic=0.4)
-    mats = [paint, ferrule, eraser, wood, graphite]
+    # markers: barrel in the ink colour, a darker cap, a white label band
+    def marker(name, ink, x, yaw):
+        root = bpy.data.objects.new(name, None)
+        scene.collection.objects.link(root)
+        root.location = (bcx + x, WALL_Y - 0.040, tray_z + 0.0085)
+        root.rotation_euler = (0, 0, math.radians(yaw))
+        body_m = mat_simple(name + "Body", ink, 0.38, spec=0.5, coat=0.3)
+        cap_c = tuple(c * 0.6 for c in ink)
+        capm = mat_simple(name + "Cap", cap_c, 0.32, spec=0.5, coat=0.3)
+        label = mat_simple(name + "Label", (0.72, 0.72, 0.70), 0.5, spec=0.4)
+        parts = [(0.0085, 0.085, -0.010, body_m), (0.0089, 0.040, 0.050, capm),
+                 (0.0087, 0.030, -0.018, label), (0.0060, 0.008, -0.0565, capm)]
+        for (r, ln, off, mm) in parts:
+            bpy.ops.mesh.primitive_cylinder_add(vertices=32, radius=r, depth=ln,
+                                                location=(0, 0, 0), rotation=(0, math.radians(90), 0))
+            c = bpy.context.active_object
+            c.name = name + "Part"
+            for p in c.data.polygons:
+                p.use_smooth = True
+            add_bevel(c, min(0.0015, r * 0.2), segments=3, angle=40)
+            c.location = (off, 0, 0)
+            c.data.materials.append(mm)
+            c.parent = root
 
-    def pencil(name, length=0.175):
-        bm = bmesh.new()
-        r = 0.0036
-        parts = [  # (material, segments, r1, r2, depth, z centre)
-            (0, 6, r, r, length - 0.032, 0.0),
-            (1, 32, r * 1.04, r * 1.04, 0.009, -(length - 0.032) / 2 - 0.0045),
-            (2, 32, r * 0.97, r * 0.97, 0.007, -(length - 0.032) / 2 - 0.009 - 0.0035),
-            (3, 24, r * 0.97, 0.0009, 0.013, (length - 0.032) / 2 + 0.0065),
-            (4, 24, 0.0009, 0.0001, 0.003, (length - 0.032) / 2 + 0.013 + 0.0015),
-        ]
-        for mi, seg_n, r1, r2, dep, zc in parts:
-            res = bmesh.ops.create_cone(bm, cap_ends=True, cap_tris=False, segments=seg_n,
-                                        radius1=r1, radius2=r2, depth=dep,
-                                        matrix=Matrix.Translation((0, 0, zc)))
-            fs = {f for v in res["verts"] for f in v.link_faces}
-            for f in fs:
-                f.material_index = mi
-                f.smooth = seg_n > 6
-        me = bpy.data.meshes.new(name)
-        bm.to_mesh(me); bm.free()
-        ob = bpy.data.objects.new(name, me)
-        scene.collection.objects.link(ob)
-        for mm in mats:
-            ob.data.materials.append(mm)
-        return ob
+    def eraser(x, yaw):
+        root = bpy.data.objects.new("Eraser", None)
+        scene.collection.objects.link(root)
+        root.location = (bcx + x, WALL_Y - 0.043, tray_z)
+        root.rotation_euler = (0, 0, math.radians(yaw))
+        felt = mat_simple("EraserFelt", (0.05, 0.05, 0.055), 0.95, spec=0.2)
+        shell_m = mat_simple("EraserShell", (0.018, 0.045, 0.11), 0.4, spec=0.5, coat=0.2)
+        f = slab("EraserFelt", 0.135, 0.048, 0.0, 0.010, 0.006, segs=4)
+        add_bevel(f, 0.002, segments=2)
+        f.data.materials.append(felt); f.parent = root
+        sh = slab("EraserShell", 0.132, 0.045, 0.010, 0.030, 0.008, segs=6)
+        add_bevel(sh, 0.006, segments=5, angle=30)
+        sh.data.materials.append(shell_m); sh.parent = root
 
-    # an open tin of pencils at front right
-    tin_m = mat_simple("Tin", (0.030, 0.075, 0.058), 0.38, metallic=0.7)
-    tin_root = bpy.data.objects.new("PencilTin", None)
-    scene.collection.objects.link(tin_root)
+    T = TRAY[ASPECT]
+    eraser(*T["eraser"])
+    for (nm, ink), (x, yaw) in zip([("MarkerBlue", (0.03, 0.08, 0.32)), ("MarkerBlack", (0.025, 0.025, 0.028)),
+                                    ("MarkerRed", (0.42, 0.04, 0.035))], T["markers"]):
+        marker(nm, ink, x, yaw)
+
     P = PROPS[ASPECT]
-    tin_root.location = (P["tin"][0], P["tin"][1], 0.0)
-    tin_root.rotation_euler = (0, 0, math.radians(P["tin"][2]))
-    tin = slab("Tin", 0.195, 0.072, 0.0, 0.0115, 0.006, segs=6)
-    inner = slab("TinInner", 0.189, 0.066, 0.0012, 0.04, 0.004, segs=6)
-    boolean_cut(tin, [inner])
-    add_bevel(tin, 0.0006, segments=2, angle=40)
-    tin.data.materials.append(tin_m)
-    tin.parent = tin_root
-    for i in range(7):
-        p = pencil("Pencil%d" % i, 0.176)
-        p.parent = tin_root
-        p.rotation_euler = (0, math.radians(90), math.radians(0))
-        p.rotation_euler.rotate_axis("Z", math.radians(30 * i))
-        p.location = (0.004 * ((i % 2) - 0.5), -0.0235 + i * 0.0078, 0.0047)
-    loose = pencil("PencilLoose", 0.168)
-    loose.rotation_euler = Euler((math.radians(30), math.radians(90), 0), "XYZ")
-    loose.rotation_euler = (Euler((0, 0, math.radians(P["loose"][2]))).to_matrix() @
-                            Euler((0, math.radians(90), 0)).to_matrix() @
-                            Euler((0, 0, math.radians(30))).to_matrix()).to_euler()
-    loose.location = (P["loose"][0], P["loose"][1], 0.0032)
-
     # two closed books at back left
     def book(name, w, d, h, cover_col, loc, yaw):
         root = bpy.data.objects.new(name, None)
@@ -862,31 +863,299 @@ def build_room(scene):
     book("BookA", 0.240, 0.168, 0.028, (0.055, 0.11, 0.085), (P["bookA"][0], P["bookA"][1], 0.0), P["bookA"][2])
     book("BookB", 0.215, 0.150, 0.022, (0.30, 0.06, 0.04), (P["bookB"][0], P["bookB"][1], 0.028), P["bookB"][2])
 
-    # a plain ceramic mug at back right
-    mug = slab("Mug", 0.084, 0.084, 0.0, 0.095, 0.0419, segs=16)
-    mug_in = slab("MugInner", 0.075, 0.075, 0.007, 0.2, 0.0374, segs=16)
-    boolean_cut(mug, [mug_in])
-    add_bevel(mug, 0.0012, segments=3, angle=35)
-    bpy.ops.mesh.primitive_torus_add(major_radius=0.026, minor_radius=0.0058, major_segments=40,
-                                     minor_segments=16, location=(0.043, 0, 0.050),
-                                     rotation=(math.radians(90), 0, 0))
-    handle = bpy.context.active_object
-    for p in handle.data.polygons:
-        p.use_smooth = True
-    mug_m = mat_simple("Ceramic", (0.70, 0.66, 0.60), 0.22, spec=0.5, coat=0.6)
-    mug.data.materials.append(mug_m); handle.data.materials.append(mug_m)
+    # a used stoneware mug at back right: thrown by hand, so a slight belly
+    # and taper and a little out of round, a rounded lip, an unglazed foot
+    # ring, a satin speckled glaze with the studio's name printed into it,
+    # and coffee inside
     mroot = bpy.data.objects.new("MugRoot", None)
     scene.collection.objects.link(mroot)
     mroot.location = (P["mug"][0], P["mug"][1], 0.0)
     mroot.rotation_euler = (0, 0, math.radians(P["mug"][2]))
-    mug.parent = mroot; handle.parent = mroot
+    mug = mesh_object("Mug", mug_body_bm())
+    handle = mug_handle()
+    coffee = mesh_object("MugCoffee", mug_coffee_bm())
+    # the print faces the camera on the last frame
+    cam_loc = camera_state(ASPECT, FRAMES)[0]
+    world_ang = math.atan2(cam_loc.y - P["mug"][1], cam_loc.x - P["mug"][0])
+    local_ang = world_ang - math.radians(P["mug"][2])
+    u_logo = (math.atan2(math.sin(local_ang), math.cos(local_ang)) / math.tau + 0.5) % 1.0
+    glaze = mat_mug(u_logo, 0.5)   # the handle sits at angle 0, u = 0.5
+    mug.data.materials.append(glaze); handle.data.materials.append(glaze)
+    coffee.data.materials.append(mat_coffee())
+    for o in (mug, handle, coffee):
+        o.parent = mroot
+
+
+def _catmull(pts, sub=4):
+    out = []
+    for i in range(len(pts) - 1):
+        p0 = pts[max(0, i - 1)]; p1 = pts[i]; p2 = pts[i + 1]; p3 = pts[min(len(pts) - 1, i + 2)]
+        for s in range(sub):
+            t = s / sub
+            out.append(tuple(0.5 * ((2 * p1[k]) + (-p0[k] + p2[k]) * t + (2 * p0[k] - 5 * p1[k] + 4 * p2[k] - p3[k]) * t * t
+                                    + (-p0[k] + 3 * p1[k] - 3 * p2[k] + p3[k]) * t ** 3) for k in (0, 1)))
+    out.append(pts[-1])
+    return out
+
+
+MUG_SEGS = 96
+MUG_LIP = (0.0411, 0.0922, 0.00275)   # outer radius at the lip, lip centre height, lip radius
+
+
+def mug_profile():
+    """(radius, z) from the centre of the underside, up the outside, over
+    the rounded lip and down the inside to the centre of the floor."""
+    ro, zc, rl = MUG_LIP
+    under = [(0.0003, 0.0018), (0.024, 0.0018), (0.0295, 0.0006), (0.0325, 0.0), (0.0345, 0.0004),
+             (0.0356, 0.0022), (0.0360, 0.0050), (0.0368, 0.0066)]
+    outside = [(0.0394, 0.0105), (0.0411, 0.0190), (0.0419, 0.0320), (0.0420, 0.0480), (0.0414, 0.0650),
+               (0.0409, 0.0790), (ro, zc - 0.004)]
+    lip = [((ro - rl) + rl * math.cos(math.radians(a)), zc + rl * math.sin(math.radians(a)))
+           for a in range(0, 181, 15)]
+    inside = [(ro - 2 * rl - 0.0001, zc - 0.004), (0.0355, 0.0790), (0.0359, 0.0650), (0.0362, 0.0480),
+              (0.0360, 0.0330), (0.0350, 0.0210), (0.0322, 0.0135), (0.0275, 0.0098), (0.0150, 0.0084),
+              (0.0003, 0.0082)]
+    prof = _catmull(under, 3) + _catmull(outside, 5)[1:] + lip[1:] + _catmull(inside, 5)
+    out = []
+    for p in prof:      # drop points that land on top of each other
+        if not out or math.hypot(p[0] - out[-1][0], p[1] - out[-1][1]) > 1e-5:
+            out.append(p)
+    return out
+
+
+def mug_wobble(r, z, a):
+    """Hand-thrown: out of round by a few tenths of a millimetre, varying with height."""
+    return r * (1.0 + 0.0045 * math.sin(2 * a + 1.3 + 9.0 * z) + 0.0025 * math.sin(3 * a + 0.4 - 14.0 * z)
+                + 0.0015 * math.sin(5 * a + 2.0))
+
+
+def mug_body_bm():
+    prof = mug_profile()
+    bm = bmesh.new()
+    rings = []
+    for k in range(MUG_SEGS):
+        a = math.tau * k / MUG_SEGS
+        rings.append([bm.verts.new((mug_wobble(r, z, a) * math.cos(a), mug_wobble(r, z, a) * math.sin(a), z))
+                      for (r, z) in prof])
+    n = len(prof)
+    for k in range(MUG_SEGS):
+        A, B = rings[k], rings[(k + 1) % MUG_SEGS]
+        for i in range(n - 1):
+            bm.faces.new((A[i], B[i], B[i + 1], A[i + 1]))
+    # close the tiny holes at the two poles
+    bm.faces.new([rings[k][0] for k in range(MUG_SEGS)])
+    bm.faces.new([rings[k][-1] for k in range(MUG_SEGS)])
+    return bm
+
+
+def mug_handle():
+    """A C-shaped handle: a torus with the half inside the wall removed."""
+    bpy.ops.mesh.primitive_torus_add(major_radius=0.026, minor_radius=0.0058, major_segments=48,
+                                     minor_segments=18, location=(0, 0, 0))
+    h = bpy.context.active_object
+    h.name = "MugHandle"
+    M = Matrix.Translation((0.044, 0, 0.050)) @ Matrix.Rotation(math.radians(90), 4, "X") @ \
+        Matrix.Diagonal((1.0, 1.06, 0.82, 1.0))
+    h.data.transform(M)
+    bm = bmesh.new(); bm.from_mesh(h.data)
+    bmesh.ops.delete(bm, geom=[v for v in bm.verts if v.co.x < 0.0375], context="VERTS")
+    bm.to_mesh(h.data); bm.free()
+    for p in h.data.polygons:
+        p.use_smooth = True
+    return h
+
+
+def mug_coffee_bm():
+    """Coffee about 1.5 cm below the rim: a disc tucked into the wall."""
+    bm = bmesh.new()
+    z = MUG_LIP[1] + MUG_LIP[2] - 0.015
+    r = 0.0359
+    vs = [bm.verts.new((r * math.cos(math.tau * k / 64), r * math.sin(math.tau * k / 64), z)) for k in range(64)]
+    bm.faces.new(vs)
+    return bm
+
+
+def mat_coffee():
+    m, N, L = new_mat("Coffee")
+    b = N["Principled BSDF"]
+    b.inputs["Roughness"].default_value = 0.07
+    b.inputs["Specular IOR Level"].default_value = 0.5
+    b.inputs["IOR"].default_value = 1.34
+    tc = N.new("ShaderNodeTexCoord")
+    sep = N.new("ShaderNodeSeparateXYZ")
+    L.new(tc.outputs["Object"], sep.inputs["Vector"])
+    rr = N.new("ShaderNodeVectorMath"); rr.operation = "LENGTH"
+    L.new(tc.outputs["Object"], rr.inputs[0])
+    # a faint lighter ring where the coffee meets the wall
+    edge = N.new("ShaderNodeMapRange")
+    edge.inputs["From Min"].default_value = 0.0320
+    edge.inputs["From Max"].default_value = 0.0356
+    edge.interpolation_type = "SMOOTHSTEP"
+    L.new(rr.outputs["Value"], edge.inputs["Value"])
+    col = N.new("ShaderNodeMix"); col.data_type = "RGBA"
+    sock(col.inputs, "A_Color").default_value = (0.010, 0.0042, 0.0018, 1)
+    sock(col.inputs, "B_Color").default_value = (0.042, 0.020, 0.009, 1)
+    L.new(edge.outputs["Result"], sock(col.inputs, "Factor_Float"))
+    L.new(sock(col.outputs, "Result_Color"), b.inputs["Base Color"])
+    return m
+
+
+def mug_textures(u_logo, u_handle):
+    import shutil
+    import subprocess
+    work = os.path.join(ROOT, "design", "laptop-film", "work")
+    os.makedirs(work, exist_ok=True)
+    gen = os.path.join(ROOT, "scripts", "film", "mug_texture.py")
+    decal = os.path.join(work, "mug-%s-decal.png" % ASPECT)
+    rough = os.path.join(work, "mug-%s-rough.png" % ASPECT)
+    py = shutil.which("python3") or "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3"
+    subprocess.run([py, gen, decal, rough, "%.5f" % u_logo, "%.5f" % u_handle, MUG_FONT], check=True)
+    return decal, rough
+
+
+def mat_mug(u_logo, u_handle):
+    """Satin stoneware glaze over a buff clay body."""
+    m, N, L = new_mat("Stoneware")
+    b = N["Principled BSDF"]
+    b.inputs["Specular IOR Level"].default_value = 0.4
+    tc = N.new("ShaderNodeTexCoord")
+    obj = tc.outputs["Object"]
+    sep = N.new("ShaderNodeSeparateXYZ")
+    L.new(obj, sep.inputs["Vector"])
+    # cylindrical coordinates: u = angle (handle at 0.5), v = z / height
+    at = N.new("ShaderNodeMath"); at.operation = "ARCTAN2"
+    L.new(sep.outputs["Y"], at.inputs[0]); L.new(sep.outputs["X"], at.inputs[1])
+    u = N.new("ShaderNodeMath"); u.operation = "MULTIPLY_ADD"
+    u.inputs[1].default_value = 1.0 / math.tau; u.inputs[2].default_value = 0.5
+    L.new(at.outputs[0], u.inputs[0])
+    v = N.new("ShaderNodeMath"); v.operation = "MULTIPLY"
+    v.inputs[1].default_value = 1.0 / 0.095
+    L.new(sep.outputs["Z"], v.inputs[0])
+    uv = N.new("ShaderNodeCombineXYZ")
+    L.new(u.outputs[0], uv.inputs["X"]); L.new(v.outputs[0], uv.inputs["Y"])
+    decal_p, rough_p = mug_textures(u_logo, u_handle)
+    dec = N.new("ShaderNodeTexImage"); dec.image = bpy.data.images.load(decal_p); dec.image.pack()
+    dec.extension = "EXTEND"; dec.interpolation = "Cubic"
+    L.new(uv.outputs[0], dec.inputs["Vector"])
+    rtx = N.new("ShaderNodeTexImage"); rtx.image = bpy.data.images.load(rough_p); rtx.image.pack()
+    rtx.image.colorspace_settings.name = "Non-Color"; rtx.extension = "EXTEND"
+    L.new(uv.outputs[0], rtx.inputs["Vector"])
+    # outer wall only (the print must not show through on the inside)
+    rad = N.new("ShaderNodeMath"); rad.operation = "SQRT"
+    xx = N.new("ShaderNodeVectorMath"); xx.operation = "DOT_PRODUCT"
+    flat = N.new("ShaderNodeVectorMath"); flat.operation = "MULTIPLY"
+    flat.inputs[1].default_value = (1.0, 1.0, 0.0)
+    L.new(obj, flat.inputs[0])
+    L.new(flat.outputs[0], xx.inputs[0]); L.new(flat.outputs[0], xx.inputs[1])
+    L.new(xx.outputs["Value"], rad.inputs[0])
+    outer = N.new("ShaderNodeMapRange")
+    outer.inputs["From Min"].default_value = 0.0378
+    outer.inputs["From Max"].default_value = 0.0386
+    L.new(rad.outputs[0], outer.inputs["Value"])
+    dmask = N.new("ShaderNodeMath"); dmask.operation = "MULTIPLY"
+    L.new(dec.outputs["Alpha"], dmask.inputs[0]); L.new(outer.outputs["Result"], dmask.inputs[1])
+
+    # glaze colour: the old cream, drifting a few percent, deeper where it pools
+    nz = N.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = 38.0; nz.inputs["Detail"].default_value = 3.0
+    L.new(obj, nz.inputs["Vector"])
+    drift = N.new("ShaderNodeMapRange")
+    drift.inputs["To Min"].default_value = 0.955; drift.inputs["To Max"].default_value = 1.035
+    L.new(nz.outputs["Fac"], drift.inputs["Value"])
+    base = N.new("ShaderNodeMix"); base.data_type = "RGBA"; base.blend_type = "MULTIPLY"
+    sock(base.inputs, "Factor_Float").default_value = 1.0
+    sock(base.inputs, "A_Color").default_value = (0.70, 0.66, 0.60, 1)
+    L.new(drift.outputs["Result"], sock(base.inputs, "B_Color"))
+    pool = N.new("ShaderNodeMapRange")       # 1 at the glaze's bottom edge, 0 by 16 mm up
+    pool.inputs["From Min"].default_value = 0.016
+    pool.inputs["From Max"].default_value = 0.0068
+    pool.interpolation_type = "SMOOTHSTEP"
+    L.new(sep.outputs["Z"], pool.inputs["Value"])
+    pooled = N.new("ShaderNodeMix"); pooled.data_type = "RGBA"
+    L.new(sock(base.outputs, "Result_Color"), sock(pooled.inputs, "A_Color"))
+    sock(pooled.inputs, "B_Color").default_value = (0.56, 0.50, 0.42, 1)
+    pf = N.new("ShaderNodeMath"); pf.operation = "MULTIPLY"; pf.inputs[1].default_value = 0.65
+    L.new(pool.outputs["Result"], pf.inputs[0])
+    L.new(pf.outputs[0], sock(pooled.inputs, "Factor_Float"))
+    printed = N.new("ShaderNodeMix"); printed.data_type = "RGBA"
+    L.new(sock(pooled.outputs, "Result_Color"), sock(printed.inputs, "A_Color"))
+    L.new(dec.outputs["Color"], sock(printed.inputs, "B_Color"))
+    L.new(dmask.outputs[0], sock(printed.inputs, "Factor_Float"))
+    # the foot ring: raw buff clay below a slightly wavy glaze line
+    fz = N.new("ShaderNodeTexNoise"); fz.inputs["Scale"].default_value = 60.0
+    L.new(obj, fz.inputs["Vector"])
+    line = N.new("ShaderNodeMath"); line.operation = "MULTIPLY_ADD"
+    line.inputs[1].default_value = 0.0016; line.inputs[2].default_value = 0.0062
+    L.new(fz.outputs["Fac"], line.inputs[0])
+    dz = N.new("ShaderNodeMath"); dz.operation = "SUBTRACT"
+    L.new(sep.outputs["Z"], dz.inputs[0]); L.new(line.outputs[0], dz.inputs[1])
+    clay = N.new("ShaderNodeMapRange")
+    clay.inputs["From Min"].default_value = 0.0003
+    clay.inputs["From Max"].default_value = -0.0003
+    L.new(dz.outputs[0], clay.inputs["Value"])
+    # ...only on the outside and underside, not the floor inside
+    notin = N.new("ShaderNodeMapRange")
+    notin.inputs["From Min"].default_value = 0.0035
+    notin.inputs["From Max"].default_value = 0.0025
+    L.new(sep.outputs["Z"], notin.inputs["Value"])
+    clay_or = N.new("ShaderNodeMath"); clay_or.operation = "MAXIMUM"
+    cm2 = N.new("ShaderNodeMath"); cm2.operation = "MULTIPLY"
+    L.new(clay.outputs["Result"], cm2.inputs[0]); L.new(outer.outputs["Result"], cm2.inputs[1])
+    L.new(cm2.outputs[0], clay_or.inputs[0]); L.new(notin.outputs["Result"], clay_or.inputs[1])
+    cn = N.new("ShaderNodeTexNoise"); cn.inputs["Scale"].default_value = 900.0
+    L.new(obj, cn.inputs["Vector"])
+    claycol = N.new("ShaderNodeMix"); claycol.data_type = "RGBA"
+    sock(claycol.inputs, "A_Color").default_value = (0.27, 0.20, 0.135, 1)
+    sock(claycol.inputs, "B_Color").default_value = (0.34, 0.26, 0.18, 1)
+    L.new(cn.outputs["Fac"], sock(claycol.inputs, "Factor_Float"))
+    col = N.new("ShaderNodeMix"); col.data_type = "RGBA"
+    L.new(sock(printed.outputs, "Result_Color"), sock(col.inputs, "A_Color"))
+    L.new(sock(claycol.outputs, "Result_Color"), sock(col.inputs, "B_Color"))
+    L.new(clay_or.outputs[0], sock(col.inputs, "Factor_Float"))
+    L.new(sock(col.outputs, "Result_Color"), b.inputs["Base Color"])
+
+    # roughness: satin 0.46, a little variation, glossier where the glaze
+    # pools and where hands have been, raw clay matte
+    rn = N.new("ShaderNodeTexNoise"); rn.inputs["Scale"].default_value = 70.0
+    L.new(obj, rn.inputs["Vector"])
+    r1 = N.new("ShaderNodeMapRange")
+    r1.inputs["To Min"].default_value = 0.43; r1.inputs["To Max"].default_value = 0.50
+    L.new(rn.outputs["Fac"], r1.inputs["Value"])
+    r2 = N.new("ShaderNodeMath"); r2.operation = "MULTIPLY_ADD"     # (map - 0.5) * 0.5
+    r2.inputs[1].default_value = 0.5; r2.inputs[2].default_value = -0.25
+    L.new(rtx.outputs["Color"], r2.inputs[0])
+    r3 = N.new("ShaderNodeMath"); r3.operation = "ADD"
+    L.new(r1.outputs["Result"], r3.inputs[0]); L.new(r2.outputs[0], r3.inputs[1])
+    r4 = N.new("ShaderNodeMath"); r4.operation = "MULTIPLY_ADD"
+    r4.inputs[1].default_value = -0.08
+    L.new(pool.outputs["Result"], r4.inputs[0]); L.new(r3.outputs[0], r4.inputs[2])
+    rmix = N.new("ShaderNodeMix"); rmix.data_type = "FLOAT"
+    L.new(r4.outputs[0], sock(rmix.inputs, "A_Float"))
+    sock(rmix.inputs, "B_Float").default_value = 0.88
+    L.new(clay_or.outputs[0], sock(rmix.inputs, "Factor_Float"))
+    L.new(sock(rmix.outputs, "Result_Float"), b.inputs["Roughness"])
+    # throwing rings and an orange-peel glaze surface, barely there
+    rings = N.new("ShaderNodeTexWave"); rings.bands_direction = "Z"
+    rings.inputs["Scale"].default_value = 26.0
+    rings.inputs["Distortion"].default_value = 2.0
+    L.new(obj, rings.inputs["Vector"])
+    peel = N.new("ShaderNodeTexNoise"); peel.inputs["Scale"].default_value = 1400.0
+    L.new(obj, peel.inputs["Vector"])
+    bsum = N.new("ShaderNodeMath"); bsum.operation = "MULTIPLY_ADD"
+    bsum.inputs[1].default_value = 0.4
+    L.new(peel.outputs["Fac"], bsum.inputs[0]); L.new(rings.outputs["Fac"], bsum.inputs[2])
+    bump = N.new("ShaderNodeBump")
+    bump.inputs["Strength"].default_value = 0.04
+    bump.inputs["Distance"].default_value = 0.00008
+    L.new(bsum.outputs[0], bump.inputs["Height"])
+    L.new(bump.outputs["Normal"], b.inputs["Normal"])
+    return m
 
 
 # --------------------------------------------------------------------- build
 KEY_PITCH = 0.0184
 KEY_GAP = 0.0026
 KB_W = 15 * KEY_PITCH
-KB_BACK = BASE_D / 2 - 0.021          # y of the keyboard's back edge
+KB_BACK = BASE_D / 2 - 0.017          # y of the keyboard's back edge
 FN_H = 0.72
 
 
@@ -936,7 +1205,7 @@ def build_scene():
     keys_m = mat_keys(_kl, _kf)
     rubber = mat_simple("Rubber", (0.008, 0.008, 0.008), 0.7, spec=0.3)
     well_m = mat_simple("WellFloor", (0.10, 0.102, 0.108), 0.45, metallic=1.0)
-    pad_m = mat_simple("TrackpadGlass", (0.085, 0.087, 0.092), 0.28, metallic=0.8, spec=0.5, coat=0.15)
+    pad_m = mat_simple("TrackpadGlass", (0.085, 0.087, 0.092), 0.44, metallic=0.7, spec=0.5)
     hinge_m = mat_simple("Hinge", (0.06, 0.062, 0.066), 0.32, metallic=1.0)
     screen_m = mat_screen()
     floor_m = mat_floor()
@@ -947,8 +1216,9 @@ def build_scene():
     well = slab("WellCut", KB_W + 0.0035, (KB_BACK - kb_front) + 0.0035,
                 BASE_TOP - 0.0013, BASE_TOP + 0.01, 0.0035, segs=6,
                 cy=(KB_BACK + kb_front) / 2)
-    pad_w, pad_d = 0.160, 0.100
-    pad_cy = -BASE_D / 2 + 0.012 + pad_d / 2
+    pad_w = 0.160
+    pad_d = (kb_front - 0.010) - (-BASE_D / 2 + 0.010)   # 10 mm from the keys and the front edge
+    pad_cy = -BASE_D / 2 + 0.010 + pad_d / 2
     pad_cut = slab("PadCut", pad_w + 0.0008, pad_d + 0.0008,
                    BASE_TOP - 0.0009, BASE_TOP + 0.01, 0.0059, segs=8, cy=pad_cy)
     bpy.ops.mesh.primitive_uv_sphere_add(segments=48, ring_count=24, radius=1.0,
@@ -1047,9 +1317,21 @@ def build_scene():
         return ob
 
     area("Key", (-1.05, -0.10, 0.95), (0.0, 0.02, 0.05), 1.0, 0.55, 5, temp=4500, spread=35)
-    area("Rim", (0.6, 1.4, 0.9), (0.0, 0.0, 0.05), 0.9, 0.25, 3.0, temp=7600, spread=40)
+    area("Rim", (0.6, 1.4, 0.9), (0.0, 0.0, 0.05), 0.9, 0.25, 1.8, temp=6200, spread=40)
     area("Top", (0.25, 0.35, 1.6), (0.0, 0.05, 0.0), 0.8, 0.8, 3, temp=5600, spread=60)
-    area("BoardWash", (0.25, WALL_Y - 0.65, 1.35), (0.18, WALL_Y, 0.50), 1.4, 0.30, 11.0, temp=4700, spread=75)
+    bx = BOARD[ASPECT]["x"]
+    area("BoardWash", (bx + 0.07, WALL_Y - 0.65, 1.35), (bx, WALL_Y, 0.50), 1.4, 0.30, 11.0, temp=5300, spread=75)
+    # a second, cooler wash that only the whiteboard sees, so the board reads
+    # white while the wall around it keeps its dark mood
+    bfill = area("BoardFill", (bx + 0.07, WALL_Y - 0.65, 1.35), (bx, WALL_Y, 0.50), 1.4, 0.30, BOARD[ASPECT]["fill"],
+                 temp=6500, spread=75)
+    brd = bpy.data.collections.new("Board")
+    scene.collection.children.link(brd)
+    for o in list(scene.objects):
+        if o.type == "MESH" and o.name.startswith(("Whiteboard", "BoardFrame", "BoardCorner", "MarkerTray",
+                                                   "Marker", "Eraser")):
+            brd.objects.link(o)
+    bfill.light_linking.receiver_collection = brd
 
     # reflection card: a soft gradient panel only glossy rays can see, so
     # the aluminium has a studio softbox to reflect (classic product trick)
@@ -1099,8 +1381,9 @@ def build_scene():
         ob.visible_volume_scatter = False
         return ob
 
-    cb = card("CardBack", (0.95, 1.0, 0.30), (0.0, 0.0, 0.02), 0.75, 0.30, 0.27, (0.86, 0.9, 1.0))
-    cl = card("CardLeft", (-1.0, 0.25, 0.30), (0.0, 0.0, 0.05), 0.7, 0.35, 0.22, (1.0, 0.86, 0.72))
+    # kept faint: the aluminium should read matte satin, not chrome
+    cb = card("CardBack", (0.95, 1.0, 0.30), (0.0, 0.0, 0.02), 0.75, 0.30, 0.11, (0.96, 0.96, 1.0))
+    cl = card("CardLeft", (-1.0, 0.25, 0.30), (0.0, 0.0, 0.05), 0.7, 0.35, 0.14, (1.0, 0.88, 0.76))
 
     # cards and rim only touch the laptop, so the floor stays dark
     lap = bpy.data.collections.new("Laptop")
@@ -1122,7 +1405,7 @@ def build_scene():
     centre, _, _ = screen_frame()
     a, e = math.radians(36.0), math.radians(20.0)
     sloc = centre + Vector((math.sin(a) * math.cos(e), -math.cos(a) * math.cos(e), math.sin(e))) * 1.3
-    streak = card("ScreenStreak", tuple(sloc), tuple(centre), 0.34, 1.3, 11.0, (1.0, 0.95, 0.9))
+    streak = card("ScreenStreak", tuple(sloc), tuple(centre), 0.34, 1.3, 3.0, (1.0, 0.95, 0.9))
     streak.rotation_euler.rotate_axis("Z", math.radians(28))
     cov = bpy.data.collections.new("Cover")
     scene.collection.children.link(cov)
@@ -1266,6 +1549,7 @@ _PHONE_KEYS = [
     (96, -13.0, 11.0, 0.644, PHONE_TARGET),
 ]
 CAM_KEYS = {"desktop": _DESK_KEYS, "phone": _PHONE_KEYS}
+FSTOPS = {"desktop": (7.5, 10.0), "phone": (9.0, 13.0)}   # while opening, at the end
 
 
 def camera_state(aspect, f):
@@ -1282,7 +1566,9 @@ def camera_state(aspect, f):
     # focus: hinge while the lid opens, then the screen
     hinge_pt = Vector((0.0, 0.10, BASE_TOP + 0.002))
     focus_pt = hinge_pt.lerp(centre, smoothstep(42, 72, f))
-    fstop = 4.0 + 1.6 * smoothstep(62, 90, f)
+    # stopped down enough that the whiteboard is only gently soft
+    f0, f1 = FSTOPS[aspect]
+    fstop = f0 + (f1 - f0) * smoothstep(62, 90, f)
     return loc, target, (loc - focus_pt).length, fstop
 
 
@@ -1308,21 +1594,113 @@ def apply_frame(scene, aspect, f):
     bpy.context.view_layer.update()
 
 
-def measure_screen(scene, aspect):
+def _px(scene, co):
+    w, h = scene.render.resolution_x, scene.render.resolution_y
+    v = world_to_camera_view(scene, scene.camera, co)
+    return [v.x * w, (1.0 - v.y) * h]
+
+
+def final_geometry(scene, aspect):
+    """Last frame: the display's active area (tl, tr, br, bl) and the laptop's
+    bounding box, in frame pixels."""
     w, h = ASPECTS[aspect]
     scene.render.resolution_x, scene.render.resolution_y = w, h
     scene.render.resolution_percentage = 100
     apply_frame(scene, aspect, FRAMES)
-    _, _, corners = screen_frame()
-    pts = {}
-    for k, co in corners.items():
-        v = world_to_camera_view(scene, scene.camera, co)
-        pts[k] = (v.x * w, (1.0 - v.y) * h)
-    xs = [p[0] for p in pts.values()]
-    ys = [p[1] for p in pts.values()]
-    rect = {"x": round(min(xs)), "y": round(min(ys)),
-            "w": round(max(xs)) - round(min(xs)), "h": round(max(ys)) - round(min(ys))}
-    return rect, pts
+    _, _, c = screen_frame()
+    quad = [[round(v, 1) for v in _px(scene, c[k])] for k in ("tl", "tr", "br", "bl")]
+    dg = bpy.context.evaluated_depsgraph_get()
+    xs, ys = [], []
+    for o in scene.objects:
+        if o.type != "MESH" or not o.name.startswith(
+                ("Base", "Lid", "Keys", "Trackpad", "Hinge", "ScreenGlass", "Foot", "WellFloor", "CoverGlass")):
+            continue
+        ev = o.evaluated_get(dg)
+        me = ev.to_mesh()
+        for v in me.vertices:
+            p = _px(scene, o.matrix_world @ v.co)
+            xs.append(p[0]); ys.append(p[1])
+        ev.to_mesh_clear()
+    x0, y0, x1, y1 = math.floor(min(xs)), math.floor(min(ys)), math.ceil(max(xs)), math.ceil(max(ys))
+    return {"w": w, "h": h, "dir": "/film/%s/" % aspect, "screenQuad": quad,
+            "laptopBox": {"x": x0, "y": y0, "w": x1 - x0, "h": y1 - y0}}
+
+
+MUG_TOP, MUG_R = 0.095, 0.0411     # rim height and outer radius at the lip (see mug_profile)
+
+
+def mug_track(scene, aspect):
+    """Per frame: the centre of the mug's opening and the rim's radius in
+    frame pixels (half the rim ellipse's width), for the website's steam.
+    Also prints any frame where the mug is cut by the frame edge or partly
+    hidden behind the laptop."""
+    w, h = ASPECTS[aspect]
+    scene.render.resolution_x, scene.render.resolution_y = w, h
+    scene.render.resolution_percentage = 100
+    root = bpy.data.objects["MugRoot"]
+    mug = bpy.data.objects["Mug"]
+    track, cut, hidden, blockers = [], [], [], set()
+    for f in range(1, FRAMES + 1):
+        apply_frame(scene, aspect, f)
+        dg = bpy.context.evaluated_depsgraph_get()
+        M = root.matrix_world
+        c = _px(scene, M @ Vector((0, 0, MUG_TOP)))
+        rim = [_px(scene, M @ Vector((MUG_R * math.cos(a), MUG_R * math.sin(a), MUG_TOP)))
+               for a in [i * math.tau / 64 for i in range(64)]]
+        r = (max(p[0] for p in rim) - min(p[0] for p in rim)) / 2
+        track.append([round(c[0], 1), round(c[1], 1), round(r, 1)])
+        # cut off: any part of the mug (handle included) outside the frame
+        pts = []
+        for o in (mug, bpy.data.objects["MugHandle"]):
+            ev = o.evaluated_get(dg)
+            me = ev.to_mesh()
+            pts += [_px(scene, o.matrix_world @ v.co) for v in me.vertices]
+            ev.to_mesh_clear()
+        if min(p[0] for p in pts) < 0 or max(p[0] for p in pts) > w or \
+                min(p[1] for p in pts) < 0 or max(p[1] for p in pts) > h:
+            cut.append(f)
+        # hidden: rays from the camera to points on the near side of the
+        # mug and its rim that hit something else first
+        cam = scene.camera.matrix_world.translation
+        samples, blocked = 0, 0
+        for a in [i * math.tau / 24 for i in range(24)]:
+            for z in (0.01, 0.035, 0.06, 0.085, MUG_TOP):
+                wp = M @ Vector((MUG_R * math.cos(a), MUG_R * math.sin(a), z))
+                nrm = (M.to_3x3() @ Vector((math.cos(a), math.sin(a), 0))).normalized()
+                if z < MUG_TOP and nrm.dot(cam - wp) <= 0:
+                    continue
+                samples += 1
+                o_, end = cam.copy(), wp
+                while True:     # step through things the camera cannot see (reflection cards)
+                    d = end - o_
+                    hit, loc, _, _, ob, _ = scene.ray_cast(dg, o_, d.normalized(), distance=d.length - 0.002)
+                    if hit and not ob.visible_camera:
+                        o_ = loc + d.normalized() * 0.0005
+                        continue
+                    break
+                if hit and not ob.name.startswith("Mug"):
+                    blocked += 1
+                    blockers.add(ob.name)
+        if blocked:
+            hidden.append((f, round(100.0 * blocked / samples)))
+    print("MUG", aspect, "cut by frame edge:", cut or "none")
+    print("MUG", aspect, "hidden behind something (frame, % of samples):", hidden or "none", sorted(blockers))
+    return track
+
+
+def manifest_json(man):
+    """Indented JSON with each point or steam entry on one line."""
+    txt = json.dumps(man, indent=2)
+    import re
+    return re.sub(r"\[\s+(-?[\d.]+),\s+(-?[\d.]+)(?:,\s+(-?[\d.]+))?\s+\]",
+                  lambda m: "[" + ", ".join(g for g in m.groups() if g is not None) + "]", txt) + "\n"
+
+
+def configure(aspect):
+    global ASPECT, WALL_Y
+    ASPECT = aspect
+    # the portrait camera sees the board large: it hangs further back
+    WALL_Y = 1.55 if aspect == "phone" else 0.95
 
 
 # ----------------------------------------------------------------------- main
@@ -1352,57 +1730,29 @@ def main():
     ap.add_argument("--overwrite", action="store_true", help="seq: re-render existing frames")
     args = ap.parse_args(argv)
 
-    global ASPECT, WALL_Y, SKETCH
-    ASPECT = args.aspect
-    if ASPECT == "phone":
-        # portrait camera sees the board large: push it back and keep the
-        # sketch faint, thin and muted so the eye stays on the laptop
-        WALL_Y = 1.55
-        SKETCH = {"width": 0.5, "alpha": 0.45, "red": (0.20, 0.10, 0.09)}
-    scene = build_scene()
     out = os.path.join(ROOT, args.out) if not os.path.isabs(args.out) else args.out
     os.makedirs(out, exist_ok=True)
 
     if args.mode == "manifest":
-        man = {"frames": FRAMES}
+        # each camera has its own props and wall, so each is built and measured
+        man = {"frames": FRAMES, "ext": "jpg"}
         for asp in ("desktop", "phone"):
-            rect, pts = measure_screen(scene, asp)
-            w, h = ASPECTS[asp]
-            man[asp] = {"w": w, "h": h, "dir": "/film/%s/" % asp, "screen": rect}
-            print("CORNERS", asp, {k: (round(x, 3), round(y, 3)) for k, (x, y) in pts.items()})
-        man["ext"] = "jpg"
+            configure(asp)
+            scene = build_scene()
+            man[asp] = final_geometry(scene, asp)
+            man[asp]["steam"] = mug_track(scene, asp)
         path = os.path.join(out, "manifest.json")
         with open(path, "w") as fh:
-            json.dump(man, fh, indent=2)
-        print("MANIFEST", json.dumps(man))
+            fh.write(manifest_json(man))
+        print("MANIFEST", path)
         return
 
-    if args.mode == "geometry":
-        w, h = ASPECTS[args.aspect]
-        scene.render.resolution_x, scene.render.resolution_y = w, h
-        scene.render.resolution_percentage = 100
-        apply_frame(scene, args.aspect, FRAMES)
-        _, _, c = screen_frame()
+    configure(args.aspect)
+    scene = build_scene()
 
-        def px(co):
-            v = world_to_camera_view(scene, scene.camera, co)
-            return [round(v.x * w, 1), round((1.0 - v.y) * h, 1)]
-        quad = [px(c["tl"]), px(c["tr"]), px(c["br"]), px(c["bl"])]
-        dg = bpy.context.evaluated_depsgraph_get()
-        xs, ys = [], []
-        for o in scene.objects:
-            if o.type != "MESH" or not o.name.startswith(
-                    ("Base", "Lid", "Keys", "Trackpad", "Hinge", "ScreenGlass", "Foot", "WellFloor", "CoverGlass")):
-                continue
-            ev = o.evaluated_get(dg)
-            me = ev.to_mesh()
-            for v in me.vertices:
-                p = px(o.matrix_world @ v.co)
-                xs.append(p[0]); ys.append(p[1])
-            ev.to_mesh_clear()
-        x0, y0, x1, y1 = math.floor(min(xs)), math.floor(min(ys)), math.ceil(max(xs)), math.ceil(max(ys))
-        geo = {"frame": FRAMES, "w": w, "h": h, "screenQuad": quad,
-               "laptopBox": {"x": x0, "y": y0, "w": x1 - x0, "h": y1 - y0}}
+    if args.mode == "geometry":
+        geo = final_geometry(scene, args.aspect)
+        geo["frame"] = FRAMES
         path = os.path.join(out, "final-geometry.json" if args.aspect == "desktop"
                             else "final-geometry-%s.json" % args.aspect)
         with open(path, "w") as fh:

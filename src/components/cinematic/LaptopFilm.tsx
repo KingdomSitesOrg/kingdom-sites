@@ -336,7 +336,7 @@ function startSteam(canvas: HTMLCanvasElement) {
     spawn += dt * 30
     while (spawn >= 1) {
       spawn -= 1
-      ps.push({ x: (Math.random() - 0.5) * 1.3, age: 0, life: 5.5 + Math.random() * 2.5, seed: Math.random() * 100, drift: (Math.random() - 0.5) * 0.5 })
+      ps.push({ x: (Math.random() - 0.5) * 1.2, age: 0, life: 5.5 + Math.random() * 2.5, seed: Math.random() * 100, drift: (Math.random() - 0.5) * 0.5 })
     }
     const w = canvas.width
     const h = canvas.height
@@ -351,15 +351,15 @@ function startSteam(canvas: HTMLCanvasElement) {
         continue
       }
       // Up about ten radii over its life, slowing; a slow sway that grows as it rises.
-      const rise = 9.5 * (1 - Math.pow(1 - k, 1.35))
+      const rise = 9.5 * Math.pow(k, 1.15)
       const sway = Math.sin(p.seed + p.age * 0.75) * (0.2 + rise * 0.14) + p.drift * rise * 0.45
       const cx = w / 2 + (p.x + sway) * R
       const cy = h - rise * R
       const size = R * (0.28 + k * 1.7)
       // In quickly, out slowly; faint throughout, the way steam is.
-      const a = Math.min(1, k * 8) * Math.pow(1 - k, 1.5) * 0.16
+      const a = Math.min(1, k * 30) * Math.pow(1 - k, 1.5) * 0.17
       ctx.globalAlpha = a
-      ctx.drawImage(puff, cx - size / 2, cy - size, size, size * 2)
+      ctx.drawImage(puff, cx - size / 2, cy - size * 1.4, size, size * 2)
     }
     ctx.globalAlpha = 1
     raf = requestAnimationFrame(frame)
