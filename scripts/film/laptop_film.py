@@ -227,7 +227,7 @@ def mat_aluminium(name, color, grilles=False):
     tan.axis = "Y"
     L.new(tan.outputs["Tangent"], bsdf.inputs["Tangent"])
 
-    # roughness: matte satin (bead-blasted), 0.44 with a broad and a fine
+    # roughness: matte satin (bead-blasted), 0.49 with a broad and a fine
     # noise so the soft highlights break up
     n_big = N.new("ShaderNodeTexNoise")
     n_big.inputs["Scale"].default_value = 18.0
@@ -238,8 +238,8 @@ def mat_aluminium(name, color, grilles=False):
     n_fine.inputs["Detail"].default_value = 2.0
     L.new(tc.outputs["Object"], n_fine.inputs["Vector"])
     r1 = N.new("ShaderNodeMapRange")
-    r1.inputs["To Min"].default_value = 0.40
-    r1.inputs["To Max"].default_value = 0.48
+    r1.inputs["To Min"].default_value = 0.45
+    r1.inputs["To Max"].default_value = 0.53
     L.new(n_big.outputs["Fac"], r1.inputs["Value"])
     r2 = N.new("ShaderNodeMapRange")
     r2.inputs["To Min"].default_value = -0.035
@@ -359,8 +359,8 @@ def mat_keys(keys, kb_front):
     m, N, L = new_mat("KeyCaps")
     b = N["Principled BSDF"]
     # near-black matte plastic (#111214), a tiny sheen, edges a touch lighter
-    b.inputs["Specular IOR Level"].default_value = 0.5
-    b.inputs["Sheen Weight"].default_value = 0.12
+    b.inputs["Specular IOR Level"].default_value = 0.35
+    b.inputs["Sheen Weight"].default_value = 0.06
     b.inputs["Sheen Roughness"].default_value = 0.45
     tc = N.new("ShaderNodeTexCoord")
     nz = N.new("ShaderNodeTexNoise")
@@ -459,11 +459,11 @@ def mat_cover_glass():
     N.remove(N["Principled BSDF"])
     tr = N.new("ShaderNodeBsdfTransparent")
     gl = N.new("ShaderNodeBsdfGlossy")
-    gl.inputs["Roughness"].default_value = 0.05
+    gl.inputs["Roughness"].default_value = 0.07
     fr = N.new("ShaderNodeFresnel")
     fr.inputs["IOR"].default_value = 1.52
     ar = N.new("ShaderNodeMath"); ar.operation = "MULTIPLY"
-    ar.inputs[1].default_value = 0.5
+    ar.inputs[1].default_value = 0.4
     L.new(fr.outputs["Fac"], ar.inputs[0])
     L.new(ar.outputs[0], gl.inputs["Color"])
     add = N.new("ShaderNodeAddShader")
@@ -1205,7 +1205,7 @@ def build_scene():
     keys_m = mat_keys(_kl, _kf)
     rubber = mat_simple("Rubber", (0.008, 0.008, 0.008), 0.7, spec=0.3)
     well_m = mat_simple("WellFloor", (0.10, 0.102, 0.108), 0.45, metallic=1.0)
-    pad_m = mat_simple("TrackpadGlass", (0.085, 0.087, 0.092), 0.44, metallic=0.7, spec=0.5)
+    pad_m = mat_simple("TrackpadGlass", (0.085, 0.087, 0.092), 0.49, metallic=0.7, spec=0.5)
     hinge_m = mat_simple("Hinge", (0.06, 0.062, 0.066), 0.32, metallic=1.0)
     screen_m = mat_screen()
     floor_m = mat_floor()
