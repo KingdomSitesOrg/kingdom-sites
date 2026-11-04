@@ -66,8 +66,11 @@ const AUTO_MS = 4000
 /* The cursor's moves run this much faster than the times written in the loop. */
 const SPEED = 1.15
 
-/* The app's screenshots: 1800 x 1095, the app's own beta strip cropped off. */
-const APP_W = 1800
+/* The live screen is the render's 16:10 display: the app's screenshots are
+   1800 x 1095 (its own beta strip cropped off), shown at full size with 48 px
+   off the right, so nothing is squeezed. */
+const SHOT_W = 1800
+const APP_W = 1752
 const APP_H = 1095
 
 type Screen = 'home' | 'classes' | 'students' | 'analytics'
@@ -307,8 +310,9 @@ function startSteam(canvas: HTMLCanvasElement) {
   const pc = puff.getContext('2d')
   if (pc) {
     const g = pc.createRadialGradient(32, 32, 0, 32, 32, 32)
-    g.addColorStop(0, 'rgba(255,255,255,1)')
-    g.addColorStop(0.45, 'rgba(255,255,255,0.45)')
+    g.addColorStop(0, 'rgba(255,255,255,0.7)')
+    g.addColorStop(0.35, 'rgba(255,255,255,0.28)')
+    g.addColorStop(0.7, 'rgba(255,255,255,0.035)')
     g.addColorStop(1, 'rgba(255,255,255,0)')
     pc.fillStyle = g
     pc.fillRect(0, 0, 64, 64)
@@ -352,7 +356,7 @@ function startSteam(canvas: HTMLCanvasElement) {
     spawn += dt * 10
     while (spawn >= 1) {
       spawn -= 1
-      ps.push({ x: (Math.random() - 0.5) * 1.2, age: 0, life: 9 + Math.random() * 4, seed: Math.random() * 100, drift: (Math.random() - 0.5) * 0.5 })
+      ps.push({ x: (Math.random() - 0.5) * 0.8, age: 0, life: 9 + Math.random() * 4, seed: Math.random() * 100, drift: (Math.random() - 0.5) * 0.5 })
     }
     const w = canvas.width
     const h = canvas.height
@@ -368,14 +372,16 @@ function startSteam(canvas: HTMLCanvasElement) {
       }
       // Up about three radii over its life, just above the cup, then gone; a slow sway that grows as it rises.
       const rise = 3.4 * Math.pow(k, 1.15)
-      const sway = Math.sin(p.seed + p.age * 0.38) * (0.2 + rise * 0.2) + p.drift * rise * 0.6
+      const sway = Math.sin(p.seed + p.age * 0.38) * (0.12 + rise * 0.12) + p.drift * rise * 0.4
       const cx = w / 2 + (p.x + sway) * R
       const cy = h - rise * R
       const size = R * (0.28 + k * 1.3)
-      // In quickly, out slowly; faint throughout, the way steam is.
-      const a = Math.min(1, k * 30) * Math.pow(1 - k, 1.5) * 0.13
+      const width = R * (0.2 + k * 0.68)
+      // Ease in at the rim, then fade away; keep the wisps tall and narrow.
+      const fadeIn = Math.min(1, k * 12)
+      const a = fadeIn * fadeIn * (3 - 2 * fadeIn) * Math.pow(1 - k, 1.5) * 0.085
       ctx.globalAlpha = a
-      ctx.drawImage(puff, cx - size / 2, cy - size * 1.4, size, size * 2)
+      ctx.drawImage(puff, cx - width / 2, cy - size * 1.4, width, size * 2)
     }
     ctx.globalAlpha = 1
     raf = requestAnimationFrame(frame)
@@ -635,7 +641,10 @@ export default function LaptopFilm() {
           const on = fs.screenOn?.[idx] ?? 1
           if (sq) live.style.transform = quadMatrix(APP_W, APP_H, sq.map(([x, y]) => [ox + x * s, oy + y * s] as Pt))
           live.style.opacity = sq ? Math.min(1, on * 4).toFixed(3) : '0'
-          dim.style.opacity = (1 - on).toFixed(3)
+          // The manifest gives linear light; CSS opacity needs display brightness.
+          dim.style.opacity = (1 - Math.pow(on, 1 / 2.2)).toFixed(3)
+        } else {
+          dim.style.opacity = '0'
         }
         const at = fs.steam?.[idx]
         if (at && !reduce.matches) steam.place(ox + at[0] * s, oy + at[1] * s, at[2], s)
@@ -760,7 +769,7 @@ export default function LaptopFilm() {
           <div className="kf-shots">
             {(Object.keys(SHOTS) as Screen[]).map((k) => (
               // eslint-disable-next-line @next/next/no-img-element
-              <img key={k} data-screen={k} src={SHOTS[k]} alt="" width={APP_W} height={APP_H} decoding="async" className={k === 'home' ? 'is-on' : undefined} />
+              <img key={k} data-screen={k} src={SHOTS[k]} alt="" width={SHOT_W} height={APP_H} decoding="async" className={k === 'home' ? 'is-on' : undefined} />
             ))}
           </div>
           <div className="kf-hover" />
