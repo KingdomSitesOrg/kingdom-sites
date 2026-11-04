@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/analytics", "/dashboard", "/login", "/auth", "/billing", "/sign", "/api/sign", "/feedback", "/api/feedback", "/inbox", "/api/chat"],
+      disallow: ["/analytics", "/dashboard", "/login", "/auth", "/billing", "/sign", "/api/sign", "/feedback", "/api/feedback", "/inbox", "/api/chat", "/call-desk"],
     },
     sitemap: "https://kingdom-sites.com/sitemap.xml",
   };
