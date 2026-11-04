@@ -457,6 +457,7 @@ export default function LaptopFilm() {
     let oy = 0
     let drawn = -1
     let drawnKey = ''
+    let measured = ''
     let lastFade = -1
     let raf = 0
     let dead = false
@@ -557,6 +558,10 @@ export default function LaptopFilm() {
         if (fs.h * s >= H) oy = within(H - fs.h * s, 0, oy)
       }
       dpr = Math.min(2, window.devicePixelRatio || 1)
+      // Nothing moved (a phone's toolbar sliding away fires a resize): leave the picture alone.
+      const geo = [kind, fs.dir, fs.w, fs.h, W, H, dpr, s, ox, oy, reduce.matches].join('|')
+      if (geo === measured) return
+      measured = geo
       // Resizing a canvas clears it and costs a new buffer: only when the size really changes.
       const cw = Math.round(W * dpr)
       const ch = Math.round(H * dpr)
@@ -571,7 +576,13 @@ export default function LaptopFilm() {
       const screenPx = Math.hypot(qd[1][0] - qd[0][0], qd[1][1] - qd[0][1])
       const arrowPx = (ARROW_W * screenPx) / APP_W
       live.style.setProperty('--kf-cur', String(Math.max(1, MIN_ARROW_PX / Math.max(1, arrowPx)) * ARROW_SCALE))
+      // Draw the same frame again at once, in this same frame of the page: left to
+      // the next one, the live screen showed for a frame on the corners above
+      // (the render's frame 96, not the frame on screen, since the film now ends
+      // on 87) and the canvas went blank.
+      const again = drawn
       drawn = -1
+      if (again >= 0 && ready[kind][again]) paint(again)
       schedule()
     }
 
@@ -640,34 +651,7 @@ export default function LaptopFilm() {
         if (ready[kind][want - d]) idx = want - d
         else if (ready[kind][want + d]) idx = want + d
       }
-      const key = `${kind}:${idx}`
-      if (idx >= 0 && (key !== drawnKey || drawn < 0)) {
-        const img = imgs[kind][idx]!
-        ctx.setTransform(1, 0, 0, 1, 0, 0)
-        ctx.fillStyle = '#0b0b0c'
-        ctx.fillRect(0, 0, canvas.width, canvas.height)
-        ctx.imageSmoothingQuality = 'high'
-        const k = (s * dpr * fs.w) / img.naturalWidth
-        ctx.drawImage(img, ox * dpr, oy * dpr, img.naturalWidth * k, img.naturalHeight * k)
-        if (drawn < 0 && poster) poster.style.visibility = 'hidden'
-        drawn = idx
-        drawnKey = key
-        // The sharp app sits on the display in every frame it can be seen, dimmed
-        // as the screen wakes, so the screen never looks soft while the lid opens.
-        if (fs.screenQuads && !reduce.matches) {
-          const sq = fs.screenQuads[idx]
-          const on = fs.screenOn?.[idx] ?? 1
-          if (sq) live.style.transform = quadMatrix(APP_W, APP_H, sq.map(([x, y]) => [ox + x * s, oy + y * s] as Pt))
-          live.style.opacity = sq ? Math.min(1, on * 4).toFixed(3) : '0'
-          // The manifest gives linear light; CSS opacity needs display brightness.
-          dim.style.opacity = (1 - Math.pow(on, 1 / 2.2)).toFixed(3)
-        } else {
-          dim.style.opacity = '0'
-        }
-        const at = fs.steam?.[idx]
-        if (at && !reduce.matches) steam.place(ox + at[0] * s, oy + at[1] * s, at[2], s)
-        else steam.hide()
-      }
+      if (idx >= 0 && (`${kind}:${idx}` !== drawnKey || drawn < 0)) paint(idx)
 
       // The live screen comes up over the render's own screen on the last frames.
       const fade = reduce.matches ? 1 : clamp((at - (n - 1 - FADE_FRAMES)) / FADE_FRAMES)
@@ -721,6 +705,37 @@ export default function LaptopFilm() {
       window.addEventListener('touchmove', stop, { passive: false })
       window.addEventListener('keydown', keys)
       holdTimer = window.setTimeout(release, ms)
+    }
+
+    // One frame of the film on the canvas, with the live screen and the steam on it.
+    function paint(idx: number) {
+      const fs = set()
+      const img = imgs[kind][idx]
+      if (!img || !ctx) return
+      ctx.setTransform(1, 0, 0, 1, 0, 0)
+      ctx.fillStyle = '#0b0b0c'
+      ctx.fillRect(0, 0, canvas!.width, canvas!.height)
+      ctx.imageSmoothingQuality = 'high'
+      const k = (s * dpr * fs.w) / img.naturalWidth
+      ctx.drawImage(img, ox * dpr, oy * dpr, img.naturalWidth * k, img.naturalHeight * k)
+      if (drawn < 0 && poster) poster.style.visibility = 'hidden'
+      drawn = idx
+      drawnKey = `${kind}:${idx}`
+      // The sharp app sits on the display in every frame it can be seen, dimmed
+      // as the screen wakes, so the screen never looks soft while the lid opens.
+      if (fs.screenQuads && !reduce.matches) {
+        const sq = fs.screenQuads[idx]
+        const on = fs.screenOn?.[idx] ?? 1
+        if (sq) live!.style.transform = quadMatrix(APP_W, APP_H, sq.map(([x, y]) => [ox + x * s, oy + y * s] as Pt))
+        live!.style.opacity = sq ? Math.min(1, on * 4).toFixed(3) : '0'
+        // The manifest gives linear light; CSS opacity needs display brightness.
+        dim.style.opacity = (1 - Math.pow(on, 1 / 2.2)).toFixed(3)
+      } else {
+        dim.style.opacity = '0'
+      }
+      const at = fs.steam?.[idx]
+      if (at && !reduce.matches) steam.place(ox + at[0] * s, oy + at[1] * s, at[2], s)
+      else steam.hide()
     }
 
     function schedule() {
