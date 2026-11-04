@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from 'react'
 
-/* The top line: "I build" and then what, changing every couple of seconds.
-   Every word sits in the same grid cell, so the line never changes size and
-   nothing below it moves. People who ask for less motion see the first word.
+/* The top of the page: "I build" and, below it, what, changing every couple of
+   seconds; large and centred, filling the first part of the screen. Every word
+   sits in the same grid cell, so the line never changes size and nothing below
+   it moves. People who ask for less motion see the first word.
    The line waits for its own font before it shows, then fades in, so it never
    appears in a stand-in font and jumps when the real one arrives. */
 const WORDS = ['apps.', 'websites.', 'custom software.', 'web apps.']
@@ -39,10 +40,10 @@ export default function BuildWords() {
   }, [shown])
 
   return (
-    <h1 className="cn-display cn-h2 kf-build" data-shown={shown ? '' : undefined}>
+    <h1 className="cn-display kf-build" data-shown={shown ? '' : undefined}>
       <span className="sr-only">I build apps, websites and custom software.</span>
       <span aria-hidden="true" className="kf-build-line">
-        I build{' '}
+        <span className="kf-build-lead">I build</span>
         <span className="kf-words">
           {WORDS.map((w, n) => (
             <span key={w} className={n === i ? 'is-on' : n === (i + WORDS.length - 1) % WORDS.length ? 'is-off' : undefined}>

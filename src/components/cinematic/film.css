@@ -54,9 +54,14 @@
 /* After the film: a line, then the question. */
 .kf-ask { text-align: center; padding-block: clamp(88px, 12vw, 168px) clamp(72px, 9vw, 128px); }
 
+/* The headline, large and centred: "I build" over the changing word, sized so
+   the longest word ("custom software.") nearly fills the width. */
+.kf-build { font-size: min(calc((100vw - 2 * var(--gutter, 16px)) * 0.162), 21svh); line-height: 0.9; text-align: center; }
+.kf-build-lead { display: block; }
+
 /* The plain strip at the top: a little over half the screen, on a phone too,
    so the film starts low, its top just showing below the line. */
-.kf-strip { display: flex; flex-direction: column; justify-content: center; padding-block: 40px 48px; min-height: calc(52svh - 61px); }
+.kf-strip { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding-block: 40px 48px; min-height: calc(52svh - 61px); }
 @media (min-width: 760px) { .kf-strip { min-height: calc(64svh - 61px); padding-block: 48px; } }
 
 /* The top line's changing word: every word in one grid cell, so the line keeps
@@ -65,7 +70,7 @@
    heading's tight line height leaves the tails of p and y outside the box, and
    while a word moves the browser drew only what was inside it, so the tails
    snapped in at the end. Opacity and movement only, no blur, for the same reason. */
-.kf-words { display: inline-grid; vertical-align: top; white-space: nowrap; }
+.kf-words { display: grid; justify-items: center; white-space: nowrap; }
 .kf-words > span { grid-area: 1 / 1; padding-block: 0.1em 0.25em; margin-block: -0.1em -0.25em; opacity: 0; transform: translateY(0.32em); transition: opacity 0.55s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1); }
 .kf-words > span.is-on { opacity: 1; transform: none; }
 .kf-words > span.is-off { transform: translateY(-0.32em); }
@@ -74,7 +79,7 @@
 }
 /* The line shows once its font is in (BuildWords.tsx), and on its own after a
    moment if the script never runs. */
-.kf-build-line { display: inline-block; padding-bottom: 0.25em; margin-bottom: -0.25em; opacity: 0; transform: translateY(0.12em); animation: kf-build-in 0.6s ease 2.5s forwards; }
+.kf-build-line { display: block; padding-bottom: 0.25em; margin-bottom: -0.25em; opacity: 0; transform: translateY(0.12em); animation: kf-build-in 0.6s ease 2.5s forwards; }
 .kf-build[data-shown] .kf-build-line { animation: kf-build-go 0.6s ease forwards; }
 @keyframes kf-build-in { to { opacity: 1; transform: none; } }
 @keyframes kf-build-go { to { opacity: 1; transform: none; } }

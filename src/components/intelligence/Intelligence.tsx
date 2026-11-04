@@ -484,7 +484,7 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
               {' · '}
             </>
           ) : null}
-          Answers by Claude Haiku from this site, and can be wrong.
+          Powered by Kingdom Sites Intelligence. Uses AI, grounded in my responses.
         </p>
       </section>
     </div>
