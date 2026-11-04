@@ -4,7 +4,7 @@ import type { Metadata } from 'next'
 import CinematicChrome from '@/components/cinematic/Chrome'
 import CaseTitle from '@/components/cinematic/CaseTitle'
 import DotNav from '@/components/cinematic/DotNav'
-import { Browser, Phone } from '@/components/cinematic/Frames'
+import { APP_PHONE_SIZES, Browser, Phone } from '@/components/cinematic/Frames'
 import LatinPartner from '@/components/cinematic/LatinPartner'
 import Scroll from '@/components/cinematic/Scroll'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
@@ -197,13 +197,13 @@ export default function Portfolio() {
             />
           </div>
         </div>
-        <Scroll className="cn-wrap mt-16 pb-24 sm:mt-20">
-          <div className="cn-depth mx-auto max-w-[1180px]">
-            {[SHOTS.latinHome, SHOTS.latinMap, SHOTS.latinCase, SHOTS.latinBoard].map((s) => (
-              <Phone key={s.src} shot={s} />
+        <div className="cn-wrap mt-12 pb-16 sm:mt-20 sm:pb-24">
+          <div className="cn-apps">
+            {[SHOTS.latinHome, SHOTS.latinMap, SHOTS.latinCase].map((s) => (
+              <Phone key={s.src} shot={s} sizes={APP_PHONE_SIZES} />
             ))}
           </div>
-        </Scroll>
+        </div>
       </section>
 
       {/* Ruta: contract work, said plainly, with the crew app's own screens. */}
@@ -247,13 +247,13 @@ export default function Portfolio() {
             </div>
           </div>
         </div>
-        <Scroll className="cn-wrap mt-16 pb-24 sm:mt-20">
-          <div className="cn-depth cn-depth-row mx-auto max-w-[1180px]">
+        <div className="cn-wrap mt-12 pb-16 sm:mt-20 sm:pb-24">
+          <div className="cn-apps">
             {[SHOTS.rutaQueue, SHOTS.rutaVisit, SHOTS.rutaTime].map((s) => (
-              <Phone key={s.src} shot={s} />
+              <Phone key={s.src} shot={s} sizes={APP_PHONE_SIZES} />
             ))}
           </div>
-        </Scroll>
+        </div>
       </section>
 
       {/* KCUPG: a website of my own design and build, with its dashboard and map. */}

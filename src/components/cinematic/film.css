@@ -148,12 +148,3 @@
 
 /* Dims the live screen while the display wakes up during the opening. */
 .kf-dim { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; }
-
-/* The apps: three phones each, the same size, level, in one row on a
-   computer; on a phone, big enough to read, side by side in a row you swipe. */
-.kf-apps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 48px); max-width: 1080px; margin-inline: auto; }
-@media (max-width: 759px) {
-  .kf-apps { display: flex; gap: 14px; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); overscroll-behavior-x: contain; scrollbar-width: none; padding-bottom: 8px; }
-  .kf-apps::-webkit-scrollbar { display: none; }
-  .kf-apps > * { flex: 0 0 72%; scroll-snap-align: start; }
-}

@@ -2,7 +2,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import CinematicChrome from '@/components/cinematic/Chrome'
 import BuildWords from '@/components/cinematic/BuildWords'
-import { Browser, Phone } from '@/components/cinematic/Frames'
+import { APP_PHONE_SIZES, Browser, Phone } from '@/components/cinematic/Frames'
 import LatinPartner from '@/components/cinematic/LatinPartner'
 import LaptopFilm from '@/components/cinematic/LaptopFilm'
 import Scroll from '@/components/cinematic/Scroll'
@@ -37,9 +37,6 @@ const FARZANA_BOOK = '/farzana/book'
 
 /* A quiet text link: underlined, no pill. */
 const TEXT_LINK = 'text-[var(--fg)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-current'
-
-/* Each app shows three phones, all the same size (film.css, .kf-apps). */
-const APP_PHONE_SIZES = '(max-width: 759px) 72vw, 340px'
 
 /* Three of STRATA's own stills, its most colourful, cross-fading in the band. */
 const STRATA_STILLS = [
@@ -119,7 +116,7 @@ export default function Home() {
           </div>
         </div>
         <div className="cn-wrap mt-12 sm:mt-20">
-          <div className="kf-apps">
+          <div className="cn-apps">
             {[SHOTS.latinHome, SHOTS.latinMap, SHOTS.latinCase].map((s) => (
               <Phone key={s.src} shot={s} sizes={APP_PHONE_SIZES} />
             ))}
@@ -137,7 +134,7 @@ export default function Home() {
           </p>
         </div>
         <div className="cn-wrap mt-12 sm:mt-20">
-          <div className="kf-apps">
+          <div className="cn-apps">
             {[SHOTS.rutaQueue, SHOTS.rutaVisit, SHOTS.rutaTime].map((s) => (
               <Phone key={s.src} shot={s} sizes={APP_PHONE_SIZES} />
             ))}
