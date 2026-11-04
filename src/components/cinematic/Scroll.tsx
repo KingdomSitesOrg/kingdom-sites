@@ -15,6 +15,12 @@ import { useEffect, useRef } from 'react'
  * `prop` names the CSS variable (default `--p`), so a section can carry a
  * second, nested progress without hiding its parent's.
  *
+ * It also sets `data-in` once the section's top is a little way into the
+ * screen, and never takes it off: `.cn-reveal` rises in on that, as one smooth
+ * transition the browser runs by itself, instead of following every scroll
+ * frame. Pictures inside are fetched and decoded a couple of screens ahead, so
+ * none is unpacked just as it arrives.
+ *
  * One passive scroll listener and one frame per change; nothing runs while the
  * page is still.
  */
@@ -38,10 +44,19 @@ export default function Scroll({
     const el = ref.current
     if (!el) return
     let frame = 0
+    let warmed = false
     const update = () => {
       frame = 0
       const r = el.getBoundingClientRect()
       const vh = window.innerHeight
+      if (!warmed && r.top < vh * 3) {
+        warmed = true
+        for (const img of el.querySelectorAll('img')) {
+          img.loading = 'eager'
+          img.decode().catch(() => {})
+        }
+      }
+      if (r.top < vh * 0.92 && r.bottom > 0 && !('in' in el.dataset)) el.dataset.in = ''
       const raw = mode === 'sticky' ? -r.top / Math.max(1, r.height - vh) : (vh - r.top) / (r.height + vh)
       const p = Math.min(1, Math.max(0, raw))
       el.style.setProperty(prop, p.toFixed(4))

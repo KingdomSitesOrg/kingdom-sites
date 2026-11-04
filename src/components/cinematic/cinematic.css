@@ -142,9 +142,12 @@ html:has(.cn-head) { background: #0b0b0c; }
   .cn-lit { opacity: calc(0.25 + min(1, max(0, (var(--p, 0) - 0.08) * 6)) * 0.75); transform: translateY(calc((1 - min(1, max(0, (var(--p, 0) - 0.05) * 5))) * 20px)); }
 }
 
-/* ---------- Reveal: rises in as it enters ---------- */
-.cn-reveal { opacity: calc(min(1, var(--p, 0) * 3.2)); transform: translateY(calc((1 - min(1, var(--p, 0) * 3)) * 60px)); }
-@media (max-width: 759px) { .cn-reveal { opacity: calc(min(1, var(--p, 0) * 5)); transform: translateY(calc((1 - min(1, var(--p, 0) * 5)) * 40px)); } }
+/* ---------- Reveal: rises in once as it enters ----------
+   Scroll.tsx sets data-in on the wrapper when it comes into view; the rise is
+   one transition the browser runs on its own, not tied to each scroll frame. */
+.cn-reveal { opacity: 0; transform: translateY(48px); transition: opacity 0.7s ease, transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1); }
+[data-in] > .cn-reveal { opacity: 1; transform: none; }
+@media (max-width: 759px) { .cn-reveal { transform: translateY(32px); } }
 
 .cn-card { border-top: 1px solid var(--line); padding-top: 18px; }
 .cn-foot { border-top: 1px solid var(--line); padding-block: 28px 44px; font-size: 14px; color: var(--dim); }

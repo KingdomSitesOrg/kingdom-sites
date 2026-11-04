@@ -140,6 +140,8 @@ export default function AppShell({
         </SiteChrome>
       )}
       {intelligence}
+      {/* Without the script nothing would mark the reveals as in view (Scroll.tsx): show them as they are. */}
+      <noscript dangerouslySetInnerHTML={{ __html: '<style>.cn-reveal{opacity:1!important;transform:none!important}</style>' }} />
     </>
   )
 }
