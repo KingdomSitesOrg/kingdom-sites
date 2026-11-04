@@ -34,6 +34,9 @@
 .cn-head { position: fixed; top: 0; left: 0; right: 0; z-index: 40; background: #0b0b0c; border-bottom: 1px solid var(--line); }
 body:has(.cn-head) { padding-top: 61px; background: #0b0b0c; }
 html:has(.cn-head) { background: #0b0b0c; }
+/* The name, and who makes it, under it in small type. */
+.cn-logo { display: flex; flex-direction: column; gap: 3px; }
+.cn-logo-by { font-size: 11px; line-height: 1; letter-spacing: 0.02em; color: var(--dim); white-space: nowrap; }
 .cn-head-in { display: flex; align-items: center; justify-content: space-between; min-height: 60px; gap: 16px; }
 .cn-nav { display: flex; align-items: center; gap: clamp(14px, 2.4vw, 32px); font-size: 15px; }
 .cn-nav a:not(.cn-btn) { color: #cfcbc3; padding-block: 10px; transition: color 0.2s; }
