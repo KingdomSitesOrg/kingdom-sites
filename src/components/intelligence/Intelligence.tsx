@@ -289,7 +289,7 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
       }
       if (!finished) fail('The answer was cut off. Try asking again.')
     } catch (error) {
-      if ((error as Error).name !== 'AbortError') fail('Intelligence could not be reached. Check your connection and try again.')
+      if ((error as Error).name !== 'AbortError') fail('Instant could not be reached. Check your connection and try again.')
     } finally {
       setBusy(false)
       request.current = null
@@ -326,8 +326,8 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
         onClick={() => setOpen(true)}
       >
         <Spark />
-        <span className="ki-square-title">Intelligence</span>
-        <span className="sr-only">: ask anything about me and what I built</span>
+        <span className="ki-square-title">Ask Thomas</span>
+        <span className="sr-only">: ask about me and what I built, or write to me</span>
         {unread ? (
           <>
             <span className="ki-dot" aria-hidden="true" />
@@ -355,14 +355,14 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
                 'Thomas Klein'
               ) : (
                 <>
-                  <Spark /> Intelligence
+                  <Spark /> Ask Thomas
                 </>
               )}
             </h2>
             <p className="ki-sub">{tab === 'thomas' ? 'Replies within 12 to 24 hours' : 'Ask anything about me and what I built'}</p>
           </div>
           {inline ? null : (
-            <button type="button" className="ki-close" aria-label="Close Intelligence" onClick={close}>
+            <button type="button" className="ki-close" aria-label="Close Ask Thomas" onClick={close}>
               <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true">
                 <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
               </svg>
@@ -402,7 +402,7 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
               <Thinking key={item.id} />
             ) : (
               <div key={item.id} className="ki-a">
-                <span className="ki-sr">Intelligence: </span>
+                <span className="ki-sr">Instant: </span>
                 <Reveal text={item.text} live={!!item.live} />
               </div>
             ),
@@ -419,7 +419,7 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
         </div>
 
         <p className="ki-sr" role="status">
-          {busy ? 'Intelligence is thinking.' : ''}
+          {busy ? 'Instant is thinking.' : ''}
         </p>
 
         {full ? (
@@ -474,7 +474,7 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
           </form>
         )}
         <p className="ki-foot">
-          Powered by Kingdom Sites Intelligence. Uses AI, grounded in my responses.
+          Instant answers use AI, grounded in my responses.
         </p>
         </div>
 

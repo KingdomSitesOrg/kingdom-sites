@@ -50,7 +50,7 @@ async function alertThomas(request: Request, c: Conversation, text: string, firs
     `Answer here: ${origin(request)}/inbox?c=${c.id}`,
     '',
     `Their email: ${c.email}`,
-    ...(first && c.context ? ['', 'What they asked Intelligence first:', '', c.context] : []),
+    ...(first && c.context ? ['', 'What they asked Instant first:', '', c.context] : []),
   ].join('\n')
   const sent = await notifyThomas(`${first ? 'New message' : 'Message'} from ${c.name}`, body, c.email)
   if (sent) await changeConversation(c.id, (doc) => void (doc.thomasAlertedAt = new Date().toISOString()))

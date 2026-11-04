@@ -1,7 +1,7 @@
-# What Intelligence knows
+# What Instant knows (Ask Thomas)
 
 <!--
-  The only knowledge the site's "Intelligence" chat has (T-375). It is sent to
+  The only knowledge the site's AI, Instant, in Ask Thomas has (T-375). It is sent to
   the model with every question, so everything here is public.
   Rules for editing it:
   - Public facts only: what the site's own pages say, and public facts about

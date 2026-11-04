@@ -21,7 +21,7 @@ import './search.css'
  * Intelligence chat as its question; the chat opens, answers and stays open.
  */
 
-const MAX_CHARS = 500 // Intelligence's own limit for one question.
+const MAX_CHARS = 500 // Instant's own limit for one question (Ask Thomas).
 
 let loading: Promise<SearchIndex> | null = null
 function loadIndex() {
@@ -149,7 +149,7 @@ function SearchPanel({ onClose }: { onClose: (returnFocus: boolean) => void }) {
   const results = useMemo(() => (loaded.state === 'ready' && typed ? search(loaded.index, typed) : []), [loaded, typed])
   const nothing = typed !== '' && (loaded.state === 'failed' || (loaded.state === 'ready' && results.length === 0))
 
-  function askIntelligence() {
+  function askThomas() {
     if (!typed) return
     onClose(false)
     window.dispatchEvent(new CustomEvent<AskRequest>(ASK_EVENT, { detail: { question: typed } }))
@@ -255,11 +255,11 @@ function SearchPanel({ onClose }: { onClose: (returnFocus: boolean) => void }) {
             <div className="ss-none">
               <p>
                 {loaded.state === 'failed'
-                  ? 'Search could not load just now. Ask Intelligence instead?'
-                  : 'Nothing on the site matches that. Ask Intelligence instead?'}
+                  ? 'Search could not load just now. Ask Thomas instead?'
+                  : 'Nothing on the site matches that. Ask Thomas instead?'}
               </p>
-              <button ref={askButton} type="button" className="ss-ask" onClick={askIntelligence}>
-                <Spark /> Ask Intelligence
+              <button ref={askButton} type="button" className="ss-ask" onClick={askThomas}>
+                <Spark /> Ask Thomas
               </button>
             </div>
           ) : typed && loaded.state === 'loading' ? (

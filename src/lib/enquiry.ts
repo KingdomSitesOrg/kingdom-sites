@@ -47,19 +47,19 @@ async function sendWebhook(payload: Record<string, string>) {
 const SUBJECT: Record<Enquiry['kind'], (name: string) => string> = {
   enquiry: (name) => `Enquiry from ${name}`,
   'farzana-call': (name) => `Farzana call request from ${name}`,
-  intelligence: (name) => `Enquiry from ${name} (Intelligence chat)`,
+  intelligence: (name) => `Enquiry from ${name} (Ask Thomas)`,
 }
 
 const FIRST_LINE: Record<Enquiry['kind'], string> = {
   enquiry: 'A new enquiry from kingdom-sites.com',
   'farzana-call': 'A new call request from kingdom-sites.com/farzana',
-  intelligence: 'A new enquiry from the Intelligence chat on kingdom-sites.com',
+  intelligence: 'A new enquiry from Ask Thomas on kingdom-sites.com',
 }
 
 const REFERRAL_NOTE: Record<Enquiry['kind'], string> = {
   enquiry: 'Sent an enquiry.',
   'farzana-call': 'Asked for a Farzana call.',
-  intelligence: 'Sent an enquiry from the Intelligence chat.',
+  intelligence: 'Sent an enquiry from Ask Thomas.',
 }
 
 export async function deliverEnquiry(request: Request, e: Enquiry): Promise<boolean> {

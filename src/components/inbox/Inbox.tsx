@@ -101,9 +101,9 @@ const ICONS = {
 
 /** Their questions to Instant before they wrote, as a short exchange. */
 function Context({ text }: { text: string }) {
-  const turns = text.split(/\n\n(?=(?:Visitor|Intelligence): )/).map((t) => {
+  const turns = text.split(/\n\n(?=(?:Visitor|Instant|Intelligence): )/).map((t) => {
     const visitor = t.startsWith('Visitor: ')
-    return { visitor, text: t.replace(/^(Visitor|Intelligence): /, '') }
+    return { visitor, text: t.replace(/^(Visitor|Instant|Intelligence): /, '') }
   })
   return (
     <ol className="ib-ctx-turns">
@@ -302,7 +302,7 @@ export default function Inbox() {
                 {query
                   ? 'Try another name, email or word.'
                   : folder === 'inbox'
-                    ? 'When someone writes to you from the Thomas tab in Intelligence, it shows up here, and you get an email.'
+                    ? 'When someone writes to you from the Thomas tab in Ask Thomas, it shows up here, and you get an email.'
                     : ''}
               </p>
             </div>
