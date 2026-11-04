@@ -107,6 +107,7 @@
   linear-gradient(to bottom, var(--bg), #08142e 22%, #0a1838 60%, #08142e 80%, var(--bg)); }
 .kf-strata-tag { display: inline-block; padding: 5px 12px; border-radius: 999px; border: 1px solid rgb(255 150 80 / 0.45); color: #ffb27a; font-size: 12px; letter-spacing: 0.08em; }
 .kf-strata-name { margin-top: 22px; font-size: clamp(3.4rem, 11vw, 9rem); letter-spacing: 0.04em; background: linear-gradient(180deg, #ffffff, #9cc4ff 70%, #5b8fe6); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.kf-strata-sub { margin-top: 18px; color: #cfdcf5; }
 .kf-strata-film { position: relative; margin: clamp(40px, 6vw, 72px) auto 0; max-width: 1180px; aspect-ratio: 16 / 10; border-radius: clamp(14px, 1.6vw, 22px); overflow: hidden; background: #060c1c; box-shadow: 0 0 0 1px rgb(120 170 255 / 0.18), 0 40px 120px rgb(20 60 160 / 0.45), 0 0 90px rgb(255 120 40 / 0.12); }
 .kf-strata-film img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; animation: kf-strata 15s linear infinite; }
 .kf-strata-film img:nth-child(2) { animation-delay: 5s; }
@@ -132,3 +133,12 @@
 
 /* Dims the live screen while the display wakes up during the opening. */
 .kf-dim { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; }
+
+/* The apps: three phones each, the same size, level, in one row on a
+   computer; on a phone, big enough to read, side by side in a row you swipe. */
+.kf-apps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 48px); max-width: 1080px; margin-inline: auto; }
+@media (max-width: 759px) {
+  .kf-apps { display: flex; gap: 14px; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); overscroll-behavior-x: contain; scrollbar-width: none; padding-bottom: 8px; }
+  .kf-apps::-webkit-scrollbar { display: none; }
+  .kf-apps > * { flex: 0 0 72%; scroll-snap-align: start; }
+}

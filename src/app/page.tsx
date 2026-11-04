@@ -38,6 +38,9 @@ const FARZANA_BOOK = '/farzana/book'
 /* A quiet text link: underlined, no pill. */
 const TEXT_LINK = 'text-[var(--fg)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-current'
 
+/* Each app shows three phones, all the same size (film.css, .kf-apps). */
+const APP_PHONE_SIZES = '(max-width: 759px) 72vw, 340px'
+
 /* Three of STRATA's own stills, its most colourful, cross-fading in the band. */
 const STRATA_STILLS = [
   { src: '/strata/stills/fleet-1-desktop.webp', alt: 'Rows of 3D printers glowing in a dark hall, from the STRATA concept site' },
@@ -115,13 +118,13 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <Scroll className="cn-wrap mt-16 pb-6 sm:mt-24">
-          <div className="cn-depth mx-auto max-w-[1180px]">
-            {[SHOTS.latinHome, SHOTS.latinMap, SHOTS.latinCase, SHOTS.latinBoard].map((s) => (
-              <Phone key={s.src} shot={s} />
+        <div className="cn-wrap mt-12 sm:mt-20">
+          <div className="kf-apps">
+            {[SHOTS.latinHome, SHOTS.latinMap, SHOTS.latinCase].map((s) => (
+              <Phone key={s.src} shot={s} sizes={APP_PHONE_SIZES} />
             ))}
           </div>
-        </Scroll>
+        </div>
 
         {/* Ruta is a team's product: the line says I build on it, not that I made it. */}
         <div className="cn-wrap mt-32 grid gap-6 sm:mt-44 lg:grid-cols-[1fr_1fr] lg:items-end">
@@ -133,13 +136,13 @@ export default function Home() {
             </Link>
           </p>
         </div>
-        <Scroll className="cn-wrap mt-16 pb-6 sm:mt-24">
-          <div className="cn-depth cn-depth-row mx-auto max-w-[1180px]">
+        <div className="cn-wrap mt-12 sm:mt-20">
+          <div className="kf-apps">
             {[SHOTS.rutaQueue, SHOTS.rutaVisit, SHOTS.rutaTime].map((s) => (
-              <Phone key={s.src} shot={s} />
+              <Phone key={s.src} shot={s} sizes={APP_PHONE_SIZES} />
             ))}
           </div>
-        </Scroll>
+        </div>
       </section>
 
       {/* KCUPG: a website, its dashboard and its map. */}
@@ -176,6 +179,9 @@ export default function Home() {
           <h2 id="strata" className="cn-display kf-strata-name">
             STRATA
           </h2>
+          <p className="cn-body kf-strata-sub mx-auto max-w-[36ch]">
+            Don’t just think about a website. Think about an experience. See how far a website can go.
+          </p>
           <Link href="/strata" className="kf-strata-film block" aria-label="Open the STRATA concept site">
             {STRATA_STILLS.map((s) => (
               // eslint-disable-next-line @next/next/no-img-element
