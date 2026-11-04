@@ -53,10 +53,10 @@ const FALLBACK: Manifest = {
 }
 
 /* The page opens on the dark room, low on the screen. The lights come up on
-   the closed laptop once the scene is in view, and no sooner than this after the
-   page opens (film.css, kf-lights); then it waits. The opening plays as soon as
-   the visitor starts to scroll, once the lights are mostly up. */
-const LIGHTS_MS = 1200
+   the closed laptop this long after the visitor can actually see the scene
+   (film.css, kf-lights); then it waits. The opening plays as soon as the
+   visitor starts to scroll, once the lights are mostly up. */
+const LIGHTS_MS = 1000
 const LIT_SETTLE_MS = 700
 const SCROLLED_PX = 16
 /* The live screen fades in over the last few frames. */
@@ -674,14 +674,30 @@ export default function LaptopFilm() {
     }
 
     measure()
-    // Lights on: the scene in view, and not before LIGHTS_MS after the page opened.
+    // Lights on: LIGHTS_MS after the scene is really on screen. Not timed from
+    // the page's load: Safari loads pages before they are shown (while the address
+    // is still being typed), so the clock starts on the first frame actually drawn
+    // with the page showing, and stops again if the page is hidden first.
+    let lightsFrame = 0
     const lightUp = () => {
-      if (litAt || lightsTimer || dead) return
-      lightsTimer = window.setTimeout(() => {
-        litAt = performance.now()
-        stage.dataset.lit = ''
-        window.setTimeout(schedule, LIT_SETTLE_MS)
-      }, Math.max(0, LIGHTS_MS - performance.now()))
+      if (litAt || lightsTimer || lightsFrame || dead) return
+      if (!inView || document.visibilityState !== 'visible') return
+      lightsFrame = requestAnimationFrame(() => {
+        lightsFrame = 0
+        if (dead || document.visibilityState !== 'visible') return
+        lightsTimer = window.setTimeout(() => {
+          litAt = performance.now()
+          stage.dataset.lit = ''
+          window.setTimeout(schedule, LIT_SETTLE_MS)
+        }, LIGHTS_MS)
+      })
+    }
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') return lightUp()
+      cancelAnimationFrame(lightsFrame)
+      window.clearTimeout(lightsTimer)
+      cancelAnimationFrame(lightsFrame)
+      lightsFrame = lightsTimer = 0
     }
     fetch(`${FILM_BASE}/manifest.json`)
       .then((r) => (r.ok ? (r.json() as Promise<Manifest>) : FALLBACK))
@@ -706,6 +722,7 @@ export default function LaptopFilm() {
     window.addEventListener('scroll', onScroll, { passive: true })
     window.addEventListener('resize', measure)
     document.addEventListener('visibilitychange', steer)
+    document.addEventListener('visibilitychange', onVisible)
     portrait.addEventListener('change', onOrient)
     reduce.addEventListener('change', onMotion)
     return () => {
@@ -719,6 +736,7 @@ export default function LaptopFilm() {
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', measure)
       document.removeEventListener('visibilitychange', steer)
+      document.removeEventListener('visibilitychange', onVisible)
       portrait.removeEventListener('change', onOrient)
       reduce.removeEventListener('change', onMotion)
     }
