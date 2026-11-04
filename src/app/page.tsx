@@ -101,7 +101,7 @@ export default function Home() {
       <section aria-labelledby="apps" className="mt-32 sm:mt-48">
         <div className="cn-wrap">
           <h2 id="apps" className="cn-display cn-h2">
-            I also do apps.
+            I also do multiple apps.
           </h2>
           <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-end">
             <h3 className="cn-display cn-h3">JAM Legio</h3>

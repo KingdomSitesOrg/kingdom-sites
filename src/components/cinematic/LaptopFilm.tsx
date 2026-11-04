@@ -30,6 +30,9 @@ type FilmSet = {
   screenQuad?: Pt[]
   laptopBox?: Rect
   steam?: [number, number, number][]
+  /* For each frame, the display's four corners (null while it faces away), and how bright it is, 0 to 1. */
+  screenQuads?: (Pt[] | null)[]
+  screenOn?: number[]
 }
 type Manifest = { frames: number; ext: string; desktop: FilmSet; phone: FilmSet }
 
@@ -333,10 +336,10 @@ function startSteam(canvas: HTMLCanvasElement) {
     if (!running || dead || !ctx) return
     const dt = Math.min(0.05, last ? (t - last) / 1000 : 0.016)
     last = t
-    spawn += dt * 30
+    spawn += dt * 12
     while (spawn >= 1) {
       spawn -= 1
-      ps.push({ x: (Math.random() - 0.5) * 1.2, age: 0, life: 5.5 + Math.random() * 2.5, seed: Math.random() * 100, drift: (Math.random() - 0.5) * 0.5 })
+      ps.push({ x: (Math.random() - 0.5) * 1.2, age: 0, life: 11 + Math.random() * 5, seed: Math.random() * 100, drift: (Math.random() - 0.5) * 0.5 })
     }
     const w = canvas.width
     const h = canvas.height
@@ -352,12 +355,12 @@ function startSteam(canvas: HTMLCanvasElement) {
       }
       // Up about ten radii over its life, slowing; a slow sway that grows as it rises.
       const rise = 9.5 * Math.pow(k, 1.15)
-      const sway = Math.sin(p.seed + p.age * 0.75) * (0.2 + rise * 0.14) + p.drift * rise * 0.45
+      const sway = Math.sin(p.seed + p.age * 0.38) * (0.2 + rise * 0.14) + p.drift * rise * 0.45
       const cx = w / 2 + (p.x + sway) * R
       const cy = h - rise * R
       const size = R * (0.28 + k * 1.7)
       // In quickly, out slowly; faint throughout, the way steam is.
-      const a = Math.min(1, k * 30) * Math.pow(1 - k, 1.5) * 0.17
+      const a = Math.min(1, k * 30) * Math.pow(1 - k, 1.5) * 0.13
       ctx.globalAlpha = a
       ctx.drawImage(puff, cx - size / 2, cy - size * 1.4, size, size * 2)
     }
@@ -406,6 +409,7 @@ export default function LaptopFilm() {
     if (!section || !stage || !canvas || !live || !ctx || !steamCanvas) return
     const steam = startSteam(steamCanvas)
     const q = <T extends HTMLElement>(s: string) => live.querySelector(s) as T
+    const dim = q<HTMLElement>('.kf-dim')
 
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)')
     const portrait = window.matchMedia('(orientation: portrait)')
@@ -593,6 +597,15 @@ export default function LaptopFilm() {
         if (drawn < 0 && poster) poster.style.visibility = 'hidden'
         drawn = idx
         drawnKey = key
+        // The sharp app sits on the display in every frame it can be seen, dimmed
+        // as the screen wakes, so the screen never looks soft while the lid opens.
+        if (fs.screenQuads && !reduce.matches) {
+          const sq = fs.screenQuads[idx]
+          const on = fs.screenOn?.[idx] ?? 1
+          if (sq) live.style.transform = quadMatrix(APP_W, APP_H, sq.map(([x, y]) => [ox + x * s, oy + y * s] as Pt))
+          live.style.opacity = sq ? Math.min(1, on * 4).toFixed(3) : '0'
+          dim.style.opacity = (1 - on).toFixed(3)
+        }
         const at = fs.steam?.[idx]
         if (at && !reduce.matches) steam.place(ox + at[0] * s, oy + at[1] * s, at[2], s)
         else steam.hide()
@@ -602,7 +615,7 @@ export default function LaptopFilm() {
       const fade = reduce.matches ? 1 : clamp((at - (n - 1 - FADE_FRAMES)) / FADE_FRAMES)
       if (fade !== lastFade) {
         lastFade = fade
-        live.style.opacity = fade.toFixed(3)
+        if (!fs.screenQuads || reduce.matches) live.style.opacity = fade.toFixed(3)
         steer()
       }
     }
@@ -713,6 +726,7 @@ export default function LaptopFilm() {
             </div>
           </div>
           <div className="kf-glass" />
+          <div className="kf-dim" />
         </div>
         {/* The room is dark when the page opens, and the light comes up on it a moment later. */}
         <div className="kf-dark" />

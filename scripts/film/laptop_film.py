@@ -1688,6 +1688,61 @@ def mug_track(scene, aspect):
     return track
 
 
+def screen_track(scene, aspect):
+    """Per frame: the display's active area (tl, tr, br, bl) in frame pixels,
+    or None when its face is turned away, edge-on, or completely hidden; and
+    how bright the display is (0..1, the wake-up curve). Prints the frames in
+    which something covers part of a visible display."""
+    w, h = ASPECTS[aspect]
+    scene.render.resolution_x, scene.render.resolution_y = w, h
+    scene.render.resolution_percentage = 100
+    quads, on, covered = [], [], []
+    for f in range(1, FRAMES + 1):
+        apply_frame(scene, aspect, f)
+        dg = bpy.context.evaluated_depsgraph_get()
+        ang = lid_angle(f)
+        centre, normal, c = screen_frame(ang)
+        cam = scene.camera.matrix_world.translation
+        facing = normal.dot((cam - centre).normalized())
+        on.append(round(screen_emission(f), 3))
+        if facing < 0.10:                       # turned away or within ~84 degrees of edge-on
+            quads.append(None)
+            continue
+        # sample the active area and ray-cast from the camera
+        M = lid_matrix(ang)
+        n_s, hidden, by = 0, 0, set()
+        for i in range(13):
+            for j in range(9):
+                x = -ACT_W / 2 + ACT_W * (i + 0.5) / 13
+                y = ACT_Y0 - ACT_H * (j + 0.5) / 9
+                wp = M @ Vector((x, y, GLASS_FRONT))
+                n_s += 1
+                o_ = cam.copy()
+                while True:
+                    d = wp - o_
+                    if d.length < 0.0006:
+                        hit = False
+                        break
+                    hit, loc, _, _, ob, _ = scene.ray_cast(dg, o_, d.normalized(), distance=d.length - 0.0005)
+                    if hit and (not ob.visible_camera or ob.name in ("CoverGlass", "ScreenGlass")):
+                        o_ = loc + d.normalized() * 0.0002
+                        continue
+                    break
+                if hit:
+                    hidden += 1
+                    by.add(ob.name)
+        if hidden == n_s:
+            quads.append(None)
+            continue
+        if hidden:
+            covered.append((f, round(100.0 * hidden / n_s), sorted(by)))
+        quads.append([[round(v, 1) for v in _px(scene, c[k])] for k in ("tl", "tr", "br", "bl")])
+    vis = [i + 1 for i, q in enumerate(quads) if q]
+    print("SCREEN", aspect, "visible frames:", (vis[0], vis[-1]) if vis else "none", "count", len(vis))
+    print("SCREEN", aspect, "partly covered (frame, % of area, by):", covered or "none")
+    return quads, on
+
+
 def manifest_json(man):
     """Indented JSON with each point or steam entry on one line."""
     txt = json.dumps(man, indent=2)
@@ -1741,6 +1796,8 @@ def main():
             scene = build_scene()
             man[asp] = final_geometry(scene, asp)
             man[asp]["steam"] = mug_track(scene, asp)
+            man[asp]["screenQuads"], man[asp]["screenOn"] = screen_track(scene, asp)
+            assert man[asp]["screenQuads"][-1] == man[asp]["screenQuad"]
         path = os.path.join(out, "manifest.json")
         with open(path, "w") as fh:
             fh.write(manifest_json(man))
