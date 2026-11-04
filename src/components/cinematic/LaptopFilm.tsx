@@ -333,10 +333,10 @@ function startSteam(canvas: HTMLCanvasElement) {
     if (!running || dead || !ctx) return
     const dt = Math.min(0.05, last ? (t - last) / 1000 : 0.016)
     last = t
-    spawn += dt * 34
+    spawn += dt * 30
     while (spawn >= 1) {
       spawn -= 1
-      ps.push({ x: (Math.random() - 0.5) * 1.3, age: 0, life: 3.2 + Math.random() * 1.8, seed: Math.random() * 100, drift: (Math.random() - 0.5) * 0.5 })
+      ps.push({ x: (Math.random() - 0.5) * 1.3, age: 0, life: 5.5 + Math.random() * 2.5, seed: Math.random() * 100, drift: (Math.random() - 0.5) * 0.5 })
     }
     const w = canvas.width
     const h = canvas.height
@@ -351,13 +351,13 @@ function startSteam(canvas: HTMLCanvasElement) {
         continue
       }
       // Up about ten radii over its life, slowing; a slow sway that grows as it rises.
-      const rise = 10 * (1 - Math.pow(1 - k, 1.6))
-      const sway = Math.sin(p.seed + p.age * 1.3) * (0.35 + rise * 0.16) + p.drift * rise * 0.5
+      const rise = 9.5 * (1 - Math.pow(1 - k, 1.35))
+      const sway = Math.sin(p.seed + p.age * 0.75) * (0.2 + rise * 0.14) + p.drift * rise * 0.45
       const cx = w / 2 + (p.x + sway) * R
       const cy = h - rise * R
-      const size = R * (0.32 + k * 1.9)
+      const size = R * (0.28 + k * 1.7)
       // In quickly, out slowly; faint throughout, the way steam is.
-      const a = Math.min(1, k * 12) * Math.pow(1 - k, 1.3) * 0.15
+      const a = Math.min(1, k * 8) * Math.pow(1 - k, 1.5) * 0.16
       ctx.globalAlpha = a
       ctx.drawImage(puff, cx - size / 2, cy - size, size, size * 2)
     }
