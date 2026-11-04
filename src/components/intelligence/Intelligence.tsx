@@ -1,6 +1,7 @@
 'use client'
 
 import { Fragment, useEffect, useId, useRef, useState, useSyncExternalStore } from 'react'
+import { usePathname } from 'next/navigation'
 import { sans } from '@/components/cinematic/fonts'
 import './intelligence.css'
 import { paintDark } from '@/lib/paint-dark'
@@ -68,6 +69,18 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
   const phone = useMedia(PHONE)
   const wideTouch = useMedia(WIDE_TOUCH)
   const sheet = phone || wideTouch
+  const pathname = usePathname()
+  /* On a phone the message form comes first: while the page's form (#talk) is on
+     screen, the button steps aside so it never sits on top of it. */
+  const [byForm, setByForm] = useState(false)
+  useEffect(() => {
+    const form = inline ? null : document.getElementById('talk')
+    setByForm(false)
+    if (!form) return
+    const io = new IntersectionObserver(([e]) => setByForm(e.isIntersecting), { rootMargin: '0px 0px -12% 0px' })
+    io.observe(form)
+    return () => io.disconnect()
+  }, [pathname, inline])
   const ids = useId()
   const panelId = `${ids}-panel`
   const titleId = `${ids}-title`
@@ -306,7 +319,7 @@ export default function Intelligence({ inline = false }: { inline?: boolean }) {
   })()
 
   return (
-    <div ref={root} className={`ki ${inline ? 'ki--inline ' : ''}${sans.variable}`} data-open={open ? '' : undefined}>
+    <div ref={root} className={`ki ${inline ? 'ki--inline ' : ''}${sans.variable}`} data-open={open ? '' : undefined} data-by-form={byForm ? '' : undefined}>
       {inline ? null : (
       <button
         ref={square}

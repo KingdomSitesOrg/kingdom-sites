@@ -3,6 +3,7 @@ import SaasPage from '@/strata/saas/SaasPage';
 import Footer from '@/strata/saas/footer';
 import { PhaseRail } from '@/strata/hud/PhaseRail';
 import { ConceptLabel } from '@/strata/ConceptLabel';
+import { StoryScrubber } from '@/strata/story/StoryScrubber';
 
 export default function StrataPage() {
   return (
@@ -17,6 +18,7 @@ export default function StrataPage() {
       {/* AppShell already wraps the page in <main>. */}
       <div className="w-full overflow-x-clip">
         <PhaseRail />
+        <StoryScrubber />
         <Story />
         <SaasPage />
       </div>

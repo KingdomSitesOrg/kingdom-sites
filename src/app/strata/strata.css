@@ -479,3 +479,25 @@ html:has(.strata-root)::-webkit-scrollbar-thumb {
 @utility z-hud { z-index: var(--z-hud); }
 @utility z-nav { z-index: var(--z-nav); }
 @utility z-overlay { z-index: var(--z-overlay); }
+
+/* The story's own scroll bar (StoryScrubber.tsx): a tall track on the right edge with a mark for each
+   chapter and a molten handle you can drag. The hit area is wider than what is drawn, for a thumb. */
+.story-scrubber { position: fixed; right: 0; top: max(4.5rem, calc(env(safe-area-inset-top) + 3.5rem)); bottom: max(2rem, calc(env(safe-area-inset-bottom) + 1.25rem)); width: 2.75rem; z-index: var(--z-nav); display: flex; justify-content: center; cursor: grab; touch-action: none; transition: opacity 240ms ease; outline: none; }
+.story-scrubber[data-hidden="true"] { opacity: 0; pointer-events: none; }
+.story-scrubber[data-dragging="true"] { cursor: grabbing; }
+.story-scrubber-track { position: relative; width: 2px; height: 100%; border-radius: 2px; background: var(--hud-line, rgba(243, 245, 249, 0.16)); }
+.story-scrubber-mark { position: absolute; left: 50%; width: 8px; height: 1px; transform: translateX(-50%); background: rgba(243, 245, 249, 0.35); }
+.story-scrubber-mark[data-past="true"] { background: var(--molten); }
+.story-scrubber-thumb { position: absolute; left: 50%; top: 0; width: 6px; height: 36px; border-radius: 999px; transform: translate(-50%, -50%); background: var(--molten); box-shadow: 0 0 0 1px rgba(3, 5, 10, 0.6), 0 0 14px rgba(255, 106, 26, 0.55); transition: width 160ms ease; }
+.story-scrubber:hover .story-scrubber-thumb, .story-scrubber[data-dragging="true"] .story-scrubber-thumb, .story-scrubber:focus-visible .story-scrubber-thumb { width: 10px; }
+.story-scrubber:focus-visible .story-scrubber-track { outline: 2px solid var(--text-1); outline-offset: 6px; }
+/* The chapter's name beside the handle, while you point at it or drag it. */
+.story-scrubber-label { position: absolute; right: calc(100% + 0.75rem); top: 50%; transform: translateY(-50%); white-space: nowrap; padding: 0.25rem 0.5rem; border-radius: 4px; background: var(--panel-bg-solid, rgba(3, 5, 10, 0.92)); border: 1px solid var(--line); color: var(--text-1); opacity: 0; pointer-events: none; transition: opacity 160ms ease; }
+.story-scrubber:hover .story-scrubber-label, .story-scrubber[data-dragging="true"] .story-scrubber-label, .story-scrubber:focus-visible .story-scrubber-label { opacity: 1; }
+/* Phones: the line hugs the edge, clear of the copy panels; the hit area stays wide. */
+@media (max-width: 767px) {
+  .story-scrubber { justify-content: flex-end; padding-right: 7px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .story-scrubber, .story-scrubber-thumb, .story-scrubber-label { transition: none; }
+}

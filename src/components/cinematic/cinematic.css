@@ -64,11 +64,19 @@ html:has(.cn-head) { background: #0b0b0c; }
    minus the bezel), and the clip is a clip-path so it holds in Safari under the
    3D tilt, where overflow + border-radius can let square corners through. */
 .cn-browser { --r: 14px; position: relative; border-radius: var(--r); overflow: hidden; isolation: isolate; background: #1b1b1e; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.07), 0 40px 120px rgba(0, 0, 0, 0.6); }
-.cn-browser-bar { display: flex; align-items: center; gap: 8px; height: 34px; padding: 0 14px; background: #1b1b1e; }
-.cn-browser-bar i { width: 10px; height: 10px; border-radius: 50%; background: #3a3a3e; }
-.cn-browser-url { margin-left: 14px; flex: 1; min-width: 0; max-width: 340px; height: 22px; border-radius: 6px; background: #26262a; font-size: 12px; color: var(--dim); display: flex; align-items: center; padding: 0 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* The window's bar keeps a Mac's proportions at any size: about 3 percent of the
+   window's width tall (a 28 pt bar on a 1000 pt window), its lights and address
+   scaled with it, so a phone shows a small window, not a thick bar. */
+.cn-browser { container-type: inline-size; }
+.cn-browser-bar { display: flex; align-items: center; gap: clamp(3px, 0.75cqw, 8px); height: clamp(14px, 3.2cqw, 34px); padding: 0 clamp(6px, 1.4cqw, 14px); background: #1b1b1e; }
+.cn-browser-bar i { flex: none; width: clamp(5px, 1cqw, 11px); height: clamp(5px, 1cqw, 11px); border-radius: 50%; background: #3a3a3e; }
+/* A real window's close, minimise and full-screen lights. */
+.cn-browser-bar i:nth-of-type(1) { background: #ff5f57; }
+.cn-browser-bar i:nth-of-type(2) { background: #febc2e; }
+.cn-browser-bar i:nth-of-type(3) { background: #28c840; }
+.cn-browser-url { margin-left: clamp(6px, 1.4cqw, 14px); flex: 1; min-width: 0; max-width: 340px; height: clamp(9px, 2.1cqw, 22px); border-radius: clamp(3px, 0.6cqw, 6px); background: #26262a; font-size: clamp(6px, 1.15cqw, 12px); color: var(--dim); display: flex; align-items: center; padding: 0 clamp(4px, 1cqw, 10px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .cn-browser img { display: block; width: 100%; height: auto; border-radius: 0 0 var(--r) var(--r); clip-path: inset(0 round 0 0 var(--r) var(--r)); }
-.cn-browser-note { margin-left: auto; flex: none; height: 22px; display: inline-flex; align-items: center; padding: 0 10px; border-radius: 999px; border: 1px solid var(--line); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #cfcbc3; font-weight: 500; white-space: nowrap; }
+.cn-browser-note { margin-left: auto; flex: none; height: clamp(9px, 2.1cqw, 22px); font-size: clamp(6px, 1.05cqw, 11px); display: inline-flex; align-items: center; padding: 0 clamp(4px, 1cqw, 10px); border-radius: 999px; border: 1px solid var(--line); letter-spacing: 0.08em; text-transform: uppercase; color: #cfcbc3; font-weight: 500; white-space: nowrap; }
 .cn-phone { --r: clamp(26px, 3.4vw, 46px); --b: clamp(5px, 0.6vw, 9px); position: relative; border-radius: var(--r); padding: var(--b); background: #050505; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 30px 80px rgba(0, 0, 0, 0.6); }
 .cn-phone picture { display: block; }
 .cn-phone img { display: block; width: 100%; height: auto; border-radius: calc(var(--r) - var(--b)); clip-path: inset(0 round calc(var(--r) - var(--b))); }
