@@ -144,10 +144,10 @@ export default function CaseStudy({ study, data }: { study: Study; data: object 
         ) : null}
       </div>
 
-      <div className={`cn-wrap mt-24 grid gap-14 sm:mt-32 ${study.figures.length > 1 ? 'lg:grid-cols-2 lg:gap-10' : ''}`}>
-        {study.figures.map((f, i) => (
+      <div className={`cn-wrap mt-24 grid gap-14 sm:mt-32 ${study.figures.length > 1 ? 'cn-pair items-start lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-10' : ''}`}>
+        {study.figures.map((f) => (
           <Scroll mode="reveal" key={f.shot.src}>
-            <div className={`cn-reveal ${study.figures.length > 1 && i % 2 ? 'lg:mt-32' : 'mx-auto max-w-[1180px]'}`}>
+            <div className={`cn-reveal ${study.figures.length > 1 ? '' : 'mx-auto max-w-[1180px]'}`}>
               <Shown f={f} />
             </div>
           </Scroll>

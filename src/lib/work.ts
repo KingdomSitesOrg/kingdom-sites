@@ -115,7 +115,7 @@ export const PROJECTS: Project[] = [
     name: 'Ruta',
     kind: 'Contract',
     forWhom: 'Landscaping businesses',
-    line: 'Contract work on a live platform: the office app, the customer portal and the crew’s phone app.',
+    line: 'Helped build a live platform on Ruta’s team: the office app, the customer portal and the crew’s phone app.',
     platforms: 'Web, iPhone and Android',
     status: 'Live',
     href: '/ruta',

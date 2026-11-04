@@ -31,8 +31,8 @@ export default function Ruta() {
             <h1 className="cn-display cn-h2 cn-rise cn-rise-2 mt-5">Ruta.</h1>
             <p className="cn-body cn-rise cn-rise-3 mt-6 max-w-[46ch] text-pretty">
               Ruta is service-management software for landscaping and maintenance businesses. I did
-              not build it on my own, but I have been working on it as a contractor on the team.
-              Here are a few things I have worked on.
+              not build it on my own: I helped build it as a contractor on Ruta’s team. Here are a
+              few things I worked on.
             </p>
 
             <ul className="mt-8 space-y-2.5">

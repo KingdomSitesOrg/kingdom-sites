@@ -36,7 +36,7 @@ Three new pages, one shape (Thomas, T-389): the problem, what I built, how long 
 | What I built, lead | I built the dashboard and the map. | **Reused** |
 | What I built, list | A dashboard of the whole metro, every region side by side. Tap a bar and that region’s map opens with the filter already on. / Six regions: South Asia, Central Asia, the Middle East, North Africa, Southeast Asia and East Asia, each with its own dashboard, map and assistant. / A map of real places to meet people, from restaurants and grocers to places of worship and campuses, filtered by country and kind of place. / Search by place, language or neighborhood, or ask the assistant a question in plain words. / People counts from the US Census Bureau’s American Community Survey, one table per region, so nobody is counted twice. | Checked against kcupgs.com and its repository (docs/AFFINITIES.md) |
 | How long it took | Built in two weeks, and updated every week with more information. | Thomas’s words |
-| What improved after launch | KCUPG is live at kcupgs.com, free to use, with no sign-in. It started as a map of the city’s South Asian communities and now covers six regions. / Churches in Kansas City see which communities live where, and where to meet them. Logan Hazlet, a full-time missionary in Kansas City, Missouri, uses it. | Repository history; "Churches…" **reused**; Logan as Thomas named him |
+| What improved after launch | KCUPG is live at kcupgs.com, free to use, with no sign-in. It started as a map of the city’s South Asian communities and now covers six regions. / Churches in Kansas City see which communities live where, and where to meet them. Logan, a full-time missionary in Kansas City, Missouri, uses it. | Repository history; "Churches…" **reused**; Logan as Thomas named him |
 | What the client says | Hidden for now | See "Later" below |
 | Screen | The map: Places pinned across the metro, filtered by country and kind of place, with an Ask anything bar. | From the closed PR #42 (T-373); the screenshot shows businesses and places of worship only |
 
@@ -82,11 +82,11 @@ Three new pages, one shape (Thomas, T-389): the problem, what I built, how long 
 | Farzana Classroom | How long it took | Say it is coming soon, and that custom builds on top of it are welcome |
 | Farzana Classroom | Result, quote | None yet: hidden |
 | KCUPG | How long it took | Built in two weeks, updated every week with more information |
-| KCUPG | Who uses it | Logan Hazlet, a full-time missionary in Kansas City, MO |
+| KCUPG | Who uses it | Logan, a full-time missionary in Kansas City, MO |
 | KCUPG | Quote | None yet: hidden |
 | Delta | How long it took, result, quote | Not confirmed: hidden |
 
 ### Later
 
-- **KCUPG quote:** Logan Hazlet will leave a Google review. Once it exists, his words can be quoted on /portfolio/kcupg ("What the client says", the `quote` field in `src/lib/case-studies.ts`), **with his OK**, credited "Logan Hazlet, full-time missionary, Kansas City, MO".
+- **KCUPG quote:** Logan will leave a Google review. Once it exists, his words can be quoted on /portfolio/kcupg ("What the client says", the `quote` field in `src/lib/case-studies.ts`), **with his OK**, credited "Logan, full-time missionary, Kansas City, MO".
 - Any other quote or result goes in the same way: add it to that project in `src/lib/case-studies.ts` and the part appears.

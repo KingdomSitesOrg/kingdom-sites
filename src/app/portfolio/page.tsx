@@ -61,7 +61,7 @@ const SECTIONS = [
   { id: 'more', label: 'And the rest' },
 ]
 
-/* The parts of Ruta I have worked on, as the Ruta page lists them. */
+/* The parts of Ruta I worked on, as the Ruta page lists them. */
 const RUTA_WORK = [
   'Billing and payments',
   'The crew app, including use without a signal',
@@ -115,7 +115,7 @@ export default function Portfolio() {
         </p>
       </section>
 
-      {/* Farzana Classroom: the Home screen lies back and stands up as you scroll, then two screens, side by side. */}
+      {/* Farzana Classroom: the Home screen lies back and stands up as you scroll, then two screens, side by side and level. */}
       <section id="farzana" tabIndex={-1} aria-labelledby="farzana-h" className="mt-24 scroll-mt-16 sm:mt-32">
         <Scroll mode="sticky" className="cn-hero">
           <div className="cn-wrap">
@@ -139,14 +139,14 @@ export default function Portfolio() {
           </Scroll>
         </Scroll>
 
-        <div className="cn-wrap grid gap-14 lg:grid-cols-2 lg:gap-10">
+        <div className="cn-wrap cn-pair grid items-start gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-10">
           <Scroll mode="reveal">
             <div className="cn-reveal">
               <Browser shot={SHOTS.appStudents} product={PRODUCT} />
             </div>
           </Scroll>
           <Scroll mode="reveal">
-            <div className="cn-reveal lg:mt-32">
+            <div className="cn-reveal">
               <Browser shot={SHOTS.appAnalytics} product={PRODUCT} />
             </div>
           </Scroll>
@@ -215,8 +215,8 @@ export default function Portfolio() {
             <div>
               <p className="cn-body max-w-[48ch]">
                 Ruta is service-management software for landscaping and maintenance businesses: an office app, a phone
-                app for the crews, and a portal for customers. I work on it as a contractor on Ruta’s team. The product
-                is Ruta’s.
+                app for the crews, and a portal for customers. I helped build it as a contractor on Ruta’s team. The
+                product is Ruta’s.
               </p>
               <ul className="mt-8 space-y-2.5">
                 {RUTA_WORK.map((item) => (
@@ -231,7 +231,7 @@ export default function Portfolio() {
               <Facts
                 rows={[
                   ['For', ruta.forWhom],
-                  ['Role', 'Contractor on the team'],
+                  ['Role', 'Helped build it, on Ruta’s team'],
                   ['Runs on', ruta.platforms],
                   ['Status', ruta.status],
                 ]}
@@ -296,14 +296,14 @@ export default function Portfolio() {
             </div>
           </div>
         </div>
-        <div className="cn-wrap mt-16 grid gap-14 sm:mt-20 lg:grid-cols-2 lg:gap-10">
+        <div className="cn-wrap mt-16 cn-pair grid items-start gap-14 sm:mt-20 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-10">
           <Scroll mode="reveal">
             <div className="cn-reveal">
               <Browser shot={SHOTS.kcupgDashboard} product="KCUPG" />
             </div>
           </Scroll>
           <Scroll mode="reveal">
-            <div className="cn-reveal lg:mt-32">
+            <div className="cn-reveal">
               <Browser shot={SHOTS.kcupgMap} product="KCUPG" />
             </div>
           </Scroll>

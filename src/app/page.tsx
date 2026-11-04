@@ -122,12 +122,12 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Ruta is a team's product: the line says I build on it, not that I made it. */}
+        {/* Ruta is a team's product: the line says I helped build it, not that I made it. */}
         <div className="kf-panel">
           <div className="kf-panel-head">
             <h3 className="cn-display cn-h3">Ruta</h3>
             <p className="cn-body">
-              The crew app for landscaping businesses. I build on Ruta’s team.{' '}
+              The crew app for landscaping businesses. I helped build it on Ruta’s team.{' '}
               <Link href="/ruta" className={TEXT_LINK}>
                 See Ruta
               </Link>

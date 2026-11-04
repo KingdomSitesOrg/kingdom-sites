@@ -31,8 +31,8 @@ export function Clarity() {
             eyebrow="Clear, guaranteed"
             title="We guarantee it’s clear. You’ll never have to think about it."
           >
-            I’ve built this kind of software before. I work on the team behind
-            Ruta, software for landscaping businesses whose owners aren’t
+            I’ve built this kind of software before. I helped build Ruta on its
+            team: software for landscaping businesses whose owners aren’t
             technical and need every screen to be clear. Farzana is built the
             same way.
           </SectionIntro>

@@ -79,6 +79,9 @@ html:has(.cn-head) { background: #0b0b0c; }
 .cn-browser-bar i:nth-of-type(3) { background: #28c840; }
 .cn-browser-url { margin-left: clamp(6px, 1.4cqw, 14px); flex: 1; min-width: 0; max-width: 340px; height: clamp(9px, 2.1cqw, 22px); border-radius: clamp(3px, 0.6cqw, 6px); background: #26262a; font-size: clamp(6px, 1.15cqw, 12px); color: var(--dim); display: flex; align-items: center; padding: 0 clamp(4px, 1cqw, 10px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .cn-browser img { display: block; width: 100%; height: auto; border-radius: 0 0 var(--r) var(--r); clip-path: inset(0 round 0 0 var(--r) var(--r)); }
+/* Two windows side by side show the same window shape, even when one
+   screenshot is a touch taller: the extra is trimmed off the bottom. */
+.cn-pair .cn-browser img { aspect-ratio: 16 / 10; object-fit: cover; object-position: top; }
 .cn-browser-note { margin-left: auto; flex: none; height: clamp(9px, 2.1cqw, 22px); font-size: clamp(6px, 1.05cqw, 11px); display: inline-flex; align-items: center; padding: 0 clamp(4px, 1cqw, 10px); border-radius: 999px; border: 1px solid var(--line); letter-spacing: 0.08em; text-transform: uppercase; color: #cfcbc3; font-weight: 500; white-space: nowrap; }
 .cn-phone { --r: clamp(26px, 3.4vw, 46px); --b: clamp(5px, 0.6vw, 9px); position: relative; border-radius: var(--r); padding: var(--b); background: #050505; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 30px 80px rgba(0, 0, 0, 0.6); }
 .cn-phone picture { display: block; }

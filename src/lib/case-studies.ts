@@ -152,9 +152,9 @@ export const CASE_STUDIES = {
     took: { text: ['Built in two weeks, and updated every week with more information.'] },
     result: [
       'KCUPG is live at kcupgs.com, free to use, with no sign-in. It started as a map of the city’s South Asian communities and now covers six regions.',
-      'Churches in Kansas City see which communities live where, and where to meet them. Logan Hazlet, a full-time missionary in Kansas City, Missouri, uses it.',
+      'Churches in Kansas City see which communities live where, and where to meet them. Logan, a full-time missionary in Kansas City, Missouri, uses it.',
     ],
-    /* No quote yet: Logan Hazlet will leave a Google review; quote it here
+    /* No quote yet: Logan will leave a Google review; quote it here
        once it exists, with his OK (docs/wording-pass-2.md). */
     figures: [
       {
