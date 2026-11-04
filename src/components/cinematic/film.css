@@ -77,15 +77,16 @@
 @media (prefers-reduced-motion: reduce) {
   .kf-words > span { transition: none; }
 }
-/* The line shows once its font is in (BuildWords.tsx), and on its own after a
-   moment if the script never runs. */
-.kf-build-line { display: block; padding-bottom: 0.25em; margin-bottom: -0.25em; opacity: 0; transform: translateY(0.12em); animation: kf-build-in 0.6s ease 2.5s forwards; }
-.kf-build[data-shown] .kf-build-line { animation: kf-build-go 0.6s ease forwards; }
-@keyframes kf-build-in { to { opacity: 1; transform: none; } }
-@keyframes kf-build-go { to { opacity: 1; transform: none; } }
+/* The line is there from the first paint; a short fade covers its font arriving. */
+.kf-build-line { display: block; padding-bottom: 0.25em; margin-bottom: -0.25em; animation: kf-build-in 0.3s ease both; }
+@keyframes kf-build-in { from { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) {
-  .kf-build-line { transform: none; animation-duration: 0.01s; }
+  .kf-build-line { animation: none; }
 }
+
+/* While the lid opens, the page holds still (LaptopFilm.tsx). The scroll bar
+   keeps its room, so nothing shifts sideways when it comes back. */
+html.kf-hold { overflow: hidden; scrollbar-gutter: stable; }
 
 /* Steam over the mug (LaptopFilm.tsx places it on the cup each frame). */
 .kf-steam { position: absolute; left: 0; top: 0; pointer-events: none; visibility: hidden; transform-origin: 0 0; will-change: transform; }

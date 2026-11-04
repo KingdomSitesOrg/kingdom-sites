@@ -140,12 +140,12 @@ export default function Portfolio() {
         </Scroll>
 
         <div className="cn-wrap grid gap-14 lg:grid-cols-2 lg:gap-10">
-          <Scroll>
+          <Scroll mode="reveal">
             <div className="cn-reveal">
               <Browser shot={SHOTS.appStudents} product={PRODUCT} />
             </div>
           </Scroll>
-          <Scroll>
+          <Scroll mode="reveal">
             <div className="cn-reveal lg:mt-32">
               <Browser shot={SHOTS.appAnalytics} product={PRODUCT} />
             </div>
@@ -297,12 +297,12 @@ export default function Portfolio() {
           </div>
         </div>
         <div className="cn-wrap mt-16 grid gap-14 sm:mt-20 lg:grid-cols-2 lg:gap-10">
-          <Scroll>
+          <Scroll mode="reveal">
             <div className="cn-reveal">
               <Browser shot={SHOTS.kcupgDashboard} product="KCUPG" />
             </div>
           </Scroll>
-          <Scroll>
+          <Scroll mode="reveal">
             <div className="cn-reveal lg:mt-32">
               <Browser shot={SHOTS.kcupgMap} product="KCUPG" />
             </div>
@@ -318,7 +318,7 @@ export default function Portfolio() {
           {CASES.map((p) => {
             const external = p.href!.startsWith('http')
             return (
-              <Scroll key={p.slug} className="flex">
+              <Scroll mode="reveal" key={p.slug} className="flex">
                 <a
                   href={p.href}
                   className="cn-reveal cn-case group block"

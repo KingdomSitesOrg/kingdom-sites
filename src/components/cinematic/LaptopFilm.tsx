@@ -54,15 +54,14 @@ const FALLBACK: Manifest = {
 
 /* The page opens on the dark room, low on the screen. The lights come up on
    the closed laptop this long after the visitor can actually see the scene
-   (film.css, kf-lights); then it waits. The opening plays as soon as the
-   visitor starts to scroll, once the lights are mostly up. */
+   (film.css, kf-lights); then it waits. When the visitor has scrolled the
+   scene to fill the screen, it settles there, scrolling holds while the lid
+   opens (AUTO_MS), and then the page scrolls on. */
 const LIGHTS_MS = 1000
-const LIT_SETTLE_MS = 700
-const SCROLLED_PX = 16
 /* The live screen fades in over the last few frames. */
 const FADE_FRAMES = 6
-/* How long the lid takes to open. */
-const AUTO_MS = 4000
+/* How long the lid takes to open, and so how long scrolling holds. */
+const AUTO_MS = 3000
 /* The cursor's moves run this much faster than the times written in the loop. */
 const SPEED = 1.15
 
@@ -601,9 +600,21 @@ export default function LaptopFilm() {
       const fs = set()
       const n = man.frames
 
-      // Once the lights are up and the visitor starts to scroll, the opening plays by itself.
+      // The scene fills the screen: the opening plays, and scrolling holds while it does.
       // (Not before the manifest: until then a phone lays the stage out differently.)
-      if (!auto && manReady && !reduce.matches && litAt && performance.now() >= litAt + LIT_SETTLE_MS && window.scrollY >= SCROLLED_PX) auto = { start: performance.now() }
+      if (!auto && manReady && !reduce.matches) {
+        const top = stage.getBoundingClientRect().top
+        const head = headBottom()
+        if (top <= head + 2) {
+          // Come to rest exactly on it, unless they were already far past it (a reload further down).
+          if (top > -window.innerHeight * 0.3) {
+            window.scrollTo({ top: window.scrollY + top - head, behavior: 'instant' })
+            hold(AUTO_MS)
+          }
+          if (!litAt) lightNow()
+          auto = { start: performance.now() }
+        }
+      }
       let at = reduce.matches ? n - 1 : 0
       if (auto && !reduce.matches) {
         const t = clamp((performance.now() - auto.start) / AUTO_MS)
@@ -665,10 +676,42 @@ export default function LaptopFilm() {
       if (!auto) schedule()
     }
 
+    // Where the fixed header ends: the scene "fills the screen" when its top reaches it.
+    const header = document.querySelector('.cn-head')
+    const headBottom = () => header?.getBoundingClientRect().bottom ?? 0
+
+    // Holding scrolling for the opening: no wheel, touch or keys move the page, and
+    // the page itself cannot scroll (which also stops a phone's flick in flight).
+    const html = document.documentElement
+    const stop = (e: Event) => e.preventDefault()
+    const keys = (e: KeyboardEvent) => {
+      if ([' ', 'PageDown', 'PageUp', 'ArrowDown', 'ArrowUp', 'Home', 'End'].includes(e.key) && !(e.target as HTMLElement)?.closest?.('input, textarea, [contenteditable]')) e.preventDefault()
+    }
+    let holdTimer = 0
+    const release = () => {
+      window.clearTimeout(holdTimer)
+      holdTimer = 0
+      html.classList.remove('kf-hold')
+      window.removeEventListener('wheel', stop)
+      window.removeEventListener('touchmove', stop)
+      window.removeEventListener('keydown', keys)
+    }
+    const hold = (ms: number) => {
+      if (holdTimer) return
+      html.classList.add('kf-hold')
+      window.addEventListener('wheel', stop, { passive: false })
+      window.addEventListener('touchmove', stop, { passive: false })
+      window.addEventListener('keydown', keys)
+      holdTimer = window.setTimeout(release, ms)
+    }
+
     function schedule() {
       if (!raf && !dead) raf = requestAnimationFrame(tick)
     }
 
+    function onPageLoad() {
+      if (!dead) load(kind)
+    }
     const onOrient = () => {
       kind = portrait.matches ? 'phone' : 'desktop'
       load(kind)
@@ -688,22 +731,25 @@ export default function LaptopFilm() {
     // is still being typed), so the clock starts on the first frame actually drawn
     // with the page showing, and stops again if the page is hidden first.
     let lightsFrame = 0
+    // (Arrows, not hoisted functions: they run only after this effect has set everything up.)
+    const lightNow = () => {
+      window.clearTimeout(lightsTimer)
+      cancelAnimationFrame(lightsFrame)
+      lightsFrame = lightsTimer = 0
+      litAt = performance.now()
+      stage.dataset.lit = ''
+    }
     const lightUp = () => {
       if (litAt || lightsTimer || lightsFrame || dead) return
       if (!inView || document.visibilityState !== 'visible') return
       lightsFrame = requestAnimationFrame(() => {
         lightsFrame = 0
         if (dead || document.visibilityState !== 'visible') return
-        lightsTimer = window.setTimeout(() => {
-          litAt = performance.now()
-          stage.dataset.lit = ''
-          window.setTimeout(schedule, LIT_SETTLE_MS)
-        }, LIGHTS_MS)
+        lightsTimer = window.setTimeout(lightNow, LIGHTS_MS)
       })
     }
     const onVisible = () => {
       if (document.visibilityState === 'visible') return lightUp()
-      cancelAnimationFrame(lightsFrame)
       window.clearTimeout(lightsTimer)
       cancelAnimationFrame(lightsFrame)
       lightsFrame = lightsTimer = 0
@@ -715,8 +761,11 @@ export default function LaptopFilm() {
         if (dead) return
         manReady = true
         man = { ...FALLBACK, ...m, desktop: { ...FALLBACK.desktop, ...m.desktop }, phone: { ...FALLBACK.phone, ...m.phone } }
-        load(kind)
         measure()
+        // The frames (several megabytes) wait until the page itself has loaded, so
+        // the headline, the fonts and the first picture of the room come first.
+        if (document.readyState === 'complete') load(kind)
+        else window.addEventListener('load', onPageLoad, { once: true })
       })
 
     const io = new IntersectionObserver((entries) => {
@@ -738,6 +787,8 @@ export default function LaptopFilm() {
       dead = true
       cancelAnimationFrame(raf)
       window.clearTimeout(lightsTimer)
+      release()
+      window.removeEventListener('load', onPageLoad)
       loop?.stop()
       steam.stop()
       io.disconnect()

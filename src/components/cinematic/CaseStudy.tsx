@@ -46,7 +46,7 @@ function Shown({ f }: { f: Figure }) {
    rule, as the home page's "What I make" rows. */
 function Beat({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <Scroll>
+    <Scroll mode="reveal">
       <section className="cn-reveal grid gap-4 border-t border-[var(--line)] pt-6 lg:grid-cols-[1fr_1.4fr] lg:items-baseline">
         <h2 className="cn-display cn-h2">{title}</h2>
         <div className="cn-body max-w-[52ch] space-y-5">{children}</div>
@@ -146,7 +146,7 @@ export default function CaseStudy({ study, data }: { study: Study; data: object 
 
       <div className={`cn-wrap mt-24 grid gap-14 sm:mt-32 ${study.figures.length > 1 ? 'lg:grid-cols-2 lg:gap-10' : ''}`}>
         {study.figures.map((f, i) => (
-          <Scroll key={f.shot.src}>
+          <Scroll mode="reveal" key={f.shot.src}>
             <div className={`cn-reveal ${study.figures.length > 1 && i % 2 ? 'lg:mt-32' : 'mx-auto max-w-[1180px]'}`}>
               <Shown f={f} />
             </div>
@@ -161,7 +161,7 @@ export default function CaseStudy({ study, data }: { study: Study; data: object 
         </h2>
         <div className="mt-8 grid gap-x-10 gap-y-12 md:grid-cols-3">
           {related.map((p) => (
-            <Scroll key={p.slug} className="flex">
+            <Scroll mode="reveal" key={p.slug} className="flex">
               <Link href={p.href!} className="cn-reveal cn-card group block">
                 <p className="cn-dim text-sm">
                   {p.kind} · {p.forWhom}

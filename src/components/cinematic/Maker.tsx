@@ -10,7 +10,7 @@ type Key = keyof typeof MADE
 export function Credit({ id, title }: { id: Key; title: string }) {
   const m: Made = MADE[id]
   return (
-    <Scroll className="cn-wrap">
+    <Scroll mode="reveal" className="cn-wrap">
       <div className="cn-reveal cn-credit">
         <p className="cn-display cn-h2">{title}</p>
         <p className="cn-credit-text">{m.text}</p>

@@ -69,17 +69,17 @@ export default function Home() {
         </h2>
         <p className="cn-body mx-auto mt-6 max-w-[40ch]">Now it’s coming to life.</p>
         <div className="kf-shots-grid mx-auto max-w-[1180px] text-left">
-          <Scroll>
+          <Scroll mode="reveal">
             <div className="cn-reveal">
               <Browser shot={SHOTS.appClass} product="Farzana Classroom" />
             </div>
           </Scroll>
-          <Scroll>
+          <Scroll mode="reveal">
             <div className="cn-reveal">
               <Browser shot={SHOTS.appStudents} product="Farzana Classroom" />
             </div>
           </Scroll>
-          <Scroll>
+          <Scroll mode="reveal">
             <div className="cn-reveal lg:mt-24">
               <Browser shot={SHOTS.appAnalytics} product="Farzana Classroom" />
             </div>
@@ -156,12 +156,12 @@ export default function Home() {
           </p>
         </div>
         <div className="cn-wrap mx-auto mt-14 grid max-w-[1260px] gap-8 sm:mt-20 lg:grid-cols-2 lg:gap-10">
-          <Scroll>
+          <Scroll mode="reveal">
             <div className="cn-reveal">
               <Browser shot={SHOTS.kcupgDashboard} product="KCUPG" />
             </div>
           </Scroll>
-          <Scroll>
+          <Scroll mode="reveal">
             <div className="cn-reveal lg:mt-24">
               <Browser shot={SHOTS.kcupgMap} product="KCUPG" />
             </div>

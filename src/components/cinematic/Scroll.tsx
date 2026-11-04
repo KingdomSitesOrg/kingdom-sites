@@ -21,6 +21,10 @@ import { useEffect, useRef } from 'react'
  * frame. Pictures inside are fetched and decoded a couple of screens ahead, so
  * none is unpacked just as it arrives.
  *
+ * - `reveal`: only that. No progress and no scroll listener at all: the browser
+ *   says when it comes near and into view, and then it is done. For a section
+ *   that only rises in, so scrolling does no work for it.
+ *
  * One passive scroll listener and one frame per change; nothing runs while the
  * page is still.
  */
@@ -32,7 +36,7 @@ export default function Scroll({
   children,
   ...rest
 }: {
-  mode?: 'through' | 'sticky'
+  mode?: 'through' | 'sticky' | 'reveal'
   prop?: `--${string}`
   steps?: number
   className?: string
@@ -43,6 +47,33 @@ export default function Scroll({
   useEffect(() => {
     const el = ref.current
     if (!el) return
+    if (mode === 'reveal') {
+      const warm = new IntersectionObserver(
+        ([e]) => {
+          if (!e.isIntersecting) return
+          for (const img of el.querySelectorAll('img')) {
+            img.loading = 'eager'
+            img.decode().catch(() => {})
+          }
+          warm.disconnect()
+        },
+        { rootMargin: '300% 0px' },
+      )
+      const show = new IntersectionObserver(
+        ([e]) => {
+          if (!e.isIntersecting) return
+          el.dataset.in = ''
+          show.disconnect()
+        },
+        { rootMargin: '0px 0px -8% 0px' },
+      )
+      warm.observe(el)
+      show.observe(el)
+      return () => {
+        warm.disconnect()
+        show.disconnect()
+      }
+    }
     let frame = 0
     let warmed = false
     const update = () => {
