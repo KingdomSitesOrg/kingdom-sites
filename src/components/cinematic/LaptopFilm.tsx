@@ -75,7 +75,7 @@ const videoUrl = (kind: Kind) => `${FILM_BASE}/${kind}.mp4`
 /* How long the lid takes to open, and so how long scrolling holds. */
 const AUTO_MS = 3000
 /* The cursor's moves run this much faster than the times written in the loop. */
-const SPEED = 1.15
+const SPEED = 1.6
 
 /* The live screen is the render's 16:10 display: the app's screenshots are
    1800 x 1095 (its own beta strip cropped off), shown at full size with 48 px
@@ -248,11 +248,14 @@ function startLoop(el: {
   }
 
   const run = async () => {
+    let first = true
     while (!dead) {
       show('home')
       pos = [1100, 760]
       place(pos)
-      await wait(700)
+      // The first time round it moves the moment the laptop comes to rest.
+      if (!first) await wait(700)
+      first = false
       // Home, then the Sample Class card.
       await move([560, 720], 1150)
       box(el.ring, CARD)
