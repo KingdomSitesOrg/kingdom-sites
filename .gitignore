@@ -58,3 +58,20 @@ CLAUDE.md
 
 # placeholder film frames for building the home page film (the real ones are in public/film)
 /public/film-dev/
+
+# AI productivity film: renders, locks and bulky build/audio intermediates.
+# Kept trackable on purpose (they cost credits to make): audio/voice/ chosen lines,
+# auditions and timestamps, audio/music/ the music file, audio/foley/ the sound files.
+film/ai-productivity/renders/
+film/ai-productivity/.locks/
+film/ai-productivity/video/node_modules/
+film/ai-productivity/video/out/
+film/ai-productivity/video/review/dist/
+film/ai-productivity/video/public/scenes
+film/ai-productivity/video/public/drafts
+film/ai-productivity/video/public/mix.wav
+film/ai-productivity/audio/mix/
+film/ai-productivity/audio/**/tmp/
+film/ai-productivity/audio/**/*.raw.wav
+film/ai-productivity/audio/**/*_stem*.wav
+film/ai-productivity/**/__pycache__/

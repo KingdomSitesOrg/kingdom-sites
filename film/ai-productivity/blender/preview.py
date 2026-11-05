@@ -121,22 +121,29 @@ def main():
     ap.add_argument("--what", default="sheet")
     ap.add_argument("--out", required=True)
     ap.add_argument("--tilt", type=float, default=10.0)
+    # speed tests (phase 0): size, samples and a frame range for the anim test
+    ap.add_argument("--width", type=int, default=None)
+    ap.add_argument("--height", type=int, default=None)
+    ap.add_argument("--samples", type=int, default=None)
+    ap.add_argument("--frames", default=None, help="first:last for --what anim, e.g. 100:119")
+    ap.add_argument("--tag", default="", help="suffix for output names")
     a = ap.parse_args(argv)
 
     kit.reset()
     kit.use_palette(a.palette)
     os.makedirs(a.out, exist_ok=True)
     if a.what == "anim":
-        sc = kit.setup(960, 540, samples=24, tilt_deg=a.tilt)
+        sc = kit.setup(a.width or 960, a.height or 540, samples=a.samples or 24, tilt_deg=a.tilt)
         style_scene(animate=True)
         kit.ease_all()
-        sc.frame_start, sc.frame_end = 1, 150
-        sc.render.filepath = os.path.join(a.out, f"anim_{a.palette}_")
+        f0, f1 = (int(x) for x in a.frames.split(":")) if a.frames else (1, 150)
+        sc.frame_start, sc.frame_end = f0, f1
+        sc.render.filepath = os.path.join(a.out, f"anim_{a.palette}{a.tag}_")
         bpy.ops.render.render(animation=True)
         return
-    sc = kit.setup(1920, 1080, samples=64, tilt_deg=a.tilt)
+    sc = kit.setup(a.width or 1920, a.height or 1080, samples=a.samples or 64, tilt_deg=a.tilt)
     (sheet if a.what == "sheet" else style_scene)()
-    sc.render.filepath = os.path.join(a.out, f"{a.what}_{a.palette}.png")
+    sc.render.filepath = os.path.join(a.out, f"{a.what}_{a.palette}{a.tag}.png")
     bpy.ops.render.render(write_still=True)
 
 

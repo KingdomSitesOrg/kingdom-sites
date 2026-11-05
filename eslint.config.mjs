@@ -20,6 +20,8 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
     "public/pdf.worker.min.mjs",
+    // Code films (film/*) are separate projects with their own packages and checks.
+    "film/**",
   ]),
 ]);
 

@@ -1,0 +1,14 @@
+{
+  "tipX": 49.1,
+  "tipY": 48.7,
+  "width": 177,
+  "height": 177,
+  "at2x": {
+    "file": "cursor@2x.png",
+    "tipX": 85.2,
+    "tipY": 83.4,
+    "width": 331,
+    "height": 328
+  },
+  "note": "Drawn 1:1 at 1080p. Top-left = (x - tipX, y - tipY) puts the pointer's tip on (x, y). Soft contact shadow baked in (cursor floating at z 0.22, as in the approved scene 5 still). Rendered from kit.cursor() by blender/cursor_sprite.py + cursor_compose.py."
+}

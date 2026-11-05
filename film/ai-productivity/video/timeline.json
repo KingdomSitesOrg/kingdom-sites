@@ -1,0 +1,3806 @@
+{
+ "fps": 30,
+ "bpm": 120,
+ "width": 1920,
+ "height": 1080,
+ "durationInFrames": 2341,
+ "seconds": 78.033,
+ "frameConvention": "film frames are 0-based at 30 fps; beat n is film frame 15n+1; scene local frame L = film frame start+L-1; local beat j = local frame 15j+1; film frame 0 holds scene 1's local frame 1",
+ "silence": {
+  "start": 466,
+  "end": 480
+ },
+ "music": [
+  {
+   "from": 1,
+   "to": 465,
+   "what": "soft start: one plucked/keys layer, light pulse; builds a little under scene 2"
+  },
+  {
+   "from": 466,
+   "to": 480,
+   "what": "silence: music and every sound stop for this one beat"
+  },
+  {
+   "from": 481,
+   "to": 600,
+   "what": "the turn: music returns brighter on the sweep (s03 beat 1)"
+  },
+  {
+   "from": 601,
+   "to": 2070,
+   "what": "builds a layer at each feature scene (s04, s05, s06, s07, s08, s09); never detuned or 'bad'"
+  },
+  {
+   "from": 2071,
+   "to": 2280,
+   "what": "settles under the end card"
+  },
+  {
+   "from": 2281,
+   "to": 2340,
+   "what": "final chord lands on s10 beat 14 and rings into the fade to white and black"
+  }
+ ],
+ "voice": [
+  {
+   "scene": "s01",
+   "line": 1,
+   "text": "A school has a thousand moving parts. Most of them still run on paper.",
+   "start": 31,
+   "end": 171,
+   "localStart": 31,
+   "localEnd": 171,
+   "seconds": 4.7,
+   "file": "audio/voice/lines/line01.wav",
+   "estimate": false,
+   "fileSeconds": 5.062,
+   "fileEnd": 182,
+   "speechOn": 0.04,
+   "timestamps": "audio/voice/lines/line01.json"
+  },
+  {
+   "scene": "s02",
+   "line": 2,
+   "text": "Most teams have more work than they can handle. And they only know AI as a sloppy, jargon-filled email drafter.",
+   "start": 241,
+   "end": 450,
+   "localStart": 1,
+   "localEnd": 210,
+   "seconds": 7,
+   "file": "audio/voice/lines/line02.wav",
+   "estimate": false,
+   "fileSeconds": 7.338,
+   "fileEnd": 461,
+   "speechOn": 0.03,
+   "timestamps": "audio/voice/lines/line02.json"
+  },
+  {
+   "scene": "s03",
+   "line": 3,
+   "text": "What if AI did the busywork, and your people did the thinking?",
+   "start": 481,
+   "end": 586,
+   "localStart": 1,
+   "localEnd": 106,
+   "seconds": 3.533,
+   "file": "audio/voice/lines/line03.wav",
+   "estimate": false,
+   "fileSeconds": 3.855,
+   "fileEnd": 596,
+   "speechOn": 0.08,
+   "timestamps": "audio/voice/lines/line03.json"
+  },
+  {
+   "scene": "s04",
+   "line": 4,
+   "text": "Give Claude your handbook, your policies, your voice, once. Then share it with your whole team.",
+   "start": 616,
+   "end": 803,
+   "localStart": 16,
+   "localEnd": 203,
+   "seconds": 6.267,
+   "file": "audio/voice/lines/line04.wav",
+   "estimate": false,
+   "fileSeconds": 6.548,
+   "fileEnd": 812,
+   "speechOn": 0.03,
+   "timestamps": "audio/voice/lines/line04.json"
+  },
+  {
+   "scene": "s05",
+   "line": 5,
+   "text": "Scan a stack of paper forms, and get clean records instead of retyping.",
+   "start": 901,
+   "end": 1030,
+   "localStart": 31,
+   "localEnd": 160,
+   "seconds": 4.333,
+   "file": "audio/voice/lines/line05.wav",
+   "estimate": false,
+   "fileSeconds": 4.69,
+   "fileEnd": 1041,
+   "speechOn": 0.03,
+   "timestamps": "audio/voice/lines/line05.json"
+  },
+  {
+   "scene": "s06",
+   "line": 6,
+   "text": "Build a survey, read every answer, and see what to fix next.",
+   "start": 1156,
+   "end": 1274,
+   "localStart": 16,
+   "localEnd": 134,
+   "seconds": 3.967,
+   "file": "audio/voice/lines/line06.wav",
+   "estimate": false,
+   "fileSeconds": 4.319,
+   "fileEnd": 1285,
+   "speechOn": 0.03,
+   "timestamps": "audio/voice/lines/line06.json"
+  },
+  {
+   "scene": "s07",
+   "line": 7,
+   "text": "Sort the inbox. Answer questions where your team already talks.",
+   "start": 1426,
+   "end": 1539,
+   "localStart": 46,
+   "localEnd": 159,
+   "seconds": 3.8,
+   "file": "audio/voice/lines/line07.wav",
+   "estimate": false,
+   "fileSeconds": 4.133,
+   "fileEnd": 1549,
+   "speechOn": 0,
+   "timestamps": "audio/voice/lines/line07.json"
+  },
+  {
+   "scene": "s08",
+   "line": 8,
+   "text": "Send an agent out to do the legwork, and bring back what you need.",
+   "start": 1606,
+   "end": 1711,
+   "localStart": 16,
+   "localEnd": 121,
+   "seconds": 3.533,
+   "file": "audio/voice/lines/line08.wav",
+   "estimate": false,
+   "fileSeconds": 3.901,
+   "fileEnd": 1723,
+   "speechOn": 0.01,
+   "timestamps": "audio/voice/lines/line08.json"
+  },
+  {
+   "scene": "s09",
+   "line": 9,
+   "text": "Your people bring the idea. AI does the work in between. Your people check it before anything goes out.",
+   "start": 1831,
+   "end": 2014,
+   "localStart": 31,
+   "localEnd": 214,
+   "seconds": 6.133,
+   "file": "audio/voice/lines/line09.wav",
+   "estimate": false,
+   "fileSeconds": 6.502,
+   "fileEnd": 2026,
+   "speechOn": 0.06,
+   "timestamps": "audio/voice/lines/line09.json"
+  },
+  {
+   "scene": "s10",
+   "line": 10,
+   "text": "Let's help you save time, money and stress by letting AI do the heavy lifting.",
+   "start": 2086,
+   "end": 2239,
+   "localStart": 16,
+   "localEnd": 169,
+   "seconds": 5.133,
+   "file": "audio/voice/lines/line10.wav",
+   "estimate": false,
+   "fileSeconds": 5.48,
+   "fileEnd": 2250,
+   "speechOn": 0.03,
+   "timestamps": "audio/voice/lines/line10.json"
+  }
+ ],
+ "scenes": [
+  {
+   "id": "s01",
+   "name": "Paper",
+   "start": 1,
+   "length": 240,
+   "end": 240,
+   "beats": 16,
+   "voice": {
+    "line": 1,
+    "text": "A school has a thousand moving parts. Most of them still run on paper.",
+    "start": 31,
+    "end": 171,
+    "localStart": 31,
+    "localEnd": 171,
+    "seconds": 4.7,
+    "file": "audio/voice/lines/line01.wav",
+    "estimate": false,
+    "fileSeconds": 5.062,
+    "fileEnd": 182,
+    "speechOn": 0.04,
+    "timestamps": "audio/voice/lines/line01.json"
+   },
+   "beatsLocal": {
+    "stackA": 16,
+    "stackB": 31,
+    "stickyA": 46,
+    "stackC": 61,
+    "stackD": 76,
+    "stickyB": 91,
+    "stackE": 106,
+    "stickyD": 121,
+    "inbox": 136,
+    "count3": 151,
+    "count12": 166,
+    "count27": 181,
+    "count48": 196,
+    "count99": 211,
+    "stickyE": 226
+   },
+   "presses": [],
+   "labels": [
+    {
+     "text": "3",
+     "words": 1,
+     "kind": "counter",
+     "in": 151,
+     "out": 166,
+     "localIn": 151,
+     "localOut": 166,
+     "hold": 15,
+     "minHold": 44,
+     "x": 5.95,
+     "y": 2.85
+    },
+    {
+     "text": "12",
+     "words": 1,
+     "kind": "counter",
+     "in": 166,
+     "out": 181,
+     "localIn": 166,
+     "localOut": 181,
+     "hold": 15,
+     "minHold": 44,
+     "x": 5.95,
+     "y": 2.85
+    },
+    {
+     "text": "27",
+     "words": 1,
+     "kind": "counter",
+     "in": 181,
+     "out": 196,
+     "localIn": 181,
+     "localOut": 196,
+     "hold": 15,
+     "minHold": 44,
+     "x": 5.95,
+     "y": 2.85
+    },
+    {
+     "text": "48",
+     "words": 1,
+     "kind": "counter",
+     "in": 196,
+     "out": 211,
+     "localIn": 196,
+     "localOut": 211,
+     "hold": 15,
+     "minHold": 44,
+     "x": 5.95,
+     "y": 2.85
+    },
+    {
+     "text": "99+",
+     "words": 1,
+     "kind": "counter",
+     "in": 211,
+     "out": 481,
+     "localIn": 211,
+     "localOut": 481,
+     "hold": 270,
+     "minHold": 44,
+     "x": 5.95,
+     "y": 2.85
+    }
+   ],
+   "cues": [
+    {
+     "sound": "paper",
+     "frame": 16,
+     "localFrame": 16,
+     "beat": 1,
+     "pan": -0.61,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "paper",
+     "frame": 31,
+     "localFrame": 31,
+     "beat": 2,
+     "pan": -0.36,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "sticky",
+     "frame": 46,
+     "localFrame": 46,
+     "beat": 3,
+     "pan": -0.58,
+     "gain": -22,
+     "primary": true
+    },
+    {
+     "sound": "paper",
+     "frame": 61,
+     "localFrame": 61,
+     "beat": 4,
+     "pan": -0.12,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "paper",
+     "frame": 76,
+     "localFrame": 76,
+     "beat": 5,
+     "pan": -0.54,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "sticky",
+     "frame": 91,
+     "localFrame": 91,
+     "beat": 6,
+     "pan": -0.33,
+     "gain": -22,
+     "primary": true
+    },
+    {
+     "sound": "paper",
+     "frame": 106,
+     "localFrame": 106,
+     "beat": 7,
+     "pan": -0.26,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "sticky",
+     "frame": 121,
+     "localFrame": 121,
+     "beat": 8,
+     "pan": -0.5,
+     "gain": -22,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 136,
+     "localFrame": 136,
+     "beat": 9,
+     "pan": 0.54,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "tick",
+     "frame": 151,
+     "localFrame": 151,
+     "beat": 10,
+     "pan": 0.59,
+     "gain": -26,
+     "primary": true
+    },
+    {
+     "sound": "tick",
+     "frame": 166,
+     "localFrame": 166,
+     "beat": 11,
+     "pan": 0.59,
+     "gain": -26,
+     "primary": true
+    },
+    {
+     "sound": "tick",
+     "frame": 181,
+     "localFrame": 181,
+     "beat": 12,
+     "pan": 0.59,
+     "gain": -26,
+     "primary": true
+    },
+    {
+     "sound": "tick",
+     "frame": 196,
+     "localFrame": 196,
+     "beat": 13,
+     "pan": 0.59,
+     "gain": -26,
+     "primary": true
+    },
+    {
+     "sound": "tick",
+     "frame": 211,
+     "localFrame": 211,
+     "beat": 14,
+     "pan": 0.59,
+     "gain": -26,
+     "primary": true
+    },
+    {
+     "sound": "sticky",
+     "frame": 226,
+     "localFrame": 226,
+     "beat": 15,
+     "pan": -0.23,
+     "gain": -22,
+     "primary": true
+    }
+   ],
+   "paths": [],
+   "handoffIn": [],
+   "handoffOut": "all of scene 1 stays where it is into scene 2 (see SCRIPT.md handoff table)",
+   "clip": "scenes/s01.mp4",
+   "frames": "scenes/s01/",
+   "draft": "drafts/s01/latest.png"
+  },
+  {
+   "id": "s02",
+   "name": "Overload",
+   "start": 241,
+   "length": 240,
+   "end": 480,
+   "beats": 16,
+   "voice": {
+    "line": 2,
+    "text": "Most teams have more work than they can handle. And they only know AI as a sloppy, jargon-filled email drafter.",
+    "start": 241,
+    "end": 450,
+    "localStart": 1,
+    "localEnd": 210,
+    "seconds": 7,
+    "file": "audio/voice/lines/line02.wav",
+    "estimate": false,
+    "fileSeconds": 7.338,
+    "fileEnd": 461,
+    "speechOn": 0.03,
+    "timestamps": "audio/voice/lines/line02.json"
+   },
+   "beatsLocal": {
+    "todoHeader": 16,
+    "todoRow1": 31,
+    "todoRow2": 46,
+    "todoRow3": 61,
+    "todoSurge": 76,
+    "email": 106,
+    "chip1": 121,
+    "chip2": 136,
+    "chip3": 151,
+    "filler": 166,
+    "chip4": 181,
+    "swell": 196,
+    "hold": 211,
+    "silence": 226
+   },
+   "presses": [],
+   "labels": [],
+   "cues": [
+    {
+     "sound": "pop",
+     "frame": 256,
+     "localFrame": 16,
+     "beat": 17,
+     "pan": 0.14,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 271,
+     "localFrame": 31,
+     "beat": 18,
+     "pan": 0.14,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 286,
+     "localFrame": 46,
+     "beat": 19,
+     "pan": 0.14,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 301,
+     "localFrame": 61,
+     "beat": 20,
+     "pan": 0.14,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "grow",
+     "frame": 316,
+     "localFrame": 76,
+     "beat": 21,
+     "pan": 0.14,
+     "gain": -22,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 346,
+     "localFrame": 106,
+     "beat": 23,
+     "pan": 0.52,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 361,
+     "localFrame": 121,
+     "beat": 24,
+     "pan": 0.43,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 376,
+     "localFrame": 136,
+     "beat": 25,
+     "pan": 0.56,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 391,
+     "localFrame": 151,
+     "beat": 26,
+     "pan": 0.61,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "grow",
+     "frame": 406,
+     "localFrame": 166,
+     "beat": 27,
+     "pan": 0.52,
+     "gain": -22,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 421,
+     "localFrame": 181,
+     "beat": 28,
+     "pan": 0.46,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 436,
+     "localFrame": 196,
+     "beat": 29,
+     "pan": 0.52,
+     "gain": -20,
+     "primary": true
+    }
+   ],
+   "paths": [],
+   "handoffIn": [],
+   "handoffOut": "everything on screen goes into scene 3 unchanged",
+   "clip": "scenes/s02.mp4",
+   "frames": "scenes/s02/",
+   "draft": "drafts/s02/latest.png"
+  },
+  {
+   "id": "s03",
+   "name": "Sweep",
+   "start": 481,
+   "length": 120,
+   "end": 600,
+   "beats": 8,
+   "voice": {
+    "line": 3,
+    "text": "What if AI did the busywork, and your people did the thinking?",
+    "start": 481,
+    "end": 586,
+    "localStart": 1,
+    "localEnd": 106,
+    "seconds": 3.533,
+    "file": "audio/voice/lines/line03.wav",
+    "estimate": false,
+    "fileSeconds": 3.855,
+    "fileEnd": 596,
+    "speechOn": 0.08,
+    "timestamps": "audio/voice/lines/line03.json"
+   },
+   "beatsLocal": {
+    "sweep": 1,
+    "folder": 16,
+    "close": 31
+   },
+   "presses": [],
+   "labels": [],
+   "cues": [
+    {
+     "sound": "paper",
+     "frame": 481,
+     "localFrame": 1,
+     "beat": 32,
+     "pan": 0,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 496,
+     "localFrame": 16,
+     "beat": 33,
+     "pan": 0,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 511,
+     "localFrame": 31,
+     "beat": 34,
+     "pan": 0,
+     "gain": -20,
+     "primary": true
+    }
+   ],
+   "paths": [],
+   "handoffIn": [],
+   "handoffOut": "folder at (0, 0.2, 0), scale 1.2, rot 0",
+   "clip": "scenes/s03.mp4",
+   "frames": "scenes/s03/",
+   "draft": "drafts/s03/latest.png"
+  },
+  {
+   "id": "s04",
+   "name": "Project",
+   "start": 601,
+   "length": 270,
+   "end": 870,
+   "beats": 18,
+   "voice": {
+    "line": 4,
+    "text": "Give Claude your handbook, your policies, your voice, once. Then share it with your whole team.",
+    "start": 616,
+    "end": 803,
+    "localStart": 16,
+    "localEnd": 203,
+    "seconds": 6.267,
+    "file": "audio/voice/lines/line04.wav",
+    "estimate": false,
+    "fileSeconds": 6.548,
+    "fileEnd": 812,
+    "speechOn": 0.03,
+    "timestamps": "audio/voice/lines/line04.json"
+   },
+   "beatsLocal": {
+    "mr": 16,
+    "project": 31,
+    "handbook": 46,
+    "policies": 76,
+    "styleGuide": 91,
+    "jl": 151,
+    "ak": 166,
+    "exit": 226,
+    "mrMove": 241,
+    "mrLand": 256
+   },
+   "presses": [],
+   "labels": [
+    {
+     "text": "Handbook",
+     "words": 1,
+     "kind": "label",
+     "in": 646,
+     "out": 826,
+     "localIn": 46,
+     "localOut": 226,
+     "hold": 180,
+     "minHold": 44,
+     "x": -1.75,
+     "y": 1.6
+    },
+    {
+     "text": "Policies",
+     "words": 1,
+     "kind": "label",
+     "in": 676,
+     "out": 826,
+     "localIn": 76,
+     "localOut": 226,
+     "hold": 150,
+     "minHold": 44,
+     "x": -1.75,
+     "y": 0.35
+    },
+    {
+     "text": "Style guide",
+     "words": 2,
+     "kind": "label",
+     "in": 691,
+     "out": 826,
+     "localIn": 91,
+     "localOut": 226,
+     "hold": 135,
+     "minHold": 57,
+     "x": -1.75,
+     "y": -0.9
+    },
+    {
+     "text": "MR",
+     "words": 1,
+     "kind": "initials",
+     "in": 616,
+     "out": 2086,
+     "localIn": 16,
+     "localOut": 1486,
+     "hold": 1470,
+     "minHold": 44,
+     "x": -1.2,
+     "y": -2.75
+    },
+    {
+     "text": "JL",
+     "words": 1,
+     "kind": "initials",
+     "in": 751,
+     "out": 826,
+     "localIn": 151,
+     "localOut": 226,
+     "hold": 75,
+     "minHold": 44,
+     "x": 0,
+     "y": -2.75
+    },
+    {
+     "text": "AK",
+     "words": 1,
+     "kind": "initials",
+     "in": 766,
+     "out": 826,
+     "localIn": 166,
+     "localOut": 226,
+     "hold": 60,
+     "minHold": 44,
+     "x": 1.2,
+     "y": -2.75
+    }
+   ],
+   "cues": [
+    {
+     "sound": "pop",
+     "frame": 616,
+     "localFrame": 16,
+     "beat": 41,
+     "pan": -0.12,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 631,
+     "localFrame": 31,
+     "beat": 42,
+     "pan": 0,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 646,
+     "localFrame": 46,
+     "beat": 43,
+     "pan": 0,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 676,
+     "localFrame": 76,
+     "beat": 45,
+     "pan": 0,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 691,
+     "localFrame": 91,
+     "beat": 46,
+     "pan": 0,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 751,
+     "localFrame": 151,
+     "beat": 50,
+     "pan": 0,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 766,
+     "localFrame": 166,
+     "beat": 51,
+     "pan": 0.12,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 856,
+     "localFrame": 256,
+     "beat": 57,
+     "pan": 0.36,
+     "gain": -26,
+     "primary": true
+    }
+   ],
+   "paths": [],
+   "handoffIn": [],
+   "handoffOut": {
+    "name": "mr",
+    "kit": "avatar(\"mr\", \"MR\", \"a2\", size=0.85)",
+    "scale": 1,
+    "rot": 0,
+    "x": 3.6,
+    "y": -2.65,
+    "z": 0
+   },
+   "clip": "scenes/s04.mp4",
+   "frames": "scenes/s04/",
+   "draft": "drafts/s04/latest.png"
+  },
+  {
+   "id": "s05",
+   "name": "Photo",
+   "start": 871,
+   "length": 270,
+   "end": 1140,
+   "beats": 18,
+   "voice": {
+    "line": 5,
+    "text": "Scan a stack of paper forms, and get clean records instead of retyping.",
+    "start": 901,
+    "end": 1030,
+    "localStart": 31,
+    "localEnd": 160,
+    "seconds": 4.333,
+    "file": "audio/voice/lines/line05.wav",
+    "estimate": false,
+    "fileSeconds": 4.69,
+    "fileEnd": 1041,
+    "speechOn": 0.03,
+    "timestamps": "audio/voice/lines/line05.json"
+   },
+   "beatsLocal": {
+    "paperIn": 16,
+    "cloudTable": 31,
+    "phone": 46,
+    "shutter": 61,
+    "pathA": 76,
+    "cloudIn": 91,
+    "pathB": 106,
+    "row0": 121,
+    "row1": 136,
+    "row2": 151,
+    "row3": 166,
+    "approve": 181,
+    "press": 211,
+    "exit": 241
+   },
+   "presses": [
+    {
+     "name": "approve",
+     "target": "approve",
+     "localFrame": 211,
+     "frame": 1081,
+     "world": [
+      6.728000000000001,
+      -2.73,
+      0.12
+     ],
+     "x": 1767.4,
+     "y": 861.4,
+     "source": "blender"
+    }
+   ],
+   "labels": [
+    {
+     "text": "Approve",
+     "words": 1,
+     "kind": "label",
+     "in": 1051,
+     "out": 1111,
+     "localIn": 181,
+     "localOut": 241,
+     "hold": 60,
+     "minHold": 44,
+     "x": 5.9,
+     "y": -2.65
+    }
+   ],
+   "cues": [
+    {
+     "sound": "pop",
+     "frame": 886,
+     "localFrame": 16,
+     "beat": 59,
+     "pan": -0.53,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 901,
+     "localFrame": 31,
+     "beat": 60,
+     "pan": 0.28,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "whoosh",
+     "frame": 916,
+     "localFrame": 46,
+     "beat": 61,
+     "pan": -0.41,
+     "gain": -22,
+     "primary": true
+    },
+    {
+     "sound": "shutter",
+     "frame": 931,
+     "localFrame": 61,
+     "beat": 62,
+     "pan": -0.41,
+     "gain": -18,
+     "primary": true
+    },
+    {
+     "sound": "whoosh",
+     "frame": 946,
+     "localFrame": 76,
+     "beat": 63,
+     "pan": -0.26,
+     "gain": -22,
+     "primary": true
+    },
+    {
+     "sound": "tick",
+     "frame": 946,
+     "localFrame": 76,
+     "beat": 63,
+     "pan": -0.26,
+     "gain": -30,
+     "primary": false,
+     "run": {
+      "count": 10,
+      "every": 1
+     },
+     "path": "pathA"
+    },
+    {
+     "sound": "cloud",
+     "frame": 961,
+     "localFrame": 91,
+     "beat": 64,
+     "pan": 0.01,
+     "gain": -22,
+     "primary": true
+    },
+    {
+     "sound": "whoosh",
+     "frame": 976,
+     "localFrame": 106,
+     "beat": 65,
+     "pan": 0.24,
+     "gain": -22,
+     "primary": true
+    },
+    {
+     "sound": "tick",
+     "frame": 976,
+     "localFrame": 106,
+     "beat": 65,
+     "pan": 0.24,
+     "gain": -30,
+     "primary": false,
+     "run": {
+      "count": 9,
+      "every": 1
+     },
+     "path": "pathB"
+    },
+    {
+     "sound": "row",
+     "frame": 991,
+     "localFrame": 121,
+     "beat": 66,
+     "pan": 0.54,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "row",
+     "frame": 1006,
+     "localFrame": 136,
+     "beat": 67,
+     "pan": 0.54,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "row",
+     "frame": 1021,
+     "localFrame": 151,
+     "beat": 68,
+     "pan": 0.54,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "row",
+     "frame": 1036,
+     "localFrame": 166,
+     "beat": 69,
+     "pan": 0.54,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 1051,
+     "localFrame": 181,
+     "beat": 70,
+     "pan": 0.59,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "click",
+     "frame": 1081,
+     "localFrame": 211,
+     "beat": 72,
+     "pan": 0.59,
+     "gain": -16,
+     "primary": true
+    }
+   ],
+   "paths": [
+    {
+     "name": "pathA",
+     "p0": [
+      -3.5,
+      1.25
+     ],
+     "c": [
+      -2.85,
+      2.55
+     ],
+     "p1": [
+      -1.75,
+      1.75
+     ],
+     "dots": 10,
+     "length": 2.18,
+     "every": 1,
+     "localStart": 76,
+     "localDrawn": 85,
+     "start": 946,
+     "drawn": 955
+    },
+    {
+     "name": "pathB",
+     "p0": [
+      1.5,
+      0.8
+     ],
+     "c": [
+      2.3,
+      -0.05
+     ],
+     "p1": [
+      3.25,
+      0.45
+     ],
+     "dots": 9,
+     "length": 1.944,
+     "every": 1,
+     "localStart": 106,
+     "localDrawn": 114,
+     "start": 976,
+     "drawn": 984
+    }
+   ],
+   "handoffIn": {
+    "name": "mr",
+    "kit": "avatar(\"mr\", \"MR\", \"a2\", size=0.85)",
+    "scale": 1,
+    "rot": 0,
+    "x": 3.6,
+    "y": -2.65,
+    "z": 0
+   },
+   "handoffOut": {
+    "name": "mr",
+    "kit": "avatar(\"mr\", \"MR\", \"a2\", size=0.85)",
+    "scale": 1,
+    "rot": 0,
+    "x": 3.6,
+    "y": -2.65,
+    "z": 0
+   },
+   "clip": "scenes/s05.mp4",
+   "frames": "scenes/s05/",
+   "draft": "drafts/s05/latest.png",
+   "cursor": {
+    "enter": 1051,
+    "exit": 1111
+   }
+  },
+  {
+   "id": "s06",
+   "name": "Survey",
+   "start": 1141,
+   "length": 240,
+   "end": 1380,
+   "beats": 16,
+   "voice": {
+    "line": 6,
+    "text": "Build a survey, read every answer, and see what to fix next.",
+    "start": 1156,
+    "end": 1274,
+    "localStart": 16,
+    "localEnd": 134,
+    "seconds": 3.967,
+    "file": "audio/voice/lines/line06.wav",
+    "estimate": false,
+    "fileSeconds": 4.319,
+    "fileEnd": 1285,
+    "speechOn": 0.03,
+    "timestamps": "audio/voice/lines/line06.json"
+   },
+   "beatsLocal": {
+    "stack": 16,
+    "fan0": 31,
+    "fan1": 46,
+    "fan3": 61,
+    "fan4": 76,
+    "chart": 91,
+    "bars": 106,
+    "improve": 121,
+    "exit": 211
+   },
+   "presses": [],
+   "labels": [
+    {
+     "text": "3 things to improve",
+     "words": 4,
+     "kind": "label",
+     "in": 1261,
+     "out": 1351,
+     "localIn": 121,
+     "localOut": 211,
+     "hold": 90,
+     "minHold": 84,
+     "x": 0.4,
+     "y": -2.33
+    }
+   ],
+   "cues": [
+    {
+     "sound": "pop",
+     "frame": 1156,
+     "localFrame": 16,
+     "beat": 77,
+     "pan": -0.44,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "row",
+     "frame": 1171,
+     "localFrame": 31,
+     "beat": 78,
+     "pan": -0.6,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "row",
+     "frame": 1186,
+     "localFrame": 46,
+     "beat": 79,
+     "pan": -0.52,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "row",
+     "frame": 1201,
+     "localFrame": 61,
+     "beat": 80,
+     "pan": -0.36,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "row",
+     "frame": 1216,
+     "localFrame": 76,
+     "beat": 81,
+     "pan": -0.28,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 1231,
+     "localFrame": 91,
+     "beat": 82,
+     "pan": 0.34,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "grow",
+     "frame": 1246,
+     "localFrame": 106,
+     "beat": 83,
+     "pan": 0.34,
+     "gain": -22,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 1261,
+     "localFrame": 121,
+     "beat": 84,
+     "pan": 0.06,
+     "gain": -20,
+     "primary": true
+    }
+   ],
+   "paths": [],
+   "handoffIn": {
+    "name": "mr",
+    "kit": "avatar(\"mr\", \"MR\", \"a2\", size=0.85)",
+    "scale": 1,
+    "rot": 0,
+    "x": 3.6,
+    "y": -2.65,
+    "z": 0
+   },
+   "handoffOut": {
+    "name": "mr",
+    "kit": "avatar(\"mr\", \"MR\", \"a2\", size=0.85)",
+    "scale": 1,
+    "rot": 0,
+    "x": 3.6,
+    "y": -2.65,
+    "z": 0
+   },
+   "clip": "scenes/s06.mp4",
+   "frames": "scenes/s06/",
+   "draft": "drafts/s06/latest.png"
+  },
+  {
+   "id": "s07",
+   "name": "Inbox",
+   "start": 1381,
+   "length": 210,
+   "end": 1590,
+   "beats": 14,
+   "voice": {
+    "line": 7,
+    "text": "Sort the inbox. Answer questions where your team already talks.",
+    "start": 1426,
+    "end": 1539,
+    "localStart": 46,
+    "localEnd": 159,
+    "seconds": 3.8,
+    "file": "audio/voice/lines/line07.wav",
+    "estimate": false,
+    "fileSeconds": 4.133,
+    "fileEnd": 1549,
+    "speechOn": 0,
+    "timestamps": "audio/voice/lines/line07.json"
+   },
+   "beatsLocal": {
+    "trayDrawers": 16,
+    "email1": 31,
+    "land1": 46,
+    "email2": 61,
+    "land2": 76,
+    "email3": 91,
+    "land3": 106,
+    "channel": 121,
+    "answer": 136,
+    "exit": 181
+   },
+   "presses": [],
+   "labels": [
+    {
+     "text": "Admissions",
+     "words": 1,
+     "kind": "label",
+     "in": 1396,
+     "out": 1561,
+     "localIn": 16,
+     "localOut": 181,
+     "hold": 165,
+     "minHold": 44,
+     "x": -2,
+     "y": 2.58
+    },
+    {
+     "text": "Finance",
+     "words": 1,
+     "kind": "label",
+     "in": 1396,
+     "out": 1561,
+     "localIn": 16,
+     "localOut": 181,
+     "hold": 165,
+     "minHold": 44,
+     "x": -2,
+     "y": 1.18
+    },
+    {
+     "text": "Events",
+     "words": 1,
+     "kind": "label",
+     "in": 1396,
+     "out": 1561,
+     "localIn": 16,
+     "localOut": 181,
+     "hold": 165,
+     "minHold": 44,
+     "x": -2,
+     "y": -0.22
+    },
+    {
+     "text": "JL",
+     "words": 1,
+     "kind": "initials",
+     "in": 1501,
+     "out": 1561,
+     "localIn": 121,
+     "localOut": 181,
+     "hold": 60,
+     "minHold": 44,
+     "x": 2.95,
+     "y": 1.45
+    }
+   ],
+   "cues": [
+    {
+     "sound": "pop",
+     "frame": 1396,
+     "localFrame": 16,
+     "beat": 93,
+     "pan": -0.4,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "whoosh",
+     "frame": 1411,
+     "localFrame": 31,
+     "beat": 94,
+     "pan": -0.43,
+     "gain": -22,
+     "primary": true
+    },
+    {
+     "sound": "tick",
+     "frame": 1411,
+     "localFrame": 31,
+     "beat": 94,
+     "pan": -0.43,
+     "gain": -30,
+     "primary": false,
+     "run": {
+      "count": 11,
+      "every": 1
+     },
+     "path": "path1"
+    },
+    {
+     "sound": "drawer",
+     "frame": 1426,
+     "localFrame": 46,
+     "beat": 95,
+     "pan": -0.2,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "whoosh",
+     "frame": 1441,
+     "localFrame": 61,
+     "beat": 96,
+     "pan": -0.43,
+     "gain": -22,
+     "primary": true
+    },
+    {
+     "sound": "tick",
+     "frame": 1441,
+     "localFrame": 61,
+     "beat": 96,
+     "pan": -0.43,
+     "gain": -30,
+     "primary": false,
+     "run": {
+      "count": 9,
+      "every": 1
+     },
+     "path": "path2"
+    },
+    {
+     "sound": "drawer",
+     "frame": 1456,
+     "localFrame": 76,
+     "beat": 97,
+     "pan": -0.2,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "whoosh",
+     "frame": 1471,
+     "localFrame": 91,
+     "beat": 98,
+     "pan": -0.43,
+     "gain": -22,
+     "primary": true
+    },
+    {
+     "sound": "tick",
+     "frame": 1471,
+     "localFrame": 91,
+     "beat": 98,
+     "pan": -0.43,
+     "gain": -30,
+     "primary": false,
+     "run": {
+      "count": 10,
+      "every": 1
+     },
+     "path": "path3"
+    },
+    {
+     "sound": "drawer",
+     "frame": 1486,
+     "localFrame": 106,
+     "beat": 99,
+     "pan": -0.2,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 1501,
+     "localFrame": 121,
+     "beat": 100,
+     "pan": 0.46,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "bubble",
+     "frame": 1516,
+     "localFrame": 136,
+     "beat": 101,
+     "pan": 0.52,
+     "gain": -20,
+     "primary": true
+    }
+   ],
+   "paths": [
+    {
+     "name": "path1",
+     "p0": [
+      -5.3,
+      1.55
+     ],
+     "c": [
+      -4.4,
+      2.9
+     ],
+     "p1": [
+      -3.3,
+      2.4
+     ],
+     "dots": 11,
+     "length": 2.402,
+     "every": 1,
+     "localStart": 31,
+     "localDrawn": 41,
+     "start": 1411,
+     "drawn": 1421
+    },
+    {
+     "name": "path2",
+     "p0": [
+      -5.25,
+      1.1
+     ],
+     "c": [
+      -4.3,
+      1.45
+     ],
+     "p1": [
+      -3.3,
+      1
+     ],
+     "dots": 9,
+     "length": 2.005,
+     "every": 1,
+     "localStart": 61,
+     "localDrawn": 69,
+     "start": 1441,
+     "drawn": 1449
+    },
+    {
+     "name": "path3",
+     "p0": [
+      -5.3,
+      0.65
+     ],
+     "c": [
+      -4.4,
+      -0.6
+     ],
+     "p1": [
+      -3.3,
+      -0.4
+     ],
+     "dots": 10,
+     "length": 2.395,
+     "every": 1,
+     "localStart": 91,
+     "localDrawn": 100,
+     "start": 1471,
+     "drawn": 1480
+    }
+   ],
+   "handoffIn": {
+    "name": "mr",
+    "kit": "avatar(\"mr\", \"MR\", \"a2\", size=0.85)",
+    "scale": 1,
+    "rot": 0,
+    "x": 3.6,
+    "y": -2.65,
+    "z": 0
+   },
+   "handoffOut": {
+    "name": "mr",
+    "kit": "avatar(\"mr\", \"MR\", \"a2\", size=0.85)",
+    "scale": 1,
+    "rot": 0,
+    "x": 3.6,
+    "y": -2.65,
+    "z": 0
+   },
+   "clip": "scenes/s07.mp4",
+   "frames": "scenes/s07/",
+   "draft": "drafts/s07/latest.png"
+  },
+  {
+   "id": "s08",
+   "name": "Agent",
+   "start": 1591,
+   "length": 210,
+   "end": 1800,
+   "beats": 14,
+   "voice": {
+    "line": 8,
+    "text": "Send an agent out to do the legwork, and bring back what you need.",
+    "start": 1606,
+    "end": 1711,
+    "localStart": 16,
+    "localEnd": 121,
+    "seconds": 3.533,
+    "file": "audio/voice/lines/line08.wav",
+    "estimate": false,
+    "fileSeconds": 3.901,
+    "fileEnd": 1723,
+    "speechOn": 0.01,
+    "timestamps": "audio/voice/lines/line08.json"
+   },
+   "beatsLocal": {
+    "token": 16,
+    "out": 31,
+    "back": 76,
+    "home": 106,
+    "card1": 121,
+    "card2": 136,
+    "card3": 151,
+    "exit": 181,
+    "mrMove": 181,
+    "mrLand": 196
+   },
+   "presses": [],
+   "labels": [],
+   "cues": [
+    {
+     "sound": "pop",
+     "frame": 1606,
+     "localFrame": 16,
+     "beat": 107,
+     "pan": -0.06,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "roll",
+     "frame": 1621,
+     "localFrame": 31,
+     "beat": 108,
+     "pan": -0.45,
+     "gain": -22,
+     "primary": true
+    },
+    {
+     "sound": "tick",
+     "frame": 1621,
+     "localFrame": 31,
+     "beat": 108,
+     "pan": -0.53,
+     "gain": -30,
+     "primary": false,
+     "run": {
+      "count": 17,
+      "every": 1
+     },
+     "path": "pathOut"
+    },
+    {
+     "sound": "roll",
+     "frame": 1666,
+     "localFrame": 76,
+     "beat": 111,
+     "pan": -0.45,
+     "gain": -22,
+     "primary": true
+    },
+    {
+     "sound": "tick",
+     "frame": 1666,
+     "localFrame": 76,
+     "beat": 111,
+     "pan": -0.53,
+     "gain": -30,
+     "primary": false,
+     "run": {
+      "count": 17,
+      "every": 1
+     },
+     "path": "pathBack"
+    },
+    {
+     "sound": "pop",
+     "frame": 1696,
+     "localFrame": 106,
+     "beat": 113,
+     "pan": -0.06,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 1711,
+     "localFrame": 121,
+     "beat": 114,
+     "pan": -0.42,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 1726,
+     "localFrame": 136,
+     "beat": 115,
+     "pan": -0.04,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 1741,
+     "localFrame": 151,
+     "beat": 116,
+     "pan": 0.34,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 1786,
+     "localFrame": 196,
+     "beat": 119,
+     "pan": -0.5,
+     "gain": -26,
+     "primary": true
+    }
+   ],
+   "paths": [
+    {
+     "name": "pathOut",
+     "p0": [
+      -1.35,
+      -0.95
+     ],
+     "c": [
+      -4.8,
+      -2.9
+     ],
+     "p1": [
+      -9.2,
+      -1.6
+     ],
+     "dots": 34,
+     "length": 8.105,
+     "every": 0.5,
+     "localStart": 31,
+     "localDrawn": 47,
+     "start": 1621,
+     "drawn": 1637
+    },
+    {
+     "name": "pathBack",
+     "p0": [
+      -9.2,
+      0.6
+     ],
+     "c": [
+      -5,
+      0.9
+     ],
+     "p1": [
+      -1.45,
+      -0.25
+     ],
+     "dots": 33,
+     "length": 7.845,
+     "every": 0.5,
+     "localStart": 76,
+     "localDrawn": 92,
+     "start": 1666,
+     "drawn": 1682
+    }
+   ],
+   "handoffIn": {
+    "name": "mr",
+    "kit": "avatar(\"mr\", \"MR\", \"a2\", size=0.85)",
+    "scale": 1,
+    "rot": 0,
+    "x": 3.6,
+    "y": -2.65,
+    "z": 0
+   },
+   "handoffOut": {
+    "name": "mr",
+    "kit": "avatar(\"mr\", \"MR\", \"a2\", size=0.85)",
+    "scale": 1,
+    "rot": 0,
+    "x": -5,
+    "y": -2.45,
+    "z": 0
+   },
+   "clip": "scenes/s08.mp4",
+   "frames": "scenes/s08/",
+   "draft": "drafts/s08/latest.png"
+  },
+  {
+   "id": "s09",
+   "name": "Idea to send",
+   "start": 1801,
+   "length": 270,
+   "end": 2070,
+   "beats": 18,
+   "voice": {
+    "line": 9,
+    "text": "Your people bring the idea. AI does the work in between. Your people check it before anything goes out.",
+    "start": 1831,
+    "end": 2014,
+    "localStart": 31,
+    "localEnd": 214,
+    "seconds": 6.133,
+    "file": "audio/voice/lines/line09.wav",
+    "estimate": false,
+    "fileSeconds": 6.502,
+    "fileEnd": 2026,
+    "speechOn": 0.06,
+    "timestamps": "audio/voice/lines/line09.json"
+   },
+   "beatsLocal": {
+    "blocks": 16,
+    "type": 31,
+    "idea": 46,
+    "pathL": 61,
+    "work": 76,
+    "pathR": 106,
+    "draft": 121,
+    "buttons": 136,
+    "approve": 166,
+    "send": 196,
+    "sendOff": 211,
+    "exit": 241
+   },
+   "presses": [
+    {
+     "name": "approve",
+     "target": "approve",
+     "localFrame": 166,
+     "frame": 1966,
+     "world": [
+      4.675999999999999,
+      -0.18,
+      0.2
+     ],
+     "x": 1521.1,
+     "y": 557.1,
+     "source": "estimate"
+    },
+    {
+     "name": "send",
+     "target": "send",
+     "localFrame": 196,
+     "frame": 1996,
+     "world": [
+      6.454000000000001,
+      -0.18,
+      0.2
+     ],
+     "x": 1734.5,
+     "y": 557.1,
+     "source": "estimate"
+    }
+   ],
+   "labels": [
+    {
+     "text": "Approve",
+     "words": 1,
+     "kind": "label",
+     "in": 1936,
+     "out": 2041,
+     "localIn": 136,
+     "localOut": 241,
+     "hold": 105,
+     "minHold": 44,
+     "x": 4.1,
+     "y": -0.1
+    },
+    {
+     "text": "Send",
+     "words": 1,
+     "kind": "label",
+     "in": 1936,
+     "out": 2041,
+     "localIn": 136,
+     "localOut": 241,
+     "hold": 105,
+     "minHold": 44,
+     "x": 5.95,
+     "y": -0.1
+    }
+   ],
+   "cues": [
+    {
+     "sound": "pop",
+     "frame": 1816,
+     "localFrame": 16,
+     "beat": 121,
+     "pan": 0,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "type",
+     "frame": 1831,
+     "localFrame": 31,
+     "beat": 122,
+     "pan": -0.5,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 1846,
+     "localFrame": 46,
+     "beat": 123,
+     "pan": -0.5,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "whoosh",
+     "frame": 1861,
+     "localFrame": 61,
+     "beat": 124,
+     "pan": -0.22,
+     "gain": -22,
+     "primary": true
+    },
+    {
+     "sound": "tick",
+     "frame": 1861,
+     "localFrame": 61,
+     "beat": 124,
+     "pan": -0.23,
+     "gain": -30,
+     "primary": false,
+     "run": {
+      "count": 8,
+      "every": 1
+     },
+     "path": "pathL"
+    },
+    {
+     "sound": "tick",
+     "frame": 1876,
+     "localFrame": 76,
+     "beat": 125,
+     "pan": 0,
+     "gain": -32,
+     "primary": false,
+     "run": {
+      "count": 10,
+      "every": 3
+     }
+    },
+    {
+     "sound": "whoosh",
+     "frame": 1906,
+     "localFrame": 106,
+     "beat": 127,
+     "pan": 0.22,
+     "gain": -22,
+     "primary": true
+    },
+    {
+     "sound": "tick",
+     "frame": 1906,
+     "localFrame": 106,
+     "beat": 127,
+     "pan": 0.23,
+     "gain": -30,
+     "primary": false,
+     "run": {
+      "count": 8,
+      "every": 1
+     },
+     "path": "pathR"
+    },
+    {
+     "sound": "pop",
+     "frame": 1921,
+     "localFrame": 121,
+     "beat": 128,
+     "pan": 0.5,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 1936,
+     "localFrame": 136,
+     "beat": 129,
+     "pan": 0.5,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "click",
+     "frame": 1966,
+     "localFrame": 166,
+     "beat": 131,
+     "pan": 0.41,
+     "gain": -16,
+     "primary": true
+    },
+    {
+     "sound": "click",
+     "frame": 1996,
+     "localFrame": 196,
+     "beat": 133,
+     "pan": 0.6,
+     "gain": -16,
+     "primary": true
+    },
+    {
+     "sound": "send",
+     "frame": 2011,
+     "localFrame": 211,
+     "beat": 134,
+     "pan": 0.65,
+     "gain": -18,
+     "primary": true
+    }
+   ],
+   "paths": [
+    {
+     "name": "pathL",
+     "p0": [
+      -3.05,
+      0.1
+     ],
+     "c": [
+      -2.35,
+      -0.8
+     ],
+     "p1": [
+      -1.65,
+      0.1
+     ],
+     "dots": 8,
+     "length": 1.723,
+     "every": 1,
+     "localStart": 61,
+     "localDrawn": 68,
+     "start": 1861,
+     "drawn": 1868
+    },
+    {
+     "name": "pathR",
+     "p0": [
+      1.65,
+      0.1
+     ],
+     "c": [
+      2.35,
+      -0.8
+     ],
+     "p1": [
+      3.05,
+      0.1
+     ],
+     "dots": 8,
+     "length": 1.723,
+     "every": 1,
+     "localStart": 106,
+     "localDrawn": 113,
+     "start": 1906,
+     "drawn": 1913
+    }
+   ],
+   "handoffIn": {
+    "name": "mr",
+    "kit": "avatar(\"mr\", \"MR\", \"a2\", size=0.85)",
+    "scale": 1,
+    "rot": 0,
+    "x": -5,
+    "y": -2.45,
+    "z": 0
+   },
+   "handoffOut": {
+    "name": "mr",
+    "kit": "avatar(\"mr\", \"MR\", \"a2\", size=0.85)",
+    "scale": 1,
+    "rot": 0,
+    "x": -5,
+    "y": -2.45,
+    "z": 0
+   },
+   "clip": "scenes/s09.mp4",
+   "frames": "scenes/s09/",
+   "draft": "drafts/s09/latest.png",
+   "cursor": {
+    "enter": 1936,
+    "exit": 2041
+   }
+  },
+  {
+   "id": "s10",
+   "name": "End card",
+   "start": 2071,
+   "length": 270,
+   "end": 2340,
+   "beats": 18,
+   "voice": {
+    "line": 10,
+    "text": "Let's help you save time, money and stress by letting AI do the heavy lifting.",
+    "start": 2086,
+    "end": 2239,
+    "localStart": 16,
+    "localEnd": 169,
+    "seconds": 5.133,
+    "file": "audio/voice/lines/line10.wav",
+    "estimate": false,
+    "fileSeconds": 5.48,
+    "fileEnd": 2250,
+    "speechOn": 0.03,
+    "timestamps": "audio/voice/lines/line10.json"
+   },
+   "beatsLocal": {
+    "clear": 16,
+    "mark": 31,
+    "address": 46,
+    "button": 61,
+    "cursorIn": 151,
+    "press": 196,
+    "toWhite": 211,
+    "whiteFull": 241,
+    "end": 256
+   },
+   "presses": [
+    {
+     "name": "bookACall",
+     "target": "book",
+     "localFrame": 196,
+     "frame": 2266,
+     "world": [
+      1.152,
+      -2.2800000000000002,
+      0.12
+     ],
+     "x": 1098.2,
+     "y": 806.9,
+     "source": "estimate"
+    }
+   ],
+   "labels": [
+    {
+     "text": "kingdom-sites.com",
+     "words": 1,
+     "kind": "label",
+     "in": 2116,
+     "out": 2281,
+     "localIn": 46,
+     "localOut": 211,
+     "hold": 165,
+     "minHold": 44,
+     "x": 0,
+     "y": -0.75
+    },
+    {
+     "text": "Book a call",
+     "words": 3,
+     "kind": "label",
+     "in": 2131,
+     "out": 2281,
+     "localIn": 61,
+     "localOut": 211,
+     "hold": 150,
+     "minHold": 71,
+     "x": 0,
+     "y": -2.2
+    }
+   ],
+   "cues": [
+    {
+     "sound": "pop",
+     "frame": 2101,
+     "localFrame": 31,
+     "beat": 140,
+     "pan": 0,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 2116,
+     "localFrame": 46,
+     "beat": 141,
+     "pan": 0,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "pop",
+     "frame": 2131,
+     "localFrame": 61,
+     "beat": 142,
+     "pan": 0,
+     "gain": -20,
+     "primary": true
+    },
+    {
+     "sound": "click",
+     "frame": 2266,
+     "localFrame": 196,
+     "beat": 151,
+     "pan": 0.06,
+     "gain": -16,
+     "primary": true
+    }
+   ],
+   "paths": [],
+   "handoffIn": {
+    "name": "mr",
+    "kit": "avatar(\"mr\", \"MR\", \"a2\", size=0.85)",
+    "scale": 1,
+    "rot": 0,
+    "x": -5,
+    "y": -2.45,
+    "z": 0
+   },
+   "handoffOut": [],
+   "clip": "scenes/s10.mp4",
+   "frames": "scenes/s10/",
+   "draft": "drafts/s10/latest.png",
+   "fade": {
+    "whiteFrom": 2281,
+    "whiteFull": 2311,
+    "blackFull": 2340
+   },
+   "cursor": {
+    "enter": 2221,
+    "exit": 2281
+   }
+  }
+ ],
+ "cursor": [
+  {
+   "frame": 1051,
+   "x": 2040,
+   "y": 1170,
+   "press": false,
+   "show": true,
+   "scene": "s05",
+   "note": "enters from bottom right"
+  },
+  {
+   "frame": 1079,
+   "x": 1767.4,
+   "y": 861.4,
+   "press": false,
+   "show": true,
+   "scene": "s05",
+   "note": "settled on approve"
+  },
+  {
+   "frame": 1081,
+   "x": 1767.4,
+   "y": 861.4,
+   "press": true,
+   "show": true,
+   "scene": "s05",
+   "note": "press approve"
+  },
+  {
+   "frame": 1087,
+   "x": 1767.4,
+   "y": 861.4,
+   "press": false,
+   "show": true,
+   "scene": "s05",
+   "note": "released"
+  },
+  {
+   "frame": 1111,
+   "x": 1767.4,
+   "y": 861.4,
+   "press": false,
+   "show": true,
+   "scene": "s05",
+   "note": "rests"
+  },
+  {
+   "frame": 1123,
+   "x": 2040,
+   "y": 1170,
+   "press": false,
+   "show": false,
+   "scene": "s05",
+   "note": "leaves"
+  },
+  {
+   "frame": 1936,
+   "x": 2040,
+   "y": 1170,
+   "press": false,
+   "show": true,
+   "scene": "s09",
+   "note": "enters from bottom right"
+  },
+  {
+   "frame": 1964,
+   "x": 1521.1,
+   "y": 557.1,
+   "press": false,
+   "show": true,
+   "scene": "s09",
+   "note": "settled on approve"
+  },
+  {
+   "frame": 1966,
+   "x": 1521.1,
+   "y": 557.1,
+   "press": true,
+   "show": true,
+   "scene": "s09",
+   "note": "press approve"
+  },
+  {
+   "frame": 1972,
+   "x": 1521.1,
+   "y": 557.1,
+   "press": false,
+   "show": true,
+   "scene": "s09",
+   "note": "released"
+  },
+  {
+   "frame": 1994,
+   "x": 1734.5,
+   "y": 557.1,
+   "press": false,
+   "show": true,
+   "scene": "s09",
+   "note": "settled on send"
+  },
+  {
+   "frame": 1996,
+   "x": 1734.5,
+   "y": 557.1,
+   "press": true,
+   "show": true,
+   "scene": "s09",
+   "note": "press send"
+  },
+  {
+   "frame": 2002,
+   "x": 1734.5,
+   "y": 557.1,
+   "press": false,
+   "show": true,
+   "scene": "s09",
+   "note": "released"
+  },
+  {
+   "frame": 2041,
+   "x": 1734.5,
+   "y": 557.1,
+   "press": false,
+   "show": true,
+   "scene": "s09",
+   "note": "rests"
+  },
+  {
+   "frame": 2053,
+   "x": 2040,
+   "y": 1170,
+   "press": false,
+   "show": false,
+   "scene": "s09",
+   "note": "leaves"
+  },
+  {
+   "frame": 2221,
+   "x": 2040,
+   "y": 1170,
+   "press": false,
+   "show": true,
+   "scene": "s10",
+   "note": "enters from bottom right"
+  },
+  {
+   "frame": 2264,
+   "x": 1098.2,
+   "y": 806.9,
+   "press": false,
+   "show": true,
+   "scene": "s10",
+   "note": "settled on bookACall"
+  },
+  {
+   "frame": 2266,
+   "x": 1098.2,
+   "y": 806.9,
+   "press": true,
+   "show": true,
+   "scene": "s10",
+   "note": "press bookACall"
+  },
+  {
+   "frame": 2272,
+   "x": 1098.2,
+   "y": 806.9,
+   "press": false,
+   "show": true,
+   "scene": "s10",
+   "note": "released"
+  },
+  {
+   "frame": 2281,
+   "x": 1098.2,
+   "y": 806.9,
+   "press": false,
+   "show": true,
+   "scene": "s10",
+   "note": "rests"
+  },
+  {
+   "frame": 2293,
+   "x": 2040,
+   "y": 1170,
+   "press": false,
+   "show": false,
+   "scene": "s10",
+   "note": "leaves"
+  }
+ ],
+ "cues": [
+  {
+   "scene": "s01",
+   "sound": "paper",
+   "frame": 16,
+   "localFrame": 16,
+   "beat": 1,
+   "pan": -0.61,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s01",
+   "sound": "paper",
+   "frame": 31,
+   "localFrame": 31,
+   "beat": 2,
+   "pan": -0.36,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s01",
+   "sound": "sticky",
+   "frame": 46,
+   "localFrame": 46,
+   "beat": 3,
+   "pan": -0.58,
+   "gain": -22,
+   "primary": true
+  },
+  {
+   "scene": "s01",
+   "sound": "paper",
+   "frame": 61,
+   "localFrame": 61,
+   "beat": 4,
+   "pan": -0.12,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s01",
+   "sound": "paper",
+   "frame": 76,
+   "localFrame": 76,
+   "beat": 5,
+   "pan": -0.54,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s01",
+   "sound": "sticky",
+   "frame": 91,
+   "localFrame": 91,
+   "beat": 6,
+   "pan": -0.33,
+   "gain": -22,
+   "primary": true
+  },
+  {
+   "scene": "s01",
+   "sound": "paper",
+   "frame": 106,
+   "localFrame": 106,
+   "beat": 7,
+   "pan": -0.26,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s01",
+   "sound": "sticky",
+   "frame": 121,
+   "localFrame": 121,
+   "beat": 8,
+   "pan": -0.5,
+   "gain": -22,
+   "primary": true
+  },
+  {
+   "scene": "s01",
+   "sound": "pop",
+   "frame": 136,
+   "localFrame": 136,
+   "beat": 9,
+   "pan": 0.54,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s01",
+   "sound": "tick",
+   "frame": 151,
+   "localFrame": 151,
+   "beat": 10,
+   "pan": 0.59,
+   "gain": -26,
+   "primary": true
+  },
+  {
+   "scene": "s01",
+   "sound": "tick",
+   "frame": 166,
+   "localFrame": 166,
+   "beat": 11,
+   "pan": 0.59,
+   "gain": -26,
+   "primary": true
+  },
+  {
+   "scene": "s01",
+   "sound": "tick",
+   "frame": 181,
+   "localFrame": 181,
+   "beat": 12,
+   "pan": 0.59,
+   "gain": -26,
+   "primary": true
+  },
+  {
+   "scene": "s01",
+   "sound": "tick",
+   "frame": 196,
+   "localFrame": 196,
+   "beat": 13,
+   "pan": 0.59,
+   "gain": -26,
+   "primary": true
+  },
+  {
+   "scene": "s01",
+   "sound": "tick",
+   "frame": 211,
+   "localFrame": 211,
+   "beat": 14,
+   "pan": 0.59,
+   "gain": -26,
+   "primary": true
+  },
+  {
+   "scene": "s01",
+   "sound": "sticky",
+   "frame": 226,
+   "localFrame": 226,
+   "beat": 15,
+   "pan": -0.23,
+   "gain": -22,
+   "primary": true
+  },
+  {
+   "scene": "s02",
+   "sound": "pop",
+   "frame": 256,
+   "localFrame": 16,
+   "beat": 17,
+   "pan": 0.14,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s02",
+   "sound": "pop",
+   "frame": 271,
+   "localFrame": 31,
+   "beat": 18,
+   "pan": 0.14,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s02",
+   "sound": "pop",
+   "frame": 286,
+   "localFrame": 46,
+   "beat": 19,
+   "pan": 0.14,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s02",
+   "sound": "pop",
+   "frame": 301,
+   "localFrame": 61,
+   "beat": 20,
+   "pan": 0.14,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s02",
+   "sound": "grow",
+   "frame": 316,
+   "localFrame": 76,
+   "beat": 21,
+   "pan": 0.14,
+   "gain": -22,
+   "primary": true
+  },
+  {
+   "scene": "s02",
+   "sound": "pop",
+   "frame": 346,
+   "localFrame": 106,
+   "beat": 23,
+   "pan": 0.52,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s02",
+   "sound": "pop",
+   "frame": 361,
+   "localFrame": 121,
+   "beat": 24,
+   "pan": 0.43,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s02",
+   "sound": "pop",
+   "frame": 376,
+   "localFrame": 136,
+   "beat": 25,
+   "pan": 0.56,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s02",
+   "sound": "pop",
+   "frame": 391,
+   "localFrame": 151,
+   "beat": 26,
+   "pan": 0.61,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s02",
+   "sound": "grow",
+   "frame": 406,
+   "localFrame": 166,
+   "beat": 27,
+   "pan": 0.52,
+   "gain": -22,
+   "primary": true
+  },
+  {
+   "scene": "s02",
+   "sound": "pop",
+   "frame": 421,
+   "localFrame": 181,
+   "beat": 28,
+   "pan": 0.46,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s02",
+   "sound": "pop",
+   "frame": 436,
+   "localFrame": 196,
+   "beat": 29,
+   "pan": 0.52,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s03",
+   "sound": "paper",
+   "frame": 481,
+   "localFrame": 1,
+   "beat": 32,
+   "pan": 0,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s03",
+   "sound": "pop",
+   "frame": 496,
+   "localFrame": 16,
+   "beat": 33,
+   "pan": 0,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s03",
+   "sound": "pop",
+   "frame": 511,
+   "localFrame": 31,
+   "beat": 34,
+   "pan": 0,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s04",
+   "sound": "pop",
+   "frame": 616,
+   "localFrame": 16,
+   "beat": 41,
+   "pan": -0.12,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s04",
+   "sound": "pop",
+   "frame": 631,
+   "localFrame": 31,
+   "beat": 42,
+   "pan": 0,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s04",
+   "sound": "pop",
+   "frame": 646,
+   "localFrame": 46,
+   "beat": 43,
+   "pan": 0,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s04",
+   "sound": "pop",
+   "frame": 676,
+   "localFrame": 76,
+   "beat": 45,
+   "pan": 0,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s04",
+   "sound": "pop",
+   "frame": 691,
+   "localFrame": 91,
+   "beat": 46,
+   "pan": 0,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s04",
+   "sound": "pop",
+   "frame": 751,
+   "localFrame": 151,
+   "beat": 50,
+   "pan": 0,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s04",
+   "sound": "pop",
+   "frame": 766,
+   "localFrame": 166,
+   "beat": 51,
+   "pan": 0.12,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s04",
+   "sound": "pop",
+   "frame": 856,
+   "localFrame": 256,
+   "beat": 57,
+   "pan": 0.36,
+   "gain": -26,
+   "primary": true
+  },
+  {
+   "scene": "s05",
+   "sound": "pop",
+   "frame": 886,
+   "localFrame": 16,
+   "beat": 59,
+   "pan": -0.53,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s05",
+   "sound": "pop",
+   "frame": 901,
+   "localFrame": 31,
+   "beat": 60,
+   "pan": 0.28,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s05",
+   "sound": "whoosh",
+   "frame": 916,
+   "localFrame": 46,
+   "beat": 61,
+   "pan": -0.41,
+   "gain": -22,
+   "primary": true
+  },
+  {
+   "scene": "s05",
+   "sound": "shutter",
+   "frame": 931,
+   "localFrame": 61,
+   "beat": 62,
+   "pan": -0.41,
+   "gain": -18,
+   "primary": true
+  },
+  {
+   "scene": "s05",
+   "sound": "whoosh",
+   "frame": 946,
+   "localFrame": 76,
+   "beat": 63,
+   "pan": -0.26,
+   "gain": -22,
+   "primary": true
+  },
+  {
+   "scene": "s05",
+   "sound": "tick",
+   "frame": 946,
+   "localFrame": 76,
+   "beat": 63,
+   "pan": -0.26,
+   "gain": -30,
+   "primary": false,
+   "run": {
+    "count": 10,
+    "every": 1
+   },
+   "path": "pathA"
+  },
+  {
+   "scene": "s05",
+   "sound": "cloud",
+   "frame": 961,
+   "localFrame": 91,
+   "beat": 64,
+   "pan": 0.01,
+   "gain": -22,
+   "primary": true
+  },
+  {
+   "scene": "s05",
+   "sound": "whoosh",
+   "frame": 976,
+   "localFrame": 106,
+   "beat": 65,
+   "pan": 0.24,
+   "gain": -22,
+   "primary": true
+  },
+  {
+   "scene": "s05",
+   "sound": "tick",
+   "frame": 976,
+   "localFrame": 106,
+   "beat": 65,
+   "pan": 0.24,
+   "gain": -30,
+   "primary": false,
+   "run": {
+    "count": 9,
+    "every": 1
+   },
+   "path": "pathB"
+  },
+  {
+   "scene": "s05",
+   "sound": "row",
+   "frame": 991,
+   "localFrame": 121,
+   "beat": 66,
+   "pan": 0.54,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s05",
+   "sound": "row",
+   "frame": 1006,
+   "localFrame": 136,
+   "beat": 67,
+   "pan": 0.54,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s05",
+   "sound": "row",
+   "frame": 1021,
+   "localFrame": 151,
+   "beat": 68,
+   "pan": 0.54,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s05",
+   "sound": "row",
+   "frame": 1036,
+   "localFrame": 166,
+   "beat": 69,
+   "pan": 0.54,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s05",
+   "sound": "pop",
+   "frame": 1051,
+   "localFrame": 181,
+   "beat": 70,
+   "pan": 0.59,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s05",
+   "sound": "click",
+   "frame": 1081,
+   "localFrame": 211,
+   "beat": 72,
+   "pan": 0.59,
+   "gain": -16,
+   "primary": true
+  },
+  {
+   "scene": "s06",
+   "sound": "pop",
+   "frame": 1156,
+   "localFrame": 16,
+   "beat": 77,
+   "pan": -0.44,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s06",
+   "sound": "row",
+   "frame": 1171,
+   "localFrame": 31,
+   "beat": 78,
+   "pan": -0.6,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s06",
+   "sound": "row",
+   "frame": 1186,
+   "localFrame": 46,
+   "beat": 79,
+   "pan": -0.52,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s06",
+   "sound": "row",
+   "frame": 1201,
+   "localFrame": 61,
+   "beat": 80,
+   "pan": -0.36,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s06",
+   "sound": "row",
+   "frame": 1216,
+   "localFrame": 76,
+   "beat": 81,
+   "pan": -0.28,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s06",
+   "sound": "pop",
+   "frame": 1231,
+   "localFrame": 91,
+   "beat": 82,
+   "pan": 0.34,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s06",
+   "sound": "grow",
+   "frame": 1246,
+   "localFrame": 106,
+   "beat": 83,
+   "pan": 0.34,
+   "gain": -22,
+   "primary": true
+  },
+  {
+   "scene": "s06",
+   "sound": "pop",
+   "frame": 1261,
+   "localFrame": 121,
+   "beat": 84,
+   "pan": 0.06,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s07",
+   "sound": "pop",
+   "frame": 1396,
+   "localFrame": 16,
+   "beat": 93,
+   "pan": -0.4,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s07",
+   "sound": "whoosh",
+   "frame": 1411,
+   "localFrame": 31,
+   "beat": 94,
+   "pan": -0.43,
+   "gain": -22,
+   "primary": true
+  },
+  {
+   "scene": "s07",
+   "sound": "tick",
+   "frame": 1411,
+   "localFrame": 31,
+   "beat": 94,
+   "pan": -0.43,
+   "gain": -30,
+   "primary": false,
+   "run": {
+    "count": 11,
+    "every": 1
+   },
+   "path": "path1"
+  },
+  {
+   "scene": "s07",
+   "sound": "drawer",
+   "frame": 1426,
+   "localFrame": 46,
+   "beat": 95,
+   "pan": -0.2,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s07",
+   "sound": "whoosh",
+   "frame": 1441,
+   "localFrame": 61,
+   "beat": 96,
+   "pan": -0.43,
+   "gain": -22,
+   "primary": true
+  },
+  {
+   "scene": "s07",
+   "sound": "tick",
+   "frame": 1441,
+   "localFrame": 61,
+   "beat": 96,
+   "pan": -0.43,
+   "gain": -30,
+   "primary": false,
+   "run": {
+    "count": 9,
+    "every": 1
+   },
+   "path": "path2"
+  },
+  {
+   "scene": "s07",
+   "sound": "drawer",
+   "frame": 1456,
+   "localFrame": 76,
+   "beat": 97,
+   "pan": -0.2,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s07",
+   "sound": "whoosh",
+   "frame": 1471,
+   "localFrame": 91,
+   "beat": 98,
+   "pan": -0.43,
+   "gain": -22,
+   "primary": true
+  },
+  {
+   "scene": "s07",
+   "sound": "tick",
+   "frame": 1471,
+   "localFrame": 91,
+   "beat": 98,
+   "pan": -0.43,
+   "gain": -30,
+   "primary": false,
+   "run": {
+    "count": 10,
+    "every": 1
+   },
+   "path": "path3"
+  },
+  {
+   "scene": "s07",
+   "sound": "drawer",
+   "frame": 1486,
+   "localFrame": 106,
+   "beat": 99,
+   "pan": -0.2,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s07",
+   "sound": "pop",
+   "frame": 1501,
+   "localFrame": 121,
+   "beat": 100,
+   "pan": 0.46,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s07",
+   "sound": "bubble",
+   "frame": 1516,
+   "localFrame": 136,
+   "beat": 101,
+   "pan": 0.52,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s08",
+   "sound": "pop",
+   "frame": 1606,
+   "localFrame": 16,
+   "beat": 107,
+   "pan": -0.06,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s08",
+   "sound": "roll",
+   "frame": 1621,
+   "localFrame": 31,
+   "beat": 108,
+   "pan": -0.45,
+   "gain": -22,
+   "primary": true
+  },
+  {
+   "scene": "s08",
+   "sound": "tick",
+   "frame": 1621,
+   "localFrame": 31,
+   "beat": 108,
+   "pan": -0.53,
+   "gain": -30,
+   "primary": false,
+   "run": {
+    "count": 17,
+    "every": 1
+   },
+   "path": "pathOut"
+  },
+  {
+   "scene": "s08",
+   "sound": "roll",
+   "frame": 1666,
+   "localFrame": 76,
+   "beat": 111,
+   "pan": -0.45,
+   "gain": -22,
+   "primary": true
+  },
+  {
+   "scene": "s08",
+   "sound": "tick",
+   "frame": 1666,
+   "localFrame": 76,
+   "beat": 111,
+   "pan": -0.53,
+   "gain": -30,
+   "primary": false,
+   "run": {
+    "count": 17,
+    "every": 1
+   },
+   "path": "pathBack"
+  },
+  {
+   "scene": "s08",
+   "sound": "pop",
+   "frame": 1696,
+   "localFrame": 106,
+   "beat": 113,
+   "pan": -0.06,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s08",
+   "sound": "pop",
+   "frame": 1711,
+   "localFrame": 121,
+   "beat": 114,
+   "pan": -0.42,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s08",
+   "sound": "pop",
+   "frame": 1726,
+   "localFrame": 136,
+   "beat": 115,
+   "pan": -0.04,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s08",
+   "sound": "pop",
+   "frame": 1741,
+   "localFrame": 151,
+   "beat": 116,
+   "pan": 0.34,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s08",
+   "sound": "pop",
+   "frame": 1786,
+   "localFrame": 196,
+   "beat": 119,
+   "pan": -0.5,
+   "gain": -26,
+   "primary": true
+  },
+  {
+   "scene": "s09",
+   "sound": "pop",
+   "frame": 1816,
+   "localFrame": 16,
+   "beat": 121,
+   "pan": 0,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s09",
+   "sound": "type",
+   "frame": 1831,
+   "localFrame": 31,
+   "beat": 122,
+   "pan": -0.5,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s09",
+   "sound": "pop",
+   "frame": 1846,
+   "localFrame": 46,
+   "beat": 123,
+   "pan": -0.5,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s09",
+   "sound": "whoosh",
+   "frame": 1861,
+   "localFrame": 61,
+   "beat": 124,
+   "pan": -0.22,
+   "gain": -22,
+   "primary": true
+  },
+  {
+   "scene": "s09",
+   "sound": "tick",
+   "frame": 1861,
+   "localFrame": 61,
+   "beat": 124,
+   "pan": -0.23,
+   "gain": -30,
+   "primary": false,
+   "run": {
+    "count": 8,
+    "every": 1
+   },
+   "path": "pathL"
+  },
+  {
+   "scene": "s09",
+   "sound": "tick",
+   "frame": 1876,
+   "localFrame": 76,
+   "beat": 125,
+   "pan": 0,
+   "gain": -32,
+   "primary": false,
+   "run": {
+    "count": 10,
+    "every": 3
+   }
+  },
+  {
+   "scene": "s09",
+   "sound": "whoosh",
+   "frame": 1906,
+   "localFrame": 106,
+   "beat": 127,
+   "pan": 0.22,
+   "gain": -22,
+   "primary": true
+  },
+  {
+   "scene": "s09",
+   "sound": "tick",
+   "frame": 1906,
+   "localFrame": 106,
+   "beat": 127,
+   "pan": 0.23,
+   "gain": -30,
+   "primary": false,
+   "run": {
+    "count": 8,
+    "every": 1
+   },
+   "path": "pathR"
+  },
+  {
+   "scene": "s09",
+   "sound": "pop",
+   "frame": 1921,
+   "localFrame": 121,
+   "beat": 128,
+   "pan": 0.5,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s09",
+   "sound": "pop",
+   "frame": 1936,
+   "localFrame": 136,
+   "beat": 129,
+   "pan": 0.5,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s09",
+   "sound": "click",
+   "frame": 1966,
+   "localFrame": 166,
+   "beat": 131,
+   "pan": 0.41,
+   "gain": -16,
+   "primary": true
+  },
+  {
+   "scene": "s09",
+   "sound": "click",
+   "frame": 1996,
+   "localFrame": 196,
+   "beat": 133,
+   "pan": 0.6,
+   "gain": -16,
+   "primary": true
+  },
+  {
+   "scene": "s09",
+   "sound": "send",
+   "frame": 2011,
+   "localFrame": 211,
+   "beat": 134,
+   "pan": 0.65,
+   "gain": -18,
+   "primary": true
+  },
+  {
+   "scene": "s10",
+   "sound": "pop",
+   "frame": 2101,
+   "localFrame": 31,
+   "beat": 140,
+   "pan": 0,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s10",
+   "sound": "pop",
+   "frame": 2116,
+   "localFrame": 46,
+   "beat": 141,
+   "pan": 0,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s10",
+   "sound": "pop",
+   "frame": 2131,
+   "localFrame": 61,
+   "beat": 142,
+   "pan": 0,
+   "gain": -20,
+   "primary": true
+  },
+  {
+   "scene": "s10",
+   "sound": "click",
+   "frame": 2266,
+   "localFrame": 196,
+   "beat": 151,
+   "pan": 0.06,
+   "gain": -16,
+   "primary": true
+  }
+ ],
+ "labels": [
+  {
+   "scene": "s01",
+   "text": "3",
+   "words": 1,
+   "kind": "counter",
+   "in": 151,
+   "out": 166,
+   "localIn": 151,
+   "localOut": 166,
+   "hold": 15,
+   "minHold": 44,
+   "x": 5.95,
+   "y": 2.85
+  },
+  {
+   "scene": "s01",
+   "text": "12",
+   "words": 1,
+   "kind": "counter",
+   "in": 166,
+   "out": 181,
+   "localIn": 166,
+   "localOut": 181,
+   "hold": 15,
+   "minHold": 44,
+   "x": 5.95,
+   "y": 2.85
+  },
+  {
+   "scene": "s01",
+   "text": "27",
+   "words": 1,
+   "kind": "counter",
+   "in": 181,
+   "out": 196,
+   "localIn": 181,
+   "localOut": 196,
+   "hold": 15,
+   "minHold": 44,
+   "x": 5.95,
+   "y": 2.85
+  },
+  {
+   "scene": "s01",
+   "text": "48",
+   "words": 1,
+   "kind": "counter",
+   "in": 196,
+   "out": 211,
+   "localIn": 196,
+   "localOut": 211,
+   "hold": 15,
+   "minHold": 44,
+   "x": 5.95,
+   "y": 2.85
+  },
+  {
+   "scene": "s01",
+   "text": "99+",
+   "words": 1,
+   "kind": "counter",
+   "in": 211,
+   "out": 481,
+   "localIn": 211,
+   "localOut": 481,
+   "hold": 270,
+   "minHold": 44,
+   "x": 5.95,
+   "y": 2.85
+  },
+  {
+   "scene": "s04",
+   "text": "Handbook",
+   "words": 1,
+   "kind": "label",
+   "in": 646,
+   "out": 826,
+   "localIn": 46,
+   "localOut": 226,
+   "hold": 180,
+   "minHold": 44,
+   "x": -1.75,
+   "y": 1.6
+  },
+  {
+   "scene": "s04",
+   "text": "Policies",
+   "words": 1,
+   "kind": "label",
+   "in": 676,
+   "out": 826,
+   "localIn": 76,
+   "localOut": 226,
+   "hold": 150,
+   "minHold": 44,
+   "x": -1.75,
+   "y": 0.35
+  },
+  {
+   "scene": "s04",
+   "text": "Style guide",
+   "words": 2,
+   "kind": "label",
+   "in": 691,
+   "out": 826,
+   "localIn": 91,
+   "localOut": 226,
+   "hold": 135,
+   "minHold": 57,
+   "x": -1.75,
+   "y": -0.9
+  },
+  {
+   "scene": "s04",
+   "text": "MR",
+   "words": 1,
+   "kind": "initials",
+   "in": 616,
+   "out": 2086,
+   "localIn": 16,
+   "localOut": 1486,
+   "hold": 1470,
+   "minHold": 44,
+   "x": -1.2,
+   "y": -2.75
+  },
+  {
+   "scene": "s04",
+   "text": "JL",
+   "words": 1,
+   "kind": "initials",
+   "in": 751,
+   "out": 826,
+   "localIn": 151,
+   "localOut": 226,
+   "hold": 75,
+   "minHold": 44,
+   "x": 0,
+   "y": -2.75
+  },
+  {
+   "scene": "s04",
+   "text": "AK",
+   "words": 1,
+   "kind": "initials",
+   "in": 766,
+   "out": 826,
+   "localIn": 166,
+   "localOut": 226,
+   "hold": 60,
+   "minHold": 44,
+   "x": 1.2,
+   "y": -2.75
+  },
+  {
+   "scene": "s05",
+   "text": "Approve",
+   "words": 1,
+   "kind": "label",
+   "in": 1051,
+   "out": 1111,
+   "localIn": 181,
+   "localOut": 241,
+   "hold": 60,
+   "minHold": 44,
+   "x": 5.9,
+   "y": -2.65
+  },
+  {
+   "scene": "s06",
+   "text": "3 things to improve",
+   "words": 4,
+   "kind": "label",
+   "in": 1261,
+   "out": 1351,
+   "localIn": 121,
+   "localOut": 211,
+   "hold": 90,
+   "minHold": 84,
+   "x": 0.4,
+   "y": -2.33
+  },
+  {
+   "scene": "s07",
+   "text": "Admissions",
+   "words": 1,
+   "kind": "label",
+   "in": 1396,
+   "out": 1561,
+   "localIn": 16,
+   "localOut": 181,
+   "hold": 165,
+   "minHold": 44,
+   "x": -2,
+   "y": 2.58
+  },
+  {
+   "scene": "s07",
+   "text": "Finance",
+   "words": 1,
+   "kind": "label",
+   "in": 1396,
+   "out": 1561,
+   "localIn": 16,
+   "localOut": 181,
+   "hold": 165,
+   "minHold": 44,
+   "x": -2,
+   "y": 1.18
+  },
+  {
+   "scene": "s07",
+   "text": "Events",
+   "words": 1,
+   "kind": "label",
+   "in": 1396,
+   "out": 1561,
+   "localIn": 16,
+   "localOut": 181,
+   "hold": 165,
+   "minHold": 44,
+   "x": -2,
+   "y": -0.22
+  },
+  {
+   "scene": "s07",
+   "text": "JL",
+   "words": 1,
+   "kind": "initials",
+   "in": 1501,
+   "out": 1561,
+   "localIn": 121,
+   "localOut": 181,
+   "hold": 60,
+   "minHold": 44,
+   "x": 2.95,
+   "y": 1.45
+  },
+  {
+   "scene": "s09",
+   "text": "Approve",
+   "words": 1,
+   "kind": "label",
+   "in": 1936,
+   "out": 2041,
+   "localIn": 136,
+   "localOut": 241,
+   "hold": 105,
+   "minHold": 44,
+   "x": 4.1,
+   "y": -0.1
+  },
+  {
+   "scene": "s09",
+   "text": "Send",
+   "words": 1,
+   "kind": "label",
+   "in": 1936,
+   "out": 2041,
+   "localIn": 136,
+   "localOut": 241,
+   "hold": 105,
+   "minHold": 44,
+   "x": 5.95,
+   "y": -0.1
+  },
+  {
+   "scene": "s10",
+   "text": "kingdom-sites.com",
+   "words": 1,
+   "kind": "label",
+   "in": 2116,
+   "out": 2281,
+   "localIn": 46,
+   "localOut": 211,
+   "hold": 165,
+   "minHold": 44,
+   "x": 0,
+   "y": -0.75
+  },
+  {
+   "scene": "s10",
+   "text": "Book a call",
+   "words": 3,
+   "kind": "label",
+   "in": 2131,
+   "out": 2281,
+   "localIn": 61,
+   "localOut": 211,
+   "hold": 150,
+   "minHold": 71,
+   "x": 0,
+   "y": -2.2
+  }
+ ]
+}

@@ -1,0 +1,31 @@
+{
+  "name": "ai-productivity-film",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Kingdom Sites AI productivity film: Blender scene clips edited in Remotion from timeline.json.",
+  "type": "module",
+  "scripts": {
+    "timeline": "node timeline/build.mjs",
+    "timeline:check": "node timeline/build.mjs --check",
+    "studio": "remotion studio",
+    "still": "remotion still Film",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.535",
+    "@remotion/cli": "4.0.535",
+    "@remotion/fonts": "4.0.535",
+    "@remotion/media": "4.0.535",
+    "@remotion/player": "4.0.535",
+    "@remotion/renderer": "4.0.535",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "remotion": "4.0.535"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "esbuild": "0.28.1",
+    "typescript": "5.9.3"
+  }
+}
