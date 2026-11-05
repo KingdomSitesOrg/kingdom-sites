@@ -1,0 +1,6 @@
+# generated from the renders on this Mac by tools/scan-scenes.mjs (every entry point runs it first)
+src/scenes.generated.json
+# the press probe's stills and logs
+build/
+# the review server and watcher logs
+review/*.log

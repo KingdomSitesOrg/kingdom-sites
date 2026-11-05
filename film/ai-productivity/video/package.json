@@ -5,11 +5,23 @@
   "description": "Kingdom Sites AI productivity film: Blender scene clips edited in Remotion from timeline.json.",
   "type": "module",
   "scripts": {
+    "scan": "node tools/scan-scenes.mjs",
     "timeline": "node timeline/build.mjs",
     "timeline:check": "node timeline/build.mjs --check",
+    "build": "node timeline/build.mjs && node tools/scan-scenes.mjs && node review/build.mjs",
+    "prestudio": "node tools/scan-scenes.mjs --quiet",
     "studio": "remotion studio",
+    "prestill": "node tools/scan-scenes.mjs --quiet",
     "still": "remotion still Film",
-    "typecheck": "tsc --noEmit"
+    "stills": "node tools/stills.mjs",
+    "prerender": "node tools/scan-scenes.mjs",
+    "render": "../remotion-lock.sh npx remotion render Film ../renders/final/ai-productivity-1080p.mp4 --concurrency=2",
+    "pretypecheck": "node tools/scan-scenes.mjs --quiet",
+    "typecheck": "tsc --noEmit",
+    "review:build": "node review/build.mjs",
+    "review:serve": "node review/review_server.mjs --root review/dist --notes notes.json --port 5191 --host 127.0.0.1,100.69.115.38",
+    "review:watch": "node tools/review-watch.mjs",
+    "verify": "node verify/run.mjs"
   },
   "dependencies": {
     "@remotion/bundler": "4.0.535",

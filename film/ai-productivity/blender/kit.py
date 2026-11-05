@@ -460,12 +460,15 @@ def bars(name="chart", loc=(0, 0, 0), w=3.6, h=2.6, values=(0.55, 0.85, 0.4, 0.7
     return g
 
 
-def drawer(name="drawer", label="Admissions", color="a1", loc=(0, 0, 0), w=2.6, h=1.1, parent=None):
+def drawer(name="drawer", label="Admissions", color="a1", loc=(0, 0, 0), w=2.6, h=1.1, parent=None,
+           label_color="paper"):
     g = group(name, loc, 0, parent)
     slab(name + "_body", w, h, 0.3, 0.16, "paper", g)
     # fix 1: the label reads at phone size (0.24, was 0.19); the tag grows to
     # fit it and the handle sits a little lower so the two never touch
-    t = text(label, 0.24, "paper", g, (0, 0.18, 0.33))
+    # label_color: "paper" is the approved default; s07 passes "ink" so the
+    # word reads on every tag colour at phone size (ink on butter is 9.4:1)
+    t = text(label, 0.24, label_color, g, (0, 0.18, 0.33))
     tw = max(w * 0.62, _text_width(t) + 0.4)
     slab(name + "_tag", tw, 0.4, 0.03, 0.2, color, g, (0, 0.18, 0.3))
     slab(name + "_handle", w * 0.3, 0.12, 0.05, 0.06, "ink", g, (0, -0.28, 0.3))

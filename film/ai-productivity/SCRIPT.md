@@ -230,7 +230,7 @@ sweep, not one thing passing to another.
 
 | Beat | Event | What happens |
 |---|---|---|
-| j0 [1] | sweep | Everything on screen (all stacks, stickies, inbox and badge, to-do rows, email card with its chips) lifts (z + 0.1, scale 1.03, frames 1 to 4) and then flies in an arc (lift 0.8 at mid-flight) to (0, 0.2, 0.6), shrinking to 0. Start is staggered by distance from the centre (0 to 6 frames); each flight takes 12 frames; all are gone by 24. "paper" sounds on 1. |
+| j0 [1] | sweep | Everything on screen (all stacks, stickies, inbox and badge, to-do rows, email card with its chips) lifts (z + 0.1, scale 1.03, frames 1 to 4) and then flies in an arc (lift 0.3 at mid-flight, plus 0.02 per later flyer, never above z 0.75) to the folder's mouth at (0, 1.15, 0.35), above the white inner sheet, arriving at 0.18 of its size, then over the last 3 frames of its flight sinks onto the inner sheet at (0, 1.12, 0.115), behind the front lip, shrinking to 0; nothing crosses the front panel. Start is staggered by distance from the centre (0 to 6 frames; stack A, stack D and the email card leave 2 frames earlier, so they are inside the mouth by the folder's landing on 16); each flight takes 12 frames; all are gone by 21. "paper" sounds on 1. |
 | j1 [16] | folder | `folder("folder", (0, 0.2), color="a1")` at scale 1.2 lands on 16 (pops from 8), so the papers fall into it from 14 on. |
 | j2 [31] | close | The folder's front gives a closing bump: `folder_front` scale y 1 → 0.94 → 1.01 → 1 over 31 to 38; the folder group dips z −0.04 on 31. "pop". |
 | j3–j7 [46–120] | | Stillness. The folder holds at (0, 0.2), scale 1.2, to the last frame. |
@@ -244,7 +244,7 @@ sweep, not one thing passing to another.
 | j0 [1] | | The folder from scene 3. |
 | j1 [16] | mr | `avatar("mr", "MR", "a2", (-1.2, -2.75), size=0.85)` lands. The person starts it. |
 | j2 [31] | project | The folder becomes the project: the folder group scales 1.2 → 0 over 24 to 31 while **new** `project_card("project", loc=(0, 0.45), w=7.2, h=4.4)` lands on 31. Project card: paper slab d 0.08 r 0.22; header at relative y 1.75 with `chip("folder-simple", "a1", "tint", 0.62)` at relative x −3.0 and two skel lines; three tint slot wells (d 0.01) at relative y 0.75, −0.4, −1.55. |
-| j3 [46] | handbook | `card("handbook", w=6.4, h=1.0, icon_name="book-open-text", accent="a1", label="Handbook", n_lines=1)` slides in from (10.5, 1.2, 0.08) to (0, 1.2, 0.08), landing 46 (1% overshoot at 44). |
+| j3 [46] | handbook | `card("handbook", w=6.4, h=1.0, icon_name="book-open-text", accent="a1", label="Handbook", n_lines=1)` slides in from (12.5, 1.2, 0.08) to (0, 1.2, 0.08), landing 46 (1% overshoot at 44). Start x 12.5, not 10.5: the 6.4-wide card must start with its left edge past x = +9 (picture lane B). |
 | j5 [76] | policies | `card("policies", … icon_name="clipboard-text", accent="a2", label="Policies")` slides in to (0, 0.05, 0.08), landing 76. |
 | j6 [91] | styleGuide | `card("style", … icon_name="pen-nib", accent="a3", label="Style guide")` slides in to (0, −1.1, 0.08), landing 91. (`pen-nib` is a new Phosphor icon; if it cannot be added, `chat-circle-dots`.) |
 | j10 [151] | jl | `avatar("jl", "JL", "a1", (0, -2.75), size=0.85)` lands beside MR: the team joins. |
@@ -283,7 +283,7 @@ person who reads the result.
 | Beat | Event | What happens |
 |---|---|---|
 | j0 [1] | | MR from scene 5. |
-| j1 [16] | stack | Five **new** `survey_card(name, loc, rot)` (paper 1.5 × 2.0, d 0.05, r 0.12; `clipboard-text` chip a2 0.42 top left; three answer rows, each a tint radio dot 0.16 + skel line, one radio filled a1) land stacked at (−4.4, 0.85), rot 0, card i at z 0.06·i. |
+| j1 [16] | stack | Five **new** `survey_card(name, loc, rot)` (paper 1.5 × 2.0, d 0.05, r 0.12; `clipboard-text` chip a2 0.42 top left; three answer rows, each a tint radio dot 0.16 + skel line, one radio filled a1) land stacked at (−4.4, 0.85), rot 0, card i at z 0.12·i (0.06 let the chip of the card below poke through the card above; picture lane B). |
 | j2–j5 [31, 46, 61, 76] | fan0, fan1, fan3, fan4 | One card fans out per beat (moves and turns over 10 frames, landing on the beat): card 0 → (−6.0, 0.55) rot 16; card 1 → (−5.2, 0.85) rot 8; card 3 → (−3.6, 0.85) rot −8; card 4 → (−2.8, 0.55) rot −16. Card 2 stays at (−4.4, 0.95), rot 0. Each keeps its z (they rest on each other like a hand of cards). "row" each. |
 | j6 [91] | chart | `bars("chart", (3.4, 1.25), w=3.8, h=2.8, values=(0.55, 0.85, 0.4, 0.7))` lands with its bars at height 0 (bars grow from their bottom edge: key scale y and location y together, or set the origin at the bottom). |
 | j7 [106] | bars | The bars grow, bar k full on 106 + 3k with a 1% overshoot ("grow" on 106). |
@@ -299,7 +299,7 @@ the team channel.
 | Beat | Event | What happens |
 |---|---|---|
 | j0 [1] | | MR from scene 6. |
-| j1 [16] | trayDrawers | `chip("tray", "tray", "a1", "tint", 1.2, loc=(-6.0, 1.1))` and three drawers land together: `drawer("d1", "Admissions", "a1", (-2.0, 2.4), w=2.4)`, `drawer("d2", "Finance", "a2", (-2.0, 1.0), w=2.4)`, `drawer("d3", "Events", "a3", (-2.0, -0.4), w=2.4)`. |
+| j1 [16] | trayDrawers | `chip("tray", "tray", "a1", "tint", 1.2, loc=(-6.0, 1.1))` and three drawers land together: `drawer("d1", "Admissions", "a1", (-2.0, 2.4), w=2.4)`, `drawer("d2", "Finance", "a2", (-2.0, 1.0), w=2.4)`, `drawer("d3", "Events", "a3", (-2.0, -0.4), w=2.4)`, all three with `label_color="ink"` (fix 1: white on the butter "Events" tag was 1.56:1; ink is 9.4:1 on butter, 5.45:1 on teal, 4.18:1 on raspberry). |
 | j2 [31] | email1 | Path 1 `dotted("path1", (-5.3, 1.55), (-4.4, 2.9), (-3.3, 2.4))` (11 dots) draws 31 to 41. **new** `envelope("env1")` (paper 0.8 × 0.56, `envelope-simple` icon a1 0.4) grows off the tray at 29 and rides it t 0 @33 → 1 @41, then drops into drawer 1 (scale → 0, z → 0.3) by 46 ("whoosh"). |
 | j3 [46] | land1 | Drawer 1 takes it: body bump scale y 1 → 0.96 → 1 over 46 to 52 ("drawer"). |
 | j4 [61] / j5 [76] | email2 / land2 | Same for `env2` on path 2 `dotted("path2", (-5.25, 1.1), (-4.3, 1.45), (-3.3, 1.0))` (9 dots, 61 to 69, ride 63 → 71) into drawer 2, which bumps on 76. |
@@ -528,19 +528,19 @@ frame, and springs back by +6. Press points are on the button, right of its labe
 | 1111 | s05 | 1767.4 | 861.4 |  | yes | rests |
 | 1123 | s05 | 2040 | 1170 |  | no | leaves |
 | 1936 | s09 | 2040 | 1170 |  | yes | enters from bottom right |
-| 1964 | s09 | 1521.1 | 557.1 |  | yes | settled on approve |
-| 1966 | s09 | 1521.1 | 557.1 | press | yes | press approve |
-| 1972 | s09 | 1521.1 | 557.1 |  | yes | released |
-| 1994 | s09 | 1734.5 | 557.1 |  | yes | settled on send |
-| 1996 | s09 | 1734.5 | 557.1 | press | yes | press send |
-| 2002 | s09 | 1734.5 | 557.1 |  | yes | released |
-| 2041 | s09 | 1734.5 | 557.1 |  | yes | rests |
+| 1964 | s09 | 1521.1 | 558.4 |  | yes | settled on approve |
+| 1966 | s09 | 1521.1 | 558.4 | press | yes | press approve |
+| 1972 | s09 | 1521.1 | 558.4 |  | yes | released |
+| 1994 | s09 | 1734.5 | 558.4 |  | yes | settled on send |
+| 1996 | s09 | 1734.5 | 558.4 | press | yes | press send |
+| 2002 | s09 | 1734.5 | 558.4 |  | yes | released |
+| 2041 | s09 | 1734.5 | 558.4 |  | yes | rests |
 | 2053 | s09 | 2040 | 1170 |  | no | leaves |
 | 2221 | s10 | 2040 | 1170 |  | yes | enters from bottom right |
-| 2264 | s10 | 1098.2 | 806.9 |  | yes | settled on bookACall |
-| 2266 | s10 | 1098.2 | 806.9 | press | yes | press bookACall |
-| 2272 | s10 | 1098.2 | 806.9 |  | yes | released |
-| 2281 | s10 | 1098.2 | 806.9 |  | yes | rests |
+| 2264 | s10 | 1098.2 | 808.2 |  | yes | settled on bookACall |
+| 2266 | s10 | 1098.2 | 808.2 | press | yes | press bookACall |
+| 2272 | s10 | 1098.2 | 808.2 |  | yes | released |
+| 2281 | s10 | 1098.2 | 808.2 |  | yes | rests |
 | 2293 | s10 | 2040 | 1170 |  | no | leaves |
 <!-- /timeline:cursor -->
 

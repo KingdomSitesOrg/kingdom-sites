@@ -13,7 +13,7 @@ export function Root() {
       fps={tl.fps}
       width={tl.width}
       height={tl.height}
-      defaultProps={{}}
+      defaultProps={{ audio: true, review: false, probe: false }}
     />
   );
 }
