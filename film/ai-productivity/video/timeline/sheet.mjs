@@ -52,7 +52,7 @@ export const SILENCE = { scene: "s02", j: 15 };
 // rebalance in the mix; these keep every effect quiet under the voice).
 export const SOUND_GAIN = {
   pop: -20, paper: -20, sticky: -22, tick: -26, whoosh: -22, shutter: -18, cloud: -22,
-  row: -20, grow: -22, drawer: -20, bubble: -20, roll: -22, type: -20, click: -16, send: -18,
+  row: -20, grow: -22, drawer: -15, bubble: -20, roll: -22, type: -20, click: -16, send: -18,
 };
 
 // The ten locked lines (PLAN.md "Script"). build.mjs refuses to write if any
@@ -150,7 +150,7 @@ export const SCENES = [
     voice: { line: 5, at: 31, seconds: 4.333, fileSeconds: 4.69, speechOn: 0.03, file: "audio/voice/lines/line05.wav", timestamps: "audio/voice/lines/line05.json", estimate: false },
     events: {
       paperIn: 1, cloudTable: 2, phone: 3, shutter: 4, pathA: 5, cloudIn: 6, pathB: 7,
-      row0: 8, row1: 9, row2: 10, row3: 11, approve: 12, press: 14, exit: 16,
+      row0: 8, row1: 9, row2: 10, row3: 11, approve: 12, press: 14, exit: 17,
     },
     cues: [
       ["pop", 1, -5.3], ["pop", 2, 2.8], ["whoosh", 3, -4.05], ["shutter", 4, -4.05],
@@ -162,21 +162,21 @@ export const SCENES = [
       { name: "pathA", j: 5, p0: [-3.5, 1.25], c: [-2.85, 2.55], p1: [-1.75, 1.75], every: 1 },
       { name: "pathB", j: 7, p0: [1.5, 0.8], c: [2.3, -0.05], p1: [3.25, 0.45], every: 1 },
     ],
-    labels: [{ text: "Approve", words: 1, in: 12, out: 16, x: 5.9, y: -2.65 }],
+    labels: [{ text: "Approve", words: 1, in: 12, out: 17, x: 5.9, y: -2.65 }],
     presses: [{ name: "approve", j: 14, target: "approve", world: [5.9 + 0.36 * 2.3, -2.65 - 0.08, 0.12] }],
-    cursor: { enter: 12, exit: 16 },
+    cursor: { enter: 12, exit: 17 },
     handoffIn: { ...MR, x: 3.6, y: -2.65, z: 0 },
     handoffOut: { ...MR, x: 3.6, y: -2.65, z: 0 },
   },
   {
     id: "s06", name: "Survey", beats: 16,
     voice: { line: 6, at: 16, seconds: 3.967, fileSeconds: 4.319, speechOn: 0.03, file: "audio/voice/lines/line06.wav", timestamps: "audio/voice/lines/line06.json", estimate: false },
-    events: { stack: 1, fan0: 2, fan1: 3, fan3: 4, fan4: 5, chart: 6, bars: 7, improve: 8, exit: 14 },
+    events: { stack: 1, fan0: 2, fan1: 3, fan3: 4, fan4: 5, chart: 6, bars: 7, improve: 8, exit: 15 },
     cues: [
       ["pop", 1, -4.4], ["row", 2, -6.0], ["row", 3, -5.2], ["row", 4, -3.6], ["row", 5, -2.8],
-      ["pop", 6, 3.4], ["grow", 7, 3.4], ["pop", 8, 0.6],
+      ["pop", 6, 3.4], ["grow", 7, 3.4], ["pop", 8, -0.2],
     ],
-    labels: [{ text: "3 things to improve", words: 4, in: 8, out: 14, x: 0.4, y: -2.33 }],
+    labels: [{ text: "3 things to improve", words: 4, in: 8, out: 15, x: -0.2, y: -2.33 }],
     presses: [],
     handoffIn: { ...MR, x: 3.6, y: -2.65, z: 0 },
     handoffOut: { ...MR, x: 3.6, y: -2.65, z: 0 },
@@ -186,7 +186,7 @@ export const SCENES = [
     voice: { line: 7, at: 46, seconds: 3.8, fileSeconds: 4.133, speechOn: 0.0, file: "audio/voice/lines/line07.wav", timestamps: "audio/voice/lines/line07.json", estimate: false },
     events: {
       trayDrawers: 1, email1: 2, land1: 3, email2: 4, land2: 5, email3: 6, land3: 7,
-      channel: 8, answer: 9, exit: 12,
+      channel: 8, answer: 9, exit: 13,
     },
     cues: [
       ["pop", 1, -4.0],
@@ -201,10 +201,10 @@ export const SCENES = [
       { name: "path3", j: 6, p0: [-5.3, 0.65], c: [-4.4, -0.6], p1: [-3.3, -0.4], every: 1 },
     ],
     labels: [
-      { text: "Admissions", words: 1, in: 1, out: 12, x: -2.0, y: 2.58 },
-      { text: "Finance", words: 1, in: 1, out: 12, x: -2.0, y: 1.18 },
-      { text: "Events", words: 1, in: 1, out: 12, x: -2.0, y: -0.22 },
-      { text: "JL", words: 1, in: 8, out: 12, x: 2.95, y: 1.45, kind: "initials" },
+      { text: "Admissions", words: 1, in: 1, out: 13, x: -2.0, y: 2.58 },
+      { text: "Finance", words: 1, in: 1, out: 13, x: -2.0, y: 1.18 },
+      { text: "Events", words: 1, in: 1, out: 13, x: -2.0, y: -0.22 },
+      { text: "JL", words: 1, in: 8, out: 13, x: 2.95, y: 1.45, kind: "initials" },
     ],
     presses: [],
     handoffIn: { ...MR, x: 3.6, y: -2.65, z: 0 },
@@ -232,7 +232,7 @@ export const SCENES = [
     voice: { line: 9, at: 31, seconds: 6.133, fileSeconds: 6.502, speechOn: 0.06, file: "audio/voice/lines/line09.wav", timestamps: "audio/voice/lines/line09.json", estimate: false },
     events: {
       blocks: 1, type: 2, idea: 3, pathL: 4, work: 5, pathR: 7, draft: 8, buttons: 9,
-      approve: 11, send: 13, sendOff: 14, exit: 16,
+      approve: 11, send: 13, sendOff: 14, exit: 17,
     },
     cues: [
       ["pop", 1, 0], ["type", 2, -5.0], ["pop", 3, -5.0],
@@ -247,14 +247,14 @@ export const SCENES = [
       { name: "pathR", j: 7, p0: [1.65, 0.1], c: [2.35, -0.8], p1: [3.05, 0.1], every: 1 },
     ],
     labels: [
-      { text: "Approve", words: 1, in: 9, out: 16, x: 4.1, y: -0.1 },
-      { text: "Send", words: 1, in: 9, out: 16, x: 5.95, y: -0.1 },
+      { text: "Approve", words: 1, in: 9, out: 17, x: 4.1, y: -0.1 },
+      { text: "Send", words: 1, in: 9, out: 17, x: 5.95, y: -0.1 },
     ],
     presses: [
       { name: "approve", j: 11, target: "approve", world: [4.1 + 0.36 * 1.6, -0.1 - 0.08, 0.08 + 0.12] },
       { name: "send", j: 13, target: "send", world: [5.95 + 0.36 * 1.4, -0.1 - 0.08, 0.08 + 0.12] },
     ],
-    cursor: { enter: 9, exit: 16 },
+    cursor: { enter: 9, exit: 17 },
     handoffIn: { ...MR, x: -5.0, y: -2.45, z: 0 },
     handoffOut: { ...MR, x: -5.0, y: -2.45, z: 0 },
   },

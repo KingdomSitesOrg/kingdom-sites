@@ -39,7 +39,9 @@ BADGE_AT = (5.95, 2.85, 0.06)
 BADGE_VALUES = ["3", "12", "27", "48", "99+"]
 # final pass (review note): digits 1.25x the kit default (0.26), pill 1.2x (0.42),
 # so the count reads on a phone; the badge's place is unchanged
-BADGE_SIZE, BADGE_H = 0.325, 0.5
+# phase 3 (whole-film review p01): digits 0.45, pill 0.66, so "99+" is about as
+# tall as the film's other labels; same place (BADGE_AT)
+BADGE_SIZE, BADGE_H = 0.45, 0.66
 
 TODO_AT = (1.4, -3.5)
 TODO_ROWS = 16

@@ -918,7 +918,7 @@
     "row3": 166,
     "approve": 181,
     "press": 211,
-    "exit": 241
+    "exit": 256
    },
    "presses": [
     {
@@ -942,10 +942,10 @@
      "words": 1,
      "kind": "label",
      "in": 1051,
-     "out": 1111,
+     "out": 1126,
      "localIn": 181,
-     "localOut": 241,
-     "hold": 60,
+     "localOut": 256,
+     "hold": 75,
      "minHold": 44,
      "x": 5.9,
      "y": -2.65
@@ -1167,7 +1167,7 @@
    "draft": "drafts/s05/latest.png",
    "cursor": {
     "enter": 1051,
-    "exit": 1111
+    "exit": 1126
    }
   },
   {
@@ -1201,7 +1201,7 @@
     "chart": 91,
     "bars": 106,
     "improve": 121,
-    "exit": 211
+    "exit": 226
    },
    "presses": [],
    "labels": [
@@ -1210,12 +1210,12 @@
      "words": 4,
      "kind": "label",
      "in": 1261,
-     "out": 1351,
+     "out": 1366,
      "localIn": 121,
-     "localOut": 211,
-     "hold": 90,
+     "localOut": 226,
+     "hold": 105,
      "minHold": 84,
-     "x": 0.4,
+     "x": -0.2,
      "y": -2.33
     }
    ],
@@ -1288,7 +1288,7 @@
      "frame": 1261,
      "localFrame": 121,
      "beat": 84,
-     "pan": 0.06,
+     "pan": -0.02,
      "gain": -20,
      "primary": true
     }
@@ -1348,7 +1348,7 @@
     "land3": 106,
     "channel": 121,
     "answer": 136,
-    "exit": 181
+    "exit": 196
    },
    "presses": [],
    "labels": [
@@ -1357,10 +1357,10 @@
      "words": 1,
      "kind": "label",
      "in": 1396,
-     "out": 1561,
+     "out": 1576,
      "localIn": 16,
-     "localOut": 181,
-     "hold": 165,
+     "localOut": 196,
+     "hold": 180,
      "minHold": 44,
      "x": -2,
      "y": 2.58
@@ -1370,10 +1370,10 @@
      "words": 1,
      "kind": "label",
      "in": 1396,
-     "out": 1561,
+     "out": 1576,
      "localIn": 16,
-     "localOut": 181,
-     "hold": 165,
+     "localOut": 196,
+     "hold": 180,
      "minHold": 44,
      "x": -2,
      "y": 1.18
@@ -1383,10 +1383,10 @@
      "words": 1,
      "kind": "label",
      "in": 1396,
-     "out": 1561,
+     "out": 1576,
      "localIn": 16,
-     "localOut": 181,
-     "hold": 165,
+     "localOut": 196,
+     "hold": 180,
      "minHold": 44,
      "x": -2,
      "y": -0.22
@@ -1396,10 +1396,10 @@
      "words": 1,
      "kind": "initials",
      "in": 1501,
-     "out": 1561,
+     "out": 1576,
      "localIn": 121,
-     "localOut": 181,
-     "hold": 60,
+     "localOut": 196,
+     "hold": 75,
      "minHold": 44,
      "x": 2.95,
      "y": 1.45
@@ -1444,7 +1444,7 @@
      "localFrame": 46,
      "beat": 95,
      "pan": -0.2,
-     "gain": -20,
+     "gain": -15,
      "primary": true
     },
     {
@@ -1476,7 +1476,7 @@
      "localFrame": 76,
      "beat": 97,
      "pan": -0.2,
-     "gain": -20,
+     "gain": -15,
      "primary": true
     },
     {
@@ -1508,7 +1508,7 @@
      "localFrame": 106,
      "beat": 99,
      "pan": -0.2,
-     "gain": -20,
+     "gain": -15,
      "primary": true
     },
     {
@@ -1860,7 +1860,7 @@
     "approve": 166,
     "send": 196,
     "sendOff": 211,
-    "exit": 241
+    "exit": 256
    },
    "presses": [
     {
@@ -1898,10 +1898,10 @@
      "words": 1,
      "kind": "label",
      "in": 1936,
-     "out": 2041,
+     "out": 2056,
      "localIn": 136,
-     "localOut": 241,
-     "hold": 105,
+     "localOut": 256,
+     "hold": 120,
      "minHold": 44,
      "x": 4.1,
      "y": -0.1
@@ -1911,10 +1911,10 @@
      "words": 1,
      "kind": "label",
      "in": 1936,
-     "out": 2041,
+     "out": 2056,
      "localIn": 136,
-     "localOut": 241,
-     "hold": 105,
+     "localOut": 256,
+     "hold": 120,
      "minHold": 44,
      "x": 5.95,
      "y": -0.1
@@ -2122,7 +2122,7 @@
    "draft": "drafts/s09/latest.png",
    "cursor": {
     "enter": 1936,
-    "exit": 2041
+    "exit": 2056
    }
   },
   {
@@ -2303,7 +2303,7 @@
    "note": "released"
   },
   {
-   "frame": 1111,
+   "frame": 1126,
    "x": 1767.4,
    "y": 861.4,
    "press": false,
@@ -2312,7 +2312,7 @@
    "note": "rests"
   },
   {
-   "frame": 1123,
+   "frame": 1138,
    "x": 2040,
    "y": 1170,
    "press": false,
@@ -2384,7 +2384,7 @@
    "note": "released"
   },
   {
-   "frame": 2041,
+   "frame": 2056,
    "x": 1734.5,
    "y": 558.4,
    "press": false,
@@ -2393,7 +2393,7 @@
    "note": "rests"
   },
   {
-   "frame": 2053,
+   "frame": 2068,
    "x": 2040,
    "y": 1170,
    "press": false,
@@ -3073,7 +3073,7 @@
    "frame": 1261,
    "localFrame": 121,
    "beat": 84,
-   "pan": 0.06,
+   "pan": -0.02,
    "gain": -20,
    "primary": true
   },
@@ -3119,7 +3119,7 @@
    "localFrame": 46,
    "beat": 95,
    "pan": -0.2,
-   "gain": -20,
+   "gain": -15,
    "primary": true
   },
   {
@@ -3154,7 +3154,7 @@
    "localFrame": 76,
    "beat": 97,
    "pan": -0.2,
-   "gain": -20,
+   "gain": -15,
    "primary": true
   },
   {
@@ -3189,7 +3189,7 @@
    "localFrame": 106,
    "beat": 99,
    "pan": -0.2,
-   "gain": -20,
+   "gain": -15,
    "primary": true
   },
   {
@@ -3668,10 +3668,10 @@
    "words": 1,
    "kind": "label",
    "in": 1051,
-   "out": 1111,
+   "out": 1126,
    "localIn": 181,
-   "localOut": 241,
-   "hold": 60,
+   "localOut": 256,
+   "hold": 75,
    "minHold": 44,
    "x": 5.9,
    "y": -2.65
@@ -3682,12 +3682,12 @@
    "words": 4,
    "kind": "label",
    "in": 1261,
-   "out": 1351,
+   "out": 1366,
    "localIn": 121,
-   "localOut": 211,
-   "hold": 90,
+   "localOut": 226,
+   "hold": 105,
    "minHold": 84,
-   "x": 0.4,
+   "x": -0.2,
    "y": -2.33
   },
   {
@@ -3696,10 +3696,10 @@
    "words": 1,
    "kind": "label",
    "in": 1396,
-   "out": 1561,
+   "out": 1576,
    "localIn": 16,
-   "localOut": 181,
-   "hold": 165,
+   "localOut": 196,
+   "hold": 180,
    "minHold": 44,
    "x": -2,
    "y": 2.58
@@ -3710,10 +3710,10 @@
    "words": 1,
    "kind": "label",
    "in": 1396,
-   "out": 1561,
+   "out": 1576,
    "localIn": 16,
-   "localOut": 181,
-   "hold": 165,
+   "localOut": 196,
+   "hold": 180,
    "minHold": 44,
    "x": -2,
    "y": 1.18
@@ -3724,10 +3724,10 @@
    "words": 1,
    "kind": "label",
    "in": 1396,
-   "out": 1561,
+   "out": 1576,
    "localIn": 16,
-   "localOut": 181,
-   "hold": 165,
+   "localOut": 196,
+   "hold": 180,
    "minHold": 44,
    "x": -2,
    "y": -0.22
@@ -3738,10 +3738,10 @@
    "words": 1,
    "kind": "initials",
    "in": 1501,
-   "out": 1561,
+   "out": 1576,
    "localIn": 121,
-   "localOut": 181,
-   "hold": 60,
+   "localOut": 196,
+   "hold": 75,
    "minHold": 44,
    "x": 2.95,
    "y": 1.45
@@ -3752,10 +3752,10 @@
    "words": 1,
    "kind": "label",
    "in": 1936,
-   "out": 2041,
+   "out": 2056,
    "localIn": 136,
-   "localOut": 241,
-   "hold": 105,
+   "localOut": 256,
+   "hold": 120,
    "minHold": 44,
    "x": 4.1,
    "y": -0.1
@@ -3766,10 +3766,10 @@
    "words": 1,
    "kind": "label",
    "in": 1936,
-   "out": 2041,
+   "out": 2056,
    "localIn": 136,
-   "localOut": 241,
-   "hold": 105,
+   "localOut": 256,
+   "hold": 120,
    "minHold": 44,
    "x": 5.95,
    "y": -0.1

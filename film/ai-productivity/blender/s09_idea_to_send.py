@@ -164,7 +164,7 @@ def build(S):
                              (f + 9, (x0 + 2.6, y0 + 0.35, z0 + 0.45)),
                              (f + 13, (10.5, y0 + 0.3, z0 + 0.3))))
 
-    # j16 exit: everything but MR leaves
+    # j17 exit (phase 3 fix p05: one beat later, was j16): everything but MR leaves
     f = B("exit")
     for ob in (left, mid, right, idea, bulb, appr, send, *dots_l, *dots_r):
         pop_out(ob, f)

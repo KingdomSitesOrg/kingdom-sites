@@ -103,7 +103,7 @@ def build(S):
     pop(bt, B("approve") - 7)
     kit.press(bt, S.press_frame("approve"))
 
-    # j16 exit: everything but MR leaves
+    # j17 exit (phase 3 fix p04: one beat later, was j16): everything but MR leaves
     f = B("exit")
     for ob in (s1, st, form, ph, cl, tb, bt, *dots_a, *dots_b):
         pop_out(ob, f)

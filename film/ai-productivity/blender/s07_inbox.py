@@ -92,7 +92,7 @@ def build(S):
     pop(ans, f - 7)
     pop(agent, f - 7)
 
-    # j12 exit: everything but MR leaves
+    # j13 exit (phase 3 fix p04: one beat later, was j12): everything but MR leaves
     f = B("exit")
     for ob in (tray, *drawers, *all_dots, ch):
         pop_out(ob, f)

@@ -52,6 +52,13 @@ EARLY = {"stackA": 2, "stackD": 2, "email": 2}  # fix 2: frames earlier for the 
 # final pass (review notes): the highest to-do rows leave 1 frame earlier, so
 # they are inside the folder's mouth on the landing beat
 EARLY.update({f"todo_row{i}": 1 for i in range(12, 16)})
+# phase 3 (whole-film review p03): the to-do header and the rows nearest it
+# start below the folder, so they leave 3 frames earlier (first try: 2) and
+# cross the front while the folder is still small (comment only; values below)
+EARLY.update({f"todo_row{i}": 3 for i in range(0, 4)})
+# retry 1: the two near-left stacks and the email card cross the folder's
+# front too, so they leave 1 frame earlier still (stack E: 2)
+EARLY.update({"stackD": 3, "stackE": 2, "email": 3})
 ROW_PEAK = 0.5                       # final pass: the to-do rows fly lower, so their shadows stay small
 
 

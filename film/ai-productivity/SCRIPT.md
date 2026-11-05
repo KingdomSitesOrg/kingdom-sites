@@ -122,14 +122,14 @@ which stand for text nobody needs to read.
 | 9 | s04 | MR | initials | 1 | 616 | 2086 | 16–1486 | 49.00 s | 1.47 s |
 | 10 | s04 | JL | initials | 1 | 751 | 826 | 151–226 | 2.50 s | 1.47 s |
 | 11 | s04 | AK | initials | 1 | 766 | 826 | 166–226 | 2.00 s | 1.47 s |
-| 12 | s05 | Approve | label | 1 | 1051 | 1111 | 181–241 | 2.00 s | 1.47 s |
-| 13 | s06 | 3 things to improve | label | 4 | 1261 | 1351 | 121–211 | 3.00 s | 2.80 s |
-| 14 | s07 | Admissions | label | 1 | 1396 | 1561 | 16–181 | 5.50 s | 1.47 s |
-| 15 | s07 | Finance | label | 1 | 1396 | 1561 | 16–181 | 5.50 s | 1.47 s |
-| 16 | s07 | Events | label | 1 | 1396 | 1561 | 16–181 | 5.50 s | 1.47 s |
-| 17 | s07 | JL | initials | 1 | 1501 | 1561 | 121–181 | 2.00 s | 1.47 s |
-| 18 | s09 | Approve | label | 1 | 1936 | 2041 | 136–241 | 3.50 s | 1.47 s |
-| 19 | s09 | Send | label | 1 | 1936 | 2041 | 136–241 | 3.50 s | 1.47 s |
+| 12 | s05 | Approve | label | 1 | 1051 | 1126 | 181–256 | 2.50 s | 1.47 s |
+| 13 | s06 | 3 things to improve | label | 4 | 1261 | 1366 | 121–226 | 3.50 s | 2.80 s |
+| 14 | s07 | Admissions | label | 1 | 1396 | 1576 | 16–196 | 6.00 s | 1.47 s |
+| 15 | s07 | Finance | label | 1 | 1396 | 1576 | 16–196 | 6.00 s | 1.47 s |
+| 16 | s07 | Events | label | 1 | 1396 | 1576 | 16–196 | 6.00 s | 1.47 s |
+| 17 | s07 | JL | initials | 1 | 1501 | 1576 | 121–196 | 2.50 s | 1.47 s |
+| 18 | s09 | Approve | label | 1 | 1936 | 2056 | 136–256 | 4.00 s | 1.47 s |
+| 19 | s09 | Send | label | 1 | 1936 | 2056 | 136–256 | 4.00 s | 1.47 s |
 | 20 | s10 | kingdom-sites.com | label | 1 | 2116 | 2281 | 46–211 | 5.50 s | 1.47 s |
 | 21 | s10 | Book a call | label | 3 | 2131 | 2281 | 61–211 | 5.00 s | 2.37 s |
 <!-- /timeline:words -->
@@ -273,7 +273,8 @@ want"), retimed to the beats. No scanner. No cursor in Blender. MR is already in
 | j12 [181] | approve | `button("approve", "Approve", "a3", (5.9, -2.65), w=2.3, h=0.72)` lands ("pop"). |
 | j13 [196] | | The Remotion cursor arrives beside the label (tip right of "Approve"). |
 | j14 [211] | press | Press on Approve: the button dips on 211 ("click"). The table, MR and Approve hold: this is the approved still. |
-| j16 [241] | exit | Everything but MR exits (stack, sticky, form, phone, cloud, table, dots, Approve). MR stays at (3.6, −2.65). Hold to 270. |
+| j15 [226] | | Hold. |
+| j17 [256] | exit | Everything but MR exits (stack, sticky, form, phone, cloud, table, dots, Approve). MR stays at (3.6, −2.65). Hold to 270. (Phase 3 fix: was j16 [241], moved one beat later so the empty table between scenes is shorter.) |
 
 ### s06 · Survey · 16 beats (240 f)
 
@@ -287,9 +288,9 @@ person who reads the result.
 | j2–j5 [31, 46, 61, 76] | fan0, fan1, fan3, fan4 | One card fans out per beat (moves and turns over 10 frames, landing on the beat): card 0 → (−6.0, 0.55) rot 16; card 1 → (−5.2, 0.85) rot 8; card 3 → (−3.6, 0.85) rot −8; card 4 → (−2.8, 0.55) rot −16. Card 2 stays at (−4.4, 0.95), rot 0. Each keeps its z (they rest on each other like a hand of cards). "row" each. |
 | j6 [91] | chart | `bars("chart", (3.4, 1.25), w=3.8, h=2.8, values=(0.55, 0.85, 0.4, 0.7))` lands with its bars at height 0 (bars grow from their bottom edge: key scale y and location y together, or set the origin at the bottom). |
 | j7 [106] | bars | The bars grow, bar k full on 106 + 3k with a 1% overshoot ("grow" on 106). |
-| j8 [121] | improve | `card("improve", w=4.9, h=1.2, icon_name="lightbulb", accent="a1", label="3 things to improve", n_lines=1)` lands at (0.4, −2.55) (drop 0.5): the answer. |
-| j9–j13 | | Hold. |
-| j14 [211] | exit | Everything but MR exits. Hold to 240. |
+| j8 [121] | improve | `card("improve", w=4.9, h=1.2, icon_name="lightbulb", accent="a1", label="3 things to improve", n_lines=1)` lands at (−0.2, −2.55) (drop 0.5): the answer. (Phase 3 fix: was x 0.4, which sat about 24 px from MR's ring.) |
+| j9–j14 | | Hold. |
+| j15 [226] | exit | Everything but MR exits. Hold to 240. (Phase 3 fix: was j14 [211].) |
 
 ### s07 · Inbox · 14 beats (210 f)
 
@@ -306,8 +307,8 @@ the team channel.
 | j6 [91] / j7 [106] | email3 / land3 | Same for `env3` on path 3 `dotted("path3", (-5.3, 0.65), (-4.4, -0.6), (-3.3, -0.4))` (10 dots, 91 to 100, ride 93 → 102) into drawer 3, bump on 106. |
 | j8 [121] | channel | **new** `channel("channel", loc=(4.6, 0.95), w=4.6, h=4.0)` lands: paper panel, tint header strip with `chat-circle-dots` chip (a2, 0.55) and a skel line; inside, `avatar("jl", "JL", "a1", (2.95, 1.45), size=0.6)` and a question `bubble(w=2.6, h=0.8, tail="left")` at (4.65, 1.45, 0.08) (0.1 clear of JL; style review fix). The avatar, both bubbles and the agent chip sit at z 0.08 on the channel. |
 | j9 [136] | answer | The answer: `bubble(w=2.8, h=0.9, color="tint", tail="right")` at (4.45, −0.15) and a small agent chip (`sparkle`, a1, 0.55) at (6.3, −0.25) land ("bubble"). |
-| j10–j11 | | Hold. |
-| j12 [181] | exit | Everything but MR exits. Hold to 210. |
+| j10–j12 | | Hold. |
+| j13 [196] | exit | Everything but MR exits. Hold to 210. (Phase 3 fix: was j12 [181].) |
 
 ### s08 · Agent · 14 beats (210 f)
 
@@ -344,8 +345,8 @@ out." The film's one idea in miniature: person, AI, person.
 | j11 [166] | approve | Press on Approve (dip on 166, "click"); a `check-circle` icon (a2, 0.4) pops onto the draft's top right, about (6.4, 1.4), 166 to 173. |
 | j13 [196] | send | Press on Send (dip on 196, "click"). |
 | j14 [211] | sendOff | The draft lifts and flies out past the right edge (x → 10.5, z + 0.3, a slight arc), 211 to 224 ("send"). |
-| j15 | | Hold. |
-| j16 [241] | exit | Everything but MR exits. Hold to 270. |
+| j15–j16 | | Hold. |
+| j17 [256] | exit | Everything but MR exits. Hold to 270. (Phase 3 fix p05: was j16 [241], moved one beat later so the empty ground before the end card is shorter.) |
 
 ### s10 · End card · 18 beats (270 f)
 
@@ -461,17 +462,17 @@ Gains are pre-mix levels in dB; every effect stays under the voice.
 | 1216 | 81 | s06 | 76 | row | yes | -0.28 | -20 |  |
 | 1231 | 82 | s06 | 91 | pop | yes | 0.34 | -20 |  |
 | 1246 | 83 | s06 | 106 | grow | yes | 0.34 | -22 |  |
-| 1261 | 84 | s06 | 121 | pop | yes | 0.06 | -20 |  |
+| 1261 | 84 | s06 | 121 | pop | yes | -0.02 | -20 |  |
 | 1396 | 93 | s07 | 16 | pop | yes | -0.4 | -20 |  |
 | 1411 | 94 | s07 | 31 | whoosh | yes | -0.43 | -22 |  |
 | 1411 | 94 | s07 | 31 | tick | texture | -0.43 | -30 | 11 × every 1 f (path1) |
-| 1426 | 95 | s07 | 46 | drawer | yes | -0.2 | -20 |  |
+| 1426 | 95 | s07 | 46 | drawer | yes | -0.2 | -15 |  |
 | 1441 | 96 | s07 | 61 | whoosh | yes | -0.43 | -22 |  |
 | 1441 | 96 | s07 | 61 | tick | texture | -0.43 | -30 | 9 × every 1 f (path2) |
-| 1456 | 97 | s07 | 76 | drawer | yes | -0.2 | -20 |  |
+| 1456 | 97 | s07 | 76 | drawer | yes | -0.2 | -15 |  |
 | 1471 | 98 | s07 | 91 | whoosh | yes | -0.43 | -22 |  |
 | 1471 | 98 | s07 | 91 | tick | texture | -0.43 | -30 | 10 × every 1 f (path3) |
-| 1486 | 99 | s07 | 106 | drawer | yes | -0.2 | -20 |  |
+| 1486 | 99 | s07 | 106 | drawer | yes | -0.2 | -15 |  |
 | 1501 | 100 | s07 | 121 | pop | yes | 0.46 | -20 |  |
 | 1516 | 101 | s07 | 136 | bubble | yes | 0.52 | -20 |  |
 | 1606 | 107 | s08 | 16 | pop | yes | -0.06 | -20 |  |
@@ -525,8 +526,8 @@ frame, and springs back by +6. Press points are on the button, right of its labe
 | 1079 | s05 | 1767.4 | 861.4 |  | yes | settled on approve |
 | 1081 | s05 | 1767.4 | 861.4 | press | yes | press approve |
 | 1087 | s05 | 1767.4 | 861.4 |  | yes | released |
-| 1111 | s05 | 1767.4 | 861.4 |  | yes | rests |
-| 1123 | s05 | 2040 | 1170 |  | no | leaves |
+| 1126 | s05 | 1767.4 | 861.4 |  | yes | rests |
+| 1138 | s05 | 2040 | 1170 |  | no | leaves |
 | 1936 | s09 | 2040 | 1170 |  | yes | enters from bottom right |
 | 1964 | s09 | 1521.1 | 558.4 |  | yes | settled on approve |
 | 1966 | s09 | 1521.1 | 558.4 | press | yes | press approve |
@@ -534,8 +535,8 @@ frame, and springs back by +6. Press points are on the button, right of its labe
 | 1994 | s09 | 1734.5 | 558.4 |  | yes | settled on send |
 | 1996 | s09 | 1734.5 | 558.4 | press | yes | press send |
 | 2002 | s09 | 1734.5 | 558.4 |  | yes | released |
-| 2041 | s09 | 1734.5 | 558.4 |  | yes | rests |
-| 2053 | s09 | 2040 | 1170 |  | no | leaves |
+| 2056 | s09 | 1734.5 | 558.4 |  | yes | rests |
+| 2068 | s09 | 2040 | 1170 |  | no | leaves |
 | 2221 | s10 | 2040 | 1170 |  | yes | enters from bottom right |
 | 2264 | s10 | 1098.2 | 808.2 |  | yes | settled on bookACall |
 | 2266 | s10 | 1098.2 | 808.2 | press | yes | press bookACall |

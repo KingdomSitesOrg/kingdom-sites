@@ -186,8 +186,10 @@ def main():
     for r in report["cues"]:
         if not r["primary"]:
             continue
-        L = min(samples(0.3), samples(meas[r["sound"]]["seconds"]))
-        s0 = r["start_sample"]
+        # measure the hit, not its lead-in: from one frame before the sync point (a drawer's close
+        # lands a few ms ahead of it; the slide before it is quiet on purpose) for 0.3 s
+        s0 = max(r["start_sample"], r["sync_sample"] - samples(1 / fps))
+        L = min(samples(0.3), r["start_sample"] + samples(meas[r["sound"]]["seconds"]) - s0)
         fx = to_db(np.max(fx_b[s0 : s0 + L]) + 1e-12)
         mu = to_db(np.max(np.abs(mus_b[s0 : s0 + L])) + 1e-12)
         if fx < mu - 3:

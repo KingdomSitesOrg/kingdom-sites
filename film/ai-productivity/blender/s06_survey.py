@@ -85,12 +85,14 @@ def build(S):
             ob.location.y = bottom + bh * s / 2
             ob.keyframe_insert("location", index=1, frame=fr)
 
-    # j8 improve: the answer lands
-    imp = card("improve", (0.4, -2.55), w=4.9, h=1.2, icon_name="lightbulb", accent="a1",
+    # j8 improve: the answer lands. Phase 3 fix p02: x 0.4 -> -0.2, so its
+    # right edge (2.25) sits clear of MR's ring (left edge 3.175) instead of
+    # about 24 px away; its left edge (-2.65) stays well below the fanned cards.
+    imp = card("improve", (-0.2, -2.55), w=4.9, h=1.2, icon_name="lightbulb", accent="a1",
                label="3 things to improve", n_lines=1)
     pop(imp, B("improve") - 7)
 
-    # j14 exit: everything but MR leaves
+    # j15 exit (phase 3 fix p04: one beat later, was j14): everything but MR leaves
     f = B("exit")
     for ob in (*cards, chart, imp):
         pop_out(ob, f)
