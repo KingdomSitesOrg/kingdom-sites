@@ -11,11 +11,14 @@ import './film.css'
  * the visitor scrolls and most of the scene is in view, the opening plays by itself,
  * and the page keeps scrolling freely the whole time (nothing is pinned).
  *
- * The film is a sequence of still frames drawn on a canvas as the page
- * scrolls. The manifest beside the frames says how many there are, where the
- * laptop's display sits in the last one (four corners, `screenQuad`) and the
- * laptop's outline (`laptopBox`), so the live app can sit exactly on that
- * screen and a phone can crop the film to the laptop.
+ * The film is a short video (frames 1 to 87 of the render, encoded by
+ * scripts/film/encode_video.sh), one for a computer and one for a phone held
+ * upright, so the browser decodes it in hardware instead of unpacking and
+ * painting dozens of large pictures. The manifest beside it says, for every
+ * render frame, where the laptop's display is (four corners) and how bright,
+ * where the mug's opening is, and the laptop's outline (`laptopBox`), so the
+ * live app, the dimming and the steam sit exactly on the frame the video is
+ * showing: they follow the video's own clock, frame by frame.
  */
 export const FILM_BASE = '/film'
 
@@ -66,10 +69,13 @@ const FADE_FRAMES = 6
    frames are never loaded or shown. */
 const END_FRAME = 87
 const lastFrame = (m: Manifest) => Math.min(m.frames, END_FRAME)
+/* The video holds those frames at this rate: 87 frames in the 3 s the lid takes. */
+const FPS = 29
+const videoUrl = (kind: Kind) => `${FILM_BASE}/${kind}.mp4`
 /* How long the lid takes to open, and so how long scrolling holds. */
 const AUTO_MS = 3000
 /* The cursor's moves run this much faster than the times written in the loop. */
-const SPEED = 1.15
+const SPEED = 1.6
 
 /* The live screen is the render's 16:10 display: the app's screenshots are
    1800 x 1095 (its own beta strip cropped off), shown at full size with 48 px
@@ -242,11 +248,14 @@ function startLoop(el: {
   }
 
   const run = async () => {
+    let first = true
     while (!dead) {
       show('home')
       pos = [1100, 760]
       place(pos)
-      await wait(700)
+      // The first time round it moves the moment the laptop comes to rest.
+      if (!first) await wait(700)
+      first = false
       // Home, then the Sample Class card.
       await move([560, 720], 1150)
       box(el.ring, CARD)
@@ -417,7 +426,7 @@ function startSteam(canvas: HTMLCanvasElement) {
 export default function LaptopFilm() {
   const sectionRef = useRef<HTMLElement>(null)
   const stageRef = useRef<HTMLDivElement>(null)
-  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
   const posterRef = useRef<HTMLPictureElement>(null)
   const liveRef = useRef<HTMLDivElement>(null)
   const steamRef = useRef<HTMLCanvasElement>(null)
@@ -425,15 +434,20 @@ export default function LaptopFilm() {
   useEffect(() => {
     const section = sectionRef.current
     const stage = stageRef.current
-    const canvas = canvasRef.current
+    const video = videoRef.current
     const live = liveRef.current
     const poster = posterRef.current
     const steamCanvas = steamRef.current
-    const ctx = canvas?.getContext('2d')
-    if (!section || !stage || !canvas || !live || !ctx || !steamCanvas) return
+    if (!section || !stage || !video || !live || !steamCanvas) return
+    // Muted and inline, so every browser lets it play without a tap.
+    video.muted = true
+    video.playsInline = true
+    video.disablePictureInPicture = true
+    video.disableRemotePlayback = true
     // When the opening started playing, by the clock.
     let auto: { start: number } | null = null
     let manReady = false
+    let pageLoaded = document.readyState === 'complete'
     const steam = startSteam(steamCanvas)
     const q = <T extends HTMLElement>(s: string) => live.querySelector(s) as T
     const dim = q<HTMLElement>('.kf-dim')
@@ -443,24 +457,27 @@ export default function LaptopFilm() {
     const portrait = window.matchMedia('(orientation: portrait)')
     let man = FALLBACK
     let kind: Kind = portrait.matches ? 'phone' : 'desktop'
-    const imgs: Record<Kind, (HTMLImageElement | null)[]> = { desktop: [], phone: [] }
-    const ready: Record<Kind, boolean[]> = { desktop: [], phone: [] }
-    const started: Record<Kind, boolean> = { desktop: false, phone: false }
+    // Which film the video element holds ('' while it holds none).
+    let loaded: Kind | '' = ''
 
     // Measured on resize only, so the scroll loop never reads layout.
     let W = 0
     let H = 0
-    let dpr = 1
     // The frame's place on the stage: stage = offset + frame * scale.
     let s = 1
     let ox = 0
     let oy = 0
-    let drawn = -1
-    let drawnKey = ''
+    // The render frame the overlays are on, and where the film is (in frames, between them).
+    let shown = -1
+    let cur = { idx: 0, at: 0 }
     let lastFade = -1
     let raf = 0
+    let vfc = 0
+    let follower = 0
     let dead = false
     let inView = false
+    // The film has played to its end, or could not play: it stands on its last frame.
+    let done = false
     // When the lights came on (0 until then).
     let litAt = 0
     let lightsTimer = 0
@@ -469,54 +486,163 @@ export default function LaptopFilm() {
     const set = () => ({ ...FALLBACK[kind], ...man[kind] })
     const quad = () => set().screenQuad ?? QUAD
     const lbox = () => set().laptopBox ?? BOX
+    const endAt = () => lastFrame(man) - 1
 
-    // Frames load in order, a few at a time; the last frame first if motion is off.
-    const load = (k: Kind) => {
-      if (started[k]) return
-      started[k] = true
+    // The overlays for one frame of the film: the live screen on the display,
+    // dimmed as it wakes; the steam on the mug; the shadow over the room; the
+    // live screen coming up over the render's own on the last frames.
+    const apply = (idx: number, at: number) => {
+      cur = { idx, at }
+      const fs = set()
       const n = lastFrame(man)
-      // The phone set may reuse the desktop frames: share what is already loaded.
-      const same = man.phone.dir === man.desktop.dir
-      if (same && k === 'phone' && started.desktop) {
-        imgs.phone = imgs.desktop
-        ready.phone = ready.desktop
-        return
+      // The top of the room stays in shadow until the lid opens, then clears.
+      const shade = reduce.matches ? 0 : Number((1 - Math.min(1, (at / (n - 1)) * 2.2)).toFixed(3))
+      if (shade !== shaded) {
+        shaded = shade
+        shadeEl.style.opacity = String(shade)
       }
-      if (same && k === 'desktop' && started.phone) {
-        imgs.desktop = imgs.phone
-        ready.desktop = ready.phone
-        return
-      }
-      imgs[k] = new Array(n).fill(null)
-      ready[k] = new Array(n).fill(false)
-      if (same) {
-        imgs[k === 'phone' ? 'desktop' : 'phone'] = imgs[k]
-        ready[k === 'phone' ? 'desktop' : 'phone'] = ready[k]
-      }
-      const order = reduce.matches ? [n - 1] : Array.from({ length: n }, (_, i) => i)
-      let next = 0
-      const list = imgs[k]
-      const ok = ready[k]
-      const pump = () => {
-        if (dead || next >= order.length) return
-        const i = order[next++]
-        const img = new Image()
-        img.decoding = 'async'
-        // Decoded before it is used, so drawing it never stalls the opening.
-        img.onload = () => {
-          const done = () => {
-            ok[i] = true
-            schedule()
-            pump()
-          }
-          img.decode().then(done, done)
+      if (idx !== shown) {
+        shown = idx
+        // The sharp app sits on the display in every frame it can be seen, dimmed
+        // as the screen wakes, so the screen never looks soft while the lid opens.
+        if (fs.screenQuads && !reduce.matches) {
+          const sq = fs.screenQuads[idx]
+          const on = fs.screenOn?.[idx] ?? 1
+          if (sq) live.style.transform = quadMatrix(APP_W, APP_H, sq.map(([x, y]) => [ox + x * s, oy + y * s] as Pt))
+          live.style.opacity = sq ? Math.min(1, on * 4).toFixed(3) : '0'
+          // The manifest gives linear light; CSS opacity needs display brightness.
+          dim.style.opacity = (1 - Math.pow(on, 1 / 2.2)).toFixed(3)
+        } else {
+          dim.style.opacity = '0'
         }
-        img.onerror = () => pump()
-        img.src = frameUrl(man, k, i)
-        list[i] = img
+        const st = fs.steam?.[idx]
+        if (st && !reduce.matches) steam.place(ox + st[0] * s, oy + st[1] * s, st[2], s)
+        else steam.hide()
       }
-      for (let c = 0; c < 4; c++) pump()
+      // The live screen comes up over the render's own screen on the last frames.
+      const fade = reduce.matches ? 1 : clamp((at - (n - 1 - FADE_FRAMES)) / FADE_FRAMES)
+      if (fade !== lastFade) {
+        lastFade = fade
+        if (!fs.screenQuads || reduce.matches) live.style.opacity = fade.toFixed(3)
+        steer()
+      }
     }
+
+    // Where the video is, in render frames.
+    const fromTime = (t: number) => {
+      const at = Math.min(endAt(), Math.max(0, t * FPS))
+      return { idx: Math.round(at), at }
+    }
+
+    // Until the video shows its first frame, the page's own first picture of the
+    // room stands in for it, in the same place. When motion is off, or the video
+    // cannot play, the video element shows the last frame as a still instead.
+    const posterImg = poster?.querySelector('img')
+    let posterGone = false
+    const firstShown = () => {
+      if (posterGone || !poster) return
+      posterGone = true
+      poster.style.visibility = 'hidden'
+    }
+    const setStill = () => {
+      if (!reduce.matches && !done) return
+      const url = frameUrl(man, kind, endAt())
+      if (video.getAttribute('poster') !== url) video.setAttribute('poster', url)
+    }
+
+    // Stand on the last frame (the end of the film, or instead of it).
+    const toEnd = () => {
+      if (video.readyState >= 1) video.currentTime = (endAt() + 0.5) / FPS
+    }
+    const finish = (seek: boolean) => {
+      if (done) return
+      done = true
+      stopFollowing()
+      if (seek) {
+        setStill()
+        toEnd()
+      }
+      apply(endAt(), endAt())
+    }
+
+    // The overlays follow the video's own clock: each frame the video shows,
+    // just before it reaches the screen, they move to that frame.
+    const stopFollowing = () => {
+      if (vfc) video.cancelVideoFrameCallback(vfc)
+      cancelAnimationFrame(follower)
+      vfc = follower = 0
+    }
+    const onVideoFrame = (_now: number, md: VideoFrameCallbackMetadata) => {
+      vfc = 0
+      if (dead || done) return
+      firstShown()
+      const p = fromTime(md.mediaTime)
+      apply(p.idx, p.at)
+      if (p.idx >= endAt()) finish(false)
+      else follow()
+    }
+    const onAnimFrame = () => {
+      follower = 0
+      if (dead || done) return
+      if (!video.paused && video.currentTime > 0) firstShown()
+      const p = fromTime(video.currentTime)
+      apply(p.idx, p.at)
+      if (video.ended || p.idx >= endAt()) finish(false)
+      else follow()
+    }
+    const follow = () => {
+      if (vfc || follower || done || dead) return
+      if ('requestVideoFrameCallback' in video) vfc = video.requestVideoFrameCallback(onVideoFrame)
+      else follower = requestAnimationFrame(onAnimFrame)
+    }
+
+    // The video loads after the page itself (it is a couple of megabytes), or at
+    // once if the visitor reaches the film first. Not at all when motion is off.
+    const load = (now = false) => {
+      if (dead || !manReady) return
+      setStill()
+      if (reduce.matches) {
+        if (loaded) {
+          video.pause()
+          video.removeAttribute('src')
+          video.load()
+          loaded = ''
+        }
+        return
+      }
+      if (loaded === kind || (!pageLoaded && !now)) return
+      // Turning the phone: the other film, at the same moment.
+      const t = loaded ? video.currentTime : 0
+      const playing = loaded !== '' && !video.paused && !done
+      loaded = kind
+      video.preload = 'auto'
+      video.src = videoUrl(kind)
+      video.addEventListener(
+        'loadedmetadata',
+        () => {
+          if (done) toEnd()
+          else if (t) video.currentTime = t
+          if (playing) play()
+        },
+        { once: true },
+      )
+    }
+
+    const play = () => {
+      if (done || reduce.matches) return
+      if (!loaded) load(true)
+      follow()
+      video.play().catch((e: DOMException) => {
+        // A new film replaced this one (the phone turned): it starts itself.
+        if (dead || e?.name === 'AbortError') return
+        // The browser will not play it (an iPhone in Low Power Mode, or no
+        // decoder): the last frame stands still, and the page scrolls on.
+        finish(true)
+        release()
+      })
+    }
+    const onEnded = () => finish(false)
+    video.addEventListener('ended', onEnded)
 
     // Where the frame sits on the stage, and where the laptop's screen is.
     const measure = () => {
@@ -556,13 +682,14 @@ export default function LaptopFilm() {
         if (fs.w * s >= W) ox = within(W - fs.w * s, 0, ox)
         if (fs.h * s >= H) oy = within(H - fs.h * s, 0, oy)
       }
-      dpr = Math.min(2, window.devicePixelRatio || 1)
-      // Resizing a canvas clears it and costs a new buffer: only when the size really changes.
-      const cw = Math.round(W * dpr)
-      const ch = Math.round(H * dpr)
-      if (canvas.width !== cw || canvas.height !== ch) {
-        canvas.width = cw
-        canvas.height = ch
+      // The video, at the frame's place and size; the browser scales it as it composites.
+      video.style.width = `${fs.w * s}px`
+      video.style.height = `${fs.h * s}px`
+      video.style.transform = `translate(${ox}px, ${oy}px)`
+      if (posterImg) {
+        posterImg.style.width = video.style.width
+        posterImg.style.height = video.style.height
+        posterImg.style.transform = video.style.transform
       }
 
       // The live screen, on the display's four corners.
@@ -571,8 +698,8 @@ export default function LaptopFilm() {
       const screenPx = Math.hypot(qd[1][0] - qd[0][0], qd[1][1] - qd[0][1])
       const arrowPx = (ARROW_W * screenPx) / APP_W
       live.style.setProperty('--kf-cur', String(Math.max(1, MIN_ARROW_PX / Math.max(1, arrowPx)) * ARROW_SCALE))
-      drawn = -1
-      schedule()
+      shown = -1
+      apply(cur.idx, cur.at)
     }
 
     const els = {
@@ -591,7 +718,7 @@ export default function LaptopFilm() {
       ring: q<HTMLElement>('.kf-ring'),
     }
     let loop: ReturnType<typeof startLoop> | null = null
-    const steer = () => {
+    function steer() {
       if (!reduce.matches && inView && !document.hidden) steam.play()
       else steam.pause()
       // The cursor starts once the film has finished, so its last frames have the page to themselves.
@@ -602,80 +729,22 @@ export default function LaptopFilm() {
       else loop.pause()
     }
 
+    // Until the opening starts: has the scene come to fill the screen?
     const tick = () => {
       raf = 0
-      const fs = set()
-      const n = lastFrame(man)
-
-      // The scene fills the screen: the opening plays, and scrolling holds while it does.
       // (Not before the manifest: until then a phone lays the stage out differently.)
-      if (!auto && manReady && !reduce.matches) {
-        const top = stage.getBoundingClientRect().top
-        const head = headBottom()
-        if (top <= head + 2) {
-          // Come to rest exactly on it, unless they were already far past it (a reload further down).
-          if (top > -window.innerHeight * 0.3 && performance.now() - jumpedAt > JUMP_MS) {
-            window.scrollTo({ top: window.scrollY + top - head, behavior: 'instant' })
-            hold(AUTO_MS)
-          }
-          if (!litAt) lightNow()
-          auto = { start: performance.now() }
-        }
+      if (auto || !manReady || reduce.matches) return
+      const top = stage.getBoundingClientRect().top
+      const head = headBottom()
+      if (top > head + 2) return
+      // Come to rest exactly on it, unless they were already far past it (a reload further down).
+      if (top > -window.innerHeight * 0.3 && performance.now() - jumpedAt > JUMP_MS) {
+        window.scrollTo({ top: window.scrollY + top - head, behavior: 'instant' })
+        hold(AUTO_MS)
       }
-      let at = reduce.matches ? n - 1 : 0
-      if (auto && !reduce.matches) {
-        const t = clamp((performance.now() - auto.start) / AUTO_MS)
-        at = t * (n - 1)
-        if (t < 1) schedule()
-      }
-      // The top of the room stays in shadow until the lid opens, then clears.
-      const shade = reduce.matches ? 0 : Number((1 - Math.min(1, (at / (n - 1)) * 2.2)).toFixed(3))
-      if (shade !== shaded) {
-        shaded = shade
-        shadeEl.style.opacity = String(shade)
-      }
-      const want = Math.round(at)
-      let idx = -1
-      for (let d = 0; d < n && idx < 0; d++) {
-        if (ready[kind][want - d]) idx = want - d
-        else if (ready[kind][want + d]) idx = want + d
-      }
-      const key = `${kind}:${idx}`
-      if (idx >= 0 && (key !== drawnKey || drawn < 0)) {
-        const img = imgs[kind][idx]!
-        ctx.setTransform(1, 0, 0, 1, 0, 0)
-        ctx.fillStyle = '#0b0b0c'
-        ctx.fillRect(0, 0, canvas.width, canvas.height)
-        ctx.imageSmoothingQuality = 'high'
-        const k = (s * dpr * fs.w) / img.naturalWidth
-        ctx.drawImage(img, ox * dpr, oy * dpr, img.naturalWidth * k, img.naturalHeight * k)
-        if (drawn < 0 && poster) poster.style.visibility = 'hidden'
-        drawn = idx
-        drawnKey = key
-        // The sharp app sits on the display in every frame it can be seen, dimmed
-        // as the screen wakes, so the screen never looks soft while the lid opens.
-        if (fs.screenQuads && !reduce.matches) {
-          const sq = fs.screenQuads[idx]
-          const on = fs.screenOn?.[idx] ?? 1
-          if (sq) live.style.transform = quadMatrix(APP_W, APP_H, sq.map(([x, y]) => [ox + x * s, oy + y * s] as Pt))
-          live.style.opacity = sq ? Math.min(1, on * 4).toFixed(3) : '0'
-          // The manifest gives linear light; CSS opacity needs display brightness.
-          dim.style.opacity = (1 - Math.pow(on, 1 / 2.2)).toFixed(3)
-        } else {
-          dim.style.opacity = '0'
-        }
-        const at = fs.steam?.[idx]
-        if (at && !reduce.matches) steam.place(ox + at[0] * s, oy + at[1] * s, at[2], s)
-        else steam.hide()
-      }
-
-      // The live screen comes up over the render's own screen on the last frames.
-      const fade = reduce.matches ? 1 : clamp((at - (n - 1 - FADE_FRAMES)) / FADE_FRAMES)
-      if (fade !== lastFade) {
-        lastFade = fade
-        if (!fs.screenQuads || reduce.matches) live.style.opacity = fade.toFixed(3)
-        steer()
-      }
+      if (!litAt) lightNow()
+      auto = { start: performance.now() }
+      play()
     }
 
     // Scrolling only matters until the opening has started.
@@ -706,7 +775,7 @@ export default function LaptopFilm() {
     }
 
     let holdTimer = 0
-    const release = () => {
+    function release() {
       window.clearTimeout(holdTimer)
       holdTimer = 0
       html.classList.remove('kf-hold')
@@ -728,21 +797,29 @@ export default function LaptopFilm() {
     }
 
     function onPageLoad() {
-      if (!dead) load(kind)
+      pageLoaded = true
+      load()
     }
     const onOrient = () => {
       kind = portrait.matches ? 'phone' : 'desktop'
-      load(kind)
+      load(!!auto)
       measure()
     }
     const onMotion = () => {
-      // Turning motion off or on changes the page's height and what loads first.
-      started.desktop = started.phone = false
-      load(kind)
+      // Turning motion off shows the last frame; on again, the opening if it has not played yet.
+      if (reduce.matches || auto) {
+        done = true
+        stopFollowing()
+      }
+      const end = endAt()
+      cur = reduce.matches || done ? { idx: end, at: end } : { idx: 0, at: 0 }
+      load(!!auto)
+      if (done) toEnd()
       measure()
       steer()
     }
 
+    if (reduce.matches) cur = { idx: endAt(), at: endAt() }
     measure()
     // Lights on: LIGHTS_MS after the scene is really on screen. Not timed from
     // the page's load: Safari loads pages before they are shown (while the address
@@ -779,11 +856,13 @@ export default function LaptopFilm() {
         if (dead) return
         manReady = true
         man = { ...FALLBACK, ...m, desktop: { ...FALLBACK.desktop, ...m.desktop }, phone: { ...FALLBACK.phone, ...m.phone } }
+        if (reduce.matches) cur = { idx: endAt(), at: endAt() }
         measure()
-        // The frames (several megabytes) wait until the page itself has loaded, so
+        // The film (a couple of megabytes) waits until the page itself has loaded, so
         // the headline, the fonts and the first picture of the room come first.
-        if (document.readyState === 'complete') load(kind)
-        else window.addEventListener('load', onPageLoad, { once: true })
+        load()
+        if (!pageLoaded) window.addEventListener('load', onPageLoad, { once: true })
+        schedule()
       })
 
     const io = new IntersectionObserver((entries) => {
@@ -806,8 +885,11 @@ export default function LaptopFilm() {
     return () => {
       dead = true
       cancelAnimationFrame(raf)
+      stopFollowing()
       window.clearTimeout(lightsTimer)
       release()
+      video.removeEventListener('ended', onEnded)
+      video.pause()
       window.removeEventListener('load', onPageLoad)
       loop?.stop()
       steam.stop()
@@ -836,7 +918,7 @@ export default function LaptopFilm() {
           <source media="(orientation: portrait)" srcSet={`${FILM_BASE}/phone/0001.jpg`} />
           <img src={`${FILM_BASE}/desktop/0001.jpg`} alt="" fetchPriority="high" />
         </picture>
-        <canvas ref={canvasRef} className="kf-canvas" />
+        <video ref={videoRef} className="kf-video" muted playsInline preload="none" tabIndex={-1} />
         <canvas ref={steamRef} className="kf-steam" />
         <div ref={liveRef} className="kf-live">
           <div className="kf-shots">
