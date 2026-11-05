@@ -1,4 +1,7 @@
 import * as Sentry from '@sentry/nextjs'
+import type { Instrumentation } from 'next'
+
+import { reportRequestError } from '@/lib/signal'
 
 export async function register() {
   if (process.env.NEXT_RUNTIME === 'nodejs') {
@@ -10,4 +13,9 @@ export async function register() {
   }
 }
 
-export const onRequestError = Sentry.captureRequestError
+// What a page, route or server action threw: to our own crash reports
+// (src/lib/signal.ts) and to Sentry, side by side.
+export const onRequestError: Instrumentation.onRequestError = (error, request, context) => {
+  reportRequestError(error, request, context)
+  return Sentry.captureRequestError(error, request, context)
+}
