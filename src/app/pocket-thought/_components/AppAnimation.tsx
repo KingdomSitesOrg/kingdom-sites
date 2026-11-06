@@ -216,7 +216,7 @@ function Phone({ rows }: { rows: Row[] }) {
         <div className={s.soon}>
           <div className={s.soonHead}>
             <span>Send to</span>
-            <span className={s.badge}>Coming soon</span>
+            <span className={s.badge}>Planned</span>
           </div>
           <div className={s.soonRow}>
             <span style={{ color: TINT["To-do"] }}>To-do</span>
@@ -226,51 +226,10 @@ function Phone({ rows }: { rows: Row[] }) {
           <div className={s.soonRow}>
             <span style={{ color: TINT.Ideas }}>Ideas</span>
             <span className={s.arrow}>→</span>
-            <span>Notes</span>
+            <span>Notion</span>
           </div>
         </div>
       </div>
-    </div>
-  );
-}
-
-const DESTINATIONS: { name: string; icon: React.ReactNode }[] = [
-  { name: "Apple Notes", icon: <path d="M4 2.5h8v11H4zM6 5.5h4M6 8h4M6 10.5h2.5" /> },
-  { name: "Reminders", icon: <path d="M3 4.5h.5M3 8h.5M3 11.5h.5M6 4.5h7M6 8h7M6 11.5h7" /> },
-  { name: "Google Keep", icon: <path d="M6 13h4M6.5 10.5c-1.5-1-2.5-2.3-2.5-4a4 4 0 018 0c0 1.7-1 3-2.5 4z" /> },
-  { name: "Google Tasks", icon: <path d="M2.5 8a5.5 5.5 0 1011 0 5.5 5.5 0 00-11 0zM5.5 8.3l1.8 1.8 3.4-3.8" /> },
-  { name: "Google Calendar", icon: <path d="M2.5 4h11v9.5h-11zM2.5 7h11M5.5 2.5v3M10.5 2.5v3" /> },
-  { name: "Google Docs", icon: <path d="M4 2.5h5.5L12 5v8.5H4zM9.5 2.5V5H12M6 8h4M6 10.5h4" /> },
-];
-
-export function ComingSoon() {
-  return (
-    <div className="mt-10 px-4 text-center">
-      <span className="inline-block rounded-full bg-white px-3 py-1 text-xs font-semibold tracking-wide text-[var(--muted)] uppercase ring-1 ring-black/10">
-        Coming soon
-      </span>
-      <ul className="mx-auto mt-4 flex max-w-2xl flex-wrap justify-center gap-2" aria-label="Coming soon">
-        {DESTINATIONS.map((d) => (
-          <li
-            key={d.name}
-            className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-medium text-[var(--muted)] ring-1 ring-black/10"
-          >
-            <svg
-              viewBox="0 0 16 16"
-              aria-hidden
-              className="h-4 w-4"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              {d.icon}
-            </svg>
-            {d.name}
-          </li>
-        ))}
-      </ul>
     </div>
   );
 }

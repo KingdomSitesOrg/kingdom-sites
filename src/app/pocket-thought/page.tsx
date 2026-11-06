@@ -1,8 +1,8 @@
 import ContributeBox from "./_components/ContributeBox";
-import AppAnimation, { ComingSoon } from "./_components/AppAnimation";
+import AppAnimation from "./_components/AppAnimation";
 import DeviceModel from "./_components/DeviceModel";
 import EmailCapture from "./_components/EmailCapture";
-import Compare from "./_components/Compare";
+import Compare, { PrivateByDesign, WorksWith } from "./_components/Compare";
 import { CONTACT_EMAIL, GOAL_USD } from "./_lib/config";
 import { paymentSettings, raisedUsd } from "./_lib/server";
 
@@ -52,6 +52,10 @@ const FAQ: [string, React.ReactNode][] = [
   [
     "When will the prototype be built?",
     "December: the development kit and the firmware port. January: the first custom circuit boards (5 to 10). Then 3D-printed prototypes go to testers, and after that pre-orders. These dates are targets, not promises.",
+  ],
+  [
+    "How much will it cost?",
+    "The planned price is $99, with no subscription for the basics. It is not on sale yet. Supporting the prototype is a gift, not a purchase or a pre-order.",
   ],
   [
     "How long does the battery last?",
@@ -294,7 +298,6 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
                 The iPhone app
               </p>
               <AppAnimation />
-              <ComingSoon />
             </div>
           </div>
         </section>
@@ -352,8 +355,10 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
           </div>
         </section>
 
-        {/* 5b Comparison */}
+        {/* 5b How it is different, comparison, apps, privacy */}
         <Compare />
+        <WorksWith />
+        <PrivateByDesign />
 
         {/* 6 Where it's at */}
         <section id="progress" className="bg-[var(--panel)] px-5 py-20 sm:py-28">
