@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import { withSentryConfig } from "@sentry/nextjs";
+import { signalBuildEnv, withSignalMaps } from "./scripts/signal/next-maps";
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -13,8 +14,8 @@ const csp = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https://*.calendly.com https://unpkg.com https://calendly.com",
   "font-src 'self' https://assets.calendly.com",
-  // Sentry reports errors.
-  `connect-src 'self' https://unpkg.com https://*.ingest.us.sentry.io https://*.ingest.sentry.io https://calendly.com https://*.calendly.com`,
+  // Sentry and kingdom-signal (our own crash reports, src/lib/signal.ts) report errors.
+  `connect-src 'self' https://unpkg.com https://kingdom-signal.tap-to-tick.workers.dev https://*.ingest.us.sentry.io https://*.ingest.sentry.io https://calendly.com https://*.calendly.com`,
   "form-action 'none'",
   // Mission page embeds YouTube; /sign embeds same-origin PDF previews (and blob:).
   `frame-src 'self' blob: https://www.youtube.com https://www.youtube-nocookie.com https://calendly.com https://*.calendly.com`,
@@ -48,6 +49,18 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ['192.168.1.102', '100.69.115.38', 'localhost'],
   // No dev badge in the corner: it sat on the film's play button during review.
   devIndicators: false,
+  // SIGNAL_*: the release and environment our crash reports name
+  // (scripts/signal/next-maps.ts). Not secret: a commit id and a word.
+  env: signalBuildEnv(),
+  // Browser source maps, so crash reports read as our own files and lines.
+  // They are never served: cut into lookup rows and deleted once the build has
+  // compiled (scripts/signal/next-maps.ts).
+  productionBrowserSourceMaps: true,
+  experimental: {
+    // Server stacks name our own files too: the server keeps its maps, and a
+    // report reads them only when it is sent (src/lib/signal.ts).
+    serverSourceMaps: true,
+  },
   // Intelligence reads what it knows from this file at run time (T-375).
   outputFileTracingIncludes: { '/api/intelligence': ['./content/intelligence.md'] },
   images: {
@@ -154,11 +167,14 @@ const nextConfig: NextConfig = {
   },
 }
 
-export default withSentryConfig(nextConfig, {
+// Our own crash reports' maps are cut and deleted after Sentry has read them.
+export default withSignalMaps(withSentryConfig(nextConfig, {
   org: process.env.SENTRY_ORG,
   project: process.env.SENTRY_PROJECT,
   authToken: process.env.SENTRY_AUTH_TOKEN,
   silent: !process.env.CI,
   widenClientFileUpload: true,
-  sourcemaps: { deleteSourcemapsAfterUpload: true },
-})
+  // Sentry uploads the browser maps first; our own step runs after it, reads
+  // the same maps, and deletes them all (scripts/signal/next-maps.ts).
+  sourcemaps: { deleteSourcemapsAfterUpload: false },
+}), 'kingdom-sites')

@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react'
 import { reportError } from '@/lib/report-error'
+import { reportError as reportToSignal } from '@/lib/signal'
 
 export default function GlobalError({
   error,
@@ -14,6 +15,8 @@ export default function GlobalError({
     // Not imported at the top: this page is part of every page's code, and
     // Sentry loads after the page settles (instrumentation-client.ts).
     reportError(error)
+    // Our own crash reports (src/lib/signal.ts): the whole page was replaced.
+    reportToSignal(error, { level: 'fatal', tags: { boundary: 'root' } })
   }, [error])
 
   return (

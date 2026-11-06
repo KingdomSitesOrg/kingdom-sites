@@ -7,7 +7,13 @@
    An error thrown before Sentry arrives is held here and reported as soon as
    it does, so the first second of a visit is still covered. */
 
+import { startSignal } from '@/lib/signal'
+
 type SentryModule = typeof import('@/lib/sentry-browser')
+
+// Our own crash reports (src/lib/signal.ts): a few kilobytes, so they start at
+// once and cover the first second of a visit themselves.
+startSignal()
 
 let sentry: SentryModule | null = null
 const early: unknown[] = []
