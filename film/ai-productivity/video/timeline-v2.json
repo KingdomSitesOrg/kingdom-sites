@@ -1,0 +1,1055 @@
+{
+ "version": 2,
+ "fps": 30,
+ "width": 1920,
+ "height": 1080,
+ "durationInFrames": 2415,
+ "seconds": 80.5,
+ "scenes": [
+  {
+   "id": "s01",
+   "name": "Overload",
+   "start": 0,
+   "length": 225,
+   "picture": "An overflowing inbox, a to-do list running off the screen, a pile of paper forms",
+   "voice": {
+    "file": "voice-v2/line01.wav",
+    "start": 15,
+    "localStart": 15,
+    "frames": 191,
+    "text": "Running an organization means a thousand moving parts... and many of them still run on paper.",
+    "words": [
+     {
+      "text": "Running",
+      "start": 15,
+      "end": 28
+     },
+     {
+      "text": "an",
+      "start": 30,
+      "end": 32
+     },
+     {
+      "text": "organization",
+      "start": 34,
+      "end": 60
+     },
+     {
+      "text": "means",
+      "start": 63,
+      "end": 69
+     },
+     {
+      "text": "a",
+      "start": 70,
+      "end": 71
+     },
+     {
+      "text": "thousand",
+      "start": 73,
+      "end": 86
+     },
+     {
+      "text": "moving",
+      "start": 88,
+      "end": 96
+     },
+     {
+      "text": "parts...",
+      "start": 99,
+      "end": 118
+     },
+     {
+      "text": "and",
+      "start": 131,
+      "end": 136
+     },
+     {
+      "text": "many",
+      "start": 138,
+      "end": 146
+     },
+     {
+      "text": "of",
+      "start": 147,
+      "end": 149
+     },
+     {
+      "text": "them",
+      "start": 150,
+      "end": 156
+     },
+     {
+      "text": "still",
+      "start": 158,
+      "end": 166
+     },
+     {
+      "text": "run",
+      "start": 168,
+      "end": 174
+     },
+     {
+      "text": "on",
+      "start": 176,
+      "end": 178
+     },
+     {
+      "text": "paper.",
+      "start": 180,
+      "end": 206
+     }
+    ]
+   }
+  },
+  {
+   "id": "s02",
+   "name": "Stiff AI email",
+   "start": 225,
+   "length": 255,
+   "picture": "An email full of stiff, buzzword-filled lines, written by AI",
+   "voice": {
+    "file": "voice-v2/line02.wav",
+    "start": 240,
+    "localStart": 15,
+    "frames": 224,
+    "text": "Your team has more work than hours. And to most people, AI just writes stiff, buzzword-filled emails.",
+    "words": [
+     {
+      "text": "Your",
+      "start": 240,
+      "end": 247
+     },
+     {
+      "text": "team",
+      "start": 249,
+      "end": 257
+     },
+     {
+      "text": "has",
+      "start": 259,
+      "end": 264
+     },
+     {
+      "text": "more",
+      "start": 267,
+      "end": 274
+     },
+     {
+      "text": "work",
+      "start": 276,
+      "end": 284
+     },
+     {
+      "text": "than",
+      "start": 286,
+      "end": 289
+     },
+     {
+      "text": "hours.",
+      "start": 292,
+      "end": 312
+     },
+     {
+      "text": "And",
+      "start": 320,
+      "end": 325
+     },
+     {
+      "text": "to",
+      "start": 327,
+      "end": 328
+     },
+     {
+      "text": "most",
+      "start": 330,
+      "end": 337
+     },
+     {
+      "text": "people,",
+      "start": 339,
+      "end": 355
+     },
+     {
+      "text": "AI",
+      "start": 361,
+      "end": 371
+     },
+     {
+      "text": "just",
+      "start": 374,
+      "end": 380
+     },
+     {
+      "text": "writes",
+      "start": 381,
+      "end": 389
+     },
+     {
+      "text": "stiff,",
+      "start": 391,
+      "end": 405
+     },
+     {
+      "text": "buzzword-filled",
+      "start": 407,
+      "end": 433
+     },
+     {
+      "text": "emails.",
+      "start": 435,
+      "end": 464
+     }
+    ]
+   }
+  },
+  {
+   "id": "s03",
+   "name": "The turn",
+   "start": 480,
+   "length": 150,
+   "picture": "Half a second of silence, then the serif title: What if AI did the busywork?",
+   "voice": {
+    "file": "voice-v2/line03.wav",
+    "start": 495,
+    "localStart": 15,
+    "frames": 116,
+    "text": "What if AI did the busywork, and your people did the thinking?",
+    "words": [
+     {
+      "text": "What",
+      "start": 495,
+      "end": 502
+     },
+     {
+      "text": "if",
+      "start": 503,
+      "end": 505
+     },
+     {
+      "text": "AI",
+      "start": 508,
+      "end": 519
+     },
+     {
+      "text": "did",
+      "start": 521,
+      "end": 525
+     },
+     {
+      "text": "the",
+      "start": 526,
+      "end": 528
+     },
+     {
+      "text": "busywork,",
+      "start": 529,
+      "end": 550
+     },
+     {
+      "text": "and",
+      "start": 554,
+      "end": 559
+     },
+     {
+      "text": "your",
+      "start": 560,
+      "end": 564
+     },
+     {
+      "text": "people",
+      "start": 566,
+      "end": 575
+     },
+     {
+      "text": "did",
+      "start": 577,
+      "end": 582
+     },
+     {
+      "text": "the",
+      "start": 582,
+      "end": 585
+     },
+     {
+      "text": "thinking?",
+      "start": 586,
+      "end": 611
+     }
+    ]
+   }
+  },
+  {
+   "id": "s04",
+   "name": "Meet Claude",
+   "start": 630,
+   "length": 255,
+   "picture": "A shared Claude project: handbook, policies and style guide drop in; shared with 14 people",
+   "voice": {
+    "file": "voice-v2/line04.wav",
+    "start": 645,
+    "localStart": 15,
+    "frames": 223,
+    "text": "Meet Claude, an AI assistant. Teach it your handbook and policies once, and your whole team can use it.",
+    "words": [
+     {
+      "text": "Meet",
+      "start": 645,
+      "end": 654
+     },
+     {
+      "text": "Claude,",
+      "start": 656,
+      "end": 672
+     },
+     {
+      "text": "an",
+      "start": 676,
+      "end": 681
+     },
+     {
+      "text": "AI",
+      "start": 684,
+      "end": 694
+     },
+     {
+      "text": "assistant.",
+      "start": 696,
+      "end": 719
+     },
+     {
+      "text": "Teach",
+      "start": 732,
+      "end": 741
+     },
+     {
+      "text": "it",
+      "start": 742,
+      "end": 743
+     },
+     {
+      "text": "your",
+      "start": 744,
+      "end": 748
+     },
+     {
+      "text": "handbook",
+      "start": 749,
+      "end": 763
+     },
+     {
+      "text": "and",
+      "start": 764,
+      "end": 766
+     },
+     {
+      "text": "policies",
+      "start": 768,
+      "end": 785
+     },
+     {
+      "text": "once,",
+      "start": 787,
+      "end": 802
+     },
+     {
+      "text": "and",
+      "start": 808,
+      "end": 813
+     },
+     {
+      "text": "your",
+      "start": 815,
+      "end": 818
+     },
+     {
+      "text": "whole",
+      "start": 820,
+      "end": 827
+     },
+     {
+      "text": "team",
+      "start": 828,
+      "end": 837
+     },
+     {
+      "text": "can",
+      "start": 839,
+      "end": 843
+     },
+     {
+      "text": "use",
+      "start": 846,
+      "end": 852
+     },
+     {
+      "text": "it.",
+      "start": 853,
+      "end": 868
+     }
+    ]
+   }
+  },
+  {
+   "id": "s05",
+   "name": "Paper to spreadsheet",
+   "start": 885,
+   "length": 180,
+   "picture": "A phone photo of a paper sign-up form; its rows fill a spreadsheet",
+   "voice": {
+    "file": "voice-v2/line05.wav",
+    "start": 900,
+    "localStart": 15,
+    "frames": 139,
+    "text": "Snap a photo of a paper form, and Claude turns it into a clean spreadsheet.",
+    "words": [
+     {
+      "text": "Snap",
+      "start": 900,
+      "end": 911
+     },
+     {
+      "text": "a",
+      "start": 913,
+      "end": 914
+     },
+     {
+      "text": "photo",
+      "start": 915,
+      "end": 923
+     },
+     {
+      "text": "of",
+      "start": 925,
+      "end": 927
+     },
+     {
+      "text": "a",
+      "start": 929,
+      "end": 930
+     },
+     {
+      "text": "paper",
+      "start": 931,
+      "end": 941
+     },
+     {
+      "text": "form,",
+      "start": 943,
+      "end": 956
+     },
+     {
+      "text": "and",
+      "start": 960,
+      "end": 965
+     },
+     {
+      "text": "Claude",
+      "start": 967,
+      "end": 975
+     },
+     {
+      "text": "turns",
+      "start": 976,
+      "end": 984
+     },
+     {
+      "text": "it",
+      "start": 986,
+      "end": 987
+     },
+     {
+      "text": "into",
+      "start": 988,
+      "end": 994
+     },
+     {
+      "text": "a",
+      "start": 996,
+      "end": 997
+     },
+     {
+      "text": "clean",
+      "start": 999,
+      "end": 1007
+     },
+     {
+      "text": "spreadsheet.",
+      "start": 1009,
+      "end": 1039
+     }
+    ]
+   }
+  },
+  {
+   "id": "s06",
+   "name": "Survey",
+   "start": 1065,
+   "length": 285,
+   "picture": "Claude drafts a survey; answers stream in; Claude's card: 3 steps to improve",
+   "voice": {
+    "file": "voice-v2/line06.wav",
+    "start": 1080,
+    "localStart": 15,
+    "frames": 251,
+    "text": "Claude builds a custom survey for everyone in your organization, reads every answer, and gives you clear steps to improve.",
+    "words": [
+     {
+      "text": "Claude",
+      "start": 1080,
+      "end": 1093
+     },
+     {
+      "text": "builds",
+      "start": 1094,
+      "end": 1102
+     },
+     {
+      "text": "a",
+      "start": 1102,
+      "end": 1103
+     },
+     {
+      "text": "custom",
+      "start": 1105,
+      "end": 1118
+     },
+     {
+      "text": "survey",
+      "start": 1120,
+      "end": 1133
+     },
+     {
+      "text": "for",
+      "start": 1135,
+      "end": 1138
+     },
+     {
+      "text": "everyone",
+      "start": 1141,
+      "end": 1154
+     },
+     {
+      "text": "in",
+      "start": 1155,
+      "end": 1156
+     },
+     {
+      "text": "your",
+      "start": 1157,
+      "end": 1160
+     },
+     {
+      "text": "organization,",
+      "start": 1162,
+      "end": 1192
+     },
+     {
+      "text": "reads",
+      "start": 1206,
+      "end": 1215
+     },
+     {
+      "text": "every",
+      "start": 1218,
+      "end": 1226
+     },
+     {
+      "text": "answer,",
+      "start": 1228,
+      "end": 1245
+     },
+     {
+      "text": "and",
+      "start": 1254,
+      "end": 1259
+     },
+     {
+      "text": "gives",
+      "start": 1261,
+      "end": 1267
+     },
+     {
+      "text": "you",
+      "start": 1269,
+      "end": 1271
+     },
+     {
+      "text": "clear",
+      "start": 1274,
+      "end": 1282
+     },
+     {
+      "text": "steps",
+      "start": 1284,
+      "end": 1296
+     },
+     {
+      "text": "to",
+      "start": 1297,
+      "end": 1299
+     },
+     {
+      "text": "improve.",
+      "start": 1302,
+      "end": 1331
+     }
+    ]
+   }
+  },
+  {
+   "id": "s07",
+   "name": "Slack",
+   "start": 1350,
+   "length": 270,
+   "picture": "The Slack thread: someone tags @Claude, Claude answers in the thread, citing the handbook",
+   "voice": {
+    "file": "voice-v2/line07.wav",
+    "start": 1365,
+    "localStart": 15,
+    "frames": 241,
+    "text": "Claude works right inside Slack, and connects to Gmail and Google Drive. Tag it in a thread, and it answers right there.",
+    "words": [
+     {
+      "text": "Claude",
+      "start": 1365,
+      "end": 1379
+     },
+     {
+      "text": "works",
+      "start": 1379,
+      "end": 1388
+     },
+     {
+      "text": "right",
+      "start": 1391,
+      "end": 1398
+     },
+     {
+      "text": "inside",
+      "start": 1399,
+      "end": 1412
+     },
+     {
+      "text": "Slack,",
+      "start": 1413,
+      "end": 1429
+     },
+     {
+      "text": "and",
+      "start": 1434,
+      "end": 1439
+     },
+     {
+      "text": "connects",
+      "start": 1440,
+      "end": 1450
+     },
+     {
+      "text": "to",
+      "start": 1451,
+      "end": 1453
+     },
+     {
+      "text": "Gmail",
+      "start": 1455,
+      "end": 1467
+     },
+     {
+      "text": "and",
+      "start": 1469,
+      "end": 1471
+     },
+     {
+      "text": "Google",
+      "start": 1473,
+      "end": 1482
+     },
+     {
+      "text": "Drive.",
+      "start": 1482,
+      "end": 1498
+     },
+     {
+      "text": "Tag",
+      "start": 1512,
+      "end": 1521
+     },
+     {
+      "text": "it",
+      "start": 1522,
+      "end": 1524
+     },
+     {
+      "text": "in",
+      "start": 1526,
+      "end": 1528
+     },
+     {
+      "text": "a",
+      "start": 1530,
+      "end": 1531
+     },
+     {
+      "text": "thread,",
+      "start": 1533,
+      "end": 1549
+     },
+     {
+      "text": "and",
+      "start": 1552,
+      "end": 1558
+     },
+     {
+      "text": "it",
+      "start": 1560,
+      "end": 1562
+     },
+     {
+      "text": "answers",
+      "start": 1564,
+      "end": 1575
+     },
+     {
+      "text": "right",
+      "start": 1577,
+      "end": 1583
+     },
+     {
+      "text": "there.",
+      "start": 1584,
+      "end": 1606
+     }
+    ]
+   }
+  },
+  {
+   "id": "s08",
+   "name": "Search",
+   "start": 1620,
+   "length": 225,
+   "picture": "Find three venues within an hour for our team day; Claude searches; three result cards",
+   "voice": {
+    "file": "voice-v2/line08.wav",
+    "start": 1635,
+    "localStart": 15,
+    "frames": 185,
+    "text": "Need something found? Claude searches the web and your files, and brings back what you asked for.",
+    "words": [
+     {
+      "text": "Need",
+      "start": 1635,
+      "end": 1644
+     },
+     {
+      "text": "something",
+      "start": 1645,
+      "end": 1654
+     },
+     {
+      "text": "found?",
+      "start": 1657,
+      "end": 1673
+     },
+     {
+      "text": "Claude",
+      "start": 1688,
+      "end": 1700
+     },
+     {
+      "text": "searches",
+      "start": 1702,
+      "end": 1713
+     },
+     {
+      "text": "the",
+      "start": 1715,
+      "end": 1717
+     },
+     {
+      "text": "web",
+      "start": 1719,
+      "end": 1726
+     },
+     {
+      "text": "and",
+      "start": 1728,
+      "end": 1730
+     },
+     {
+      "text": "your",
+      "start": 1731,
+      "end": 1734
+     },
+     {
+      "text": "files,",
+      "start": 1736,
+      "end": 1752
+     },
+     {
+      "text": "and",
+      "start": 1753,
+      "end": 1758
+     },
+     {
+      "text": "brings",
+      "start": 1760,
+      "end": 1769
+     },
+     {
+      "text": "back",
+      "start": 1772,
+      "end": 1778
+     },
+     {
+      "text": "what",
+      "start": 1780,
+      "end": 1784
+     },
+     {
+      "text": "you",
+      "start": 1785,
+      "end": 1787
+     },
+     {
+      "text": "asked",
+      "start": 1789,
+      "end": 1798
+     },
+     {
+      "text": "for.",
+      "start": 1800,
+      "end": 1820
+     }
+    ]
+   }
+  },
+  {
+   "id": "s09",
+   "name": "The final send",
+   "start": 1845,
+   "length": 300,
+   "picture": "Claude chat: Send it; Claude declines (guideline); the person fixes the line and clicks Send",
+   "voice": {
+    "file": "voice-v2/line09.wav",
+    "start": 1860,
+    "localStart": 15,
+    "frames": 234,
+    "text": "You bring the creative ideas. Claude follows the guidelines you set, and the final send is always yours.",
+    "words": [
+     {
+      "text": "You",
+      "start": 1860,
+      "end": 1865
+     },
+     {
+      "text": "bring",
+      "start": 1868,
+      "end": 1875
+     },
+     {
+      "text": "the",
+      "start": 1877,
+      "end": 1880
+     },
+     {
+      "text": "creative",
+      "start": 1881,
+      "end": 1896
+     },
+     {
+      "text": "ideas.",
+      "start": 1898,
+      "end": 1920
+     },
+     {
+      "text": "Claude",
+      "start": 1941,
+      "end": 1953
+     },
+     {
+      "text": "follows",
+      "start": 1955,
+      "end": 1968
+     },
+     {
+      "text": "the",
+      "start": 1970,
+      "end": 1972
+     },
+     {
+      "text": "guidelines",
+      "start": 1973,
+      "end": 1989
+     },
+     {
+      "text": "you",
+      "start": 1990,
+      "end": 1992
+     },
+     {
+      "text": "set,",
+      "start": 1995,
+      "end": 2008
+     },
+     {
+      "text": "and",
+      "start": 2012,
+      "end": 2017
+     },
+     {
+      "text": "the",
+      "start": 2018,
+      "end": 2021
+     },
+     {
+      "text": "final",
+      "start": 2022,
+      "end": 2032
+     },
+     {
+      "text": "send",
+      "start": 2034,
+      "end": 2043
+     },
+     {
+      "text": "is",
+      "start": 2046,
+      "end": 2052
+     },
+     {
+      "text": "always",
+      "start": 2054,
+      "end": 2068
+     },
+     {
+      "text": "yours.",
+      "start": 2069,
+      "end": 2094
+     }
+    ]
+   }
+  },
+  {
+   "id": "s10",
+   "name": "End card",
+   "start": 2145,
+   "length": 270,
+   "picture": "Kingdom Sites mark, kingdom-sites.com, Book a call (pressed, with an after state); fade to white, then black",
+   "voice": {
+    "file": "voice-v2/line10.wav",
+    "start": 2160,
+    "localStart": 15,
+    "frames": 195,
+    "text": "Kingdom Sites sets it up for your team, so AI does the heavy lifting and your people get their time back.",
+    "words": [
+     {
+      "text": "Kingdom",
+      "start": 2160,
+      "end": 2172
+     },
+     {
+      "text": "Sites",
+      "start": 2174,
+      "end": 2184
+     },
+     {
+      "text": "sets",
+      "start": 2185,
+      "end": 2193
+     },
+     {
+      "text": "it",
+      "start": 2194,
+      "end": 2196
+     },
+     {
+      "text": "up",
+      "start": 2198,
+      "end": 2201
+     },
+     {
+      "text": "for",
+      "start": 2203,
+      "end": 2206
+     },
+     {
+      "text": "your",
+      "start": 2208,
+      "end": 2211
+     },
+     {
+      "text": "team,",
+      "start": 2213,
+      "end": 2230
+     },
+     {
+      "text": "so",
+      "start": 2237,
+      "end": 2242
+     },
+     {
+      "text": "AI",
+      "start": 2245,
+      "end": 2253
+     },
+     {
+      "text": "does",
+      "start": 2256,
+      "end": 2261
+     },
+     {
+      "text": "the",
+      "start": 2262,
+      "end": 2264
+     },
+     {
+      "text": "heavy",
+      "start": 2267,
+      "end": 2274
+     },
+     {
+      "text": "lifting",
+      "start": 2276,
+      "end": 2290
+     },
+     {
+      "text": "and",
+      "start": 2293,
+      "end": 2299
+     },
+     {
+      "text": "your",
+      "start": 2301,
+      "end": 2304
+     },
+     {
+      "text": "people",
+      "start": 2305,
+      "end": 2314
+     },
+     {
+      "text": "get",
+      "start": 2315,
+      "end": 2319
+     },
+     {
+      "text": "their",
+      "start": 2320,
+      "end": 2323
+     },
+     {
+      "text": "time",
+      "start": 2325,
+      "end": 2333
+     },
+     {
+      "text": "back.",
+      "start": 2335,
+      "end": 2355
+     }
+    ]
+   }
+  }
+ ]
+}
