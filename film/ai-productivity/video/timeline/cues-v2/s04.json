@@ -1,0 +1,9 @@
+[
+  { "frame": 4, "sound": "pop", "gain": -5, "pan": 0, "note": "the Claude square pops in, centred" },
+  { "frame": 89, "sound": "whoosh", "gain": -12, "pan": -0.3, "note": "the square flies up into the project header" },
+  { "frame": 123, "sound": "paper", "gain": -8, "pan": 0, "note": "Member Handbook 2026.pdf lands in Project knowledge (on \"handbook\")" },
+  { "frame": 142, "sound": "paper", "gain": -8, "pan": 0, "note": "Policies.docx lands (on \"policies\")" },
+  { "frame": 160, "sound": "paper", "gain": -9, "pan": 0, "note": "Style guide.pdf lands (on \"once\")" },
+  { "frame": 196, "sound": "click", "gain": 0, "pan": 0.45, "note": "Share is pressed (between \"whole\" and \"team\")" },
+  { "frame": 202, "sound": "pop", "gain": -9, "pan": 0.4, "note": "the button opens out: Shared with 14 people, faces pop in" }
+]

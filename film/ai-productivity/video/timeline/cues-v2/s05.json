@@ -1,0 +1,12 @@
+[
+  { "frame": 15, "sound": "shutter", "gain": 0, "pan": 0, "note": "the shutter is pressed on \"Snap\"; white flash" },
+  { "frame": 29, "sound": "whoosh", "gain": -9, "pan": -0.4, "note": "the photo lifts out of the phone and opens on the left" },
+  { "frame": 50, "sound": "pop", "gain": -9, "pan": -0.1, "note": "Claude appears between the photo and the sheet" },
+  { "frame": 92, "sound": "row", "gain": -6, "pan": 0.35, "note": "row 1 lands: Maya Torres" },
+  { "frame": 100, "sound": "row", "gain": -7, "pan": 0.35, "note": "row 2: Sam Okafor" },
+  { "frame": 108, "sound": "row", "gain": -7, "pan": 0.35, "note": "row 3: Lena Fischer" },
+  { "frame": 116, "sound": "row", "gain": -7, "pan": 0.35, "note": "row 4: David Cho" },
+  { "frame": 124, "sound": "row", "gain": -7, "pan": 0.35, "note": "row 5: Priya Shah (on \"spreadsheet\")" },
+  { "frame": 132, "sound": "row", "gain": -6, "pan": 0.35, "note": "row 6: Tom Brennan" },
+  { "frame": 144, "sound": "tick", "gain": -5, "pan": 0.5, "note": "the \"6 people\" chip pops in" }
+]

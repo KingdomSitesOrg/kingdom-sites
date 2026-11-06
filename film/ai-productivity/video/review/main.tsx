@@ -13,7 +13,15 @@ import { flushSync } from "react-dom";
 
 import { Film } from "../src/Film.tsx";
 import { loadFilmFonts } from "../src/fonts.ts";
-import { tl } from "../src/lib/timeline.ts";
+import { tl as tl1 } from "../src/lib/timeline.ts";
+import { FilmV2 } from "../src/v2/FilmV2.tsx";
+import { TL as tl2 } from "../src/v2/kit.tsx";
+
+// Version 2 (the flat, real-interface film, 2026-11-06) is the default; ?v=1 shows version 1.
+const V1 = new URLSearchParams(location.search).get("v") === "1";
+const tl = V1
+  ? tl1
+  : { ...tl2, scenes: tl2.scenes.map((s) => ({ id: s.id, name: s.name, start: s.start, end: s.start + s.length - 1 })) };
 
 type Note = { id: string; frame: number; time: number; scene: string; x: number | null; y: number | null; text: string; done: boolean; created: string; reply?: string };
 
@@ -25,15 +33,15 @@ const PH = tl.height;
 const q = new URLSearchParams(location.search);
 
 async function main() {
-  await loadFilmFonts();
+  if (V1) await loadFilmFonts();
   const ref = createRef<PlayerRef>();
   const root = createRoot($("player"));
   flushSync(() =>
     root.render(
       <Player
         ref={ref}
-        component={Film}
-        inputProps={{ audio: true, review: true, source: "clips" }}
+        component={(V1 ? Film : FilmV2) as never}
+        inputProps={V1 ? { audio: true, review: true, source: "clips" } : { audio: true, mix: true }}
         durationInFrames={FRAMES}
         compositionWidth={PW}
         compositionHeight={PH}

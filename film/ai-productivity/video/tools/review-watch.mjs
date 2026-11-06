@@ -14,7 +14,7 @@ import { fileURLToPath } from "node:url";
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const args = process.argv.slice(2);
 const every = Number(args.includes("--every") ? args[args.indexOf("--every") + 1] : 60) * 1000;
-const WATCH = ["src/scenes.generated.json", "timeline.json", "public/cursor.json", "public/cursor.png", "public/mix.wav", "src", "src/lib", "review/main.tsx", "review/index.html"];
+const WATCH = ["src/scenes.generated.json", "timeline.json", "public/cursor.json", "public/cursor.png", "public/mix.wav", "src", "src/lib", "review/main.tsx", "review/index.html", "timeline-v2.json", "public/mix-v2.wav", "src/v2", "src/v2/scenes"];
 
 const stamp = () =>
   WATCH.map((w) => {

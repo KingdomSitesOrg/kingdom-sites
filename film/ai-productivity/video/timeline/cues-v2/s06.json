@@ -1,0 +1,15 @@
+[
+  { "frame": 2, "sound": "type", "gain": -11, "pan": 0.3, "note": "the person's request comes in" },
+  { "frame": 30, "sound": "bubble", "gain": -7, "pan": -0.3, "note": "Claude answers: Here's a short survey" },
+  { "frame": 43, "sound": "row", "gain": -9, "pan": 0, "note": "question 1 builds in" },
+  { "frame": 52, "sound": "row", "gain": -9, "pan": 0, "note": "question 2" },
+  { "frame": 61, "sound": "row", "gain": -9, "pan": 0, "note": "question 3" },
+  { "frame": 98, "sound": "click", "gain": 0, "pan": 0.45, "note": "Send to 42 people is pressed (on \"organization\")" },
+  { "frame": 100, "sound": "send", "gain": -5, "pan": 0.45, "note": "it turns into Sent" },
+  { "frame": 150, "sound": "bubble", "gain": -10, "pan": -0.3, "note": "answer 1 lands (counter climbing, on \"every\")" },
+  { "frame": 159, "sound": "bubble", "gain": -10, "pan": 0, "note": "answer 2" },
+  { "frame": 168, "sound": "bubble", "gain": -10, "pan": 0.3, "note": "answer 3" },
+  { "frame": 206, "sound": "row", "gain": -6, "pan": 0, "note": "step 1: Post the shift schedule a week ahead (on \"clear\")" },
+  { "frame": 217, "sound": "row", "gain": -6, "pan": 0, "note": "step 2: Add a short training for check-in" },
+  { "frame": 228, "sound": "row", "gain": -6, "pan": 0, "note": "step 3: Pack gloves and bags in every kit" }
+]
