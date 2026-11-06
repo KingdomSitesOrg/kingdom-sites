@@ -1,5 +1,10 @@
 # Sound effects: sources
 
+**2026-11-06: regenerated on the paid plan.** After Thomas upgraded the ElevenLabs account, every sound
+was made again with the same prompts (`sfx.py <name> --try 2`, 110 credits), so the film's effects carry
+the paid plan's commercial licence. `process.py` now cuts the `_try2` files; its windows are listed
+there. The table below describes the first, Free plan takes (`_try1`), kept in `raw/` for the record.
+
 Every sound is an ElevenLabs Sound Effects generation (`POST /v1/sound-generation`, Free plan key,
 2026-11-05), one try each, made by `sfx.py` and cut by `process.py` into `<name>.wav` (48 kHz mono,
 32-bit float, peak -1 dBFS). The raw generations are in `raw/`. Every prompt ended with: "Close-up, dry studio recording, soft, no music, no reverb, no room echo."

@@ -26,22 +26,24 @@ from dsp import SR, hp, read_audio, samples, tail, to_db, write_wav_mono32  # no
 # the cue), "peak" = the loudest 10 ms (the paper's slap, the drawer's close, the shutter): the mix
 # starts the file early so that point lands on the cue frame, never inside the silence.
 CHOSEN = {
-    "pop": ("pop_try1.mp3", 0.0, 0.17, "onset"),
-    "paper": ("paper_try1.mp3", 0.0, 0.62, "peak"),
-    "sticky": ("sticky_try1.mp3", 0.0, 0.2, "onset"),
-    "tick": ("tick_try1.mp3", 0.15, 0.32, "onset"),
-    "counter": ("counter_try1.mp3", 0.105, 0.2, "onset"),
-    "whoosh": ("whoosh_try1.mp3", 0.0, 0.45, "onset"),
-    "shutter": ("shutter_try1.mp3", 0.0, 0.3, "peak"),
-    "cloud": ("cloud_try1.mp3", 0.0, 0.58, "onset"),
-    "row": ("row_try1.mp3", 0.0, 0.16, "onset"),
-    "grow": ("grow_try1.mp3", 0.0, 0.9, "onset"),
-    "drawer": ("drawer_try1.mp3", 0.0, 0.85, "peak"),
-    "bubble": ("bubble_try1.mp3", 0.0, 0.15, "onset"),
-    "roll": ("roll_try1.mp3", 0.0, 0.95, "onset"),
-    "type": ("type_try1.mp3", 0.0, 0.86, "onset"),
-    "click": ("click_try1.mp3", 0.14, 0.26, "onset"),
-    "send": ("send_try1.mp3", 0.2, 0.68, "peak"),
+    # Paid-plan takes (try 2, 2026-11-06). Short hits keep a window around their loudest point;
+    # longer sounds keep the whole take and are trimmed by process().
+    "pop": ("pop_try2.mp3", 0.0, 0.17, "onset"),
+    "paper": ("paper_try2.mp3", 0.0, 0.8, "peak"),
+    "sticky": ("sticky_try2.mp3", 0.02, 0.22, "onset"),
+    "tick": ("tick_try2.mp3", 0.0, 0.17, "onset"),
+    "counter": ("counter_try2.mp3", 0.27, 0.365, "onset"),
+    "whoosh": ("whoosh_try2.mp3", 0.0, 0.8, "onset"),
+    "shutter": ("shutter_try2.mp3", 0.03, 0.33, "peak"),
+    "cloud": ("cloud_try2.mp3", 0.0, 0.68, "onset"),
+    "row": ("row_try2.mp3", 0.0, 0.16, "onset"),
+    "grow": ("grow_try2.mp3", 0.0, 1.0, "onset"),
+    "drawer": ("drawer_try2.mp3", 0.0, 0.88, "peak"),
+    "bubble": ("bubble_try2.mp3", 0.05, 0.2, "onset"),
+    "roll": ("roll_try2.mp3", 0.0, 1.2, "onset"),
+    "type": ("type_try2.mp3", 0.0, 0.88, "onset"),
+    "click": ("click_try2.mp3", 0.16, 0.28, "onset"),
+    "send": ("send_try2.mp3", 0.0, 0.68, "peak"),
 }
 
 

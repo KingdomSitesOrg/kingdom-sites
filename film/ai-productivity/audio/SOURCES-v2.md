@@ -17,9 +17,10 @@ written to `audio/mix/v2/` (git-ignored, with version 1's).
 
 - **Voice:** the ten version 2 lines (`audio/voice/lines-v2/lineNN.wav`, Matilda, speed 0.88), each
   starting on its frame in `video/timeline-v2.json`, through version 1's voice chain. ElevenLabs
-  text-to-speech, **Free plan**.
+  text-to-speech, regenerated on the **paid plan** on 2026-11-06 (same voice, settings and seed; the
+  word timings came back identical, so the timeline did not move).
 - **Sound effects:** every cue in `cues-v2/sNN.json`, from the 16 effects in `audio/foley/` (see
-  `audio/foley/SOURCES.md`). ElevenLabs Sound Effects, **Free plan**. A cue's gain is an offset
+  `audio/foley/SOURCES.md`). ElevenLabs Sound Effects, regenerated on the **paid plan** on 2026-11-06 (`_try2`). A cue's gain is an offset
   from that sound's usual level. Fast repeats of one sound in a scene (the unread counter, the
   meetings landing, the buzzword ticks) are made a little quieter, and repeats less than 4 frames
   apart are dropped. On the last run, 8 of 129 cues were dropped: 4 meeting clicks and 4 buzzword
@@ -61,8 +62,8 @@ Nobody has listened to this mix. `verify_mix_v2.py` measures it. On the last run
 
 ## Licence
 
-The voice and the sound effects come from the ElevenLabs **Free plan**, which includes no
-commercial licence. Before the film is shown outside, regenerate them on a paid plan with the same
-settings (`audio/voice/tts.py`, `audio/foley/sfx.py`). Replace the placeholder music with a licensed
-or paid-plan track: save it as `audio/music/track.wav`. Version 1 already reads that file;
+The voice and the sound effects were regenerated on the ElevenLabs paid plan on 2026-11-06, so they
+carry its commercial licence (the Free plan takes are kept: voice in `audio/voice/lines-v2-freeplan/`,
+not in git; effects as `raw/*_try1.mp3`). The music is the script's own placeholder pad, so it needs no
+licence. To use a better track later, save it as `audio/music/track.wav`. Version 1 already reads that file;
 `make_mix_v2.py` would need the same switch added.
