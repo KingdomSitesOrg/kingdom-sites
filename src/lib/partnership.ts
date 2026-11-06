@@ -46,6 +46,10 @@ export const AI_CONSULT = {
   bookTitle: 'Book a session',
   bookBody:
     'Tell me who you are and what you want to get out of AI. I will reply to set a time and shape the session around you.',
+  filmKicker: 'A short film · 80 seconds',
+  filmTitle: 'What AI looks like inside a team.',
+  filmBody:
+    'Paper forms turned into spreadsheets, a survey read for you, answers inside Slack, and a final send that always stays with a person. I set this up for your team and show them how to use it.',
   inAppTitle: 'AI in your app',
   inAppBody:
     'If your product needs AI inside it — answers from your data, actions with a person in the loop — I build that into the app itself.',
