@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { SITE_OG_IMAGE, SHARE_URL } from '@/lib/seo'
 import Link from 'next/link'
 import CalendlyEmbed from '@/components/CalendlyEmbed'
+import ConsultFilm from '@/components/ConsultFilm'
 import EvenGrid from '@/components/EvenGrid'
 import { CALENDLY_AI_URL, INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { AI_CONSULT, AI_CONSULT_TOPICS } from '@/lib/partnership'
@@ -60,6 +61,8 @@ export default function AiTooling() {
           </div>
         </div>
       </section>
+
+      <ConsultFilm />
 
       <section aria-label="What I cover" className="cn-wrap py-16 sm:py-24">
         <div className="border-t border-line pt-12">
