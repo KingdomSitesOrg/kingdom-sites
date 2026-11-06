@@ -102,10 +102,21 @@ export function ClaudeFace({ size = 52 }: { size?: number }) {
   );
 }
 
-/** The one pointer for the flat look: a crisp arrow, ink with a white edge, scaled about its tip. */
-export function Pointer({ x, y, scale = 1 }: { x: number; y: number; scale?: number }) {
+/** The one pointer for the flat look: a crisp arrow (or a text I-beam over editable text),
+ * ink with a white edge, scaled about its tip. */
+export function Pointer({ x, y, scale = 1, mode = "arrow", opacity = 1 }: { x: number; y: number; scale?: number; mode?: "arrow" | "text"; opacity?: number }) {
+  if (mode === "text") {
+    return (
+      <div style={{ position: "absolute", left: x, top: y, width: 0, height: 0, pointerEvents: "none", opacity }}>
+        <svg width={20} height={40} viewBox="0 0 10 20" style={{ position: "absolute", left: -10, top: -20, filter: "drop-shadow(0 1px 2px rgba(30,27,34,0.25))" }}>
+          <path d="M2 1.5 H4 Q5 1.5 5 3 V17 Q5 18.5 4 18.5 H2 M8 1.5 H6 Q5 1.5 5 3 M5 17 Q5 18.5 6 18.5 H8" fill="none" stroke="#fff" strokeWidth={3} strokeLinecap="round" />
+          <path d="M2 1.5 H4 Q5 1.5 5 3 V17 Q5 18.5 4 18.5 H2 M8 1.5 H6 Q5 1.5 5 3 M5 17 Q5 18.5 6 18.5 H8" fill="none" stroke={T.ink} strokeWidth={1.3} strokeLinecap="round" />
+        </svg>
+      </div>
+    );
+  }
   return (
-    <div style={{ position: "absolute", left: x, top: y, width: 0, height: 0, pointerEvents: "none" }}>
+    <div style={{ position: "absolute", left: x, top: y, width: 0, height: 0, pointerEvents: "none", opacity }}>
       <svg
         width={44}
         height={56}

@@ -1,4 +1,4 @@
-// Style frame: "Claude works right inside Slack." A Slack-like workspace in the
+// Scene 7 draft: "Claude works right inside Slack." A Slack-like workspace in the
 // film's colours (no Slack logo), with real words: a staff question that tags
 // @Claude, and Claude's answer in the thread, citing the handbook.
 
@@ -67,15 +67,15 @@ export function SlackFrame() {
         {/* sidebar */}
         <div style={{ width: 330, background: T.side, display: "flex", flexDirection: "column", paddingTop: 26 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "0 28px 22px", color: "#fff", fontWeight: 750, fontSize: 25 }}>
-            Hillside School <Icon name="caret-down" size={18} color="rgba(255,255,255,0.8)" />
+            Riverside Center <Icon name="caret-down" size={18} color="rgba(255,255,255,0.8)" />
           </div>
           <div style={{ height: 1, background: "rgba(255,255,255,0.12)", margin: "0 0 14px" }} />
           <SideItem icon="chat-circle" label="Threads" />
           <SideItem icon="at" label="Mentions" />
           <div style={{ color: "rgba(255,255,255,0.55)", fontSize: 17, fontWeight: 600, padding: "22px 28px 8px", letterSpacing: 0.4 }}>Channels</div>
           <SideItem icon="hash" label="general" />
-          <SideItem icon="hash" label="admissions" />
-          <SideItem icon="hash" label="front-office" active />
+          <SideItem icon="hash" label="volunteers" />
+          <SideItem icon="hash" label="front-desk" active />
           <SideItem icon="hash" label="events" />
           <SideItem icon="hash" label="finance" />
           <div style={{ color: "rgba(255,255,255,0.55)", fontSize: 17, fontWeight: 600, padding: "22px 28px 8px", letterSpacing: 0.4 }}>Apps</div>
@@ -88,7 +88,7 @@ export function SlackFrame() {
         <div style={{ flex: 1, display: "flex", flexDirection: "column", background: T.card }}>
           <div style={{ height: 84, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 40px", borderBottom: `1.5px solid ${T.line}` }}>
             <div style={{ display: "flex", alignItems: "center", gap: 6, fontWeight: 750, fontSize: 27, color: T.ink }}>
-              <Icon name="hash" size={26} color={T.ink} /> front-office <Icon name="caret-down" size={18} color={T.ink2} />
+              <Icon name="hash" size={26} color={T.ink} /> front-desk <Icon name="caret-down" size={18} color={T.ink2} />
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 10, border: `1.5px solid ${T.line}`, borderRadius: 10, padding: "6px 12px 6px 8px" }}>
               <div style={{ display: "flex" }}>
@@ -113,23 +113,23 @@ export function SlackFrame() {
               <div style={{ flex: 1, height: 1.5, background: T.line }} />
             </div>
             <Message face={<Face initials="AK" color={T.a3dark} />} name="Ana Kim" time="8:52 AM">
-              Staff meeting moves to 3:30 today, in the library.
+              Team meeting moves to 3:30 today, in room B.
             </Message>
             <Message face={<Face initials="JL" color={T.a1} />} name="Jun Lee" time="9:38 AM">
-              Open house signs are up in the main hall.
+              Signs for Saturday&rsquo;s cleanup are up in the lobby.
             </Message>
             <Message face={<Face initials="MR" color={T.a2} />} name="Maria Reyes" time="9:41 AM">
-              A parent is asking when re-enrollment closes. <Mention>@Claude</Mention> can you check the handbook?
+              Someone is asking when summer registration closes. <Mention>@Claude</Mention> can you check the handbook?
             </Message>
             <Message face={<ClaudeFace />} name="Claude" badge="APP" time="9:41 AM">
-              <div>Re-enrollment closes on March 15. After that, families need the principal&rsquo;s sign-off.</div>
+              <div>Summer registration closes on May 15. After that, sign-ups need a manager&rsquo;s OK.</div>
               <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: 12, width: 520, border: `1.5px solid ${T.line}`, borderRadius: 12, padding: "12px 16px" }}>
                 <div style={{ width: 46, height: 46, borderRadius: 10, background: T.tint, display: "flex", alignItems: "center", justifyContent: "center" }}>
                   <Icon name="file-pdf:fill" size={28} color={T.a1} />
                 </div>
                 <div style={{ display: "flex", flexDirection: "column" }}>
-                  <span style={{ fontSize: 20, fontWeight: 650, color: T.ink }}>Family Handbook 2026.pdf</span>
-                  <span style={{ fontSize: 16, color: T.ink3 }}>Page 12 &middot; Enrollment</span>
+                  <span style={{ fontSize: 20, fontWeight: 650, color: T.ink }}>Member Handbook 2026.pdf</span>
+                  <span style={{ fontSize: 16, color: T.ink3 }}>Page 12 &middot; Registration</span>
                 </div>
               </div>
               <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
@@ -144,7 +144,7 @@ export function SlackFrame() {
           </div>
 
           <div style={{ margin: "6px 40px 30px", border: `1.5px solid #D9D2C8`, borderRadius: 12, padding: "16px 18px 12px" }}>
-            <div style={{ fontSize: 21, color: T.ink3 }}>Message #front-office</div>
+            <div style={{ fontSize: 21, color: T.ink3 }}>Message #front-desk</div>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 14 }}>
               <div style={{ display: "flex", gap: 18 }}>
                 {["plus", "text-aa", "smiley", "at", "paperclip"].map((n) => (
