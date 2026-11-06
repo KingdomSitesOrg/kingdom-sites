@@ -1,0 +1,222 @@
+[
+  {
+    "frame": 6,
+    "sound": "pop",
+    "gain": -6,
+    "note": "the calendar card settles"
+  },
+  {
+    "frame": 10,
+    "sound": "row",
+    "gain": -10,
+    "pan": -0.3,
+    "note": "meeting lands: Staff meeting"
+  },
+  {
+    "frame": 16,
+    "sound": "row",
+    "gain": -10,
+    "pan": 0,
+    "note": "meeting lands: Budget review"
+  },
+  {
+    "frame": 22,
+    "sound": "row",
+    "gain": -10,
+    "pan": -0.3,
+    "note": "meeting lands: Volunteer call"
+  },
+  {
+    "frame": 27,
+    "sound": "row",
+    "gain": -10,
+    "pan": -0.3,
+    "note": "meeting lands: Front desk cover"
+  },
+  {
+    "frame": 32,
+    "sound": "row",
+    "gain": -10,
+    "pan": 0,
+    "note": "meeting lands: Family tour"
+  },
+  {
+    "frame": 36,
+    "sound": "row",
+    "gain": -10,
+    "pan": 0.3,
+    "note": "meeting lands: Grant deadline"
+  },
+  {
+    "frame": 40,
+    "sound": "row",
+    "gain": -10,
+    "pan": 0,
+    "note": "meeting lands: Room setup"
+  },
+  {
+    "frame": 44,
+    "sound": "row",
+    "gain": -10,
+    "pan": -0.3,
+    "note": "meeting lands: Lunch with donors"
+  },
+  {
+    "frame": 48,
+    "sound": "row",
+    "gain": -10,
+    "pan": 0,
+    "note": "meeting lands: Board prep"
+  },
+  {
+    "frame": 51,
+    "sound": "row",
+    "gain": -10,
+    "pan": 0.3,
+    "note": "meeting lands: Payroll"
+  },
+  {
+    "frame": 54,
+    "sound": "row",
+    "gain": -10,
+    "pan": -0.3,
+    "note": "meeting lands: Supply run"
+  },
+  {
+    "frame": 57,
+    "sound": "row",
+    "gain": -10,
+    "pan": 0.3,
+    "note": "meeting lands: Interviews"
+  },
+  {
+    "frame": 60,
+    "sound": "row",
+    "gain": -10,
+    "pan": -0.3,
+    "note": "meeting lands: Newsletter"
+  },
+  {
+    "frame": 63,
+    "sound": "row",
+    "gain": -10,
+    "pan": 0,
+    "note": "meeting lands: Volunteer rota"
+  },
+  {
+    "frame": 66,
+    "sound": "row",
+    "gain": -10,
+    "pan": 0.3,
+    "note": "meeting lands: Reports, spills past 5 PM"
+  },
+  {
+    "frame": 69,
+    "sound": "row",
+    "gain": -10,
+    "pan": 0,
+    "note": "meeting lands: Emails, spills past 5 PM"
+  },
+  {
+    "frame": 72,
+    "sound": "row",
+    "gain": -10,
+    "pan": -0.3,
+    "note": "meeting lands: Inbox, spills off the frame"
+  },
+  {
+    "frame": 72,
+    "sound": "pop",
+    "gain": -2,
+    "pan": 0.45,
+    "note": "\"26 h booked\" chip pops on \"hours\""
+  },
+  {
+    "frame": 113,
+    "sound": "pop",
+    "gain": -7,
+    "note": "the empty email card settles"
+  },
+  {
+    "frame": 138,
+    "sound": "pop",
+    "gain": -4,
+    "pan": 0.5,
+    "note": "\"Written by AI\" chip pops on \"AI\""
+  },
+  {
+    "frame": 139,
+    "sound": "type",
+    "gain": -5,
+    "note": "the AI types the subject"
+  },
+  {
+    "frame": 166,
+    "sound": "type",
+    "gain": -5,
+    "note": "the AI types the body"
+  },
+  {
+    "frame": 182,
+    "sound": "tick",
+    "gain": -10,
+    "pan": -0.2,
+    "note": "highlighter swipe on buzzword 1 of 9"
+  },
+  {
+    "frame": 185,
+    "sound": "tick",
+    "gain": -10,
+    "pan": -0.2,
+    "note": "highlighter swipe on buzzword 2 of 9"
+  },
+  {
+    "frame": 188,
+    "sound": "tick",
+    "gain": -10,
+    "pan": 0,
+    "note": "highlighter swipe on buzzword 3 of 9"
+  },
+  {
+    "frame": 191,
+    "sound": "tick",
+    "gain": -10,
+    "pan": 0,
+    "note": "highlighter swipe on buzzword 4 of 9"
+  },
+  {
+    "frame": 194,
+    "sound": "tick",
+    "gain": -10,
+    "pan": 0,
+    "note": "highlighter swipe on buzzword 5 of 9"
+  },
+  {
+    "frame": 197,
+    "sound": "tick",
+    "gain": -10,
+    "pan": 0,
+    "note": "highlighter swipe on buzzword 6 of 9"
+  },
+  {
+    "frame": 200,
+    "sound": "tick",
+    "gain": -10,
+    "pan": 0,
+    "note": "highlighter swipe on buzzword 7 of 9"
+  },
+  {
+    "frame": 203,
+    "sound": "tick",
+    "gain": -10,
+    "pan": 0,
+    "note": "highlighter swipe on buzzword 8 of 9"
+  },
+  {
+    "frame": 206,
+    "sound": "tick",
+    "gain": -10,
+    "pan": 0,
+    "note": "highlighter swipe on buzzword 9 of 9"
+  }
+]

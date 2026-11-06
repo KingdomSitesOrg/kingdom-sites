@@ -1,0 +1,162 @@
+[
+  {
+    "frame": 6,
+    "sound": "pop",
+    "gain": -6,
+    "note": "the inbox card settles"
+  },
+  {
+    "frame": 21,
+    "sound": "counter",
+    "gain": -8,
+    "pan": 0,
+    "note": "new mail 1: unread count ticks up"
+  },
+  {
+    "frame": 31,
+    "sound": "counter",
+    "gain": -8,
+    "pan": 0,
+    "note": "new mail 2: unread count ticks up"
+  },
+  {
+    "frame": 40,
+    "sound": "counter",
+    "gain": -8,
+    "pan": 0,
+    "note": "new mail 3: unread count ticks up"
+  },
+  {
+    "frame": 48,
+    "sound": "counter",
+    "gain": -8,
+    "pan": 0,
+    "note": "new mail 4: unread count ticks up"
+  },
+  {
+    "frame": 55,
+    "sound": "counter",
+    "gain": -8,
+    "pan": 0,
+    "note": "new mail 5: unread count ticks up"
+  },
+  {
+    "frame": 62,
+    "sound": "counter",
+    "gain": -8,
+    "pan": 0,
+    "note": "new mail 6: unread count ticks up"
+  },
+  {
+    "frame": 68,
+    "sound": "counter",
+    "gain": -8,
+    "pan": -0.35,
+    "note": "new mail 7: unread count ticks up"
+  },
+  {
+    "frame": 74,
+    "sound": "counter",
+    "gain": -8,
+    "pan": -0.35,
+    "note": "new mail 8: unread count ticks up"
+  },
+  {
+    "frame": 77,
+    "sound": "pop",
+    "gain": -6,
+    "pan": 0.45,
+    "note": "the to-do card settles"
+  },
+  {
+    "frame": 80,
+    "sound": "counter",
+    "gain": -8,
+    "pan": -0.35,
+    "note": "new mail 9: unread count ticks up"
+  },
+  {
+    "frame": 80,
+    "sound": "grow",
+    "gain": -6,
+    "pan": 0.45,
+    "note": "the to-do list keeps growing off the bottom"
+  },
+  {
+    "frame": 86,
+    "sound": "counter",
+    "gain": -8,
+    "pan": -0.35,
+    "note": "new mail 10: unread count ticks up"
+  },
+  {
+    "frame": 91,
+    "sound": "counter",
+    "gain": -8,
+    "pan": -0.35,
+    "note": "new mail 11: unread count ticks up"
+  },
+  {
+    "frame": 96,
+    "sound": "counter",
+    "gain": -8,
+    "pan": -0.35,
+    "note": "new mail 12: unread count ticks up"
+  },
+  {
+    "frame": 101,
+    "sound": "counter",
+    "gain": -8,
+    "pan": -0.35,
+    "note": "new mail 13: unread count ticks up"
+  },
+  {
+    "frame": 106,
+    "sound": "counter",
+    "gain": -8,
+    "pan": -0.35,
+    "note": "new mail 14: unread count ticks up"
+  },
+  {
+    "frame": 111,
+    "sound": "counter",
+    "gain": -8,
+    "pan": -0.35,
+    "note": "new mail 15: unread count ticks up to 128"
+  },
+  {
+    "frame": 138,
+    "sound": "paper",
+    "gain": -3,
+    "pan": 0.35,
+    "note": "paper form lands: Supply order"
+  },
+  {
+    "frame": 151,
+    "sound": "paper",
+    "gain": -3,
+    "pan": -0.4,
+    "note": "paper form lands: Attendance sheet"
+  },
+  {
+    "frame": 160,
+    "sound": "paper",
+    "gain": -3,
+    "pan": 0.3,
+    "note": "paper form lands: Room booking"
+  },
+  {
+    "frame": 170,
+    "sound": "paper",
+    "gain": -3,
+    "pan": -0.3,
+    "note": "paper form lands: Expense claim"
+  },
+  {
+    "frame": 181,
+    "sound": "paper",
+    "gain": 0,
+    "pan": 0,
+    "note": "paper form lands: Volunteer sign-up, on \"paper\""
+  }
+]
