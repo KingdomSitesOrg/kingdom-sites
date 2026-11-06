@@ -70,6 +70,7 @@ film/ai-productivity/video/review/dist/
 film/ai-productivity/video/public/scenes
 film/ai-productivity/video/public/drafts
 film/ai-productivity/video/public/mix.wav
+film/ai-productivity/video/public/mix-v2.wav
 film/ai-productivity/audio/mix/
 film/ai-productivity/audio/**/tmp/
 film/ai-productivity/audio/**/*.raw.wav
