@@ -31,29 +31,56 @@ const USE_OF_FUNDS = [
 const FAQ: [string, React.ReactNode][] = [
   [
     "What is Pocket Thought?",
-    "A small, premium, distraction-free thought capture device with an aluminum body inspired by the iPod nano. Scroll the wheel to choose one of four modes (General, To-do, Ideas, Thoughts), then press and hold the center button to record and release to stop. One small light glows red only while it is recording. Recordings sync to your phone automatically, with a native iPhone app first and Android later.",
+    "A small, distraction-free device for capturing thoughts: 90 × 38 × 7.6 mm, with an aluminum body planned (the first prototypes are 3D-printed). Four keys run down the face. Press and hold a category’s own key to record into it, and release to save. The categories are General, To-do, Ideas and Journal by default, and you can rename them in the app. Each key carries one to four raised dots, so you can tell them apart by feel. There is no screen, no light and no speaker. It records offline on the device and syncs wirelessly to your phone when it’s nearby, with a native iPhone app first and Android later. No subscription for the basics.",
   ],
   [
     "Is this a finished product?",
     "No. This is an early-stage prototype effort. Final features may evolve, and a finished product is not guaranteed.",
   ],
   [
-    "What does my contribution fund?",
-    "The first prototype: electronics and parts, PCB prototypes, enclosure prototyping, batteries, controls and spares, app development, testing and assembly, plus a contingency. The full breakdown is in the funding goal above.",
+    "What does my support fund?",
+    "Building the prototypes: electronics and parts, circuit board prototypes, enclosure prototyping, batteries, keys and spares, app development, testing and assembly, plus a contingency. The full breakdown is in the funding goal above.",
   ],
   [
-    "Is my contribution refundable?",
-    "No. All contributions to this project are non-refundable and are used to support early prototype development.",
+    "Is my support refundable?",
+    "No. Support is a non-refundable gift toward building the prototypes.",
   ],
   [
     "Will I get a device?",
-    "Original supporters will be prioritized for early prototype or early production access if development succeeds. A finished product is not guaranteed, and a contribution is not a guaranteed retail order.",
+    "If the prototypes succeed, supporters may receive a Pocket Thought as a thank-you gift, but this is not guaranteed. Support is not a purchase and not a pre-order.",
   ],
-  ["When will the prototype be built?", "There is no set date yet. Timelines may change."],
   [
-    "Is this an investment?",
-    "No. This is not an investment opportunity and does not provide ownership or financial return. Contributions are support for development, not a purchase of equity.",
+    "When will the prototype be built?",
+    "December: the development kit and the firmware port. January: the first custom circuit boards (5 to 10). Then 3D-printed prototypes go to testers, and after that pre-orders. These dates are targets, not promises.",
   ],
+  [
+    "How long does the battery last?",
+    "The battery is about 320–370 mAh, which we estimate gives months of light use per charge. That is an estimate until the prototypes are tested. It charges over USB-C.",
+  ],
+  [
+    "What if I lose it?",
+    "The app is designed to help you find it around the house: a map of where your phone last saw it, a warmer/colder signal meter, and distance and direction on newer iPhones.",
+  ],
+  [
+    "Does supporting give me a stake in Pocket Thought?",
+    "No. Support is a gift toward building the prototypes. It is not a purchase, not a pre-order and not a stake in the business.",
+  ],
+];
+
+const DONE = [
+  "Product concept and spec",
+  "Case design v2, with 54 real parts placed",
+  "Custom board layout around a Nordic nRF54L15 radio module",
+  "Battery chosen",
+  "Microphone sound path and privacy rule: the mic only gets power while a key is held",
+  "Research on batteries, finding, Philippine regulations and costs",
+];
+
+const NEXT: [string, string][] = [
+  ["December", "Development kit and firmware port"],
+  ["January", "First custom circuit boards (5 to 10)"],
+  ["Then", "3D-printed prototypes to testers"],
+  ["Then", "Pre-orders"],
 ];
 
 function Render({
@@ -157,7 +184,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
               wide
               priority
               sizes="(min-width: 1152px) 1152px, 100vw"
-              alt="Pocket Thought concept render: a slim brushed-aluminum device with a scroll wheel and a center record button"
+              alt="Pocket Thought concept render: a slim brushed-aluminum device with four keys in a column and a lighter cap at the top end"
             />
           </div>
         </section>
@@ -185,10 +212,10 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
               </h2>
               <ul className="mt-8 space-y-3 text-lg">
                 {[
-                  "Select a mode with the scroll wheel",
-                  "Press and hold to record",
+                  "One key for each category",
+                  "Press and hold a key to record into it",
                   "Release to save",
-                  "Sync to your phone automatically",
+                  "Syncs wirelessly to your phone when it’s nearby",
                   "Review everything later in a clean app",
                 ].map((t) => (
                   <li key={t} className="flex gap-3">
@@ -199,16 +226,17 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
               </ul>
               <div className="mt-8 rounded-2xl bg-white p-5 ring-1 ring-black/5">
                 <p className="leading-relaxed">
-                  <strong className="font-semibold">Privacy-first recording:</strong> Pocket Thought only records while the
-                  button is physically held down. No hidden recording. No passive listening.
+                  <strong className="font-semibold">Privacy-first recording:</strong> Pocket Thought only records while a key
+                  is physically held down. The microphone only gets power while a key is held. No hidden recording. No
+                  passive listening.
                 </p>
               </div>
             </div>
             <div className="overflow-hidden rounded-[28px]">
               <Render
-                name="04-scroll-wheel-close-up"
+                name="04-keys-close-up"
                 sizes="(min-width: 768px) 560px, 100vw"
-                alt="Close-up of the scroll wheel with its four modes: General, To-do, Ideas and Thoughts"
+                alt="Close-up of the four keys, carrying one to four raised dots so you can tell them apart by feel"
               />
             </div>
           </div>
@@ -219,14 +247,14 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
           <div className="mx-auto max-w-6xl">
             <p className="text-center text-sm font-medium tracking-wide text-[var(--muted)] uppercase">How it works</p>
             <h2 className="mx-auto mt-3 max-w-3xl text-center text-3xl leading-tight font-semibold tracking-tight sm:text-5xl">
-              Scroll the wheel. Hold the button. Speak. Release. That’s it.
+              Hold a key. Speak. Release. That’s it.
             </h2>
             <ol className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {[
-                "Scroll the wheel to a mode",
-                "Hold the center button with your thumb",
+                "Find the key by feel: one to four dots",
+                "Press and hold it",
                 "Speak your thought",
-                "Release and let it sync later",
+                "Release to save; it syncs when your phone is nearby",
               ].map((t, i) => (
                 <li key={t} className="flex h-full flex-col rounded-3xl bg-[var(--panel)] p-6">
                   <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-sm font-semibold ring-1 ring-black/10">
@@ -239,16 +267,16 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
             <div className="mt-12 grid items-center gap-10 md:grid-cols-[1.2fr_1fr]">
               <div className="overflow-hidden rounded-[28px]">
                 <Render
-                  name="06-thumb-recording"
+                  name="02-side-profile"
                   sizes="(min-width: 768px) 640px, 100vw"
-                  alt="A thumb holding the center button while the small light shows red for recording"
+                  alt="Side profile: the body is 7.6 mm thin"
                 />
               </div>
               <ul className="flex flex-wrap gap-2 md:flex-col md:gap-3">
                 {[
                   "No screen",
-                  "One small light, red only while recording",
-                  "No flashing",
+                  "No lights",
+                  "No speaker",
                   "No distractions",
                   "No always-listening behavior",
                 ].map((t) => (
@@ -279,12 +307,14 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
             </h2>
             <ul className="mx-auto mt-10 grid max-w-4xl gap-x-10 gap-y-3 text-lg sm:grid-cols-2">
               {[
-                "Beautiful aluminum form factor",
-                "Tactile physical controls",
+                "Aluminum body planned, 90 × 38 × 7.6 mm",
+                "Four keys you can tell apart by feel",
                 "Hold-to-record privacy",
-                "Four modes: General, To-do, Ideas, Thoughts",
-                "Phone sync + future integrations",
-                "Focused on personal thought capture, not meetings",
+                "Four categories: General, To-do, Ideas, Journal, renamable in the app",
+                "Records offline, syncs wirelessly to your phone",
+                "Months of light use per charge (estimate)",
+                "Find it around the house from the app",
+                "No subscription for the basics",
               ].map((t) => (
                 <li key={t} className="flex gap-3">
                   <Check />
@@ -296,18 +326,18 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
               <DeviceModel />
               <div className="overflow-hidden rounded-[28px]">
                 <Render
-                  name="05-record-button-close-up"
+                  name="05-top-end-close-up"
                   sizes="(min-width: 1152px) 568px, (min-width: 768px) 50vw, 100vw"
                   className="aspect-square object-cover"
-                  alt="Close-up of the center record button inside the scroll wheel"
+                  alt="The top end: a lighter window cap over the radio antenna, with the microphone slot"
                 />
               </div>
               <div className="overflow-hidden rounded-[28px]">
                 <Render
-                  name="02-side-profile"
+                  name="06-inside"
                   sizes="(min-width: 1152px) 568px, (min-width: 768px) 50vw, 100vw"
                   className="aspect-square object-cover"
-                  alt="Side profile showing the slim aluminum body"
+                  alt="Inside, from the case model: the battery, the custom board, the radio module and USB-C"
                 />
               </div>
               <div className="overflow-hidden rounded-[28px]">
@@ -315,7 +345,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
                   name="03-back"
                   sizes="(min-width: 1152px) 568px, (min-width: 768px) 50vw, 100vw"
                   className="aspect-square object-cover"
-                  alt="Back of the device in brushed aluminum"
+                  alt="Back of the device in brushed aluminum, with four small screws"
                 />
               </div>
             </div>
@@ -325,8 +355,49 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
         {/* 5b Comparison */}
         <Compare />
 
-        {/* 6 Funding goal */}
-        <section id="support" className="px-5 py-20 sm:py-28">
+        {/* 6 Where it's at */}
+        <section id="progress" className="px-5 py-20 sm:py-28">
+          <div className="mx-auto max-w-6xl">
+            <h2 className="text-center text-3xl leading-tight font-semibold tracking-tight sm:text-5xl">Where it’s at</h2>
+            <div className="mt-12 grid items-start gap-10 lg:grid-cols-[1fr_1.1fr]">
+              <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-1">
+                <div>
+                  <h3 className="text-sm font-medium tracking-wide text-[var(--muted)] uppercase">Done so far · 6–7 Nov 2026</h3>
+                  <ul className="mt-4 space-y-2.5 text-base">
+                    {DONE.map((t) => (
+                      <li key={t} className="flex gap-3">
+                        <Check />
+                        <span>{t}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium tracking-wide text-[var(--muted)] uppercase">Next</h3>
+                  <ol className="mt-4 space-y-2.5 text-base">
+                    {NEXT.map(([when, what]) => (
+                      <li key={what} className="flex gap-3">
+                        <span className="w-20 shrink-0 font-medium">{when}</span>
+                        <span>{what}</span>
+                      </li>
+                    ))}
+                  </ol>
+                  <p className="mt-4 text-sm text-[var(--muted)]">Dates are targets, not promises.</p>
+                </div>
+              </div>
+              <div className="overflow-hidden rounded-[28px] bg-[var(--panel)]">
+                <Render
+                  name="07-exploded"
+                  sizes="(min-width: 1024px) 600px, 100vw"
+                  alt="Exploded view of case design v2: keys, aluminum shell with the radio window cap, button plate, custom board with the battery, back plate and screws"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 7 Funding goal */}
+        <section id="support" className="bg-[var(--panel)] px-5 py-20 sm:py-28">
           <div className="mx-auto max-w-6xl">
             <h2 className="text-center text-3xl leading-tight font-semibold tracking-tight sm:text-5xl">
               Help fund the first prototype.
@@ -340,7 +411,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
                 <span className="text-[var(--muted)]">Goal {usd(GOAL_USD)}</span>
               </div>
               <div
-                className="mt-3 h-3 overflow-hidden rounded-full bg-[var(--panel)] ring-1 ring-black/5"
+                className="mt-3 h-3 overflow-hidden rounded-full bg-white ring-1 ring-black/5"
                 role="progressbar"
                 aria-label="Raised towards the $2,000 goal"
                 aria-valuemin={0}
@@ -376,13 +447,6 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
                     </li>
                   ))}
                 </ul>
-                <div className="mt-8 overflow-hidden rounded-[28px] bg-[var(--panel)]">
-                  <Render
-                    name="07-exploded"
-                    sizes="(min-width: 1024px) 560px, 100vw"
-                    alt="Exploded concept view: center button, scroll wheel, aluminum body, circuit board, battery and back plate"
-                  />
-                </div>
               </div>
               <div className="order-first lg:order-none lg:sticky lg:top-20 lg:self-start">
                 <ContributeBox payments={paymentSettings()} thanked={thanked} />
@@ -391,42 +455,43 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
           </div>
         </section>
 
-        {/* 7 Supporter reward */}
-        <section className="bg-[var(--panel)] px-5 py-20 sm:py-24">
+        {/* 8 Supporter thank-you */}
+        <section className="px-5 py-20 sm:py-24">
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-3xl leading-tight font-semibold tracking-tight sm:text-5xl">
               Early supporters help make the prototype real.
             </h2>
             <p className="mt-6 text-lg leading-relaxed sm:text-xl">
-              Original supporters will be prioritized for early prototype or early production access if development
-              succeeds.
+              Your support is a non-refundable gift toward building the prototypes. If the prototypes succeed, supporters
+              may receive a Pocket Thought as a thank-you gift, but this is not guaranteed.
             </p>
             <p className="mt-4 text-base text-[var(--muted)]">
-              This is not an investment opportunity and does not provide ownership or financial return.
+              It is not a purchase, not a pre-order and not a stake in the business.
             </p>
           </div>
         </section>
 
-        {/* 8 Important funding terms */}
-        <section className="px-5 py-20 sm:py-24">
+        {/* 9 Important terms */}
+        <section className="bg-[var(--panel)] px-5 py-20 sm:py-24">
           <div className="mx-auto max-w-3xl">
-            <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">Important funding terms</h2>
+            <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">Important terms</h2>
             <p className="mt-5 text-base leading-relaxed">
-              All contributions to this project are non-refundable and are used to support early prototype development.
-              By contributing, you understand that:
+              Support is a non-refundable gift toward building the Pocket Thought prototypes. By supporting, you understand
+              that:
             </p>
             <ul className="mt-4 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
               <li>this is an early-stage prototype effort;</li>
-              <li>timelines may change;</li>
+              <li>dates are targets and may change;</li>
               <li>final features may evolve;</li>
               <li>a finished product is not guaranteed;</li>
-              <li>contributions are support for development, not a purchase of equity or a guaranteed retail order.</li>
+              <li>support is not a purchase, not a pre-order and not a stake in the business;</li>
+              <li>a thank-you unit, if the prototypes succeed, is not guaranteed.</li>
             </ul>
           </div>
         </section>
 
-        {/* 9 About the founder */}
-        <section className="bg-[var(--panel)] px-5 py-20 sm:py-24">
+        {/* 10 About the founder */}
+        <section className="px-5 py-20 sm:py-24">
           <div className="mx-auto max-w-3xl">
             <h2 className="text-3xl leading-tight font-semibold tracking-tight sm:text-4xl">
               Built by a founder who can actually make it.
@@ -439,7 +504,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
         </section>
 
         {/* FAQ */}
-        <section className="px-5 py-20 sm:py-24">
+        <section className="bg-[var(--panel)] px-5 py-20 sm:py-24">
           <div className="mx-auto max-w-3xl">
             <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">FAQ</h2>
             <div className="mt-6 divide-y divide-[var(--line)] border-y border-[var(--line)]">
@@ -458,8 +523,8 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
           </div>
         </section>
 
-        {/* 10 Final CTA */}
-        <section className="bg-[var(--panel)] px-5 py-20 sm:py-28">
+        {/* 11 Final CTA */}
+        <section className="px-5 py-20 sm:py-28">
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-3xl leading-tight font-semibold tracking-tight sm:text-5xl">
               Help bring Pocket Thought to life.

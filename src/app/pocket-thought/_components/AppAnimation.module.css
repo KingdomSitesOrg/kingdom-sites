@@ -11,52 +11,47 @@
 
 /* Device */
 .device {
-  width: 118px;
+  width: 192px;
   height: auto;
   flex: none;
   filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.12));
 }
 
-.led {
-  fill: #a9adb2;
-  transition: fill 160ms ease;
-}
-.led[data-on] {
-  fill: #ff2d20;
-}
-.ledGlow {
-  opacity: 0;
-  transition: opacity 200ms ease;
-}
-.ledGlow[data-on] {
-  opacity: 1;
-}
-
-.pointer {
-  transform-box: view-box;
-  transform-origin: 50px 170px;
-  transition: transform 700ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
 .label {
-  font-size: 4.6px;
+  font-size: 8.5px;
   font-weight: 600;
-  letter-spacing: 0.3px;
-  fill: #9a9ea3;
+  fill: #a1a5aa;
   transition: fill 300ms ease;
 }
 .label[data-on] {
   fill: #1d1d1f;
 }
 
-.button {
-  transform-box: view-box;
-  transform-origin: 50px 170px;
+.key {
   transition: transform 140ms ease, filter 140ms ease;
 }
-.button[data-on] {
-  transform: scale(0.93);
+.key[data-on] {
+  transform: translateY(0.6px) scale(0.95);
   filter: brightness(0.9);
+}
+
+.wave rect {
+  fill: #1d1d1f;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.wave[data-on] rect {
+  opacity: 0.7;
+  animation: speak 700ms ease-in-out infinite alternate;
+}
+@keyframes speak {
+  from {
+    transform: scaleY(0.3);
+  }
+  to {
+    transform: scaleY(1);
+  }
 }
 
 /* The hop from device to phone */
@@ -272,7 +267,7 @@
 
 @media (max-width: 479px) {
   .pair {
-    zoom: 0.78;
+    zoom: 0.64;
   }
   .link {
     width: 24px;
@@ -283,18 +278,16 @@
 
 @media (max-width: 359px) {
   .pair {
-    zoom: 0.7;
+    zoom: 0.58;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pointer,
-  .button,
-  .led,
-  .ledGlow,
+  .key,
   .label {
     transition: none;
   }
+  .wave rect,
   .link span,
   .row[data-new] {
     animation: none;

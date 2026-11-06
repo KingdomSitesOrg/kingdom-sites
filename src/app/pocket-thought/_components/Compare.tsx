@@ -1,7 +1,7 @@
 const MOMENTS = [
-  ["It’s 2 a.m.", "A thought wakes you. Reach, hold, speak. No screen to light up the room."],
-  ["On a walk", "Keep your hands and eyes where they are. Hold the button and say it."],
-  ["In the car", "Skip the phone. Hold the button, speak, release."],
+  ["It’s 2 a.m.", "A thought wakes you. Reach, hold a key, speak. No screen to light up the room."],
+  ["On a walk", "Keep your eyes where they are. Find the key by feel and say it."],
+  ["In the car", "Skip the phone. Hold a key, speak, release."],
 ] as const;
 
 type Product = {
@@ -15,13 +15,12 @@ const PRODUCTS: Product[] = [
     name: "Pocket Thought",
     highlight: true,
     rows: [
-      ["Recording", "Only while you hold the button"],
+      ["Recording", "Only while you hold a key"],
       ["Built for", "Personal thoughts"],
-      ["Pick a category first", "Yes, with the four-mode wheel"],
-      ["Shape", "Brushed aluminum pocket device"],
-      ["Battery", "Rechargeable, multi-day goal"],
+      ["Pick a category first", "Yes, one key per category"],
+      ["Shape", "Pocket device, 7.6 mm thin, aluminum planned"],
+      ["Battery", "Rechargeable, months of light use (estimate)"],
       ["Connections", "Apple Reminders and Notion first"],
-      ["Find My", "A future goal"],
       ["Price", "$69 target, not final"],
     ],
   },
@@ -34,7 +33,6 @@ const PRODUCTS: Product[] = [
       ["Shape", "Clip-on pin"],
       ["Battery", "About 20 hours recording, 40 days standby"],
       ["Connections", "Notion, Google Drive and more, mostly through Zapier"],
-      ["Find My", "Yes"],
       ["Price", "$179, plus paid plans for more transcription"],
     ],
   },
@@ -47,7 +45,6 @@ const PRODUCTS: Product[] = [
       ["Shape", "Ring"],
       ["Battery", "Up to 2 years, not rechargeable"],
       ["Connections", "Apple Reminders, Notion, Google Tasks"],
-      ["Find My", "Not listed"],
       ["Price", "$99"],
     ],
   },
@@ -60,7 +57,6 @@ const PRODUCTS: Product[] = [
       ["Shape", "Pendant"],
       ["Battery", "10 to 14 hours claimed"],
       ["Connections", "Apple Reminders, Google Tasks, Notion"],
-      ["Find My", "Not listed"],
       ["Price", "$89 to $179"],
     ],
   },
@@ -82,8 +78,8 @@ export default function Compare() {
           Not an all-day recorder.
         </h2>
         <p className="mx-auto mt-6 max-w-3xl text-center text-lg leading-relaxed text-[var(--muted)] sm:text-xl">
-          Many AI recorders capture your day and summarize it for you. Pocket Thought records only the moment you hold the
-          button.
+          Many AI recorders capture your day and summarize it for you. Pocket Thought records only the moment you hold a
+          key.
         </p>
 
         <ul className="mt-12 grid gap-4 md:grid-cols-3">
@@ -157,7 +153,7 @@ export default function Compare() {
 
         <p className="mx-auto mt-6 max-w-3xl text-center text-sm leading-relaxed text-[var(--muted)]">
           Competitor details come from each maker’s public information in November 2026 and can change. Pocket Thought is
-          a prototype: its battery, connections, price and Find My support are goals, not final specifications.{" "}
+          a prototype: its battery, connections and price are goals, not final specifications.{" "}
           {SOURCES.map(([name, href], i) => (
             <span key={name}>
               <a href={href} className="underline underline-offset-2 hover:text-[var(--ink)]" rel="noreferrer">

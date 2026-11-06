@@ -127,7 +127,7 @@ export function checkoutForm(amount: number, origin: string): URLSearchParams {
     "line_items[0][price_data][unit_amount]": String(amount * 100),
     "line_items[0][price_data][product_data][name]": `Pocket Thought prototype support (${tier})`,
     "line_items[0][price_data][product_data][description]":
-      "Non-refundable contribution to prototype development. Not an investment or a purchase.",
+      "Non-refundable gift toward building the Pocket Thought prototypes. Not a purchase or a pre-order.",
     "custom_text[submit][message]": CHECKOUT_LINE,
     "metadata[project]": PROJECT_TAG,
     "metadata[tier]": tier,

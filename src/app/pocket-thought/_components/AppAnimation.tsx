@@ -3,23 +3,23 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import s from "./AppAnimation.module.css";
 
-type Mode = "General" | "To-do" | "Ideas" | "Thoughts";
+type Mode = "General" | "To-do" | "Ideas" | "Journal";
 
-// Clockwise order on the wheel, so each step scrolls a quarter turn.
+// One key per category, top to bottom; each step holds the next key.
 const STEPS: { mode: Mode; length: string; text: string }[] = [
   { mode: "General", length: "0:05", text: "Remember the book Sam mentioned." },
   { mode: "To-do", length: "0:06", text: "Pick up the parts order before Friday." },
-  { mode: "Thoughts", length: "0:09", text: "Grateful for a quiet walk this morning." },
-  { mode: "Ideas", length: "0:12", text: "A wheel that clicks softly at each mode." },
+  { mode: "Ideas", length: "0:12", text: "A pocket field guide for birdwatchers." },
+  { mode: "Journal", length: "0:09", text: "Grateful for a quiet walk this morning." },
 ];
 
-const ANGLE: Record<Mode, number> = { General: 0, "To-do": 90, Thoughts: 180, Ideas: 270 };
+const MODES: Mode[] = ["General", "To-do", "Ideas", "Journal"];
 
 const TINT: Record<Mode, string> = {
   General: "#6e6e73",
   "To-do": "#0a7aff",
   Ideas: "#c77700",
-  Thoughts: "#5e5ce6",
+  Journal: "#5e5ce6",
 };
 
 const SELECT_MS = 900;
@@ -54,7 +54,6 @@ export default function AppAnimation() {
   );
   const [running, setRunning] = useState(false);
   const [step, setStep] = useState(0);
-  const [angle, setAngle] = useState(0);
   const [phase, setPhase] = useState<Phase>("rest");
   const [rows, setRows] = useState<Row[]>(START_ROWS);
 
@@ -79,10 +78,7 @@ export default function AppAnimation() {
     if (still || !running) return;
     const cur = STEPS[step % STEPS.length];
     const timers = [
-      setTimeout(() => {
-        setPhase("select");
-        setAngle((a) => (step === 0 && a === 0 ? 0 : a + 90));
-      }, 0),
+      setTimeout(() => setPhase("select"), 0),
       setTimeout(() => setPhase("record"), SELECT_MS),
       setTimeout(() => setPhase("sync"), SELECT_MS + RECORD_MS),
       setTimeout(() => {
@@ -102,11 +98,11 @@ export default function AppAnimation() {
   return (
     <div ref={root} className={s.stage} data-still={still || undefined}>
       <p className="sr-only">
-        Animation: the device records a thought in one of its four modes, and the recording appears in the Pocket Thought
-        iPhone app under that mode.
+        Animation: a key on the device is held to record a thought into its category, and the recording appears in the
+        Pocket Thought iPhone app under that category.
       </p>
       <div className={s.pair} aria-hidden>
-        <Device angle={still ? ANGLE[shownMode] : angle} mode={shownMode} recording={recording} />
+        <Device mode={shownMode} recording={recording} />
         <div className={s.link} data-on={syncing || undefined}>
           <span />
         </div>
@@ -116,15 +112,18 @@ export default function AppAnimation() {
   );
 }
 
-function Device({ angle, mode, recording }: { angle: number; mode: Mode; recording: boolean }) {
-  const labels: [Mode, number, number, string][] = [
-    ["General", 50, 147.5, "GENERAL"],
-    ["To-do", 73, 170.3, "TO-DO"],
-    ["Thoughts", 50, 193, "THOUGHTS"],
-    ["Ideas", 27, 170.3, "IDEAS"],
-  ];
+// Case v2: 38 x 90 mm, four 12 x 9 mm keys on an 11 mm pitch, 1-4 raised dots, a lighter radio window at the top.
+// 1 mm = 100/38 units; the labels sit outside the body because the keys carry dots, not words.
+const MM = 100 / 38;
+const BODY_X = 58;
+const KEY_Y = [16.5, 5.5, -5.5, -16.5].map((y) => 118.4 - y * MM);
+
+function Device({ mode, recording }: { mode: Mode; recording: boolean }) {
+  const kw = 12 * MM;
+  const kh = 9 * MM;
+  const cx = BODY_X + 50;
   return (
-    <svg viewBox="0 0 100 225" className={s.device} role="presentation">
+    <svg viewBox="0 0 160 237" className={s.device} role="presentation">
       <defs>
         <linearGradient id="pt-alu" x1="0" x2="1" y1="0" y2="0">
           <stop offset="0" stopColor="#c9ccd0" />
@@ -133,39 +132,37 @@ function Device({ angle, mode, recording }: { angle: number; mode: Mode; recordi
           <stop offset="0.85" stopColor="#e9ebed" />
           <stop offset="1" stopColor="#bfc2c6" />
         </linearGradient>
-        <radialGradient id="pt-ring" cx="0.5" cy="0.4" r="0.7">
-          <stop offset="0" stopColor="#f1f2f3" />
-          <stop offset="1" stopColor="#dcdfe2" />
-        </radialGradient>
-        <radialGradient id="pt-led" cx="0.5" cy="0.5" r="0.5">
-          <stop offset="0" stopColor="#ff3b2f" stopOpacity="0.55" />
-          <stop offset="1" stopColor="#ff3b2f" stopOpacity="0" />
-        </radialGradient>
+        <clipPath id="pt-body">
+          <rect x={BODY_X + 1} y="1" width="98" height="235" rx={6 * MM} />
+        </clipPath>
       </defs>
-      <rect x="1" y="1" width="98" height="223" rx="14" fill="url(#pt-alu)" stroke="#b3b6ba" strokeWidth="0.8" />
-      <circle cx="50" cy="9" r="1" fill="#8d9195" />
-      <circle cx="50" cy="22" r="7" fill="url(#pt-led)" className={s.ledGlow} data-on={recording || undefined} />
-      <circle cx="50" cy="22" r="2" className={s.led} data-on={recording || undefined} />
-      <circle cx="50" cy="170" r="34" fill="url(#pt-ring)" stroke="#c3c6ca" strokeWidth="0.8" />
-      <g className={s.pointer} style={{ transform: `rotate(${angle}deg)` }}>
-        <circle cx="50" cy="139.5" r="1.6" fill="#1d1d1f" />
-      </g>
-      {labels.map(([m, x, y, t]) => (
-        <text
-          key={m}
-          x={x}
-          y={y}
-          textAnchor="middle"
-          dominantBaseline="middle"
-          className={s.label}
-          data-on={m === mode || undefined}
-        >
-          {t}
-        </text>
-      ))}
-      <g className={s.button} data-on={recording || undefined}>
-        <circle cx="50" cy="170" r="12.5" fill="#d9dcdf" stroke="#b9bcc0" strokeWidth="0.8" />
-      </g>
+      <rect x={BODY_X + 1} y="1" width="98" height="235" rx={6 * MM} fill="url(#pt-alu)" />
+      <rect x={BODY_X} y="0" width="100" height={12 * MM} fill="#ecece8" clipPath="url(#pt-body)" />
+      <line x1={BODY_X + 1} x2={BODY_X + 99} y1={12 * MM} y2={12 * MM} stroke="#c4c6c9" strokeWidth="0.6" />
+      <rect x={BODY_X + 1} y="1" width="98" height="235" rx={6 * MM} fill="none" stroke="#b3b6ba" strokeWidth="0.8" />
+      {MODES.map((m, i) => {
+        const on = recording && m === mode;
+        const y = KEY_Y[i];
+        return (
+          <g key={m}>
+            <rect x={cx - kw / 2 - 1} y={y - kh / 2 - 1} width={kw + 2} height={kh + 2} rx={2.6 * MM} fill="#a9adb2" opacity="0.55" />
+            <g className={s.key} data-on={on || undefined} style={{ transformOrigin: `${cx}px ${y}px` }}>
+              <rect x={cx - kw / 2} y={y - kh / 2} width={kw} height={kh} rx={2 * MM} fill="#e3e5e8" stroke="#bfc2c6" strokeWidth="0.6" />
+              {Array.from({ length: i + 1 }, (_, d) => (
+                <circle key={d} cx={cx + (d - i / 2) * 4.2} cy={y} r="1.15" fill="#b4b8bd" />
+              ))}
+            </g>
+            <text x="51" y={y} textAnchor="end" dominantBaseline="middle" className={s.label} data-on={m === mode || undefined}>
+              {m}
+            </text>
+            <g className={s.wave} data-on={on || undefined} transform={`translate(2 ${y})`}>
+              {[0, 1, 2, 3].map((k) => (
+                <rect key={k} x={k * 3} y="-3.5" width="1.6" height="7" rx="0.8" style={{ animationDelay: `${k * 110}ms` }} />
+              ))}
+            </g>
+          </g>
+        );
+      })}
     </svg>
   );
 }
@@ -177,7 +174,7 @@ function ModeIcon({ mode }: { mode: Mode }) {
       {mode === "General" && <path d="M3 8h1.5M6 5v6M8.5 3v10M11 6v4M13 8h0" {...p} />}
       {mode === "To-do" && <path d="M3.5 8.5l3 3 6-7" {...p} />}
       {mode === "Ideas" && <path d="M6 13h4M6.5 10.5c-1.5-1-2.5-2.3-2.5-4a4 4 0 018 0c0 1.7-1 3-2.5 4z" {...p} />}
-      {mode === "Thoughts" && <path d="M3 5.5a2.5 2.5 0 012.5-2.5h5A2.5 2.5 0 0113 5.5v2.5a2.5 2.5 0 01-2.5 2.5H7l-3 2.5v-2.8A2.5 2.5 0 013 8z" {...p} />}
+      {mode === "Journal" && <path d="M4 2.5h7.5a1 1 0 011 1v10H5a1 1 0 01-1-1zM4 12.5a1 1 0 011-1h7.5M6.5 5.5h3.5" {...p} />}
     </svg>
   );
 }
@@ -197,7 +194,7 @@ function Phone({ rows }: { rows: Row[] }) {
           <span>
             <b>Connected</b>
             <br />
-            Syncs automatically while the app is on
+            Syncs when nearby, while the app is on
           </span>
         </div>
         <div className={s.list}>
