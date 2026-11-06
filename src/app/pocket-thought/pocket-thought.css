@@ -1,0 +1,17 @@
+/* Pocket Thought's own light look, inside the Kingdom Sites project (T-487). */
+.pocket-thought {
+  --ink: #1d1d1f;
+  --muted: #6e6e73;
+  --page: #fbfbfa;
+  --panel: #f2f2f3;
+  --line: rgba(0, 0, 0, 0.08);
+  min-height: 100vh;
+  background: var(--page);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.pocket-thought section[id] {
+  scroll-margin-top: 64px;
+}

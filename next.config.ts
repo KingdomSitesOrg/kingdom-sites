@@ -22,6 +22,10 @@ const csp = [
   "object-src 'none'",
 ].join('; ')
 
+// Pocket Thought's 3D model is Draco-compressed; its decoder is WebAssembly, which
+// needs 'wasm-unsafe-eval' (T-487). Only that page gets it.
+const pocketThoughtCsp = csp.replace("script-src 'self'", "script-src 'self' 'wasm-unsafe-eval'")
+
 const securityHeaders = [
   { key: 'Content-Security-Policy', value: csp },
   { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
@@ -43,6 +47,9 @@ const FARZANA_PAGES: [clean: string, here: string][] = [
   ['/book', '/farzana/book'],
 ]
 
+const withCsp = (policy: string) =>
+  securityHeaders.map((h) => (h.key === 'Content-Security-Policy' ? { ...h, value: policy } : h))
+
 const nextConfig: NextConfig = {
   // Thomas's phone reaches the dev server on the home network and over Tailscale.
   allowedDevOrigins: ['192.168.1.102', '100.69.115.38', 'localhost'],
@@ -58,9 +65,11 @@ const nextConfig: NextConfig = {
     return [
       {
         // Not /analytics: that is the private dashboard (its own project), with its own headers.
-        source: '/((?!analytics(?:/|$)).*)',
+        source: '/((?!analytics(?:/|$)|pocket-thought(?:/|$)).*)',
         headers: securityHeaders,
       },
+      { source: '/pocket-thought', headers: withCsp(pocketThoughtCsp) },
+      { source: '/pocket-thought/:path*', headers: withCsp(pocketThoughtCsp) },
       // /farzana is unlisted: shareable by link, kept out of search (the page and the film).
       { source: '/farzana', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] },
       { source: '/farzana/:path*', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] },
