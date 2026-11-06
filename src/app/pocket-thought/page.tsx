@@ -356,7 +356,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
         <Compare />
 
         {/* 6 Where it's at */}
-        <section id="progress" className="px-5 py-20 sm:py-28">
+        <section id="progress" className="bg-[var(--panel)] px-5 py-20 sm:py-28">
           <div className="mx-auto max-w-6xl">
             <h2 className="text-center text-3xl leading-tight font-semibold tracking-tight sm:text-5xl">Where it’s at</h2>
             <div className="mt-12 grid items-start gap-10 lg:grid-cols-[1fr_1.1fr]">
@@ -385,7 +385,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
                   <p className="mt-4 text-sm text-[var(--muted)]">Dates are targets, not promises.</p>
                 </div>
               </div>
-              <div className="overflow-hidden rounded-[28px] bg-[var(--panel)]">
+              <div className="overflow-hidden rounded-[28px] bg-white">
                 <Render
                   name="07-exploded"
                   sizes="(min-width: 1024px) 600px, 100vw"
@@ -397,7 +397,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
         </section>
 
         {/* 7 Funding goal */}
-        <section id="support" className="bg-[var(--panel)] px-5 py-20 sm:py-28">
+        <section id="support" className="px-5 py-20 sm:py-28">
           <div className="mx-auto max-w-6xl">
             <h2 className="text-center text-3xl leading-tight font-semibold tracking-tight sm:text-5xl">
               Help fund the first prototype.
@@ -411,7 +411,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
                 <span className="text-[var(--muted)]">Goal {usd(GOAL_USD)}</span>
               </div>
               <div
-                className="mt-3 h-3 overflow-hidden rounded-full bg-white ring-1 ring-black/5"
+                className="mt-3 h-3 overflow-hidden rounded-full bg-[var(--panel)] ring-1 ring-black/5"
                 role="progressbar"
                 aria-label="Raised towards the $2,000 goal"
                 aria-valuemin={0}
@@ -456,7 +456,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
         </section>
 
         {/* 8 Supporter thank-you */}
-        <section className="px-5 py-20 sm:py-24">
+        <section className="bg-[var(--panel)] px-5 py-20 sm:py-24">
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-3xl leading-tight font-semibold tracking-tight sm:text-5xl">
               Early supporters help make the prototype real.
@@ -472,7 +472,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
         </section>
 
         {/* 9 Important terms */}
-        <section className="bg-[var(--panel)] px-5 py-20 sm:py-24">
+        <section className="px-5 py-20 sm:py-24">
           <div className="mx-auto max-w-3xl">
             <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">Important terms</h2>
             <p className="mt-5 text-base leading-relaxed">
@@ -491,7 +491,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
         </section>
 
         {/* 10 About the founder */}
-        <section className="px-5 py-20 sm:py-24">
+        <section className="bg-[var(--panel)] px-5 py-20 sm:py-24">
           <div className="mx-auto max-w-3xl">
             <h2 className="text-3xl leading-tight font-semibold tracking-tight sm:text-4xl">
               Built by a founder who can actually make it.
@@ -504,7 +504,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
         </section>
 
         {/* FAQ */}
-        <section className="bg-[var(--panel)] px-5 py-20 sm:py-24">
+        <section className="px-5 py-20 sm:py-24">
           <div className="mx-auto max-w-3xl">
             <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">FAQ</h2>
             <div className="mt-6 divide-y divide-[var(--line)] border-y border-[var(--line)]">
@@ -524,7 +524,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
         </section>
 
         {/* 11 Final CTA */}
-        <section className="px-5 py-20 sm:py-28">
+        <section className="bg-[var(--panel)] px-5 py-20 sm:py-28">
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-3xl leading-tight font-semibold tracking-tight sm:text-5xl">
               Help bring Pocket Thought to life.
