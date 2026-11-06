@@ -2,6 +2,7 @@ import ContributeBox from "./_components/ContributeBox";
 import AppAnimation, { ComingSoon } from "./_components/AppAnimation";
 import DeviceModel from "./_components/DeviceModel";
 import EmailCapture from "./_components/EmailCapture";
+import Compare from "./_components/Compare";
 import { CONTACT_EMAIL, GOAL_USD } from "./_lib/config";
 import { paymentSettings, raisedUsd } from "./_lib/server";
 
@@ -320,6 +321,9 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
             </div>
           </div>
         </section>
+
+        {/* 5b Comparison */}
+        <Compare />
 
         {/* 6 Funding goal */}
         <section id="support" className="px-5 py-20 sm:py-28">
