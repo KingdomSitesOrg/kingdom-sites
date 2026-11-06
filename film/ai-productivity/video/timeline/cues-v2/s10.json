@@ -1,0 +1,9 @@
+[
+  { "frame": 1, "sound": "pop", "gain": -3, "note": "the Kingdom Sites mark" },
+  { "frame": 42, "sound": "tick", "gain": -8, "note": "kingdom-sites.com" },
+  { "frame": 66, "sound": "pop", "gain": -5, "note": "the Book a call button" },
+  { "frame": 150, "sound": "click", "gain": 0, "note": "the pointer presses Book a call" },
+  { "frame": 153, "sound": "whoosh", "gain": -12, "note": "the scheduler slides up" },
+  { "frame": 184, "sound": "click", "gain": 0, "note": "the pointer picks Thu 10:00 AM" },
+  { "frame": 190, "sound": "pop", "gain": -2, "note": "Call booked" }
+]

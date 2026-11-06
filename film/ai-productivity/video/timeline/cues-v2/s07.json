@@ -1,0 +1,14 @@
+[
+  { "frame": 1, "sound": "pop", "gain": -3, "note": "Claude's square arrives on its own" },
+  { "frame": 51, "sound": "whoosh", "gain": -10, "note": "the Slack workspace opens around it" },
+  { "frame": 78, "sound": "tick", "gain": -4, "note": "Claude's square settles into the sidebar's Apps list" },
+  { "frame": 88, "sound": "pop", "gain": -6, "pan": -0.3, "note": "the Connected apps card opens" },
+  { "frame": 107, "sound": "tick", "gain": -5, "pan": -0.2, "note": "Gmail: Connected" },
+  { "frame": 125, "sound": "tick", "gain": -5, "pan": -0.2, "note": "Google Drive: Connected" },
+  { "frame": 146, "sound": "type", "gain": -4, "note": "Maria types her question" },
+  { "frame": 170, "sound": "type", "gain": -6, "note": "typing continues (the @Claude mention)" },
+  { "frame": 188, "sound": "send", "gain": -4, "note": "Enter: the message lands in the channel" },
+  { "frame": 214, "sound": "bubble", "gain": -3, "note": "Claude's reply starts" },
+  { "frame": 234, "sound": "pop", "gain": -6, "note": "the handbook file chip" },
+  { "frame": 244, "sound": "tick", "gain": -8, "note": "the reactions" }
+]

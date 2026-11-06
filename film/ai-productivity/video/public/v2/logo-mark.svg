@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Kingdom Sites">
+  <title>Kingdom Sites</title>
+  <!-- A map pin, because the whole business is about being found locally, with
+       a crown inside it for the Kingdom half of the name. Two colours from the
+       site's own palette: the blue used for every action, the terracotta used
+       for every small accent. -->
+  <path
+    d="M60 113C60 113 19 76.5 19 49A41 41 0 0 1 101 49C101 76.5 60 113 60 113Z"
+    fill="#0a63c9"
+  />
+  <circle cx="60" cy="48" r="26" fill="#ffffff" />
+  <path
+    d="M45.5 60V40.5l7.5 7.2L60 36l7 11.7 7.5-7.2V60Z"
+    fill="#c05a2b"
+  />
+  <circle cx="45.5" cy="37.5" r="3" fill="#c05a2b" />
+  <circle cx="60" cy="32.8" r="3.2" fill="#c05a2b" />
+  <circle cx="74.5" cy="37.5" r="3" fill="#c05a2b" />
+</svg>

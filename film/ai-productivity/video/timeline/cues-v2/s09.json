@@ -1,0 +1,14 @@
+[
+  { "frame": 3, "sound": "type", "gain": -4, "note": "the person types the request" },
+  { "frame": 26, "sound": "type", "gain": -6, "note": "typing continues" },
+  { "frame": 42, "sound": "pop", "gain": -5, "note": "Claude's draft arrives" },
+  { "frame": 64, "sound": "type", "gain": -5, "note": "\"Looks good. Send it.\"" },
+  { "frame": 94, "sound": "bubble", "gain": -3, "note": "Claude declines" },
+  { "frame": 120, "sound": "pop", "gain": -3, "pan": 0.4, "note": "the guideline pops up and flags the line" },
+  { "frame": 134, "sound": "click", "gain": -6, "note": "the person starts selecting the line" },
+  { "frame": 153, "sound": "type", "gain": -4, "note": "the new line types in" },
+  { "frame": 170, "sound": "type", "gain": -6, "note": "typing continues" },
+  { "frame": 182, "sound": "tick", "gain": -3, "pan": 0.4, "note": "Meets your guidelines" },
+  { "frame": 204, "sound": "click", "gain": 0, "note": "the person presses Send" },
+  { "frame": 206, "sound": "send", "gain": -3, "note": "Sent" }
+]

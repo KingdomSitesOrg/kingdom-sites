@@ -1,0 +1,15 @@
+[
+  { "frame": 4, "sound": "type", "gain": -4, "note": "the person types the ask" },
+  { "frame": 28, "sound": "type", "gain": -6, "note": "typing continues" },
+  { "frame": 66, "sound": "bubble", "gain": -4, "note": "Claude starts searching" },
+  { "frame": 84, "sound": "tick", "gain": -6, "note": "web page 1 lands" },
+  { "frame": 92, "sound": "tick", "gain": -6, "note": "web page 2 lands" },
+  { "frame": 100, "sound": "tick", "gain": -6, "note": "web page 3 lands" },
+  { "frame": 116, "sound": "pop", "gain": -5, "note": "the budget spreadsheet lands" },
+  { "frame": 143, "sound": "pop", "gain": -3, "pan": -0.4, "note": "venue card 1" },
+  { "frame": 149, "sound": "pop", "gain": -3, "note": "venue card 2" },
+  { "frame": 155, "sound": "pop", "gain": -3, "pan": 0.4, "note": "venue card 3" },
+  { "frame": 165, "sound": "tick", "gain": -9, "pan": -0.4, "note": "In budget 1" },
+  { "frame": 170, "sound": "tick", "gain": -9, "note": "In budget 2" },
+  { "frame": 175, "sound": "tick", "gain": -9, "pan": 0.4, "note": "In budget 3" }
+]
