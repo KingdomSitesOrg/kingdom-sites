@@ -35,22 +35,41 @@ const DIFFERENT: [string, string][] = [
   ],
 ];
 
-const PRODUCTS = ["Pocket Thought", "Pebble Index 01", "Plaud NotePin S", "Bee Frontier", "Voice Memos on iPhone"];
+const PRODUCTS = ["Pocket Thought", "Pebble Index 01", "Ruune Note", "Plaud NotePin S", "Bee Frontier", "Voice Memos on iPhone"];
 
 const ROWS: [string, string[]][] = [
-  ["Price", ["$99 (planned)", "$99", "$179", "$74.99", "Free"]],
+  [
+    "Form",
+    [
+      "Pocket device, 90 × 38 × 7.6 mm",
+      "Ring",
+      "Card under 3 mm on the back of your phone; built mainly for conversations and meetings",
+      "Clip-on pin",
+      "Small module for a bracelet or clip",
+      "Your phone",
+    ],
+  ],
+  ["Price", ["$99 (planned)", "$99", "—", "$179", "$74.99", "Free"]],
   [
     "Subscription to keep transcribing",
-    ["None (planned)", "None", "300 free minutes a month; Pro $99.99 a year", "Pro $11.99 a month for full features", "None"],
+    [
+      "None (planned)",
+      "None",
+      "None for core features; Pro $9.99 a month, Max $19.99 a month",
+      "300 free minutes a month; Pro $99.99 a year",
+      "Pro $11.99 a month for full features",
+      "None",
+    ],
   ],
-  ["Where speech becomes text", ["On your phone", "On your phone", "Cloud", "Cloud", "On your phone"]],
-  ["Records with the phone away", ["Yes", "Yes (5-minute notes)", "Yes", "—", "It is the phone"]],
-  ["Category buttons", ["4 keys, renamable", "No (1 button)", "No (1 button)", "No", "No (folders)"]],
+  ["Where speech becomes text", ["On your phone", "On your phone", "—", "Cloud", "Cloud", "On your phone"]],
+  ["Records with the phone away", ["Yes", "Yes (5-minute notes)", "Yes (140-hour buffer)", "Yes", "—", "It is the phone"]],
+  ["Category buttons", ["4 keys, renamable", "No (1 button)", "No (1 button)", "No (1 button)", "No", "No (folders)"]],
   [
     "Battery",
     [
       "Rechargeable; months of light use (estimate, not yet measured)",
       "Not rechargeable; about 12–15 hours of recording in its life",
+      "20+ hours of recording",
       "20 hours of recording",
       "7 days",
       "Your phone’s",
@@ -61,6 +80,7 @@ const ROWS: [string, string[]][] = [
     [
       "In the app: last-seen map, nearer/farther meter; distance and direction on the newest iPhones",
       "—",
+      "—",
       "Yes",
       "—",
       "Your phone’s",
@@ -68,13 +88,14 @@ const ROWS: [string, string[]][] = [
   ],
   [
     "Records only when you press",
-    ["Yes; the key powers the microphone", "Yes", "Yes (press to start and stop)", "Press to start a session", "Yes"],
+    ["Yes; the key powers the microphone", "Yes", "Yes", "Yes (press to start and stop)", "Press to start a session", "Yes"],
   ],
-  ["Available", ["Prototype", "Shipping", "On sale", "On sale", "Built in"]],
+  ["Available", ["Prototype", "Shipping", "On sale", "On sale", "On sale", "Built in"]],
 ];
 
 const SOURCES = [
   ["Pebble", "https://repebble.com/index"],
+  ["Ruune", "https://www.ruune.ai/note"],
   ["Plaud", "https://www.plaud.ai/blogs/articles/plaud-notepin-vs-plaud-notepin-s"],
   ["Bee", "https://www.engadget.com/2287245/bee-frontier-bee-eclipse-bee-pro-launch/"],
   ["Apple", "https://support.apple.com/guide/voice-memos/vm4a03609f0d"],
@@ -138,10 +159,10 @@ export default function Compare() {
 
         {/* Tablet and desktop: one table */}
         <div className="mt-6 hidden overflow-hidden rounded-3xl ring-1 ring-black/10 md:block">
-          <table className="w-full table-fixed text-left text-[15px]">
+          <table className="w-full table-fixed text-left text-sm">
             <thead>
               <tr>
-                <th scope="col" className="w-[15%] bg-[var(--panel)] p-4">
+                <th scope="col" className="w-[13%] bg-[var(--panel)] p-4">
                   <span className="sr-only">Feature</span>
                 </th>
                 {PRODUCTS.map((name, p) => (
