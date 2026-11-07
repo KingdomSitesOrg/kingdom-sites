@@ -20,6 +20,9 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
     "public/pdf.worker.min.mjs",
+    // Pocket Thought (T-487): model-viewer and the Draco decoder, as their authors ship them.
+    "public/pocket-thought/vendor/**",
+    "public/pocket-thought/draco/**",
   ]),
 ]);
 
