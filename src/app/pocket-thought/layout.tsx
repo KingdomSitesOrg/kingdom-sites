@@ -2,11 +2,11 @@ import type { Metadata, Viewport } from "next";
 import "./pocket-thought.css";
 
 const DESCRIPTION =
-  "A distraction-free pocket device for recording ideas, tasks, prayers, and lessons — without pulling out your phone.";
+  "A pocket device for general thoughts, ideas, journal entries and reminders — without pulling out your phone.";
 
 // Shared by link with family and friends; kept out of search and the sitemap.
 export const metadata: Metadata = {
-  title: { absolute: "Pocket Thought — Help fund the first prototype" },
+  title: { absolute: "Pocket Thought — a thought partner for your pocket" },
   description: DESCRIPTION,
   alternates: { canonical: "/pocket-thought" },
   robots: { index: false, follow: false },

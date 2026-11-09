@@ -1,91 +1,112 @@
+import AppAnimation from "./_components/AppAnimation";
 import BuyQuestion from "./_components/BuyQuestion";
 import ContributeBox from "./_components/ContributeBox";
-import AppAnimation from "./_components/AppAnimation";
-import DeviceModel from "./_components/DeviceModel";
-import EmailCapture from "./_components/EmailCapture";
-import Compare, { PrivateByDesign, WorksWith } from "./_components/Compare";
-import { CONTACT_EMAIL, GOAL_USD } from "./_lib/config";
+import { CONTACT_EMAIL, GOAL_USD, PRICE_USD } from "./_lib/config";
 import { paymentSettings, raisedUsd } from "./_lib/server";
 
 export const dynamic = "force-dynamic";
 
 const usd = (n: number) => `$${n.toLocaleString("en-US")}`;
 
-const BREAKDOWN = [
-  ["Electronics & parts", 400],
-  ["PCB prototypes", 350],
-  ["Enclosure prototyping", 400],
-  ["Batteries / controls / spares", 250],
-  ["App / testing / assembly", 300],
-  ["Contingency", 300],
-] as const;
+type Tone = "teal" | "blue" | "amber" | "indigo";
 
-const USE_OF_FUNDS = [
-  "Prototype electronics",
-  "PCB design and test boards",
-  "Batteries, switches, microphones, and parts",
-  "Enclosure prototyping",
-  "App development and testing",
-  "Iteration and assembly",
+const tone = (t: Tone) => ({
+  color: `var(--${t})`,
+  background: `var(--${t}-tint)`,
+});
+
+const KEYS: [string, Tone][] = [
+  ["General", "teal"],
+  ["Reminders", "blue"],
+  ["Ideas", "amber"],
+  ["Journal", "indigo"],
 ];
 
-const FAQ: [string, React.ReactNode][] = [
+const FEATURES: [string, string, Tone, string][] = [
   [
-    "What is Pocket Thought?",
-    "A small, distraction-free device for capturing thoughts: 90 × 38 × 7.6 mm, with an aluminum body planned (the first prototypes are 3D-printed). Four keys run down the face. Press and hold a category’s own key to record into it, and release to save. The categories are General, To-do, Ideas and Journal by default, and you can rename them in the app. Each key carries one to four raised dots, so you can tell them apart by feel. There is no screen, no light and no speaker. It records offline on the device and syncs wirelessly to your phone when it’s nearby, with a native iPhone app first and Android later. No subscription for the basics.",
+    "Four keys, four places",
+    "General, Reminders, Ideas and Journal. Raised dots let you find each key by feel.",
+    "teal",
+    "M5 4h10M5 8h10M5 12h10M5 16h10",
   ],
   [
-    "Is this a finished product?",
-    "No. This is an early-stage prototype effort. Final features may evolve, and a finished product is not guaranteed.",
+    "Hold to record",
+    "Speak while you hold a key, let go to save. The microphone only gets power while a key is held.",
+    "blue",
+    "M10 3a2 2 0 012 2v5a2 2 0 01-4 0V5a2 2 0 012-2zM6 10a4 4 0 008 0M10 14v3",
   ],
   [
-    "What does my support fund?",
-    "Building the prototypes: electronics and parts, circuit board prototypes, enclosure prototyping, batteries, keys and spares, app development, testing and assembly, plus a contingency. The full breakdown is in the funding goal above.",
+    "Precision finding",
+    "Ultra-wideband inside, so your iPhone shows the distance and direction to your Pocket Thought.",
+    "indigo",
+    "M10 3l2.5 7.5L10 17l-2.5-6.5zM10 10h0",
   ],
   [
-    "Is my support refundable?",
-    "No. Support is a non-refundable gift toward building the prototypes.",
+    "Find your phone",
+    "Press a key combination and your phone rings.",
+    "amber",
+    "M7 3h6a1 1 0 011 1v12a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1zM9 14h2",
   ],
   [
-    "Will I get a device?",
-    "If the prototypes succeed, supporters may receive a Pocket Thought as a thank-you gift, but this is not guaranteed. Support is not a purchase and not a pre-order.",
+    "Works without your phone",
+    "Records on its own and passes notes to your phone the next time it’s nearby.",
+    "teal",
+    "M4 10a6 6 0 0110.4-4M16 10a6 6 0 01-10.4 4M14 3v3h-3M6 17v-3h3",
   ],
   [
-    "When will the prototype be built?",
-    "December: the development kit and the firmware port. January: the first custom circuit boards (5 to 10). Then 3D-printed prototypes go to testers, and after that pre-orders. These dates are targets, not promises.",
+    "Private, no subscription",
+    "Speech becomes text on your phone. No account, no monthly fee, no server of ours.",
+    "blue",
+    "M6 9V7a4 4 0 018 0v2M5 9h10v8H5z",
   ],
   [
-    "How much will it cost?",
-    "The planned price is $129, one model with ultra-wideband finding built in, and no subscription for the basics. It is not on sale yet. Supporting the prototype is a gift, not a purchase or a pre-order.",
+    "Sends to your apps",
+    "Reminders go to Apple Reminders. Notes are searchable and can go to Shortcuts or Todoist.",
+    "amber",
+    "M4 10h11M11 6l4 4-4 4",
   ],
   [
-    "How long does the battery last?",
-    "The battery is about 320–370 mAh, which we estimate gives months of light use per charge. That is an estimate until the prototypes are tested. It charges over USB-C.",
-  ],
-  [
-    "What if I lose it?",
-    "The app is designed to help you find it around the house: a map of where your phone last saw it, a warmer/colder signal meter, and distance and direction on newer iPhones.",
-  ],
-  [
-    "Does supporting give me a stake in Pocket Thought?",
-    "No. Support is a gift toward building the prototypes. It is not a purchase, not a pre-order and not a stake in the business.",
+    "Lives on your keys",
+    "Aluminum, 7.6 mm thin, keychain loop, months per charge (estimate), with a flashlight and camera shutter.",
+    "indigo",
+    "M7 7a3 3 0 106 0 3 3 0 00-6 0zM10 10v7M10 14h3M10 17h2",
   ],
 ];
 
-const DONE = [
-  "Product concept and spec",
-  "Case design v2, with 54 real parts placed",
-  "Custom board layout around a Nordic nRF54L15 radio module",
-  "Battery chosen",
-  "Microphone sound path and privacy rule: the mic only gets power while a key is held",
-  "Research on batteries, finding, Philippine regulations and costs",
+const OTHERS: [string, string, string, Tone][] = [
+  [
+    "Wearables",
+    "Rings and pins you put on every morning.",
+    "Pebble Index 01, Sandbar Stream",
+    "teal",
+  ],
+  [
+    "All-day recorders",
+    "Built to capture meetings and conversations, often with a monthly plan.",
+    "Plaud NotePin, Bee",
+    "amber",
+  ],
+  [
+    "Action buttons",
+    "Your words go to an app or AI agent to get a task done.",
+    "Flic Cue",
+    "blue",
+  ],
 ];
 
-const NEXT: [string, string][] = [
-  ["December", "Development kit and firmware port"],
-  ["January", "First custom circuit boards (5 to 10)"],
-  ["Then", "3D-printed prototypes to testers"],
-  ["Then", "Pre-orders"],
+const FAQ: [string, string][] = [
+  [
+    "Is it on sale?",
+    `Not yet. The planned price is $${PRICE_USD}, one model with precision finding built in and no subscription. Prototypes are being built now; dates are targets, not promises.`,
+  ],
+  [
+    "Which iPhones show precision finding?",
+    "iPhones with an ultra-wideband chip show distance and direction. Every iPhone gets a last-seen map and a nearer/farther meter.",
+  ],
+  [
+    "Is a contribution a pre-order?",
+    "No. Support is a non-refundable gift toward building the prototypes. It is not a purchase, not a pre-order and not a stake in the business. If the prototypes succeed, supporters may receive one as a thank-you, but that is not guaranteed.",
+  ],
 ];
 
 function Render({
@@ -118,37 +139,26 @@ function Render({
   );
 }
 
-function Primary({ href, children }: { href: string; children: React.ReactNode }) {
+function Icon({ d }: { d: string }) {
   return (
-    <a
-      href={href}
-      className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-[var(--ink)] px-7 text-base font-medium text-white transition hover:bg-black"
-    >
-      {children}
-    </a>
-  );
-}
-
-function Secondary({ href, children }: { href: string; children: React.ReactNode }) {
-  return (
-    <a
-      href={href}
-      className="inline-flex min-h-[48px] items-center justify-center rounded-full px-7 text-base font-medium text-[var(--ink)] ring-1 ring-black/20 transition hover:ring-black/50"
-    >
-      {children}
-    </a>
-  );
-}
-
-function Check() {
-  return (
-    <svg aria-hidden viewBox="0 0 20 20" className="mt-1 h-4 w-4 shrink-0 text-[var(--ink)]">
-      <path d="M4 10.5l3.5 3.5L16 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <svg aria-hidden viewBox="0 0 20 20" className="h-5 w-5">
+      <path
+        d={d}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
 
-export default async function Page({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
   const thanked = (await searchParams).thanks === "1";
   const raised = await raisedUsd();
   const pct = Math.min(100, (raised / GOAL_USD) * 100);
@@ -156,8 +166,8 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
   return (
     <>
       <header className="sticky top-0 z-20 border-b border-[var(--line)] bg-[var(--page)]/85 backdrop-blur">
-        <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-5">
-          <a href="#top" className="text-[17px] font-semibold tracking-tight">
+        <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-5">
+          <a href="#top" className="text-base font-semibold tracking-tight">
             Pocket Thought
           </a>
           <a
@@ -170,388 +180,225 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
       </header>
 
       <div id="top">
-        {/* 1 Hero */}
-        <section className="px-5 pt-12 pb-6 text-center sm:pt-20">
-          <h1 className="mx-auto max-w-4xl text-[2.6rem] leading-[1.05] font-semibold tracking-tight sm:text-7xl">
+        {/* Hero */}
+        <section className="bg-[linear-gradient(180deg,var(--indigo-tint)_0%,var(--page)_70%)] px-5 pt-10 pb-4 text-center sm:pt-14">
+          <p className="text-sm font-medium text-[var(--indigo)]">
+            A thought partner for your pocket
+          </p>
+          <h1 className="mx-auto mt-3 max-w-3xl text-4xl leading-[1.08] font-semibold tracking-tight sm:text-6xl">
             Capture the thought. Keep the moment.
           </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-[var(--muted)] sm:text-xl">
-            A distraction-free pocket device for recording ideas, tasks, prayers, and lessons — without pulling out your
-            phone.
+          <p className="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-[var(--muted)]">
+            Hold a key, say what’s on your mind, let go. No phone in your hand.
           </p>
-          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Primary href="#buy">Would you buy it?</Primary>
-            <Secondary href="#vision">See how it works</Secondary>
+          <ul className="mt-5 flex flex-wrap justify-center gap-2">
+            {KEYS.map(([k, t]) => (
+              <li
+                key={k}
+                className="rounded-full px-3 py-1 text-sm font-medium"
+                style={tone(t)}
+              >
+                {k}
+              </li>
+            ))}
+          </ul>
+          <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <a
+              href="#buy"
+              className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-[var(--ink)] px-7 text-base font-medium text-white hover:bg-black"
+            >
+              Would you buy it?
+            </a>
+            <a
+              href="#features"
+              className="inline-flex min-h-[48px] items-center justify-center rounded-full px-7 text-base font-medium ring-1 ring-black/20 hover:ring-black/50"
+            >
+              See what it does
+            </a>
           </div>
-          <div className="mx-auto mt-10 max-w-6xl overflow-hidden rounded-[28px]">
+          <div className="mx-auto mt-8 max-w-4xl overflow-hidden rounded-[24px]">
             <Render
               name="01-hero-front-three-quarter"
               wide
               priority
-              sizes="(min-width: 1152px) 1152px, 100vw"
-              alt="Pocket Thought concept render: a slim brushed-aluminum device with four keys in a column and a lighter cap at the top end"
+              sizes="(min-width: 896px) 896px, 100vw"
+              alt="Pocket Thought concept render: a slim aluminum device with four keys in a column"
             />
           </div>
         </section>
 
-        {/* 2 The Problem */}
-        <section id="vision" className="px-5 py-20 sm:py-28">
-          <div className="mx-auto max-w-3xl text-center">
-            <h2 className="text-3xl leading-tight font-semibold tracking-tight sm:text-5xl">
-              Phones capture thoughts — but also destroy focus.
+        {/* Features */}
+        <section id="features" className="px-5 py-14 sm:py-20">
+          <div className="mx-auto max-w-5xl">
+            <h2 className="text-center text-3xl font-semibold tracking-tight sm:text-4xl">
+              What it does
             </h2>
-            <p className="mt-6 text-lg leading-relaxed text-[var(--muted)] sm:text-xl">
-              The best ideas often come while walking, praying, working, or lying in bed at night. But pulling out a phone
-              opens the door to distraction. Notifications, apps, messages, and mental clutter get in the way. Pocket
-              Thought is built to solve that.
-            </p>
-          </div>
-        </section>
-
-        {/* 3 The Solution */}
-        <section className="bg-[var(--panel)] px-5 py-20 sm:py-28">
-          <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2">
-            <div>
-              <h2 className="text-3xl leading-tight font-semibold tracking-tight sm:text-5xl">
-                A dedicated device for your thoughts.
-              </h2>
-              <ul className="mt-8 space-y-3 text-lg">
-                {[
-                  "One key for each category",
-                  "Press and hold a key to record into it",
-                  "Release to save",
-                  "Syncs wirelessly to your phone when it’s nearby",
-                  "Review everything later in a clean app",
-                ].map((t) => (
-                  <li key={t} className="flex gap-3">
-                    <Check />
-                    <span>{t}</span>
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-8 rounded-2xl bg-white p-5 ring-1 ring-black/5">
-                <p className="leading-relaxed">
-                  <strong className="font-semibold">Privacy-first recording:</strong> Pocket Thought only records while a key
-                  is physically held down. The microphone only gets power while a key is held. No hidden recording. No
-                  passive listening.
-                </p>
-              </div>
-            </div>
-            <div className="overflow-hidden rounded-[28px]">
-              <Render
-                name="04-keys-close-up"
-                sizes="(min-width: 768px) 560px, 100vw"
-                alt="Close-up of the four keys, carrying one to four raised dots so you can tell them apart by feel"
-              />
-            </div>
-          </div>
-        </section>
-
-        {/* 4 How it works */}
-        <section className="px-5 py-20 sm:py-28">
-          <div className="mx-auto max-w-6xl">
-            <p className="text-center text-sm font-medium tracking-wide text-[var(--muted)] uppercase">How it works</p>
-            <h2 className="mx-auto mt-3 max-w-3xl text-center text-3xl leading-tight font-semibold tracking-tight sm:text-5xl">
-              Hold a key. Speak. Release. That’s it.
-            </h2>
-            <ol className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {[
-                "Find the key by feel: one to four dots",
-                "Press and hold it",
-                "Speak your thought",
-                "Release to save; it syncs when your phone is nearby",
-              ].map((t, i) => (
-                <li key={t} className="flex h-full flex-col rounded-3xl bg-[var(--panel)] p-6">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-sm font-semibold ring-1 ring-black/10">
-                    {i + 1}
+            <ul className="mt-10 grid gap-x-8 gap-y-7 sm:grid-cols-2">
+              {FEATURES.map(([title, body, t, d]) => (
+                <li key={title} className="flex gap-4">
+                  <span
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full"
+                    style={tone(t)}
+                  >
+                    <Icon d={d} />
                   </span>
-                  <span className="mt-5 text-lg leading-snug font-medium">{t}</span>
+                  <div>
+                    <h3 className="text-lg font-semibold">{title}</h3>
+                    <p className="mt-1 text-base leading-relaxed text-[var(--muted)]">
+                      {body}
+                    </p>
+                  </div>
                 </li>
               ))}
-            </ol>
-            <div className="mt-12 grid items-center gap-10 md:grid-cols-[1.2fr_1fr]">
-              <div className="overflow-hidden rounded-[28px]">
-                <Render
-                  name="02-side-profile"
-                  sizes="(min-width: 768px) 640px, 100vw"
-                  alt="Side profile: the body is 7.6 mm thin"
-                />
-              </div>
-              <ul className="flex flex-wrap gap-2 md:flex-col md:gap-3">
-                {[
-                  "No screen",
-                  "No lights",
-                  "No speaker",
-                  "No distractions",
-                  "No always-listening behavior",
-                ].map((t) => (
-                  <li
-                    key={t}
-                    className="rounded-full bg-[var(--panel)] px-4 py-2 text-base font-medium md:bg-transparent md:p-0 md:text-2xl md:tracking-tight"
-                  >
-                    {t}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="mt-16 rounded-[28px] bg-[var(--panel)] px-0 py-10 sm:px-10 sm:py-14">
-              <p className="mb-8 text-center text-sm font-medium tracking-wide text-[var(--muted)] uppercase">
-                The iPhone app
-              </p>
+            </ul>
+            <p className="mt-8 text-center text-sm text-[var(--muted)]">
+              This describes the planned device. The prototype is being built
+              now.
+            </p>
+            <div className="mt-10 rounded-[24px] bg-[var(--panel)] py-8 sm:px-8">
               <AppAnimation />
             </div>
           </div>
         </section>
 
-        {/* 5 What makes it different */}
-        <section className="bg-[var(--panel)] px-5 py-20 sm:py-28">
-          <div className="mx-auto max-w-6xl">
-            <h2 className="text-center text-3xl leading-tight font-semibold tracking-tight sm:text-5xl">
-              Built for intentional capture.
+        {/* Others */}
+        <section className="bg-[var(--panel)] px-5 py-14 sm:py-20">
+          <div className="mx-auto max-w-5xl">
+            <h2 className="text-center text-3xl font-semibold tracking-tight sm:text-4xl">
+              Others are building voice gadgets too.
             </h2>
-            <ul className="mx-auto mt-10 grid max-w-4xl gap-x-10 gap-y-3 text-lg sm:grid-cols-2">
-              {[
-                "Aluminum body planned, 90 × 38 × 7.6 mm",
-                "Four keys you can tell apart by feel",
-                "Hold-to-record privacy",
-                "Four categories: General, To-do, Ideas, Journal, renamable in the app",
-                "Records offline, syncs wirelessly to your phone",
-                "Months of light use per charge (estimate)",
-                "Find it around the house from the app",
-                "No subscription for the basics",
-              ].map((t) => (
-                <li key={t} className="flex gap-3">
-                  <Check />
-                  <span>{t}</span>
+            <p className="mx-auto mt-3 max-w-2xl text-center text-lg text-[var(--muted)]">
+              Most of them are one of these three.
+            </p>
+            <ul className="mt-8 grid gap-4 md:grid-cols-3">
+              {OTHERS.map(([title, body, examples, t]) => (
+                <li
+                  key={title}
+                  className="rounded-3xl bg-white p-6 ring-1 ring-black/5"
+                >
+                  <span
+                    className="inline-block rounded-full px-3 py-1 text-sm font-semibold"
+                    style={tone(t)}
+                  >
+                    {title}
+                  </span>
+                  <p className="mt-4 text-base leading-relaxed">{body}</p>
+                  <p className="mt-3 text-sm text-[var(--muted)]">
+                    For example: {examples}
+                  </p>
                 </li>
               ))}
             </ul>
-            <div className="mt-12 grid gap-4 md:grid-cols-2">
-              <DeviceModel />
-              <div className="overflow-hidden rounded-[28px]">
-                <Render
-                  name="05-top-end-close-up"
-                  sizes="(min-width: 1152px) 568px, (min-width: 768px) 50vw, 100vw"
-                  className="aspect-square object-cover"
-                  alt="The top end: a lighter window cap over the radio antenna, with the microphone slot"
-                />
-              </div>
-              <div className="overflow-hidden rounded-[28px]">
-                <Render
-                  name="06-inside"
-                  sizes="(min-width: 1152px) 568px, (min-width: 768px) 50vw, 100vw"
-                  className="aspect-square object-cover"
-                  alt="Inside, from the case model: the battery, the custom board, the radio module and USB-C"
-                />
-              </div>
-              <div className="overflow-hidden rounded-[28px]">
-                <Render
-                  name="03-back"
-                  sizes="(min-width: 1152px) 568px, (min-width: 768px) 50vw, 100vw"
-                  className="aspect-square object-cover"
-                  alt="Back of the device in brushed aluminum, with four small screws"
-                />
-              </div>
+            <div
+              className="mx-auto mt-8 max-w-3xl rounded-3xl p-6 text-center sm:p-8"
+              style={tone("indigo")}
+            >
+              <p className="text-xl leading-snug font-semibold sm:text-2xl">
+                Pocket Thought is a thought partner.
+              </p>
+              <p className="mt-3 text-base leading-relaxed text-[var(--ink)]">
+                Nothing to wear, nothing listening all day, nothing acting on
+                your behalf. It lives on your keys, records only while you hold
+                a key, and keeps your thoughts sorted and searchable on your
+                phone, ready when you want to look back.
+              </p>
             </div>
           </div>
         </section>
 
-        {/* 5b How it is different, comparison, apps, privacy */}
-        <Compare />
-        <WorksWith />
-        <PrivateByDesign />
-
         {/* Demand question */}
-        <section id="buy" className="scroll-mt-16 px-5 py-20 sm:py-28">
+        <section
+          id="buy"
+          className="bg-[linear-gradient(180deg,var(--page)_0%,var(--blue-tint)_100%)] px-5 py-14 sm:py-20"
+        >
           <BuyQuestion />
         </section>
 
-        {/* 6 Where it's at */}
-        <section id="progress" className="bg-[var(--panel)] px-5 py-20 sm:py-28">
-          <div className="mx-auto max-w-6xl">
-            <h2 className="text-center text-3xl leading-tight font-semibold tracking-tight sm:text-5xl">Where it’s at</h2>
-            <div className="mt-12 grid items-start gap-10 lg:grid-cols-[1fr_1.1fr]">
-              <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-1">
-                <div>
-                  <h3 className="text-sm font-medium tracking-wide text-[var(--muted)] uppercase">Done so far · 6–7 Nov 2026</h3>
-                  <ul className="mt-4 space-y-2.5 text-base">
-                    {DONE.map((t) => (
-                      <li key={t} className="flex gap-3">
-                        <Check />
-                        <span>{t}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="text-sm font-medium tracking-wide text-[var(--muted)] uppercase">Next</h3>
-                  <ol className="mt-4 space-y-2.5 text-base">
-                    {NEXT.map(([when, what]) => (
-                      <li key={what} className="flex gap-3">
-                        <span className="w-20 shrink-0 font-medium">{when}</span>
-                        <span>{what}</span>
-                      </li>
-                    ))}
-                  </ol>
-                  <p className="mt-4 text-sm text-[var(--muted)]">Dates are targets, not promises.</p>
-                </div>
-              </div>
-              <div className="overflow-hidden rounded-[28px] bg-white">
-                <Render
-                  name="07-exploded"
-                  sizes="(min-width: 1024px) 600px, 100vw"
-                  alt="Exploded view of case design v2: keys, aluminum shell with the radio window cap, button plate, custom board with the battery, back plate and screws"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 7 Funding goal */}
-        <section id="support" className="px-5 py-20 sm:py-28">
-          <div className="mx-auto max-w-6xl">
-            <h2 className="text-center text-3xl leading-tight font-semibold tracking-tight sm:text-5xl">
-              Help fund the first prototype.
-            </h2>
-            <div className="mx-auto mt-10 max-w-2xl">
-              <div className="flex items-baseline justify-between text-base">
+        {/* Support */}
+        <section id="support" className="px-5 py-14 sm:py-20">
+          <div className="mx-auto grid max-w-5xl items-start gap-10 lg:grid-cols-2">
+            <div>
+              <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+                Want to help build it?
+              </h2>
+              <p className="mt-4 text-lg leading-relaxed text-[var(--muted)]">
+                Gifts pay for the first prototypes: parts, circuit boards and
+                cases.
+              </p>
+              <div className="mt-6 flex items-baseline justify-between text-base">
                 <span>
-                  <strong className="text-2xl font-semibold">{usd(raised)}</strong>{" "}
+                  <strong className="text-2xl font-semibold">
+                    {usd(raised)}
+                  </strong>{" "}
                   <span className="text-[var(--muted)]">raised</span>
                 </span>
-                <span className="text-[var(--muted)]">Goal {usd(GOAL_USD)}</span>
+                <span className="text-[var(--muted)]">
+                  Goal {usd(GOAL_USD)}
+                </span>
               </div>
               <div
                 className="mt-3 h-3 overflow-hidden rounded-full bg-[var(--panel)] ring-1 ring-black/5"
                 role="progressbar"
-                aria-label="Raised towards the $2,000 goal"
+                aria-label={`Raised towards the ${usd(GOAL_USD)} goal`}
                 aria-valuemin={0}
                 aria-valuemax={GOAL_USD}
                 aria-valuenow={raised}
               >
-                <div className="h-full rounded-full bg-[var(--ink)]" style={{ width: `${pct}%` }} />
+                <div
+                  className="h-full rounded-full bg-[linear-gradient(90deg,var(--teal),var(--blue),var(--indigo))]"
+                  style={{ width: `${pct}%` }}
+                />
               </div>
+              <p className="mt-6 text-sm leading-relaxed text-[var(--muted)]">
+                Support is a non-refundable gift toward building the prototypes.
+                It is not a purchase, not a pre-order and not a stake in the
+                business. Dates are targets, features may change, and a finished
+                product or thank-you unit is not guaranteed.
+              </p>
             </div>
-
-            <div className="mt-14 grid gap-10 lg:grid-cols-2">
-              <div>
-                <table className="w-full text-base">
-                  <tbody>
-                    {BREAKDOWN.map(([label, amount]) => (
-                      <tr key={label} className="border-b border-[var(--line)]">
-                        <td className="py-3">{label}</td>
-                        <td className="py-3 text-right tabular-nums">{usd(amount)}</td>
-                      </tr>
-                    ))}
-                    <tr>
-                      <td className="py-3 font-semibold">Goal</td>
-                      <td className="py-3 text-right font-semibold tabular-nums">{usd(GOAL_USD)}</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <h3 className="mt-8 text-sm font-medium tracking-wide text-[var(--muted)] uppercase">Use of funds</h3>
-                <ul className="mt-3 grid gap-x-6 gap-y-2 text-base sm:grid-cols-2">
-                  {USE_OF_FUNDS.map((t) => (
-                    <li key={t} className="flex gap-2">
-                      <Check />
-                      <span>{t}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="order-first lg:order-none lg:sticky lg:top-20 lg:self-start">
-                <ContributeBox payments={paymentSettings()} thanked={thanked} />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 8 Supporter thank-you */}
-        <section className="bg-[var(--panel)] px-5 py-20 sm:py-24">
-          <div className="mx-auto max-w-3xl text-center">
-            <h2 className="text-3xl leading-tight font-semibold tracking-tight sm:text-5xl">
-              Early supporters help make the prototype real.
-            </h2>
-            <p className="mt-6 text-lg leading-relaxed sm:text-xl">
-              Your support is a non-refundable gift toward building the prototypes. If the prototypes succeed, supporters
-              may receive a Pocket Thought as a thank-you gift, but this is not guaranteed.
-            </p>
-            <p className="mt-4 text-base text-[var(--muted)]">
-              It is not a purchase, not a pre-order and not a stake in the business.
-            </p>
-          </div>
-        </section>
-
-        {/* 9 Important terms */}
-        <section className="px-5 py-20 sm:py-24">
-          <div className="mx-auto max-w-3xl">
-            <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">Important terms</h2>
-            <p className="mt-5 text-base leading-relaxed">
-              Support is a non-refundable gift toward building the Pocket Thought prototypes. By supporting, you understand
-              that:
-            </p>
-            <ul className="mt-4 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
-              <li>this is an early-stage prototype effort;</li>
-              <li>dates are targets and may change;</li>
-              <li>final features may evolve;</li>
-              <li>a finished product is not guaranteed;</li>
-              <li>support is not a purchase, not a pre-order and not a stake in the business;</li>
-              <li>a thank-you unit, if the prototypes succeed, is not guaranteed.</li>
-            </ul>
-          </div>
-        </section>
-
-        {/* 10 About the founder */}
-        <section className="bg-[var(--panel)] px-5 py-20 sm:py-24">
-          <div className="mx-auto max-w-3xl">
-            <h2 className="text-3xl leading-tight font-semibold tracking-tight sm:text-4xl">
-              Built by a founder who can actually make it.
-            </h2>
-            <p className="mt-6 text-lg leading-relaxed">
-              I’m a developer with experience in software, electronics, and product building. I’m designing the hardware,
-              firmware, and native app stack myself to create the first real working version of Pocket Thought.
-            </p>
+            <ContributeBox payments={paymentSettings()} thanked={thanked} />
           </div>
         </section>
 
         {/* FAQ */}
-        <section className="px-5 py-20 sm:py-24">
+        <section className="bg-[var(--panel)] px-5 py-14 sm:py-16">
           <div className="mx-auto max-w-3xl">
-            <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">FAQ</h2>
-            <div className="mt-6 divide-y divide-[var(--line)] border-y border-[var(--line)]">
+            <h2 className="text-2xl font-semibold tracking-tight">Questions</h2>
+            <div className="mt-5 divide-y divide-[var(--line)] border-y border-[var(--line)]">
               {FAQ.map(([q, a]) => (
                 <details key={q} className="group py-1">
-                  <summary className="flex min-h-[52px] cursor-pointer list-none items-center justify-between gap-4 text-lg font-medium [&::-webkit-details-marker]:hidden">
+                  <summary className="flex min-h-[48px] cursor-pointer list-none items-center justify-between gap-4 text-base font-medium [&::-webkit-details-marker]:hidden">
                     {q}
-                    <span aria-hidden className="text-2xl leading-none text-[var(--muted)] transition group-open:rotate-45">
+                    <span
+                      aria-hidden
+                      className="text-2xl leading-none text-[var(--muted)] transition group-open:rotate-45"
+                    >
                       +
                     </span>
                   </summary>
-                  <p className="pb-5 text-base leading-relaxed text-[var(--muted)]">{a}</p>
+                  <p className="pb-4 text-base leading-relaxed text-[var(--muted)]">
+                    {a}
+                  </p>
                 </details>
               ))}
             </div>
-          </div>
-        </section>
-
-        {/* 11 Final CTA */}
-        <section className="bg-[var(--panel)] px-5 py-20 sm:py-28">
-          <div className="mx-auto max-w-3xl text-center">
-            <h2 className="text-3xl leading-tight font-semibold tracking-tight sm:text-5xl">
-              Help bring Pocket Thought to life.
-            </h2>
-            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <Primary href="#support">Contribute Now</Primary>
-              <Secondary href={`mailto:${CONTACT_EMAIL}`}>Contact Me</Secondary>
-            </div>
-            <div className="mt-14">
-              <EmailCapture />
-            </div>
+            <p className="mt-6 text-base">
+              Questions or ideas?{" "}
+              <a
+                href={`mailto:${CONTACT_EMAIL}`}
+                className="font-medium text-[var(--blue)] underline underline-offset-4"
+              >
+                Email me
+              </a>
+              .
+            </p>
           </div>
         </section>
       </div>
 
-      <footer className="px-5 py-10 text-center text-sm text-[var(--muted)]">Pocket Thought</footer>
+      <footer className="px-5 py-8 text-center text-sm text-[var(--muted)]">
+        Pocket Thought
+      </footer>
     </>
   );
 }
