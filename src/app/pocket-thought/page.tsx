@@ -96,36 +96,6 @@ const FAQ: [string, string][] = [
   ],
 ];
 
-function Render({
-  name,
-  alt,
-  sizes,
-  wide,
-  priority,
-  className = "",
-}: {
-  name: string;
-  alt: string;
-  sizes: string;
-  wide?: boolean;
-  priority?: boolean;
-  className?: string;
-}) {
-  const [s, l] = wide ? [1200, 2400] : [800, 1600];
-  return (
-    <img
-      src={`/pocket-thought/renders/${name}-${s}.webp`}
-      srcSet={`/pocket-thought/renders/${name}-${s}.webp ${s}w, /pocket-thought/renders/${name}-${l}.webp ${l}w`}
-      sizes={sizes}
-      alt={alt}
-      loading={priority ? "eager" : "lazy"}
-      fetchPriority={priority ? "high" : "auto"}
-      decoding="async"
-      className={`block h-auto w-full ${className}`}
-    />
-  );
-}
-
 function Icon({ d }: { d: string }) {
   return (
     <svg aria-hidden viewBox="0 0 20 20" className="h-5 w-5">
@@ -160,49 +130,61 @@ export default function Page() {
 
       <div id="top">
         {/* Hero */}
-        <section className="bg-[linear-gradient(180deg,var(--indigo-tint)_0%,var(--page)_70%)] px-5 pt-10 pb-4 text-center sm:pt-14">
-          <p className="text-sm font-medium text-[var(--indigo)]">
-            A thought partner for your pocket
-          </p>
-          <h1 className="mx-auto mt-3 max-w-3xl text-4xl leading-[1.08] font-semibold tracking-tight sm:text-6xl">
-            Capture the thought. Keep the moment.
-          </h1>
-          <p className="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-[var(--muted)]">
-            Hold a key, say what’s on your mind, let go. No phone in your hand.
-          </p>
-          <ul className="mt-5 flex flex-wrap justify-center gap-2">
-            {KEYS.map(([k, t]) => (
-              <li
-                key={k}
-                className="rounded-full px-3 py-1 text-sm font-medium"
-                style={tone(t)}
-              >
-                {k}
-              </li>
-            ))}
-          </ul>
-          <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <a
-              href="#buy"
-              className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-[var(--ink)] px-7 text-base font-medium text-white hover:bg-black"
-            >
-              Would you buy it?
-            </a>
-            <a
-              href="#features"
-              className="inline-flex min-h-[48px] items-center justify-center rounded-full px-7 text-base font-medium ring-1 ring-black/20 hover:ring-black/50"
-            >
-              See what it does
-            </a>
-          </div>
-          <div className="mx-auto mt-8 max-w-4xl overflow-hidden rounded-[24px]">
-            <Render
-              name="01-hero-front-three-quarter"
-              wide
-              priority
-              sizes="(min-width: 896px) 896px, 100vw"
-              alt="Pocket Thought concept render: a slim aluminum device with four keys in a column"
+        {/* The build video comes first on phones and sits beside the text on
+            wider screens, so it is the first thing a visitor sees. */}
+        <section className="bg-[linear-gradient(180deg,var(--indigo-tint)_0%,var(--page)_70%)] px-5 pt-6 pb-10 sm:pt-10 md:pt-14 md:pb-16">
+          <div className="mx-auto grid max-w-5xl items-center gap-8 md:grid-cols-[1fr_auto] md:gap-12">
+            <video
+              src="/pocket-thought/film/build-loop.mp4"
+              poster="/pocket-thought/film/build-loop-poster.webp"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              width={720}
+              height={1280}
+              aria-label="Pocket Thought assembling itself, part by part"
+              className="mx-auto block h-auto w-[min(64vw,280px)] rounded-[24px] ring-1 ring-black/5 md:order-last md:w-[340px]"
             />
+            <div className="text-center md:text-left">
+              <p className="text-sm font-medium text-[var(--indigo)]">
+                A thought partner for your pocket
+              </p>
+              <h1 className="mx-auto mt-3 max-w-3xl text-4xl leading-[1.08] font-semibold tracking-tight sm:text-6xl md:mx-0 md:text-5xl lg:text-6xl">
+                Capture the thought. Keep the moment.
+              </h1>
+              <p className="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-[var(--muted)] md:mx-0">
+                Hold a key, say what’s on your mind, let go. No need to look at
+                your phone, whether it’s the middle of the night, you’re
+                driving, or your phone is dead.
+              </p>
+              <ul className="mt-5 flex flex-wrap justify-center gap-2 md:justify-start">
+                {KEYS.map(([k, t]) => (
+                  <li
+                    key={k}
+                    className="rounded-full px-3 py-1 text-sm font-medium"
+                    style={tone(t)}
+                  >
+                    {k}
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row md:justify-start">
+                <a
+                  href="#buy"
+                  className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-[var(--ink)] px-7 text-base font-medium text-white hover:bg-black"
+                >
+                  Would you buy it?
+                </a>
+                <a
+                  href="#features"
+                  className="inline-flex min-h-[48px] items-center justify-center rounded-full px-7 text-base font-medium ring-1 ring-black/20 hover:ring-black/50"
+                >
+                  See what it does
+                </a>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -237,32 +219,6 @@ export default function Page() {
             <div className="mt-10 rounded-[24px] bg-[var(--panel)] py-8 sm:px-8">
               <AppAnimation />
             </div>
-          </div>
-        </section>
-
-        {/* Build: the device assembling itself, silent loop at double speed */}
-        <section className="px-5 pb-14 sm:pb-20">
-          <div className="mx-auto max-w-5xl text-center">
-            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-              Built part by part.
-            </h2>
-            <p className="mx-auto mt-3 max-w-xl text-lg text-[var(--muted)]">
-              Every piece of the planned device, from the circuit board to the
-              last screw.
-            </p>
-            <video
-              src="/pocket-thought/film/build-loop.mp4"
-              poster="/pocket-thought/film/build-loop-poster.webp"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              width={720}
-              height={1280}
-              aria-label="Pocket Thought assembling itself, part by part"
-              className="mx-auto mt-8 block h-auto w-full max-w-[360px] rounded-[24px] ring-1 ring-black/5"
-            />
           </div>
         </section>
 
