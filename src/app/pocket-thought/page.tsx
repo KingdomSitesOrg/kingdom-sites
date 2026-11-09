@@ -240,6 +240,32 @@ export default function Page() {
           </div>
         </section>
 
+        {/* Build: the device assembling itself, silent loop at double speed */}
+        <section className="px-5 pb-14 sm:pb-20">
+          <div className="mx-auto max-w-5xl text-center">
+            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+              Built part by part.
+            </h2>
+            <p className="mx-auto mt-3 max-w-xl text-lg text-[var(--muted)]">
+              Every piece of the planned device, from the circuit board to the
+              last screw.
+            </p>
+            <video
+              src="/pocket-thought/film/build-loop.mp4"
+              poster="/pocket-thought/film/build-loop-poster.webp"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              width={720}
+              height={1280}
+              aria-label="Pocket Thought assembling itself, part by part"
+              className="mx-auto mt-8 block h-auto w-full max-w-[360px] rounded-[24px] ring-1 ring-black/5"
+            />
+          </div>
+        </section>
+
         {/* Others */}
         <section className="bg-[var(--panel)] px-5 py-14 sm:py-20">
           <div className="mx-auto max-w-5xl">
