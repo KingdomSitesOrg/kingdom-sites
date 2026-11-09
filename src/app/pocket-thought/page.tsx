@@ -1,12 +1,6 @@
 import AppAnimation from "./_components/AppAnimation";
 import BuyQuestion from "./_components/BuyQuestion";
-import ContributeBox from "./_components/ContributeBox";
-import { CONTACT_EMAIL, GOAL_USD, PRICE_USD } from "./_lib/config";
-import { paymentSettings, raisedUsd } from "./_lib/server";
-
-export const dynamic = "force-dynamic";
-
-const usd = (n: number) => `$${n.toLocaleString("en-US")}`;
+import { CONTACT_EMAIL } from "./_lib/config";
 
 type Tone = "teal" | "blue" | "amber" | "indigo";
 
@@ -39,7 +33,7 @@ const FEATURES: [string, string, Tone, string][] = [
     "Precision finding",
     "Ultra-wideband inside, so your iPhone shows the distance and direction to your Pocket Thought.",
     "indigo",
-    "M10 3l2.5 7.5L10 17l-2.5-6.5zM10 10h0",
+    "M10 16.5V4M4.5 9.5L10 4l5.5 5.5",
   ],
   [
     "Find your phone",
@@ -96,16 +90,8 @@ const OTHERS: [string, string, string, Tone][] = [
 
 const FAQ: [string, string][] = [
   [
-    "Is it on sale?",
-    `Not yet. The planned price is $${PRICE_USD}, one model with precision finding built in and no subscription. Prototypes are being built now; dates are targets, not promises.`,
-  ],
-  [
     "Which iPhones show precision finding?",
     "iPhones with an ultra-wideband chip show distance and direction. Every iPhone gets a last-seen map and a nearer/farther meter.",
-  ],
-  [
-    "Is a contribution a pre-order?",
-    "No. Support is a non-refundable gift toward building the prototypes. It is not a purchase, not a pre-order and not a stake in the business. If the prototypes succeed, supporters may receive one as a thank-you, but that is not guaranteed.",
   ],
 ];
 
@@ -154,15 +140,7 @@ function Icon({ d }: { d: string }) {
   );
 }
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
-}) {
-  const thanked = (await searchParams).thanks === "1";
-  const raised = await raisedUsd();
-  const pct = Math.min(100, (raised / GOAL_USD) * 100);
-
+export default function Page() {
   return (
     <>
       <header className="sticky top-0 z-20 border-b border-[var(--line)] bg-[var(--page)]/85 backdrop-blur">
@@ -312,52 +290,6 @@ export default async function Page({
           className="bg-[linear-gradient(180deg,var(--page)_0%,var(--blue-tint)_100%)] px-5 py-14 sm:py-20"
         >
           <BuyQuestion />
-        </section>
-
-        {/* Support */}
-        <section id="support" className="px-5 py-14 sm:py-20">
-          <div className="mx-auto grid max-w-5xl items-start gap-10 lg:grid-cols-2">
-            <div>
-              <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-                Want to help build it?
-              </h2>
-              <p className="mt-4 text-lg leading-relaxed text-[var(--muted)]">
-                Gifts pay for the first prototypes: parts, circuit boards and
-                cases.
-              </p>
-              <div className="mt-6 flex items-baseline justify-between text-base">
-                <span>
-                  <strong className="text-2xl font-semibold">
-                    {usd(raised)}
-                  </strong>{" "}
-                  <span className="text-[var(--muted)]">raised</span>
-                </span>
-                <span className="text-[var(--muted)]">
-                  Goal {usd(GOAL_USD)}
-                </span>
-              </div>
-              <div
-                className="mt-3 h-3 overflow-hidden rounded-full bg-[var(--panel)] ring-1 ring-black/5"
-                role="progressbar"
-                aria-label={`Raised towards the ${usd(GOAL_USD)} goal`}
-                aria-valuemin={0}
-                aria-valuemax={GOAL_USD}
-                aria-valuenow={raised}
-              >
-                <div
-                  className="h-full rounded-full bg-[linear-gradient(90deg,var(--teal),var(--blue),var(--indigo))]"
-                  style={{ width: `${pct}%` }}
-                />
-              </div>
-              <p className="mt-6 text-sm leading-relaxed text-[var(--muted)]">
-                Support is a non-refundable gift toward building the prototypes.
-                It is not a purchase, not a pre-order and not a stake in the
-                business. Dates are targets, features may change, and a finished
-                product or thank-you unit is not guaranteed.
-              </p>
-            </div>
-            <ContributeBox payments={paymentSettings()} thanked={thanked} />
-          </div>
         </section>
 
         {/* FAQ */}
