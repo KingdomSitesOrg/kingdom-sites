@@ -1,4 +1,5 @@
-import { NextResponse } from "next/server";
+import { after, NextResponse } from "next/server";
+import { notifyThomas } from "@/lib/notify";
 import { PRICE_USD, validAnswer } from "@/app/pocket-thought/_lib/config";
 import { storeAnswer } from "@/app/pocket-thought/_lib/server";
 
@@ -19,9 +20,15 @@ export async function POST(req: Request) {
   }
   try {
     const result = await storeAnswer(body.answer, PRICE_USD);
-    if (result === "not_connected") return NextResponse.json({ error: "not_connected" }, { status: 503 });
+    if (result === "not_connected")
+      return NextResponse.json({ error: "not_connected" }, { status: 503 });
   } catch {
     return NextResponse.json({ error: "store_failed" }, { status: 500 });
+  }
+  // Thomas asked for an email that just says "yes" each time someone says yes
+  // (2026-11-09). Sent to his inbox only, after the visitor already has their answer.
+  if (body.answer === "yes") {
+    after(() => notifyThomas("yes", "yes", ""));
   }
   return NextResponse.json({ ok: true });
 }
