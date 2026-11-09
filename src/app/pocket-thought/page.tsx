@@ -168,7 +168,9 @@ export default function Page() {
             Capture the thought. Keep the moment.
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-[var(--muted)]">
-            Hold a key, say what’s on your mind, let go. No phone in your hand.
+            Hold a key, say what’s on your mind, let go. No need to look at your
+            phone, whether it’s the middle of the night, you’re driving, or
+            your phone is dead.
           </p>
           <ul className="mt-5 flex flex-wrap justify-center gap-2">
             {KEYS.map(([k, t]) => (
