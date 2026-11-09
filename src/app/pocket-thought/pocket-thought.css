@@ -1,0 +1,26 @@
+/* Pocket Thought's own light look, inside the Kingdom Sites project (T-487). */
+.pocket-thought {
+  --ink: #1d1d1f;
+  --muted: #6e6e73;
+  --page: #fbfbfa;
+  --panel: #f2f2f3;
+  --line: rgba(0, 0, 0, 0.08);
+  /* One color per key, matching the app. Text shades pass 4.5:1 on white and on their tint. */
+  --teal: #0b7a6d;
+  --teal-tint: #e2f4f1;
+  --blue: #0a5fc8;
+  --blue-tint: #e6f0fd;
+  --amber: #9a5a00;
+  --amber-tint: #fdf1dc;
+  --indigo: #4b49c9;
+  --indigo-tint: #ecebfd;
+  min-height: 100vh;
+  background: var(--page);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.pocket-thought section[id] {
+  scroll-margin-top: 64px;
+}
