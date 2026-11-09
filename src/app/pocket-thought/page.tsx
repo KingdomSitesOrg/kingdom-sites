@@ -67,23 +67,24 @@ const FEATURES: [string, string, Tone, string][] = [
   ],
 ];
 
+// [kind of gadget, what that kind does, what Pocket Thought does instead, tone]
 const OTHERS: [string, string, string, Tone][] = [
   [
     "Wearables",
-    "Rings and pins you put on every morning.",
-    "Pebble Index 01, Sandbar Stream",
+    "Something you put on every morning.",
+    "Lives on your keys. Nothing to wear.",
     "teal",
   ],
   [
     "All-day recorders",
-    "Built to capture meetings and conversations, often with a monthly plan.",
-    "Plaud NotePin, Bee",
+    "Listen to meetings and conversations, often for a monthly fee.",
+    "Records only while you hold a key. No subscription.",
     "amber",
   ],
   [
     "Action buttons",
-    "Your words go to an app or AI agent to get a task done.",
-    "Flic Cue",
+    "Send your words off to an app or AI agent to get a task done.",
+    "Keeps your thoughts, sorted and searchable, for you to come back to.",
     "blue",
   ],
 ];
@@ -243,13 +244,14 @@ export default function Page() {
         <section className="bg-[var(--panel)] px-5 py-14 sm:py-20">
           <div className="mx-auto max-w-5xl">
             <h2 className="text-center text-3xl font-semibold tracking-tight sm:text-4xl">
-              Others are building voice gadgets too.
+              Here’s why Pocket Thought is different.
             </h2>
             <p className="mx-auto mt-3 max-w-2xl text-center text-lg text-[var(--muted)]">
-              Most of them are one of these three.
+              Other voice gadgets are wearables, all-day recorders or action
+              buttons. Ours is a thought partner.
             </p>
             <ul className="mt-8 grid gap-4 md:grid-cols-3">
-              {OTHERS.map(([title, body, examples, t]) => (
+              {OTHERS.map(([title, theirs, ours, t]) => (
                 <li
                   key={title}
                   className="rounded-3xl bg-white p-6 ring-1 ring-black/5"
@@ -260,10 +262,13 @@ export default function Page() {
                   >
                     {title}
                   </span>
-                  <p className="mt-4 text-base leading-relaxed">{body}</p>
-                  <p className="mt-3 text-sm text-[var(--muted)]">
-                    For example: {examples}
+                  <p className="mt-4 text-base leading-relaxed text-[var(--muted)]">
+                    {theirs}
                   </p>
+                  <p className="mt-4 border-t border-[var(--line)] pt-4 text-sm font-semibold">
+                    Pocket Thought
+                  </p>
+                  <p className="mt-1 text-base leading-relaxed">{ours}</p>
                 </li>
               ))}
             </ul>
@@ -272,13 +277,12 @@ export default function Page() {
               style={tone("indigo")}
             >
               <p className="text-xl leading-snug font-semibold sm:text-2xl">
-                Pocket Thought is a thought partner.
+                Ours is a thought partner.
               </p>
               <p className="mt-3 text-base leading-relaxed text-[var(--ink)]">
-                Nothing to wear, nothing listening all day, nothing acting on
-                your behalf. It lives on your keys, records only while you hold
-                a key, and keeps your thoughts sorted and searchable on your
-                phone, ready when you want to look back.
+                Not something to wear, not a recorder, not a remote control. A
+                place to put a thought the moment you have it, and find it again
+                when you want to look back.
               </p>
             </div>
           </div>
