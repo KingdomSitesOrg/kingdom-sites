@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
+import { validAnswer } from "@/app/pocket-thought/_lib/config";
 import { storeSignup } from "@/app/pocket-thought/_lib/server";
 
 // Pocket Thought email sign-ups are stored, never sent anything.
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(req: Request) {
-  let body: { email?: unknown; company?: unknown };
+  let body: { email?: unknown; company?: unknown; answer?: unknown };
   try {
     body = await req.json();
   } catch {
@@ -20,7 +21,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "bad_email" }, { status: 400 });
   }
   try {
-    const result = await storeSignup(email);
+    const result = await storeSignup(email, validAnswer(body.answer) ? body.answer : undefined);
     if (result === "not_connected") return NextResponse.json({ error: "not_connected" }, { status: 503 });
   } catch {
     return NextResponse.json({ error: "store_failed" }, { status: 500 });

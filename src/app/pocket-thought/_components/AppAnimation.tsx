@@ -3,21 +3,21 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import s from "./AppAnimation.module.css";
 
-type Mode = "General" | "To-do" | "Ideas" | "Journal";
+type Mode = "General" | "Reminders" | "Ideas" | "Journal";
 
 // One key per category, top to bottom; each step holds the next key.
 const STEPS: { mode: Mode; length: string; text: string }[] = [
   { mode: "General", length: "0:05", text: "Remember the book Sam mentioned." },
-  { mode: "To-do", length: "0:06", text: "Pick up the parts order before Friday." },
+  { mode: "Reminders", length: "0:06", text: "Pick up the parts order before Friday." },
   { mode: "Ideas", length: "0:12", text: "A pocket field guide for birdwatchers." },
   { mode: "Journal", length: "0:09", text: "Grateful for a quiet walk this morning." },
 ];
 
-const MODES: Mode[] = ["General", "To-do", "Ideas", "Journal"];
+const MODES: Mode[] = ["General", "Reminders", "Ideas", "Journal"];
 
 const TINT: Record<Mode, string> = {
-  General: "#6e6e73",
-  "To-do": "#0a7aff",
+  General: "#0b8577",
+  Reminders: "#0a66d6",
   Ideas: "#c77700",
   Journal: "#5e5ce6",
 };
@@ -31,7 +31,7 @@ type Row = { id: number; mode: Mode; length: string; text: string; when: string 
 
 const START_ROWS: Row[] = [
   { id: -1, mode: "Ideas", length: "0:08", text: "Morning walk route past the river.", when: "9:12 AM" },
-  { id: -2, mode: "To-do", length: "0:04", text: "Call about the workshop booking.", when: "Yesterday" },
+  { id: -2, mode: "Reminders", length: "0:04", text: "Call about the workshop booking.", when: "Yesterday" },
 ];
 
 const STILL_ROWS: Row[] = [{ id: 0, ...STEPS[0], when: "Just now" }, ...START_ROWS];
@@ -172,7 +172,7 @@ function ModeIcon({ mode }: { mode: Mode }) {
   return (
     <svg viewBox="0 0 16 16" className={s.modeIcon}>
       {mode === "General" && <path d="M3 8h1.5M6 5v6M8.5 3v10M11 6v4M13 8h0" {...p} />}
-      {mode === "To-do" && <path d="M3.5 8.5l3 3 6-7" {...p} />}
+      {mode === "Reminders" && <path d="M3.5 8.5l3 3 6-7" {...p} />}
       {mode === "Ideas" && <path d="M6 13h4M6.5 10.5c-1.5-1-2.5-2.3-2.5-4a4 4 0 018 0c0 1.7-1 3-2.5 4z" {...p} />}
       {mode === "Journal" && <path d="M4 2.5h7.5a1 1 0 011 1v10H5a1 1 0 01-1-1zM4 12.5a1 1 0 011-1h7.5M6.5 5.5h3.5" {...p} />}
     </svg>
@@ -219,9 +219,9 @@ function Phone({ rows }: { rows: Row[] }) {
             <span className={s.badge}>Planned</span>
           </div>
           <div className={s.soonRow}>
-            <span style={{ color: TINT["To-do"] }}>To-do</span>
+            <span style={{ color: TINT.Reminders }}>Reminders</span>
             <span className={s.arrow}>→</span>
-            <span>Reminders</span>
+            <span>Apple Reminders</span>
           </div>
           <div className={s.soonRow}>
             <span style={{ color: TINT.Ideas }}>Ideas</span>
