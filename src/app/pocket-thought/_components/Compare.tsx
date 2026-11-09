@@ -30,7 +30,7 @@ const DIFFERENT: [string, string][] = [
     "Rechargeable over USB-C. Our early estimate is months between charges with light daily use. We’ll publish real numbers once the first boards are tested.",
   ],
   [
-    "$99, the planned price.",
+    "$129, the planned price.",
     "With no subscription for the basics. It is not on sale yet, and supporting the prototype is not a pre-order.",
   ],
 ];
@@ -49,7 +49,7 @@ const ROWS: [string, string[]][] = [
       "Your phone",
     ],
   ],
-  ["Price", ["$99 (planned)", "$99", "—", "$179", "$74.99", "Free"]],
+  ["Price", ["$129 (planned)", "$99", "—", "$179", "$74.99", "Free"]],
   [
     "Subscription to keep transcribing",
     [

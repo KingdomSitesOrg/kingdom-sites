@@ -1,3 +1,4 @@
+import BuyQuestion from "./_components/BuyQuestion";
 import ContributeBox from "./_components/ContributeBox";
 import AppAnimation from "./_components/AppAnimation";
 import DeviceModel from "./_components/DeviceModel";
@@ -55,7 +56,7 @@ const FAQ: [string, React.ReactNode][] = [
   ],
   [
     "How much will it cost?",
-    "The planned price is $99, with no subscription for the basics. It is not on sale yet. Supporting the prototype is a gift, not a purchase or a pre-order.",
+    "The planned price is $129, one model with ultra-wideband finding built in, and no subscription for the basics. It is not on sale yet. Supporting the prototype is a gift, not a purchase or a pre-order.",
   ],
   [
     "How long does the battery last?",
@@ -160,10 +161,10 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
             Pocket Thought
           </a>
           <a
-            href="#support"
+            href="#buy"
             className="inline-flex min-h-[36px] items-center rounded-full bg-[var(--ink)] px-4 text-sm font-medium text-white hover:bg-black"
           >
-            Support
+            Would you buy it?
           </a>
         </div>
       </header>
@@ -179,8 +180,8 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
             phone.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Primary href="#support">Support the Prototype</Primary>
-            <Secondary href="#vision">See the Vision</Secondary>
+            <Primary href="#buy">Would you buy it?</Primary>
+            <Secondary href="#vision">See how it works</Secondary>
           </div>
           <div className="mx-auto mt-10 max-w-6xl overflow-hidden rounded-[28px]">
             <Render
@@ -359,6 +360,11 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
         <Compare />
         <WorksWith />
         <PrivateByDesign />
+
+        {/* Demand question */}
+        <section id="buy" className="scroll-mt-16 px-5 py-20 sm:py-28">
+          <BuyQuestion />
+        </section>
 
         {/* 6 Where it's at */}
         <section id="progress" className="bg-[var(--panel)] px-5 py-20 sm:py-28">

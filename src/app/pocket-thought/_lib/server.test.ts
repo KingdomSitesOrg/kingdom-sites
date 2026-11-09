@@ -60,3 +60,13 @@ describe('Pocket Thought checkout', () => {
     ).toBe(12500)
   })
 })
+
+describe('Pocket Thought demand question', () => {
+  it('accepts only yes, maybe or no', async () => {
+    const { validAnswer, PRICE_USD } = await import('./config')
+    expect(['yes', 'maybe', 'no'].every(validAnswer)).toBe(true)
+    expect(validAnswer('YES')).toBe(false)
+    expect(validAnswer(1)).toBe(false)
+    expect(PRICE_USD).toBe(129)
+  })
+})
