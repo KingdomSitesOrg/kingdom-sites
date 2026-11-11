@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { BIT_COUNT, MAX_PER_TAP, nameBits, type MuralState } from '../_lib/name'
 import { play } from '../_lib/sound'
 import {
   BLUE,
@@ -30,7 +31,14 @@ import {
    than the wall. At the foot the mural breaks up into the light page below.
    The name is laid left to right when the page opens; tiles dip under the
    pointer, and a tap lays new tiles in the colour picked below. Only the
-   tiles that are moving are redrawn, so a still wall costs nothing. */
+   tiles that are moving are redrawn, so a still wall costs nothing.
+
+   The name is the shared part (Thomas, 2026-11-11). A tile of it that is
+   still bare is drawn dim; one a visitor has laid is lit in the paint they
+   chose, and it stays: it is saved (/api/mural) and shows on every other
+   visitor's wall, arriving within half a minute on a wall that is already
+   open. A tap anywhere else on the wall still lays tiles, for that visit only.
+   The count is every tile laid on the wall by everyone. */
 
 const PAINTS = [
   { name: 'Orange', tone: ORANGE },
@@ -44,40 +52,21 @@ const SKY_TILE = 0
 const WALL_TILE = 1
 const PLAIN_TILE = 2
 
-/* The mural's lettering: each letter on a grid seven tiles tall. */
-const GLYPHS: Record<string, string[]> = {
-  K: ['X...X', 'X..X.', 'X.X..', 'XX...', 'X.X..', 'X..X.', 'X...X'],
-  I: ['XXX', '.X.', '.X.', '.X.', '.X.', '.X.', 'XXX'],
-  N: ['X...X', 'XX..X', 'X.X.X', 'X.X.X', 'X.X.X', 'X..XX', 'X...X'],
-  G: ['.XXX.', 'X...X', 'X....', 'X.XXX', 'X...X', 'X...X', '.XXX.'],
-  D: ['XXXX.', 'X...X', 'X...X', 'X...X', 'X...X', 'X...X', 'XXXX.'],
-  O: ['.XXX.', 'X...X', 'X...X', 'X...X', 'X...X', 'X...X', '.XXX.'],
-  M: ['X...X', 'XX.XX', 'X.X.X', 'X.X.X', 'X...X', 'X...X', 'X...X'],
-  S: ['.XXXX', 'X....', 'X....', '.XXX.', '....X', '....X', 'XXXX.'],
-  T: ['XXXXX', '..X..', '..X..', '..X..', '..X..', '..X..', '..X..'],
-  E: ['XXXXX', 'X....', 'X....', 'XXXX.', 'X....', 'X....', 'XXXXX'],
-}
+/* A tile of the name that nobody has laid yet: KINGDOM in dark slate, SITES in deep blue, only a
+   shade or two off the wall, so the name can be made out and the laid tiles stand out from it.
+   The closing tile is always the headline's orange. */
+const BARE = [[], ['#232836', '#272D3C', '#1F2431', '#2B3242'], ['#132A6E', '#152F7A', '#102461', '#183487'], ['#F2581C', '#F46A2E']]
 
-/* A lettering tile belongs to one of three families: KINGDOM in slate, SITES in the page's blue,
-   and one orange tile that closes the name like the headline's full stop. Clear enough to read at
-   a glance, still quieter than the headline in front of it. */
-const FAMILY = [[], ['#4A5368', '#525C73', '#434B5F', '#5B667F'], ['#2A5CFF', '#2450E0', '#1E46D6', '#3D6BFF'], ['#F2581C', '#F46A2E']]
-const INK_FAMILY = 1
-const BLUE_FAMILY = 2
-const ORANGE_FAMILY = 3
+/* A laid tile, by the paint it was laid in (the same order as PAINTS). */
+const LAID = [
+  ['#F2581C', '#F46A2E'],
+  ['#2A5CFF', '#2450E0', '#3D6BFF'],
+  ['#F7F5F0', '#E5E3DC', '#DCE6FF'],
+  ['#14161D', '#191C25'],
+]
 
-type Bit = { x: number; y: number; family: number }
-
-/** Adds a word's tiles to `out`, starting at (x, y) in letter-grid units. Returns the word's width. */
-function word(text: string, family: number, x: number, y: number, out: Bit[]): number {
-  let at = x
-  for (const ch of text) {
-    const glyph = GLYPHS[ch]
-    glyph.forEach((row, j) => row.split('').forEach((bit, k) => bit === 'X' && out.push({ x: at + k, y: y + j, family })))
-    at += glyph[0].length + 1
-  }
-  return at - 1 - x
-}
+/* How often an open wall asks what everyone else has laid. */
+const LOOK_EVERY_MS = 25_000
 
 export default function Wall({ children }: { children: ReactNode }) {
   const sectionRef = useRef<HTMLElement>(null)
@@ -107,6 +96,13 @@ export default function Wall({ children }: { children: ReactNode }) {
     let pend: (string | null)[] = []
     let specks: number[] = []
     let family = new Uint8Array(0)
+    // The name's numbered tile each cell belongs to (-1: not part of the name), and each numbered tile's cells.
+    let bitOf = new Int16Array(0)
+    let bitCells: number[][] = []
+    // The shared wall: each numbered tile's paint, -1 while bare. It outlives a rebuild of the canvas.
+    const shared = new Int8Array(BIT_COUNT).fill(-1)
+    // When this visitor last laid each numbered tile, so a slower answer from the server does not undo it.
+    const touched = new Float64Array(BIT_COUNT)
     let letters: number[] = []
     let byCol = new Map<number, number[]>()
     let firstCol = 0
@@ -117,6 +113,12 @@ export default function Wall({ children }: { children: ReactNode }) {
     let raf = 0
     let live = true
     const active = new Set<number>()
+
+    /** A tile of the name's tone right now: lit in its paint if laid, dim if bare. */
+    const nameTone = (i: number, h: number) => {
+      const paint = shared[bitOf[i]]
+      return paint >= 0 ? pick(LAID[paint], h) : pick(BARE[family[i]], h)
+    }
 
     const back = (a: number) => 1 + 2.70158 * Math.pow(a - 1, 3) + 1.70158 * Math.pow(a - 1, 2)
 
@@ -212,6 +214,8 @@ export default function Wall({ children }: { children: ReactNode }) {
       pend = new Array(n).fill(null)
       specks = []
       family = new Uint8Array(n)
+      bitOf = new Int16Array(n).fill(-1)
+      bitCells = Array.from({ length: BIT_COUNT }, () => [])
       letters = []
       byCol = new Map()
       active.clear()
@@ -280,28 +284,14 @@ export default function Wall({ children }: { children: ReactNode }) {
 
       // The mural: KINGDOM SITES. One line on a wide screen, two on a narrow one; twice the size from a tablet up.
       const size = W >= 640 ? 2 : 1
-      const bits: Bit[] = []
-      let unitsWide: number
-      let unitsTall: number
-      if (wide) {
-        const a = word('KINGDOM', INK_FAMILY, 0, 0, bits)
-        const b = word('SITES', BLUE_FAMILY, a + 3, 0, bits)
-        bits.push({ x: a + 3 + b + 1, y: 6, family: ORANGE_FAMILY })
-        unitsWide = a + 3 + b + 2
-        unitsTall = 7
-      } else {
-        unitsWide = word('KINGDOM', INK_FAMILY, 0, 0, bits)
-        const b = word('SITES', BLUE_FAMILY, 0, 9, bits)
-        bits.push({ x: b + 1, y: 15, family: ORANGE_FAMILY })
-        unitsTall = 16
-      }
+      const { bits, unitsWide, unitsTall } = nameBits(wide)
       firstCol = Math.max(0, Math.round((cols - unitsWide * size) / 2))
       lastCol = firstCol + unitsWide * size - 1
       // It sits in the open dark between the words and the foot of the mural.
       const from = Math.ceil(copyBottom / cell) + 3
       const to = Math.floor((H - cell * 16) / cell) - 2 - unitsTall * size
       const topRow = to > from ? Math.round(from + (to - from) * 0.5) : from
-      for (const bit of bits) {
+      bits.forEach((bit, id) => {
         for (let dy = 0; dy < size; dy++) {
           for (let dx = 0; dx < size; dx++) {
             const c = firstCol + bit.x * size + dx
@@ -311,7 +301,9 @@ export default function Wall({ children }: { children: ReactNode }) {
             kind[i] = SKY_TILE
             grout[i] = G_SKY
             family[i] = bit.family
-            tone[i] = pick(FAMILY[bit.family], hash(c, r, 23))
+            bitOf[i] = id
+            bitCells[id].push(i)
+            tone[i] = nameTone(i, hash(c, r, 23))
             // Laid left to right as the page opens.
             born[i] = animate ? 500 + ((c - firstCol) / (unitsWide * size)) * 900 + hash(c, r, 24) * 160 : -1
             letters.push(i)
@@ -320,7 +312,7 @@ export default function Wall({ children }: { children: ReactNode }) {
             else byCol.set(c, [i])
           }
         }
-      }
+      })
       wave = -1
       waveRest = 34
 
@@ -331,11 +323,48 @@ export default function Wall({ children }: { children: ReactNode }) {
       kick()
     }
 
-    /** Lays a small cluster of tiles around one cell, rippling outward. */
+    /** Takes the wall as the server has it: tiles others laid pop in, left to right. */
+    function take(state: MuralState) {
+      if (!Array.isArray(state?.cells)) return
+      const now = performance.now()
+      const span = Math.max(1, lastCol - firstCol)
+      for (let id = 0; id < BIT_COUNT; id++) {
+        const paint = state.cells[id]
+        if (paint === shared[id] || typeof paint !== 'number') continue
+        // This visitor's own tile, laid a moment ago, wins over an answer that was already on its way.
+        if (Date.now() - touched[id] < 6000) continue
+        shared[id] = paint
+        for (const i of bitCells[id]) {
+          pend[i] = nameTone(i, Math.random())
+          popAt[i] = still ? now - 1000 : now + 1 + (((i % cols) - firstCol) / span) * 700 + Math.random() * 120
+          born[i] = -1
+          active.add(i)
+        }
+      }
+      if (typeof state.total === 'number') setLaid((v) => Math.max(v, state.total))
+      kick()
+    }
+
+    let looking = false
+    const look = () => {
+      if (looking || document.hidden) return
+      looking = true
+      fetch('/api/mural', { cache: 'no-store' })
+        .then((r) => (r.ok ? r.json() : null))
+        .then((state) => state && live && take(state))
+        .catch(() => {})
+        .finally(() => {
+          looking = false
+        })
+    }
+
+    /** Lays a small cluster of tiles around one cell, rippling outward. Tiles of the name are saved for everyone. */
     function lay(c: number, r: number) {
       const now = performance.now()
-      const shade = PAINTS[paintRef.current].tone
+      const paint = paintRef.current
+      const shade = PAINTS[paint].tone
       let count = 0
+      const saved = new Set<number>()
       for (let dr = -2; dr <= 2; dr++) {
         for (let dc = -2; dc <= 2; dc++) {
           const cc = c + dc
@@ -343,18 +372,43 @@ export default function Wall({ children }: { children: ReactNode }) {
           if (cc < 0 || cc >= cols || rr < 0 || rr >= rows) continue
           const d = Math.abs(dc) + Math.abs(dr)
           const chance = d <= 1 ? 1 : d === 2 ? 0.55 : d === 3 ? 0.2 : 0
-          if (Math.random() >= chance) continue
+          if (Math.random() >= chance || count >= MAX_PER_TAP) continue
           const i = rr * cols + cc
+          count++
+          const id = bitOf[i]
+          if (id >= 0) {
+            // A tile of the name: every cell of it takes the paint, and it is saved.
+            if (saved.has(id)) continue
+            saved.add(id)
+            shared[id] = paint
+            touched[id] = Date.now()
+            for (const j of bitCells[id]) {
+              pend[j] = nameTone(j, Math.random())
+              popAt[j] = now + d * 45 + 1
+              born[j] = -1
+              active.add(j)
+            }
+            continue
+          }
           pend[i] = shade
           popAt[i] = now + d * 45 + 1
           born[i] = -1
           active.add(i)
-          count++
         }
       }
+      if (!count) return
       setLaid((v) => v + count)
       play('snap')
       kick()
+      fetch('/api/mural', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ lay: [...saved].map((id) => [id, paint]), count }),
+        keepalive: true,
+      })
+        .then((res) => (res.ok ? res.json() : null))
+        .then((state) => state && live && take(state))
+        .catch(() => {})
     }
 
     const cellAt = (e: PointerEvent | MouseEvent) => {
@@ -391,7 +445,7 @@ export default function Wall({ children }: { children: ReactNode }) {
       const now = performance.now()
       if (letters.length && Math.random() < 0.5) {
         const i = letters[Math.floor(Math.random() * letters.length)]
-        pend[i] = pick(FAMILY[family[i]], Math.random())
+        pend[i] = nameTone(i, Math.random())
         popAt[i] = now
         active.add(i)
       }
@@ -419,12 +473,17 @@ export default function Wall({ children }: { children: ReactNode }) {
     }
 
     let timer = 0
+    let lookTimer = 0
     const run = (yes: boolean) => {
       live = yes
       window.clearInterval(timer)
+      window.clearInterval(lookTimer)
       if (yes) {
         kick()
         if (!still) timer = window.setInterval(breathe, 95)
+        // While the wall is on screen it keeps up with what everyone else lays.
+        look()
+        lookTimer = window.setInterval(look, LOOK_EVERY_MS)
       }
     }
 
@@ -456,6 +515,7 @@ export default function Wall({ children }: { children: ReactNode }) {
       window.clearTimeout(fallback)
       window.clearTimeout(resizeTimer)
       window.clearInterval(timer)
+      window.clearInterval(lookTimer)
       cancelAnimationFrame(raf)
       seen.disconnect()
       section.removeEventListener('pointermove', onMove)
@@ -491,8 +551,9 @@ export default function Wall({ children }: { children: ReactNode }) {
             />
           ))}
         </div>
-        <span className="mu-picker-count" aria-hidden="true">
-          {String(laid).padStart(4, '0')}
+        <span className="mu-picker-count" title="Tiles laid on this wall by everyone">
+          <span aria-hidden="true">{String(laid).padStart(4, '0')}</span>
+          <span className="mu-picker-all"> laid by everyone</span>
         </span>
       </div>
     </section>

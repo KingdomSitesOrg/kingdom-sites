@@ -368,6 +368,8 @@ html.mu-html body {
   color: var(--stone);
   font-variant-numeric: tabular-nums;
 }
+/* What the count is, said in words where there is room for them. */
+.mu-picker-all { display: none; }
 
 /* ───────── Sections on the wall ───────── */
 
@@ -882,6 +884,7 @@ html.mu-html body {
   .mu-sound-label { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
   .mu-hero-copy { padding: 128px 32px 0; }
   .mu-picker { left: 32px; bottom: 26px; }
+  .mu-picker-all { display: inline; }
   .mu-section { padding: 110px 32px 0; }
   .mu-close { padding: 40px 32px 0; }
   .mu-flips { grid-template-columns: 1fr 1fr; }
@@ -919,4 +922,55 @@ html.mu-html body {
   .mu-maker { grid-template-columns: 5fr 7fr; gap: 72px; }
   .mu-band { margin-top: 140px; }
   .mu-close { padding: 60px 40px 0; }
+}
+
+/* ───────── The chat button, in tile ─────────
+   Ask Thomas is the studio's own button and sits outside the mural's element (AppShell). On this
+   page it is redrawn as one of the mural's buttons: square, paper, a hard blue shadow, a square
+   orange tile where the live site has a spark. Its typeface is set in layout.tsx. */
+body:has(.mu) .ki-square {
+  height: 44px;
+  padding: 0 14px 0 12px;
+  gap: 9px;
+  background: #f7f5f0;
+  color: #0a0c12;
+  border: 2px solid #0a0c12;
+  border-radius: 0;
+  box-shadow: 4px 4px 0 #2a5cff;
+  transition: transform 80ms steps(2, end), box-shadow 80ms steps(2, end);
+}
+body:has(.mu) .ki-square::after { content: none; }
+body:has(.mu) .ki-square .ki-spark { display: none; }
+body:has(.mu) .ki-square::before {
+  content: '';
+  width: 9px;
+  height: 9px;
+  flex: none;
+  background: #f2581c;
+  box-shadow: 11px 0 0 #2a5cff;
+  margin-right: 11px;
+}
+body:has(.mu) .ki-square-title {
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+body:has(.mu) .ki-square .ki-dot {
+  top: -6px;
+  right: -6px;
+  width: 10px;
+  height: 10px;
+  border-radius: 0;
+  background: #f2581c;
+  box-shadow: 0 0 0 2px #0a0c12;
+}
+body:has(.mu) .ki-square:focus-visible { outline: 2px solid #f2581c; outline-offset: 3px; }
+body:has(.mu) .ki-square:active { transform: translate(4px, 4px); box-shadow: 0 0 0 #2a5cff; }
+@media (hover: hover) {
+  body:has(.mu) .ki-square:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 #2a5cff; border-color: #0a0c12; }
+}
+@media (min-width: 760px) {
+  body:has(.mu) .ki-square { height: 46px; }
+  body:has(.mu) .ki-square-title { font-size: 12px; }
 }

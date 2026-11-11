@@ -37,6 +37,8 @@ export default function MuralLayout({ children }: Readonly<{ children: ReactNode
       {/* Marks the page as scripted before it paints, so pieces that rise into
           place start hidden only where a script will bring them in. */}
       <script dangerouslySetInnerHTML={{ __html: "document.currentScript.parentElement.classList.add('mu-js')" }} />
+      {/* The chat button sits outside this element, so the mural's wide typeface is handed to it by name (mural.css draws the rest). */}
+      <style dangerouslySetInnerHTML={{ __html: `body:has(.mu) .ki-square{font-family:${display.style.fontFamily},'Arial Black',system-ui,sans-serif}` }} />
       {children}
     </div>
   )
