@@ -436,6 +436,33 @@ html.mu-html body {
   transition: transform 340ms var(--snap) var(--d, 0ms);
 }
 
+/* The creature hops along the label's words, and a word it lands on turns to tiles for a moment (GemHop.tsx). */
+.mu-strays.is-gem { transform-origin: 50% 100%; will-change: transform; z-index: 2; }
+[data-hop] {
+  position: relative;
+  display: inline-block;
+  transition: color 60ms steps(1, end);
+}
+[data-hop].is-tiled { color: transparent; }
+.mu-word-tiles {
+  position: absolute;
+  display: grid;
+  gap: 1px;
+  pointer-events: none;
+}
+.mu-word-tiles i {
+  width: 6px;
+  height: 6px;
+  transform: scale(0);
+  animation: mu-word-tile 640ms var(--snap) both;
+}
+@keyframes mu-word-tile {
+  0% { transform: scale(0); }
+  22% { transform: scale(1); }
+  70% { transform: scale(1); }
+  100% { transform: scale(0); }
+}
+
 /* Rise into place (Fx.tsx marks each piece as it comes into view). */
 .mu-js [data-rise] {
   opacity: 0;

@@ -1,10 +1,11 @@
 import Link from 'next/link'
-import type { CSSProperties } from 'react'
+import { Fragment, type CSSProperties } from 'react'
 import InquiryForm from '@/components/InquiryForm'
 import { CONTACT_EMAIL, CONTACT_MAILTO, INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { PHOTOS, PROJECTS, SHOTS, type Shot } from '@/lib/work'
 import FlipTile from './_components/FlipTile'
 import Fx from './_components/Fx'
+import GemHop from './_components/GemHop'
 import MosaicShot from './_components/MosaicShot'
 import Strays from './_components/Strays'
 import TileBand from './_components/TileBand'
@@ -261,9 +262,18 @@ export default function MuralConcept() {
           </div>
           <div className="mu-head">
             <Strays seed={97} />
+            {/* Each word is marked so the creature can hop along them (GemHop.tsx). */}
             <p className="mu-eyebrow" data-rise>
-              Engineering: design, build, ship, maintain
+              <span className="mu-hop-words">
+                {['Engineering:', 'design,', 'build,', 'ship,', 'maintain'].map((word, i) => (
+                  <Fragment key={word}>
+                    {i ? ' ' : null}
+                    <span data-hop>{word}</span>
+                  </Fragment>
+                ))}
+              </span>
             </p>
+            <GemHop />
             <h2 id="maker-title" className="mu-h2" data-rise style={delay(60)}>
               Thomas Klein
             </h2>
