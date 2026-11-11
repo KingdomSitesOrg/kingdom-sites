@@ -762,6 +762,11 @@ html.mu-html body {
   background: linear-gradient(90deg, var(--orange) 0 6px, transparent 6px 8px, var(--blue) 8px 14px, transparent 14px 16px, var(--paper) 16px 22px);
 }
 .mu-close .mu-text { color: var(--mist); }
+/* The close is centred (Thomas, 2026-11-11): the heading, its line and the form sit on the page's
+   middle, as they do on the live home page. The form's own labels stay left; the footer stays as it was. */
+.mu-close-in > .mu-eyebrow { justify-content: center; }
+.mu-close-in > .mu-h2,
+.mu-close-in > .mu-text { text-align: center; margin-left: auto; margin-right: auto; }
 .mu-close .mu-cta { animation: none; }
 
 /* The live site's form, redrawn in the mural's own materials: square edges,
@@ -776,9 +781,9 @@ html.mu-html body {
   --color-line-strong: #3a3f4c;
   --color-accent: var(--orange);
   --color-accent-hover: var(--orange);
-  margin-top: 40px;
+  margin: 40px auto 0;
   max-width: 560px;
-  margin-right: 8px;
+  text-align: left;
 }
 .mu-form .tile-elevated {
   background: var(--ink-2);
