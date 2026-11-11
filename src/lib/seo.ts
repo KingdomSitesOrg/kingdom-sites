@@ -18,10 +18,11 @@ export const SHARE_URL = process.env.VERCEL_ENV === 'preview' ? 'https://preview
    A page that declares its own `openGraph` replaces the inherited one, picture
    included, so those pages list this one again. */
 export const SITE_OG_IMAGE = {
-  url: '/opengraph-image.jpg',
+  // The `?v=` only makes this a new address, so apps that kept the old picture fetch the mural one.
+  url: '/opengraph-image.jpg?v=mural',
   width: 1200,
   height: 630,
-  alt: 'Kingdom Sites — I build websites, apps and custom software. A laptop on a desk running Farzana Classroom.',
+  alt: 'Kingdom Sites. Custom software: I build apps, websites and platforms for businesses, schools and churches. The name Kingdom Sites laid in coloured tiles on a dark tiled wall.',
 }
 
 export const SITE_TITLE = 'Kingdom Sites — I build websites, apps and custom software.'

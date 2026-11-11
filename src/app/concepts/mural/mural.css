@@ -1,0 +1,1196 @@
+/* The Mural concept (/concepts/mural): a Kingdom Sites home page as a tiled wall.
+   Night-sky ink, an off-white wall, one orange and one blue. Everything here is
+   scoped to .mu, so nothing leaks into the live site. Phone first. */
+
+.mu {
+  --ink: #0a0c12;
+  --ink-2: #14161d;
+  --page: #efede6;
+  --paper: #f7f5f0;
+  --grout: #d3d1ca;
+  --stone: #6b6f78;
+  --body: #454953;
+  --mist: #b9bdc8;
+  --orange: #f2581c;
+  --blue: #2a5cff;
+  --display: var(--font-unbounded), 'Arial Black', system-ui, sans-serif;
+  --sans: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  --mono: var(--font-geist-mono), ui-monospace, 'SF Mono', monospace;
+  /* A quick settle with a small overshoot: the page's "snap". */
+  --snap: cubic-bezier(0.2, 0.9, 0.25, 1.25);
+  /* The header's height: taller on a desktop. */
+  --nav-h: 56px;
+  background: var(--page);
+  color: var(--ink-2);
+  font-family: var(--sans);
+  overflow-x: clip;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* The browser's own edges (overscroll, iOS bars) go dark with the sky. */
+html.mu-html,
+html.mu-html body {
+  background: #0a0c12;
+}
+
+.mu em,
+.mu i,
+.mu cite {
+  font-style: normal;
+}
+
+.mu ::selection {
+  background: var(--orange);
+  color: var(--ink);
+}
+
+.mu :focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
+
+.mu-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ───────── Header ───────── */
+
+.mu-nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 50;
+  height: var(--nav-h);
+  padding: 0 14px 6px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.mu-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: auto;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Four tiles that trade places when the name is hovered. */
+.mu-mark {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+.mu-mark i {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  transition: transform 180ms steps(2, end);
+}
+.mu-mark i:nth-child(1) { left: 0; top: 0; background: var(--orange); }
+.mu-mark i:nth-child(2) { left: 9px; top: 0; background: var(--paper); }
+.mu-mark i:nth-child(3) { left: 9px; top: 9px; background: var(--blue); }
+.mu-mark i:nth-child(4) { left: 0; top: 9px; background: #8e929a; }
+@media (hover: hover) { .mu-brand:hover .mu-mark i:nth-child(1) { transform: translate(9px, 0); } }
+@media (hover: hover) { .mu-brand:hover .mu-mark i:nth-child(2) { transform: translate(0, 9px); } }
+@media (hover: hover) { .mu-brand:hover .mu-mark i:nth-child(3) { transform: translate(-9px, 0); } }
+@media (hover: hover) { .mu-brand:hover .mu-mark i:nth-child(4) { transform: translate(0, -9px); } }
+
+.mu-links {
+  display: none;
+  gap: 4px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.mu-links a {
+  padding: 8px 10px;
+  color: var(--mist);
+  transition: color 80ms steps(1), background-color 80ms steps(1);
+}
+@media (hover: hover) { .mu-links a:hover { color: var(--ink); background: var(--paper); } }
+
+.mu-sound {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 4px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mist);
+  cursor: pointer;
+}
+.mu-sound-track {
+  position: relative;
+  width: 30px;
+  height: 16px;
+  border: 1.5px solid var(--mist);
+}
+.mu-sound-track i {
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: 9px;
+  height: 9px;
+  background: #5c616b;
+  transition: transform 110ms steps(2, end), background-color 110ms steps(1, end);
+}
+.mu-sound[aria-pressed='true'] .mu-sound-track i {
+  transform: translateX(14px);
+  background: var(--orange);
+}
+
+/* On a phone there is no room for the button's full words, so it shows the short ones. */
+.mu-nav-cta {
+  display: inline-block;
+  white-space: nowrap;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 11px;
+  text-transform: uppercase;
+  padding: 9px 11px;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 3px 3px 0 var(--orange);
+  transition: transform 80ms steps(2, end), box-shadow 80ms steps(2, end);
+}
+@media (hover: hover) { .mu-nav-cta:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--orange); } }
+.mu-nav-cta:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--orange); }
+
+.mu-wide { display: none; }
+/* The switch keeps its name for screen readers; on a phone only the switch itself shows. */
+.mu-sound-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+/* ───────── The drawer (phones and tablets) ─────────
+   Its button is nine tiles, three by three. Pressed, they spread apart and the menu drops out of
+   the header. The Sound switch lives in it on a phone, where the header has no room. */
+.mu-nav > .mu-sound { display: none; }
+.mu-drawer-btn {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  grid-template-columns: repeat(3, 7px);
+  gap: 2px;
+  place-content: center;
+  cursor: pointer;
+}
+.mu-drawer-btn i {
+  width: 7px;
+  height: 7px;
+  background: var(--paper);
+  transition: transform 160ms steps(3, end), background-color 160ms steps(1, end);
+}
+/* Open: the nine spread out from the middle; the corners and the middle take the page's colours. */
+.mu-drawer-btn[aria-expanded='true'] i:nth-child(1) { transform: translate(-3px, -3px); background: var(--orange); }
+.mu-drawer-btn[aria-expanded='true'] i:nth-child(2) { transform: translate(0, -3px); }
+.mu-drawer-btn[aria-expanded='true'] i:nth-child(3) { transform: translate(3px, -3px); background: var(--blue); }
+.mu-drawer-btn[aria-expanded='true'] i:nth-child(4) { transform: translate(-3px, 0); }
+.mu-drawer-btn[aria-expanded='true'] i:nth-child(5) { background: var(--orange); }
+.mu-drawer-btn[aria-expanded='true'] i:nth-child(6) { transform: translate(3px, 0); }
+.mu-drawer-btn[aria-expanded='true'] i:nth-child(7) { transform: translate(-3px, 3px); background: var(--blue); }
+.mu-drawer-btn[aria-expanded='true'] i:nth-child(8) { transform: translate(0, 3px); }
+.mu-drawer-btn[aria-expanded='true'] i:nth-child(9) { transform: translate(3px, 3px); background: var(--orange); }
+.mu-drawer-btn:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+
+.mu-drawer {
+  position: fixed;
+  z-index: 49;
+  inset: var(--nav-h) 0 auto 0;
+  max-height: calc(100dvh - var(--nav-h));
+  overflow-y: auto;
+  padding: 10px 16px 22px;
+  background: var(--ink);
+  color: var(--paper);
+  border-bottom: 4px solid var(--orange);
+  box-shadow: 0 8px 0 var(--blue);
+  animation: mu-drawer 200ms steps(4, end);
+}
+.mu-drawer[hidden] { display: none; }
+@keyframes mu-drawer {
+  from { transform: translateY(-14px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+.mu-drawer a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 15px 2px;
+  border-bottom: 2px solid #1b1f2a;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 19px;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+.mu-drawer a::before {
+  content: '';
+  width: 9px;
+  height: 9px;
+  flex: none;
+  background: var(--tile, var(--orange));
+}
+.mu-drawer a:nth-child(2n) { --tile: var(--blue); }
+.mu-drawer a:nth-child(3n) { --tile: var(--paper); }
+.mu-drawer a:active { background: var(--ink-2); }
+.mu-drawer .mu-sound { margin-top: 14px; padding: 8px 2px; font-size: 11px; }
+.mu-drawer .mu-sound-label { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
+.mu-drawer-shade {
+  position: fixed;
+  z-index: 48;
+  /* From under the header down: the header itself stays lit. */
+  inset: var(--nav-h) 0 0 0;
+  background: rgb(10 12 18 / 0.55);
+}
+.mu-drawer-shade[hidden] { display: none; }
+
+/* The row of tiles along the header's foot: it fills as the page is read. */
+.mu-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 6px;
+  background: repeating-linear-gradient(90deg, #1b1f2a 0 6px, transparent 6px 8px);
+}
+.mu-progress i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  background: repeating-linear-gradient(90deg, var(--orange) 0 6px, transparent 6px 8px);
+}
+.mu-progress i::after {
+  content: '';
+  position: absolute;
+  right: 2px;
+  top: 0;
+  width: 6px;
+  height: 6px;
+  background: var(--blue);
+}
+
+/* ───────── Hero ───────── */
+
+.mu-hero {
+  position: relative;
+  min-height: max(100svh, 720px);
+  background: var(--ink);
+  color: var(--paper);
+  overflow: hidden;
+  cursor: crosshair;
+}
+.mu-hero canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.mu-hero-copy {
+  position: relative;
+  z-index: 2;
+  width: fit-content;
+  max-width: 100%;
+  padding: 104px 20px 0;
+  pointer-events: none;
+}
+.mu-hero-copy a {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.mu-h1 {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(2.3rem, 10.8vw, 5.4rem);
+  line-height: 1;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+}
+.mu-h1 .l {
+  display: block;
+  animation: mu-line 520ms var(--snap) both;
+  animation-delay: calc(var(--i) * 90ms + 100ms);
+}
+/* The full stop is a tile, dropped in last. */
+.mu-dot {
+  display: inline-block;
+  width: 0.2em;
+  height: 0.2em;
+  margin-left: 0.07em;
+  background: var(--orange);
+  animation: mu-drop 420ms var(--snap) 520ms both;
+}
+
+.mu-sub {
+  margin-top: 22px;
+  max-width: 36ch;
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--mist);
+  animation: mu-line 520ms var(--snap) 380ms both;
+}
+/* The mural sentence takes its own line, in the wall's paper white. */
+.mu-sub-2 {
+  display: block;
+  margin-top: 6px;
+  color: var(--paper);
+}
+
+.mu-cta {
+  margin-top: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  animation: mu-line 520ms var(--snap) 470ms both;
+}
+
+/* Buttons press like a key: a hard shadow that the button drops onto. */
+.mu-btn {
+  --sh: var(--paper);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 17px;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 12.5px;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  background: var(--orange);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--sh);
+  transition: transform 90ms steps(2, end), box-shadow 90ms steps(2, end);
+  cursor: pointer;
+}
+.mu-btn span {
+  display: inline-block;
+  transition: transform 120ms steps(2, end);
+}
+@media (hover: hover) { .mu-btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--sh); } }
+@media (hover: hover) { .mu-btn:hover span { transform: translateX(4px); } }
+.mu-btn:active { transform: translate(4px, 4px); box-shadow: 0 0 0 var(--sh); }
+
+.mu-btn.is-ghost {
+  --sh: var(--blue);
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--paper);
+}
+.mu-btn.is-ink {
+  --sh: var(--orange);
+  background: var(--ink-2);
+  color: var(--paper);
+  border-color: var(--ink-2);
+}
+
+/* ───────── Sections on the wall ───────── */
+
+.mu-section {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 84px 20px 0;
+  scroll-margin-top: 40px;
+}
+
+.mu-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--stone);
+}
+.mu-eyebrow::before {
+  content: '';
+  width: 22px;
+  height: 6px;
+  background: linear-gradient(90deg, var(--orange) 0 6px, transparent 6px 8px, var(--blue) 8px 14px, transparent 14px 16px, var(--ink-2) 16px 22px);
+}
+
+.mu-h2 {
+  margin-top: 16px;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(1.6rem, 7vw, 3.5rem);
+  line-height: 1.02;
+  text-wrap: balance;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+}
+
+/* A patch of loose tiles beside a section's heading (Strays.tsx). */
+.mu-head { position: relative; }
+.mu-strays {
+  position: absolute;
+  right: 0;
+  top: -34px;
+  display: grid;
+  grid-template-columns: repeat(11, 9px);
+  gap: 2px;
+  pointer-events: none;
+}
+.mu-strays i {
+  width: 9px;
+  height: 9px;
+}
+/* The creature-shaped patch beside Thomas's name: a block of its own above the label on a phone. */
+.mu-strays.is-gem {
+  position: static;
+  width: fit-content;
+  margin-bottom: 20px;
+  grid-template-columns: repeat(12, 7px);
+}
+/* A little smaller than the page's other tiles (Thomas, 2026-11-11). */
+.mu-strays.is-gem i { width: 7px; height: 7px; }
+.mu-js .mu-strays i { transform: scale(0); }
+.mu-js .mu-strays.is-in i {
+  transform: none;
+  transition: transform 340ms var(--snap) var(--d, 0ms);
+}
+
+/* The creature hops along the label's words, and a word it lands on turns to tiles for a moment (GemHop.tsx). */
+.mu-strays.is-gem { transform-origin: 50% 100%; will-change: transform; z-index: 2; }
+/* The label stays on one line, so the hop runs from its left end to its right. */
+.mu-hop-words { white-space: nowrap; }
+.mu-maker .mu-eyebrow { letter-spacing: 0.06em; }
+[data-hop] {
+  position: relative;
+  display: inline-block;
+  transition: color 60ms steps(1, end);
+}
+[data-hop].is-tiled { color: transparent; }
+.mu-word-tiles {
+  position: absolute;
+  display: grid;
+  gap: 1px;
+  pointer-events: none;
+}
+.mu-word-tiles i {
+  width: 6px;
+  height: 6px;
+  transform: scale(0);
+  animation: mu-word-tile 640ms var(--snap) both;
+}
+@keyframes mu-word-tile {
+  0% { transform: scale(0); }
+  22% { transform: scale(1); }
+  70% { transform: scale(1); }
+  100% { transform: scale(0); }
+}
+
+/* Rise into place (Fx.tsx marks each piece as it comes into view). */
+.mu-js [data-rise] {
+  opacity: 0;
+  transform: translateY(18px);
+}
+.mu-js [data-rise].is-in {
+  opacity: 1;
+  transform: none;
+  transition: opacity 240ms linear var(--d, 0ms), transform 460ms var(--snap) var(--d, 0ms);
+}
+
+/* ───────── Work ───────── */
+
+.mu-work {
+  margin-top: 56px;
+  display: grid;
+  gap: 88px;
+}
+.mu-item {
+  display: grid;
+  gap: 30px;
+}
+.mu-num {
+  display: inline-block;
+  padding: 4px 7px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  background: var(--ink-2);
+  color: var(--paper);
+}
+.mu-name {
+  margin-top: 14px;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(1.3rem, 5.6vw, 2.05rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+.mu-chips {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.mu-chip {
+  padding: 5px 8px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--paper);
+  border: 1.5px solid var(--ink-2);
+}
+.mu-chip.is-live::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 7px;
+  background: var(--orange);
+  animation: mu-blink 1.3s steps(1, end) infinite;
+}
+.mu-text {
+  margin-top: 18px;
+  max-width: 46ch;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--body);
+}
+
+/* A link fills with orange from the foot, in three steps. */
+.mu-link {
+  display: inline-block;
+  margin-top: 18px;
+  padding: 2px 2px 3px;
+  font-weight: 600;
+  color: var(--ink-2);
+  background: linear-gradient(var(--orange), var(--orange)) no-repeat 0 100% / 100% 2px;
+  transition: background-size 130ms steps(3, end);
+}
+@media (hover: hover) { .mu-link:hover { background-size: 100% 100%; } }
+.mu-link span {
+  display: inline-block;
+  transition: transform 120ms steps(2, end);
+}
+@media (hover: hover) { .mu-link:hover span { transform: translateX(4px); } }
+
+/* A screen in a window: square "lights", a hard coloured shadow. */
+.mu-window {
+  --sh: var(--blue);
+  display: block;
+  border: 2px solid var(--ink-2);
+  background: var(--ink-2);
+  box-shadow: 6px 6px 0 var(--sh);
+  transition: transform 120ms steps(2, end), box-shadow 120ms steps(2, end);
+}
+@media (hover: hover) { .mu-window:hover { transform: translate(-3px, -3px); box-shadow: 9px 9px 0 var(--sh); } }
+.mu-window-bar {
+  height: 24px;
+  padding: 0 9px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8e929a;
+}
+.mu-window-bar i {
+  width: 7px;
+  height: 7px;
+  background: #8e929a;
+}
+.mu-window-bar i:nth-child(1) { background: var(--orange); }
+.mu-window-bar i:nth-child(2) { background: var(--blue); }
+.mu-window-bar span { margin-left: auto; }
+
+.mu-shot {
+  position: relative;
+  overflow: hidden;
+  background: #c3c4c5;
+}
+.mu-shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+}
+.mu-shot canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.mu-js .mu-shot:not(.is-done) img { opacity: 0; }
+.mu-shot.is-done canvas { display: none; }
+
+.mu-phones {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 0 6px 22px 0;
+}
+.mu-phone {
+  --sh: var(--orange);
+  padding: 4px;
+  border-radius: 15px;
+  background: var(--ink-2);
+  box-shadow: 4px 4px 0 var(--sh);
+  transition: transform 120ms steps(2, end), box-shadow 120ms steps(2, end);
+}
+.mu-phone .mu-shot { border-radius: 11px; }
+.mu-phone:nth-child(2) { margin-top: 22px; margin-bottom: -22px; }
+@media (hover: hover) { .mu-phone:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--sh); } }
+.mu-item:nth-child(odd) .mu-phone { --sh: var(--blue); }
+
+.mu-more {
+  margin-top: 72px;
+}
+
+/* The story of how a piece began, above its line. */
+.mu-story {
+  margin-top: 18px;
+  max-width: 34ch;
+  font-size: 19px;
+  line-height: 1.35;
+  font-weight: 600;
+  color: var(--ink);
+}
+.mu-story + .mu-text { margin-top: 10px; }
+.mu-links-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 22px;
+}
+
+/* The second wall section follows straight on from the portfolio's button. */
+#make.mu-section { padding-top: 64px; }
+
+/* ───────── What I make: four tiles that turn over ───────── */
+
+.mu-flips {
+  margin-top: 44px;
+  display: grid;
+  gap: 18px;
+  padding-right: 6px;
+}
+.mu-flip {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 190px;
+  text-align: left;
+  perspective: 900px;
+  cursor: pointer;
+}
+/* The tile's shadow stays put while the tile turns. */
+.mu-flip::before {
+  content: '';
+  position: absolute;
+  inset: 6px -6px -6px 6px;
+  background: var(--ink-2);
+}
+.mu-flip-in {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: transform 480ms cubic-bezier(0.3, 1.45, 0.4, 1);
+}
+@media (hover: hover) { .mu-flip:hover .mu-flip-in { transform: rotateX(8deg); } }
+.mu-flip[aria-pressed='true'] .mu-flip-in { transform: rotateX(180deg); }
+@media (hover: hover) { .mu-flip[aria-pressed='true']:hover .mu-flip-in { transform: rotateX(172deg); } }
+.mu-flip-face {
+  position: absolute;
+  inset: 0;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid var(--ink-2);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.mu-flip-front { background: var(--paper); }
+.mu-flip-back {
+  background: var(--bk);
+  color: var(--fg);
+  transform: rotateX(180deg);
+}
+.mu-flip-index {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+}
+.mu-flip-cell .mu-link { margin-top: 12px; }
+.mu-flip-line {
+  margin-top: 8px;
+  font-size: 13.5px;
+  line-height: 1.4;
+  color: var(--body);
+}
+.mu-flip-title {
+  margin-top: auto;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.2rem;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+.mu-flip-hint {
+  margin-left: 12px;
+  font-size: 10px;
+  color: var(--stone);
+  text-transform: uppercase;
+}
+/* A small patch of tiles in the colour waiting on the back. */
+.mu-flip-art {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  display: grid;
+  grid-template-columns: repeat(5, 9px);
+  gap: 2px;
+}
+.mu-flip-art i {
+  width: 9px;
+  height: 9px;
+  background: #e5e3dc;
+  transition: transform 140ms steps(2, end);
+}
+.mu-flip-art i.is-laid { background: var(--bk); }
+@media (hover: hover) { .mu-flip:hover .mu-flip-art i.is-laid { transform: scale(0.7); } }
+.mu-flip-body {
+  margin-top: auto;
+  font-size: 15.5px;
+  line-height: 1.45;
+  font-weight: 500;
+}
+
+/* ───────── The maker ───────── */
+
+.mu-maker {
+  display: grid;
+  gap: 34px;
+  align-items: center;
+}
+.mu-maker .mu-window {
+  --sh: var(--orange);
+  max-width: 420px;
+  margin-right: 8px;
+}
+
+/* ───────── The close: back out under the night sky ───────── */
+
+.mu-band {
+  margin-top: 96px;
+  line-height: 0;
+}
+.mu-band canvas {
+  display: block;
+  width: 100%;
+}
+
+.mu-close {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 34px 20px 0;
+  scroll-margin-top: 40px;
+}
+.mu-close-in {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.mu-close .mu-h2 {
+  font-size: clamp(2.1rem, 9.6vw, 5rem);
+  line-height: 1;
+}
+.mu-close .mu-eyebrow { color: #8e929a; }
+.mu-close .mu-eyebrow::before {
+  background: linear-gradient(90deg, var(--orange) 0 6px, transparent 6px 8px, var(--blue) 8px 14px, transparent 14px 16px, var(--paper) 16px 22px);
+}
+.mu-close .mu-text { color: var(--mist); }
+/* The close is centred (Thomas, 2026-11-11): the heading, its line and the form sit on the page's
+   middle, as they do on the live home page. The form's own labels stay left; the footer stays as it was. */
+.mu-close-in > .mu-eyebrow { justify-content: center; }
+.mu-close-in > .mu-h2,
+.mu-close-in > .mu-text { text-align: center; margin-left: auto; margin-right: auto; }
+.mu-close .mu-cta { animation: none; }
+
+/* The live site's form, redrawn in the mural's own materials: square edges,
+   ink panels, a paper button with a hard orange shadow. */
+.mu-form {
+  --color-surface: var(--ink-2);
+  --color-surface-2: #1b1f2a;
+  --color-ink: var(--paper);
+  --color-body: var(--mist);
+  --color-muted: #8e929a;
+  --color-line: #1b1f2a;
+  --color-line-strong: #3a3f4c;
+  --color-accent: var(--orange);
+  --color-accent-hover: var(--orange);
+  margin: 40px auto 0;
+  max-width: 560px;
+  text-align: left;
+}
+.mu-form .tile-elevated {
+  background: var(--ink-2);
+  border: 2px solid var(--paper);
+  border-radius: 0;
+  box-shadow: 8px 8px 0 var(--blue);
+}
+.mu-form input,
+.mu-form textarea {
+  background: var(--ink);
+  border-width: 2px;
+  border-radius: 0;
+  font-size: 16px;
+}
+.mu-form .btn-primary {
+  border-radius: 0;
+  background: var(--orange);
+  color: var(--ink);
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  padding: 14px 22px;
+  box-shadow: 4px 4px 0 var(--paper);
+  transition: transform 80ms steps(2, end), box-shadow 80ms steps(2, end);
+}
+.mu-form .btn-primary:hover { background: var(--orange); transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--paper); }
+.mu-form .btn-primary:active { transform: translate(4px, 4px); box-shadow: 0 0 0 var(--paper); }
+.mu-form .rounded-2xl { border-radius: 0; }
+
+.mu-foot-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+}
+
+.mu-foot {
+  margin-top: 110px;
+  /* Room below for the chat button, so it never covers the footer's links. */
+  padding: 18px 0 88px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  justify-content: space-between;
+  border-top: 2px solid #1b1f2a;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8e929a;
+}
+.mu-foot a {
+  color: var(--paper);
+  background: linear-gradient(var(--orange), var(--orange)) no-repeat 0 100% / 100% 2px;
+  padding-bottom: 3px;
+}
+
+/* The tiles that fly off a press (Fx.tsx). */
+.mu-bit {
+  position: fixed;
+  z-index: 90;
+  width: 6px;
+  height: 6px;
+  pointer-events: none;
+}
+
+/* ───────── Motion ───────── */
+
+@keyframes mu-line {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes mu-drop {
+  from { opacity: 0; transform: translateY(-1.6em); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes mu-blink {
+  0%, 60% { opacity: 1; }
+  61%, 100% { opacity: 0.25; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mu *,
+  .mu *::before,
+  .mu *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .mu-js [data-rise],
+  .mu-js .mu-strays i {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ───────── Wider screens ───────── */
+
+@media (min-width: 640px) {
+  .mu-nav { padding: 0 22px 6px 24px; }
+  .mu-brand { font-size: 13px; }
+  .mu-wide { display: inline; }
+  .mu-narrow { display: none; }
+  .mu-sound-label { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
+  .mu-nav > .mu-sound { display: inline-flex; }
+  .mu-drawer .mu-sound { display: none; }
+  .mu-hero-copy { padding: 128px 32px 0; }
+  .mu-section { padding: 110px 32px 0; }
+  .mu-close { padding: 40px 32px 0; }
+  .mu-flips { grid-template-columns: 1fr 1fr; }
+  .mu-flip { height: 210px; }
+  .mu-phones { gap: 18px; max-width: 520px; }
+  .mu-window { box-shadow: 8px 8px 0 var(--sh); }
+@media (hover: hover) { .mu-window:hover { box-shadow: 11px 11px 0 var(--sh); } }
+}
+
+@media (min-width: 960px) {
+  .mu { --nav-h: 76px; }
+  .mu-nav { padding: 0 32px 6px 36px; gap: 22px; }
+  .mu-brand { font-size: 17px; gap: 13px; }
+  .mu-mark { transform: scale(1.3); }
+  .mu-links { display: flex; gap: 8px; font-size: 13px; }
+  .mu-links a { padding: 10px 14px; }
+  .mu-sound { font-size: 12px; }
+  .mu-nav-cta { font-size: 13px; padding: 13px 18px; box-shadow: 4px 4px 0 var(--orange); }
+  .mu-drawer-btn, .mu-drawer, .mu-drawer-shade { display: none !important; }
+  .mu-strays { grid-template-columns: repeat(11, 12px); gap: 3px; top: -8px; }
+  .mu-strays i { width: 12px; height: 12px; }
+  .mu-strays.is-gem { grid-template-columns: repeat(12, 9px); gap: 2px; margin-bottom: 24px; }
+  .mu-strays.is-gem i { width: 9px; height: 9px; }
+  .mu-hero { min-height: max(100svh, 800px); }
+  .mu-hero-copy { padding: clamp(112px, 15vh, 160px) 0 0 max(40px, 6vw); }
+  .mu-h1 { font-size: clamp(3.4rem, 6.1vw, 5.6rem); }
+  .mu-sub { font-size: 19px; max-width: 38ch; }
+  .mu-section { padding: 140px 40px 0; }
+  .mu-work { gap: 130px; margin-top: 80px; }
+  .mu-item {
+    grid-template-columns: 5fr 7fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .mu-item:nth-child(even) .mu-media { order: -1; }
+  .mu-item:nth-child(even) { grid-template-columns: 7fr 5fr; }
+  .mu-phones { margin: 0 auto; }
+  .mu-flips { grid-template-columns: repeat(4, 1fr); margin-top: 60px; }
+  .mu-flip { height: 270px; }
+  #make.mu-section { padding-top: 96px; }
+  .mu-flip-art { grid-template-columns: repeat(5, 11px); }
+  .mu-flip-art i { width: 11px; height: 11px; }
+  .mu-maker { grid-template-columns: 5fr 7fr; gap: 72px; }
+  .mu-band { margin-top: 140px; }
+  .mu-close { padding: 60px 40px 0; }
+}
+
+/* ───────── The chat button, in tile ─────────
+   Ask Thomas is the studio's own button and sits outside the mural's element (AppShell). On this
+   page it is redrawn as one of the mural's buttons: square, paper, a hard blue shadow, a square
+   orange tile where the live site has a spark. Its typeface is set in layout.tsx. */
+body:has(.mu) .ki-square {
+  height: 44px;
+  padding: 0 14px 0 12px;
+  gap: 9px;
+  background: #f7f5f0;
+  color: #0a0c12;
+  border: 2px solid #0a0c12;
+  border-radius: 0;
+  box-shadow: 4px 4px 0 #2a5cff;
+  transition: transform 80ms steps(2, end), box-shadow 80ms steps(2, end);
+}
+body:has(.mu) .ki-square::after { content: none; }
+body:has(.mu) .ki-square .ki-spark { display: none; }
+body:has(.mu) .ki-square::before {
+  content: '';
+  width: 9px;
+  height: 9px;
+  flex: none;
+  background: #f2581c;
+  box-shadow: 11px 0 0 #2a5cff;
+  margin-right: 11px;
+}
+body:has(.mu) .ki-square-title {
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+body:has(.mu) .ki-square .ki-dot {
+  top: -6px;
+  right: -6px;
+  width: 10px;
+  height: 10px;
+  border-radius: 0;
+  background: #f2581c;
+  box-shadow: 0 0 0 2px #0a0c12;
+}
+body:has(.mu) .ki-square:focus-visible { outline: 2px solid #f2581c; outline-offset: 3px; }
+body:has(.mu) .ki-square:active { transform: translate(4px, 4px); box-shadow: 0 0 0 #2a5cff; }
+@media (hover: hover) {
+  body:has(.mu) .ki-square:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 #2a5cff; border-color: #0a0c12; }
+}
+@media (min-width: 760px) {
+  body:has(.mu) .ki-square { height: 46px; }
+  body:has(.mu) .ki-square-title { font-size: 12px; }
+}
+
+/* ───────── The chat panel, in tile ─────────
+   The panel the button opens, redrawn the same way: a sheet of paper with an ink edge and a hard
+   blue shadow, square everywhere, the page's orange for the one button that sends. Only colour,
+   edges and type change; how the chat works is the live site's. */
+body:has(.mu) .ki {
+  --bg: #efede6;
+  --bg-2: #f7f5f0;
+  --fg: #0a0c12;
+  --body: #454953;
+  --dim: #6b6f78;
+  --line: #0a0c12;
+}
+body:has(.mu) .ki-panel {
+  border: 2px solid #0a0c12;
+  border-radius: 0;
+  box-shadow: 8px 8px 0 #2a5cff;
+  animation-timing-function: steps(4, end);
+}
+/* On a phone the live site's own rule for the floating panel is more specific than these, so the
+   square edge and hard shadow are insisted on there. */
+@media (max-width: 759px), (max-height: 520px) {
+  body:has(.mu) .ki .ki-panel {
+    border: 2px solid #0a0c12 !important;
+    border-radius: 0 !important;
+    box-shadow: 5px 5px 0 #2a5cff !important;
+  }
+}
+
+/* The head: an ink band, like the page's header, with the title in the wide face. */
+body:has(.mu) .ki-head {
+  background: #0a0c12;
+  color: #f7f5f0;
+  border-bottom: 0;
+  padding: 16px 10px 14px 18px;
+  /* A row of tiles along its foot, as under the page's header. */
+  box-shadow: inset 0 -4px 0 #f2581c;
+}
+body:has(.mu) .ki-title {
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: #f7f5f0;
+  gap: 20px;
+}
+body:has(.mu) .ki-title .ki-spark { display: none; }
+body:has(.mu) .ki-title::before {
+  content: '';
+  width: 9px;
+  height: 9px;
+  flex: none;
+  background: #f2581c;
+  box-shadow: 11px 0 0 #2a5cff;
+}
+body:has(.mu) .ki-sub {
+  margin-top: 9px;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #b9bdc8;
+}
+body:has(.mu) .ki-close { border-radius: 0; color: #f7f5f0; }
+body:has(.mu) .ki-close:hover { background: #f7f5f0; color: #0a0c12; }
+body:has(.mu) .ki-close:focus-visible { outline-color: #f2581c; }
+body:has(.mu) .ki-edge { height: 3px; }
+body:has(.mu) .ki-panel[data-busy] .ki-edge::after { background: #2a5cff; }
+
+/* The conversation. */
+body:has(.mu) .ki-chip {
+  border: 2px solid #0a0c12;
+  border-radius: 0;
+  background: #f7f5f0;
+  font-weight: 500;
+  box-shadow: 3px 3px 0 #0a0c12;
+  transition: transform 80ms steps(2, end), box-shadow 80ms steps(2, end);
+}
+body:has(.mu) .ki-chip:hover { border-color: #0a0c12; transform: translate(-1px, -1px); box-shadow: 4px 4px 0 #f2581c; }
+body:has(.mu) .ki-chip:active { transform: translate(3px, 3px); box-shadow: 0 0 0 #0a0c12; }
+body:has(.mu) .ki-suggest { gap: 10px; padding-right: 4px; }
+body:has(.mu) .ki-q,
+body:has(.mu) .km-mine .km-bubble { border-radius: 0; background: #0a0c12; color: #f7f5f0; }
+body:has(.mu) .km-his .km-bubble { border-radius: 0; background: #2a5cff; color: #f7f5f0; }
+body:has(.mu) :is(.ki-a, .ki-note, .ki-card-error) a { text-decoration-color: #f2581c; text-decoration-thickness: 2px; }
+body:has(.mu) .ki-think-word { background: none; color: #6b6f78; animation: none; }
+body:has(.mu) .ki-bar { border-radius: 0; background: #d3d1ca; }
+body:has(.mu) .ki-bar::after { background: linear-gradient(90deg, transparent, #f7f5f0, transparent); }
+body:has(.mu) .ki-send { border: 2px solid #0a0c12; border-radius: 0; background: #f7f5f0; }
+body:has(.mu) .ki-send:hover { border-color: #0a0c12; background: #f2581c; }
+body:has(.mu) .km-promise { border-radius: 0; background: #e5e3dc; letter-spacing: 0.06em; text-transform: uppercase; font-size: 10.5px; }
+
+/* The question box and the button that sends. */
+body:has(.mu) .ki-form {
+  border: 2px solid #0a0c12;
+  border-radius: 0;
+  background: #f7f5f0;
+  padding: 4px 4px 4px 12px;
+  align-items: center;
+}
+body:has(.mu) .ki-form:focus-within { border-color: #2a5cff; }
+body:has(.mu) .ki-ask { border-radius: 0; background: #f2581c; color: #0a0c12; }
+body:has(.mu) .ki-ask:disabled { background: #d3d1ca; opacity: 1; color: #6b6f78; }
+body:has(.mu) .ki-ask:focus-visible { outline-color: #0a0c12; }
+body:has(.mu) .ki-foot { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+/* The two tabs along the foot. */
+body:has(.mu) .ki-tabs { border-top: 2px solid #0a0c12; gap: 0; padding: 0; }
+body:has(.mu) .ki-tab {
+  border-radius: 0;
+  min-height: 48px;
+  font-weight: 700;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  color: #6b6f78;
+}
+body:has(.mu) .ki-tab + .ki-tab { border-left: 2px solid #0a0c12; }
+body:has(.mu) .ki-tab[aria-pressed='true'] { background: #0a0c12; color: #f7f5f0; }
+body:has(.mu) .ki-tab:focus-visible { outline-color: #f2581c; }
+body:has(.mu) .ki-dot-tab { border-radius: 0; background: #f2581c; }
+
+/* Writing to Thomas, and the card that sends a question on to him. */
+body:has(.mu) :is(.km-intro-title, .ki-card-title) { font-weight: 700; font-size: 14px; letter-spacing: 0; text-transform: uppercase; }
+body:has(.mu) .ki-card { border: 2px solid #0a0c12; border-radius: 0; background: #f7f5f0; }
+body:has(.mu) :is(.ki-input, .km-textarea) { border: 2px solid #0a0c12; border-radius: 0; background: #fff; }
+body:has(.mu) :is(.ki-input, .km-textarea):focus { border-color: #2a5cff; }
+body:has(.mu) .ki-label { font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; }
+body:has(.mu) .ki-btn {
+  border-radius: 0;
+  background: #f2581c;
+  color: #0a0c12;
+  font-weight: 700;
+  font-size: 11px;
+  text-transform: uppercase;
+  box-shadow: 3px 3px 0 #0a0c12;
+}
+body:has(.mu) .ki-btn:hover:not(:disabled) { background: #f2581c; transform: translate(-1px, -1px); box-shadow: 4px 4px 0 #0a0c12; }
+body:has(.mu) .ki-card-error { color: #b8400f; }
+body:has(.mu) .ki-link:focus-visible { border-radius: 0; }
+body:has(.mu) .km-check input { accent-color: #f2581c; }

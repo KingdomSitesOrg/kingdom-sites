@@ -100,7 +100,7 @@ export default function AppShell({
   const standalone =
     ownChrome ||
     section === 'farzana' ||
-    ['/tap-to-tick', '/latin-game', '/farzana', '/ministry', '/prayer', '/marketing-frame', '/sign', '/calc', '/full-potential', '/strata', '/inbox', '/pocket-thought'].some((p) =>
+    ['/tap-to-tick', '/latin-game', '/farzana', '/ministry', '/prayer', '/marketing-frame', '/sign', '/calc', '/full-potential', '/strata', '/inbox', '/pocket-thought', '/concepts'].some((p) =>
       pathname?.startsWith(p),
     )
 
@@ -119,8 +119,10 @@ export default function AppShell({
   // The Get started page has the chat built into the page, so no second one floats there.
   // Nor on the STRATA concept page (/strata), which is a made-up company's site, full bleed,
   // nor in Thomas's own message inbox (/inbox), nor on Pocket Thought (/pocket-thought), which is
-  // its own product page with its own look (T-487).
-  const concept = section === 'strata'
+  // its own product page with its own look (T-487). Nor on a concept page (/concepts/…),
+  // which is a trial look for the site and draws everything itself. The Mural concept is
+  // the exception: it is being tried as the home page, so it carries the chat like the home page does.
+  const concept = section === 'strata' || (section === 'concepts' && !pathname?.startsWith('/concepts/mural'))
   const intelligence =
     concept || section === 'farzana' || pathname?.startsWith('/sign/s/') || pathname === '/get-started' || pathname?.startsWith('/inbox') || pathname?.startsWith('/pocket-thought') ? null : <Intelligence />
 
