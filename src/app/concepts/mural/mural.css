@@ -403,18 +403,12 @@ html.mu-html body {
   width: 9px;
   height: 9px;
 }
-/* The pixel creature beside Thomas's name: a block of its own above the label on a phone.
-   No gaps between its tiles, so it reads as one small figure. */
+/* The creature-shaped patch beside Thomas's name: a block of its own above the label on a phone. */
 .mu-strays.is-gem {
   position: static;
   width: fit-content;
   margin-bottom: 22px;
-  grid-template-columns: repeat(12, 7px);
-  gap: 0;
-}
-.mu-strays.is-gem i {
-  width: 7px;
-  height: 7px;
+  grid-template-columns: repeat(12, 9px);
 }
 .mu-js .mu-strays i { transform: scale(0); }
 .mu-js .mu-strays.is-in i {
@@ -803,8 +797,7 @@ html.mu-html body {
   .mu-links { display: flex; }
   .mu-strays { grid-template-columns: repeat(11, 12px); gap: 3px; top: -8px; }
   .mu-strays i { width: 12px; height: 12px; }
-  .mu-strays.is-gem { position: absolute; right: 0; top: auto; bottom: calc(100% + 28px); margin: 0; grid-template-columns: repeat(12, 9px); gap: 0; }
-  .mu-strays.is-gem i { width: 9px; height: 9px; }
+  .mu-strays.is-gem { position: absolute; right: 0; top: auto; bottom: calc(100% + 28px); margin: 0; grid-template-columns: repeat(12, 12px); }
   .mu-hero { min-height: max(100svh, 800px); }
   .mu-hero-copy { padding: clamp(112px, 15vh, 160px) 0 0 max(40px, 6vw); }
   .mu-h1 { font-size: clamp(3.4rem, 6.1vw, 5.6rem); }
