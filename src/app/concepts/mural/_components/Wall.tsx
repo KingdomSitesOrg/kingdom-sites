@@ -58,10 +58,10 @@ const GLYPHS: Record<string, string[]> = {
   E: ['XXXXX', 'X....', 'X....', 'XXXX.', 'X....', 'X....', 'XXXXX'],
 }
 
-/* A lettering tile belongs to one of three families, all kept close to the wall's own dark so the
-   name stays in the background: KINGDOM in slate, SITES in deep blue, and one burnt-orange tile
-   that closes the name like the headline's full stop. */
-const FAMILY = [[], ['#2B3244', '#30384C', '#272D3E', '#363F55'], ['#1B2E6B', '#203680', '#182A5E', '#2540A0'], ['#B8400F', '#C9480F']]
+/* A lettering tile belongs to one of three families: KINGDOM in slate, SITES in the page's blue,
+   and one orange tile that closes the name like the headline's full stop. Clear enough to read at
+   a glance, still quieter than the headline in front of it. */
+const FAMILY = [[], ['#4A5368', '#525C73', '#434B5F', '#5B667F'], ['#2A5CFF', '#2450E0', '#1E46D6', '#3D6BFF'], ['#F2581C', '#F46A2E']]
 const INK_FAMILY = 1
 const BLUE_FAMILY = 2
 const ORANGE_FAMILY = 3
