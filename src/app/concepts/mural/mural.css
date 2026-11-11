@@ -153,9 +153,10 @@ html.mu-html body {
   background: var(--orange);
 }
 
-/* On a phone there is no room for the button's full words; the hero's own button is right below. */
+/* On a phone there is no room for the button's full words, so it shows the short ones. */
 .mu-nav-cta {
-  display: none;
+  display: inline-block;
+  white-space: nowrap;
   font-family: var(--display);
   font-weight: 700;
   font-size: 11px;
@@ -168,6 +169,16 @@ html.mu-html body {
 }
 @media (hover: hover) { .mu-nav-cta:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--orange); } }
 .mu-nav-cta:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--orange); }
+
+.mu-wide { display: none; }
+/* The switch keeps its name for screen readers; on a phone only the switch itself shows. */
+.mu-sound-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
 
 /* The row of tiles along the header's foot: it fills as the page is read. */
 .mu-progress {
@@ -310,7 +321,8 @@ html.mu-html body {
   position: absolute;
   z-index: 2;
   left: 20px;
-  bottom: 26px;
+  /* On a phone it sits clear of the chat button in the bottom corner. */
+  bottom: 84px;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -580,6 +592,25 @@ html.mu-html body {
   margin-top: 72px;
 }
 
+/* The story of how a piece began, above its line. */
+.mu-story {
+  margin-top: 18px;
+  max-width: 34ch;
+  font-size: 19px;
+  line-height: 1.35;
+  font-weight: 600;
+  color: var(--ink);
+}
+.mu-story + .mu-text { margin-top: 10px; }
+.mu-links-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 22px;
+}
+
+/* The second wall section follows straight on from the portfolio's button. */
+#make.mu-section { padding-top: 64px; }
+
 /* ───────── What I make: four tiles that turn over ───────── */
 
 .mu-flips {
@@ -592,7 +623,7 @@ html.mu-html body {
   position: relative;
   display: block;
   width: 100%;
-  height: 168px;
+  height: 190px;
   text-align: left;
   perspective: 900px;
   cursor: pointer;
@@ -633,6 +664,13 @@ html.mu-html body {
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.12em;
+}
+.mu-flip-cell .mu-link { margin-top: 12px; }
+.mu-flip-line {
+  margin-top: 8px;
+  font-size: 13.5px;
+  line-height: 1.4;
+  color: var(--body);
 }
 .mu-flip-title {
   margin-top: auto;
@@ -718,9 +756,61 @@ html.mu-html body {
 .mu-close .mu-text { color: var(--mist); }
 .mu-close .mu-cta { animation: none; }
 
+/* The live site's form, redrawn in the mural's own materials: square edges,
+   ink panels, a paper button with a hard orange shadow. */
+.mu-form {
+  --color-surface: var(--ink-2);
+  --color-surface-2: #1b1f2a;
+  --color-ink: var(--paper);
+  --color-body: var(--mist);
+  --color-muted: #8e929a;
+  --color-line: #1b1f2a;
+  --color-line-strong: #3a3f4c;
+  --color-accent: var(--orange);
+  --color-accent-hover: var(--orange);
+  margin-top: 40px;
+  max-width: 560px;
+  margin-right: 8px;
+}
+.mu-form .tile-elevated {
+  background: var(--ink-2);
+  border: 2px solid var(--paper);
+  border-radius: 0;
+  box-shadow: 8px 8px 0 var(--blue);
+}
+.mu-form input,
+.mu-form textarea {
+  background: var(--ink);
+  border-width: 2px;
+  border-radius: 0;
+  font-size: 16px;
+}
+.mu-form .btn-primary {
+  border-radius: 0;
+  background: var(--orange);
+  color: var(--ink);
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  padding: 14px 22px;
+  box-shadow: 4px 4px 0 var(--paper);
+  transition: transform 80ms steps(2, end), box-shadow 80ms steps(2, end);
+}
+.mu-form .btn-primary:hover { background: var(--orange); transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--paper); }
+.mu-form .btn-primary:active { transform: translate(4px, 4px); box-shadow: 0 0 0 var(--paper); }
+.mu-form .rounded-2xl { border-radius: 0; }
+
+.mu-foot-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+}
+
 .mu-foot {
   margin-top: 110px;
-  padding: 18px 0 30px;
+  /* Room below for the chat button, so it never covers the footer's links. */
+  padding: 18px 0 88px;
   display: flex;
   flex-wrap: wrap;
   gap: 8px 22px;
@@ -781,13 +871,15 @@ html.mu-html body {
 @media (min-width: 640px) {
   .mu-nav { padding: 0 22px 6px 24px; }
   .mu-brand { font-size: 13px; }
-  .mu-nav-cta { display: inline-block; }
+  .mu-wide { display: inline; }
+  .mu-narrow { display: none; }
+  .mu-sound-label { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
   .mu-hero-copy { padding: 128px 32px 0; }
-  .mu-picker { left: 32px; }
+  .mu-picker { left: 32px; bottom: 26px; }
   .mu-section { padding: 110px 32px 0; }
   .mu-close { padding: 40px 32px 0; }
   .mu-flips { grid-template-columns: 1fr 1fr; }
-  .mu-flip { height: 200px; }
+  .mu-flip { height: 210px; }
   .mu-phones { gap: 18px; max-width: 520px; }
   .mu-window { box-shadow: 8px 8px 0 var(--sh); }
 @media (hover: hover) { .mu-window:hover { box-shadow: 11px 11px 0 var(--sh); } }
@@ -814,7 +906,8 @@ html.mu-html body {
   .mu-item:nth-child(even) { grid-template-columns: 7fr 5fr; }
   .mu-phones { margin: 0 auto; }
   .mu-flips { grid-template-columns: repeat(4, 1fr); margin-top: 60px; }
-  .mu-flip { height: 250px; }
+  .mu-flip { height: 270px; }
+  #make.mu-section { padding-top: 96px; }
   .mu-flip-art { grid-template-columns: repeat(5, 11px); }
   .mu-flip-art i { width: 11px; height: 11px; }
   .mu-maker { grid-template-columns: 5fr 7fr; gap: 72px; }

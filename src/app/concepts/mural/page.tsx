@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
-import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
+import InquiryForm from '@/components/InquiryForm'
+import { CONTACT_EMAIL, CONTACT_MAILTO, INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { PHOTOS, PROJECTS, SHOTS, type Shot } from '@/lib/work'
 import FlipTile from './_components/FlipTile'
 import Fx from './_components/Fx'
@@ -34,7 +35,11 @@ type Work = {
   /** The last chip gets the blinking "live" tile. */
   live?: boolean
   text: string
+  /** The live home page's story about this piece, shown above its line. */
+  story?: string
   href: string
+  /** A second link under the piece. */
+  also?: { label: string; href: string }
   window?: Shot
   phones?: Shot[]
 }
@@ -44,7 +49,10 @@ const WORK: Work[] = [
     name: project('farzana').name,
     chips: chips('farzana'),
     text: project('farzana').line,
+    // The live home page's own words about how Farzana began, and its demo link.
+    story: 'Someone asked me to build them custom classroom software. Now it’s coming to life.',
     href: '/portfolio/farzana-classroom',
+    also: { label: 'Book a Farzana demo', href: '/farzana/book' },
     window: SHOTS.appClass,
   },
   {
@@ -74,7 +82,7 @@ const WORK: Work[] = [
   },
 ]
 
-/* More of the portfolio, as tiles that turn over: the project's name on the front, its line on the back. */
+/* More of the portfolio, as tiles that turn over: the project's name and line on the front, the line again in colour on the back, and a link to the project under each. */
 const MORE = [
   { slug: 'tap-to-tick', ground: '#F2581C', ink: '#0A0C12', pattern: ['X....', 'XX...', 'XXX..', 'XXXX.', 'XXXXX'] },
   { slug: 'delta', ground: '#2A5CFF', ink: '#F7F5F0', pattern: ['X.X.X', '.X.X.', 'X.X.X', '.X.X.', 'X.X.X'] },
@@ -108,8 +116,10 @@ export default function MuralConcept() {
           </Link>
         </nav>
         <Fx />
-        <Link href={INQUIRE_PATH} className="mu-nav-cta" data-snap>
-          {INQUIRE_CTA}
+        {/* On a phone the button uses the live site's short words, "Talk to me". */}
+        <Link href="#talk" className="mu-nav-cta" data-snap>
+          <span className="mu-wide">{INQUIRE_CTA}</span>
+          <span className="mu-narrow">Talk to me</span>
         </Link>
       </header>
 
@@ -129,7 +139,7 @@ export default function MuralConcept() {
           </h1>
           <p className="mu-sub">With every detail cared for, like a mural.</p>
           <div className="mu-cta">
-            <Link href={INQUIRE_PATH} className="mu-btn" data-snap>
+            <Link href="#talk" className="mu-btn" data-snap>
               {INQUIRE_CTA} <Arrow />
             </Link>
             <Link href="#work" className="mu-btn is-ghost" data-snap>
@@ -164,13 +174,23 @@ export default function MuralConcept() {
                     </li>
                   ))}
                 </ul>
+                {w.story ? (
+                  <p className="mu-story" data-rise style={delay(130)}>
+                    {w.story}
+                  </p>
+                ) : null}
                 <p className="mu-text" data-rise style={delay(150)}>
                   {w.text}
                 </p>
-                <div data-rise style={delay(200)}>
+                <div className="mu-links-row" data-rise style={delay(200)}>
                   <Link href={w.href} className="mu-link" data-snap>
                     See {w.name} <Arrow />
                   </Link>
+                  {w.also ? (
+                    <Link href={w.also.href} className="mu-link" data-snap>
+                      {w.also.label} <Arrow />
+                    </Link>
+                  ) : null}
                 </div>
               </div>
 
@@ -215,8 +235,11 @@ export default function MuralConcept() {
         </div>
         <div className="mu-flips">
           {MORE.map((m, i) => (
-            <div key={m.slug} data-rise style={delay(i * 70)}>
+            <div key={m.slug} className="mu-flip-cell" data-rise style={delay(i * 70)}>
               <FlipTile index={project(m.slug).kind} title={project(m.slug).name} body={project(m.slug).line} ground={m.ground} ink={m.ink} pattern={m.pattern} />
+              <Link href={project(m.slug).href ?? '/portfolio'} className="mu-link" data-snap>
+                See {project(m.slug).name} <Arrow />
+              </Link>
             </div>
           ))}
         </div>
@@ -263,13 +286,19 @@ export default function MuralConcept() {
           <p className="mu-text" data-rise style={delay(120)}>
             A website, an app, or AI put to work: tell me what you have in mind.
           </p>
-          <div className="mu-cta" data-rise style={delay(180)}>
-            <Link href={INQUIRE_PATH} className="mu-btn" data-snap>
-              {INQUIRE_CTA} <Arrow />
-            </Link>
+          {/* The live home page's own form: a visitor writes without leaving the page. */}
+          <div className="mu-form" data-rise style={delay(180)}>
+            <InquiryForm />
           </div>
+          {/* The live site's footer, word for word, plus the concept note. */}
           <footer className="mu-foot">
-            <span>Kingdom Sites, 2026</span>
+            <span>© 2026 Kingdom Sites · Rochester, Minnesota</span>
+            <span className="mu-foot-links">
+              <a href={CONTACT_MAILTO}>{CONTACT_EMAIL}</a>
+              <Link href="/ai-tooling">AI consultation</Link>
+              <Link href="/prayer">Prayer</Link>
+              <Link href={INQUIRE_PATH}>{INQUIRE_CTA}</Link>
+            </span>
             <span>
               A concept page. <Link href="/">The live site</Link>
             </span>

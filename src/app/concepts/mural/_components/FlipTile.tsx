@@ -3,8 +3,8 @@
 import { useState, type CSSProperties } from 'react'
 import { play } from '../_lib/sound'
 
-/* One big tile that turns over when pressed: a project's name on the front,
-   its line from the portfolio on the back. */
+/* One big tile that turns over when pressed: a project's name and its line
+   from the portfolio on the front, the line again, large and in colour, on the back. */
 export default function FlipTile({
   index,
   title,
@@ -51,6 +51,8 @@ export default function FlipTile({
               ))}
           </span>
           <span className="mu-flip-title">{title}</span>
+          {/* The line shows on the front too, so the tile says what it is before it is turned. */}
+          <span className="mu-flip-line">{body}</span>
         </span>
         <span className="mu-flip-face mu-flip-back">
           <span className="mu-flip-index">{index}</span>
