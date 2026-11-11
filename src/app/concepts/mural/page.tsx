@@ -255,7 +255,7 @@ export default function MuralConcept() {
             <MosaicShot {...PHOTOS.evening} sizes="(min-width: 960px) 420px, 88vw" />
           </div>
           <div className="mu-head">
-            <Strays seed={97} />
+            <Strays seed={97} gem />
             <p className="mu-eyebrow" data-rise>
               Who builds it
             </p>
