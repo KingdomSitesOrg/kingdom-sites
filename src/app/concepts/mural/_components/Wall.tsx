@@ -344,8 +344,11 @@ export default function Wall({ children }: { children: ReactNode }) {
     }
 
     let looking = false
+    // Set when the server says it cannot keep tiles (a preview build has no storage): the wall then
+    // stops asking, so this visitor's own tiles are not swept away by the untouched wall coming back.
+    let unsaved = false
     const look = () => {
-      if (looking || document.hidden) return
+      if (looking || unsaved || document.hidden) return
       looking = true
       fetch('/api/mural', { cache: 'no-store' })
         .then((r) => (r.ok ? r.json() : null))
@@ -405,7 +408,10 @@ export default function Wall({ children }: { children: ReactNode }) {
         keepalive: true,
       })
         .then((res) => (res.ok ? res.json() : null))
-        .then((state) => state && live && take(state))
+        .then((state) => {
+          if (state?.saved === false) unsaved = true
+          else if (state && live) take(state)
+        })
         .catch(() => {})
     }
 
