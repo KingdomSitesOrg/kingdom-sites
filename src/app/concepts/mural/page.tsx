@@ -3,6 +3,7 @@ import { Fragment, type CSSProperties } from 'react'
 import InquiryForm from '@/components/InquiryForm'
 import { CONTACT_EMAIL, CONTACT_MAILTO, INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { PHOTOS, PROJECTS, SHOTS, type Shot } from '@/lib/work'
+import Drawer from './_components/Drawer'
 import FlipTile from './_components/FlipTile'
 import Fx from './_components/Fx'
 import GemHop from './_components/GemHop'
@@ -122,6 +123,16 @@ export default function MuralConcept() {
           <span className="mu-wide">{INQUIRE_CTA}</span>
           <span className="mu-narrow">Talk to me</span>
         </Link>
+        {/* The menu on a phone or tablet: the live site's own menu words. */}
+        <Drawer
+          links={[
+            { label: 'Portfolio', href: '#work' },
+            { label: 'About', href: '#maker' },
+            { label: 'AI consultation', href: '/ai-tooling' },
+            { label: 'Mission', href: '/mission' },
+            { label: INQUIRE_CTA, href: '#talk' },
+          ]}
+        />
       </header>
 
       <div id="top" />

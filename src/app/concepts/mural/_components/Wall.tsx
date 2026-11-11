@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { useEffect, useRef, type ReactNode } from 'react'
 import { BIT_COUNT, MAX_PER_TAP, nameBits, type MuralState } from '../_lib/name'
 import { play } from '../_lib/sound'
 import {
@@ -30,22 +30,19 @@ import {
    name, KINGDOM SITES, laid large and quiet in tiles only a shade lighter
    than the wall. At the foot the mural breaks up into the light page below.
    The name is laid left to right when the page opens; tiles dip under the
-   pointer, and a tap lays new tiles in the colour picked below. Only the
+   pointer, and a tap lays new tiles: orange, then blue, then white, turn and
+   turn about. There is no box of paints on the wall (Thomas, 2026-11-11: "don't
+   need distractions"); laying tiles is something a visitor finds. Only the
    tiles that are moving are redrawn, so a still wall costs nothing.
 
    The name is the shared part (Thomas, 2026-11-11). A tile of it that is
    still bare is drawn dim; one a visitor has laid is lit in the paint they
    chose, and it stays: it is saved (/api/mural) and shows on every other
    visitor's wall, arriving within half a minute on a wall that is already
-   open. A tap anywhere else on the wall still lays tiles, for that visit only.
-   The count is every tile laid on the wall by everyone. */
+   open. A tap anywhere else on the wall still lays tiles, for that visit only. */
 
-const PAINTS = [
-  { name: 'Orange', tone: ORANGE },
-  { name: 'Blue', tone: BLUE },
-  { name: 'White', tone: PAPER },
-  { name: 'Black', tone: '#14161D' },
-]
+/* The paints a tap lays, in turn. Their order is the one the shared wall stores (name.ts): orange 0, blue 1, white 2. */
+const PAINTS = [ORANGE, BLUE, PAPER]
 
 /* Tile kinds. A "plain" tile is the wall melting into the page: no grout, the page's own tone. */
 const SKY_TILE = 0
@@ -72,9 +69,8 @@ const LOOK_EVERY_MS = 25_000
 export default function Wall({ children }: { children: ReactNode }) {
   const sectionRef = useRef<HTMLElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  // Which paint the next tap lays.
   const paintRef = useRef(0)
-  const [paint, setPaint] = useState(0)
-  const [laid, setLaid] = useState(0)
 
   useEffect(() => {
     const section = sectionRef.current
@@ -344,7 +340,6 @@ export default function Wall({ children }: { children: ReactNode }) {
           active.add(i)
         }
       }
-      if (typeof state.total === 'number') setLaid((v) => Math.max(v, state.total))
       kick()
     }
 
@@ -365,7 +360,7 @@ export default function Wall({ children }: { children: ReactNode }) {
     function lay(c: number, r: number) {
       const now = performance.now()
       const paint = paintRef.current
-      const shade = PAINTS[paint].tone
+      const shade = PAINTS[paint]
       let count = 0
       const saved = new Set<number>()
       for (let dr = -2; dr <= 2; dr++) {
@@ -400,7 +395,7 @@ export default function Wall({ children }: { children: ReactNode }) {
         }
       }
       if (!count) return
-      setLaid((v) => v + count)
+      paintRef.current = (paint + 1) % PAINTS.length
       play('snap')
       kick()
       fetch('/api/mural', {
@@ -531,33 +526,6 @@ export default function Wall({ children }: { children: ReactNode }) {
     <section ref={sectionRef} className="mu-hero" aria-label="Kingdom Sites">
       <canvas ref={canvasRef} aria-hidden="true" />
       {children}
-      <div className="mu-picker" data-nopaint>
-        {/* With a mouse the box says what to do. On a touch screen it has no label (Thomas, 2026-11-11):
-            the paints and the count are enough. */}
-        <span className="mu-picker-label mu-mouse">Click the wall</span>
-        <div className="mu-swatches" role="radiogroup" aria-label="Tile colour">
-          {PAINTS.map((p, i) => (
-            <button
-              key={p.name}
-              type="button"
-              role="radio"
-              aria-checked={i === paint}
-              aria-label={p.name}
-              className="mu-swatch"
-              style={{ background: p.tone }}
-              data-snap
-              onClick={() => {
-                paintRef.current = i
-                setPaint(i)
-              }}
-            />
-          ))}
-        </div>
-        <span className="mu-picker-count" title="Tiles laid on this wall by everyone">
-          <span aria-hidden="true">{String(laid).padStart(4, '0')}</span>
-          <span className="mu-picker-all"> laid by everyone</span>
-        </span>
-      </div>
     </section>
   )
 }
