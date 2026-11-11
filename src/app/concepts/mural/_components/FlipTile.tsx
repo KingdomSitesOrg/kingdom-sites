@@ -3,8 +3,8 @@
 import { useState, type CSSProperties } from 'react'
 import { play } from '../_lib/sound'
 
-/* One big tile that turns over when pressed: the name of a thing I make on
-   the front, what it means for you on the back. */
+/* One big tile that turns over when pressed: a project's name on the front,
+   its line from the portfolio on the back. */
 export default function FlipTile({
   index,
   title,

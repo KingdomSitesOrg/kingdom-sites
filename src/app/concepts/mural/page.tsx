@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
-import { PHOTOS, SHOTS, type Shot } from '@/lib/work'
+import { PHOTOS, PROJECTS, SHOTS, type Shot } from '@/lib/work'
 import FlipTile from './_components/FlipTile'
 import Fx from './_components/Fx'
 import MosaicShot from './_components/MosaicShot'
@@ -9,9 +9,19 @@ import Strays from './_components/Strays'
 import TileBand from './_components/TileBand'
 import Wall from './_components/Wall'
 
-/* The Mural concept's one page. Every line about the work is the wording the
-   live site already uses (src/lib/work.ts, src/lib/case-studies.ts): nothing
-   here is a new claim. */
+/* The Mural concept's one page.
+
+   Wording rule (Thomas, 2026-11-11): outside the hero, every word is the live
+   site's own, unchanged. Lines may be moved, mixed and matched, never
+   reworded. So the project names, kinds, platforms, statuses and lines come
+   straight from PROJECTS (src/lib/work.ts), and the headings, labels and
+   sentences are copied from the live home, Portfolio and About pages. The
+   exceptions are his: the hero's headline and line, and the sentence about
+   Monisha in About. The few labels that belong to the mural itself (Sound,
+   Tap the wall, Turn it over, the concept note in the footer) are new. */
+
+const project = (slug: string) => PROJECTS.find((p) => p.slug === slug)!
+const chips = (slug: string) => [project(slug).kind, project(slug).platforms, project(slug).status]
 
 const delay = (ms: number) => ({ '--d': `${ms}ms` }) as CSSProperties
 
@@ -31,67 +41,45 @@ type Work = {
 
 const WORK: Work[] = [
   {
-    name: 'Farzana Classroom',
-    chips: ['Platform', 'Web, phone and desktop', 'In beta'],
-    text: 'Running email campaigns, managing students, payments and products is hard when it is spread across different tools. Farzana Classroom combines it all. I built it from the ground up.',
+    name: project('farzana').name,
+    chips: chips('farzana'),
+    text: project('farzana').line,
     href: '/portfolio/farzana-classroom',
     window: SHOTS.appClass,
   },
   {
-    name: 'JAM Legio',
-    chips: ['App', 'iPhone and Android', 'On the App Store and Google Play'],
+    name: project('latin-game').name,
+    chips: chips('latin-game'),
     live: true,
-    text: 'A Latin learning game. Students travel the Roman world city by city, answer case challenges and race each other on the leaderboard.',
+    text: project('latin-game').line,
     href: '/latin-game',
     phones: [SHOTS.latinHome, SHOTS.latinMap, SHOTS.latinCase],
   },
   {
-    name: 'Ruta',
-    chips: ['Contract', 'Web, iPhone and Android', 'Live'],
+    name: project('ruta').name,
+    chips: chips('ruta'),
     live: true,
-    text: 'The crew app for landscaping businesses. I helped build a live platform on Ruta’s team: the office app, the customer portal and the crew’s phone app.',
+    // The live home page's own line for Ruta.
+    text: 'The crew app for landscaping businesses. I helped build it on Ruta’s team.',
     href: '/ruta',
     phones: [SHOTS.rutaQueue, SHOTS.rutaVisit, SHOTS.rutaTime],
   },
   {
-    name: 'KCUPG',
-    chips: ['Website', 'Web, no sign-in', 'Live'],
+    name: project('kcupg').name,
+    chips: chips('kcupg'),
     live: true,
-    text: 'Kansas City’s communities from North Africa to East Asia on one map: people, languages and faith. I built the dashboard and the map.',
+    text: project('kcupg').line,
     href: '/portfolio/kcupg',
     window: SHOTS.kcupgMap,
   },
 ]
 
-const MAKE = [
-  {
-    title: 'Websites',
-    body: 'A site that says what you do, shows up in search, and that you can update yourself.',
-    ground: '#F2581C',
-    ink: '#0A0C12',
-    pattern: ['X....', 'XX...', 'XXX..', 'XXXX.', 'XXXXX'],
-  },
-  {
-    title: 'iPhone and Android apps',
-    body: 'Designed, built and published on the App Store and Google Play under your name, and kept working as phones update.',
-    ground: '#2A5CFF',
-    ink: '#F7F5F0',
-    pattern: ['X.X.X', '.X.X.', 'X.X.X', '.X.X.', 'X.X.X'],
-  },
-  {
-    title: 'Custom software',
-    body: 'Your name, your customers, your data, on software built around how you work.',
-    ground: '#14161D',
-    ink: '#F7F5F0',
-    pattern: ['XXXXX', 'X...X', 'X...X', 'X...X', 'XXXXX'],
-  },
-  {
-    title: 'AI consultation',
-    body: 'I help you use AI to bring in more revenue, save time and grow your business. I have built AI into this website, Ruta and Farzana.',
-    ground: '#A9ACB1',
-    ink: '#0A0C12',
-    pattern: ['X...X', '.X.X.', '..X..', '.X.X.', 'X...X'],
-  },
+/* More of the portfolio, as tiles that turn over: the project's name on the front, its line on the back. */
+const MORE = [
+  { slug: 'tap-to-tick', ground: '#F2581C', ink: '#0A0C12', pattern: ['X....', 'XX...', 'XXX..', 'XXXX.', 'XXXXX'] },
+  { slug: 'delta', ground: '#2A5CFF', ink: '#F7F5F0', pattern: ['X.X.X', '.X.X.', 'X.X.X', '.X.X.', 'X.X.X'] },
+  { slug: 'prayer', ground: '#14161D', ink: '#F7F5F0', pattern: ['XXXXX', 'X...X', 'X...X', 'X...X', 'XXXXX'] },
+  { slug: 'ministry', ground: '#A9ACB1', ink: '#0A0C12', pattern: ['X...X', '.X.X.', '..X..', '.X.X.', 'X...X'] },
 ]
 
 function Arrow() {
@@ -113,9 +101,6 @@ export default function MuralConcept() {
         </Link>
         <nav className="mu-links" aria-label="On this page">
           <Link href="#work" data-snap>
-            Work
-          </Link>
-          <Link href="/portfolio" data-snap>
             Portfolio
           </Link>
           <Link href="#maker" data-snap>
@@ -124,7 +109,7 @@ export default function MuralConcept() {
         </nav>
         <Fx />
         <Link href={INQUIRE_PATH} className="mu-nav-cta" data-snap>
-          Start
+          {INQUIRE_CTA}
         </Link>
       </header>
 
@@ -148,7 +133,7 @@ export default function MuralConcept() {
               {INQUIRE_CTA} <Arrow />
             </Link>
             <Link href="#work" className="mu-btn is-ghost" data-snap>
-              See the work <span aria-hidden="true">↓</span>
+              See all my work <span aria-hidden="true">↓</span>
             </Link>
           </div>
         </div>
@@ -157,11 +142,9 @@ export default function MuralConcept() {
       <section id="work" className="mu-section" aria-labelledby="work-title">
         <div className="mu-head">
           <Strays seed={71} />
-          <p className="mu-eyebrow" data-rise>
-            Work
-          </p>
+          <p className="mu-eyebrow" data-rise aria-hidden="true" />
           <h2 id="work-title" className="mu-h2" data-rise style={delay(60)}>
-            What I have built.
+            Portfolio
           </h2>
         </div>
 
@@ -227,17 +210,15 @@ export default function MuralConcept() {
       <section id="make" className="mu-section" aria-labelledby="make-title">
         <div className="mu-head">
           <Strays seed={83} />
-          <p className="mu-eyebrow" data-rise>
-            What I make
-          </p>
+          <p className="mu-eyebrow" data-rise aria-hidden="true" />
           <h2 id="make-title" className="mu-h2" data-rise style={delay(60)}>
-            Four things I can build for you.
+            Websites, tools and other cool stuff.
           </h2>
         </div>
         <div className="mu-flips">
-          {MAKE.map((m, i) => (
-            <div key={m.title} data-rise style={delay(i * 70)}>
-              <FlipTile index={String(i + 1).padStart(2, '0')} {...m} />
+          {MORE.map((m, i) => (
+            <div key={m.slug} data-rise style={delay(i * 70)}>
+              <FlipTile index={project(m.slug).kind} title={project(m.slug).name} body={project(m.slug).line} ground={m.ground} ink={m.ink} pattern={m.pattern} />
             </div>
           ))}
         </div>
@@ -257,17 +238,17 @@ export default function MuralConcept() {
           <div className="mu-head">
             <Strays seed={97} gem />
             <p className="mu-eyebrow" data-rise>
-              Who builds it
+              Engineering: design, build, ship, maintain
             </p>
             <h2 id="maker-title" className="mu-h2" data-rise style={delay(60)}>
-              Thomas Klein.
+              Thomas Klein
             </h2>
             <p className="mu-text" data-rise style={delay(120)}>
-              I am a software engineer. I design, build, ship and maintain apps. I am married to my wife Monisha, and love serving others.
+              I design, build, ship and maintain everything myself, on purpose, so you always know who you are talking to. I am married to my wife Monisha, and love serving others.
             </p>
             <div data-rise style={delay(180)}>
               <Link href="/about" className="mu-link" data-snap>
-                More about me <Arrow />
+                About <Arrow />
               </Link>
             </div>
           </div>
@@ -277,9 +258,7 @@ export default function MuralConcept() {
       <TileBand />
       <section id="talk" className="mu-close" aria-labelledby="talk-title">
         <div className="mu-close-in">
-          <p className="mu-eyebrow" data-rise>
-            Your turn
-          </p>
+          <p className="mu-eyebrow" data-rise aria-hidden="true" />
           <h2 id="talk-title" className="mu-h2" data-rise style={delay(60)}>
             Yours could be next.
           </h2>

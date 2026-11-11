@@ -153,7 +153,9 @@ html.mu-html body {
   background: var(--orange);
 }
 
+/* On a phone there is no room for the button's full words; the hero's own button is right below. */
 .mu-nav-cta {
+  display: none;
   font-family: var(--display);
   font-weight: 700;
   font-size: 11px;
@@ -785,6 +787,7 @@ html.mu-html body {
 @media (min-width: 640px) {
   .mu-nav { padding: 0 22px 6px 24px; }
   .mu-brand { font-size: 13px; }
+  .mu-nav-cta { display: inline-block; }
   .mu-hero-copy { padding: 128px 32px 0; }
   .mu-picker { left: 32px; }
   .mu-section { padding: 110px 32px 0; }
