@@ -1,9 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import type { ReactNode } from 'react'
-import { Unbounded } from 'next/font/google'
-import { GeistSans } from 'geist/font/sans'
-import { GeistMono } from 'geist/font/mono'
-import './mural.css'
+import MuralRoot from './_components/Root'
 
 /*
  * The Mural concept: a possible Kingdom Sites home page, drawn as a tiled wall
@@ -11,9 +8,6 @@ import './mural.css'
  * /concepts/mural: its typefaces and stylesheet load from this layout, and
  * AppShell leaves the studio's header, footer and chat square off it.
  */
-
-/* Wide and blocky for the big lines; Geist for reading, Geist Mono for labels. */
-const display = Unbounded({ subsets: ['latin'], display: 'swap', variable: '--font-unbounded' })
 
 const DESCRIPTION = 'A concept for the Kingdom Sites home page: a tiled mural you can lay tiles on.'
 
@@ -31,24 +25,5 @@ export const viewport: Viewport = {
 }
 
 export default function MuralLayout({ children }: Readonly<{ children: ReactNode }>) {
-  return (
-    // The script below adds a class to this element before React takes over, hence suppressHydrationWarning.
-    <div className={`mu ${display.variable} ${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
-      {/* Marks the page as scripted before it paints, so pieces that rise into
-          place start hidden only where a script will bring them in. */}
-      <script dangerouslySetInnerHTML={{ __html: "document.currentScript.parentElement.classList.add('mu-js')" }} />
-      {/* The chat (its button and its panel) sits outside this element, so the mural's three typefaces are
-          handed to it by name: Geist to read, the wide face for titles and buttons, the mono for labels.
-          mural.css draws the rest. */}
-      <style
-        dangerouslySetInnerHTML={{
-          __html:
-            `body:has(.mu) .ki{font-family:${GeistSans.style.fontFamily},system-ui,sans-serif}` +
-            `body:has(.mu) :is(.ki-square,.ki-title,.ki-card-title,.km-intro-title,.ki-btn,.ki-tab){font-family:${display.style.fontFamily},'Arial Black',system-ui,sans-serif}` +
-            `body:has(.mu) :is(.ki-sub,.ki-foot,.ki-think-word,.km-when,.km-status,.km-promise,.ki-label){font-family:${GeistMono.style.fontFamily},ui-monospace,monospace}`,
-        }}
-      />
-      {children}
-    </div>
-  )
+  return <MuralRoot>{children}</MuralRoot>
 }

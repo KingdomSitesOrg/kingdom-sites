@@ -1,9 +1,12 @@
 import Link from 'next/link'
 import { CONTACT_EMAIL, CONTACT_MAILTO, INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
-import CinematicHeader from './Header'
+import MuralHeader from '@/app/concepts/mural/_components/Header'
+import { MURAL_FONTS } from '@/app/concepts/mural/_lib/fonts'
 import { sans } from './fonts'
 import './cinematic.css'
 import './site.css'
+import '@/app/concepts/mural/mural.css'
+import './mural-site.css'
 
 const FACEBOOK_URL = 'https://www.facebook.com/share/1EzdtfSCs3/?mibextid=wwXIfr'
 const YOUTUBE_URL = 'https://www.youtube.com/@tkklein/videos'
@@ -26,14 +29,15 @@ const SITE_LINKS = [
 ]
 
 /**
- * Every studio page but the home page sits in this: the home page's header,
- * the home page's dark room, and its footer line with the rest of the site's
- * pages above it (T-365). The home page keeps its own copy (Chrome.tsx).
+ * Every studio page but the home page sits in this: the mural's header, its
+ * paper and ink, and a footer with the rest of the site's pages (T-365, then
+ * the mural look, 2026-11-11). The Portfolio page keeps its own copy (Chrome.tsx).
  */
 export default function SiteChrome({ children }: { children: React.ReactNode }) {
   return (
-    <div className={`cn-site ${sans.variable}`}>
-      <CinematicHeader />
+    // `mu mu-site` puts the mural look over the page (mural-site.css): its header, paper and ink, square edges.
+    <div className={`cn-site mu mu-site ${sans.variable} ${MURAL_FONTS}`}>
+      <MuralHeader />
 
       <main>{children}</main>
 

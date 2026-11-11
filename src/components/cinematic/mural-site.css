@@ -1,0 +1,189 @@
+/* The mural look on the rest of the studio's pages (Thomas, 2026-11-11: "ensure
+   all pages follow design suite"). Portfolio, About, AI consultation, Mission,
+   Start a conversation and the others are wrapped in `.mu-site` (SiteChrome.tsx,
+   Chrome.tsx) next to their old `.cn-site` / `.cn`, and this sheet repoints the
+   colour names those pages already use at the mural's paper and ink, and
+   redraws the shared pieces (headings, buttons, cards, fields, footer) the
+   way the home page draws them: square, hard-shadowed, one orange, one blue.
+   No page's own markup or words change. Loaded after cinematic.css and site.css. */
+
+.mu-site {
+  --bg: #efede6;
+  --bg-2: #f7f5f0;
+  --fg: #0a0c12;
+  --dim: #6b6f78;
+  --line: rgba(10, 12, 18, 0.2);
+
+  --color-canvas: var(--bg);
+  --color-surface: var(--bg-2);
+  --color-surface-2: #e5e3dc;
+  --color-ink: var(--fg);
+  --color-body: #454953;
+  --color-muted: var(--dim);
+  --color-line: var(--line);
+  --color-line-strong: #0a0c12;
+  --color-accent: #f2581c;
+  --color-accent-hover: #f2581c;
+  --color-warm: #b8400f;
+  --color-dark: #0a0c12;
+
+  background: var(--bg);
+  color: var(--color-body);
+  font-family: var(--sans);
+  font-variation-settings: normal;
+  color-scheme: light;
+}
+html:has(.mu-site), body:has(.mu-site) { background: #0a0c12; }
+/* The mural's header is fixed; the page starts under it. */
+.mu-site > main { padding-top: var(--nav-h); }
+.mu-site .cn-pin { top: var(--nav-h); height: calc(100svh - var(--nav-h)); }
+.mu-site a { color: inherit; text-decoration: none; }
+/* The header's own button keeps its ink on paper (the rule above would hand it the header's white). */
+.mu-site .mu-nav-cta { color: var(--ink); }
+
+/* ───────── Type ───────── */
+.mu-site .cn-display {
+  font-family: var(--display);
+  font-variation-settings: normal;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.03;
+  text-transform: uppercase;
+  color: var(--fg);
+  overflow-wrap: break-word;
+}
+/* The wide face needs less size than the narrow one it replaces. */
+.mu-site .cn-h1 { font-size: clamp(2rem, 6.4vw, 5.2rem); }
+.mu-site .cn-h2 { font-size: clamp(1.7rem, 4.8vw, 3.6rem); }
+.mu-site .cn-h3 { font-size: clamp(1.25rem, 2.4vw, 1.9rem); line-height: 1.08; }
+/* A headline's second half takes the page's orange. */
+.mu-site :is(h1, h2) .text-accent { color: #f2581c; }
+.mu-site .cn-body { color: var(--color-body); }
+.mu-site .cn-dim { color: var(--dim); }
+.mu-site :is(.cn-kicker, .eyebrow) {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+/* The three small tiles that open every mural label. */
+.mu-site :is(.cn-kicker, .eyebrow)::before {
+  content: '';
+  flex: none;
+  width: 22px;
+  height: 6px;
+  background: linear-gradient(90deg, #f2581c 0 6px, transparent 6px 8px, #2a5cff 8px 14px, transparent 14px 16px, #14161d 16px 22px);
+}
+.mu-site :is(.text-center, [class*='mx-auto']) > :is(.cn-kicker, .eyebrow) { justify-content: center; }
+
+/* ───────── Buttons ───────── */
+.mu-site :is(.btn-primary, .btn-sm, .cn-btn) {
+  min-height: 48px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 0;
+  background: #f2581c;
+  color: #0a0c12 !important;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  box-shadow: 4px 4px 0 #0a0c12;
+  transition: transform 80ms steps(2, end), box-shadow 80ms steps(2, end);
+}
+.mu-site :is(.btn-sm, .cn-btn-sm) { min-height: 42px; padding: 0 14px; font-size: 11px; }
+.mu-site :is(.btn-primary, .btn-sm, .cn-btn):hover { background: #f2581c; transform: translate(-2px, -2px); box-shadow: 6px 6px 0 #0a0c12; }
+.mu-site :is(.btn-primary, .btn-sm, .cn-btn):active { transform: translate(4px, 4px); box-shadow: 0 0 0 #0a0c12; }
+.mu-site :is(.btn-ghost, .btn-ghost-sm, .cn-ghost) {
+  min-height: 48px;
+  border: 2px solid #0a0c12;
+  border-radius: 0;
+  background: #f7f5f0;
+  color: #0a0c12;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  box-shadow: 4px 4px 0 #2a5cff;
+  transition: transform 80ms steps(2, end), box-shadow 80ms steps(2, end);
+}
+.mu-site :is(.btn-ghost-sm) { min-height: 40px; font-size: 11px; }
+.mu-site :is(.btn-ghost, .btn-ghost-sm, .cn-ghost):hover { border-color: #0a0c12; transform: translate(-2px, -2px); box-shadow: 6px 6px 0 #2a5cff; }
+.mu-site .btn-ghost-sm.is-active { background: #0a0c12; color: #f7f5f0; }
+.mu-site .cn-ghost.cn-glow, .mu-site .cn-ghost.cn-glow.is-glow { color: #0a0c12; border-color: #0a0c12; }
+.mu-site .cn-glow-text, .mu-site .cn-glow.is-glow .cn-glow-text { font-weight: 700; text-shadow: none; }
+.mu-site :is(.btn-danger, .btn-danger-sm) { border-radius: 0; }
+
+/* Links in running text: ink, with an orange line under them. */
+.mu-site :is(.link-accent, .cn-partner a) {
+  color: #0a0c12;
+  text-decoration: underline;
+  text-decoration-color: #f2581c;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+/* ───────── Cards and panels ───────── */
+.mu-site :is(.tile, .tile-elevated, .kf-panel) {
+  background: #f7f5f0;
+  border: 2px solid #0a0c12;
+  border-radius: 0;
+  box-shadow: 6px 6px 0 #14161d;
+}
+.mu-site .tile-elevated { overflow: hidden; }
+.mu-site .band-dark { background: #0a0c12; color: #b9bdc8; --color-ink: #f7f5f0; --color-body: #b9bdc8; --color-muted: #8e929a; --fg: #f7f5f0; }
+.mu-site .cn-card { border-top: 2px solid #0a0c12; }
+.mu-site .cn-soon { border: 2px solid #0a0c12; border-radius: 0; color: #0a0c12; font-family: var(--mono); }
+.mu-site .cn-rail span { border-radius: 0; height: 6px; }
+.mu-site .kf-divider { height: 2px; background: #0a0c12; }
+/* Everything round goes square, like a tile. The drawn phones and browser windows keep their real shapes. */
+.mu-site [class*='rounded']:not(.cn-phone, .cn-phone *, .cn-browser, .cn-browser *) { border-radius: 0; }
+
+/* Screens: real windows and phones, set on the wall with a hard shadow. */
+.mu-site .cn-browser { --r: 0px; border: 2px solid #0a0c12; box-shadow: 8px 8px 0 #2a5cff; }
+.mu-site .cn-phone { box-shadow: 6px 6px 0 #f2581c; }
+
+/* ───────── Fields ───────── */
+.mu-site :is(input:not([type='checkbox'], [type='radio'], [type='range']), textarea, select) {
+  border-width: 2px;
+  border-color: #0a0c12;
+  border-radius: 0;
+  background: #fff;
+  color: #0a0c12;
+}
+.mu-site :is(input, textarea, select):focus-visible { border-color: #2a5cff; }
+.mu-site ::placeholder { color: #8e929a; }
+.mu-site .kf-form, .mu-site .mu-form { --color-surface: #f7f5f0; }
+
+/* ───────── The dot navigation beside a long page ───────── */
+.mu-site .cn-dots a { border-radius: 0; }
+.mu-site .cn-dot { border-radius: 0 !important; }
+.mu-site .cn-dots a:hover .cn-dot { background: #2a5cff; }
+.mu-site .cn-dots a[aria-current] .cn-dot { background: #f2581c; }
+
+/* ───────── Footer: back out under the night sky ───────── */
+.mu-site > .cn-foot {
+  max-width: none;
+  margin-top: 96px;
+  padding: 44px var(--gutter, 20px) 96px;
+  border-top: 6px solid #f2581c;
+  background: #0a0c12;
+  color: #8e929a;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  --line: #1b1f2a;
+  --fg: #f7f5f0;
+}
+.mu-site > .cn-foot a { color: #f7f5f0; }
+.mu-site > .cn-foot .cn-site-foot-links { font-size: 11px; }
+.mu-site > .cn-foot .cn-site-foot-links a { color: #f7f5f0; }
+.mu-site > .cn-foot a:hover { color: #f2581c; }
+.mu-site > .cn-foot .cn-dim { color: #8e929a; }
