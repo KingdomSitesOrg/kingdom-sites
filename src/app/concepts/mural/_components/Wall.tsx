@@ -52,17 +52,18 @@ const SKY_TILE = 0
 const WALL_TILE = 1
 const PLAIN_TILE = 2
 
-/* A tile of the name that nobody has laid yet: KINGDOM in dark slate, SITES in deep blue, only a
-   shade or two off the wall, so the name can be made out and the laid tiles stand out from it.
-   The closing tile is always the headline's orange. */
-const BARE = [[], ['#232836', '#272D3C', '#1F2431', '#2B3242'], ['#132A6E', '#152F7A', '#102461', '#183487'], ['#F2581C', '#F46A2E']]
+/* A tile of the name that nobody has laid yet: KINGDOM in slate, SITES in a mid blue. Light enough
+   that the whole name reads at a glance whatever has been laid on it (Thomas, 2026-11-11: "a bit
+   more readable"), and a step quieter than a laid tile. The closing tile is always the headline's orange. */
+const BARE = [[], ['#66708A', '#6E7892', '#5F6982', '#77819B'], ['#2247C2', '#1F40B0', '#2650D6', '#1C3A9E'], ['#F2581C', '#F46A2E']]
 
-/* A laid tile, by the paint it was laid in (the same order as PAINTS). */
+/* A laid tile, by the paint it was laid in (the same order as PAINTS). Black is laid as slate, not
+   as a hole: a tile painted black would otherwise vanish into the wall and break its letter. */
 const LAID = [
   ['#F2581C', '#F46A2E'],
-  ['#2A5CFF', '#2450E0', '#3D6BFF'],
+  ['#3D6BFF', '#5A8BFF', '#4A78FF'],
   ['#F7F5F0', '#E5E3DC', '#DCE6FF'],
-  ['#14161D', '#191C25'],
+  ['#3A4152', '#343A4A'],
 ]
 
 /* How often an open wall asks what everyone else has laid. */
