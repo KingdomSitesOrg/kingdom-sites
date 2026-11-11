@@ -141,7 +141,6 @@ export default function MuralConcept() {
 
       <section id="work" className="mu-section" aria-labelledby="work-title">
         <div className="mu-head">
-          <Strays seed={71} />
           <p className="mu-eyebrow" data-rise aria-hidden="true" />
           <h2 id="work-title" className="mu-h2" data-rise style={delay(60)}>
             Portfolio
@@ -209,7 +208,6 @@ export default function MuralConcept() {
 
       <section id="make" className="mu-section" aria-labelledby="make-title">
         <div className="mu-head">
-          <Strays seed={83} />
           <p className="mu-eyebrow" data-rise aria-hidden="true" />
           <h2 id="make-title" className="mu-h2" data-rise style={delay(60)}>
             Websites, tools and other cool stuff.
@@ -236,7 +234,7 @@ export default function MuralConcept() {
             <MosaicShot {...PHOTOS.evening} sizes="(min-width: 960px) 420px, 88vw" />
           </div>
           <div className="mu-head">
-            <Strays seed={97} gem />
+            <Strays seed={97} />
             <p className="mu-eyebrow" data-rise>
               Engineering: design, build, ship, maintain
             </p>
