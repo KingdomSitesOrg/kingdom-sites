@@ -115,8 +115,8 @@ export default function MuralConcept() {
           <Link href="#work" data-snap>
             Work
           </Link>
-          <Link href="#make" data-snap>
-            What I make
+          <Link href="/portfolio" data-snap>
+            Portfolio
           </Link>
           <Link href="#maker" data-snap>
             About
