@@ -1,0 +1,796 @@
+/* The Mural concept (/concepts/mural): a Kingdom Sites home page as a tiled wall.
+   Night-sky ink, an off-white wall, one orange and one blue. Everything here is
+   scoped to .mu, so nothing leaks into the live site. Phone first. */
+
+.mu {
+  --ink: #0a0c12;
+  --ink-2: #14161d;
+  --page: #efede6;
+  --paper: #f7f5f0;
+  --grout: #d3d1ca;
+  --stone: #6b6f78;
+  --body: #454953;
+  --mist: #b9bdc8;
+  --orange: #f2581c;
+  --blue: #2a5cff;
+  --display: var(--font-unbounded), 'Arial Black', system-ui, sans-serif;
+  --sans: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  --mono: var(--font-geist-mono), ui-monospace, 'SF Mono', monospace;
+  /* A quick settle with a small overshoot: the page's "snap". */
+  --snap: cubic-bezier(0.2, 0.9, 0.25, 1.25);
+  background: var(--page);
+  color: var(--ink-2);
+  font-family: var(--sans);
+  overflow-x: clip;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* The browser's own edges (overscroll, iOS bars) go dark with the sky. */
+html.mu-html,
+html.mu-html body {
+  background: #0a0c12;
+}
+
+.mu em,
+.mu i,
+.mu cite {
+  font-style: normal;
+}
+
+.mu ::selection {
+  background: var(--orange);
+  color: var(--ink);
+}
+
+.mu :focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
+
+.mu-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ───────── Header ───────── */
+
+.mu-nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 50;
+  height: 56px;
+  padding: 0 14px 6px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.mu-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: auto;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Four tiles that trade places when the name is hovered. */
+.mu-mark {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+.mu-mark i {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  transition: transform 180ms steps(2, end);
+}
+.mu-mark i:nth-child(1) { left: 0; top: 0; background: var(--orange); }
+.mu-mark i:nth-child(2) { left: 9px; top: 0; background: var(--paper); }
+.mu-mark i:nth-child(3) { left: 9px; top: 9px; background: var(--blue); }
+.mu-mark i:nth-child(4) { left: 0; top: 9px; background: #8e929a; }
+.mu-brand:hover .mu-mark i:nth-child(1) { transform: translate(9px, 0); }
+.mu-brand:hover .mu-mark i:nth-child(2) { transform: translate(0, 9px); }
+.mu-brand:hover .mu-mark i:nth-child(3) { transform: translate(-9px, 0); }
+.mu-brand:hover .mu-mark i:nth-child(4) { transform: translate(0, -9px); }
+
+.mu-links {
+  display: none;
+  gap: 4px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.mu-links a {
+  padding: 8px 10px;
+  color: var(--mist);
+  transition: color 80ms steps(1), background-color 80ms steps(1);
+}
+.mu-links a:hover {
+  color: var(--ink);
+  background: var(--paper);
+}
+
+.mu-sound {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 4px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mist);
+  cursor: pointer;
+}
+.mu-sound-track {
+  position: relative;
+  width: 30px;
+  height: 16px;
+  border: 1.5px solid var(--mist);
+}
+.mu-sound-track i {
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: 9px;
+  height: 9px;
+  background: #5c616b;
+  transition: transform 110ms steps(2, end), background-color 110ms steps(1, end);
+}
+.mu-sound[aria-pressed='true'] .mu-sound-track i {
+  transform: translateX(14px);
+  background: var(--orange);
+}
+
+.mu-nav-cta {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 11px;
+  text-transform: uppercase;
+  padding: 9px 11px;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 3px 3px 0 var(--orange);
+  transition: transform 80ms steps(2, end), box-shadow 80ms steps(2, end);
+}
+.mu-nav-cta:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--orange); }
+.mu-nav-cta:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--orange); }
+
+/* The row of tiles along the header's foot: it fills as the page is read. */
+.mu-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 6px;
+  background: repeating-linear-gradient(90deg, #1b1f2a 0 6px, transparent 6px 8px);
+}
+.mu-progress i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  background: repeating-linear-gradient(90deg, var(--orange) 0 6px, transparent 6px 8px);
+}
+.mu-progress i::after {
+  content: '';
+  position: absolute;
+  right: 2px;
+  top: 0;
+  width: 6px;
+  height: 6px;
+  background: var(--blue);
+}
+
+/* ───────── Hero ───────── */
+
+.mu-hero {
+  position: relative;
+  min-height: max(100svh, 720px);
+  background: var(--ink);
+  color: var(--paper);
+  overflow: hidden;
+  cursor: crosshair;
+}
+.mu-hero canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.mu-hero-copy {
+  position: relative;
+  z-index: 2;
+  width: fit-content;
+  max-width: 100%;
+  padding: 104px 20px 0;
+  pointer-events: none;
+}
+.mu-hero-copy a {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.mu-h1 {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(2.3rem, 10.8vw, 5.4rem);
+  line-height: 1;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+}
+.mu-h1 .l {
+  display: block;
+  animation: mu-line 520ms var(--snap) both;
+  animation-delay: calc(var(--i) * 90ms + 100ms);
+}
+/* The full stop is a tile, dropped in last. */
+.mu-dot {
+  display: inline-block;
+  width: 0.2em;
+  height: 0.2em;
+  margin-left: 0.07em;
+  background: var(--orange);
+  animation: mu-drop 420ms var(--snap) 620ms both;
+}
+
+.mu-sub {
+  margin-top: 22px;
+  max-width: 33ch;
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--mist);
+  animation: mu-line 520ms var(--snap) 460ms both;
+}
+
+.mu-cta {
+  margin-top: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  animation: mu-line 520ms var(--snap) 560ms both;
+}
+
+/* Buttons press like a key: a hard shadow that the button drops onto. */
+.mu-btn {
+  --sh: var(--paper);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 17px;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 12.5px;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  background: var(--orange);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--sh);
+  transition: transform 90ms steps(2, end), box-shadow 90ms steps(2, end);
+  cursor: pointer;
+}
+.mu-btn span {
+  display: inline-block;
+  transition: transform 120ms steps(2, end);
+}
+.mu-btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--sh); }
+.mu-btn:hover span { transform: translateX(4px); }
+.mu-btn:active { transform: translate(4px, 4px); box-shadow: 0 0 0 var(--sh); }
+
+.mu-btn.is-ghost {
+  --sh: var(--blue);
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--paper);
+}
+.mu-btn.is-ink {
+  --sh: var(--orange);
+  background: var(--ink-2);
+  color: var(--paper);
+  border-color: var(--ink-2);
+}
+
+/* The colour picker, pinned to the wall like a label. */
+.mu-picker {
+  position: absolute;
+  z-index: 2;
+  left: 20px;
+  bottom: 26px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  background: var(--paper);
+  color: var(--ink-2);
+  border: 2px solid var(--ink-2);
+  box-shadow: 4px 4px 0 var(--ink-2);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: default;
+}
+.mu-mouse { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  .mu-mouse { display: inline; }
+  .mu-touch { display: none; }
+}
+.mu-swatches {
+  display: flex;
+  gap: 5px;
+}
+.mu-swatch {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--ink-2);
+  cursor: pointer;
+  transition: transform 90ms steps(2, end), box-shadow 90ms steps(2, end);
+}
+.mu-swatch:hover { transform: translateY(-2px); }
+.mu-swatch[aria-checked='true'] {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 0 var(--ink-2);
+}
+.mu-picker-count {
+  color: var(--stone);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ───────── Sections on the wall ───────── */
+
+.mu-section {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 84px 20px 0;
+  scroll-margin-top: 40px;
+}
+
+.mu-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--stone);
+}
+.mu-eyebrow::before {
+  content: '';
+  width: 22px;
+  height: 6px;
+  background: linear-gradient(90deg, var(--orange) 0 6px, transparent 6px 8px, var(--blue) 8px 14px, transparent 14px 16px, var(--ink-2) 16px 22px);
+}
+
+.mu-h2 {
+  margin-top: 16px;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(1.6rem, 7vw, 3.5rem);
+  line-height: 1.02;
+  text-wrap: balance;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+}
+
+/* Rise into place (Fx.tsx marks each piece as it comes into view). */
+.mu-js [data-rise] {
+  opacity: 0;
+  transform: translateY(18px);
+}
+.mu-js [data-rise].is-in {
+  opacity: 1;
+  transform: none;
+  transition: opacity 240ms linear var(--d, 0ms), transform 460ms var(--snap) var(--d, 0ms);
+}
+
+/* ───────── Work ───────── */
+
+.mu-work {
+  margin-top: 56px;
+  display: grid;
+  gap: 88px;
+}
+.mu-item {
+  display: grid;
+  gap: 30px;
+}
+.mu-num {
+  display: inline-block;
+  padding: 4px 7px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  background: var(--ink-2);
+  color: var(--paper);
+}
+.mu-name {
+  margin-top: 14px;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(1.3rem, 5.6vw, 2.05rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+.mu-chips {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.mu-chip {
+  padding: 5px 8px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--paper);
+  border: 1.5px solid var(--ink-2);
+}
+.mu-chip.is-live::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 7px;
+  background: var(--orange);
+  animation: mu-blink 1.3s steps(1, end) infinite;
+}
+.mu-text {
+  margin-top: 18px;
+  max-width: 46ch;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--body);
+}
+
+/* A link fills with orange from the foot, in three steps. */
+.mu-link {
+  display: inline-block;
+  margin-top: 18px;
+  padding: 2px 2px 3px;
+  font-weight: 600;
+  color: var(--ink-2);
+  background: linear-gradient(var(--orange), var(--orange)) no-repeat 0 100% / 100% 2px;
+  transition: background-size 130ms steps(3, end);
+}
+.mu-link:hover { background-size: 100% 100%; }
+.mu-link span {
+  display: inline-block;
+  transition: transform 120ms steps(2, end);
+}
+.mu-link:hover span { transform: translateX(4px); }
+
+/* A screen in a window: square "lights", a hard coloured shadow. */
+.mu-window {
+  --sh: var(--blue);
+  display: block;
+  border: 2px solid var(--ink-2);
+  background: var(--ink-2);
+  box-shadow: 6px 6px 0 var(--sh);
+  transition: transform 120ms steps(2, end), box-shadow 120ms steps(2, end);
+}
+.mu-window:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0 var(--sh);
+}
+.mu-window-bar {
+  height: 24px;
+  padding: 0 9px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8e929a;
+}
+.mu-window-bar i {
+  width: 7px;
+  height: 7px;
+  background: #8e929a;
+}
+.mu-window-bar i:nth-child(1) { background: var(--orange); }
+.mu-window-bar i:nth-child(2) { background: var(--blue); }
+.mu-window-bar span { margin-left: auto; }
+
+.mu-shot {
+  position: relative;
+  overflow: hidden;
+  background: #c3c4c5;
+}
+.mu-shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+}
+.mu-shot canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.mu-js .mu-shot:not(.is-done) img { opacity: 0; }
+.mu-shot.is-done canvas { display: none; }
+
+.mu-phones {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 0 6px 22px 0;
+}
+.mu-phone {
+  --sh: var(--orange);
+  padding: 4px;
+  border-radius: 15px;
+  background: var(--ink-2);
+  box-shadow: 4px 4px 0 var(--sh);
+  transition: transform 120ms steps(2, end), box-shadow 120ms steps(2, end);
+}
+.mu-phone .mu-shot { border-radius: 11px; }
+.mu-phone:nth-child(2) { margin-top: 22px; margin-bottom: -22px; }
+.mu-phone:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--sh);
+}
+.mu-item:nth-child(odd) .mu-phone { --sh: var(--blue); }
+
+.mu-more {
+  margin-top: 72px;
+}
+
+/* ───────── What I make: four tiles that turn over ───────── */
+
+.mu-flips {
+  margin-top: 44px;
+  display: grid;
+  gap: 18px;
+  padding-right: 6px;
+}
+.mu-flip {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 168px;
+  text-align: left;
+  perspective: 900px;
+  cursor: pointer;
+}
+/* The tile's shadow stays put while the tile turns. */
+.mu-flip::before {
+  content: '';
+  position: absolute;
+  inset: 6px -6px -6px 6px;
+  background: var(--ink-2);
+}
+.mu-flip-in {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: transform 480ms cubic-bezier(0.3, 1.45, 0.4, 1);
+}
+.mu-flip:hover .mu-flip-in { transform: rotateX(8deg); }
+.mu-flip[aria-pressed='true'] .mu-flip-in { transform: rotateX(180deg); }
+.mu-flip[aria-pressed='true']:hover .mu-flip-in { transform: rotateX(172deg); }
+.mu-flip-face {
+  position: absolute;
+  inset: 0;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid var(--ink-2);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.mu-flip-front { background: var(--paper); }
+.mu-flip-back {
+  background: var(--bk);
+  color: var(--fg);
+  transform: rotateX(180deg);
+}
+.mu-flip-index {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+}
+.mu-flip-title {
+  margin-top: auto;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.2rem;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+.mu-flip-hint {
+  margin-left: 12px;
+  font-size: 10px;
+  color: var(--stone);
+  text-transform: uppercase;
+}
+/* A small patch of tiles in the colour waiting on the back. */
+.mu-flip-art {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  display: grid;
+  grid-template-columns: repeat(5, 9px);
+  gap: 2px;
+}
+.mu-flip-art i {
+  width: 9px;
+  height: 9px;
+  background: #e5e3dc;
+  transition: transform 140ms steps(2, end);
+}
+.mu-flip-art i.is-laid { background: var(--bk); }
+.mu-flip:hover .mu-flip-art i.is-laid { transform: scale(0.7); }
+.mu-flip-body {
+  margin-top: auto;
+  font-size: 15.5px;
+  line-height: 1.45;
+  font-weight: 500;
+}
+
+/* ───────── The maker ───────── */
+
+.mu-maker {
+  display: grid;
+  gap: 34px;
+  align-items: center;
+}
+.mu-maker .mu-window {
+  --sh: var(--orange);
+  max-width: 420px;
+  margin-right: 8px;
+}
+
+/* ───────── The close: back out under the night sky ───────── */
+
+.mu-band {
+  margin-top: 96px;
+  line-height: 0;
+}
+.mu-band canvas {
+  display: block;
+  width: 100%;
+}
+
+.mu-close {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 34px 20px 0;
+  scroll-margin-top: 40px;
+}
+.mu-close-in {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.mu-close .mu-h2 {
+  font-size: clamp(2.1rem, 9.6vw, 5rem);
+  line-height: 1;
+}
+.mu-close .mu-eyebrow { color: #8e929a; }
+.mu-close .mu-eyebrow::before {
+  background: linear-gradient(90deg, var(--orange) 0 6px, transparent 6px 8px, var(--blue) 8px 14px, transparent 14px 16px, var(--paper) 16px 22px);
+}
+.mu-close .mu-text { color: var(--mist); }
+.mu-close .mu-cta { animation: none; }
+
+.mu-foot {
+  margin-top: 110px;
+  padding: 18px 0 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  justify-content: space-between;
+  border-top: 2px solid #1b1f2a;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8e929a;
+}
+.mu-foot a {
+  color: var(--paper);
+  background: linear-gradient(var(--orange), var(--orange)) no-repeat 0 100% / 100% 2px;
+  padding-bottom: 3px;
+}
+
+/* The tiles that fly off a press (Fx.tsx). */
+.mu-bit {
+  position: fixed;
+  z-index: 90;
+  width: 6px;
+  height: 6px;
+  pointer-events: none;
+}
+
+/* ───────── Motion ───────── */
+
+@keyframes mu-line {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes mu-drop {
+  from { opacity: 0; transform: translateY(-1.6em); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes mu-blink {
+  0%, 60% { opacity: 1; }
+  61%, 100% { opacity: 0.25; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mu *,
+  .mu *::before,
+  .mu *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .mu-js [data-rise] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ───────── Wider screens ───────── */
+
+@media (min-width: 640px) {
+  .mu-nav { padding: 0 22px 6px 24px; }
+  .mu-brand { font-size: 13px; }
+  .mu-hero-copy { padding: 128px 32px 0; }
+  .mu-picker { left: 32px; }
+  .mu-section { padding: 110px 32px 0; }
+  .mu-close { padding: 40px 32px 0; }
+  .mu-flips { grid-template-columns: 1fr 1fr; }
+  .mu-flip { height: 200px; }
+  .mu-phones { gap: 18px; max-width: 520px; }
+  .mu-window { box-shadow: 8px 8px 0 var(--sh); }
+  .mu-window:hover { box-shadow: 11px 11px 0 var(--sh); }
+}
+
+@media (min-width: 960px) {
+  .mu-links { display: flex; }
+  .mu-hero-copy { padding: clamp(128px, 19vh, 190px) 0 0 max(40px, 6vw); }
+  .mu-h1 { font-size: clamp(3.4rem, 6.1vw, 5.6rem); }
+  .mu-sub { font-size: 19px; max-width: 34ch; }
+  .mu-picker { left: max(40px, 6vw); bottom: 34px; }
+  .mu-section { padding: 140px 40px 0; }
+  .mu-work { gap: 130px; margin-top: 80px; }
+  .mu-item {
+    grid-template-columns: 5fr 7fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .mu-item:nth-child(even) .mu-media { order: -1; }
+  .mu-item:nth-child(even) { grid-template-columns: 7fr 5fr; }
+  .mu-phones { margin: 0 auto; }
+  .mu-flips { grid-template-columns: repeat(4, 1fr); margin-top: 60px; }
+  .mu-flip { height: 250px; }
+  .mu-flip-art { grid-template-columns: repeat(5, 11px); }
+  .mu-flip-art i { width: 11px; height: 11px; }
+  .mu-maker { grid-template-columns: 5fr 7fr; gap: 72px; }
+  .mu-band { margin-top: 140px; }
+  .mu-close { padding: 60px 40px 0; }
+}
