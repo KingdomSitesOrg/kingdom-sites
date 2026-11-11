@@ -263,7 +263,7 @@ export default function MuralConcept() {
               Thomas Klein.
             </h2>
             <p className="mu-text" data-rise style={delay(120)}>
-              I am a software engineer. I design, build, ship and maintain apps and the systems behind them. I am the person who does the work, and I stay after launch.
+              I am a software engineer. I design, build, ship and maintain apps. I am married to my wife Monisha, and love serving others.
             </p>
             <div data-rise style={delay(180)}>
               <Link href="/about" className="mu-link" data-snap>
