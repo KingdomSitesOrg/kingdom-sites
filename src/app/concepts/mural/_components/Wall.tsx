@@ -230,7 +230,9 @@ export default function Wall({ children }: { children: ReactNode }) {
       const wide = W >= 960
 
       // Near the foot the mural breaks into the light page: a ragged line that wanders a little from column to column.
-      const edgeAt = (c: number) => H - cell * (13 + (noise(c / 9, 0, 41) - 0.5) * 5)
+      // On a phone the dark runs a few tiles lower, so the name's second line, SITES, sits well clear of the light.
+      const foot = W < 640 ? 9 : 13
+      const edgeAt = (c: number) => H - cell * (foot + (noise(c / 9, 0, 41) - 0.5) * 5)
       const reach = Math.hypot(W, H)
 
       for (let r = 0; r < rows; r++) {
@@ -530,10 +532,9 @@ export default function Wall({ children }: { children: ReactNode }) {
       <canvas ref={canvasRef} aria-hidden="true" />
       {children}
       <div className="mu-picker" data-nopaint>
-        <span className="mu-picker-label">
-          <span className="mu-touch">Tap the wall</span>
-          <span className="mu-mouse">Click the wall</span>
-        </span>
+        {/* With a mouse the box says what to do. On a touch screen it has no label (Thomas, 2026-11-11):
+            the paints and the count are enough. */}
+        <span className="mu-picker-label mu-mouse">Click the wall</span>
         <div className="mu-swatches" role="radiogroup" aria-label="Tile colour">
           {PAINTS.map((p, i) => (
             <button
