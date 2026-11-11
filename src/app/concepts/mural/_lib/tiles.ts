@@ -49,22 +49,27 @@ export const clamp = (v: number, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, v)
 export const smooth = (a: number, b: number, v: number) => fade(clamp((v - a) / (b - a)))
 export const pick = <T,>(list: readonly T[], h: number): T => list[Math.min(list.length - 1, Math.floor(h * list.length))]
 
-/** One tile's width on screen, in CSS pixels: finer on a phone. */
-export const tileSize = (width: number) => (width < 640 ? 9 : width < 1100 ? 11 : 12)
+/** One tile's width on screen, in CSS pixels. Sized so the hero's mural, the name KINGDOM SITES in tiles
+    (Wall.tsx), fits across: one line of 142 tiles on a wide screen, two lines of 78 on a tablet, and two of
+    39 on a phone. */
+export const tileSize = (width: number) =>
+  width >= 960 ? clamp(Math.floor(width / 150), 6, 13) : width >= 640 ? Math.floor(width / 84) : clamp(Math.floor(width / 42), 7, 11)
 
 /** The wall's tone for a brightness of 0..1. */
 export function wallTone(b: number): string {
   return WALL[Math.floor(clamp((b - 0.32) / 0.68) * 6.999)]
 }
 
-/** A sky tile: near black, with a rare lit one. */
+/** A tile of the dark mural: near black in soft patches, with a rare lit one. */
 export function skyTone(c: number, r: number, quiet = false): string {
   const h = hash(c, r, 11)
   if (!quiet) {
     if (h < 0.003) return '#DDE3F0'
     if (h < 0.013) return h < 0.008 ? BLUE : '#1B2E6B'
     if (h < 0.017) return ORANGE
-    if (h < 0.024) return '#2B303C'
+    if (h < 0.026) return '#2B303C'
+    // Loose clusters a shade lighter, so the dark reads as laid tile and not as a flat ground.
+    if (noise(c / 3.5, r / 3.5, 51) > 0.78 && hash(c, r, 52) < 0.55) return hash(c, r, 53) < 0.25 ? '#171D31' : '#141824'
   }
   return noise(c / 5, r / 5, 3) > 0.68 ? '#10131C' : pick(SKY, hash(c, r, 12))
 }

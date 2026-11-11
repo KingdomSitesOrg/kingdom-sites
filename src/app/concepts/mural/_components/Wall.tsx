@@ -5,7 +5,6 @@ import { play } from '../_lib/sound'
 import {
   BLUE,
   GROUT,
-  G_ORANGE,
   G_PAGE,
   G_SKY,
   G_WALL,
@@ -16,8 +15,6 @@ import {
   RIM_FAR,
   RIM_IN,
   RIM_NEAR,
-  WALL_SHADE,
-  clamp,
   hash,
   noise,
   pick,
@@ -27,11 +24,13 @@ import {
   wallTone,
 } from '../_lib/tiles'
 
-/* The hero: a wall of small tiles, drawn on a canvas behind the headline.
-   A lit dome rises out of a dark sky with two glowing panels on it; the wall
-   lays itself tile by tile when the page opens, tiles dip under the pointer,
-   and a tap lays new tiles in the colour picked below. Only the tiles that
-   are moving are redrawn, so a still wall costs nothing. */
+/* The hero: one large mural of small tiles, drawn on a canvas behind the
+   headline. It is a night-dark wall with a few lit tiles, and the studio's
+   name, KINGDOM SITES, laid large and quiet in tiles only a shade lighter
+   than the wall. At the foot the mural breaks up into the light page below.
+   The name is laid left to right when the page opens; tiles dip under the
+   pointer, and a tap lays new tiles in the colour picked below. Only the
+   tiles that are moving are redrawn, so a still wall costs nothing. */
 
 const PAINTS = [
   { name: 'Orange', tone: ORANGE },
@@ -45,11 +44,40 @@ const SKY_TILE = 0
 const WALL_TILE = 1
 const PLAIN_TILE = 2
 
-const K = ['X..X', 'X.X.', 'XX..', 'X.X.', 'X..X']
-const S = ['.XXX', 'X...', '.XX.', '...X', 'XXX.']
+/* The mural's lettering: each letter on a grid seven tiles tall. */
+const GLYPHS: Record<string, string[]> = {
+  K: ['X...X', 'X..X.', 'X.X..', 'XX...', 'X.X..', 'X..X.', 'X...X'],
+  I: ['XXX', '.X.', '.X.', '.X.', '.X.', '.X.', 'XXX'],
+  N: ['X...X', 'XX..X', 'X.X.X', 'X.X.X', 'X.X.X', 'X..XX', 'X...X'],
+  G: ['.XXX.', 'X...X', 'X....', 'X.XXX', 'X...X', 'X...X', '.XXX.'],
+  D: ['XXXX.', 'X...X', 'X...X', 'X...X', 'X...X', 'X...X', 'XXXX.'],
+  O: ['.XXX.', 'X...X', 'X...X', 'X...X', 'X...X', 'X...X', '.XXX.'],
+  M: ['X...X', 'XX.XX', 'X.X.X', 'X.X.X', 'X...X', 'X...X', 'X...X'],
+  S: ['.XXXX', 'X....', 'X....', '.XXX.', '....X', '....X', 'XXXX.'],
+  T: ['XXXXX', '..X..', '..X..', '..X..', '..X..', '..X..', '..X..'],
+  E: ['XXXXX', 'X....', 'X....', 'XXXX.', 'X....', 'X....', 'XXXXX'],
+}
 
-type Line = { cells: number[]; tone: string[]; ground: string[] }
-type Panel = { lines: Line[]; line: number; cell: number; rest: number }
+/* A lettering tile belongs to one of three families, all kept close to the wall's own dark so the
+   name stays in the background: KINGDOM in slate, SITES in deep blue, and one burnt-orange tile
+   that closes the name like the headline's full stop. */
+const FAMILY = [[], ['#2B3244', '#30384C', '#272D3E', '#363F55'], ['#1B2E6B', '#203680', '#182A5E', '#2540A0'], ['#B8400F', '#C9480F']]
+const INK_FAMILY = 1
+const BLUE_FAMILY = 2
+const ORANGE_FAMILY = 3
+
+type Bit = { x: number; y: number; family: number }
+
+/** Adds a word's tiles to `out`, starting at (x, y) in letter-grid units. Returns the word's width. */
+function word(text: string, family: number, x: number, y: number, out: Bit[]): number {
+  let at = x
+  for (const ch of text) {
+    const glyph = GLYPHS[ch]
+    glyph.forEach((row, j) => row.split('').forEach((bit, k) => bit === 'X' && out.push({ x: at + k, y: y + j, family })))
+    at += glyph[0].length + 1
+  }
+  return at - 1 - x
+}
 
 export default function Wall({ children }: { children: ReactNode }) {
   const sectionRef = useRef<HTMLElement>(null)
@@ -78,7 +106,13 @@ export default function Wall({ children }: { children: ReactNode }) {
     let tone: string[] = []
     let pend: (string | null)[] = []
     let specks: number[] = []
-    let panels: Panel[] = []
+    let family = new Uint8Array(0)
+    let letters: number[] = []
+    let byCol = new Map<number, number[]>()
+    let firstCol = 0
+    let lastCol = 0
+    let wave = -1
+    let waveRest = 28
     let start = 0
     let raf = 0
     let live = true
@@ -177,10 +211,12 @@ export default function Wall({ children }: { children: ReactNode }) {
       tone = new Array(n)
       pend = new Array(n).fill(null)
       specks = []
-      panels = []
+      family = new Uint8Array(n)
+      letters = []
+      byCol = new Map()
       active.clear()
 
-      // Where the words are: the dome keeps clear of them.
+      // Where the words are: the lit tiles keep clear of them, and the name sits below them.
       const copy = section!.querySelector('[data-hero-copy]')?.getBoundingClientRect()
       const copyBottom = copy ? copy.bottom - box.top : H * 0.5
       const copyRight = copy ? copy.right - box.left : W * 0.5
@@ -188,20 +224,8 @@ export default function Wall({ children }: { children: ReactNode }) {
       const copyTop = copy ? copy.top - box.top : 0
       const wide = W >= 960
 
-      // The dome is a circle with its peak at (px, py); below `ground` the wall runs the full width.
-      let px: number, R: number, cy: number, ground: number
-      if (wide) {
-        px = W * 0.79
-        ground = Math.max(copyBottom + 44, H * 0.66)
-        R = clamp(px - (copyRight + 48), 220, H * 0.5)
-        cy = ground - R * 0.12
-      } else {
-        px = W * 0.46
-        R = W * 1.15
-        cy = copyBottom + 34 + R
-        ground = cy
-      }
-      const py = cy - R
+      // Near the foot the mural breaks into the light page: a ragged line that wanders a little from column to column.
+      const edgeAt = (c: number) => H - cell * (13 + (noise(c / 9, 0, 41) - 0.5) * 5)
       const reach = Math.hypot(W, H)
 
       for (let r = 0; r < rows; r++) {
@@ -210,13 +234,12 @@ export default function Wall({ children }: { children: ReactNode }) {
           const x = (c + 0.5) * cell
           const y = (r + 0.5) * cell
           const h = hash(c, r, 1)
-          const dDome = Math.hypot(x - px, y - cy) - R
-          const out = Math.min(dDome, ground - y) // under zero: on the wall
-          const rag = (h - 0.5) * cell * 1.1
-          const order = animate ? 140 + (Math.hypot(x, H - y) / reach) * 950 + hash(c, r, 2) * 240 : -1
+          const out = edgeAt(c) - y // above zero: still the dark mural
+          const rag = (h - 0.5) * cell * 1.6
+          const order = animate ? 140 + (Math.hypot(x, H - y) / reach) * 700 + hash(c, r, 2) * 240 : -1
 
           if (out > rag) {
-            // Sky, with a blue glow hugging the wall's edge.
+            // The dark mural, with a blue glow where it meets the light.
             kind[i] = SKY_TILE
             grout[i] = G_SKY
             const inCopy = x > copyLeft - 12 && x < copyRight + 12 && y > copyTop - 12 && y < copyBottom + 12
@@ -231,7 +254,7 @@ export default function Wall({ children }: { children: ReactNode }) {
             continue
           }
 
-          // Wall. The last rows melt into the page: plain tiles in the page's tone.
+          // The light foot. Its last rows melt into the page: plain tiles in the page's tone.
           born[i] = order
           const melt = (r - (rows - 10)) / 9
           if (melt > 0 && hash(c, r, 7) < Math.pow(melt, 1.15)) {
@@ -242,91 +265,64 @@ export default function Wall({ children }: { children: ReactNode }) {
           }
           kind[i] = WALL_TILE
           grout[i] = G_WALL
-          const onDome = dDome <= 0
-          const nx = (x - px) / R
-          const ny = (y - cy) / R
-          // Lit from the lower left, in shade to the upper right.
-          let b = onDome ? 0.8 - 0.36 * nx + 0.26 * (ny + 0.55) : 0.97 - 0.1 * Math.max(0, nx + 0.4)
-          const settle = smooth(rows - 21, rows - 8, r)
-          b += ((noise(c / 6, r / 6, 5) - 0.5) * 0.3 + (h - 0.5) * 0.12) * (1 - settle)
-          b = b + (0.855 - b) * settle
+          const settle = smooth(rows - 12, rows - 5, r)
+          const b = 0.86 + ((noise(c / 6, r / 6, 5) - 0.5) * 0.3 + (h - 0.5) * 0.12) * (1 - settle)
           tone[i] = wallTone(b)
           if (settle < 0.5) {
-            if (onDome && b < 0.72 && noise(c / 4 + 31, r / 4 + 7, 8) > 0.74) tone[i] = pick(WALL_SHADE, hash(c, r, 9))
             if (out > -cell * 2.5 && hash(c, r, 4) < 0.4) tone[i] = pick(RIM_IN, hash(c, r, 6))
             const stray = hash(c, r, 10)
-            if (stray < 0.004) tone[i] = BLUE
-            else if (stray < 0.007) tone[i] = ORANGE
-            else if (stray < 0.011) tone[i] = '#14161D'
+            if (stray < 0.012) tone[i] = BLUE
+            else if (stray < 0.02) tone[i] = ORANGE
+            else if (stray < 0.03) tone[i] = '#14161D'
           }
         }
       }
 
-      // Two glowing panels on the dome: one orange, one dark, each with rows of short marks.
-      const sw = Math.round(clamp(cols * (wide ? 0.17 : 0.38), 13, 22))
-      const sh = Math.round(sw * 0.64)
-      const pc = Math.round(px / cell)
-      const pr = Math.round(py / cell)
-      const top = pr + (wide ? 9 : 7)
-      const panel = (left: number, topRow: number, orange: boolean, seed: number) => {
-        const lines: Line[] = []
-        for (let j = 0; j < sh; j++) {
-          const line: Line = { cells: [], tone: [], ground: [] }
-          let run = 0
-          let mark = ''
-          let limit = sw - 2 - Math.floor(hash(j, seed, 21) * (sw * 0.45))
-          let at = 2 + Math.floor(hash(j, seed, 22) * 3)
-          for (let k = 0; k < sw; k++) {
-            const c = left + k
-            const r = topRow + j
+      // The mural: KINGDOM SITES. One line on a wide screen, two on a narrow one; twice the size from a tablet up.
+      const size = W >= 640 ? 2 : 1
+      const bits: Bit[] = []
+      let unitsWide: number
+      let unitsTall: number
+      if (wide) {
+        const a = word('KINGDOM', INK_FAMILY, 0, 0, bits)
+        const b = word('SITES', BLUE_FAMILY, a + 3, 0, bits)
+        bits.push({ x: a + 3 + b + 1, y: 6, family: ORANGE_FAMILY })
+        unitsWide = a + 3 + b + 2
+        unitsTall = 7
+      } else {
+        unitsWide = word('KINGDOM', INK_FAMILY, 0, 0, bits)
+        const b = word('SITES', BLUE_FAMILY, 0, 9, bits)
+        bits.push({ x: b + 1, y: 15, family: ORANGE_FAMILY })
+        unitsTall = 16
+      }
+      firstCol = Math.max(0, Math.round((cols - unitsWide * size) / 2))
+      lastCol = firstCol + unitsWide * size - 1
+      // It sits in the open dark between the words and the foot of the mural.
+      const from = Math.ceil(copyBottom / cell) + 3
+      const to = Math.floor((H - cell * 16) / cell) - 2 - unitsTall * size
+      const topRow = to > from ? Math.round(from + (to - from) * 0.5) : from
+      for (const bit of bits) {
+        for (let dy = 0; dy < size; dy++) {
+          for (let dx = 0; dx < size; dx++) {
+            const c = firstCol + bit.x * size + dx
+            const r = topRow + bit.y * size + dy
             if (c < 0 || c >= cols || r < 0 || r >= rows) continue
             const i = r * cols + c
-            if (kind[i] !== WALL_TILE || Math.hypot((c + 0.5) * cell - px, (r + 0.5) * cell - cy) > R - cell) continue
-            const edge = k === 0 || j === 0 || k === sw - 1 || j === sh - 1
-            const fill = orange ? pick(['#F2581C', '#F46A2E', '#E9501A'], hash(c, r, 23)) : pick(['#0E1118', '#11141D'], hash(c, r, 23))
-            grout[i] = orange && !edge ? G_ORANGE : G_SKY
-            tone[i] = edge ? '#14161D' : fill
-            if (animate) born[i] += 320
-            if (edge || j % 2 === 1 || j < 2 || j > sh - 3) continue
-            // Marks: short runs with gaps, like lines of work on a screen.
-            if (k < at || k > limit) continue
-            if (run === 0) {
-              const hm = hash(k, j, seed)
-              run = 2 + Math.floor(hm * 4)
-              mark = orange ? (hm < 0.75 ? '#2B1208' : '#7A2A0C') : hm < 0.6 ? '#8D95A6' : hm < 0.78 ? ORANGE : '#5A8BFF'
-              limit = Math.min(limit, sw - 3)
-            }
-            line.cells.push(i)
-            line.tone.push(mark)
-            line.ground.push(fill)
-            tone[i] = mark
-            run--
-            if (run === 0) at = k + 2 + Math.floor(hash(k, j, seed + 1) * 2)
+            kind[i] = SKY_TILE
+            grout[i] = G_SKY
+            family[i] = bit.family
+            tone[i] = pick(FAMILY[bit.family], hash(c, r, 23))
+            // Laid left to right as the page opens.
+            born[i] = animate ? 500 + ((c - firstCol) / (unitsWide * size)) * 900 + hash(c, r, 24) * 160 : -1
+            letters.push(i)
+            const col = byCol.get(c)
+            if (col) col.push(i)
+            else byCol.set(c, [i])
           }
-          if (line.cells.length) lines.push(line)
         }
-        if (lines.length) panels.push({ lines, line: lines.length, cell: 0, rest: 6 + panels.length * 9 })
       }
-      panel(pc - sw - 1, top, true, 41)
-      panel(pc + 1, top + 3, false, 57)
-
-      // A signature in blue tiles, where a muralist would sign.
-      const signCol = wide ? 6 : cols - 12
-      const signRow = rows - 17
-      ;[K, S].forEach((glyph, g) =>
-        glyph.forEach((row, j) =>
-          row.split('').forEach((bit, k) => {
-            const c = signCol + g * 5 + k
-            const r = signRow + j
-            if (bit !== 'X' || c < 0 || c >= cols || r < 0) return
-            const i = r * cols + c
-            if (kind[i] === SKY_TILE) return
-            kind[i] = WALL_TILE
-            grout[i] = G_WALL
-            tone[i] = BLUE
-          }),
-        ),
-      )
+      wave = -1
+      waveRest = 34
 
       start = performance.now()
       ctx!.fillStyle = INK
@@ -389,44 +385,29 @@ export default function Wall({ children }: { children: ReactNode }) {
       lay(c, r)
     }
 
-    // The panels type: one mark at a time, then two lines clear and are typed again.
-    const type = () => {
+    // The mural keeps a little life: a tile of the name changes shade now and then, and every
+    // few seconds a dip runs through the letters from left to right.
+    const breathe = () => {
       const now = performance.now()
-      for (const p of panels) {
-        if (p.rest > 0) {
-          p.rest--
-          continue
-        }
-        if (p.line >= p.lines.length) {
-          const a = Math.floor(Math.random() * p.lines.length)
-          const b = (a + 1 + Math.floor(Math.random() * (p.lines.length - 1))) % p.lines.length
-          const again = [...new Set([a, b])].sort((m, k) => m - k)
-          for (const li of again) {
-            const line = p.lines[li]
-            line.cells.forEach((i, k) => {
-              tone[i] = line.ground[k]
-              active.add(i)
-            })
-          }
-          // Typed lines sit first in the list; the cleared ones go to the end to be typed again.
-          p.lines = [...p.lines.filter((_, k) => !again.includes(k)), ...again.map((k) => p.lines[k])]
-          p.line = p.lines.length - again.length
-          p.cell = 0
-          p.rest = 5
-          continue
-        }
-        const line = p.lines[p.line]
-        const i = line.cells[p.cell]
-        pend[i] = line.tone[p.cell]
+      if (letters.length && Math.random() < 0.5) {
+        const i = letters[Math.floor(Math.random() * letters.length)]
+        pend[i] = pick(FAMILY[family[i]], Math.random())
         popAt[i] = now
         active.add(i)
-        p.cell++
-        if (p.cell >= line.cells.length) {
-          p.cell = 0
-          p.line++
-          p.rest = p.line >= p.lines.length ? 16 : 2
-        }
       }
+      if (wave >= 0) {
+        for (let c = wave; c < wave + 3; c++) {
+          for (const i of byCol.get(c) ?? []) {
+            press[i] = 0.9
+            active.add(i)
+          }
+        }
+        wave += 3
+        if (wave > lastCol) {
+          wave = -1
+          waveRest = 60
+        }
+      } else if (--waveRest <= 0) wave = firstCol
       // And now and then a lit tile in the sky changes its mind.
       if (specks.length && Math.random() < 0.3) {
         const i = specks[Math.floor(Math.random() * specks.length)]
@@ -443,7 +424,7 @@ export default function Wall({ children }: { children: ReactNode }) {
       window.clearInterval(timer)
       if (yes) {
         kick()
-        if (!still) timer = window.setInterval(type, 95)
+        if (!still) timer = window.setInterval(breathe, 95)
       }
     }
 

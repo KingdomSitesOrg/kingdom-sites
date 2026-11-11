@@ -5,6 +5,7 @@ import { PHOTOS, SHOTS, type Shot } from '@/lib/work'
 import FlipTile from './_components/FlipTile'
 import Fx from './_components/Fx'
 import MosaicShot from './_components/MosaicShot'
+import Strays from './_components/Strays'
 import TileBand from './_components/TileBand'
 import Wall from './_components/Wall'
 
@@ -130,20 +131,18 @@ export default function MuralConcept() {
       <div id="top" />
       <Wall>
         <div className="mu-hero-copy" data-hero-copy>
+          {/* Thomas's own line for the hero (2026-11-11). */}
           <h1 className="mu-h1">
             <span className="l" style={{ '--i': 0 } as CSSProperties}>
-              I build
+              Custom
             </span>
             <span className="l" style={{ '--i': 1 } as CSSProperties}>
-              websites
-            </span>
-            <span className="l" style={{ '--i': 2 } as CSSProperties}>
-              and apps
+              software
               <span className="mu-dot" aria-hidden="true" />
               <span className="mu-sr">.</span>
             </span>
           </h1>
-          <p className="mu-sub">Custom software for founders and small businesses. One person designs it, builds it and stays after launch.</p>
+          <p className="mu-sub">With every detail cared for, like a mural.</p>
           <div className="mu-cta">
             <Link href={INQUIRE_PATH} className="mu-btn" data-snap>
               {INQUIRE_CTA} <Arrow />
@@ -156,12 +155,15 @@ export default function MuralConcept() {
       </Wall>
 
       <section id="work" className="mu-section" aria-labelledby="work-title">
-        <p className="mu-eyebrow" data-rise>
-          Work
-        </p>
-        <h2 id="work-title" className="mu-h2" data-rise style={delay(60)}>
-          What I have built.
-        </h2>
+        <div className="mu-head">
+          <Strays seed={71} />
+          <p className="mu-eyebrow" data-rise>
+            Work
+          </p>
+          <h2 id="work-title" className="mu-h2" data-rise style={delay(60)}>
+            What I have built.
+          </h2>
+        </div>
 
         <div className="mu-work">
           {WORK.map((w, n) => (
@@ -223,12 +225,15 @@ export default function MuralConcept() {
       </section>
 
       <section id="make" className="mu-section" aria-labelledby="make-title">
-        <p className="mu-eyebrow" data-rise>
-          What I make
-        </p>
-        <h2 id="make-title" className="mu-h2" data-rise style={delay(60)}>
-          Four things I can build for you.
-        </h2>
+        <div className="mu-head">
+          <Strays seed={83} />
+          <p className="mu-eyebrow" data-rise>
+            What I make
+          </p>
+          <h2 id="make-title" className="mu-h2" data-rise style={delay(60)}>
+            Four things I can build for you.
+          </h2>
+        </div>
         <div className="mu-flips">
           {MAKE.map((m, i) => (
             <div key={m.title} data-rise style={delay(i * 70)}>
@@ -249,7 +254,8 @@ export default function MuralConcept() {
             </span>
             <MosaicShot {...PHOTOS.evening} sizes="(min-width: 960px) 420px, 88vw" />
           </div>
-          <div>
+          <div className="mu-head">
+            <Strays seed={97} />
             <p className="mu-eyebrow" data-rise>
               Who builds it
             </p>
