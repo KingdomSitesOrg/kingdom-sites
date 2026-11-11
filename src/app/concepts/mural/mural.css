@@ -974,3 +974,142 @@ body:has(.mu) .ki-square:active { transform: translate(4px, 4px); box-shadow: 0 
   body:has(.mu) .ki-square { height: 46px; }
   body:has(.mu) .ki-square-title { font-size: 12px; }
 }
+
+/* ───────── The chat panel, in tile ─────────
+   The panel the button opens, redrawn the same way: a sheet of paper with an ink edge and a hard
+   blue shadow, square everywhere, the page's orange for the one button that sends. Only colour,
+   edges and type change; how the chat works is the live site's. */
+body:has(.mu) .ki {
+  --bg: #efede6;
+  --bg-2: #f7f5f0;
+  --fg: #0a0c12;
+  --body: #454953;
+  --dim: #6b6f78;
+  --line: #0a0c12;
+}
+body:has(.mu) .ki-panel {
+  border: 2px solid #0a0c12;
+  border-radius: 0;
+  box-shadow: 8px 8px 0 #2a5cff;
+  animation-timing-function: steps(4, end);
+}
+/* On a phone the live site's own rule for the floating panel is more specific than these, so the
+   square edge and hard shadow are insisted on there. */
+@media (max-width: 759px), (max-height: 520px) {
+  body:has(.mu) .ki .ki-panel {
+    border: 2px solid #0a0c12 !important;
+    border-radius: 0 !important;
+    box-shadow: 5px 5px 0 #2a5cff !important;
+  }
+}
+
+/* The head: an ink band, like the page's header, with the title in the wide face. */
+body:has(.mu) .ki-head {
+  background: #0a0c12;
+  color: #f7f5f0;
+  border-bottom: 0;
+  padding: 16px 10px 14px 18px;
+  /* A row of tiles along its foot, as under the page's header. */
+  box-shadow: inset 0 -4px 0 #f2581c;
+}
+body:has(.mu) .ki-title {
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: #f7f5f0;
+  gap: 20px;
+}
+body:has(.mu) .ki-title .ki-spark { display: none; }
+body:has(.mu) .ki-title::before {
+  content: '';
+  width: 9px;
+  height: 9px;
+  flex: none;
+  background: #f2581c;
+  box-shadow: 11px 0 0 #2a5cff;
+}
+body:has(.mu) .ki-sub {
+  margin-top: 9px;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #b9bdc8;
+}
+body:has(.mu) .ki-close { border-radius: 0; color: #f7f5f0; }
+body:has(.mu) .ki-close:hover { background: #f7f5f0; color: #0a0c12; }
+body:has(.mu) .ki-close:focus-visible { outline-color: #f2581c; }
+body:has(.mu) .ki-edge { height: 3px; }
+body:has(.mu) .ki-panel[data-busy] .ki-edge::after { background: #2a5cff; }
+
+/* The conversation. */
+body:has(.mu) .ki-chip {
+  border: 2px solid #0a0c12;
+  border-radius: 0;
+  background: #f7f5f0;
+  font-weight: 500;
+  box-shadow: 3px 3px 0 #0a0c12;
+  transition: transform 80ms steps(2, end), box-shadow 80ms steps(2, end);
+}
+body:has(.mu) .ki-chip:hover { border-color: #0a0c12; transform: translate(-1px, -1px); box-shadow: 4px 4px 0 #f2581c; }
+body:has(.mu) .ki-chip:active { transform: translate(3px, 3px); box-shadow: 0 0 0 #0a0c12; }
+body:has(.mu) .ki-suggest { gap: 10px; padding-right: 4px; }
+body:has(.mu) .ki-q,
+body:has(.mu) .km-mine .km-bubble { border-radius: 0; background: #0a0c12; color: #f7f5f0; }
+body:has(.mu) .km-his .km-bubble { border-radius: 0; background: #2a5cff; color: #f7f5f0; }
+body:has(.mu) :is(.ki-a, .ki-note, .ki-card-error) a { text-decoration-color: #f2581c; text-decoration-thickness: 2px; }
+body:has(.mu) .ki-think-word { background: none; color: #6b6f78; animation: none; }
+body:has(.mu) .ki-bar { border-radius: 0; background: #d3d1ca; }
+body:has(.mu) .ki-bar::after { background: linear-gradient(90deg, transparent, #f7f5f0, transparent); }
+body:has(.mu) .ki-send { border: 2px solid #0a0c12; border-radius: 0; background: #f7f5f0; }
+body:has(.mu) .ki-send:hover { border-color: #0a0c12; background: #f2581c; }
+body:has(.mu) .km-promise { border-radius: 0; background: #e5e3dc; letter-spacing: 0.06em; text-transform: uppercase; font-size: 10.5px; }
+
+/* The question box and the button that sends. */
+body:has(.mu) .ki-form {
+  border: 2px solid #0a0c12;
+  border-radius: 0;
+  background: #f7f5f0;
+  padding: 4px 4px 4px 12px;
+  align-items: center;
+}
+body:has(.mu) .ki-form:focus-within { border-color: #2a5cff; }
+body:has(.mu) .ki-ask { border-radius: 0; background: #f2581c; color: #0a0c12; }
+body:has(.mu) .ki-ask:disabled { background: #d3d1ca; opacity: 1; color: #6b6f78; }
+body:has(.mu) .ki-ask:focus-visible { outline-color: #0a0c12; }
+body:has(.mu) .ki-foot { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+/* The two tabs along the foot. */
+body:has(.mu) .ki-tabs { border-top: 2px solid #0a0c12; gap: 0; padding: 0; }
+body:has(.mu) .ki-tab {
+  border-radius: 0;
+  min-height: 48px;
+  font-weight: 700;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  color: #6b6f78;
+}
+body:has(.mu) .ki-tab + .ki-tab { border-left: 2px solid #0a0c12; }
+body:has(.mu) .ki-tab[aria-pressed='true'] { background: #0a0c12; color: #f7f5f0; }
+body:has(.mu) .ki-tab:focus-visible { outline-color: #f2581c; }
+body:has(.mu) .ki-dot-tab { border-radius: 0; background: #f2581c; }
+
+/* Writing to Thomas, and the card that sends a question on to him. */
+body:has(.mu) :is(.km-intro-title, .ki-card-title) { font-weight: 700; font-size: 14px; letter-spacing: 0; text-transform: uppercase; }
+body:has(.mu) .ki-card { border: 2px solid #0a0c12; border-radius: 0; background: #f7f5f0; }
+body:has(.mu) :is(.ki-input, .km-textarea) { border: 2px solid #0a0c12; border-radius: 0; background: #fff; }
+body:has(.mu) :is(.ki-input, .km-textarea):focus { border-color: #2a5cff; }
+body:has(.mu) .ki-label { font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; }
+body:has(.mu) .ki-btn {
+  border-radius: 0;
+  background: #f2581c;
+  color: #0a0c12;
+  font-weight: 700;
+  font-size: 11px;
+  text-transform: uppercase;
+  box-shadow: 3px 3px 0 #0a0c12;
+}
+body:has(.mu) .ki-btn:hover:not(:disabled) { background: #f2581c; transform: translate(-1px, -1px); box-shadow: 4px 4px 0 #0a0c12; }
+body:has(.mu) .ki-card-error { color: #b8400f; }
+body:has(.mu) .ki-link:focus-visible { border-radius: 0; }
+body:has(.mu) .km-check input { accent-color: #f2581c; }

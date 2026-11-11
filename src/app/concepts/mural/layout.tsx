@@ -37,8 +37,17 @@ export default function MuralLayout({ children }: Readonly<{ children: ReactNode
       {/* Marks the page as scripted before it paints, so pieces that rise into
           place start hidden only where a script will bring them in. */}
       <script dangerouslySetInnerHTML={{ __html: "document.currentScript.parentElement.classList.add('mu-js')" }} />
-      {/* The chat button sits outside this element, so the mural's wide typeface is handed to it by name (mural.css draws the rest). */}
-      <style dangerouslySetInnerHTML={{ __html: `body:has(.mu) .ki-square{font-family:${display.style.fontFamily},'Arial Black',system-ui,sans-serif}` }} />
+      {/* The chat (its button and its panel) sits outside this element, so the mural's three typefaces are
+          handed to it by name: Geist to read, the wide face for titles and buttons, the mono for labels.
+          mural.css draws the rest. */}
+      <style
+        dangerouslySetInnerHTML={{
+          __html:
+            `body:has(.mu) .ki{font-family:${GeistSans.style.fontFamily},system-ui,sans-serif}` +
+            `body:has(.mu) :is(.ki-square,.ki-title,.ki-card-title,.km-intro-title,.ki-btn,.ki-tab){font-family:${display.style.fontFamily},'Arial Black',system-ui,sans-serif}` +
+            `body:has(.mu) :is(.ki-sub,.ki-foot,.ki-think-word,.km-when,.km-status,.km-promise,.ki-label){font-family:${GeistMono.style.fontFamily},ui-monospace,monospace}`,
+        }}
+      />
       {children}
     </div>
   )
