@@ -5,8 +5,9 @@ import { useEffect, useId, useState, useSyncExternalStore } from 'react'
 import { play, setSound, soundOn, watchSound } from '../_lib/sound'
 
 /* The header's menu on a phone or tablet, where there is no room for the
-   links (Thomas, 2026-11-11). Its button is four tiles, two by two; pressed,
-   they slide apart and the menu drops out of the header. It closes on a
+   links (Thomas, 2026-11-11). Its button is nine tiles, three by three (four
+   read as the Windows logo); pressed, they spread apart, the corners take the
+   page's colours, and the menu drops out of the header. It closes on a
    link, on Escape and on a tap outside. The Sound switch is in it on a
    phone, where the header has no room for it. A desktop never shows it. */
 
@@ -37,10 +38,9 @@ export default function Drawer({ links }: { links: DrawerLink[] }) {
           play('flip')
         }}
       >
-        <i />
-        <i />
-        <i />
-        <i />
+        {Array.from({ length: 9 }, (_, i) => (
+          <i key={i} />
+        ))}
       </button>
       <div className="mu-drawer-shade" hidden={!open} onClick={() => setOpen(false)} aria-hidden="true" />
       <nav id={id} className="mu-drawer" hidden={!open} aria-label="Menu">
