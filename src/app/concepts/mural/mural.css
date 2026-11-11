@@ -261,11 +261,17 @@ html.mu-html body {
 
 .mu-sub {
   margin-top: 22px;
-  max-width: 33ch;
+  max-width: 36ch;
   font-size: 17px;
   line-height: 1.5;
   color: var(--mist);
   animation: mu-line 520ms var(--snap) 380ms both;
+}
+/* The mural sentence takes its own line, in the wall's paper white. */
+.mu-sub-2 {
+  display: block;
+  margin-top: 6px;
+  color: var(--paper);
 }
 
 .mu-cta {
@@ -893,7 +899,7 @@ html.mu-html body {
   .mu-hero { min-height: max(100svh, 800px); }
   .mu-hero-copy { padding: clamp(112px, 15vh, 160px) 0 0 max(40px, 6vw); }
   .mu-h1 { font-size: clamp(3.4rem, 6.1vw, 5.6rem); }
-  .mu-sub { font-size: 19px; max-width: 34ch; }
+  .mu-sub { font-size: 19px; max-width: 38ch; }
   .mu-picker { left: max(40px, 6vw); bottom: 34px; }
   .mu-section { padding: 140px 40px 0; }
   .mu-work { gap: 130px; margin-top: 80px; }

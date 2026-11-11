@@ -137,7 +137,10 @@ export default function MuralConcept() {
               <span className="mu-sr">.</span>
             </span>
           </h1>
-          <p className="mu-sub">With every detail cared for, like a mural.</p>
+          {/* The line Thomas picked on 2026-11-11: who it is for first, then his mural sentence. */}
+          <p className="mu-sub">
+            I build apps, websites and platforms for businesses, schools and churches. <span className="mu-sub-2">Every detail cared for, like a mural.</span>
+          </p>
           <div className="mu-cta">
             <Link href="#talk" className="mu-btn" data-snap>
               {INQUIRE_CTA} <Arrow />
