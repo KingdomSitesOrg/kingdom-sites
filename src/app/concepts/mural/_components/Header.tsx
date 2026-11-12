@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import SiteSearch from '@/components/search/SiteSearch'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { CHAT_FONT_CSS } from '../_lib/fonts'
 import Drawer from './Drawer'
@@ -21,7 +22,11 @@ export default function MuralHeader({ home = false }: { home?: boolean }) {
           <i />
           <i />
         </span>
-        Kingdom Sites
+        {/* The name with "by Thomas Klein" under it, as the header had before the mural look. */}
+        <span className="mu-brand-name">
+          Kingdom Sites
+          <span className="mu-by">by Thomas Klein</span>
+        </span>
       </Link>
       <nav className="mu-links" aria-label={home ? 'On this page' : 'Pages'}>
         <Link href={portfolio} data-snap>
@@ -37,21 +42,15 @@ export default function MuralHeader({ home = false }: { home?: boolean }) {
         )}
       </nav>
       <Fx />
+      {/* Site search: the magnifying glass, working as it did before the mural look. */}
+      <SiteSearch />
       {/* On a phone the button uses the live site's short words, "Talk to me". */}
       <Link href={talk} className="mu-nav-cta" data-snap>
         <span className="mu-wide">{INQUIRE_CTA}</span>
         <span className="mu-narrow">Talk to me</span>
       </Link>
-      {/* The menu on a phone or tablet. */}
-      <Drawer
-        links={[
-          { label: 'Portfolio', href: portfolio },
-          { label: 'About', href: about },
-          { label: 'AI consultation', href: '/ai-tooling' },
-          { label: 'Mission', href: '/mission' },
-          { label: INQUIRE_CTA, href: talk },
-        ]}
-      />
+      {/* The menu: every page of the site, as before the mural look. */}
+      <Drawer />
     </header>
   )
 }

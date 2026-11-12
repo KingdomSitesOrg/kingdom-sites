@@ -86,6 +86,37 @@ html.mu-html body {
   white-space: nowrap;
 }
 
+.mu-brand-name { display: inline-flex; flex-direction: column; gap: 4px; line-height: 1; }
+.mu-by {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--mist);
+}
+/* The search button in the header, and its panel (drawn on the page's body) with square edges. */
+.mu-nav .ss-btn { width: 40px; height: 40px; border-radius: 0; color: var(--paper); cursor: pointer; }
+.mu-nav .ss-btn:hover { background: var(--ink-2); }
+.mu-nav .ss-btn:focus-visible { outline: 2px solid var(--orange); }
+body:has(.mu) :is(.ss-panel, .ss-result, .ss-close, .ss-ask, .ss-result mark) { border-radius: 0; }
+body:has(.mu) .ss-panel { background: #0a0c12; border: 2px solid #1b1f2a; box-shadow: 6px 6px 0 #f2581c; }
+@media (max-width: 639px) {
+  .mu-nav { gap: 6px; }
+  .mu-nav .ss-btn { margin-right: -2px; }
+}
+/* Narrow phones: the name, the search button, "Talk to me" and the menu on one line.
+   Under 350px there is no room for all four; "Talk to me" stays in the menu, as before. */
+@media (max-width: 380px) {
+  .mu-nav { padding: 0 6px 6px 10px; gap: 2px; }
+  .mu-brand { gap: 7px; font-size: 11px; }
+  .mu-nav .ss-btn { width: 36px; margin-right: 2px; }
+  .mu-nav .mu-nav-cta { padding: 9px 8px; font-size: 10px; margin-right: 4px; }
+}
+@media (max-width: 349px) {
+  .mu-nav .mu-nav-cta { display: none; }
+}
+
 /* Four tiles that trade places when the name is hovered. */
 .mu-mark {
   position: relative;
@@ -232,28 +263,50 @@ html.mu-html body {
   from { transform: translateY(-14px); opacity: 0; }
   to { transform: none; opacity: 1; }
 }
-.mu-drawer a {
+.mu-drawer-groups { display: grid; gap: 6px; }
+.mu-drawer-kicker {
+  margin-top: 16px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--stone);
+}
+.mu-drawer li a {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 15px 2px;
+  padding: 13px 2px;
   border-bottom: 2px solid #1b1f2a;
   font-family: var(--display);
   font-weight: 700;
-  font-size: 19px;
+  font-size: 18px;
   letter-spacing: -0.02em;
   text-transform: uppercase;
 }
-.mu-drawer a::before {
+.mu-drawer li a::before {
   content: '';
   width: 9px;
   height: 9px;
   flex: none;
   background: var(--tile, var(--orange));
 }
-.mu-drawer a:nth-child(2n) { --tile: var(--blue); }
-.mu-drawer a:nth-child(3n) { --tile: var(--paper); }
-.mu-drawer a:active { background: var(--ink-2); }
+.mu-drawer li:nth-child(2n) a { --tile: var(--blue); }
+.mu-drawer li:nth-child(3n) a { --tile: var(--paper); }
+.mu-drawer li a:active { background: var(--ink-2); }
+.mu-drawer-cta { margin-top: 22px; }
+.mu-drawer-small {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--stone);
+}
+.mu-drawer-small a { padding: 10px 0; min-height: 44px; display: inline-flex; align-items: center; }
+.mu-drawer-small a:hover { color: var(--paper); }
 .mu-drawer .mu-sound { margin-top: 14px; padding: 8px 2px; font-size: 11px; }
 .mu-drawer .mu-sound-label { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
 .mu-drawer-shade {
@@ -294,7 +347,8 @@ html.mu-html body {
 
 .mu-hero {
   position: relative;
-  min-height: max(100svh, 720px);
+  /* --hero-need: the height the wall asks for so the whole name sits on the dark (Wall.tsx). */
+  min-height: max(100svh, 720px, var(--hero-need, 0px));
   background: var(--ink);
   color: var(--paper);
   overflow: hidden;
@@ -660,6 +714,8 @@ html.mu-html body {
   transition: transform 120ms steps(2, end), box-shadow 120ms steps(2, end);
 }
 .mu-phone .mu-shot { border-radius: 11px; }
+/* One phone on its own (each piece shows one screen). */
+.mu-phones.is-one { grid-template-columns: minmax(0, 210px); justify-content: center; }
 .mu-phone:nth-child(2) { margin-top: 22px; margin-bottom: -22px; }
 @media (hover: hover) { .mu-phone:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--sh); } }
 .mu-item:nth-child(odd) .mu-phone { --sh: var(--blue); }
@@ -678,6 +734,24 @@ html.mu-html body {
   color: var(--ink);
 }
 .mu-story + .mu-text { margin-top: 10px; }
+/* The heading that came before a piece ("I also do mobile apps."), its
+   partnership credit, and the question under it (T-534). */
+.mu-lead {
+  margin-bottom: 26px;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(1.5rem, 4.4vw, 2.6rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+.mu-partner { margin-top: 12px; max-width: 46ch; font-size: 14px; line-height: 1.5; color: var(--stone); }
+.mu-partner a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.mu-text + .mu-story, div + .mu-story { margin-top: 22px; }
+.mu-story + .mu-links-row { margin-top: 14px; }
+/* A piece's older link, beside the main line: smaller and greyer. */
+.mu-link.is-quiet { font-size: 13px; font-weight: 500; color: var(--stone); }
 .mu-links-row {
   display: flex;
   flex-wrap: wrap;
@@ -976,12 +1050,14 @@ html.mu-html body {
   .mu-links a { padding: 10px 14px; }
   .mu-sound { font-size: 12px; }
   .mu-nav-cta { font-size: 13px; padding: 13px 18px; box-shadow: 4px 4px 0 var(--orange); }
-  .mu-drawer-btn, .mu-drawer, .mu-drawer-shade { display: none !important; }
+  /* The menu is on a desktop too, as it was before the mural look: a panel under the button. */
+  .mu-drawer { inset: var(--nav-h) 24px auto auto; width: 620px; padding: 14px 28px 26px; border: 2px solid #1b1f2a; border-top: 0; }
+  .mu-drawer-groups { grid-template-columns: 1fr 1fr; gap: 32px; }
   .mu-strays { grid-template-columns: repeat(11, 12px); gap: 3px; top: -8px; }
   .mu-strays i { width: 12px; height: 12px; }
   .mu-strays.is-gem { grid-template-columns: repeat(12, 9px); gap: 2px; margin-bottom: 24px; }
   .mu-strays.is-gem i { width: 9px; height: 9px; }
-  .mu-hero { min-height: max(100svh, 800px); }
+  .mu-hero { min-height: max(100svh, 800px, var(--hero-need, 0px)); }
   .mu-hero-copy { padding: clamp(112px, 15vh, 160px) 0 0 max(40px, 6vw); }
   .mu-h1 { font-size: clamp(3.4rem, 6.1vw, 5.6rem); }
   .mu-sub { font-size: 19px; max-width: 38ch; }

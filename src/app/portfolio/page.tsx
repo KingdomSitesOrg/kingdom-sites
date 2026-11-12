@@ -44,6 +44,11 @@ const CASES = [...['tap-to-tick', 'delta', 'prayer', 'ministry', 'sign'].map(pro
 
 const PRODUCT = 'Farzana Classroom'
 
+/* Thomas, 2026-11-12: each project's section shows one screenshot of the app
+   and one line, in his words, which opens the project's page. It is the
+   main button; the link each section had before stays beside it, word for word. */
+const EXPLORE = 'Explore how and why this came to life'
+
 /* What the KCUPG dashboard and map do, from its case study. */
 const KCUPG_BUILT = [
   'A dashboard of the whole metro, every region side by side',
@@ -139,20 +144,11 @@ export default function Portfolio() {
           </Scroll>
         </Scroll>
 
-        <div className="cn-wrap cn-pair grid items-start gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-10">
-          <Scroll mode="reveal">
-            <div className="cn-reveal">
-              <Browser shot={SHOTS.appStudents} product={PRODUCT} />
-            </div>
-          </Scroll>
-          <Scroll mode="reveal">
-            <div className="cn-reveal">
-              <Browser shot={SHOTS.appAnalytics} product={PRODUCT} />
-            </div>
-          </Scroll>
-        </div>
-        <div className="cn-wrap mt-12">
+        <div className="cn-wrap">
           <div className="flex flex-wrap gap-3">
+            <Link href={farzana.href!} className="cn-btn">
+              {EXPLORE} <span aria-hidden="true">→</span>
+            </Link>
             <Link href={farzana.href!} className="cn-ghost">
               The Farzana Classroom story <span aria-hidden="true">→</span>
             </Link>
@@ -182,6 +178,9 @@ export default function Portfolio() {
                 <a href={LATIN_STORES.googlePlay} className="cn-ghost cn-store">
                   <PlayStoreIcon /> Google Play
                 </a>
+                <Link href="/latin-game" className="cn-btn">
+                  {EXPLORE} <span aria-hidden="true">→</span>
+                </Link>
                 <Link href="/latin-game" className="cn-ghost">
                   See JAM Legio <span aria-hidden="true">→</span>
                 </Link>
@@ -198,10 +197,8 @@ export default function Portfolio() {
           </div>
         </div>
         <div className="cn-wrap mt-12 pb-16 sm:mt-20 sm:pb-24">
-          <div className="cn-apps">
-            {[SHOTS.latinHome, SHOTS.latinMap, SHOTS.latinCase].map((s) => (
-              <Phone key={s.src} shot={s} sizes={APP_PHONE_SIZES} />
-            ))}
+          <div className="mx-auto max-w-[340px]">
+            <Phone shot={SHOTS.latinHome} sizes={APP_PHONE_SIZES} />
           </div>
         </div>
       </section>
@@ -240,6 +237,9 @@ export default function Portfolio() {
                 <a href="https://getruta.com" target="_blank" rel="noopener noreferrer" className="cn-ghost">
                   getruta.com <span aria-hidden="true">↗</span>
                 </a>
+                <Link href="/ruta" className="cn-btn">
+                  {EXPLORE} <span aria-hidden="true">→</span>
+                </Link>
                 <Link href="/ruta" className="cn-ghost">
                   More on Ruta <span aria-hidden="true">→</span>
                 </Link>
@@ -248,10 +248,8 @@ export default function Portfolio() {
           </div>
         </div>
         <div className="cn-wrap mt-12 pb-16 sm:mt-20 sm:pb-24">
-          <div className="cn-apps">
-            {[SHOTS.rutaQueue, SHOTS.rutaVisit, SHOTS.rutaTime].map((s) => (
-              <Phone key={s.src} shot={s} sizes={APP_PHONE_SIZES} />
-            ))}
+          <div className="mx-auto max-w-[340px]">
+            <Phone shot={SHOTS.rutaQueue} sizes={APP_PHONE_SIZES} />
           </div>
         </div>
       </section>
@@ -286,6 +284,9 @@ export default function Portfolio() {
                 ]}
               />
               <div className="mt-8 flex flex-wrap gap-3">
+                <Link href={kcupg.href!} className="cn-btn">
+                  {EXPLORE} <span aria-hidden="true">→</span>
+                </Link>
                 <Link href={kcupg.href!} className="cn-ghost">
                   The KCUPG story <span aria-hidden="true">→</span>
                 </Link>
@@ -296,15 +297,10 @@ export default function Portfolio() {
             </div>
           </div>
         </div>
-        <div className="cn-wrap mt-16 cn-pair grid items-start gap-14 sm:mt-20 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-10">
+        <div className="cn-wrap mt-16 sm:mt-20">
           <Scroll mode="reveal">
-            <div className="cn-reveal">
+            <div className="cn-reveal mx-auto max-w-[1180px]">
               <Browser shot={SHOTS.kcupgDashboard} product="KCUPG" />
-            </div>
-          </Scroll>
-          <Scroll mode="reveal">
-            <div className="cn-reveal">
-              <Browser shot={SHOTS.kcupgMap} product="KCUPG" />
             </div>
           </Scroll>
         </div>
