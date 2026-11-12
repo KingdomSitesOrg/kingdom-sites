@@ -59,6 +59,8 @@ html:has(.mu-site), body:has(.mu-site) { background: #0a0c12; }
 /* A headline's second half takes the page's orange. */
 .mu-site :is(h1, h2) .text-accent { color: #f2581c; }
 .mu-site .cn-body { color: var(--color-body); }
+/* Lists written in the dark room's pale grey (the Portfolio page's bullet lists) read as body text on paper. */
+.mu-site main .text-\[\#cfcbc3\] { color: var(--color-body); }
 .mu-site .cn-dim { color: var(--dim); }
 .mu-site :is(.cn-kicker, .eyebrow) {
   display: flex;
