@@ -45,8 +45,8 @@ const CASES = [...['tap-to-tick', 'delta', 'prayer', 'ministry', 'sign'].map(pro
 const PRODUCT = 'Farzana Classroom'
 
 /* Thomas, 2026-11-12: each project's section shows one screenshot of the app
-   and one line, in his words, which opens the project's page. It takes the
-   place of the link that led to the same page. */
+   and one line, in his words, which opens the project's page. It is the
+   main button; the link each section had before stays beside it, word for word. */
 const EXPLORE = 'Explore how and why this came to life'
 
 /* What the KCUPG dashboard and map do, from its case study. */
@@ -146,8 +146,11 @@ export default function Portfolio() {
 
         <div className="cn-wrap">
           <div className="flex flex-wrap gap-3">
-            <Link href={farzana.href!} className="cn-ghost">
+            <Link href={farzana.href!} className="cn-btn">
               {EXPLORE} <span aria-hidden="true">→</span>
+            </Link>
+            <Link href={farzana.href!} className="cn-ghost">
+              The Farzana Classroom story <span aria-hidden="true">→</span>
             </Link>
             <a href={farzana.site} className="cn-ghost">
               farzana.app <span aria-hidden="true">↗</span>
@@ -175,8 +178,11 @@ export default function Portfolio() {
                 <a href={LATIN_STORES.googlePlay} className="cn-ghost cn-store">
                   <PlayStoreIcon /> Google Play
                 </a>
-                <Link href="/latin-game" className="cn-ghost">
+                <Link href="/latin-game" className="cn-btn">
                   {EXPLORE} <span aria-hidden="true">→</span>
+                </Link>
+                <Link href="/latin-game" className="cn-ghost">
+                  See JAM Legio <span aria-hidden="true">→</span>
                 </Link>
               </div>
               <LatinPartner />
@@ -231,8 +237,11 @@ export default function Portfolio() {
                 <a href="https://getruta.com" target="_blank" rel="noopener noreferrer" className="cn-ghost">
                   getruta.com <span aria-hidden="true">↗</span>
                 </a>
-                <Link href="/ruta" className="cn-ghost">
+                <Link href="/ruta" className="cn-btn">
                   {EXPLORE} <span aria-hidden="true">→</span>
+                </Link>
+                <Link href="/ruta" className="cn-ghost">
+                  More on Ruta <span aria-hidden="true">→</span>
                 </Link>
               </div>
             </div>
@@ -275,8 +284,11 @@ export default function Portfolio() {
                 ]}
               />
               <div className="mt-8 flex flex-wrap gap-3">
-                <Link href={kcupg.href!} className="cn-ghost">
+                <Link href={kcupg.href!} className="cn-btn">
                   {EXPLORE} <span aria-hidden="true">→</span>
+                </Link>
+                <Link href={kcupg.href!} className="cn-ghost">
+                  The KCUPG story <span aria-hidden="true">→</span>
                 </Link>
                 <a href={kcupg.site} target="_blank" rel="noopener noreferrer" className="cn-ghost">
                   kcupgs.com <span aria-hidden="true">↗</span>

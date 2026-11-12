@@ -49,7 +49,7 @@ type Work = {
   href: string
   hrefLabel?: string
   /** The links under the piece, in the home page's own words. */
-  links: { label: string; href: string }[]
+  links: { label: string; href: string; quiet?: boolean }[]
   window?: Shot
   phones?: Shot[]
 }
@@ -61,8 +61,8 @@ type Work = {
 
    Thomas, 2026-11-12, after seeing it: each piece shows one screenshot of the
    app and one line, in his words, "Explore how and why this came to life",
-   which opens the project's page. It takes the place of the "See …" link
-   that led to the same page. */
+   which opens the project's page. The "See …" link each piece had stays
+   beside it, word for word, drawn quieter so his line is the main one. */
 const EXPLORE = 'Explore how and why this came to life'
 const WORK: Work[] = [
   {
@@ -87,7 +87,10 @@ const WORK: Work[] = [
     text: 'A Latin learning game for iPhone and Android.',
     partner: true,
     href: '/latin-game',
-    links: [{ label: EXPLORE, href: '/latin-game' }],
+    links: [
+      { label: EXPLORE, href: '/latin-game' },
+      { label: 'See JAM Legio', href: '/latin-game', quiet: true },
+    ],
     phones: [SHOTS.latinHome],
   },
   {
@@ -96,7 +99,10 @@ const WORK: Work[] = [
     live: true,
     text: 'The crew app for landscaping businesses. I helped build it on Ruta’s team.',
     href: '/ruta',
-    links: [{ label: EXPLORE, href: '/ruta' }],
+    links: [
+      { label: EXPLORE, href: '/ruta' },
+      { label: 'See Ruta', href: '/ruta', quiet: true },
+    ],
     phones: [SHOTS.rutaQueue],
   },
   {
@@ -105,7 +111,10 @@ const WORK: Work[] = [
     live: true,
     text: 'A map of Kansas City’s communities, for local ministry.',
     href: '/portfolio/kcupg',
-    links: [{ label: EXPLORE, href: '/portfolio/kcupg' }],
+    links: [
+      { label: EXPLORE, href: '/portfolio/kcupg' },
+      { label: 'See KCUPG', href: '/portfolio/kcupg', quiet: true },
+    ],
     window: SHOTS.kcupgMap,
   },
   {
@@ -216,7 +225,7 @@ export default function MuralHome({ concept = false }: { concept?: boolean }) {
                 ) : null}
                 <div className="mu-links-row" data-rise style={delay(200)}>
                   {w.links.map((l) => (
-                    <Link key={l.label} href={l.href} className="mu-link" data-snap>
+                    <Link key={l.label} href={l.href} className={`mu-link${l.quiet ? ' is-quiet' : ''}`} data-snap>
                       {l.label} <Arrow />
                     </Link>
                   ))}

@@ -749,6 +749,8 @@ body:has(.mu) .ss-panel { background: #0a0c12; border: 2px solid #1b1f2a; box-sh
 .mu-partner a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
 .mu-text + .mu-story, div + .mu-story { margin-top: 22px; }
 .mu-story + .mu-links-row { margin-top: 14px; }
+/* A piece's older link, beside the main line: smaller and greyer. */
+.mu-link.is-quiet { font-size: 13px; font-weight: 500; color: var(--stone); }
 .mu-links-row {
   display: flex;
   flex-wrap: wrap;
