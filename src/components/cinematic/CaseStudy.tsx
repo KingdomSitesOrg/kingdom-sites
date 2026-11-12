@@ -171,7 +171,8 @@ export default function CaseStudy({ study, data }: { study: Study; data: object 
         ) : null}
         {study.quote ? (
           <Beat title="What the client says">
-            <figure>
+            {/* JAM Legio's quote names the partner, so it is marked as part of the partnership credit. */}
+            <figure className={study.partner ? 'partner-quote' : undefined}>
               <blockquote className="cn-display cn-h3 text-[var(--fg)]">“{study.quote.text}”</blockquote>
               <figcaption className="cn-dim mt-5 text-[15px]">{study.quote.who}</figcaption>
             </figure>

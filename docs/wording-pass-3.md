@@ -88,7 +88,7 @@ _Left out until you give it._
 ### What the client says — NEW on this page
 
 "Hard worker, listens to our needs, creative and worked hard to get the project done both correctly and on time."
-Alexis Carrico
+Alexis Carrico, JAM with Latin
 
 ### How this applies to you — NEW
 

@@ -138,7 +138,9 @@ describe('case studies (T-389)', () => {
   it('each have a page, a sitemap entry and their own share picture', () => {
     for (const s of studies) {
       expect(fs.existsSync(path.join(APP, s.path, 'page.tsx')), s.path).toBe(true)
-      expect(urls, s.path).toContain(s.path)
+      // A write-up kept out of search (Sign, STRATA) stays out of the sitemap too.
+      if ('noindex' in s && s.noindex) expect(urls, s.path).not.toContain(s.path)
+      else expect(urls, s.path).toContain(s.path)
       expect(fs.existsSync(path.resolve(__dirname, '../../public', `.${s.shareImage}`)), s.shareImage).toBe(true)
       expect(s.title, s.path).not.toMatch(/Kingdom Sites/)
     }

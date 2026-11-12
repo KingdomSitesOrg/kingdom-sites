@@ -108,7 +108,7 @@ export const PROJECTS: Project[] = [
     name: 'Tap to Tick',
     kind: 'App',
     forWhom: 'Anyone keeping a budget',
-    line: 'An iPhone expense app. Log a purchase in one tap; see the month by account and category.',
+    line: 'An iPhone expense app. Log a purchase in two taps; see the month by account and category.',
     platforms: 'iPhone',
     status: 'Live',
     href: '/portfolio/tap-to-tick',

@@ -66,6 +66,8 @@ export type CaseStudy = {
   result?: string[]
   /** What the client says, in their words, with their OK. */
   quote?: Quote
+  /** Kept out of search and the sitemap, as the project's own page is (Sign, STRATA; Thomas, T-534). */
+  noindex?: boolean
   /** How this applies to the reader: two to four short sentences (T-534). */
   applies: string[]
   figures: Figure[]
@@ -282,7 +284,8 @@ export const CASE_STUDIES = {
     /* How long it took and results: not given yet, left out (T-534). */
     quote: {
       text: 'Hard worker, listens to our needs, creative and worked hard to get the project done both correctly and on time.',
-      who: 'Alexis Carrico',
+      /* As /latin-game shows it, with her OK (T-389); it sits in the partnership credit. */
+      who: 'Alexis Carrico, JAM with Latin',
     },
     applies: [
       'If you teach something that takes daily practice, a game like this keeps people coming back without being told to.',
@@ -475,6 +478,7 @@ export const CASE_STUDIES = {
       'Sign is a tool I designed and built: send a PDF agreement, have each person sign it in their browser, and everyone gets the signed copy by email.',
     shareTitle: 'Sign — PDF agreements signed online, built by Thomas Klein',
     shareImage: '/share/sign.jpg',
+    noindex: true,
     kind: 'Tool',
     intro: project('sign').line,
     facts: [
@@ -512,6 +516,7 @@ export const CASE_STUDIES = {
       'STRATA is a concept site I designed and built for a made-up 3D printing company: a printed part goes from idea to factory floor as you scroll, drawn in 3D in the browser.',
     shareTitle: 'STRATA — a concept site by Thomas Klein',
     shareImage: '/share/strata.jpg',
+    noindex: true,
     kind: 'Concept site',
     intro: 'A concept site for a made-up 3D printing company. A printed part goes from idea to factory floor as you scroll.',
     facts: [

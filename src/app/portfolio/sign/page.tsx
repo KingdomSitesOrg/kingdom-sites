@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   title: study.title,
   description: study.description,
   alternates: { canonical: study.path },
+  // Kept out of search, as the project's own page is (Thomas, T-534).
+  robots: { index: false, follow: false, googleBot: { index: false, follow: false } },
   ...shareCard(study.shareTitle, study.description, study.path, {
     url: study.shareImage,
     width: 1200,

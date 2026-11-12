@@ -13,8 +13,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/portfolio/farzana-classroom`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.75 },
     { url: `${base}/portfolio/kcupg`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/portfolio/delta`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
-    // The rest of the portfolio's write-ups (T-534).
-    ...['jam-legio', 'tap-to-tick', 'ruta', 'prayer', 'ministry', 'sign', 'strata'].map((slug) => ({
+    // The rest of the portfolio's write-ups (T-534). Sign and STRATA are kept
+    // out of search, as their own pages are.
+    ...['jam-legio', 'tap-to-tick', 'ruta', 'prayer', 'ministry'].map((slug) => ({
       url: `${base}/portfolio/${slug}`,
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
