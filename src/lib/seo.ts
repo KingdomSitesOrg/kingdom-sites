@@ -14,12 +14,14 @@ export const SITE_NAME = 'Kingdom Sites'
    Production and everything else keep SITE_URL. */
 export const SHARE_URL = process.env.VERCEL_ENV === 'preview' ? 'https://preview.kingdom-sites.com' : SITE_URL
 
-/* The share picture every page falls back to (src/app/opengraph-image.jpg).
+/* The share picture every page falls back to: the mural (a copy of
+   src/app/opengraph-image.jpg, served from public/share/).
    A page that declares its own `openGraph` replaces the inherited one, picture
    included, so those pages list this one again. */
 export const SITE_OG_IMAGE = {
-  // The `?v=` only makes this a new address, so apps that kept the old picture fetch the mural one.
-  url: '/opengraph-image.jpg?v=mural',
+  // A file address X has never fetched (T-545): X kept showing the old laptop card for
+  // /opengraph-image.jpg?v=mural. For a new picture, add a new file with a new name.
+  url: '/share/kingdom-sites-mural-1112.jpg',
   width: 1200,
   height: 630,
   alt: 'Kingdom Sites. Custom software: I build apps, websites and platforms for businesses, schools and churches. The name Kingdom Sites laid in coloured tiles on a dark tiled wall.',
