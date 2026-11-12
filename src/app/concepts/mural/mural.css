@@ -347,7 +347,8 @@ body:has(.mu) .ss-panel { background: #0a0c12; border: 2px solid #1b1f2a; box-sh
 
 .mu-hero {
   position: relative;
-  min-height: max(100svh, 720px);
+  /* --hero-need: the height the wall asks for so the whole name sits on the dark (Wall.tsx). */
+  min-height: max(100svh, 720px, var(--hero-need, 0px));
   background: var(--ink);
   color: var(--paper);
   overflow: hidden;
@@ -1056,7 +1057,7 @@ body:has(.mu) .ss-panel { background: #0a0c12; border: 2px solid #1b1f2a; box-sh
   .mu-strays i { width: 12px; height: 12px; }
   .mu-strays.is-gem { grid-template-columns: repeat(12, 9px); gap: 2px; margin-bottom: 24px; }
   .mu-strays.is-gem i { width: 9px; height: 9px; }
-  .mu-hero { min-height: max(100svh, 800px); }
+  .mu-hero { min-height: max(100svh, 800px, var(--hero-need, 0px)); }
   .mu-hero-copy { padding: clamp(112px, 15vh, 160px) 0 0 max(40px, 6vw); }
   .mu-h1 { font-size: clamp(3.4rem, 6.1vw, 5.6rem); }
   .mu-sub { font-size: 19px; max-width: 38ch; }

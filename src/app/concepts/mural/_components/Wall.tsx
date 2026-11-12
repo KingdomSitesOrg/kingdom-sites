@@ -187,13 +187,25 @@ export default function Wall({ children }: { children: ReactNode }) {
 
     /** Lays the whole wall out for the current size of the hero. */
     function build(animate: boolean) {
-      const box = section!.getBoundingClientRect()
+      let box = section!.getBoundingClientRect()
       const W = Math.round(box.width)
+      if (!W || !box.height) return
+      const t = tileSize(W)
+      // The dark wall is made tall enough for the whole name to sit on it with clear dark
+      // below, before the wall starts to break into the light page (Thomas, 2026-11-12:
+      // on a phone SITES ran into the white and blue tiles). The words above decide how
+      // far down the name starts; the hero grows to fit, and never shrinks below a screen.
+      const words = section!.querySelector('[data-hero-copy]')?.getBoundingClientRect()
+      if (words) {
+        const nameRows = W >= 960 ? 14 : W >= 640 ? 32 : 16
+        const rowsNeeded = Math.ceil((words.bottom - box.top) / t) + 3 + nameRows + 18 + (W < 640 ? 6 : 0)
+        section!.style.setProperty('--hero-need', `${rowsNeeded * t}px`)
+        box = section!.getBoundingClientRect()
+      }
       const H = Math.round(box.height)
-      if (!W || !H) return
+      if (!H) return
       builtFor = W
       const dpr = Math.min(window.devicePixelRatio || 1, 3)
-      const t = tileSize(W)
       T = Math.round(t * dpr)
       rest = T - 2 * Math.max(1, Math.round(dpr / 2))
       canvas!.width = Math.round(W * dpr)
