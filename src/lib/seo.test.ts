@@ -100,8 +100,8 @@ describe('share cards', () => {
   it('carry the page address and a picture', () => {
     const card = shareCard('Portfolio — Kingdom Sites', 'x', '/portfolio')
     expect(card.openGraph.url).toBe('https://kingdom-sites.com/portfolio')
-    expect(card.openGraph.images[0].url).toBe('/opengraph-image.jpg?v=mural')
-    expect(fs.existsSync(path.join(APP, 'opengraph-image.jpg'))).toBe(true)
+    expect(card.openGraph.images[0].url).toBe('/share/kingdom-sites-mural-1112.jpg')
+    expect(fs.existsSync(path.join(APP, '../../public/share/kingdom-sites-mural-1112.jpg'))).toBe(true)
   })
 })
 
