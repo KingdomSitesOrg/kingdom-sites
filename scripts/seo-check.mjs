@@ -19,6 +19,8 @@ const ROUTES = [
   '/', '/about', '/portfolio', '/get-started', '/ai-tooling', '/mission', '/ministry', '/prayer',
   '/ruta', '/tap-to-tick', '/latin-game', '/refer', '/privacy', '/terms',
   '/portfolio/farzana-classroom', '/portfolio/kcupg', '/portfolio/delta',
+  '/portfolio/jam-legio', '/portfolio/tap-to-tick', '/portfolio/ruta', '/portfolio/prayer',
+  '/portfolio/ministry', '/portfolio/sign', '/portfolio/strata',
 ]
 
 const attr = (html, re) => html.match(re)?.[1]?.replace(/&amp;/g, '&')

@@ -8,7 +8,7 @@ import { APP_PHONE_SIZES, Browser, Phone } from '@/components/cinematic/Frames'
 import LatinPartner from '@/components/cinematic/LatinPartner'
 import Scroll from '@/components/cinematic/Scroll'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
-import { LATIN_STORES, PROJECTS, SHOTS, type Project } from '@/lib/work'
+import { LATIN_STORES, PROJECTS, SHOTS } from '@/lib/work'
 import { shareCard } from '@/lib/seo'
 
 const DESCRIPTION =
@@ -27,20 +27,8 @@ const latin = project('latin-game')
 const ruta = project('ruta')
 const kcupg = project('kcupg')
 
-/* STRATA is a concept site on this site, not a client: it sits with the rest,
-   and its card says so. */
-const STRATA: Project = {
-  slug: 'strata',
-  name: 'STRATA',
-  kind: 'Concept site',
-  forWhom: '3D printing',
-  line: 'A printed part goes from idea to factory floor as you scroll.',
-  platforms: 'Web',
-  status: 'Concept',
-  href: '/strata',
-  card: { src: '/work/strata-still.webp', alt: 'A 3D printed part on a turntable, from the STRATA concept site', w: 1600, h: 1000 },
-}
-const CASES = [...['tap-to-tick', 'delta', 'prayer', 'ministry', 'sign'].map(project), STRATA]
+/* Each card opens the project's write-up (T-534). */
+const CASES = ['tap-to-tick', 'delta', 'prayer', 'ministry', 'sign', 'strata'].map(project)
 
 const PRODUCT = 'Farzana Classroom'
 
@@ -182,8 +170,8 @@ export default function Portfolio() {
                 <a href={LATIN_STORES.googlePlay} className="cn-ghost cn-store">
                   <PlayStoreIcon /> Google Play
                 </a>
-                <Link href="/latin-game" className="cn-ghost">
-                  See JAM Legio <span aria-hidden="true">→</span>
+                <Link href={latin.href!} className="cn-ghost">
+                  The JAM Legio story <span aria-hidden="true">→</span>
                 </Link>
               </div>
               <LatinPartner />
@@ -240,8 +228,8 @@ export default function Portfolio() {
                 <a href="https://getruta.com" target="_blank" rel="noopener noreferrer" className="cn-ghost">
                   getruta.com <span aria-hidden="true">↗</span>
                 </a>
-                <Link href="/ruta" className="cn-ghost">
-                  More on Ruta <span aria-hidden="true">→</span>
+                <Link href={ruta.href!} className="cn-ghost">
+                  The Ruta story <span aria-hidden="true">→</span>
                 </Link>
               </div>
             </div>

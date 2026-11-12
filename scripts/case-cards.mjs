@@ -18,7 +18,19 @@ const CARDS = [
   { slug: 'farzana-classroom', name: 'Farzana Classroom', line: 'Software for schools · Web, phone and desktop', shot: 'public/work/farzana-home.jpg', product: 'Farzana Classroom' },
   { slug: 'kcupg', name: 'KCUPG', line: 'Kansas City’s communities on one map', shot: 'public/work/kcupg-map.jpg', product: 'KCUPG' },
   { slug: 'delta', name: 'Delta Development Project', line: 'A website for a project of SIM Bangladesh', shot: 'public/work/cards/delta.jpg', product: 'Delta Development Project' },
+  // The rest of the portfolio (T-534). A phone app shows two of its screens as phones.
+  { slug: 'jam-legio', name: 'JAM Legio', line: 'A Latin learning game · iPhone and Android', phones: ['public/latin-game/map.jpg', 'public/latin-game/case-challenge.jpg'] },
+  { slug: 'tap-to-tick', name: 'Tap to Tick', line: 'An iPhone expense tracker', phones: ['public/tap-to-tick/overview.jpg', 'public/tap-to-tick/log.jpg'] },
+  { slug: 'ruta', name: 'Ruta', line: 'Contract work · software for landscaping businesses', phones: ['public/work/ruta-crew-queue.jpg', 'public/work/ruta-crew-visit.jpg'] },
+  { slug: 'prayer', name: 'Prayer', line: 'A weekly prayer meeting kit for the unreached', shot: 'public/work/cards/prayer.jpg', product: 'Prayer' },
+  { slug: 'ministry', name: 'Ministry', line: 'Bible walkthroughs in English and Bangla', shot: 'public/work/cards/ministry.jpg', product: 'Ministry' },
+  { slug: 'sign', name: 'Sign', line: 'PDF agreements signed online', shot: 'public/work/cards/sign.jpg', product: 'Sign' },
+  { slug: 'strata', name: 'STRATA', line: 'A concept site · a 3D film that plays as you scroll', shot: 'public/work/strata-still.webp', product: 'STRATA' },
 ]
+
+// With slugs after the command, only those cards are drawn:
+//   node scripts/case-cards.mjs jam-legio ruta
+const only = process.argv.slice(2)
 
 const shell = () => {
   const root = path.join(os.homedir(), '.cache/ms-playwright')
@@ -28,7 +40,13 @@ const shell = () => {
   return path.join(root, dir, sub ?? '', 'chrome-headless-shell')
 }
 
-const page = (c, shot) => `<!doctype html><html><head><meta charset="utf-8">
+const file = (p) => `file://${path.resolve(p)}`
+const stage = (c) =>
+  c.phones
+    ? `<div class="phones">${c.phones.map((p) => `<div class="phone"><img src="${file(p)}"></div>`).join('')}</div>`
+    : `<div class="stage"><div class="win"><div class="bar"><i></i><i></i><i></i><span class="url">${c.product}</span></div><img src="${file(c.shot)}"></div></div>`
+
+const page = (c) => `<!doctype html><html><head><meta charset="utf-8">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..700&display=block">
 <style>
   html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: #0b0b0c; }
@@ -43,20 +61,24 @@ const page = (c, shot) => `<!doctype html><html><head><meta charset="utf-8">
   .bar i { width: 10px; height: 10px; border-radius: 50%; background: #3a3a3e; }
   .url { margin-left: 14px; width: 300px; height: 22px; border-radius: 6px; background: #26262a; font-size: 13px; color: #8e8a82; display: flex; align-items: center; padding: 0 10px; white-space: nowrap; }
   .win img { display: block; width: 100%; }
+  .phones { position: absolute; left: 700px; top: 70px; display: flex; gap: 28px; }
+  .phone { width: 222px; padding: 7px; border-radius: 34px; background: #1b1b1e; box-shadow: 0 0 0 1px rgba(255,255,255,0.1), 0 40px 120px rgba(0,0,0,0.6); }
+  .phone:nth-child(2) { margin-top: 64px; }
+  .phone img { display: block; width: 100%; border-radius: 28px; }
 </style></head><body>
   <div class="kick">Kingdom Sites · Portfolio</div>
   <h1>${c.name}</h1>
   <div class="line">${c.line}</div>
   <div class="site">kingdom-sites.com</div>
-  <div class="stage"><div class="win"><div class="bar"><i></i><i></i><i></i><span class="url">${c.product}</span></div><img src="${shot}"></div></div>
+  ${stage(c)}
 </body></html>`
 
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'case-cards-'))
 fs.mkdirSync('public/share', { recursive: true })
-for (const c of CARDS) {
+for (const c of CARDS.filter((c) => !only.length || only.includes(c.slug))) {
   const html = path.join(tmp, `${c.slug}.html`)
   const png = path.join(tmp, `${c.slug}.png`)
-  fs.writeFileSync(html, page(c, `file://${path.resolve(c.shot)}`))
+  fs.writeFileSync(html, page(c))
   execFileSync(shell(), [
     '--headless', '--no-sandbox', '--hide-scrollbars', '--allow-file-access-from-files',
     '--window-size=1200,630', '--virtual-time-budget=8000', `--screenshot=${png}`, `file://${html}`,

@@ -37,6 +37,7 @@ export const SHOTS = {
   latinBoard: { src: '/latin-game/leaderboard.jpg', alt: 'JAM Legio, the leaderboard', w: 660, h: 1434 },
   tapOverview: { src: '/tap-to-tick/overview.jpg', alt: 'Tap to Tick, a month of spending at a glance', w: 644, h: 1400 },
   tapLog: { src: '/tap-to-tick/log.jpg', alt: 'Tap to Tick, logging a purchase', w: 644, h: 1400 },
+  tapHistory: { src: '/tap-to-tick/history.jpg', alt: 'Tap to Tick, the history of what was logged and by whom', w: 644, h: 1400 },
   rutaQueue: { src: '/work/ruta-crew-queue.jpg', alt: 'Ruta’s crew app, the day’s visits in order, with the next one in progress', w: 660, h: 1434 },
   rutaVisit: { src: '/work/ruta-crew-visit.jpg', alt: 'Ruta’s crew app, one visit: the job, its details and the Complete button', w: 660, h: 1434 },
   rutaTime: { src: '/work/ruta-crew-time.jpg', alt: 'Ruta’s crew app, the time clock with the hours worked this week', w: 660, h: 1434 },
@@ -69,8 +70,10 @@ export type Project = {
   line: string
   platforms: string
   status: string
-  /** Where its card leads: its page on this site when it has one. */
+  /** Where its card leads: its write-up at /portfolio/<slug> (T-534). */
   href?: string
+  /** The project's own page on this site, where it has one; its write-up links on to it. */
+  product?: string
   /** The live product or site, when it lives somewhere else. */
   site?: string
   /** A capture of the live site or app, for its card on the Portfolio page. */
@@ -97,7 +100,8 @@ export const PROJECTS: Project[] = [
     line: 'A Latin learning game. Students travel the Roman world city by city, answer case challenges and race each other on the leaderboard.',
     platforms: 'iPhone and Android',
     status: 'On the App Store and Google Play',
-    href: '/latin-game',
+    href: '/portfolio/jam-legio',
+    product: '/latin-game',
   },
   {
     slug: 'tap-to-tick',
@@ -107,7 +111,8 @@ export const PROJECTS: Project[] = [
     line: 'An iPhone expense app. Log a purchase in one tap; see the month by account and category.',
     platforms: 'iPhone',
     status: 'Live',
-    href: '/tap-to-tick',
+    href: '/portfolio/tap-to-tick',
+    product: '/tap-to-tick',
     card: { src: '/work/cards/tap-to-tick.jpg', alt: 'Tap to Tick’s page: “Tap it. Tick it. Done.”', w: 960, h: 600 },
   },
   {
@@ -118,7 +123,8 @@ export const PROJECTS: Project[] = [
     line: 'Helped build a live platform on Ruta’s team: the office app, the customer portal and the crew’s phone app.',
     platforms: 'Web, iPhone and Android',
     status: 'Live',
-    href: '/ruta',
+    href: '/portfolio/ruta',
+    product: '/ruta',
   },
   {
     slug: 'delta',
@@ -152,7 +158,8 @@ export const PROJECTS: Project[] = [
     line: 'I made a weekly prayer meeting kit for the unreached: a verse, a story, prayer points and free guides.',
     platforms: 'Web',
     status: 'Live',
-    href: '/prayer',
+    href: '/portfolio/prayer',
+    product: '/prayer',
     card: { src: '/work/cards/prayer.jpg', alt: 'The Prayer site: “Pray for the people who still have no one telling them.”', w: 960, h: 600 },
   },
   {
@@ -163,7 +170,8 @@ export const PROJECTS: Project[] = [
     line: 'I make short, hand-drawn walkthroughs of Bible books, in English and Bangla, free to watch and share.',
     platforms: 'Web',
     status: 'Live',
-    href: '/ministry',
+    href: '/portfolio/ministry',
+    product: '/ministry',
     card: { src: '/work/cards/ministry.jpg', alt: 'The Ministry site: “A book of the Bible in four minutes, in English and Bangla”', w: 960, h: 600 },
   },
   {
@@ -174,8 +182,23 @@ export const PROJECTS: Project[] = [
     line: 'Send a PDF agreement and have it signed online.',
     platforms: 'Web',
     status: 'Live',
-    href: '/sign/pricing',
+    href: '/portfolio/sign',
+    product: '/sign/pricing',
     card: { src: '/work/cards/sign.jpg', alt: 'Sign’s plans page: Sign Starter and Sign Growth', w: 960, h: 600 },
+  },
+  /* STRATA is a concept site on this site, not a client: it sits with the rest,
+     and its card says so. */
+  {
+    slug: 'strata',
+    name: 'STRATA',
+    kind: 'Concept site',
+    forWhom: '3D printing',
+    line: 'A printed part goes from idea to factory floor as you scroll.',
+    platforms: 'Web',
+    status: 'Concept',
+    href: '/portfolio/strata',
+    product: '/strata',
+    card: { src: '/work/strata-still.webp', alt: 'A 3D printed part on a turntable, from the STRATA concept site', w: 1600, h: 1000 },
   },
 ]
 

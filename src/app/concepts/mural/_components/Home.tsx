@@ -61,7 +61,7 @@ const WORK: Work[] = [
     chips: chips('latin-game'),
     live: true,
     text: project('latin-game').line,
-    href: '/latin-game',
+    href: project('latin-game').href!,
     phones: [SHOTS.latinHome, SHOTS.latinMap, SHOTS.latinCase],
   },
   {
@@ -70,7 +70,7 @@ const WORK: Work[] = [
     live: true,
     // The live home page's own line for Ruta.
     text: 'The crew app for landscaping businesses. I helped build it on Ruta’s team.',
-    href: '/ruta',
+    href: project('ruta').href!,
     phones: [SHOTS.rutaQueue, SHOTS.rutaVisit, SHOTS.rutaTime],
   },
   {
@@ -187,13 +187,14 @@ export default function MuralHome({ concept = false }: { concept?: boolean }) {
                     <MosaicShot {...w.window} sizes={WINDOW_SIZES} />
                   </Link>
                 ) : (
-                  <div className="mu-phones">
+                  /* The phones open the write-up too, as the windows do (T-534). */
+                  <Link href={w.href} className="mu-phones" aria-label={`See ${w.name}`} data-snap>
                     {w.phones?.map((shot, i) => (
                       <div key={shot.src} className="mu-phone">
                         <MosaicShot {...shot} sizes={PHONE_SIZES} delay={i * 130} />
                       </div>
                     ))}
-                  </div>
+                  </Link>
                 )}
               </div>
             </article>

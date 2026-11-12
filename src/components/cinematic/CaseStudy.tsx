@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import CaseTitle from '@/components/cinematic/CaseTitle'
-import { Browser } from '@/components/cinematic/Frames'
+import { APP_PHONE_SIZES, Browser, Phone } from '@/components/cinematic/Frames'
+import LatinPartner from '@/components/cinematic/LatinPartner'
 import Scroll from '@/components/cinematic/Scroll'
 import type { CaseStudy as Study, Figure } from '@/lib/case-studies'
 import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
@@ -57,10 +58,12 @@ function Beat({ title, children }: { title: string; children: React.ReactNode })
 
 /**
  * A project's own page (T-389): the name and its facts, the main screen lying
- * back and standing up as you scroll (as on the Portfolio page), then the
- * same five beats on every page (Thomas, T-389): the problem, what I built,
- * how long it took, what improved after launch and what the client says. A
- * beat with no confirmed answer is left out, never guessed. Then more screens,
+ * back and standing up as you scroll (as on the Portfolio page; a phone app
+ * shows its phones instead), then the same beats on every page (Thomas,
+ * T-389): the problem, what I built, how long it took, what improved after
+ * launch and what the client says, and last how this applies to the reader
+ * (Thomas, T-534). A beat with no confirmed answer is left out, never
+ * guessed, except the last, which every page has. Then more screens,
  * related work, and the closing call. Its structured data and breadcrumb go in the page.
  */
 export default function CaseStudy({ study, data }: { study: Study; data: object }) {
@@ -83,28 +86,58 @@ export default function CaseStudy({ study, data }: { study: Study; data: object 
             <div>
               <p className="cn-body cn-rise cn-rise-3 max-w-[48ch]">{study.intro}</p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <a href={study.site.href} target="_blank" rel="noopener noreferrer" className="cn-ghost">
-                  {study.site.label} <span aria-hidden="true">↗</span>
-                </a>
+                {study.site ? (
+                  <a href={study.site.href} target="_blank" rel="noopener noreferrer" className="cn-ghost">
+                    {study.site.label} <span aria-hidden="true">↗</span>
+                  </a>
+                ) : null}
+                {/* The stores open in a new tab; the project's own page on this site opens in place. */}
+                {study.links?.map((l) =>
+                  l.href.startsWith('http') ? (
+                    <a key={l.href} href={l.href} target="_blank" rel="noopener noreferrer" className="cn-ghost">
+                      {l.label} <span aria-hidden="true">↗</span>
+                    </a>
+                  ) : (
+                    <Link key={l.href} href={l.href} className="cn-ghost">
+                      {l.label} <span aria-hidden="true">→</span>
+                    </Link>
+                  ),
+                )}
               </div>
+              {study.partner ? <LatinPartner /> : null}
             </div>
             <Facts rows={study.facts} />
           </div>
         </div>
-        <Scroll prop="--q" className="cn-wrap cn-stage mt-14 pb-20 sm:mt-20 sm:pb-28">
-          <div className={`cn-tilt mx-auto ${study.hero.shot.w < 1200 ? 'max-w-[960px]' : 'max-w-[1180px]'}`}>
-            <Browser shot={study.hero.shot} product={study.hero.product!} note={study.hero.note} priority />
-          </div>
-        </Scroll>
+        {study.phones ? null : (
+          <Scroll prop="--q" className="cn-wrap cn-stage mt-14 pb-20 sm:mt-20 sm:pb-28">
+            <div className={`cn-tilt mx-auto ${study.hero.shot.w < 1200 ? 'max-w-[960px]' : 'max-w-[1180px]'}`}>
+              <Browser shot={study.hero.shot} product={study.hero.product!} note={study.hero.note} priority />
+            </div>
+          </Scroll>
+        )}
       </Scroll>
 
+      {/* A phone app's screens, in a row, as on the Portfolio page. */}
+      {study.phones ? (
+        <div className="cn-wrap mt-12 pb-16 sm:mt-20 sm:pb-24">
+          <div className="cn-apps">
+            {study.phones.map((s) => (
+              <Phone key={s.src} shot={s} sizes={APP_PHONE_SIZES} />
+            ))}
+          </div>
+        </div>
+      ) : null}
+
       <div className="cn-wrap space-y-16 sm:space-y-24">
-        <Beat title="The problem">
-          {study.problem.map((p) => (
-            <p key={p}>{p}</p>
-          ))}
-        </Beat>
-        <Beat title="What I built">
+        {study.problem ? (
+          <Beat title={study.problemTitle ?? 'The problem'}>
+            {study.problem.map((p) => (
+              <p key={p}>{p}</p>
+            ))}
+          </Beat>
+        ) : null}
+        <Beat title={study.built.title ?? 'What I built'}>
           <p className="text-[var(--fg)]">{study.built.lead}</p>
           <ul className="space-y-2.5">
             {study.built.list.map((item) => (
@@ -127,11 +160,13 @@ export default function CaseStudy({ study, data }: { study: Study; data: object 
             {study.result.map((p) => (
               <p key={p}>{p}</p>
             ))}
-            <p>
-              <a href={study.site.href} target="_blank" rel="noopener noreferrer" className="text-[var(--fg)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-current">
-                Open {study.site.label}
-              </a>
-            </p>
+            {study.site ? (
+              <p>
+                <a href={study.site.href} target="_blank" rel="noopener noreferrer" className="text-[var(--fg)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-current">
+                  Open {study.site.label}
+                </a>
+              </p>
+            ) : null}
           </Beat>
         ) : null}
         {study.quote ? (
@@ -142,17 +177,25 @@ export default function CaseStudy({ study, data }: { study: Study; data: object 
             </figure>
           </Beat>
         ) : null}
+        {/* How this applies to the reader: on every page (Thomas, T-534). */}
+        <Beat title="How this applies to you">
+          {study.applies.map((p) => (
+            <p key={p}>{p}</p>
+          ))}
+        </Beat>
       </div>
 
-      <div className={`cn-wrap mt-24 grid gap-14 sm:mt-32 ${study.figures.length > 1 ? 'cn-pair items-start lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-10' : ''}`}>
-        {study.figures.map((f) => (
-          <Scroll mode="reveal" key={f.shot.src}>
-            <div className={`cn-reveal ${study.figures.length > 1 ? '' : 'mx-auto max-w-[1180px]'}`}>
-              <Shown f={f} />
-            </div>
-          </Scroll>
-        ))}
-      </div>
+      {study.figures.length ? (
+        <div className={`cn-wrap mt-24 grid gap-14 sm:mt-32 ${study.figures.length > 1 ? 'cn-pair items-start lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-10' : ''}`}>
+          {study.figures.map((f) => (
+            <Scroll mode="reveal" key={f.shot.src}>
+              <div className={`cn-reveal ${study.figures.length > 1 ? '' : 'mx-auto max-w-[1180px]'}`}>
+                <Shown f={f} />
+              </div>
+            </Scroll>
+          ))}
+        </div>
+      ) : null}
 
       {/* Related work, in the home page's card style. */}
       <section aria-labelledby="related" className="cn-wrap mt-32 sm:mt-44">

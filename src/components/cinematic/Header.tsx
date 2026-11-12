@@ -15,9 +15,9 @@ const MENU: { title: string; links: { href: string; here?: string; label: string
     links: [
       { href: '/portfolio', label: 'Full portfolio' },
       { href: '/portfolio/farzana-classroom', label: 'Farzana Classroom' },
-      { href: '/ruta', label: 'Ruta' },
-      { href: '/tap-to-tick', label: 'Tap to Tick' },
-      { href: '/latin-game', label: 'JAM Legio' },
+      { href: '/portfolio/ruta', label: 'Ruta' },
+      { href: '/portfolio/tap-to-tick', label: 'Tap to Tick' },
+      { href: '/portfolio/jam-legio', label: 'JAM Legio' },
       { href: '/portfolio/kcupg', label: 'KCUPG' },
       { href: '/portfolio/delta', label: 'Delta' },
     ],
