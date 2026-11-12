@@ -105,8 +105,16 @@ body:has(.mu) .ss-panel { background: #0a0c12; border: 2px solid #1b1f2a; box-sh
   .mu-nav { gap: 6px; }
   .mu-nav .ss-btn { margin-right: -2px; }
 }
-@media (max-width: 359px) {
-  .mu-by { display: none; }
+/* Narrow phones: the name, the search button, "Talk to me" and the menu on one line.
+   Under 350px there is no room for all four; "Talk to me" stays in the menu, as before. */
+@media (max-width: 380px) {
+  .mu-nav { padding: 0 6px 6px 10px; gap: 2px; }
+  .mu-brand { gap: 7px; font-size: 11px; }
+  .mu-nav .ss-btn { width: 36px; margin-right: 2px; }
+  .mu-nav-cta { padding: 9px 8px; font-size: 10px; margin-right: 4px; }
+}
+@media (max-width: 349px) {
+  .mu-nav-cta { display: none; }
 }
 
 /* Four tiles that trade places when the name is hovered. */
