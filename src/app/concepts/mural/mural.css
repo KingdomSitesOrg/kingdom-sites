@@ -86,6 +86,29 @@ html.mu-html body {
   white-space: nowrap;
 }
 
+.mu-brand-name { display: inline-flex; flex-direction: column; gap: 4px; line-height: 1; }
+.mu-by {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--mist);
+}
+/* The search button in the header, and its panel (drawn on the page's body) with square edges. */
+.mu-nav .ss-btn { width: 40px; height: 40px; border-radius: 0; color: var(--paper); cursor: pointer; }
+.mu-nav .ss-btn:hover { background: var(--ink-2); }
+.mu-nav .ss-btn:focus-visible { outline: 2px solid var(--orange); }
+body:has(.mu) :is(.ss-panel, .ss-result, .ss-close, .ss-ask, .ss-result mark) { border-radius: 0; }
+body:has(.mu) .ss-panel { background: #0a0c12; border: 2px solid #1b1f2a; box-shadow: 6px 6px 0 #f2581c; }
+@media (max-width: 639px) {
+  .mu-nav { gap: 6px; }
+  .mu-nav .ss-btn { margin-right: -2px; }
+}
+@media (max-width: 359px) {
+  .mu-by { display: none; }
+}
+
 /* Four tiles that trade places when the name is hovered. */
 .mu-mark {
   position: relative;
