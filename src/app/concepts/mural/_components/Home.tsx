@@ -57,7 +57,13 @@ type Work = {
 /* The portfolio area carries the home page's own text from before the mural
    look (main up to 2026-11-11, e01c35a), word for word (Thomas, 2026-11-12,
    T-534): each piece's sentence, its links, "I also do mobile apps.", the
-   question under Farzana Classroom, JAM Legio's partnership credit and STRATA. */
+   question under Farzana Classroom, JAM Legio's partnership credit and STRATA.
+
+   Thomas, 2026-11-12, after seeing it: each piece shows one screenshot of the
+   app and one line, in his words, "Explore how and why this came to life",
+   which opens the project's page. It takes the place of the "See …" link
+   that led to the same page. */
+const EXPLORE = 'Explore how and why this came to life'
 const WORK: Work[] = [
   {
     name: project('farzana').name,
@@ -67,6 +73,7 @@ const WORK: Work[] = [
     ask: 'Want software like this, or something else entirely?',
     href: '/portfolio/farzana-classroom',
     links: [
+      { label: EXPLORE, href: '/portfolio/farzana-classroom' },
       { label: 'Book a Farzana demo', href: '/farzana/book' },
       { label: INQUIRE_CTA, href: '#talk' },
     ],
@@ -80,8 +87,8 @@ const WORK: Work[] = [
     text: 'A Latin learning game for iPhone and Android.',
     partner: true,
     href: '/latin-game',
-    links: [{ label: 'See JAM Legio', href: '/latin-game' }],
-    phones: [SHOTS.latinHome, SHOTS.latinMap, SHOTS.latinCase],
+    links: [{ label: EXPLORE, href: '/latin-game' }],
+    phones: [SHOTS.latinHome],
   },
   {
     name: project('ruta').name,
@@ -89,8 +96,8 @@ const WORK: Work[] = [
     live: true,
     text: 'The crew app for landscaping businesses. I helped build it on Ruta’s team.',
     href: '/ruta',
-    links: [{ label: 'See Ruta', href: '/ruta' }],
-    phones: [SHOTS.rutaQueue, SHOTS.rutaVisit, SHOTS.rutaTime],
+    links: [{ label: EXPLORE, href: '/ruta' }],
+    phones: [SHOTS.rutaQueue],
   },
   {
     name: project('kcupg').name,
@@ -98,7 +105,7 @@ const WORK: Work[] = [
     live: true,
     text: 'A map of Kansas City’s communities, for local ministry.',
     href: '/portfolio/kcupg',
-    links: [{ label: 'See KCUPG', href: '/portfolio/kcupg' }],
+    links: [{ label: EXPLORE, href: '/portfolio/kcupg' }],
     window: SHOTS.kcupgMap,
   },
   {
@@ -228,7 +235,7 @@ export default function MuralHome({ concept = false }: { concept?: boolean }) {
                     <MosaicShot {...w.window} sizes={WINDOW_SIZES} />
                   </Link>
                 ) : (
-                  <div className="mu-phones">
+                  <div className={`mu-phones${w.phones?.length === 1 ? ' is-one' : ''}`}>
                     {w.phones?.map((shot, i) => (
                       <div key={shot.src} className="mu-phone">
                         <MosaicShot {...shot} sizes={PHONE_SIZES} delay={i * 130} />
