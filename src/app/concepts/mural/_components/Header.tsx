@@ -42,16 +42,8 @@ export default function MuralHeader({ home = false }: { home?: boolean }) {
         <span className="mu-wide">{INQUIRE_CTA}</span>
         <span className="mu-narrow">Talk to me</span>
       </Link>
-      {/* The menu on a phone or tablet. */}
-      <Drawer
-        links={[
-          { label: 'Portfolio', href: portfolio },
-          { label: 'About', href: about },
-          { label: 'AI consultation', href: '/ai-tooling' },
-          { label: 'Mission', href: '/mission' },
-          { label: INQUIRE_CTA, href: talk },
-        ]}
-      />
+      {/* The menu: every page of the site, as before the mural look. */}
+      <Drawer />
     </header>
   )
 }

@@ -232,28 +232,50 @@ html.mu-html body {
   from { transform: translateY(-14px); opacity: 0; }
   to { transform: none; opacity: 1; }
 }
-.mu-drawer a {
+.mu-drawer-groups { display: grid; gap: 6px; }
+.mu-drawer-kicker {
+  margin-top: 16px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--stone);
+}
+.mu-drawer li a {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 15px 2px;
+  padding: 13px 2px;
   border-bottom: 2px solid #1b1f2a;
   font-family: var(--display);
   font-weight: 700;
-  font-size: 19px;
+  font-size: 18px;
   letter-spacing: -0.02em;
   text-transform: uppercase;
 }
-.mu-drawer a::before {
+.mu-drawer li a::before {
   content: '';
   width: 9px;
   height: 9px;
   flex: none;
   background: var(--tile, var(--orange));
 }
-.mu-drawer a:nth-child(2n) { --tile: var(--blue); }
-.mu-drawer a:nth-child(3n) { --tile: var(--paper); }
-.mu-drawer a:active { background: var(--ink-2); }
+.mu-drawer li:nth-child(2n) a { --tile: var(--blue); }
+.mu-drawer li:nth-child(3n) a { --tile: var(--paper); }
+.mu-drawer li a:active { background: var(--ink-2); }
+.mu-drawer-cta { margin-top: 22px; }
+.mu-drawer-small {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--stone);
+}
+.mu-drawer-small a { padding: 10px 0; min-height: 44px; display: inline-flex; align-items: center; }
+.mu-drawer-small a:hover { color: var(--paper); }
 .mu-drawer .mu-sound { margin-top: 14px; padding: 8px 2px; font-size: 11px; }
 .mu-drawer .mu-sound-label { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
 .mu-drawer-shade {
@@ -992,7 +1014,9 @@ html.mu-html body {
   .mu-links a { padding: 10px 14px; }
   .mu-sound { font-size: 12px; }
   .mu-nav-cta { font-size: 13px; padding: 13px 18px; box-shadow: 4px 4px 0 var(--orange); }
-  .mu-drawer-btn, .mu-drawer, .mu-drawer-shade { display: none !important; }
+  /* The menu is on a desktop too, as it was before the mural look: a panel under the button. */
+  .mu-drawer { inset: var(--nav-h) 24px auto auto; width: 620px; padding: 14px 28px 26px; border: 2px solid #1b1f2a; border-top: 0; }
+  .mu-drawer-groups { grid-template-columns: 1fr 1fr; gap: 32px; }
   .mu-strays { grid-template-columns: repeat(11, 12px); gap: 3px; top: -8px; }
   .mu-strays i { width: 12px; height: 12px; }
   .mu-strays.is-gem { grid-template-columns: repeat(12, 9px); gap: 2px; margin-bottom: 24px; }
