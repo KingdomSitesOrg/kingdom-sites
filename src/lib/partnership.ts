@@ -89,7 +89,7 @@ export const APP_PROOF = [
   {
     name: 'Tap to Tick',
     href: '/tap-to-tick',
-    line: 'A focused iPhone expense app — log a purchase in two taps.',
+    line: 'A focused iPhone expense app — log a purchase in one tap.',
     phone: 'spend' as const,
     shots: [
       { src: '/tap-to-tick/overview.jpg', alt: 'Tap to Tick overview' },

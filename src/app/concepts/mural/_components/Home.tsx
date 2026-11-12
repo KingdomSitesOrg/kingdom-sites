@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Fragment, type CSSProperties } from 'react'
 import InquiryForm from '@/components/InquiryForm'
 import { CONTACT_EMAIL, CONTACT_MAILTO, INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
+import LatinPartner from '@/components/cinematic/LatinPartner'
 import { PHOTOS, PROJECTS, SHOTS, type Shot } from '@/lib/work'
 import FlipTile from './FlipTile'
 import MuralHeader from './Header'
@@ -35,51 +36,79 @@ type Work = {
   chips: string[]
   /** The last chip gets the blinking "live" tile. */
   live?: boolean
-  text: string
-  /** The live home page's story about this piece, shown above its line. */
+  /** The home page's heading that came before this piece. */
+  lead?: string
+  /** The home page's story about this piece, shown above its line. */
   story?: string
+  text: string
+  /** JAM Legio's partnership credit, as the home page carried it. */
+  partner?: boolean
+  /** The home page's question under this piece. */
+  ask?: string
+  /** Where its window leads, and what a screen reader calls that link. */
   href: string
-  /** A second link under the piece. */
-  also?: { label: string; href: string }
+  hrefLabel?: string
+  /** The links under the piece, in the home page's own words. */
+  links: { label: string; href: string }[]
   window?: Shot
   phones?: Shot[]
 }
 
+/* The portfolio area carries the home page's own text from before the mural
+   look (main up to 2026-11-11, e01c35a), word for word (Thomas, 2026-11-12,
+   T-534): each piece's sentence, its links, "I also do mobile apps.", the
+   question under Farzana Classroom, JAM Legio's partnership credit and STRATA. */
 const WORK: Work[] = [
   {
     name: project('farzana').name,
     chips: chips('farzana'),
-    text: project('farzana').line,
-    // The live home page's own words about how Farzana began, and its demo link.
-    story: 'Someone asked me to build them custom classroom software. Now it’s coming to life.',
+    story: 'Someone asked me to build them custom classroom software.',
+    text: 'Now it’s coming to life.',
+    ask: 'Want software like this, or something else entirely?',
     href: '/portfolio/farzana-classroom',
-    also: { label: 'Book a Farzana demo', href: '/farzana/book' },
+    links: [
+      { label: 'Book a Farzana demo', href: '/farzana/book' },
+      { label: INQUIRE_CTA, href: '#talk' },
+    ],
     window: SHOTS.appClass,
   },
   {
     name: project('latin-game').name,
     chips: chips('latin-game'),
     live: true,
-    text: project('latin-game').line,
-    href: project('latin-game').href!,
+    lead: 'I also do mobile apps.',
+    text: 'A Latin learning game for iPhone and Android.',
+    partner: true,
+    href: '/latin-game',
+    links: [{ label: 'See JAM Legio', href: '/latin-game' }],
     phones: [SHOTS.latinHome, SHOTS.latinMap, SHOTS.latinCase],
   },
   {
     name: project('ruta').name,
     chips: chips('ruta'),
     live: true,
-    // The live home page's own line for Ruta.
     text: 'The crew app for landscaping businesses. I helped build it on Ruta’s team.',
-    href: project('ruta').href!,
+    href: '/ruta',
+    links: [{ label: 'See Ruta', href: '/ruta' }],
     phones: [SHOTS.rutaQueue, SHOTS.rutaVisit, SHOTS.rutaTime],
   },
   {
     name: project('kcupg').name,
     chips: chips('kcupg'),
     live: true,
-    text: project('kcupg').line,
+    text: 'A map of Kansas City’s communities, for local ministry.',
     href: '/portfolio/kcupg',
+    links: [{ label: 'See KCUPG', href: '/portfolio/kcupg' }],
     window: SHOTS.kcupgMap,
+  },
+  {
+    name: 'STRATA',
+    chips: ['Concept site'],
+    text: 'Don’t just think about a website. Think about an experience. See how far a website can go.',
+    href: '/strata',
+    hrefLabel: 'Open the STRATA concept site',
+    links: [{ label: 'Open the concept site', href: '/strata' }],
+    window: { src: '/strata/stills/fleet-1-desktop.webp', alt: 'Rows of 3D printers glowing in a dark hall, from the STRATA concept site', w: 1600, h: 1000 },
   },
 ]
 
@@ -142,6 +171,11 @@ export default function MuralHome({ concept = false }: { concept?: boolean }) {
           {WORK.map((w, n) => (
             <article key={w.name} className="mu-item">
               <div>
+                {w.lead ? (
+                  <p className="mu-lead" data-rise>
+                    {w.lead}
+                  </p>
+                ) : null}
                 <span className="mu-num" data-rise>
                   {String(n + 1).padStart(2, '0')}
                 </span>
@@ -163,21 +197,28 @@ export default function MuralHome({ concept = false }: { concept?: boolean }) {
                 <p className="mu-text" data-rise style={delay(150)}>
                   {w.text}
                 </p>
+                {w.partner ? (
+                  <div data-rise style={delay(170)}>
+                    <LatinPartner className="mu-partner" />
+                  </div>
+                ) : null}
+                {w.ask ? (
+                  <p className="mu-story" data-rise style={delay(180)}>
+                    {w.ask}
+                  </p>
+                ) : null}
                 <div className="mu-links-row" data-rise style={delay(200)}>
-                  <Link href={w.href} className="mu-link" data-snap>
-                    See {w.name} <Arrow />
-                  </Link>
-                  {w.also ? (
-                    <Link href={w.also.href} className="mu-link" data-snap>
-                      {w.also.label} <Arrow />
+                  {w.links.map((l) => (
+                    <Link key={l.label} href={l.href} className="mu-link" data-snap>
+                      {l.label} <Arrow />
                     </Link>
-                  ) : null}
+                  ))}
                 </div>
               </div>
 
               <div className="mu-media" data-rise style={delay(80)}>
                 {w.window ? (
-                  <Link href={w.href} className="mu-window" style={{ '--sh': n % 2 ? 'var(--orange)' : 'var(--blue)' } as CSSProperties} data-snap>
+                  <Link href={w.href} className="mu-window" aria-label={w.hrefLabel} style={{ '--sh': n % 2 ? 'var(--orange)' : 'var(--blue)' } as CSSProperties} data-snap>
                     <span className="mu-window-bar" aria-hidden="true">
                       <i />
                       <i />
@@ -187,14 +228,13 @@ export default function MuralHome({ concept = false }: { concept?: boolean }) {
                     <MosaicShot {...w.window} sizes={WINDOW_SIZES} />
                   </Link>
                 ) : (
-                  /* The phones open the write-up too, as the windows do (T-534). */
-                  <Link href={w.href} className="mu-phones" aria-label={`See ${w.name}`} data-snap>
+                  <div className="mu-phones">
                     {w.phones?.map((shot, i) => (
                       <div key={shot.src} className="mu-phone">
                         <MosaicShot {...shot} sizes={PHONE_SIZES} delay={i * 130} />
                       </div>
                     ))}
-                  </Link>
+                  </div>
                 )}
               </div>
             </article>

@@ -678,6 +678,22 @@ html.mu-html body {
   color: var(--ink);
 }
 .mu-story + .mu-text { margin-top: 10px; }
+/* The heading that came before a piece ("I also do mobile apps."), its
+   partnership credit, and the question under it (T-534). */
+.mu-lead {
+  margin-bottom: 26px;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(1.5rem, 4.4vw, 2.6rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+.mu-partner { margin-top: 12px; max-width: 46ch; font-size: 14px; line-height: 1.5; color: var(--stone); }
+.mu-partner a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.mu-text + .mu-story, div + .mu-story { margin-top: 22px; }
+.mu-story + .mu-links-row { margin-top: 14px; }
 .mu-links-row {
   display: flex;
   flex-wrap: wrap;

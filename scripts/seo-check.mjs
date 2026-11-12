@@ -19,8 +19,6 @@ const ROUTES = [
   '/', '/about', '/portfolio', '/get-started', '/ai-tooling', '/mission', '/ministry', '/prayer',
   '/ruta', '/tap-to-tick', '/latin-game', '/refer', '/privacy', '/terms',
   '/portfolio/farzana-classroom', '/portfolio/kcupg', '/portfolio/delta',
-  '/portfolio/jam-legio', '/portfolio/tap-to-tick', '/portfolio/ruta', '/portfolio/prayer',
-  '/portfolio/ministry',
 ]
 
 const attr = (html, re) => html.match(re)?.[1]?.replace(/&amp;/g, '&')
@@ -66,10 +64,8 @@ for (const route of ROUTES) {
   // On /latin-game the credit area also holds Alexis Carrico's words, credited
   // "Alexis Carrico, JAM with Latin" (Thomas, T-389).
   let outsideCredit = text.replace(/<p class="[^"]*partner[^"]*">[^]*?<\/p>/g, '')
-  if (route === '/latin-game') outsideCredit = outsideCredit.replace(/<meta[^>]*>/g, '')
-  // JAM Legio's write-up carries the same quote, credited the same way (Thomas, T-534).
-  if (['/latin-game', '/portfolio/jam-legio'].includes(route)) {
-    outsideCredit = outsideCredit.replace(/<figure class="partner-quote">[^]*?<\/figure>/g, '')
+  if (route === '/latin-game') {
+    outsideCredit = outsideCredit.replace(/<meta[^>]*>/g, '').replace(/<figure class="partner-quote">[^]*?<\/figure>/g, '')
   }
   if (/JAM with Latin/i.test(outsideCredit)) problems.push('names JAM with Latin outside the partnership credit')
   if (route === '/latin-game') {

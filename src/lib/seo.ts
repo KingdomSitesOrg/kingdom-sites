@@ -166,22 +166,6 @@ export const DELTA_LD = {
   author: { '@id': PERSON_ID, '@type': 'Person', name: 'Thomas Klein' },
 }
 
-/* A write-up with no product data of its own (T-534): the page, who wrote it
-   and what it is about. It claims no maker for the project itself, because
-   Ruta is Ruta's product and JAM Legio's own data lives on /latin-game. */
-export function caseStudyLd(study: { name: string; title: string; description: string; path: string }) {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    name: study.title,
-    url: `${SITE_URL}${study.path}`,
-    description: study.description,
-    about: { '@type': 'Thing', name: study.name },
-    author: { '@id': PERSON_ID, '@type': 'Person', name: 'Thomas Klein' },
-    publisher: { '@id': ORG_ID, '@type': 'ProfessionalService', name: SITE_NAME },
-  }
-}
-
 /* Home › Portfolio › the page, so search results show where a case study sits. */
 export function breadcrumbLd(name: string, path: string) {
   return {
