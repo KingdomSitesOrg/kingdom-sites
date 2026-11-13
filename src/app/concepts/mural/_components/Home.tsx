@@ -163,10 +163,7 @@ export default function MuralHome({ concept = false }: { concept?: boolean }) {
           {/* Thomas's own line for the hero (2026-11-11). */}
           <h1 className="mu-h1">
             <span className="l" style={{ '--i': 0 } as CSSProperties}>
-              Custom
-            </span>
-            <span className="l" style={{ '--i': 1 } as CSSProperties}>
-              mobile{' '}
+              Custom{' '}
               {/* The last word and the square stay together, so the full stop never drops to a line of its own. */}
               <span className="mu-nowrap">
                 apps
@@ -177,7 +174,7 @@ export default function MuralHome({ concept = false }: { concept?: boolean }) {
           </h1>
           {/* The line Thomas picked on 2026-11-11: who it is for first, then his mural sentence. */}
           <p className="mu-sub">
-            I build custom mobile apps for businesses. I also do other custom work, such as a matching web app or a website to go with it. <span className="mu-sub-2">Every detail cared for, like a mural.</span>
+            Mobile + web applications. <span className="mu-sub-2">Every detail cared for, like a mural.</span>
           </p>
           <div className="mu-cta">
             {/* Submit a request (T-547) beside the existing two. */}
