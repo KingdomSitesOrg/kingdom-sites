@@ -5,7 +5,6 @@ import { CONTACT_EMAIL, CONTACT_MAILTO, INQUIRE_CTA, INQUIRE_PATH } from '@/lib/
 import { REQUEST_CTA, REQUEST_PATH } from '@/lib/request'
 import LatinPartner from '@/components/cinematic/LatinPartner'
 import { PHOTOS, PROJECTS, SHOTS, type Shot } from '@/lib/work'
-import FlipTile from './FlipTile'
 import MuralHeader from './Header'
 import GemHop from './GemHop'
 import MosaicShot from './MosaicShot'
@@ -58,7 +57,9 @@ type Work = {
 /* The portfolio area carries the home page's own text from before the mural
    look (main up to 2026-11-11, e01c35a), word for word (Thomas, 2026-11-12,
    T-534): each piece's sentence, its links, "I also do mobile apps.", the
-   question under Farzana Classroom, JAM Legio's partnership credit and STRATA.
+   question under Farzana Classroom and JAM Legio's partnership credit. KCUPG,
+   STRATA and the Delta, Prayer and Ministry tiles live on /portfolio only
+   (Thomas, 2026-11-13, T-557: the home page shows apps only).
 
    Thomas, 2026-11-12, after seeing it: each piece shows one screenshot of the
    app and one line, in his words, "Explore how and why this came to life",
@@ -117,34 +118,6 @@ const WORK: Work[] = [
     ],
     window: SHOTS.appClass,
   },
-  {
-    name: project('kcupg').name,
-    chips: chips('kcupg'),
-    live: true,
-    text: 'A map of Kansas City’s communities, for local ministry.',
-    href: '/portfolio/kcupg',
-    links: [
-      { label: EXPLORE, href: '/portfolio/kcupg' },
-      { label: 'See KCUPG', href: '/portfolio/kcupg', quiet: true },
-    ],
-    window: SHOTS.kcupgMap,
-  },
-  {
-    name: 'STRATA',
-    chips: ['Concept site'],
-    text: 'Don’t just think about a website. Think about an experience. See how far a website can go.',
-    href: '/strata',
-    hrefLabel: 'Open the STRATA concept site',
-    links: [{ label: 'Open the concept site', href: '/strata' }],
-    window: { src: '/strata/stills/fleet-1-desktop.webp', alt: 'Rows of 3D printers glowing in a dark hall, from the STRATA concept site', w: 1600, h: 1000 },
-  },
-]
-
-/* More of the portfolio, as tiles that turn over: the project's name and line on the front, the line again in colour on the back, and a link to the project under each. */
-const MORE = [
-  { slug: 'delta', ground: '#2A5CFF', ink: '#F7F5F0', pattern: ['X.X.X', '.X.X.', 'X.X.X', '.X.X.', 'X.X.X'] },
-  { slug: 'prayer', ground: '#14161D', ink: '#F7F5F0', pattern: ['XXXXX', 'X...X', 'X...X', 'X...X', 'XXXXX'] },
-  { slug: 'ministry', ground: '#A9ACB1', ink: '#0A0C12', pattern: ['X...X', '.X.X.', '..X..', '.X.X.', 'X...X'] },
 ]
 
 function Arrow() {
@@ -278,25 +251,6 @@ export default function MuralHome({ concept = false }: { concept?: boolean }) {
             See all my work <Arrow />
           </Link>
         </p>
-      </section>
-
-      <section id="make" className="mu-section" aria-labelledby="make-title">
-        <div className="mu-head">
-          <p className="mu-eyebrow" data-rise aria-hidden="true" />
-          <h2 id="make-title" className="mu-h2" data-rise style={delay(60)}>
-            Websites, tools and other cool stuff.
-          </h2>
-        </div>
-        <div className="mu-flips">
-          {MORE.map((m, i) => (
-            <div key={m.slug} className="mu-flip-cell" data-rise style={delay(i * 70)}>
-              <FlipTile index={project(m.slug).kind} title={project(m.slug).name} body={project(m.slug).line} ground={m.ground} ink={m.ink} pattern={m.pattern} />
-              <Link href={project(m.slug).href ?? '/portfolio'} className="mu-link" data-snap>
-                See {project(m.slug).name} <Arrow />
-              </Link>
-            </div>
-          ))}
-        </div>
       </section>
 
       <section id="maker" className="mu-section" aria-labelledby="maker-title">
