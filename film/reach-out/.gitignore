@@ -1,0 +1,5 @@
+video/node_modules
+video/build/
+draft/
+final/*.mp4
+audio/music.wav
