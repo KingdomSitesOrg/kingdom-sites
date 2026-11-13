@@ -99,8 +99,8 @@ function lum(p: number): number {
   return (0.2126 * (p & 255) + 0.7152 * ((p >>> 8) & 255) + 0.0722 * ((p >>> 16) & 255)) / 255;
 }
 const RAMPS = [
-  ["#DCE5F3", "#D0DDF1", "#C3D4EF", "#B6CBED", "#A9C3EB"], // blue
-  ["#E7E4DE", "#E6DAC7", "#E4D0B0", "#E2C698", "#E0BC81"], // amber
+  ["#D5E5FF", "#C8DEFF", "#BAD5FF", "#ACCCFF", "#9DC4FF"], // blue
+  ["#ECE3D2", "#FFD594", "#FFC974", "#FFBF55", "#FFB235"], // amber
   ["#E3D9E4", "#DCCBDD", "#D4BCD6", "#CCADCF", "#C49EC8"], // rose (unused)
 ].map((r) => r.map(px));
 const HAND = ["#4A76AC", "#5683B8", "#6390C2", "#729DCB", "#82AAD4"].map(px);
@@ -111,6 +111,8 @@ const INK_PX = px(INK);
 const WALL_PX = Uint32Array.from(wallTones, px);
 
 const BLACK_PX = 0xff000000;
+/** The gap around a word tile: a darker shade of the letter, so the words read solid and strong. */
+const wordGap = (col: number) => mixPx(col, BLACK_PX, 0.22);
 /** The gap around a tile: on a dark surface a darker shade of the tile, so the surface reads solid
     on the light ground; on a light one, the ground's own grout. */
 function gapFor(col: number): number {
@@ -866,7 +868,7 @@ const MESSAGE: Line[] = [
 ];
 const MSG: WTile[] = layout(MESSAGE, 0);
 /** How far the devices dim behind the message (0: not at all). */
-export const dimAt = (step: number) => (step < MSG_IN ? 0 : 0.62 * smooth((step - MSG_IN) / (MSG_LAND - MSG_IN)));
+export const dimAt = (step: number) => (step < MSG_IN ? 0 : smooth((step - MSG_IN) / (MSG_LAND - MSG_IN + 3)));
 function swirlTo(t: WTile, k: number): [number, number] {
   const dx = t.c - CX;
   const dy = t.r - CY;
@@ -898,7 +900,7 @@ function drawMessage(b: Uint32Array, step: number, under: Uint32Array) {
       col = t.tone;
       size = step === MSG_LAND || band ? 3 : 2;
     }
-    put(b, c, r, col, size, SKY_PX);
+    put(b, c, r, col, size, wordGap(col));
   }
 }
 
@@ -1035,7 +1037,7 @@ function drawWords(b: Uint32Array, step: number) {
       let r = mix(br, CY + sp * Math.sin(th), w);
       c = Math.min(COLS - 1, Math.max(0, Math.round(c)));
       r = Math.min(ROWS - 1, Math.max(0, Math.round(r)));
-      put(b, c, r, mixPx(all[s0], t.tone, 0.88 * smooth((x - 0.1) / 0.6)), x < 0.08 ? 3 : 2, INK_PX);
+      put(b, c, r, mixPx(all[s0], t.tone, 0.88 * smooth((x - 0.1) / 0.6)), x < 0.08 ? 3 : 2, x > 0.75 ? wordGap(t.tone) : INK_PX);
     } else {
       // Standing: a sway with the beat, a bounce on each beat, and a band of larger tiles.
       const l = step - LAND;
@@ -1045,7 +1047,7 @@ function drawWords(b: Uint32Array, step: number) {
       const sweep = step % 12;
       const band = sweep < 6 && Math.abs(t.c * 2 + t.r - (200 + sweep * 150)) < 7;
       if (fade > 0 && hash(t.c, t.r, 313) < fade * 0.9) continue;
-      put(b, c, r, fade > 0 ? mixPx(t.tone, INK_PX, fade * 0.6) : t.tone, l === 0 || (band && fade === 0) ? 3 : fade > 0.4 ? 1 : 2, INK_PX);
+      put(b, c, r, fade > 0 ? mixPx(t.tone, INK_PX, fade * 0.6) : t.tone, l === 0 || (band && fade === 0) ? 3 : fade > 0.4 ? 1 : 2, fade > 0 ? INK_PX : wordGap(t.tone));
     }
   }
 }

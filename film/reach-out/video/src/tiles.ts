@@ -19,10 +19,10 @@ export const RIM_NEAR = ["#4CC9F0", "#36B4DE", "#7AD8F5"];
 export const RIM_FAR = ["#BA751A", "#8B5715", "#633E10"];
 
 // Tile families used by the film's pictures and letters.
-export const T_WHITE = ["#1A2E4A", "#203656", "#16283F"];
-export const T_LIME = ["#C47A10", "#D18A1E", "#B86E0A"];
+export const T_WHITE = ["#0E1E38", "#12243F", "#0B1A32"];
+export const T_LIME = ["#C26A00", "#CC7400", "#B66200"];
 export const T_CORAL = ["#D66BFF", "#E08CFF"];
-export const T_TEAL = ["#1F86C4", "#2A93CF", "#1A78B2"];
+export const T_TEAL = ["#0A5FA8", "#0C68B4", "#08579C"];
 export const T_CORAL_DIM = ["#E94B67", "#FF5775"];
 export const T_TEAL_DIM = ["#BA751A", "#12A089"];
 export const T_SLATE = ["#8B85A6", "#9790B3", "#7D7894"];

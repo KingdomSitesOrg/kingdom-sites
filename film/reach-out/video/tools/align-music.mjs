@@ -42,24 +42,26 @@ place(8 + OFFSET - EDGE, BACK - EDGE, STOP2 - BACK, 0.012);
 place(HIT_AT - EDGE, BURST - EDGE, LAND - BURST - 0.05, 0.8);
 place(19 + OFFSET - EDGE, LAND - EDGE, END - LAND + EDGE, 0.6);
 
-// The click: a crisp tick on top of a soft low "thock" (the press), and a quieter one 90 ms later
-// (the button springing back).
-function click(at, level) {
+// The click: a firm, solid press. A crisp transient (a short noise snap and a 2.6 kHz tick), a
+// woody mid knock (900 Hz) for firmness, and a low body (150 Hz falling) for weight; then a
+// quieter, higher one 85 ms later as the button springs back.
+function click(at, level, pitch = 1) {
   const a0 = Math.round(at * SR);
   let seed = 3;
-  for (let i = 0; i < 0.08 * SR; i++) {
+  for (let i = 0; i < 0.12 * SR; i++) {
     const t = i / SR;
     seed = (seed * 1103515245 + 12345) & 0x7fffffff;
     const noise = (seed / 0x7fffffff) * 2 - 1;
-    const tick = Math.sin(2 * Math.PI * 3100 * t) * Math.exp(-t / 0.0035) * 0.55 + noise * Math.exp(-t / 0.0012) * 0.35;
-    const thock = Math.sin(2 * Math.PI * (190 * t - 700 * t * t)) * Math.exp(-t / 0.022) * 0.7;
-    const v = (tick + thock) * level * Math.min(1, t / 0.0004);
+    const snap = noise * Math.exp(-t / 0.0016) * 0.6 + Math.sin(2 * Math.PI * 2600 * pitch * t) * Math.exp(-t / 0.004) * 0.5;
+    const knock = Math.sin(2 * Math.PI * 900 * pitch * t) * Math.exp(-t / 0.009) * 0.6;
+    const body = Math.sin(2 * Math.PI * (150 * t - 300 * t * t)) * Math.exp(-t / 0.035) * 0.9;
+    const v = Math.tanh((snap + knock + body) * 1.4) * level * Math.min(1, t / 0.0003);
     out[(a0 + i) * 2] += v;
     out[(a0 + i) * 2 + 1] += v;
   }
 }
-click(TAP, 0.55);
-click(TAP + 0.09, 0.22);
+click(TAP, 0.95);
+click(TAP + 0.085, 0.4, 1.25);
 
 write("../audio/music.wav", out);
 console.log(`../audio/music.wav: ${(total / SR).toFixed(3)} s; stops at ${STOP1} and ${STOP2} s, click at ${TAP} s, back at ${BACK} s, hit at ${BURST} s`);

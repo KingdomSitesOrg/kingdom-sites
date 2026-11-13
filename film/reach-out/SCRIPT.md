@@ -147,3 +147,15 @@ v3 is kept in `v3/`. Timings are as v3 (22.17 s).
    then a quieter one as the button springs back); the music drops back in at 7.0 s. A second dead
    stop at 16.0 s, a beat before the burst, which lands on the final hit at 16.5 s. The picture's
    beat pulse rests during both breaks.
+
+## Version 5 (Thomas's notes on v4)
+
+v4 is kept in `v4/`. Timings as v4.
+
+1. **Deeper contrast.** The message and end words are deep navy (#0E1E38), a richer amber
+   (#C26A00) and a deeper blue (#0A5FA8), and their tile gaps are a darker shade of each letter, so
+   the words read solid. The devices fade out completely behind the message (no ghost). The
+   tunnel's colours are more saturated at the same brightness. More tunnel brightness contrast
+   was tried and measured 2.5 flashes in a second (limit 3), too close, so it was not used.
+2. **A louder, firmer click** on the PUBLISH tap: a crisp snap, a woody knock and a low body, as
+   loud as the music's peaks, alone in the break; then a smaller one as the button springs back.
