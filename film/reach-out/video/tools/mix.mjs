@@ -1,12 +1,12 @@
 // The film's soundtrack: music only. Reads ../audio/music.wav (npm run music), rises 3 dB from the
-// start to the words landing (14 s), one plain gain to about -16 LUFS, no limiter; if the true
+// start to the words landing (11 s), one plain gain to about -16 LUFS, no limiter; if the true
 // peak would pass -1 dBTP the gain is lowered. Writes build/mix.wav.
 import { rmSync } from "node:fs";
 import { SR, measure, read, write } from "./pcm.mjs";
 
 const TARGET = -16;
 const RISE = 3;
-const LAND = 14.0;
+const LAND = 11.0;
 const CEILING = -1;
 const db = (v) => Math.pow(10, v / 20);
 const music = read("../audio/music.wav");

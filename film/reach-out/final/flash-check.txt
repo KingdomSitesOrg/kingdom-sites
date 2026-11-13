@@ -1,5 +1,5 @@
-video: 560 frames at 30 a second (18.67 s), 1080x1920
-general flashes: at most 1.0 in any one second (limit 3), worst at 3.13 s
+video: 470 frames at 30 a second (15.67 s), 1080x1920
+general flashes: at most 1.0 in any one second (limit 3), worst at 1.70 s
 red flashes:     at most 0.0 in any one second (limit 3), worst at 0.00 s; saturated red never covers more than 0.0% of the picture
-whole picture:   largest brightness jump between two frames 0.031 (of 1.0) at 11.97 s; at most 0.0 full-screen flashes a second (limit 3)
+whole picture:   largest brightness jump between two frames 0.029 (of 1.0) at 9.47 s; at most 0.0 full-screen flashes a second (limit 3)
 RESULT: PASS

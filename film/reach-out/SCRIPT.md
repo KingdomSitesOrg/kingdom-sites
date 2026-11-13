@@ -73,3 +73,30 @@ npm run stills -- 0,60,120     # half-size check stills into ../draft
 npm run music && npm run mix   # music cut and mix -> build/mix.wav
 npm run final                  # full-size film into ../final
 ```
+
+## Version 2 (Thomas's notes, 2026-11-13: "that's perfect", with six changes)
+
+This replaces the timings, colours and music above; the first cut is kept in `v1/`.
+
+1. **New colours**, so it does not look like Bend reality: midnight blue ground, a blue and amber
+   ring tunnel, an ice-blue hand, gold accents and button, cyan and orchid in the app, a cool
+   steel foot. Same dim tones, so it stays inside the flash limits.
+2. **Music, a variation:** the same track two semitones higher at the same tempo, warmer and with a
+   light chorus, plus a new shaker on every sixteenth note and a clap on beats 2 and 4. Same beat
+   and hits. No new generation, nothing paid. Nobody has listened to it.
+3. **The button says PUBLISH**, readable; the fingertip presses its lower right, clear of the word.
+4. **The app is an iPhone:** steel rim, black bezel, rounded corners, a Dynamic Island.
+5. **The hand comes sooner:** visible from about 0.1 s and clearly a hand by 0.7 s.
+6. **Quicker:** 15.67 s (188 steps) instead of 18.67 s; nothing cut, every beat shorter.
+
+| Seconds | What happens | Music |
+|---|---|---|
+| 0.0 | Ring tunnel at full strength; the hand starts out of the hole | track from its start |
+| 3.0 | The hand is nearest, reaching out | bar line |
+| 3.17 to 5.5 | Camera swings, mirrors fly into the laptop | |
+| 5.5 to 6.5 | Laptop rests; the hand glides in | the track's break |
+| 6.5 | The fingertip presses PUBLISH | second phrase drops in |
+| 6.67 to 8.0 | Screen flips into the iPhone app, two screens behind | |
+| 8.0 to 9.5 | The app floats | |
+| 9.5 | Burst | final hit, ringing out |
+| 11.0 to 15.17 | KINGDOM SITES / GET YOUR / CUSTOM APP / TODAY. (4.17 s) | track from 19 s, fading at the end |

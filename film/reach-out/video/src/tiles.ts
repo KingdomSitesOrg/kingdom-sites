@@ -2,34 +2,34 @@
 // a dark aubergine wall, a warm cream foot, and three accents. Lime is the AI, coral is the person
 // who falls behind, teal is the person who keeps up.
 
-export const INK = "#0B0A12";
-export const PAGE = "#F2EEE3";
-export const PAPER = "#F8F5EC";
-export const LIME = "#C6F432";
-export const CORAL = "#FF4D6D";
-export const TEAL = "#22D6B2";
+export const INK = "#070B14";
+export const PAGE = "#E1E7EC";
+export const PAPER = "#EBF0F4";
+export const LIME = "#FFC24B";
+export const CORAL = "#D66BFF";
+export const TEAL = "#4CC9F0";
 
 // Grout: the thin darker gap around a tile, by the surface it sits in.
-export const GROUT_SKY = "#08070D";
-export const GROUT_WALL = "#D6D0C3";
+export const GROUT_SKY = "#04070D";
+export const GROUT_WALL = "#BAC4CE";
 
-export const WALL = ["#9A938A", "#B3ACA1", "#CBC4B8", "#DDD7CB", "#E9E4D8", PAGE, PAPER];
-export const SKY = ["#0B0A12", "#0D0B15", "#0F0D18", "#100E1A"];
-export const RIM_NEAR = ["#22D6B2", "#19C2A0", "#5BE6CB"];
-export const RIM_FAR = ["#0F8F78", "#0B6B5B", "#084C42"];
+export const WALL = ["#7F8B99", "#97A3B0", "#AEB9C4", "#C2CCD5", "#D3DBE2", PAGE, PAPER];
+export const SKY = ["#070B14", "#08101B", "#0A121E", "#0B1420"];
+export const RIM_NEAR = ["#4CC9F0", "#36B4DE", "#7AD8F5"];
+export const RIM_FAR = ["#8F5A14", "#6B4310", "#4C300C"];
 
 // Tile families used by the film's pictures and letters.
-export const T_WHITE = ["#F8F5EC", "#E9E4D8", "#F2EEE3"];
-export const T_LIME = ["#C6F432", "#D4F85E", "#B4E61E"];
-export const T_CORAL = ["#FF4D6D", "#FF6A85"];
-export const T_TEAL = ["#22D6B2", "#19C2A0", "#5BE6CB"];
+export const T_WHITE = ["#EBF0F4", "#D3DBE2", "#E1E7EC"];
+export const T_LIME = ["#FFC24B", "#FFD27A", "#F2AE2E"];
+export const T_CORAL = ["#D66BFF", "#E08CFF"];
+export const T_TEAL = ["#4CC9F0", "#36B4DE", "#7AD8F5"];
 export const T_CORAL_DIM = ["#B33A4F", "#C4435A"];
-export const T_TEAL_DIM = ["#0F8F78", "#12A089"];
+export const T_TEAL_DIM = ["#8F5A14", "#12A089"];
 export const T_SLATE = ["#6B6680", "#746F8A", "#7D7894"];
-export const T_GREY = ["#B3ACA1", "#CBC4B8", "#DDD7CB"];
-export const T_PAPER = ["#DDD7CB", "#CBC4B8", "#E9E4D8"];
-export const T_SCREEN = ["#16132A", "#1A1731", "#120F20"];
-export const EYE = "#120F20";
+export const T_GREY = ["#97A3B0", "#AEB9C4", "#C2CCD5"];
+export const T_PAPER = ["#C2CCD5", "#AEB9C4", "#D3DBE2"];
+export const T_SCREEN = ["#0F1B2E", "#122036", "#0C1626"];
+export const EYE = "#0C1626";
 
 /** A steady 0..1 for a tile, so the wall is the same wall on every frame. */
 export function hash(c: number, r: number, s = 0): number {
@@ -66,11 +66,11 @@ export function wallTone(b: number): string {
 export function skyTone(c: number, r: number, quiet = false): string {
   const h = hash(c, r, 11);
   if (!quiet) {
-    if (h < 0.003) return "#EFEAF7";
-    if (h < 0.013) return h < 0.008 ? TEAL : "#123D3A";
+    if (h < 0.003) return "#EAF2FF";
+    if (h < 0.013) return h < 0.008 ? TEAL : "#10324A";
     if (h < 0.017) return h < 0.015 ? LIME : CORAL;
-    if (h < 0.026) return "#2C2840";
-    if (noise(c / 3.5, r / 3.5, 51) > 0.78 && hash(c, r, 52) < 0.55) return hash(c, r, 53) < 0.25 ? "#1A1731" : "#16132A";
+    if (h < 0.026) return "#1C3048";
+    if (noise(c / 3.5, r / 3.5, 51) > 0.78 && hash(c, r, 52) < 0.55) return hash(c, r, 53) < 0.25 ? "#122036" : "#0F1B2E";
   }
-  return noise(c / 5, r / 5, 3) > 0.68 ? "#120F20" : pick(SKY, hash(c, r, 12));
+  return noise(c / 5, r / 5, 3) > 0.68 ? "#0C1626" : pick(SKY, hash(c, r, 12));
 }
