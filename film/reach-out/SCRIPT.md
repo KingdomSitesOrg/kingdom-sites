@@ -159,3 +159,22 @@ v4 is kept in `v4/`. Timings as v4.
    was tried and measured 2.5 flashes in a second (limit 3), too close, so it was not used.
 2. **A louder, firmer click** on the PUBLISH tap: a crisp snap, a woody knock and a low body, as
    loud as the music's peaks, alone in the break; then a smaller one as the button springs back.
+
+## Version 6 (Thomas's notes on v5)
+
+v5 is kept in `v5/`. Everything as v5 except the message, which is now two parts, and the
+second break and the end, which come 1 s sooner. Length 21.17 s (254 steps).
+
+| Seconds | What happens |
+|---|---|
+| 10.25 to 11.0 | YOU NEED A / BEAUTIFUL, / STUNNING gathers out of the devices, which fade out completely |
+| 11.0 to 13.0 | part one stands (2.0 s) |
+| 13.0 to 13.5 | part one melts outward as part two gathers |
+| 13.5 to 15.5 | CUSTOM APP / FOR YOUR / BUSINESS. stands (2.0 s) |
+| 15.0 | the music stops dead |
+| 15.5 | burst on the final hit |
+| 16.5 to 20.67 | KINGDOM SITES / GET YOUR / CUSTOM APP / TODAY. |
+
+The message takes 4.5 s from the first part landing to the burst (v5: 5.5 s). Each part is held
+for 0.3 s a word plus 0.5 s (the build checks it). The devices now fade to the ground's own
+colour and stop drawing, so no faint shape is left behind the words.

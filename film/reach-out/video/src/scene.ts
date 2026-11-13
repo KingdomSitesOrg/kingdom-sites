@@ -42,11 +42,13 @@ export const TAP = 78; // 6.5 s: the fingertip presses PUBLISH
 export const APP = 80; // the screen flips into the app
 export const FLOAT = 96; // 8.0 s: the carousel of three devices begins turning
 export const MSG_IN = 123; // the message begins to gather out of the devices
-export const MSG_LAND = 132; // 11.0 s: YOU NEED A BEAUTIFUL, STUNNING CUSTOM APP FOR YOUR BUSINESS.
-export const EXPLODE = 198; // 16.5 s: the burst
-export const LAND = 210; // 17.5 s: the end words land
-export const FADE = 260; // the end words begin to dim
-export const STEPS = 266;
+export const MSG_LAND = 132; // 11.0 s: YOU NEED A BEAUTIFUL, STUNNING
+export const MSG_SWAP = 156; // 13.0 s: part one melts into part two
+export const MSG2_LAND = 162; // 13.5 s: CUSTOM APP FOR YOUR BUSINESS.
+export const EXPLODE = 186; // 15.5 s: the burst
+export const LAND = 198; // 16.5 s: the end words land
+export const FADE = 248; // the end words begin to dim
+export const STEPS = 254;
 export const DURATION_FRAMES = Math.ceil((STEPS * T.fps) / SPS);
 
 // ───────────────────────────── the wall ─────────────────────────────
@@ -630,6 +632,7 @@ function onBezel(f: Face, lu: number, lv: number, w: number) {
 function drawPanels(b: Uint32Array, step: number, under: Uint32Array) {
   const cam = camAt(step);
   const dim = dimAt(step);
+  if (dim >= 0.999) return cam; // gone entirely behind the message
   const list = panelsAt(step).map((pn) => {
     // The flip turns the panel about its upright axis.
     const n = cross(pn.u, pn.v);
@@ -678,8 +681,8 @@ function drawPanels(b: Uint32Array, step: number, under: Uint32Array) {
           hit = faceTex(laptopFace(pn.k), lu, lv, step, pn.k, c, r);
         } else hit = faceTex(face, lu, lv, step, pn.k, c, r);
         if (!hit) continue;
-        if (dim > 0) hit = [mixPx(hit[0], SKY_PX, dim), hit[1]];
-        put(b, c, r, hit[0], hit[1], gapFor(hit[0]));
+        if (dim > 0) hit = [mixPx(hit[0], INK_PX, dim), hit[1]];
+        put(b, c, r, hit[0], hit[1], dim > 0 ? mixPx(gapFor(hit[0]), SKY_PX, dim) : gapFor(hit[0]));
         under[r * COLS + c] = hit[0];
       }
   }
@@ -858,15 +861,20 @@ function layout(lines: Line[], extraFirstGap: number): WTile[] {
 const WORDS: WTile[] = layout(LINES, 10);
 
 // The message, gathered out of the turning devices, which dim behind it.
-const MESSAGE: Line[] = [
-  ["YOU NEED A", 5, T_WHITE],
+// The message, in two parts, each gathered out of the scene and melting into the next.
+const MESSAGE1: Line[] = [
+  ["YOU NEED A", 6, T_WHITE],
   ["BEAUTIFUL,", 6, T_LIME],
-  ["STUNNING", 6, T_LIME],
-  ["CUSTOM APP", 6, T_TEAL],
-  ["FOR YOUR", 5, T_WHITE],
-  ["BUSINESS.", 6, T_WHITE],
+  ["STUNNING", 7, T_LIME],
 ];
-const MSG: WTile[] = layout(MESSAGE, 0);
+const MESSAGE2: Line[] = [
+  ["CUSTOM APP", 6, T_TEAL],
+  ["FOR YOUR", 6, T_WHITE],
+  ["BUSINESS.", 7, T_WHITE],
+];
+const MESSAGE = [...MESSAGE1, ...MESSAGE2];
+const MSG1: WTile[] = layout(MESSAGE1, 0);
+const MSG2: WTile[] = layout(MESSAGE2, 0);
 /** How far the devices dim behind the message (0: not at all). */
 export const dimAt = (step: number) => (step < MSG_IN ? 0 : smooth((step - MSG_IN) / (MSG_LAND - MSG_IN + 3)));
 function swirlTo(t: WTile, k: number): [number, number] {
@@ -879,29 +887,36 @@ function swirlTo(t: WTile, k: number): [number, number] {
 }
 function drawMessage(b: Uint32Array, step: number, under: Uint32Array) {
   if (step < MSG_IN) return;
-  for (const t of MSG) {
-    let c: number;
-    let r: number;
-    let col: number;
-    let size = 2;
-    if (step < MSG_LAND) {
-      const x = (step - MSG_IN) / (MSG_LAND - MSG_IN);
-      const k = clamp(1 - Math.pow(x, 1.6) + (t.j - 0.5) * 0.2 * (1 - x));
-      [c, r] = swirlTo(t, k);
-      c = Math.round(c);
-      r = Math.round(r);
-      if (c < 0 || c >= COLS || r < 0 || r >= ROWS) continue;
-      col = mixPx(under[r * COLS + c], t.tone, 0.88 * smooth((1 - k - 0.1) / 0.75));
-    } else {
-      c = t.c + Math.round(1.3 * Math.sin(t.r / 33 + (2 * Math.PI * step) / 12));
-      r = t.r + Math.round(1.7 * Math.sin(t.c / 40 + (2 * Math.PI * step) / 24) - 2.4 * kick(step));
-      const sweep = step % 12;
-      const band = sweep < 6 && Math.abs(t.c * 2 + t.r - (200 + sweep * 150)) < 7;
-      col = t.tone;
-      size = step === MSG_LAND || band ? 3 : 2;
+  const part = (tiles: WTile[], from: number, land: number, leave: number | null) => {
+    if (step < from || (leave !== null && step >= leave + (MSG2_LAND - MSG_SWAP))) return;
+    for (const t of tiles) {
+      let c: number;
+      let r: number;
+      let col: number;
+      let size = 2;
+      if (step < land || (leave !== null && step >= leave)) {
+        // Gathering (swirling in and brightening) or melting (swirling out and fading back).
+        const arriving = step < land;
+        const x = arriving ? (step - from) / (land - from) : (step - leave! + 1) / (MSG2_LAND - MSG_SWAP);
+        const k = arriving ? clamp(1 - Math.pow(x, 1.6) + (t.j - 0.5) * 0.2 * (1 - x)) : clamp(Math.pow(x, 1.4) + (t.j - 0.5) * 0.2 * x);
+        [c, r] = swirlTo(t, k);
+        c = Math.round(c);
+        r = Math.round(r);
+        if (c < 0 || c >= COLS || r < 0 || r >= ROWS) continue;
+        col = mixPx(under[r * COLS + c], t.tone, (arriving ? 0.88 : 1) * smooth((1 - k - 0.1) / 0.75));
+      } else {
+        c = t.c + Math.round(1.3 * Math.sin(t.r / 33 + (2 * Math.PI * step) / 12));
+        r = t.r + Math.round(1.7 * Math.sin(t.c / 40 + (2 * Math.PI * step) / 24) - 2.4 * kick(step));
+        const sweep = step % 12;
+        const band = sweep < 6 && Math.abs(t.c * 2 + t.r - (200 + sweep * 150)) < 7;
+        col = t.tone;
+        size = step === land || band ? 3 : 2;
+      }
+      put(b, c, r, col, size, wordGap(col));
     }
-    put(b, c, r, col, size, wordGap(col));
-  }
+  };
+  part(MSG1, MSG_IN, MSG_LAND, MSG_SWAP);
+  part(MSG2, MSG_SWAP, MSG2_LAND, null);
 }
 
 // ───────────────────────────── the burst ─────────────────────────────
@@ -1058,10 +1073,13 @@ const TEXT = LINES.map((x) => x[0]).join(" ");
 export const HOLD_SECONDS = (FADE - LAND) / SPS;
 {
   const least = 0.45 * TEXT.split(/\s+/).length + 1;
-  const msgText = MESSAGE.map((x) => x[0]).join(" ");
-  const msgHold = (EXPLODE - MSG_LAND) / SPS;
-  const msgLeast = 0.45 * msgText.split(/\s+/).length + 1;
-  if (msgHold + 0.05 < msgLeast) throw new Error(`"${msgText}" stands for ${msgHold.toFixed(2)} s, under ${msgLeast.toFixed(2)} s`);
+  // Each part of the message: 0.3 s a word plus 0.5 s (Thomas asked for the message to be quicker
+  // than v5's single 5.5 s hold).
+  for (const [lines, stands] of [[MESSAGE1, (MSG_SWAP - MSG_LAND) / SPS], [MESSAGE2, (EXPLODE - MSG2_LAND) / SPS]] as [Line[], number][]) {
+    const text = lines.map((x) => x[0]).join(" ");
+    const leastPart = 0.3 * text.split(/\s+/).length + 0.5;
+    if (stands + 0.05 < leastPart) throw new Error(`"${text}" stands for ${stands.toFixed(2)} s, under ${leastPart.toFixed(2)} s`);
+  }
   if (HOLD_SECONDS + 0.05 < least) throw new Error(`"${TEXT}" stands for ${HOLD_SECONDS.toFixed(2)} s, under its ${least.toFixed(2)} s reading time`);
 }
 
@@ -1073,7 +1091,8 @@ export function moments() {
     ["laptop assembled", LAPTOP],
     ["tap", TAP],
     ["carousel turning", FLOAT],
-    ["message lands", MSG_LAND],
+    ["message part one lands", MSG_LAND],
+    ["message part two lands", MSG2_LAND],
     ["burst", EXPLODE],
     ["words land", LAND],
     ["words begin to dim", FADE],

@@ -12,8 +12,8 @@ import { SR, read, write } from "./pcm.mjs";
 
 const OFFSET = 0.025; // the file's beats sit 25 ms after each half second
 const HIT_AT = 24.027;
-const STOP1 = 6.0, TAP = 6.5, BACK = 7.0, STOP2 = 16.0, BURST = 16.5, LAND = 17.5;
-const END = 665 / 30;
+const STOP1 = 6.0, TAP = 6.5, BACK = 7.0, STOP2 = 15.0, BURST = 15.5, LAND = 16.5;
+const END = 635 / 30;
 const EDGE = 0.005;
 const raw = read("../audio/music-raw.mp3");
 const frames = raw.length / 2;

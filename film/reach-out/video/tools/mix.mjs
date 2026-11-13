@@ -6,7 +6,7 @@ import { SR, measure, read, write } from "./pcm.mjs";
 
 const TARGET = -16;
 const RISE = 3;
-const LAND = 17.5;
+const LAND = 16.5;
 const CEILING = -1;
 const db = (v) => Math.pow(10, v / 20);
 const music = read("../audio/music.wav");
