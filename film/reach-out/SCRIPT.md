@@ -100,3 +100,32 @@ This replaces the timings, colours and music above; the first cut is kept in `v1
 | 8.0 to 9.5 | The app floats | |
 | 9.5 | Burst | final hit, ringing out |
 | 11.0 to 15.17 | KINGDOM SITES / GET YOUR / CUSTOM APP / TODAY. (4.17 s) | track from 19 s, fading at the end |
+
+## Version 3 (Thomas's notes on v2)
+
+This replaces the v2 timings from 8 s on; v2 is kept in `v2/`. Everything before 8 s is as v2.
+
+1. **Carousel:** the app holds longer and shows off on three devices on a turning ring: the
+   iPhone, an iPad (a sidebar beside the same app) and a Duo (two screens opened like a book, the
+   app spanning both). Each turns to the front and holds for a moment (8.0 to 11.0 s), then the
+   ring keeps turning, dimmed, behind the message.
+2. **Dynamic Island whole:** the rounded-box helper now caps its corner radius at half the box's
+   height; it was clipping the island's top half. The island sits well inside the screen top.
+3. **Lighter colours:** the same midnight blue, amber and ice blue, lifted (the ground is
+   #162136, was #070B14).
+4. **The message, said plainly:** YOU NEED A / BEAUTIFUL, / STUNNING / CUSTOM APP / FOR YOUR /
+   BUSINESS. gathers out of the devices at 11.0 s and holds 5.5 s (10 words at 0.45 s a word
+   plus 1 s), then bursts into KINGDOM SITES / GET YOUR / CUSTOM APP / TODAY. (4.17 s).
+
+Length 22.17 s (266 steps). Music: as v2 (the varied track), with the track from 8 s to 18 s under
+the carousel and message, the final hit on the burst at 16.5 s, and the end words from 17.5 s.
+
+| Seconds | What happens |
+|---|---|
+| 0 to 8.0 | as v2 (tunnel, hand by 0.7 s, mirrors into laptop, PUBLISH tap at 6.5, the app) |
+| 8.0 to 11.0 | carousel: iPhone, iPad, Duo, each to the front in turn |
+| 10.25 to 11.0 | the message gathers out of the devices, which dim behind it |
+| 11.0 to 16.5 | YOU NEED A BEAUTIFUL, STUNNING CUSTOM APP FOR YOUR BUSINESS. |
+| 16.5 | burst on the music's final hit |
+| 17.5 to 21.67 | KINGDOM SITES / GET YOUR / CUSTOM APP / TODAY. |
+| 21.67 to 22.17 | dims to the end |

@@ -11,7 +11,7 @@
 // The illusion and the screens stay dim; only the words, the button and small accents are bright.
 import timeline from "../timeline.json";
 import { wordCells, wordUnits } from "./glyphs";
-import { GROUT_SKY, GROUT_WALL, INK, RIM_FAR, RIM_NEAR, T_LIME, T_WHITE, clamp, hash, noise, pick, skyTone, wallTone } from "./tiles";
+import { GROUT_SKY, GROUT_WALL, INK, RIM_FAR, RIM_NEAR, T_LIME, T_TEAL, T_WHITE, clamp, hash, noise, pick, skyTone, wallTone } from "./tiles";
 
 export const T = timeline;
 export const W = T.width;
@@ -40,11 +40,13 @@ export const SWING = 38; // the mirrors crack out and the camera swings
 export const LAPTOP = 66; // 5.5 s: the laptop is assembled
 export const TAP = 78; // 6.5 s: the fingertip presses PUBLISH
 export const APP = 80; // the screen flips into the app
-export const FLOAT = 96; // 8.0 s: the app floats
-export const EXPLODE = 114; // 9.5 s: the burst
-export const LAND = 132; // 11.0 s: the words land
-export const FADE = 182; // the words begin to dim
-export const STEPS = 188;
+export const FLOAT = 96; // 8.0 s: the carousel of three devices begins turning
+export const MSG_IN = 123; // the message begins to gather out of the devices
+export const MSG_LAND = 132; // 11.0 s: YOU NEED A BEAUTIFUL, STUNNING CUSTOM APP FOR YOUR BUSINESS.
+export const EXPLODE = 198; // 16.5 s: the burst
+export const LAND = 210; // 17.5 s: the end words land
+export const FADE = 260; // the end words begin to dim
+export const STEPS = 266;
 export const DURATION_FRAMES = Math.ceil((STEPS * T.fps) / SPS);
 
 // ───────────────────────────── the wall ─────────────────────────────
@@ -52,7 +54,7 @@ export const DURATION_FRAMES = Math.ceil((STEPS * T.fps) / SPS);
 const wallTones: string[] = [];
 const isDark = new Uint8Array(N);
 const isPale = new Uint8Array(N);
-const DIM = ["#13213A", "#182A44", "#2A2010", "#122036"];
+const DIM = ["#192B4B", "#1F3758", "#372A15", "#172A46"];
 for (let r = 0; r < ROWS; r++) {
   for (let c = 0; c < COLS; c++) {
     const edge = ROWS - (44 + (noise(c / 30, 0, 41) - 0.5) * 16);
@@ -97,11 +99,11 @@ function lum(p: number): number {
   return (0.2126 * (p & 255) + 0.7152 * ((p >>> 8) & 255) + 0.0722 * ((p >>> 16) & 255)) / 255;
 }
 const RAMPS = [
-  ["#122036", "#182A44", "#22395A", "#2E4E78", "#3E6CA8"], // violet
-  ["#24180A", "#33220C", "#4A3010", "#664214", "#7A4F16"], // teal
-  ["#2A1320", "#2E1A40", "#562236", "#732B44", "#8F3352"], // rose
+  ["#172A46", "#1F3758", "#2C4A75", "#3C659C", "#518CDA"], // violet
+  ["#2F1F0D", "#422C10", "#603E15", "#85561A", "#9F671D"], // teal
+  ["#37192A", "#3C2253", "#702C46", "#963858", "#BA426B"], // rose
 ].map((r) => r.map(px));
-const HAND = ["#16303F", "#1F4558", "#2C6178", "#3E8198", "#5AA6BE"].map(px);
+const HAND = ["#1D3E52", "#285A72", "#397E9C", "#3E8198", "#5AA6BE"].map(px);
 const HAND_RIM = [px("#D8F3FF"), px("#C2EAFA"), px("#EAF8FF")];
 const SKY_PX = px(GROUT_SKY);
 const PALE_PX = px(GROUT_WALL);
@@ -191,8 +193,9 @@ function camAt(step: number): Cam {
     const e = smooth((step - APP) / (FLOAT - APP));
     return { yaw: -0.42 * (1 - e) + 0.25 * Math.sin(Math.PI * e), pitch: 0.4 * (1 - e), at: [0, -0.15 * (1 - e), 0.1 * (1 - e)] };
   }
-  const u = (step - FLOAT) / 36;
-  return { yaw: 0.08 * Math.sin(2 * Math.PI * u), pitch: 0.05 * Math.sin(2 * Math.PI * u * 1.5), at: [0, 0, 0] };
+  // Looking a little down onto the carousel, so it reads as a ring of devices.
+  const e = smooth((step - FLOAT) / 10);
+  return { yaw: 0, pitch: 0.12 * e, at: [0, -0.1 * e, RING * e] };
 }
 function project(cam: Cam, p: V3): [number, number, number] {
   const x = p[0] - cam.at[0];
@@ -217,7 +220,7 @@ function cross(a: V3, b: V3): V3 {
 const len3 = (a: V3) => Math.hypot(a[0], a[1], a[2]);
 
 // What a face of a panel shows: a texture and the panel's place in that texture's grid.
-type Tex = "mirror" | "screen" | "keys" | "appA" | "appB" | "appC";
+type Tex = "mirror" | "screen" | "keys" | "appA" | "appB" | "appC" | "ipad" | "duoL" | "duoR" | "devback";
 type Face = { tex: Tex; ci: number; cj: number; nc: number; nr: number };
 type Panel = { k: number; p: V3; u: V3; v: V3; flip: number; seam: number; land: number; front: Face; back: Face };
 
@@ -248,25 +251,56 @@ function laptopOf(k: number): { p: V3; u: V3; v: V3 } {
 }
 const PHONE_W = 1.45;
 const PHONE_H = 2.9;
-function appOf(k: number, step: number): { p: V3; u: V3; v: V3 } {
-  const t = (step - FLOAT) / 12;
-  if (k < 24) {
+// The carousel: three devices on a ring, each facing out, turning past the viewer. The iPhone is
+// in front first, then the iPad, then the Duo, each holding in front for a moment.
+const RING = 1.7;
+function carouselTurn(step: number): number {
+  if (step < FLOAT) return 0;
+  const t = step - FLOAT;
+  if (t >= 36) return -((2 * Math.PI) / 3) * (3 + (t - 36) / 18); // slower and steady behind the message
+  const n = Math.floor(t / 12);
+  const f = (t - n * 12) / 12;
+  return -((2 * Math.PI) / 3) * (n + smooth((f - 0.3) / 0.7));
+}
+const IPAD_W = 2.2;
+const IPAD_H = 2.93;
+const DUO_W = 1.1; // each of the Duo's two screens
+const DUO_H = 1.47;
+const DUO_GAP = 0.07;
+const DUO_FOLD = 0.32; // each half turned toward the viewer, like an open book
+function deviceOf(k: number, step: number): { p: V3; u: V3; v: V3 } {
+  const which = k < 24 ? 0 : k < 36 ? 1 : 2;
+  const phi = carouselTurn(step) + (which * 2 * Math.PI) / 3;
+  const bob = step >= FLOAT ? 0.05 * Math.sin((step - FLOAT) / 5 + which * 2.1) : 0;
+  const C: V3 = [RING * Math.sin(phi), -0.1 + bob, RING - RING * Math.cos(phi)];
+  const X: V3 = [Math.cos(phi), 0, Math.sin(phi)];
+  const O: V3 = [Math.sin(phi), 0, -Math.cos(phi)]; // out of the screen, toward the viewer when in front
+  if (which === 0) {
     const i = k % 4;
     const j = Math.floor(k / 4);
-    const bob = step >= FLOAT ? 0.07 * Math.sin(Math.PI * 0.5 * t) : 0;
-    return { p: [-PHONE_W / 2 + (PHONE_W / 4) * (i + 0.5), -0.1 - PHONE_H / 2 + (PHONE_H / 6) * (j + 0.5) + bob, 0], u: [PHONE_W / 4, 0, 0], v: [0, PHONE_H / 6, 0] };
+    const p = add(add(C, X, -PHONE_W / 2 + (PHONE_W / 4) * (i + 0.5)), [0, 1, 0], -PHONE_H / 2 + (PHONE_H / 6) * (j + 0.5));
+    return { p, u: [X[0] * (PHONE_W / 4), 0, X[2] * (PHONE_W / 4)], v: [0, PHONE_H / 6, 0] };
   }
-  const m = k - 24;
-  const left = m < 12;
-  const n = left ? m : m - 12;
-  const i = n % 3;
-  const j = Math.floor(n / 3);
-  const a = left ? 0.3 : -0.3; // turned to face in toward the phone
-  const cx = left ? -1.32 : 1.32;
-  const bob = step >= FLOAT ? 0.09 * Math.sin(Math.PI * 0.5 * t + (left ? 1.7 : 3.4)) : 0;
-  const lx = -0.6 + 0.4 * (i + 0.5);
-  const ly = -1.2 + 0.6 * (j + 0.5);
-  return { p: [cx + lx * Math.cos(a), (left ? -0.45 : 0.25) + ly + bob, 1.0 - lx * Math.sin(a)], u: [0.4 * Math.cos(a), 0, -0.4 * Math.sin(a)], v: [0, 0.6, 0] };
+  if (which === 1) {
+    const m = k - 24;
+    const i = m % 3;
+    const j = Math.floor(m / 3);
+    const p = add(add(C, X, -IPAD_W / 2 + (IPAD_W / 3) * (i + 0.5)), [0, 1, 0], -IPAD_H / 2 + (IPAD_H / 4) * (j + 0.5) - 0.05);
+    return { p, u: [X[0] * (IPAD_W / 3), 0, X[2] * (IPAD_W / 3)], v: [0, IPAD_H / 4, 0] };
+  }
+  const n = k - 36;
+  const right = n >= 6;
+  const q = n % 6;
+  const i = q % 2;
+  const j = Math.floor(q / 2);
+  const cb = Math.cos(DUO_FOLD);
+  const sb = Math.sin(DUO_FOLD);
+  // Each half runs out from the hinge; its outer edge comes toward the viewer.
+  const dir: V3 = right ? add([X[0] * cb, 0, X[2] * cb], O, sb) : add([-X[0] * cb, 0, -X[2] * cb], O, sb);
+  const along = DUO_GAP / 2 + (DUO_W / 2) * ((right ? i : 1 - i) + 0.5);
+  const p = add(add(C, dir, along), [0, 1, 0], -DUO_H / 2 + (DUO_H / 3) * (j + 0.5));
+  const uvec: V3 = right ? dir : [-dir[0], -dir[1], -dir[2]];
+  return { p, u: [uvec[0] * (DUO_W / 2), 0, uvec[2] * (DUO_W / 2)], v: [0, DUO_H / 3, 0] };
 }
 const mirrorFace = (k: number): Face => ({ tex: "mirror", ci: k % 6, cj: Math.floor(k / 6), nc: 6, nr: 8 });
 function laptopFace(k: number): Face {
@@ -276,10 +310,11 @@ function laptopFace(k: number): Face {
 }
 function appFace(k: number): Face {
   if (k < 24) return { tex: "appA", ci: k % 4, cj: Math.floor(k / 4), nc: 4, nr: 6 };
-  const m = k - 24;
-  const n = m % 12;
-  return { tex: m < 12 ? "appB" : "appC", ci: n % 3, cj: Math.floor(n / 3), nc: 3, nr: 4 };
+  if (k < 36) return { tex: "ipad", ci: (k - 24) % 3, cj: Math.floor((k - 24) / 3), nc: 3, nr: 4 };
+  const n = (k - 36) % 6;
+  return { tex: k - 36 < 6 ? "duoL" : "duoR", ci: n % 2, cj: Math.floor(n / 2), nc: 2, nr: 3 };
 }
+const backFace = (k: number): Face => ({ tex: "devback", ci: 0, cj: 0, nc: 1, nr: 1 });
 
 /** Every panel's place on a step, or none before the mirrors crack out. */
 function panelsAt(step: number): Panel[] {
@@ -307,10 +342,10 @@ function panelsAt(step: number): Panel[] {
       const x = clamp((step - s0) / 9);
       const e = smooth(x);
       const a = laptopOf(k);
-      const b = appOf(k, step);
+      const b = deviceOf(k, step);
       const arc = Math.sin(Math.PI * e);
       const p = add(lerp3(a.p, b.p, e), [0, 0, -0.6 * arc]);
-      out.push({ k, p, u: lerp3(a.u, b.u, e), v: lerp3(a.v, b.v, e), flip: Math.PI * smooth(x * 1.6), seam: step >= FLOAT ? clamp(1 - (step - FLOAT) / 4) : 1 - clamp((x - 0.85) / 0.15) * 0.6, land: 1, front: laptopFace(k), back: appFace(k) });
+      out.push({ k, p, u: lerp3(a.u, b.u, e), v: lerp3(a.v, b.v, e), flip: Math.PI * smooth(x * 1.6), seam: step >= FLOAT ? clamp(1 - (step - FLOAT) / 4) : 1 - clamp((x - 0.85) / 0.15) * 0.6, land: 1, front: step >= FLOAT ? backFace(k) : laptopFace(k), back: appFace(k) });
     }
   }
   return out;
@@ -321,35 +356,37 @@ function panelsAt(step: number): Panel[] {
 // (u, v) run 0..1 across and down the whole surface the panel belongs to.
 
 type Hit = [number, number];
-const C_GLASS = px("#0A121E");
-const C_GLINT = px("#1C3048");
-const C_GLASS2 = px("#08101B");
-const C_RIM = px("#3A6090");
+const C_GLASS = px("#192940");
+const C_GLINT = px("#243E5E");
+const C_GLASS2 = px("#17273D");
+const C_RIM = px("#4B7DBB");
 const C_RIM_HI = px("#8AA8C8");
 const C_SCREEN = px("#0B1420");
-const C_BAR = px("#122036");
-const C_SKEL = px("#1C3048");
-const C_SKEL_HI = px("#2E4E78");
+const C_BAR = px("#172A46");
+const C_SKEL = px("#243E5E");
+const C_SKEL_HI = px("#3C659C");
 const C_LIME = px("#FFC24B");
-const C_LIME_DIM = px("#7A5A1E");
+const C_LIME_DIM = px("#9F7527");
 const C_LABEL = px("#0B1420");
 const C_STEEL = px("#8AA8C8");
 const C_BLACK = px("#020409");
-const C_PHONE_BG = px("#13223A");
+const C_BACK = px("#2C4A75");
+const C_PHONE_BG = px("#192C4B");
 const C_LIME_MID = px("#C08A2A");
-const C_TEAL_CARD = px("#33220C");
+const C_TEAL_CARD = px("#422C10");
 const C_TEAL = px("#4CC9F0");
-const C_ROSE_CARD = px("#2E1A40");
+const C_ROSE_CARD = px("#3C2253");
 const C_CORAL = px("#D66BFF");
-const C_VIOLET_CARD = px("#182A44");
+const C_VIOLET_CARD = px("#1F3758");
 const C_WHITE = px("#D3DBE2");
-const C_KEY = px("#284268");
-const C_DECK = px("#16253D");
-const C_PAD = px("#1C3048");
+const C_KEY = px("#345687");
+const C_DECK = px("#1D304F");
+const C_PAD = px("#243E5E");
 
 /** Inside a rounded box (u0, v0)..(u1, v1), with corner radius rr in u units; `asp` is height/width. */
 function inBox(u: number, v: number, u0: number, v0: number, u1: number, v1: number, rr: number, asp: number) {
   if (u < u0 || u > u1 || v < v0 || v > v1) return false;
+  rr = Math.min(rr, (u1 - u0) / 2, ((v1 - v0) * asp) / 2);
   const rv = rr / asp;
   const du = u < u0 + rr ? u0 + rr - u : u > u1 - rr ? u - (u1 - rr) : 0;
   const dv = v < v0 + rv ? v0 + rv - v : v > v1 - rv ? v - (v1 - rv) : 0;
@@ -463,6 +500,20 @@ function appATex(u: number, v: number, step: number): Hit {
   return [C_SCREEN, 2];
 }
 
+/** The iPad: a sidebar of sections, and the same app beside it. */
+function ipadTex(u: number, v: number, step: number): Hit {
+  const asp = IPAD_H / IPAD_W;
+  if (u < 0.27) {
+    if (inCircle(u, v, 0.1, 0.07, 0.045, asp)) return [C_LIME, 2];
+    for (let n = 0; n < 6; n++) {
+      const v0 = 0.16 + n * 0.07;
+      if (inBox(u, v, 0.04, v0, 0.24, v0 + 0.045, 0.03, asp)) return n === 0 ? [C_TEAL_CARD, 2] : inBox(u, v, 0.07, v0 + 0.017, 0.2, v0 + 0.028, 0.005, asp) ? [C_SKEL_HI, 2] : [C_BAR, 2];
+    }
+    return [C_BAR, 2];
+  }
+  return appATex((u - 0.27) / 0.73, 0.065 + v * 0.935, step);
+}
+
 /** A calendar screen. */
 function appBTex(u: number, v: number): Hit {
   const asp = 2;
@@ -510,16 +561,43 @@ function faceTex(f: Face, lu: number, lv: number, step: number, k: number, c: nu
     case "appB":
     case "appC": {
       // Rounded phone corners: outside them the panel is see-through.
-      const asp = f.tex === "appA" ? 2 : 2;
+      const asp = 2;
       const rr = 0.12;
       if (!inBox(u, v, 0, 0, 1, 1, rr, asp)) return 0;
-      // An iPhone: a thin steel rim, a black bezel, rounded glass, and the Dynamic Island.
+      // An iPhone: a thin steel rim, a black bezel, rounded glass, and the Dynamic Island, whole,
+      // well inside the top of the screen.
       if (!inBox(u, v, 0.012, 0.006, 0.988, 0.994, rr - 0.012, asp)) return [C_STEEL, 2];
       if (!inBox(u, v, 0.045, 0.0225, 0.955, 0.9775, rr - 0.045, asp)) return [C_BLACK, 2];
-      if (inBox(u, v, 0.36, 0.034, 0.64, 0.056, 0.055, asp)) return [inCircle(u, v, 0.6, 0.045, 0.011, asp) ? C_SKEL : C_BLACK, 2];
+      if (inBox(u, v, 0.36, 0.042, 0.64, 0.07, 0.2, asp)) return [inCircle(u, v, 0.585, 0.056, 0.012, asp) ? C_SKEL : C_BLACK, 2];
       const hit = f.tex === "appA" ? appATex(u, v, step) : f.tex === "appB" ? appBTex(u, v) : appCTex(u, v);
       return hit[0] === C_SCREEN ? [C_PHONE_BG, 2] : hit;
     }
+    case "ipad": {
+      const asp = IPAD_H / IPAD_W;
+      const rr = 0.07;
+      if (!inBox(u, v, 0, 0, 1, 1, rr, asp)) return 0;
+      if (!inBox(u, v, 0.008, 0.006, 0.992, 0.994, rr - 0.008, asp)) return [C_STEEL, 2];
+      if (!inBox(u, v, 0.04, 0.03, 0.96, 0.97, rr - 0.04, asp)) return inCircle(u, v, 0.5, 0.015, 0.008, asp) ? [C_SKEL, 2] : [C_BLACK, 2];
+      const iu = (u - 0.04) / 0.92;
+      const iv = (v - 0.03) / 0.94;
+      const hit = ipadTex(iu, iv, step);
+      return hit[0] === C_SCREEN ? [C_PHONE_BG, 2] : hit;
+    }
+    case "duoL":
+    case "duoR": {
+      const asp = DUO_H / DUO_W;
+      const rr = 0.06;
+      if (!inBox(u, v, 0, 0, 1, 1, rr, asp)) return 0;
+      if (!inBox(u, v, 0.01, 0.008, 0.99, 0.992, rr - 0.01, asp)) return [C_STEEL, 2];
+      if (!inBox(u, v, 0.05, 0.07, 0.95, 0.93, rr - 0.04, asp)) return f.tex === "duoR" && inCircle(u, v, 0.5, 0.04, 0.012, asp) ? [C_SKEL, 2] : [C_BLACK, 2];
+      // The app spans both screens: the top of it on the left, the rest on the right.
+      const iu = (u - 0.05) / 0.9;
+      const iv = (v - 0.07) / 0.86;
+      const hit = f.tex === "duoL" ? appATex(iu, 0.065 + iv * 0.5, step) : appATex(iu, 0.565 + iv * 0.435, step);
+      return hit[0] === C_SCREEN ? [C_PHONE_BG, 2] : hit;
+    }
+    case "devback":
+      return [C_BACK, 2];
   }
 }
 
@@ -531,6 +609,7 @@ function onBezel(f: Face, lu: number, lv: number, w: number) {
 /** Paints the panels, farthest first. */
 function drawPanels(b: Uint32Array, step: number, under: Uint32Array) {
   const cam = camAt(step);
+  const dim = dimAt(step);
   const list = panelsAt(step).map((pn) => {
     // The flip turns the panel about its upright axis.
     const n = cross(pn.u, pn.v);
@@ -555,6 +634,8 @@ function drawPanels(b: Uint32Array, step: number, under: Uint32Array) {
     const r1 = Math.max(0, Math.floor(c0[1] - hh));
     const r2 = Math.min(ROWS - 1, Math.ceil(c0[1] + hh));
     // Seam width in panel units: about 1.2 tiles.
+    const eu = 0.7 / Math.max(1, Math.hypot(ax, ay));
+    const ev = 0.7 / Math.max(1, Math.hypot(bx, by));
     const sw = Math.min(0.2, 1.2 / Math.max(4, Math.min(Math.hypot(ax, ay), Math.hypot(bx, by))));
     for (let r = r1; r <= r2; r++)
       for (let c = c1; c <= c2; c++) {
@@ -562,10 +643,11 @@ function drawPanels(b: Uint32Array, step: number, under: Uint32Array) {
         const y = r - c0[1];
         let u = (x * by - y * bx) / det;
         const v = (ax * y - ay * x) / det;
-        if (u < -0.5 || u > 0.5 || v < -0.5 || v > 0.5) continue;
+        // A hair past the edge too, so neighbouring panels leave no gap between them.
+        if (u < -0.5 - eu || u > 0.5 + eu || v < -0.5 - ev || v > 0.5 + ev) continue;
         if (!front) u = -u;
-        const lu = u + 0.5;
-        const lv = v + 0.5;
+        const lu = clamp(u + 0.5, 0, 0.9999);
+        const lv = clamp(v + 0.5, 0, 0.9999);
         const edge = lu < sw || lu > 1 - sw || lv < sw || lv > 1 - sw;
         let hit: Hit | 0;
         if (edge && pn.seam > 0 && hash(c, r, 31) < pn.seam && (face.tex === "mirror" || face.tex === "screen" || face.tex === "keys" || pn.seam > 0.2)) {
@@ -576,6 +658,7 @@ function drawPanels(b: Uint32Array, step: number, under: Uint32Array) {
           hit = faceTex(laptopFace(pn.k), lu, lv, step, pn.k, c, r);
         } else hit = faceTex(face, lu, lv, step, pn.k, c, r);
         if (!hit) continue;
+        if (dim > 0) hit = [mixPx(hit[0], SKY_PX, dim), hit[1]];
         put(b, c, r, hit[0], hit[1], SKY_PX);
         under[r * COLS + c] = hit[0];
       }
@@ -739,19 +822,67 @@ const LINES: Line[] = [
   ["TODAY.", 7, T_WHITE],
 ];
 type WTile = { c: number; r: number; tone: number; j: number };
-const WORDS: WTile[] = (() => {
-  const heights = LINES.map(([, s]) => 7 * s);
-  const gaps = LINES.slice(1).map(([, s], j) => Math.round(1.6 * (s + LINES[j][1])) + (j === 0 ? 10 : 0));
+function layout(lines: Line[], extraFirstGap: number): WTile[] {
+  const heights = lines.map(([, sc]) => 7 * sc);
+  const gaps = lines.slice(1).map(([, sc], j) => Math.round(1.6 * (sc + lines[j][1])) + (j === 0 ? extraFirstGap : 0));
   let top = Math.round(CY - (heights.reduce((a, h) => a + h, 0) + gaps.reduce((a, g) => a + g, 0)) / 2);
   const out: WTile[] = [];
-  LINES.forEach(([str, scale, tones], j) => {
+  lines.forEach(([str, scale, tones], j) => {
     const w = wordUnits(str) * scale;
     if (w > COLS - 4) throw new Error(`"${str}" is ${w} tiles wide; the wall is ${COLS}`);
     for (const { c, r } of wordCells(str, Math.round(CX - w / 2), top, scale)) out.push({ c, r, tone: px(pick(tones, hash(c, r, 300 + j))), j: hash(c, r, 307) });
     top += heights[j] + (gaps[j] ?? 0);
   });
   return out;
-})();
+}
+const WORDS: WTile[] = layout(LINES, 10);
+
+// The message, gathered out of the turning devices, which dim behind it.
+const MESSAGE: Line[] = [
+  ["YOU NEED A", 5, T_WHITE],
+  ["BEAUTIFUL,", 6, T_LIME],
+  ["STUNNING", 6, T_LIME],
+  ["CUSTOM APP", 6, T_TEAL],
+  ["FOR YOUR", 5, T_WHITE],
+  ["BUSINESS.", 6, T_WHITE],
+];
+const MSG: WTile[] = layout(MESSAGE, 0);
+/** How far the devices dim behind the message (0: not at all). */
+export const dimAt = (step: number) => (step < MSG_IN ? 0 : 0.62 * smooth((step - MSG_IN) / (MSG_LAND - MSG_IN)));
+function swirlTo(t: WTile, k: number): [number, number] {
+  const dx = t.c - CX;
+  const dy = t.r - CY;
+  const d = Math.hypot(dx, dy);
+  const th = Math.atan2(dy, dx) + k * k * 3.4 * (200 / (d + 100));
+  const sp = d * (1 + 1.3 * k);
+  return [CX + sp * Math.cos(th), CY + sp * Math.sin(th)];
+}
+function drawMessage(b: Uint32Array, step: number, under: Uint32Array) {
+  if (step < MSG_IN) return;
+  for (const t of MSG) {
+    let c: number;
+    let r: number;
+    let col: number;
+    let size = 2;
+    if (step < MSG_LAND) {
+      const x = (step - MSG_IN) / (MSG_LAND - MSG_IN);
+      const k = clamp(1 - Math.pow(x, 1.6) + (t.j - 0.5) * 0.2 * (1 - x));
+      [c, r] = swirlTo(t, k);
+      c = Math.round(c);
+      r = Math.round(r);
+      if (c < 0 || c >= COLS || r < 0 || r >= ROWS) continue;
+      col = mixPx(under[r * COLS + c], t.tone, 0.88 * smooth((1 - k - 0.1) / 0.75));
+    } else {
+      c = t.c + Math.round(1.3 * Math.sin(t.r / 33 + (2 * Math.PI * step) / 12));
+      r = t.r + Math.round(1.7 * Math.sin(t.c / 40 + (2 * Math.PI * step) / 24) - 2.4 * kick(step));
+      const sweep = step % 12;
+      const band = sweep < 6 && Math.abs(t.c * 2 + t.r - (200 + sweep * 150)) < 7;
+      col = t.tone;
+      size = step === MSG_LAND || band ? 3 : 2;
+    }
+    put(b, c, r, col, size, SKY_PX);
+  }
+}
 
 // ───────────────────────────── the burst ─────────────────────────────
 
@@ -822,6 +953,7 @@ function paintScene(b: Uint32Array, step: number, under: Uint32Array) {
   if (step < SWING) paintIllusion(b, step, 1, true, under);
   drawPanels(b, step, under);
   drawHand(b, step, under);
+  drawMessage(b, step, under);
 }
 
 const underNow = new Uint32Array(N);
@@ -906,6 +1038,10 @@ const TEXT = LINES.map((x) => x[0]).join(" ");
 export const HOLD_SECONDS = (FADE - LAND) / SPS;
 {
   const least = 0.45 * TEXT.split(/\s+/).length + 1;
+  const msgText = MESSAGE.map((x) => x[0]).join(" ");
+  const msgHold = (EXPLODE - MSG_LAND) / SPS;
+  const msgLeast = 0.45 * msgText.split(/\s+/).length + 1;
+  if (msgHold + 0.05 < msgLeast) throw new Error(`"${msgText}" stands for ${msgHold.toFixed(2)} s, under ${msgLeast.toFixed(2)} s`);
   if (HOLD_SECONDS + 0.05 < least) throw new Error(`"${TEXT}" stands for ${HOLD_SECONDS.toFixed(2)} s, under its ${least.toFixed(2)} s reading time`);
 }
 
@@ -916,7 +1052,8 @@ export function moments() {
     ["hand nearest (reaching out)", HAND_PEAK],
     ["laptop assembled", LAPTOP],
     ["tap", TAP],
-    ["app floating", FLOAT],
+    ["carousel turning", FLOAT],
+    ["message lands", MSG_LAND],
     ["burst", EXPLODE],
     ["words land", LAND],
     ["words begin to dim", FADE],

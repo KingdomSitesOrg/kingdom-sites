@@ -7,9 +7,10 @@
 // Then cut to the picture, on beats:
 //   0.0 to 5.5 s    the track from its start
 //   5.5 to 6.5 s    the track's break (7 to 8 s in the file), the laptop resting
-//   6.5 to 9.5 s    the track's second phrase (8 s in the file), dropping in on the PUBLISH tap
-//   9.5 s           the track's final hit (24.027 s in the file) on the burst, ringing out by 11 s
-//   11.0 to 15.67 s the track from 19 s (the run into its loudest bar) under the words, fading
+//   6.5 to 16.5 s   the track from 8 s to 18 s: its second phrase dropping in on the PUBLISH tap,
+//                   then its build, under the carousel and the message
+//   16.5 s          the track's final hit (24.027 s in the file) on the burst, ringing out by 17.5 s
+//   17.5 to 22.17 s the track from 19 s (the run into its loudest bar) under the end words, fading
 //                   over the last 0.6 s
 import { execFileSync } from "node:child_process";
 import { SR, read, write } from "./pcm.mjs";
@@ -22,8 +23,8 @@ execFileSync("ffmpeg", ["-v", "error", "-y", "-i", "../audio/music-raw.mp3", "-a
 
 const OFFSET = 0.025;
 const HIT_AT = 24.027;
-const LAPTOP = 5.5, TAP = 6.5, BURST = 9.5, LAND = 11.0;
-const END = 470 / 30;
+const LAPTOP = 5.5, TAP = 6.5, BURST = 16.5, LAND = 17.5;
+const END = 665 / 30;
 const EDGE = 0.005;
 const raw = read("build/music-varied.wav");
 const frames = raw.length / 2;
@@ -50,7 +51,7 @@ function place(from, at, len, tailFade = EDGE) {
 place(OFFSET, 0, LAPTOP);
 place(7 + OFFSET - EDGE, LAPTOP - EDGE, TAP - LAPTOP);
 place(8 + OFFSET - EDGE, TAP - EDGE, BURST - TAP);
-place(HIT_AT - EDGE, BURST - EDGE, LAND - BURST - 0.05, 1.2);
+place(HIT_AT - EDGE, BURST - EDGE, LAND - BURST - 0.05, 0.8);
 place(19 + OFFSET - EDGE, LAND - EDGE, END - LAND + EDGE, 0.6);
 
 // The new layer, on the film's own beat grid (a beat every 0.5 s, bars on the even seconds).
