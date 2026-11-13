@@ -164,7 +164,7 @@ export default function MuralHome({ concept = false }: { concept?: boolean }) {
           </h1>
           {/* The line Thomas picked on 2026-11-11: who it is for first, then his mural sentence. */}
           <p className="mu-sub">
-            I build custom mobile apps for businesses, schools and churches. I also do other custom work, such as a matching web app or a website to go with it. <span className="mu-sub-2">Every detail cared for, like a mural.</span>
+            I build custom mobile apps for businesses. I also do other custom work, such as a matching web app or a website to go with it. <span className="mu-sub-2">Every detail cared for, like a mural.</span>
           </p>
           <div className="mu-cta">
             {/* Submit a request (T-547) beside the existing two. */}
