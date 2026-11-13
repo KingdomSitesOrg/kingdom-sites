@@ -35,18 +35,18 @@ const mix = (a: number, b: number, t: number) => a + (b - a) * t;
 // ───────────────────────────── the timeline (steps) ─────────────────────────────
 // A beat is 6 steps (120 BPM); bars start on the even seconds.
 export const HAND_IN = 1; // the hand appears in the hole
-export const HAND_PEAK = 36; // 3.0 s: the hand is nearest, reaching out at you
-export const SWING = 38; // the mirrors crack out and the camera swings
-export const LAPTOP = 66; // 5.5 s: the laptop is assembled
-export const TAP = 78; // 6.5 s: the fingertip presses PUBLISH
-export const APP = 80; // the screen flips into the app
-export const FLOAT = 96; // 8.0 s: the carousel of three devices begins turning
-export const MSG_IN = 123; // the message begins to gather out of the devices
-export const MSG_LAND = 132; // 11.0 s: YOU NEED A BEAUTIFUL, STUNNING
-export const MSG_SWAP = 156; // 13.0 s: part one melts into part two
-export const MSG2_LAND = 162; // 13.5 s: CUSTOM APP FOR YOUR BUSINESS.
-export const MSG_SWAP2 = 186; // 15.5 s: part two melts into the end card
-export const END_LAND = 192; // 16.0 s: GET YOUR / CUSTOM APP / TODAY. / KINGDOM-SITES.COM
+export const HAND_PEAK = 30; // 2.5 s: the hand is nearest, reaching out at you
+export const SWING = 32; // the mirrors crack out and the camera swings
+export const LAPTOP = 54; // 4.5 s: the laptop is assembled
+export const TAP = 66; // 5.5 s: the fingertip presses PUBLISH
+export const APP = 68; // the screen flips into the app
+export const FLOAT = 84; // 7.0 s: the carousel of three devices begins turning
+export const MSG_IN = 111; // the message begins to gather out of the devices
+export const MSG_LAND = 120; // 10.0 s: YOU NEED A BEAUTIFUL, STUNNING
+export const MSG_SWAP = 144; // 12.0 s: part one melts into part two
+export const MSG2_LAND = 150; // 12.5 s: CUSTOM APP FOR YOUR BUSINESS.
+export const MSG_SWAP2 = 174; // 14.5 s: part two melts into the end card
+export const END_LAND = 180; // 15.0 s: GET YOUR / CUSTOM APP / TODAY. / KINGDOM-SITES.COM, then STILL
 export const CLICK = 240; // 20.0 s: the pointer clicks the address, on the music's final hit
 export const EXPLODE = 241; // everything explodes from the click
 export const STEPS = 254;
@@ -919,6 +919,12 @@ function drawMessage(b: Uint32Array, step: number, under: Uint32Array) {
         r = Math.round(r);
         if (c < 0 || c >= COLS || r < 0 || r >= ROWS) continue;
         col = mixPx(under[r * COLS + c], t.tone, (arriving ? 0.88 : 1) * smooth((1 - k - 0.1) / 0.75));
+      } else if (tiles === WORDS) {
+        // The end card, once formed, is perfectly still until the click.
+        c = t.c;
+        r = t.r;
+        col = t.tone;
+        size = t.line === 3 ? (step >= CLICK ? 1 : 3) : 2;
       } else {
         c = t.c + Math.round(1.3 * Math.sin(t.r / 33 + (2 * Math.PI * step) / 12));
         r = t.r + Math.round(1.7 * Math.sin(t.c / 40 + (2 * Math.PI * step) / 24) - 2.4 * kick(step));
@@ -926,7 +932,6 @@ function drawMessage(b: Uint32Array, step: number, under: Uint32Array) {
         const band = sweep < 6 && Math.abs(t.c * 2 + t.r - (200 + sweep * 150)) < 7;
         col = t.tone;
         size = step === land || band ? 3 : 2;
-        if (t.line === 3 && tiles === WORDS) size = step >= CLICK ? 1 : 3; // the address, solid so it reads at its size
       }
       put(b, c, r, col, size, wordGap(col));
     }

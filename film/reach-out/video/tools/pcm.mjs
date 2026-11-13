@@ -1,6 +1,7 @@
 // Small helpers shared by the music tools: read any audio file as 48 kHz stereo samples, write a
 // WAV file, and measure loudness. All the decoding and measuring is done by ffmpeg.
 import { execFileSync, spawnSync } from "node:child_process";
+import { rmSync, writeFileSync } from "node:fs";
 
 export const SR = 48000;
 
@@ -10,9 +11,17 @@ export function read(path) {
   return new Float32Array(raw.buffer, raw.byteOffset, raw.length / 4).slice();
 }
 
-/** Writes interleaved stereo samples as a 32-bit float WAV file. */
+/** Writes interleaved stereo samples as a 32-bit float WAV file. The raw samples go to a
+    temporary file that ffmpeg reads, not through a pipe into ffmpeg: piping them stalled twice
+    (ffmpeg sat waiting on its input at 0% CPU and the render never started). */
 export function write(path, samples) {
-  execFileSync("ffmpeg", ["-v", "error", "-y", "-f", "f32le", "-ar", String(SR), "-ac", "2", "-i", "-", "-c:a", "pcm_f32le", path], { input: Buffer.from(samples.buffer, samples.byteOffset, samples.byteLength), maxBuffer: 1 << 30 });
+  const raw = `${path}.raw`;
+  writeFileSync(raw, Buffer.from(samples.buffer, samples.byteOffset, samples.byteLength));
+  try {
+    execFileSync("ffmpeg", ["-nostdin", "-v", "error", "-y", "-f", "f32le", "-ar", String(SR), "-ac", "2", "-i", raw, "-c:a", "pcm_f32le", path], { stdio: ["ignore", "ignore", "inherit"], timeout: 60000 });
+  } finally {
+    rmSync(raw, { force: true });
+  }
 }
 
 /** Loudness of a file by the EBU R128 method: integrated loudness (LUFS), the loudest momentary

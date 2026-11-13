@@ -198,3 +198,18 @@ two.
 | 20.08 to 21.17 | everything explodes outward from the address; the tunnel breathes back in faintly | the hit rings out |
 
 The end card stands 4.0 s (7 words at 0.3 s a word plus 0.5 s is 2.6 s).
+
+## Version 8 (Thomas's notes on v7)
+
+v7 is kept in `v7/`. Same length, 21.17 s.
+
+1. **Hand to laptop, faster:** everything from the hand to the tap is 1 s sooner. The hand is
+   nearest at 2.5 s (was 3.0), the laptop lands at 4.5 s (5.5), the dead stop is at 5.0 s and
+   the PUBLISH tap and click at 5.5 s (6.5); the music drops back in at 6.0 s. The carousel and
+   both message parts keep their lengths and simply come 1 s sooner (carousel 7.0 s, part one
+   10.0 s, part two 12.5 s).
+2. **The end card is still:** it forms at 15.0 s and from then on does not move at all: no sway,
+   no bounce, no band of larger tiles, nothing behind it. Measured: every frame from 15.08 s
+   until the pointer appears at 19.42 s is identical. It holds 5.0 s (was 4.0) until the click at
+   20.0 s, which explodes it as before. Under it, the music runs from 18.5 s in the file to the
+   dead stop at 19.5 s.
