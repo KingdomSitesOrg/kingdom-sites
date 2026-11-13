@@ -81,6 +81,30 @@ const WORK: Work[] = [
     phones: [SHOTS.latinHome],
   },
   {
+    name: project('ruta').name,
+    chips: chips('ruta'),
+    live: true,
+    text: 'The crew app for landscaping businesses. I helped build it on Ruta’s team.',
+    href: '/ruta',
+    links: [
+      { label: EXPLORE, href: '/ruta' },
+      { label: 'See Ruta', href: '/ruta', quiet: true },
+    ],
+    phones: [SHOTS.rutaQueue],
+  },
+  {
+    name: project('tap-to-tick').name,
+    chips: chips('tap-to-tick'),
+    live: true,
+    text: project('tap-to-tick').line,
+    href: '/tap-to-tick',
+    links: [
+      { label: EXPLORE, href: '/tap-to-tick' },
+      { label: 'See Tap to Tick', href: '/tap-to-tick', quiet: true },
+    ],
+    phones: [SHOTS.tapOverview],
+  },
+  {
     name: project('farzana').name,
     chips: chips('farzana'),
     lead: 'And the web portal behind them.',
@@ -94,18 +118,6 @@ const WORK: Work[] = [
       { label: INQUIRE_CTA, href: '#talk' },
     ],
     window: SHOTS.appClass,
-  },
-  {
-    name: project('ruta').name,
-    chips: chips('ruta'),
-    live: true,
-    text: 'The crew app for landscaping businesses. I helped build it on Ruta’s team.',
-    href: '/ruta',
-    links: [
-      { label: EXPLORE, href: '/ruta' },
-      { label: 'See Ruta', href: '/ruta', quiet: true },
-    ],
-    phones: [SHOTS.rutaQueue],
   },
   {
     name: project('kcupg').name,
@@ -198,7 +210,7 @@ export default function MuralHome({ concept = false }: { concept?: boolean }) {
             <article key={w.name} className="mu-item">
               <div>
                 {w.lead ? (
-                  <p className={`mu-lead${n === 1 ? ' is-sub' : ''}`} data-rise>
+                  <p className={`mu-lead${w.name === 'Farzana Classroom' ? ' is-sub' : ''}`} data-rise>
                     {w.lead}
                   </p>
                 ) : null}
@@ -341,7 +353,7 @@ export default function MuralHome({ concept = false }: { concept?: boolean }) {
             Yours could be next.
           </h2>
           <p className="mu-text" data-rise style={delay(120)}>
-            A website, an app, or AI put to work: tell me what you have in mind.
+            A custom app, a matching web app or website, or AI put to work: tell me what you have in mind.
           </p>
           {/* The fuller request form (T-547), above the short note. */}
           <div className="mu-cta mu-close-cta" data-rise style={delay(150)}>

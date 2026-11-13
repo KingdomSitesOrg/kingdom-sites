@@ -24,7 +24,7 @@ export default function TermsPage() {
           <div className="space-y-3">
             <p>
               <span className="font-medium text-ink">Deliverables:</span> The deliverables
-              for each engagement — website, mobile app, platform, or other custom software — are
+              for each engagement — mobile app, website, platform, or other custom software — are
               defined in the individual project quote. Web projects are built on a high-performance
               Next.js framework with an SEO-optimized structure.
             </p>

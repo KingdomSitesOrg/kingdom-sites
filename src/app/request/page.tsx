@@ -5,7 +5,7 @@ import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { shareCard } from '@/lib/seo'
 
 const DESCRIPTION =
-  'Submit a project request to Kingdom Sites: a website, a web app, a phone app or AI put to work. A few questions about you, your budget and your timing, and Thomas replies within a day.'
+  'Submit a project request to Kingdom Sites: a phone app, a web app, a website or AI put to work. A few questions about you, your budget and your timing, and Thomas replies within a day.'
 
 export const metadata: Metadata = {
   title: 'Submit a request',

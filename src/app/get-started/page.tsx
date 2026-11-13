@@ -7,7 +7,7 @@ import { REQUEST_CTA, REQUEST_PATH } from '@/lib/request'
 import { shareCard } from '@/lib/seo'
 
 const DESCRIPTION =
-  'Tell me what you have in mind — a website, a mobile app, a system for your business, or help putting AI to work. You and I talk first; a quote comes once I understand the project. No pressure.'
+  'Tell me what you have in mind — a custom mobile app, a website, a system for your business, or help putting AI to work. You and I talk first; a quote comes once I understand the project. No pressure.'
 
 export const metadata: Metadata = {
   title: 'Start a conversation',

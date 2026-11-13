@@ -9,7 +9,7 @@ export const REQUEST_PATH = '/request'
 export const REQUEST_CTA = 'Submit a request'
 export const REQUEST_API = '/api/request'
 
-export const REQUEST_NEEDS = ['A website', 'A web app', 'A phone app', 'Help putting AI to work', 'Something else'] as const
+export const REQUEST_NEEDS = ['A phone app', 'A web app', 'A website', 'Help putting AI to work', 'Something else'] as const
 
 export const REQUEST_STARTS = ['As soon as possible', 'In the next month', 'In 1 to 3 months', 'Later this year', 'Just exploring'] as const
 

@@ -56,9 +56,9 @@ export const ORGANIZATION_LD = {
   },
   founder: { '@type': 'Person', '@id': PERSON_ID, name: 'Thomas Klein' },
   serviceType: [
-    'Website design and development',
     'iPhone and Android app development',
     'Custom software development',
+    'Website design and development',
     'AI consultation',
   ],
   areaServed: AREA_SERVED,

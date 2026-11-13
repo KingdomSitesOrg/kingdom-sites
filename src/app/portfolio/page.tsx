@@ -12,7 +12,7 @@ import { LATIN_STORES, PROJECTS, SHOTS, type Project } from '@/lib/work'
 import { shareCard } from '@/lib/seo'
 
 const DESCRIPTION =
-  'The portfolio of Kingdom Sites: Farzana Classroom, education software for schools; JAM Legio, a Latin learning game for iPhone and Android; contract work on Ruta; and the websites and tools around them.'
+  'The portfolio of Kingdom Sites: JAM Legio, a Latin learning game for iPhone and Android; Farzana Classroom, education software for schools; contract work on Ruta; and the websites and tools around them.'
 
 export const metadata: Metadata = {
   title: 'Portfolio',
