@@ -54,7 +54,7 @@ export const DURATION_FRAMES = Math.ceil((STEPS * T.fps) / SPS);
 const wallTones: string[] = [];
 const isDark = new Uint8Array(N);
 const isPale = new Uint8Array(N);
-const DIM = ["#192B4B", "#1F3758", "#372A15", "#172A46"];
+const DIM = ["#D8E0EC", "#D2DCEA", "#E6DCCB", "#DCE3EE"];
 for (let r = 0; r < ROWS; r++) {
   for (let c = 0; c < COLS; c++) {
     const edge = ROWS - (44 + (noise(c / 30, 0, 41) - 0.5) * 16);
@@ -99,17 +99,23 @@ function lum(p: number): number {
   return (0.2126 * (p & 255) + 0.7152 * ((p >>> 8) & 255) + 0.0722 * ((p >>> 16) & 255)) / 255;
 }
 const RAMPS = [
-  ["#172A46", "#1F3758", "#2C4A75", "#3C659C", "#518CDA"], // violet
-  ["#2F1F0D", "#422C10", "#603E15", "#85561A", "#9F671D"], // teal
-  ["#37192A", "#3C2253", "#702C46", "#963858", "#BA426B"], // rose
+  ["#DCE5F3", "#D0DDF1", "#C3D4EF", "#B6CBED", "#A9C3EB"], // blue
+  ["#E7E4DE", "#E6DAC7", "#E4D0B0", "#E2C698", "#E0BC81"], // amber
+  ["#E3D9E4", "#DCCBDD", "#D4BCD6", "#CCADCF", "#C49EC8"], // rose (unused)
 ].map((r) => r.map(px));
-const HAND = ["#1D3E52", "#285A72", "#397E9C", "#3E8198", "#5AA6BE"].map(px);
-const HAND_RIM = [px("#D8F3FF"), px("#C2EAFA"), px("#EAF8FF")];
+const HAND = ["#4A76AC", "#5683B8", "#6390C2", "#729DCB", "#82AAD4"].map(px);
+const HAND_RIM = [px("#1A2E4A"), px("#16283F"), px("#203656")];
 const SKY_PX = px(GROUT_SKY);
 const PALE_PX = px(GROUT_WALL);
 const INK_PX = px(INK);
 const WALL_PX = Uint32Array.from(wallTones, px);
 
+const BLACK_PX = 0xff000000;
+/** The gap around a tile: on a dark surface a darker shade of the tile, so the surface reads solid
+    on the light ground; on a light one, the ground's own grout. */
+function gapFor(col: number): number {
+  return lum(col) < 0.3 ? mixPx(col, BLACK_PX, 0.3) : SKY_PX;
+}
 /** Paints one tile: its cell is cleared to the gap colour, then the tile is laid (1, 2 or 3 px). */
 function put(b: Uint32Array, c: number, r: number, colour: number, size: number, gap: number) {
   if (c < 0 || c >= COLS || r < 0 || r >= ROWS) return;
@@ -124,7 +130,7 @@ export function kick(step: number) {
   if (step < 0) return 0;
   const beat = step - (step % 6);
   const accent = beat % 24 === 0 ? 1 : beat % 24 === 12 ? 0.75 : 0.55;
-  const quiet = beat >= LAPTOP && beat < TAP ? 0.3 : beat >= EXPLODE && beat < LAND ? 0 : 1; // the music's break, and the hit's ring
+  const quiet = (beat >= TAP - 6 && beat < TAP + 6) || (beat >= EXPLODE - 6 && beat < EXPLODE) ? 0 : beat >= EXPLODE && beat < LAND ? 0 : 1; // the music's break, and the hit's ring
   return accent * DECAY[step % 6] * quiet;
 }
 
@@ -220,7 +226,7 @@ function cross(a: V3, b: V3): V3 {
 const len3 = (a: V3) => Math.hypot(a[0], a[1], a[2]);
 
 // What a face of a panel shows: a texture and the panel's place in that texture's grid.
-type Tex = "mirror" | "screen" | "keys" | "appA" | "appB" | "appC" | "ipad" | "duoL" | "duoR" | "devback";
+type Tex = "mirror" | "screen" | "keys" | "appA" | "appB" | "appC" | "ipad" | "duoL" | "duoR" | "fold" | "devback";
 type Face = { tex: Tex; ci: number; cj: number; nc: number; nr: number };
 type Panel = { k: number; p: V3; u: V3; v: V3; flip: number; seam: number; land: number; front: Face; back: Face };
 
@@ -253,7 +259,7 @@ const PHONE_W = 1.45;
 const PHONE_H = 2.9;
 // The carousel: three devices on a ring, each facing out, turning past the viewer. The iPhone is
 // in front first, then the iPad, then the Duo, each holding in front for a moment.
-const RING = 1.7;
+const RING = 1.9;
 function carouselTurn(step: number): number {
   if (step < FLOAT) return 0;
   const t = step - FLOAT;
@@ -262,12 +268,12 @@ function carouselTurn(step: number): number {
   const f = (t - n * 12) / 12;
   return -((2 * Math.PI) / 3) * (n + smooth((f - 0.3) / 0.7));
 }
-const IPAD_W = 2.2;
-const IPAD_H = 2.93;
-const DUO_W = 1.1; // each of the Duo's two screens
-const DUO_H = 1.47;
-const DUO_GAP = 0.07;
-const DUO_FOLD = 0.32; // each half turned toward the viewer, like an open book
+const IPAD_W = 1.9;
+const IPAD_H = 2.53;
+const DUO_W = 0.78; // each half of the foldable's one screen
+const DUO_H = 1.75;
+const DUO_GAP = 0;
+const DUO_FOLD = 0.2; // each half turned toward the viewer, like a book held open
 function deviceOf(k: number, step: number): { p: V3; u: V3; v: V3 } {
   const which = k < 24 ? 0 : k < 36 ? 1 : 2;
   const phi = carouselTurn(step) + (which * 2 * Math.PI) / 3;
@@ -312,7 +318,7 @@ function appFace(k: number): Face {
   if (k < 24) return { tex: "appA", ci: k % 4, cj: Math.floor(k / 4), nc: 4, nr: 6 };
   if (k < 36) return { tex: "ipad", ci: (k - 24) % 3, cj: Math.floor((k - 24) / 3), nc: 3, nr: 4 };
   const n = (k - 36) % 6;
-  return { tex: k - 36 < 6 ? "duoL" : "duoR", ci: n % 2, cj: Math.floor(n / 2), nc: 2, nr: 3 };
+  return { tex: "fold", ci: (k - 36 < 6 ? 0 : 2) + (n % 2), cj: Math.floor(n / 2), nc: 4, nr: 3 };
 }
 const backFace = (k: number): Face => ({ tex: "devback", ci: 0, cj: 0, nc: 1, nr: 1 });
 
@@ -356,32 +362,33 @@ function panelsAt(step: number): Panel[] {
 // (u, v) run 0..1 across and down the whole surface the panel belongs to.
 
 type Hit = [number, number];
-const C_GLASS = px("#192940");
-const C_GLINT = px("#243E5E");
-const C_GLASS2 = px("#17273D");
-const C_RIM = px("#4B7DBB");
-const C_RIM_HI = px("#8AA8C8");
-const C_SCREEN = px("#0B1420");
-const C_BAR = px("#172A46");
-const C_SKEL = px("#243E5E");
-const C_SKEL_HI = px("#3C659C");
-const C_LIME = px("#FFC24B");
-const C_LIME_DIM = px("#9F7527");
+const C_GLASS = px("#DCE5F1");
+const C_GLINT = px("#F6F9FC");
+const C_GLASS2 = px("#D6E0EE");
+const C_RIM = px("#7C96B8");
+const C_RIM_HI = px("#90A8C6");
+const C_SCREEN = px("#F7F9FC");
+const C_BAR = px("#E3EAF3");
+const C_SKEL = px("#C9D5E4");
+const C_SKEL_HI = px("#8FA6C4");
+const C_LIME = px("#F0AE34");
+const C_LIME_DIM = px("#E2C391");
 const C_LABEL = px("#0B1420");
 const C_STEEL = px("#8AA8C8");
 const C_BLACK = px("#020409");
-const C_BACK = px("#2C4A75");
-const C_PHONE_BG = px("#192C4B");
-const C_LIME_MID = px("#C08A2A");
-const C_TEAL_CARD = px("#422C10");
-const C_TEAL = px("#4CC9F0");
-const C_ROSE_CARD = px("#3C2253");
-const C_CORAL = px("#D66BFF");
-const C_VIOLET_CARD = px("#1F3758");
-const C_WHITE = px("#D3DBE2");
-const C_KEY = px("#345687");
-const C_DECK = px("#1D304F");
-const C_PAD = px("#243E5E");
+const C_LAPTOP_EDGE = px("#2A3A52");
+const C_BACK = px("#C9D3DF");
+const C_PHONE_BG = px("#F7F9FC");
+const C_LIME_MID = px("#C99030");
+const C_TEAL_CARD = px("#FFF0D6");
+const C_TEAL = px("#1F86C4");
+const C_ROSE_CARD = px("#F4E4FA");
+const C_CORAL = px("#B44EE0");
+const C_VIOLET_CARD = px("#E3ECF8");
+const C_WHITE = px("#1A2E4A");
+const C_KEY = px("#8798AE");
+const C_DECK = px("#A9B6C6");
+const C_PAD = px("#9AA8BA");
 
 /** Inside a rounded box (u0, v0)..(u1, v1), with corner radius rr in u units; `asp` is height/width. */
 function inBox(u: number, v: number, u0: number, v0: number, u1: number, v1: number, rr: number, asp: number) {
@@ -596,6 +603,17 @@ function faceTex(f: Face, lu: number, lv: number, step: number, k: number, c: nu
       const hit = f.tex === "duoL" ? appATex(iu, 0.065 + iv * 0.5, step) : appATex(iu, 0.565 + iv * 0.435, step);
       return hit[0] === C_SCREEN ? [C_PHONE_BG, 2] : hit;
     }
+    case "fold": {
+      // A folding phone, opened: one screen across both halves, a faint crease down the middle.
+      const asp = DUO_H / (2 * DUO_W);
+      const rr = 0.06;
+      if (!inBox(u, v, 0, 0, 1, 1, rr, asp)) return 0;
+      if (!inBox(u, v, 0.008, 0.007, 0.992, 0.993, rr - 0.008, asp)) return [C_STEEL, 2];
+      if (!inBox(u, v, 0.035, 0.035, 0.965, 0.965, rr - 0.03, asp)) return inCircle(u, v, 0.75, 0.018, 0.009, asp) ? [C_SKEL, 2] : [C_BLACK, 2];
+      if (Math.abs(u - 0.5) < 0.003) return [C_BAR, 1];
+      const hit = ipadTex((u - 0.035) / 0.93, (v - 0.035) / 0.93, step);
+      return hit[0] === C_SCREEN ? [C_PHONE_BG, 2] : hit;
+    }
     case "devback":
       return [C_BACK, 2];
   }
@@ -653,13 +671,13 @@ function drawPanels(b: Uint32Array, step: number, under: Uint32Array) {
         if (edge && pn.seam > 0 && hash(c, r, 31) < pn.seam && (face.tex === "mirror" || face.tex === "screen" || face.tex === "keys" || pn.seam > 0.2)) {
           hit = [hash(c, r, 32) < 0.3 ? C_RIM_HI : C_RIM, 2];
         } else if (edge && onBezel(face, lu, lv, sw) && (face.tex === "screen" || face.tex === "keys")) {
-          hit = [C_RIM, 2];
+          hit = [C_LAPTOP_EDGE, 2];
         } else if (face.tex === "mirror" && pn.land > 0 && hash(c, r, 33) < pn.land) {
           hit = faceTex(laptopFace(pn.k), lu, lv, step, pn.k, c, r);
         } else hit = faceTex(face, lu, lv, step, pn.k, c, r);
         if (!hit) continue;
         if (dim > 0) hit = [mixPx(hit[0], SKY_PX, dim), hit[1]];
-        put(b, c, r, hit[0], hit[1], SKY_PX);
+        put(b, c, r, hit[0], hit[1], gapFor(hit[0]));
         under[r * COLS + c] = hit[0];
       }
   }
@@ -807,7 +825,7 @@ function drawHand(b: Uint32Array, step: number, under: Uint32Array) {
         col = HAND[Math.min(4, Math.max(0, Math.floor(s * 5)))];
         size = field[i] > 0.55 - 0.15 * pulse ? 3 : field[i] < 0.05 && hash(c, r, 42) < 0.15 ? 1 : 2;
       }
-      put(b, c, r, col, size, SKY_PX);
+      put(b, c, r, col, size, gapFor(col));
       under[i] = col;
     }
 }

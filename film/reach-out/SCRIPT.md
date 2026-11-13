@@ -129,3 +129,21 @@ the carousel and message, the final hit on the burst at 16.5 s, and the end word
 | 16.5 | burst on the music's final hit |
 | 17.5 to 21.67 | KINGDOM SITES / GET YOUR / CUSTOM APP / TODAY. |
 | 21.67 to 22.17 | dims to the end |
+
+## Version 4 (Thomas's notes on v3)
+
+v3 is kept in `v3/`. Timings are as v3 (22.17 s).
+
+1. **The foldable is one screen:** the Duo's two separate screens are now one folding screen (a
+   faint crease down the middle, one bezel round both halves), showing the app with its sidebar.
+2. **Music, cleaner:** v3's pitch shift, chorus and shaker/clap layer are gone (they made it sound
+   broken); it is the clean track, re-arranged.
+3. **Light theme:** a light ground (#E9EEF5) with a deep steel-blue foot; the tunnel in pale blue
+   and amber; navy, amber and blue words; the devices in light mode (white screens, silver
+   bodies, black bezels and Dynamic Island); a darker silver laptop with a dark edge. The tunnel's
+   contrast was measured against the flash check before it was settled.
+4. **Breaks in the music:** a dead stop at 6.0 s, a beat before the tap; at 6.5 s a small click
+   alone in the silence as the fingertip presses PUBLISH (a crisp tick over a soft low thock,
+   then a quieter one as the button springs back); the music drops back in at 7.0 s. A second dead
+   stop at 16.0 s, a beat before the burst, which lands on the final hit at 16.5 s. The picture's
+   beat pulse rests during both breaks.
