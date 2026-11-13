@@ -1,7 +1,9 @@
+import Link from 'next/link'
 import type { Metadata } from 'next'
 import InquiryForm from '@/components/InquiryForm'
 import { IntelligenceInline } from '@/components/intelligence/Intelligence'
 import { INQUIRY, QUOTE_LINE } from '@/lib/partnership'
+import { REQUEST_CTA, REQUEST_PATH } from '@/lib/request'
 import { shareCard } from '@/lib/seo'
 
 const DESCRIPTION =
@@ -30,6 +32,10 @@ export default function GetStarted() {
           </h1>
           <p className="cn-body cn-rise cn-rise-3 mt-6 max-w-[46ch] text-pretty">{INQUIRY.sub}</p>
           <p className="cn-rise cn-rise-3 mt-4 max-w-[46ch] text-[15px] leading-relaxed text-muted">{QUOTE_LINE}</p>
+          {/* The fuller request form (T-547), for anyone with a project ready to describe. */}
+          <Link href={REQUEST_PATH} className="btn-primary cn-rise cn-rise-3 mt-6">
+            {REQUEST_CTA} <span aria-hidden="true">→</span>
+          </Link>
           </div>
           <div className="ki-fill min-w-0 cn-rise cn-rise-3 max-[759px]:order-3 min-[760px]:mt-8">
             <IntelligenceInline />

@@ -910,6 +910,8 @@ body:has(.mu) .ss-panel { background: #0a0c12; border: 2px solid #1b1f2a; box-sh
 .mu-close-in > .mu-h2,
 .mu-close-in > .mu-text { text-align: center; margin-left: auto; margin-right: auto; }
 .mu-close .mu-cta { animation: none; }
+/* Submit a request (T-547), centred under the close's line, above the form. */
+.mu-close-cta { justify-content: center; margin-bottom: 28px; }
 
 /* The live site's form, redrawn in the mural's own materials: square edges,
    ink panels, a paper button with a hard orange shadow. */
