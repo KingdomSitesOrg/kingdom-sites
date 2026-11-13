@@ -388,6 +388,8 @@ body:has(.mu) .ss-panel { background: #0a0c12; border: 2px solid #1b1f2a; box-sh
   animation: mu-line 520ms var(--snap) both;
   animation-delay: calc(var(--i) * 90ms + 100ms);
 }
+/* Keeps the last word and its full stop on one line. */
+.mu-nowrap { white-space: nowrap; }
 /* The full stop is a tile, dropped in last. */
 .mu-dot {
   display: inline-block;

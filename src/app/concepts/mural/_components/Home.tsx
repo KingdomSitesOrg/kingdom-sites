@@ -157,9 +157,13 @@ export default function MuralHome({ concept = false }: { concept?: boolean }) {
               Custom
             </span>
             <span className="l" style={{ '--i': 1 } as CSSProperties}>
-              mobile apps
-              <span className="mu-dot" aria-hidden="true" />
-              <span className="mu-sr">.</span>
+              mobile{' '}
+              {/* The last word and the square stay together, so the full stop never drops to a line of its own. */}
+              <span className="mu-nowrap">
+                apps
+                <span className="mu-dot" aria-hidden="true" />
+                <span className="mu-sr">.</span>
+              </span>
             </span>
           </h1>
           {/* The line Thomas picked on 2026-11-11: who it is for first, then his mural sentence. */}
