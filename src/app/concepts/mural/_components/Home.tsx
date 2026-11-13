@@ -67,8 +67,23 @@ type Work = {
 const EXPLORE = 'Explore how and why this came to life'
 const WORK: Work[] = [
   {
+    name: project('latin-game').name,
+    chips: chips('latin-game'),
+    live: true,
+    lead: 'I build mobile apps.',
+    text: 'A Latin learning game for iPhone and Android.',
+    partner: true,
+    href: '/latin-game',
+    links: [
+      { label: EXPLORE, href: '/latin-game' },
+      { label: 'See JAM Legio', href: '/latin-game', quiet: true },
+    ],
+    phones: [SHOTS.latinHome],
+  },
+  {
     name: project('farzana').name,
     chips: chips('farzana'),
+    lead: 'And the web portal behind them.',
     story: 'Someone asked me to build them custom classroom software.',
     text: 'Now it’s coming to life.',
     ask: 'Want software like this, or something else entirely?',
@@ -79,20 +94,6 @@ const WORK: Work[] = [
       { label: INQUIRE_CTA, href: '#talk' },
     ],
     window: SHOTS.appClass,
-  },
-  {
-    name: project('latin-game').name,
-    chips: chips('latin-game'),
-    live: true,
-    lead: 'I also do mobile apps.',
-    text: 'A Latin learning game for iPhone and Android.',
-    partner: true,
-    href: '/latin-game',
-    links: [
-      { label: EXPLORE, href: '/latin-game' },
-      { label: 'See JAM Legio', href: '/latin-game', quiet: true },
-    ],
-    phones: [SHOTS.latinHome],
   },
   {
     name: project('ruta').name,
@@ -156,14 +157,14 @@ export default function MuralHome({ concept = false }: { concept?: boolean }) {
               Custom
             </span>
             <span className="l" style={{ '--i': 1 } as CSSProperties}>
-              software
+              mobile apps
               <span className="mu-dot" aria-hidden="true" />
               <span className="mu-sr">.</span>
             </span>
           </h1>
           {/* The line Thomas picked on 2026-11-11: who it is for first, then his mural sentence. */}
           <p className="mu-sub">
-            I build apps, websites and platforms for businesses, schools and churches. <span className="mu-sub-2">Every detail cared for, like a mural.</span>
+            I build mobile apps, with a web portal that syncs, plus websites and platforms, for businesses, schools and churches. <span className="mu-sub-2">Every detail cared for, like a mural.</span>
           </p>
           <div className="mu-cta">
             {/* Submit a request (T-547) beside the existing two. */}

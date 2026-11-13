@@ -27,12 +27,12 @@ export const SITE_OG_IMAGE = {
   alt: 'Kingdom Sites. Custom software: I build apps, websites and platforms for businesses, schools and churches. The name Kingdom Sites laid in coloured tiles on a dark tiled wall.',
 }
 
-export const SITE_TITLE = 'Kingdom Sites — I build websites, apps and custom software.'
+export const SITE_TITLE = 'Kingdom Sites — I build custom mobile apps, websites and software.'
 
 /* The home page's description. The root layout uses it too, as the fallback
    for any page without its own, so the business reads the same everywhere. */
 export const SITE_DESCRIPTION =
-  'Websites, iPhone and Android apps and AI consultation for businesses, churches and anyone who needs software, designed and built by Kingdom Sites.'
+  'Custom iPhone and Android apps, with a web portal that syncs, plus websites and AI consultation for businesses, churches and anyone who needs software, designed and built by Kingdom Sites.'
 
 const ORG_ID = `${SITE_URL}/#organization`
 const PERSON_ID = `${SITE_URL}/about#thomas`
