@@ -45,9 +45,10 @@ export const MSG_IN = 123; // the message begins to gather out of the devices
 export const MSG_LAND = 132; // 11.0 s: YOU NEED A BEAUTIFUL, STUNNING
 export const MSG_SWAP = 156; // 13.0 s: part one melts into part two
 export const MSG2_LAND = 162; // 13.5 s: CUSTOM APP FOR YOUR BUSINESS.
-export const EXPLODE = 186; // 15.5 s: the burst
-export const LAND = 198; // 16.5 s: the end words land
-export const FADE = 248; // the end words begin to dim
+export const MSG_SWAP2 = 186; // 15.5 s: part two melts into the end card
+export const END_LAND = 192; // 16.0 s: GET YOUR / CUSTOM APP / TODAY. / KINGDOM-SITES.COM
+export const CLICK = 240; // 20.0 s: the pointer clicks the address, on the music's final hit
+export const EXPLODE = 241; // everything explodes from the click
 export const STEPS = 254;
 export const DURATION_FRAMES = Math.ceil((STEPS * T.fps) / SPS);
 
@@ -134,7 +135,7 @@ export function kick(step: number) {
   if (step < 0) return 0;
   const beat = step - (step % 6);
   const accent = beat % 24 === 0 ? 1 : beat % 24 === 12 ? 0.75 : 0.55;
-  const quiet = (beat >= TAP - 6 && beat < TAP + 6) || (beat >= EXPLODE - 6 && beat < EXPLODE) ? 0 : beat >= EXPLODE && beat < LAND ? 0 : 1; // the music's break, and the hit's ring
+  const quiet = (beat >= TAP - 6 && beat < TAP + 6) || beat >= CLICK - 6 ? 0 : 1; // the music's break, and the hit's ring
   return accent * DECAY[step % 6] * quiet;
 }
 
@@ -838,13 +839,14 @@ function drawHand(b: Uint32Array, step: number, under: Uint32Array) {
 // ───────────────────────────── the words ─────────────────────────────
 
 type Line = [string, number, readonly string[]];
+// The end card. The web address sits under the offer, underlined like a link, for the pointer.
 const LINES: Line[] = [
-  ["KINGDOM SITES", 4, T_WHITE],
   ["GET YOUR", 6, T_WHITE],
   ["CUSTOM APP", 6, T_LIME],
   ["TODAY.", 7, T_WHITE],
+  ["KINGDOM-SITES.COM", 3, T_TEAL],
 ];
-type WTile = { c: number; r: number; tone: number; j: number };
+type WTile = { c: number; r: number; tone: number; j: number; line?: number };
 function layout(lines: Line[], extraFirstGap: number): WTile[] {
   const heights = lines.map(([, sc]) => 7 * sc);
   const gaps = lines.slice(1).map(([, sc], j) => Math.round(1.6 * (sc + lines[j][1])) + (j === 0 ? extraFirstGap : 0));
@@ -853,12 +855,25 @@ function layout(lines: Line[], extraFirstGap: number): WTile[] {
   lines.forEach(([str, scale, tones], j) => {
     const w = wordUnits(str) * scale;
     if (w > COLS - 4) throw new Error(`"${str}" is ${w} tiles wide; the wall is ${COLS}`);
-    for (const { c, r } of wordCells(str, Math.round(CX - w / 2), top, scale)) out.push({ c, r, tone: px(pick(tones, hash(c, r, 300 + j))), j: hash(c, r, 307) });
+    for (const { c, r } of wordCells(str, Math.round(CX - w / 2), top, scale)) out.push({ c, r, tone: px(pick(tones, hash(c, r, 300 + j))), j: hash(c, r, 307), line: j });
     top += heights[j] + (gaps[j] ?? 0);
   });
   return out;
 }
-const WORDS: WTile[] = layout(LINES, 10);
+const WORDS: WTile[] = (() => {
+  const out = layout(LINES, 0);
+  const url = out.filter((t) => t.line === 3);
+  const c0 = Math.min(...url.map((t) => t.c));
+  const c1 = Math.max(...url.map((t) => t.c));
+  const r1 = Math.max(...url.map((t) => t.r));
+  for (let c = c0; c <= c1; c++) for (const r of [r1 + 4, r1 + 5]) out.push({ c, r, tone: px(pick(T_TEAL, hash(c, r, 303))), j: hash(c, r, 307), line: 3 });
+  return out;
+})();
+const URL_TILES = WORDS.filter((t) => t.line === 3);
+const URL_C0 = Math.min(...URL_TILES.map((t) => t.c));
+const URL_C1 = Math.max(...URL_TILES.map((t) => t.c));
+const URL_R0 = Math.min(...URL_TILES.map((t) => t.r));
+const URL_R1 = Math.max(...URL_TILES.map((t) => t.r));
 
 // The message, gathered out of the turning devices, which dim behind it.
 // The message, in two parts, each gathered out of the scene and melting into the next.
@@ -911,18 +926,52 @@ function drawMessage(b: Uint32Array, step: number, under: Uint32Array) {
         const band = sweep < 6 && Math.abs(t.c * 2 + t.r - (200 + sweep * 150)) < 7;
         col = t.tone;
         size = step === land || band ? 3 : 2;
+        if (t.line === 3 && tiles === WORDS) size = step >= CLICK ? 1 : 3; // the address, solid so it reads at its size
       }
       put(b, c, r, col, size, wordGap(col));
     }
   };
   part(MSG1, MSG_IN, MSG_LAND, MSG_SWAP);
-  part(MSG2, MSG_SWAP, MSG2_LAND, null);
+  part(MSG2, MSG_SWAP, MSG2_LAND, MSG_SWAP2);
+  part(WORDS, MSG_SWAP2, END_LAND, null);
+  drawPointer(b, step, under);
+}
+
+// The pointer glides in from beyond the right edge and stops with its tip just under the address;
+// on the click the pointer and the address shrink for a step, and everything explodes.
+const ARROW = ["X........", "XX.......", "XXX......", "XXXX.....", "XXXXX....", "XXXXXX...", "XXXXXXX..", "XXXXXXXX.", "XXXXXXXXX", "XXXXX....", "XX.XX....", "X...XX...", "....XX..."];
+const ARROW_HOPS = [[200, 150], [128, 96], [74, 56], [38, 29], [16, 12], [5, 4], [0, 0]];
+const ARROW_C0 = Math.round(URL_C1 - (URL_C1 - URL_C0) * 0.28);
+const ARROW_R0 = URL_R1 + 3;
+const ARROW_TONE = px("#0E1E38");
+const ARROW_EDGE = px("#FFFFFF");
+function drawPointer(b: Uint32Array, step: number, under: Uint32Array) {
+  const hop = step - (CLICK - ARROW_HOPS.length);
+  if (hop < 0 || step >= EXPLODE) return;
+  const [dc, dr] = ARROW_HOPS[Math.min(hop, ARROW_HOPS.length - 1)];
+  const pressed = step >= CLICK;
+  const bright = Math.min(1, (hop + 1) / 3);
+  ARROW.forEach((row, j) =>
+    row.split("").forEach((bit, k) => {
+      if (bit !== "X") return;
+      // A white edge where the arrow meets empty space, so it reads on any colour.
+      const edge = k === 0 || j === 0 || row[k + 1] !== "X" || ARROW[j + 1]?.[k] !== "X";
+      for (let dy = 0; dy < 4; dy++)
+        for (let dx = 0; dx < 4; dx++) {
+          const c = ARROW_C0 + dc + k * 4 + dx;
+          const r = ARROW_R0 + dr + j * 4 + dy;
+          if (c < 0 || c >= COLS || r < 0 || r >= ROWS) continue;
+          const tone = edge && (dx === 3 || dy === 3) ? ARROW_EDGE : ARROW_TONE;
+          const col = bright < 1 ? mixPx(under[r * COLS + c], tone, bright) : tone;
+          put(b, c, r, col, pressed ? 1 : 2, wordGap(col));
+        }
+    }),
+  );
 }
 
 // ───────────────────────────── the burst ─────────────────────────────
 
 let frozen: Uint32Array | null = null; // the picture on the step before the burst, one colour per tile
-let sources: Int32Array | null = null; // for each word tile, the bursting tile it is made from
 function freeze() {
   if (frozen) return;
   const b = new Uint32Array(W * H);
@@ -930,13 +979,10 @@ function freeze() {
   paintScene(b, EXPLODE - 1, under);
   frozen = new Uint32Array(N);
   for (let i = 0; i < N; i++) frozen[i] = b[((i / COLS) | 0) * CELL * W + (i % COLS) * CELL];
-  const lit: number[] = [];
-  for (let i = 0; i < N; i++) if (lum(frozen[i]) > 0.09 && Math.abs((i % COLS) - CX) < 120) lit.push(i);
-  sources = Int32Array.from(WORDS, (t) => lit[Math.floor(hash(t.c, t.r, 311) * lit.length)]);
 }
-const BURST_C = CX;
-const BURST_R = CY - 20;
-const BURST_STEPS = 10;
+const BURST_C = Math.round((URL_C0 + URL_C1) / 2);
+const BURST_R = Math.round((URL_R0 + URL_R1) / 2);
+const BURST_STEPS = 13;
 function burst(i: number, since: number): [number, number, number] | null {
   const c0 = i % COLS;
   const r0 = (i / COLS) | 0;
@@ -944,7 +990,7 @@ function burst(i: number, since: number): [number, number, number] | null {
   const dr = r0 - BURST_R;
   const l = since - (Math.hypot(dc, dr) > 250 ? 1 : 0);
   if (l < 0) return [c0, r0, 2];
-  const life = 4 + Math.floor(hash(c0, r0, 95) * 5);
+  const life = 6 + Math.floor(hash(c0, r0, 95) * 7);
   if (l >= life) return null;
   const angle = Math.atan2(dr, dc || 0.01) + (hash(c0, r0, 96) - 0.5) * 0.6 + 0.25 * (l + 1);
   const gone = (70 * (0.5 + hash(c0, r0, 97)) * (1 - Math.pow(0.72, l + 1))) / 0.28;
@@ -1003,11 +1049,10 @@ export function drawStep(ctx: CanvasRenderingContext2D, step: number) {
     freeze();
     buf.fill(INK_PX);
     underNow.fill(INK_PX);
-    // The tunnel comes back, dim, behind the words.
-    if (step >= EXPLODE + 8) {
+    // After the explosion the tunnel breathes back in, faintly, to the last frame.
+    if (step >= EXPLODE + 6) {
       rings(step);
-      const fadeOut = step >= FADE ? 1 - (step - FADE + 1) / (STEPS - FADE) : 1;
-      paintIllusion(buf, step, 0.55 * clamp((step - EXPLODE - 8) / 14) * fadeOut, false, underNow);
+      paintIllusion(buf, step, 0.45 * clamp((step - EXPLODE - 6) / 8), false, underNow);
     }
     const since = step - EXPLODE;
     if (since <= BURST_STEPS) {
@@ -1017,65 +1062,19 @@ export function drawStep(ctx: CanvasRenderingContext2D, step: number) {
         if (d) put(buf, d[0], d[1], all[i], d[2], INK_PX);
       }
     }
-    drawWords(buf, step);
   }
   ctx.putImageData(img, 0, 0);
-}
-
-function drawWords(b: Uint32Array, step: number) {
-  const src = sources!;
-  const all = frozen!;
-  for (let n = 0; n < WORDS.length; n++) {
-    const t = WORDS[n];
-    if (step < LAND) {
-      // Out with the burst, then curving back in, faster as they come, onto the beat.
-      const s0 = src[n];
-      const sc = s0 % COLS;
-      const sr = (s0 / COLS) | 0;
-      const x = (step - EXPLODE) / (LAND - EXPLODE);
-      // Out with the burst for half a second, then swirling in around the middle: the letters are
-      // a wide, turned spiral at first and tighten into place, faster as they come, onto the beat.
-      const ang = Math.atan2(sr - BURST_R, sc - BURST_C || 0.01) + (t.j - 0.5) * 0.8;
-      const far = 50 + 90 * hash(t.c, t.r, 312);
-      const out = 1 - Math.pow(1 - clamp((step - EXPLODE) / 6), 2);
-      const bc = sc + Math.cos(ang) * far * out;
-      const br = sr + Math.sin(ang) * far * out;
-      const x2 = clamp((step - EXPLODE - 4) / (LAND - EXPLODE - 4));
-      const k = clamp(1 - Math.pow(x2, 1.5) + (t.j - 0.5) * 0.12 * (1 - x2));
-      const dx = t.c - CX;
-      const dy = t.r - CY;
-      const d = Math.hypot(dx, dy);
-      const th = Math.atan2(dy, dx) + k * k * 3.4 * (200 / (d + 100));
-      const sp = d * (1 + 1.3 * k);
-      const w = smooth(x2 / 0.4);
-      let c = mix(bc, CX + sp * Math.cos(th), w);
-      let r = mix(br, CY + sp * Math.sin(th), w);
-      c = Math.min(COLS - 1, Math.max(0, Math.round(c)));
-      r = Math.min(ROWS - 1, Math.max(0, Math.round(r)));
-      put(b, c, r, mixPx(all[s0], t.tone, 0.88 * smooth((x - 0.1) / 0.6)), x < 0.08 ? 3 : 2, x > 0.75 ? wordGap(t.tone) : INK_PX);
-    } else {
-      // Standing: a sway with the beat, a bounce on each beat, and a band of larger tiles.
-      const l = step - LAND;
-      const fade = step >= FADE ? (step - FADE + 1) / (STEPS - FADE) : 0;
-      const c = t.c + Math.round(1.3 * Math.sin(t.r / 33 + (2 * Math.PI * step) / 12));
-      const r = t.r + Math.round(1.7 * Math.sin(t.c / 40 + (2 * Math.PI * step) / 24) - 2.4 * kick(step));
-      const sweep = step % 12;
-      const band = sweep < 6 && Math.abs(t.c * 2 + t.r - (200 + sweep * 150)) < 7;
-      if (fade > 0 && hash(t.c, t.r, 313) < fade * 0.9) continue;
-      put(b, c, r, fade > 0 ? mixPx(t.tone, INK_PX, fade * 0.6) : t.tone, l === 0 || (band && fade === 0) ? 3 : fade > 0.4 ? 1 : 2, fade > 0 ? INK_PX : wordGap(t.tone));
-    }
-  }
 }
 
 // ───────────────────────────── checks ─────────────────────────────
 
 const TEXT = LINES.map((x) => x[0]).join(" ");
-export const HOLD_SECONDS = (FADE - LAND) / SPS;
+export const HOLD_SECONDS = (CLICK - END_LAND) / SPS;
 {
-  const least = 0.45 * TEXT.split(/\s+/).length + 1;
+  const least = 0.3 * TEXT.split(/\s+/).length + 0.5;
   // Each part of the message: 0.3 s a word plus 0.5 s (Thomas asked for the message to be quicker
   // than v5's single 5.5 s hold).
-  for (const [lines, stands] of [[MESSAGE1, (MSG_SWAP - MSG_LAND) / SPS], [MESSAGE2, (EXPLODE - MSG2_LAND) / SPS]] as [Line[], number][]) {
+  for (const [lines, stands] of [[MESSAGE1, (MSG_SWAP - MSG_LAND) / SPS], [MESSAGE2, (MSG_SWAP2 - MSG2_LAND) / SPS]] as [Line[], number][]) {
     const text = lines.map((x) => x[0]).join(" ");
     const leastPart = 0.3 * text.split(/\s+/).length + 0.5;
     if (stands + 0.05 < leastPart) throw new Error(`"${text}" stands for ${stands.toFixed(2)} s, under ${leastPart.toFixed(2)} s`);
@@ -1093,8 +1092,7 @@ export function moments() {
     ["carousel turning", FLOAT],
     ["message part one lands", MSG_LAND],
     ["message part two lands", MSG2_LAND],
-    ["burst", EXPLODE],
-    ["words land", LAND],
-    ["words begin to dim", FADE],
+    ["end card lands", END_LAND],
+    ["pointer clicks the address", CLICK],
   ].map(([what, step]) => ({ what: what as string, step: step as number, seconds: sec(step as number) }));
 }

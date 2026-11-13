@@ -178,3 +178,23 @@ second break and the end, which come 1 s sooner. Length 21.17 s (254 steps).
 The message takes 4.5 s from the first part landing to the burst (v5: 5.5 s). Each part is held
 for 0.3 s a word plus 0.5 s (the build checks it). The devices now fade to the ground's own
 colour and stop drawing, so no faint shape is left behind the words.
+
+## Version 7 (Thomas's notes on v6)
+
+v6 is kept in `v6/`. Same length, 21.17 s. Everything before 15.5 s is as v6.
+
+The middle burst is gone: message part two now melts into the end card the way part one melts
+into part two, and the burst moves to the very end, set off by a click on the web address. The
+address replaces the KINGDOM SITES line (the address carries the name), so it is one card, not
+two.
+
+| Seconds | What happens | Music |
+|---|---|---|
+| 13.5 to 15.5 | CUSTOM APP / FOR YOUR / BUSINESS. stands (2.0 s) | |
+| 15.5 to 16.0 | it melts as the end card gathers | |
+| 16.0 to 20.0 | GET YOUR / CUSTOM APP / TODAY. / KINGDOM-SITES.COM (underlined, solid tiles) | the track from 19 s, its run into the loudest bar |
+| 19.42 to 19.92 | a pointer glides in from beyond the right edge, tip under the address | 19.5 s: dead stop |
+| 20.0 | the pointer clicks; the pointer and address shrink | the firm click and the final hit together |
+| 20.08 to 21.17 | everything explodes outward from the address; the tunnel breathes back in faintly | the hit rings out |
+
+The end card stands 4.0 s (7 words at 0.3 s a word plus 0.5 s is 2.6 s).

@@ -1,18 +1,19 @@
-// Version 4 music: the clean track (../audio/music-raw.mp3, generated once for Bend reality; no new
-// generation, nothing paid), with no pitch shift or effects (v3's pitch shift sounded broken),
-// re-arranged with two breaks and a click:
+// Version 7 music: the clean track (../audio/music-raw.mp3, generated once for Bend reality; no new
+// generation, nothing paid), re-arranged with two breaks and two clicks:
 //   0.0 to 6.0 s     the track from its start
 //   6.0 s            DEAD STOP, a beat before the tap
-//   6.5 s            a small, satisfying click, alone, as the fingertip presses PUBLISH
-//   7.0 to 16.0 s    the music drops back in with the track's second phrase (8 s in the file)
-//   16.0 s           DEAD STOP again, a beat before the burst
-//   16.5 s           the track's final hit (24.027 s in the file) on the burst, ringing out by 17.5 s
-//   17.5 to 22.17 s  the track from 19 s under the end words, fading over the last 0.6 s
+//   6.5 s            a firm click, alone, as the fingertip presses PUBLISH
+//   7.0 to 16.0 s    the music drops back in with the track's second phrase (8 to 17 s in the file),
+//                    under the carousel and both parts of the message
+//   16.0 to 19.5 s   the track from 19 s (its run into the loudest bar) under the end card
+//   19.5 s           DEAD STOP while the pointer glides in
+//   20.0 s           the pointer's firm click and the track's final hit (24.027 s in the file)
+//                    together; everything explodes; the hit rings out to the end
 import { SR, read, write } from "./pcm.mjs";
 
 const OFFSET = 0.025; // the file's beats sit 25 ms after each half second
 const HIT_AT = 24.027;
-const STOP1 = 6.0, TAP = 6.5, BACK = 7.0, STOP2 = 15.0, BURST = 15.5, LAND = 16.5;
+const STOP1 = 6.0, TAP = 6.5, BACK = 7.0, CARD = 16.0, STOP2 = 19.5, CLICK = 20.0;
 const END = 635 / 30;
 const EDGE = 0.005;
 const raw = read("../audio/music-raw.mp3");
@@ -38,9 +39,9 @@ function place(from, at, len, tailFade = EDGE) {
   }
 }
 place(OFFSET, 0, STOP1, 0.012);
-place(8 + OFFSET - EDGE, BACK - EDGE, STOP2 - BACK, 0.012);
-place(HIT_AT - EDGE, BURST - EDGE, LAND - BURST - 0.05, 0.8);
-place(19 + OFFSET - EDGE, LAND - EDGE, END - LAND + EDGE, 0.6);
+place(8 + OFFSET - EDGE, BACK - EDGE, CARD - BACK);
+place(19 + OFFSET - EDGE, CARD - EDGE, STOP2 - CARD, 0.012);
+place(HIT_AT - EDGE, CLICK - EDGE, END - CLICK + EDGE, 0.9);
 
 // The click: a firm, solid press. A crisp transient (a short noise snap and a 2.6 kHz tick), a
 // woody mid knock (900 Hz) for firmness, and a low body (150 Hz falling) for weight; then a
@@ -62,6 +63,7 @@ function click(at, level, pitch = 1) {
 }
 click(TAP, 0.95);
 click(TAP + 0.085, 0.4, 1.25);
+click(CLICK, 0.95);
 
 write("../audio/music.wav", out);
-console.log(`../audio/music.wav: ${(total / SR).toFixed(3)} s; stops at ${STOP1} and ${STOP2} s, click at ${TAP} s, back at ${BACK} s, hit at ${BURST} s`);
+console.log(`../audio/music.wav: ${(total / SR).toFixed(3)} s; stops at ${STOP1} and ${STOP2} s, clicks at ${TAP} and ${CLICK} s (the second with the final hit)`);
