@@ -34,7 +34,7 @@ const good = {
   deciderName: 'Sam Lee, owner',
   needs: ['A website', 'Something else'],
   needsOther: 'online booking',
-  budget: '$5,000 to $15,000',
+  budget: 'about $8k',
   start: 'In the next month',
   website: 'leewindows.com',
   message: 'We need people to book a window clean online.',
@@ -58,7 +58,7 @@ describe('POST /api/request', () => {
       'Phone: 555 0100',
       'Decision maker: Someone else decides: Sam Lee, owner',
       'Needs: A website, Something else: online booking',
-      'Budget: $5,000 to $15,000',
+      'Budget: about $8k',
       'Wants to start: In the next month',
       'Current website or app: leewindows.com',
       'We need people to book a window clean online.',
@@ -68,10 +68,13 @@ describe('POST /api/request', () => {
   })
 
   it('drops choices the form does not offer', async () => {
-    await post({ ...good, budget: '$1', needs: ['A website', '<script>'] })
-    expect(sent).toHaveLength(0)
     await post({ ...good, needs: ['A website', '<script>'] })
     expect(sent[0].body).toContain('Needs: A website\n')
+  })
+
+  it('takes the budget as typed, and leaves it optional', async () => {
+    await post({ ...good, budget: '' })
+    expect(sent[0].body).toContain('Budget: (not said)')
   })
 
   it('asks for the required answers', async () => {

@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
 import { deliverEnquiry, looksLikeEmail } from '@/lib/enquiry'
 import {
-  REQUEST_BUDGETS,
   REQUEST_DECIDER,
   REQUEST_NEEDS,
   REQUEST_STARTS,
@@ -72,7 +71,8 @@ export async function POST(request: Request) {
     const deciderName = clean(raw.deciderName)
     const needs = pickMany(REQUEST_NEEDS, raw.needs)
     const needsOther = clean(raw.needsOther)
-    const budget = pickOne(REQUEST_BUDGETS, raw.budget)
+    // The visitor's own words (Thomas, 2026-11-13: type it, no ranges); optional.
+    const budget = clean(raw.budget, 100)
     const start = pickOne(REQUEST_STARTS, raw.start)
     const website = clean(raw.website)
     const message = cleanMultiline(raw.message)
@@ -80,7 +80,6 @@ export async function POST(request: Request) {
     if (!name) return bad('Please give your name.')
     if (!looksLikeEmail(email)) return bad('That email address does not look right.')
     if (needs.length === 0) return bad('Please pick at least one thing you need.')
-    if (!budget) return bad('Please pick a budget, or "Not sure yet".')
     if (!message) return bad('Please tell me a little about the project.')
 
     const needLine = [...needs.filter((n) => n !== 'Something else'), ...(needs.includes('Something else') ? [needsOther ? `Something else: ${needsOther}` : 'Something else'] : [])].join(', ')

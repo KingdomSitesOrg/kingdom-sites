@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react'
 import { CONTACT_EMAIL } from '@/lib/contact'
 import {
   REQUEST_API,
-  REQUEST_BUDGETS,
   REQUEST_DECIDER,
   REQUEST_NEEDS,
   REQUEST_STARTS,
@@ -107,7 +106,7 @@ export default function RequestForm() {
 
   const set = (key: keyof Fields) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setFields((f) => ({ ...f, [key]: e.target.value }))
-  const pick = (key: 'decider' | 'budget' | 'start') => (choice: string) => setFields((f) => ({ ...f, [key]: choice }))
+  const pick = (key: 'decider' | 'start') => (choice: string) => setFields((f) => ({ ...f, [key]: choice }))
   const toggleNeed = (choice: string, checked: boolean) =>
     setFields((f) => ({ ...f, needs: checked ? [...f.needs, choice] : f.needs.filter((n) => n !== choice) }))
 
@@ -131,11 +130,6 @@ export default function RequestForm() {
     if (status === 'sending') return
     if (fields.needs.length === 0) {
       setError('Please pick at least one thing you need.')
-      setStatus('idle')
-      return
-    }
-    if (!fields.budget) {
-      setError('Please pick a budget, or "Not sure yet".')
       setStatus('idle')
       return
     }
@@ -249,10 +243,12 @@ export default function RequestForm() {
             ) : null}
           </fieldset>
 
-          <fieldset className="border-0 p-0">
-            <legend className="text-sm font-medium text-ink">Your budget</legend>
-            <Choices name="budget" type="radio" choices={REQUEST_BUDGETS} value={fields.budget} onChange={pick('budget')} />
-          </fieldset>
+          <div>
+            <label htmlFor="rq-budget" className="block text-sm font-medium text-ink">
+              Your budget<Optional />
+            </label>
+            <input id="rq-budget" className={`${inputClass} mt-2`} value={fields.budget} onChange={set('budget')} placeholder="e.g. $5,000" maxLength={100} />
+          </div>
 
           <fieldset className="border-0 p-0">
             <legend className="text-sm font-medium text-ink">
