@@ -47,9 +47,9 @@ export const MSG_SWAP = 144; // 12.0 s: part one melts into part two
 export const MSG2_LAND = 150; // 12.5 s: CUSTOM APP FOR YOUR BUSINESS.
 export const MSG_SWAP2 = 174; // 14.5 s: part two melts into the end card
 export const END_LAND = 180; // 15.0 s: GET YOUR / CUSTOM APP / TODAY. / KINGDOM-SITES.COM, then STILL
-export const CLICK = 240; // 20.0 s: the pointer clicks the address, on the music's final hit
-export const EXPLODE = 241; // everything explodes from the click
-export const STEPS = 254;
+export const CLICK = 216; // 18.0 s: the pointer clicks the address, on the music's final hit
+export const EXPLODE = 217; // everything explodes from the click
+export const STEPS = 230;
 export const DURATION_FRAMES = Math.ceil((STEPS * T.fps) / SPS);
 
 // ───────────────────────────── the wall ─────────────────────────────
@@ -891,7 +891,7 @@ const MESSAGE = [...MESSAGE1, ...MESSAGE2];
 const MSG1: WTile[] = layout(MESSAGE1, 0);
 const MSG2: WTile[] = layout(MESSAGE2, 0);
 /** How far the devices dim behind the message (0: not at all). */
-export const dimAt = (step: number) => (step < MSG_IN ? 0 : smooth((step - MSG_IN) / (MSG_LAND - MSG_IN + 3)));
+export const dimAt = (step: number) => (step < MSG_IN ? 0 : smooth((step - MSG_IN) / (MSG_LAND - MSG_IN)));
 function swirlTo(t: WTile, k: number): [number, number] {
   const dx = t.c - CX;
   const dy = t.r - CY;
@@ -919,12 +919,12 @@ function drawMessage(b: Uint32Array, step: number, under: Uint32Array) {
         r = Math.round(r);
         if (c < 0 || c >= COLS || r < 0 || r >= ROWS) continue;
         col = mixPx(under[r * COLS + c], t.tone, (arriving ? 0.88 : 1) * smooth((1 - k - 0.1) / 0.75));
-      } else if (tiles === WORDS) {
-        // The end card, once formed, is perfectly still until the click.
+      } else if (true) {
+        // Once formed, every set of words is perfectly still until it melts (or the click).
         c = t.c;
         r = t.r;
         col = t.tone;
-        size = t.line === 3 ? (step >= CLICK ? 1 : 3) : 2;
+        size = tiles === WORDS && t.line === 3 ? (step >= CLICK ? 1 : 3) : 2;
       } else {
         c = t.c + Math.round(1.3 * Math.sin(t.r / 33 + (2 * Math.PI * step) / 12));
         r = t.r + Math.round(1.7 * Math.sin(t.c / 40 + (2 * Math.PI * step) / 24) - 2.4 * kick(step));

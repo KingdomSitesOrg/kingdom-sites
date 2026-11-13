@@ -13,8 +13,8 @@ import { SR, read, write } from "./pcm.mjs";
 
 const OFFSET = 0.025; // the file's beats sit 25 ms after each half second
 const HIT_AT = 24.027;
-const STOP1 = 5.0, TAP = 5.5, BACK = 6.0, CARD = 15.0, STOP2 = 19.5, CLICK = 20.0;
-const END = 635 / 30;
+const STOP1 = 5.0, TAP = 5.5, BACK = 6.0, CARD = 15.0, STOP2 = 17.5, CLICK = 18.0;
+const END = 575 / 30;
 const EDGE = 0.005;
 const raw = read("../audio/music-raw.mp3");
 const frames = raw.length / 2;
@@ -40,7 +40,7 @@ function place(from, at, len, tailFade = EDGE) {
 }
 place(OFFSET, 0, STOP1, 0.012);
 place(8 + OFFSET - EDGE, BACK - EDGE, CARD - BACK);
-place(18.5 + OFFSET - EDGE, CARD - EDGE, STOP2 - CARD, 0.012);
+place(20.5 + OFFSET - EDGE, CARD - EDGE, STOP2 - CARD, 0.012);
 place(HIT_AT - EDGE, CLICK - EDGE, END - CLICK + EDGE, 0.9);
 
 // The click: a firm, solid press. A crisp transient (a short noise snap and a 2.6 kHz tick), a

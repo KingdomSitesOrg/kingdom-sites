@@ -213,3 +213,15 @@ v7 is kept in `v7/`. Same length, 21.17 s.
    until the pointer appears at 19.42 s is identical. It holds 5.0 s (was 4.0) until the click at
    20.0 s, which explodes it as before. Under it, the music runs from 18.5 s in the file to the
    dead stop at 19.5 s.
+
+## Version 9 (Thomas on v8: "the beautiful stunning also needs to be still and that ending is too long")
+
+v8 is kept in `v8/`. Length 19.17 s (230 steps).
+
+1. **Both message parts are still** once formed, like the end card: no sway, bounce or band.
+   The devices finish fading exactly as part one lands. Measured: every frame of part one
+   (10.0 to 12.0 s), part two (12.5 to 14.5 s) and the end card (15.0 s until the pointer) is
+   identical to the one before.
+2. **The end card holds 3.0 s instead of 5.0**, then the same ending: the music's dead stop at
+   17.5 s, the pointer gliding in, the click on the final hit at 18.0 s, the explosion. Under
+   the card the music is the track's loudest bar (20.5 to 23 s in the file).

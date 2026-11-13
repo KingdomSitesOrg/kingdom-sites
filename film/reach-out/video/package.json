@@ -12,7 +12,7 @@
     "music": "node tools/align-music.mjs",
     "mix": "node tools/mix.mjs",
     "draft": "npm run mix && remotion render Mural build/picture-540x960.mp4 --scale=0.5 --concurrency=8 --muted && ffmpeg -y -v error -i build/picture-540x960.mp4 -i build/mix.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 192k -shortest ../draft/reach-out-draft-540x960.mp4",
-    "final": "npm run mix && remotion render Mural build/picture-1080x1920.mp4 --concurrency=8 --muted --crf=14 && ffmpeg -y -v error -i build/picture-1080x1920.mp4 -i build/mix.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 192k -shortest ../final/reach-out-v8-1080x1920.mp4"
+    "final": "npm run mix && remotion render Mural build/picture-1080x1920.mp4 --concurrency=8 --muted --crf=14 && ffmpeg -y -v error -i build/picture-1080x1920.mp4 -i build/mix.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 192k -shortest ../final/reach-out-v9-1080x1920.mp4"
   },
   "dependencies": {
     "@remotion/cli": "4.0.535",
