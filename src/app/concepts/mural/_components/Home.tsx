@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Fragment, type CSSProperties } from 'react'
 import InquiryForm from '@/components/InquiryForm'
 import { CONTACT_EMAIL, CONTACT_MAILTO, INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
+import { REQUEST_CTA, REQUEST_PATH } from '@/lib/request'
 import LatinPartner from '@/components/cinematic/LatinPartner'
 import { PHOTOS, PROJECTS, SHOTS, type Shot } from '@/lib/work'
 import FlipTile from './FlipTile'
@@ -165,7 +166,11 @@ export default function MuralHome({ concept = false }: { concept?: boolean }) {
             I build apps, websites and platforms for businesses, schools and churches. <span className="mu-sub-2">Every detail cared for, like a mural.</span>
           </p>
           <div className="mu-cta">
-            <Link href="#talk" className="mu-btn" data-snap>
+            {/* Submit a request (T-547) beside the existing two. */}
+            <Link href={REQUEST_PATH} className="mu-btn" data-snap>
+              {REQUEST_CTA} <Arrow />
+            </Link>
+            <Link href="#talk" className="mu-btn is-ink" data-snap>
               {INQUIRE_CTA} <Arrow />
             </Link>
             <Link href="#work" className="mu-btn is-ghost" data-snap>
@@ -333,6 +338,12 @@ export default function MuralHome({ concept = false }: { concept?: boolean }) {
           <p className="mu-text" data-rise style={delay(120)}>
             A website, an app, or AI put to work: tell me what you have in mind.
           </p>
+          {/* The fuller request form (T-547), above the short note. */}
+          <div className="mu-cta mu-close-cta" data-rise style={delay(150)}>
+            <Link href={REQUEST_PATH} className="mu-btn" data-snap>
+              {REQUEST_CTA} <Arrow />
+            </Link>
+          </div>
           {/* The live home page's own form: a visitor writes without leaving the page. */}
           <div className="mu-form" data-rise style={delay(180)}>
             <InquiryForm />

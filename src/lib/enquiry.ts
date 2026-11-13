@@ -4,7 +4,8 @@ import { creditReferral } from '@/lib/refer/credit'
 
 /**
  * How an enquiry reaches Thomas, whichever door it came in by: the contact
- * form (/api/inquiry), the Farzana "Book a call" form (the same route), or a
+ * form (/api/inquiry), the Farzana "Book a call" form (the same route), the
+ * "Submit a request" form (/api/request, T-547), or a
  * hand-off from the Intelligence chat (/api/intelligence, T-375). Email through
  * Resend (notifyThomas) and, if set, the LEAD_WEBHOOK_URL hook; it counts for a
  * referrer when the visitor came through a referral link. Delivered if either
@@ -15,10 +16,12 @@ export type Enquiry = {
   name: string
   email: string
   message: string
-  kind: 'enquiry' | 'farzana-call' | 'intelligence'
+  kind: 'enquiry' | 'farzana-call' | 'intelligence' | 'request'
   /** Farzana call requests only. */
   teaches?: string
   times?: string
+  /** Project requests (/request) only: the answers, label first, in the form's order. */
+  details?: [string, string][]
 }
 
 const WEBHOOK_TIMEOUT_MS = 4_000
@@ -48,18 +51,21 @@ const SUBJECT: Record<Enquiry['kind'], (name: string) => string> = {
   enquiry: (name) => `Enquiry from ${name}`,
   'farzana-call': (name) => `Farzana call request from ${name}`,
   intelligence: (name) => `Enquiry from ${name} (Ask Thomas)`,
+  request: (name) => `Project request from ${name}`,
 }
 
 const FIRST_LINE: Record<Enquiry['kind'], string> = {
   enquiry: 'A new enquiry from kingdom-sites.com',
   'farzana-call': 'A new call request from kingdom-sites.com/farzana',
   intelligence: 'A new enquiry from Ask Thomas on kingdom-sites.com',
+  request: 'A new project request from kingdom-sites.com/request',
 }
 
 const REFERRAL_NOTE: Record<Enquiry['kind'], string> = {
   enquiry: 'Sent an enquiry.',
   'farzana-call': 'Asked for a Farzana call.',
   intelligence: 'Sent an enquiry from Ask Thomas.',
+  request: 'Submitted a project request.',
 }
 
 export async function deliverEnquiry(request: Request, e: Enquiry): Promise<boolean> {
@@ -77,6 +83,7 @@ export async function deliverEnquiry(request: Request, e: Enquiry): Promise<bool
     ...(farzanaCall
       ? [`Teaches: ${e.teaches || '(not said)'}`, `When suits them: ${e.times || '(not said)'}`]
       : []),
+    ...(e.details ?? []).map(([label, value]) => `${label}: ${value || '(not said)'}`),
     '',
     e.message ? `Message:\n${e.message}` : 'Message: (none)',
     '',
@@ -90,6 +97,7 @@ export async function deliverEnquiry(request: Request, e: Enquiry): Promise<bool
       email: e.email,
       message: e.message,
       ...(farzanaCall ? { teaches: e.teaches ?? '', times: e.times ?? '' } : {}),
+      ...Object.fromEntries(e.details ?? []),
       receivedAt: new Date().toISOString(),
       kind: e.kind,
       ...(referredBy ? { referredBy } : {}),

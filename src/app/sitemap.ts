@@ -7,6 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: base, lastModified: new Date(), changeFrequency: 'weekly', priority: 1 },
     { url: `${base}/get-started`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${base}/request`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
     { url: `${base}/ai-tooling`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
     { url: `${base}/portfolio`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
     // One page per project (T-389).
