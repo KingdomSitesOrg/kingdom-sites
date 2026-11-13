@@ -32,7 +32,7 @@ export default function BuildWords() {
 
   return (
     <h1 className="cn-display kf-build">
-      <span className="sr-only">I build apps, websites and custom software.</span>
+      <span className="sr-only">I build custom mobile apps, websites and software.</span>
       <span aria-hidden="true" className="kf-build-line">
         <span className="kf-build-lead">I build</span>
         <span className="kf-words">

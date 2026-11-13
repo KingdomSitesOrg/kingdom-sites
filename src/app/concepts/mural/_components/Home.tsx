@@ -67,24 +67,9 @@ type Work = {
 const EXPLORE = 'Explore how and why this came to life'
 const WORK: Work[] = [
   {
-    name: project('farzana').name,
-    chips: chips('farzana'),
-    story: 'Someone asked me to build them custom classroom software.',
-    text: 'Now it’s coming to life.',
-    ask: 'Want software like this, or something else entirely?',
-    href: '/portfolio/farzana-classroom',
-    links: [
-      { label: EXPLORE, href: '/portfolio/farzana-classroom' },
-      { label: 'Book a Farzana demo', href: '/farzana/book' },
-      { label: INQUIRE_CTA, href: '#talk' },
-    ],
-    window: SHOTS.appClass,
-  },
-  {
     name: project('latin-game').name,
     chips: chips('latin-game'),
     live: true,
-    lead: 'I also do mobile apps.',
     text: 'A Latin learning game for iPhone and Android.',
     partner: true,
     href: '/latin-game',
@@ -105,6 +90,32 @@ const WORK: Work[] = [
       { label: 'See Ruta', href: '/ruta', quiet: true },
     ],
     phones: [SHOTS.rutaQueue],
+  },
+  {
+    name: project('tap-to-tick').name,
+    chips: chips('tap-to-tick'),
+    live: true,
+    text: project('tap-to-tick').line,
+    href: '/tap-to-tick',
+    links: [
+      { label: EXPLORE, href: '/tap-to-tick' },
+      { label: 'See Tap to Tick', href: '/tap-to-tick', quiet: true },
+    ],
+    phones: [SHOTS.tapOverview],
+  },
+  {
+    name: project('farzana').name,
+    chips: chips('farzana'),
+    story: 'Someone asked me to build them custom classroom software.',
+    text: 'Now it’s coming to life.',
+    ask: 'Want software like this, or something else entirely?',
+    href: '/portfolio/farzana-classroom',
+    links: [
+      { label: EXPLORE, href: '/portfolio/farzana-classroom' },
+      { label: 'Book a Farzana demo', href: '/farzana/book' },
+      { label: INQUIRE_CTA, href: '#talk' },
+    ],
+    window: SHOTS.appClass,
   },
   {
     name: project('kcupg').name,
@@ -131,7 +142,6 @@ const WORK: Work[] = [
 
 /* More of the portfolio, as tiles that turn over: the project's name and line on the front, the line again in colour on the back, and a link to the project under each. */
 const MORE = [
-  { slug: 'tap-to-tick', ground: '#F2581C', ink: '#0A0C12', pattern: ['X....', 'XX...', 'XXX..', 'XXXX.', 'XXXXX'] },
   { slug: 'delta', ground: '#2A5CFF', ink: '#F7F5F0', pattern: ['X.X.X', '.X.X.', 'X.X.X', '.X.X.', 'X.X.X'] },
   { slug: 'prayer', ground: '#14161D', ink: '#F7F5F0', pattern: ['XXXXX', 'X...X', 'X...X', 'X...X', 'XXXXX'] },
   { slug: 'ministry', ground: '#A9ACB1', ink: '#0A0C12', pattern: ['X...X', '.X.X.', '..X..', '.X.X.', 'X...X'] },
@@ -153,17 +163,18 @@ export default function MuralHome({ concept = false }: { concept?: boolean }) {
           {/* Thomas's own line for the hero (2026-11-11). */}
           <h1 className="mu-h1">
             <span className="l" style={{ '--i': 0 } as CSSProperties}>
-              Custom
-            </span>
-            <span className="l" style={{ '--i': 1 } as CSSProperties}>
-              software
-              <span className="mu-dot" aria-hidden="true" />
-              <span className="mu-sr">.</span>
+              Custom{' '}
+              {/* The last word and the square stay together, so the full stop never drops to a line of its own. */}
+              <span className="mu-nowrap">
+                apps
+                <span className="mu-dot" aria-hidden="true" />
+                <span className="mu-sr">.</span>
+              </span>
             </span>
           </h1>
           {/* The line Thomas picked on 2026-11-11: who it is for first, then his mural sentence. */}
           <p className="mu-sub">
-            I build apps, websites and platforms for businesses, schools and churches. <span className="mu-sub-2">Every detail cared for, like a mural.</span>
+            Mobile + web applications. <span className="mu-sub-2">Every detail cared for, like a mural.</span>
           </p>
           <div className="mu-cta">
             {/* Submit a request (T-547) beside the existing two. */}
@@ -193,7 +204,7 @@ export default function MuralHome({ concept = false }: { concept?: boolean }) {
             <article key={w.name} className="mu-item">
               <div>
                 {w.lead ? (
-                  <p className="mu-lead" data-rise>
+                  <p className={`mu-lead${w.name === 'Farzana Classroom' ? ' is-sub' : ''}`} data-rise>
                     {w.lead}
                   </p>
                 ) : null}
@@ -336,7 +347,7 @@ export default function MuralHome({ concept = false }: { concept?: boolean }) {
             Yours could be next.
           </h2>
           <p className="mu-text" data-rise style={delay(120)}>
-            A website, an app, or AI put to work: tell me what you have in mind.
+            A custom app, a matching web app or website, or AI put to work: tell me what you have in mind.
           </p>
           {/* The fuller request form (T-547), above the short note. */}
           <div className="mu-cta mu-close-cta" data-rise style={delay(150)}>

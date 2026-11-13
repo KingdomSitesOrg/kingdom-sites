@@ -6,7 +6,7 @@ import { INQUIRE_CTA, INQUIRE_PATH } from '@/lib/contact'
 import { PERSON_LD, jsonLd, shareCard } from '@/lib/seo'
 
 const DESCRIPTION =
-  'Meet Thomas Klein of Kingdom Sites: websites, iPhone and Android apps, the software behind them, and AI consultation, designed, built and looked after by Thomas Klein, one engineer.'
+  'Meet Thomas Klein of Kingdom Sites: iPhone and Android apps, the software behind them, websites, and AI consultation, designed, built and looked after by Thomas Klein, one engineer.'
 
 export const metadata: Metadata = {
   title: 'About Thomas Klein',
@@ -60,7 +60,7 @@ export default function About() {
             help you accomplish your goals, and I do this with a purpose to glorify God.
           </p>
           <p className="mt-4 text-pretty text-[15px] leading-relaxed text-body sm:text-base">
-            I make software people actually use: websites, apps and the systems behind them. I also help
+            I make software people actually use: apps, websites and the systems behind them. I also help
             you use AI to bring in more revenue, save time and grow your business. When you write to me,
             you get me, the person who builds it.
           </p>
