@@ -106,7 +106,6 @@ const WORK: Work[] = [
   {
     name: project('farzana').name,
     chips: chips('farzana'),
-    lead: 'And the web portal behind them.',
     story: 'Someone asked me to build them custom classroom software.',
     text: 'Now it’s coming to life.',
     ask: 'Want software like this, or something else entirely?',
