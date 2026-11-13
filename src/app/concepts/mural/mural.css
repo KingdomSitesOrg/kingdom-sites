@@ -746,6 +746,7 @@ body:has(.mu) .ss-panel { background: #0a0c12; border: 2px solid #1b1f2a; box-sh
   text-transform: uppercase;
   text-wrap: balance;
 }
+.mu-lead.is-sub { margin-bottom: 18px; font-size: clamp(1rem, 2.2vw, 1.4rem); letter-spacing: -0.02em; }
 .mu-partner { margin-top: 12px; max-width: 46ch; font-size: 14px; line-height: 1.5; color: var(--stone); }
 .mu-partner a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
 .mu-text + .mu-story, div + .mu-story { margin-top: 22px; }

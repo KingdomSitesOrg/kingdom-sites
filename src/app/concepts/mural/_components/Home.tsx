@@ -194,7 +194,7 @@ export default function MuralHome({ concept = false }: { concept?: boolean }) {
             <article key={w.name} className="mu-item">
               <div>
                 {w.lead ? (
-                  <p className="mu-lead" data-rise>
+                  <p className={`mu-lead${n === 1 ? ' is-sub' : ''}`} data-rise>
                     {w.lead}
                   </p>
                 ) : null}
