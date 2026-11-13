@@ -1040,6 +1040,8 @@ body:has(.mu) .ss-panel { background: #0a0c12; border: 2px solid #1b1f2a; box-sh
   .mu-section { padding: 110px 32px 0; }
   .mu-close { padding: 40px 32px 0; }
   .mu-flips { grid-template-columns: 1fr 1fr; }
+  /* Three tiles: the odd one sits centred under the pair. */
+  .mu-flips .mu-flip-cell:last-child:nth-child(odd) { grid-column: 1 / -1; justify-self: center; width: calc(50% - 9px); }
   .mu-flip { height: 210px; }
   .mu-phones { gap: 18px; max-width: 520px; }
   .mu-window { box-shadow: 8px 8px 0 var(--sh); }
@@ -1076,7 +1078,8 @@ body:has(.mu) .ss-panel { background: #0a0c12; border: 2px solid #1b1f2a; box-sh
   .mu-item:nth-child(even) .mu-media { order: -1; }
   .mu-item:nth-child(even) { grid-template-columns: 7fr 5fr; }
   .mu-phones { margin: 0 auto; }
-  .mu-flips { grid-template-columns: repeat(4, 1fr); margin-top: 60px; }
+  .mu-flips { grid-template-columns: repeat(3, 1fr); margin-top: 60px; }
+  .mu-flips .mu-flip-cell:last-child:nth-child(odd) { grid-column: auto; justify-self: stretch; width: auto; }
   .mu-flip { height: 270px; }
   #make.mu-section { padding-top: 96px; }
   .mu-flip-art { grid-template-columns: repeat(5, 11px); }

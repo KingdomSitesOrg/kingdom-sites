@@ -70,7 +70,6 @@ const WORK: Work[] = [
     name: project('latin-game').name,
     chips: chips('latin-game'),
     live: true,
-    lead: 'I build mobile apps.',
     text: 'A Latin learning game for iPhone and Android.',
     partner: true,
     href: '/latin-game',
@@ -144,7 +143,6 @@ const WORK: Work[] = [
 
 /* More of the portfolio, as tiles that turn over: the project's name and line on the front, the line again in colour on the back, and a link to the project under each. */
 const MORE = [
-  { slug: 'tap-to-tick', ground: '#F2581C', ink: '#0A0C12', pattern: ['X....', 'XX...', 'XXX..', 'XXXX.', 'XXXXX'] },
   { slug: 'delta', ground: '#2A5CFF', ink: '#F7F5F0', pattern: ['X.X.X', '.X.X.', 'X.X.X', '.X.X.', 'X.X.X'] },
   { slug: 'prayer', ground: '#14161D', ink: '#F7F5F0', pattern: ['XXXXX', 'X...X', 'X...X', 'X...X', 'XXXXX'] },
   { slug: 'ministry', ground: '#A9ACB1', ink: '#0A0C12', pattern: ['X...X', '.X.X.', '..X..', '.X.X.', 'X...X'] },
