@@ -7,10 +7,15 @@ import { execFileSync } from "node:child_process";
 import { SR, measure, write } from "./pcm.mjs";
 
 const FPS = 30;
-const SPEED = 1;
-const LEN = 458 / FPS;
-/** The track is slowed with the picture, 150 to 120 BPM, pitch kept. */
-const TEMPO = 0.8;
+const SPEED = 15 / 14;
+const LEN = 539 / FPS;
+/** The track is slowed with the picture, 150 to 128.6 BPM, pitch kept. */
+const TEMPO = 6 / 7;
+/** Draft 5 holds four scenes 30 units longer: cues written on the draft-2 clock move by the holds
+    before them, and the music gets two more bars (its 5.2-8.4 s plays twice, from 8.4 s). */
+const HOLD = 30;
+const place = (u) => u + HOLD * (u < 75 ? 0 : u < 195 ? 1 : u < 255 ? 2 : u < 300 ? 3 : 4);
+const UNITS = 577.5;
 const TARGET = -14;
 const CEILING = -1;
 const db = (v) => Math.pow(10, v / 20);
@@ -44,10 +49,26 @@ const CUES = [
 
 const n = Math.round(LEN * SR);
 const out = new Float32Array(n * 2);
-const music = load("../audio/raw/music_gen2.mp3", `atempo=${TEMPO}`, 0.245);
+// The track at its own 150 BPM, trimmed onto the grid (a unit is 1/37.5 s there), with bars
+// 5.2-8.4 s repeated, written out and slowed with the picture.
+const raw = load("../audio/raw/music_gen2.mp3", "anull", 0.245);
+const len = Math.round((UNITS / 37.5) * SR);
+const spliced = new Float32Array(len * 2);
+const JOIN = Math.round(8.4 * SR), BACK = Math.round(3.2 * SR), XF = Math.round(0.01 * SR);
+for (let k = 0; k < len; k++) {
+  const w = k < JOIN - XF ? 0 : k >= JOIN ? 1 : (k - (JOIN - XF)) / XF;
+  for (let c = 0; c < 2; c++) {
+    const a = k * 2 + c < raw.length && w < 1 ? raw[k * 2 + c] : 0;
+    const b = k >= BACK && (k - BACK) * 2 + c < raw.length && w > 0 ? raw[(k - BACK) * 2 + c] : 0;
+    spliced[k * 2 + c] = a * (1 - w) + b * w;
+  }
+}
+write("build/music_spliced.wav", spliced);
+const music = load("build/music_spliced.wav", `atempo=${TEMPO}`);
 for (let k = 0; k < n * 2 && k < music.length; k++) out[k] = music[k] * db(-4);
 
-for (const [frame, name, gain, pan] of CUES) {
+for (const [unit, name, gain, pan] of CUES) {
+  const frame = place(unit);
   const s = SFX[name];
   const at = Math.round(((frame / SPEED + 1) / FPS) * SR) * 2;
   const g = db(gain);

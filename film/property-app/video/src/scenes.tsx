@@ -142,7 +142,7 @@ const RentScreen: React.FC<{ f: number }> = ({ f }) => {
       {tk > 0 && (
         <div
           style={{
-            position: "absolute", left: 22, right: 22, top: lerp(-180, 210, outBack(tk, 1.6)), height: 150, borderRadius: 30, background: C.ink,
+            position: "absolute", left: 22, right: 22, top: lerp(-180, 630, outBack(tk, 1.4)), height: 150, borderRadius: 30, background: C.ink,
             display: "flex", alignItems: "center", gap: 22, padding: "0 28px", boxSizing: "border-box", boxShadow: "0 10px 0 rgba(0,0,0,0.18)",
           }}
         >
@@ -358,17 +358,23 @@ const End: React.FC<{ f: number }> = ({ f }) => {
 };
 
 /** Each scene slides in over the last as a paper panel, in three poses, from a new side each time;
-    the end card cuts in on the music's hit. */
+    the end card cuts in on the music's hit. Scenes are written on the draft-2 clock (S above) and
+    `shift` places them on the film's: draft 5 holds the hook, rent, repair and alert scenes 30
+    units longer once their action is done (Thomas: "the rent, the leak, all those little
+    messages, those need to stay longer"). */
 type Dir = "up" | "left" | "right" | "down" | null;
-const SCENES: { from: number; El: React.FC<{ f: number }>; dir: Dir }[] = [
-  { from: S.hook, El: Hook, dir: null },
-  { from: S.app, El: App, dir: "up" },
-  { from: S.rent, El: Rent, dir: "left" },
-  { from: S.fix, El: Fix, dir: "right" },
-  { from: S.alert, El: Alert, dir: "down" },
-  { from: S.back, El: Back, dir: "left" },
-  { from: S.end, El: End, dir: null },
+const HOLD = 30;
+const SCENES: { from: number; shift: number; El: React.FC<{ f: number }>; dir: Dir }[] = [
+  { from: S.hook, shift: 0, El: Hook, dir: null },
+  { from: S.app + HOLD, shift: HOLD, El: App, dir: "up" },
+  { from: S.rent + HOLD, shift: HOLD, El: Rent, dir: "left" },
+  { from: S.fix + 2 * HOLD, shift: 2 * HOLD, El: Fix, dir: "right" },
+  { from: S.alert + 3 * HOLD, shift: 3 * HOLD, El: Alert, dir: "down" },
+  { from: S.back + 4 * HOLD, shift: 4 * HOLD, El: Back, dir: "left" },
+  { from: S.end + 4 * HOLD, shift: 4 * HOLD, El: End, dir: null },
 ];
+/** The whole film in units: 577.5. */
+export const TOTAL = S.total + 4 * HOLD;
 
 const panel = (dir: Dir, t: number): React.CSSProperties => {
   const k = 1 - t;
@@ -382,7 +388,7 @@ const panel = (dir: Dir, t: number): React.CSSProperties => {
 };
 
 export const Picture: React.FC<{ f: number }> = ({ f }) => {
-  const black = prog(f, S.black, S.total - 5);
+  const black = prog(f, S.black + 4 * HOLD, TOTAL - 5);
   let cur = 0;
   SCENES.forEach((s, i) => { if (f >= s.from) cur = i; });
   const next = SCENES[cur + 1];
@@ -390,10 +396,10 @@ export const Picture: React.FC<{ f: number }> = ({ f }) => {
   const Cur = SCENES[cur].El;
   return (
     <>
-      <Cur f={f} />
+      <Cur f={f - SCENES[cur].shift} />
       {t >= 0 && next && (
         <div style={{ position: "absolute", inset: 0, ...panel(next.dir, t) }}>
-          <next.El f={f} />
+          <next.El f={f - next.shift} />
         </div>
       )}
       {black > 0 && <div style={{ position: "absolute", inset: 0, background: "#000", opacity: black }} />}
