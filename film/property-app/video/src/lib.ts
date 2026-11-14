@@ -6,12 +6,13 @@ export const W = 1080;
 export const H = 1920;
 /** 120 BPM at 30 fps: one beat is 15 frames. */
 export const BEAT = 15;
-/** Scene time runs 1.25x film time (Thomas, property draft 1: "a little bit faster"): scenes are
-    written on the café ad's grid (a beat is 15 units, a pose 2.5), and the film plays them at
-    150 BPM, a beat every 12 frames and a pose every 2 frames. */
-export const SPEED = 1.25;
-/** 457.5 scene units. */
-export const DURATION = 366;
+/** Scene time runs 15/14 of film time: scenes are written on the café ad's grid (a beat is 15
+    units, a pose 2.5), and the film plays them at 128.6 BPM, a beat every 14 frames. Draft 2 ran
+    1.25x (150 BPM); Thomas, draft 2: "too fast ... I can't actually really read what's going on.
+    Slow it down by like 10 or 20%", so it is 17% slower. A pose lasts 2 or 3 frames. */
+export const SPEED = 15 / 14;
+/** 457.5 scene units, 14.2 s. */
+export const DURATION = 427;
 /** Stop-motion: 12 poses a second, so a pose holds for 2.5 frames. */
 export const STEP = 2.5;
 
