@@ -1,5 +1,6 @@
 // The soundtrack: the music (../audio/raw/music_gen1.mp3, trimmed 40 ms so its beats sit on the
-// film's 15-frame grid) as the bed, and a small dry sound only where something real happens: a
+// film's 15-frame grid; draft 2 plays its 6-9 s section twice, from 9 s, so the film can run 3 s
+// longer and the track's last hit still lands on the end card at 12.75 s) as the bed, and a small dry sound only where something real happens: a
 // cut-out lands, a finger taps, a stamp thumps, a notification arrives, the last click. Effects
 // sit under the music. One plain gain to about -14 LUFS; lowered if the true peak passes -1 dBTP.
 // Writes public/mix.wav.
@@ -7,7 +8,7 @@ import { execFileSync } from "node:child_process";
 import { SR, measure, write } from "./pcm.mjs";
 
 const FPS = 30;
-const LEN = 345 / FPS;
+const LEN = 435 / FPS;
 const TARGET = -14;
 const CEILING = -1;
 const db = (v) => Math.pow(10, v / 20);
@@ -34,13 +35,24 @@ const CUES = [
   [187.5, "thump", -9, -0.3], [195, "thump", -10, 0], [202.5, "thump", -9, 0.3],
   [210, "thump", -10, -0.3], [217.5, "thump", -9, 0], [225, "bubble", -9, 0.3],
   [255, "bubble", -10, 0], [262.5, "pop", -15, -0.6], [270, "pop", -15, 0.6], [277.5, "pop", -15, -0.6],
-  [322.5, "click", -7, 0.2],
+  [360, "pop", -11, 0], [412.5, "click", -7, 0.2],
 ];
 
 const n = Math.round(LEN * SR);
 const out = new Float32Array(n * 2);
 const music = load("../audio/raw/music_gen1.mp3", "anull", 0.04);
-for (let i = 0; i < Math.min(music.length, out.length); i++) out[i] = music[i] * db(-4);
+// Film time t plays music time t before 9 s and t - 3 after it, with a 10 ms crossfade at the joint.
+const JOIN = 9 * SR, BACK = 3 * SR, XF = Math.round(0.01 * SR);
+const m = (k) => (k * 2 + 1 < music.length ? k : -1);
+for (let k = 0; k < n; k++) {
+  const a = m(k), b = k - BACK >= 0 ? m(k - BACK) : -1;
+  const w = k < JOIN - XF ? 0 : k >= JOIN ? 1 : (k - (JOIN - XF)) / XF;
+  for (let c = 0; c < 2; c++) {
+    const va = a >= 0 && w < 1 ? music[a * 2 + c] : 0;
+    const vb = b >= 0 && w > 0 ? music[b * 2 + c] : 0;
+    out[k * 2 + c] = (va * (1 - w) + vb * w) * db(-4);
+  }
+}
 
 for (const [frame, name, gain, pan] of CUES) {
   const s = SFX[name];

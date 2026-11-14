@@ -5,7 +5,7 @@ import { random } from "remotion";
 import { BEAT, C, STEP, UI, boilT, lerp, outBack, outCubic, prog } from "./lib";
 import { AppIcon, Croissant, Cup, Cut, PHONE, Phone, Pointer, Skel, Stamp, Steam, TapRing, uiText } from "./parts";
 
-export const S = { hook: 0, app: 75, order: 135, stamps: 180, alert: 240, end: 292.5, black: 327.5, total: 345 };
+export const S = { hook: 0, app: 75, order: 135, stamps: 180, alert: 240, back: 292.5, end: 382.5, black: 417.5, total: 435 };
 
 /** Where the phone sits in scenes 2 to 5, and its screen's top-left corner on the frame. */
 const PX = 540, PY = 1230;
@@ -265,7 +265,7 @@ const CROS = [
 ];
 
 const Alert: React.FC<{ f: number }> = ({ f }) => (
-  <Stage f={f} from={S.alert} to={S.end} bg={C.ink} roll={-0.8}>
+  <Stage f={f} from={S.alert} to={S.back} bg={C.ink} roll={-0.8}>
     <Stamp id="fresh" text="FRESH-BAKED" f={f} start={240} per={STEP / 2} y={325} size={185} color={C.paper} />
     <Stamp id="alerts" text="ALERTS." f={f} start={250} y={540} size={250} color={C.gold} />
     <Phone id="ph5" f={f} x={PX} y={PY}><AlertScreen f={f} /></Phone>
@@ -280,7 +280,40 @@ const Alert: React.FC<{ f: number }> = ({ f }) => (
   </Stage>
 );
 
-/* 6. The offer and the address: the last hit bursts into paper, the name stamps in, a click. */
+/* 6. The payoff (Thomas, draft 2: rewards and a smooth experience keep customers coming back):
+   the cup and the croissant run off the left edge and come right back in from the right. */
+const Walker: React.FC<{ id: string; f: number; x: number; y: number; flip: number; children: React.ReactNode }> = ({ id, f, x, y, flip, children }) => {
+  const k = Math.floor(f / STEP + 1e-6);
+  return (
+    <div style={{ position: "absolute", left: x, top: y - (k % 2 ? 26 : 0), transform: `rotate(${(k % 2 ? 7 : -7) * flip}deg)`, transformOrigin: "50% 100%" }}>
+      <Cut id={id} f={f} x={0} y={0} w={400}>{children}</Cut>
+    </div>
+  );
+};
+
+const Back: React.FC<{ f: number }> = ({ f }) => {
+  const b = S.back;
+  const out = prog(f, b + 10, b + 37.5);
+  const inn = prog(f, b + 50, b + 67.5);
+  const home = f >= b + 67.5;
+  const walk = (base: number) => (f < b + 50 ? lerp(base, base - 900, out) : lerp(base + 900, base, outCubic(inn)));
+  const sq = f >= b + 67.5 && f < b + 70 ? 0.86 : 1;
+  const hopY = home ? hop(f, b + 82.5) : 0;
+  const walker = (id: string, base: number, y: number, flip: number, el: React.ReactNode) =>
+    home ? <Cut key={id} id={id} f={f} x={base} y={y + hopY} w={400} sy={sq}>{el}</Cut> : <Walker key={id} id={id} f={f} x={walk(base)} y={y} flip={flip}>{el}</Walker>;
+  return (
+    <Stage f={f} from={S.back} to={S.end} bg={C.blue} roll={0.8}>
+      <Stamp id="sweet" text="SWEET REWARDS + SMOOTH ORDERS" f={f} start={b} per={0} y={300} size={66} color={C.gold} />
+      <Stamp id="keep" text="KEEP THEM" f={f} start={b + 7.5} y={520} size={230} color={C.paper} />
+      <Stamp id="coming" text="COMING" f={f} start={b + 20} per={STEP / 2} y={760} size={260} color={C.paper} />
+      <Stamp id="backw" text="BACK." f={f} start={b + 60} y={1020} size={330} color={C.gold} />
+      {walker("wcup", 380, 1480, 1, <Cup w={260} />)}
+      {walker("wcro", 720, 1560, -1, <Croissant w={330} />)}
+    </Stage>
+  );
+};
+
+/* 7. The offer and the address: the last hit bursts into paper, the name stamps in, a click. */
 const BITS = Array.from({ length: 18 }, (_, i) => ({
   a: (i / 18) * Math.PI * 2 + random(`ba${i}`) * 0.3,
   v: 26 + random(`bv${i}`) * 22,
@@ -291,8 +324,9 @@ const BITS = Array.from({ length: 18 }, (_, i) => ({
 
 const End: React.FC<{ f: number }> = ({ f }) => {
   const pill = { x: 540, y: 1330 };
-  const pressed = f >= 322.5 && f < 327.5;
-  const pillOn = f >= 305;
+  const e = S.end - 292.5;
+  const pressed = f >= 322.5 + e && f < 327.5 + e;
+  const pillOn = f >= 305 + e;
   const age = f - S.end;
   return (
     <Stage f={f} from={S.end} to={S.total} bg={C.paper} roll={0}>
@@ -302,14 +336,14 @@ const End: React.FC<{ f: number }> = ({ f }) => {
           const y = 960 + Math.sin(b.a) * b.v * age + 0.9 * age * age;
           return <div key={i} style={{ position: "absolute", left: x, top: y, width: b.s, height: b.s * (b.round ? 1 : 0.6), borderRadius: b.round ? b.s : 4, background: b.c, transform: `rotate(${age * 18 + i * 40}deg)` }} />;
         })}
-      <Stamp id="kick" text="APPS FOR CAFÉS & BAKERIES" f={f} start={292.5} per={0} y={560} size={92} color={C.blue} />
-      <Stamp id="kingdom" text="KINGDOM" f={f} start={295} per={STEP / 2} y={790} size={270} color={C.ink} />
-      <Stamp id="sites" text="SITES" f={f} start={300} per={STEP / 2} y={1045} size={270} color={C.warm} />
+      <Stamp id="kick" text="APPS FOR CAFÉS & BAKERIES" f={f} start={S.end} per={0} y={560} size={92} color={C.blue} />
+      <Stamp id="kingdom" text="KINGDOM" f={f} start={295 + e} per={STEP / 2} y={790} size={270} color={C.ink} />
+      <Stamp id="sites" text="SITES" f={f} start={300 + e} per={STEP / 2} y={1045} size={270} color={C.warm} />
       {pillOn && (
         <div
           style={{
             position: "absolute", left: 0, right: 0, top: pill.y - 56, display: "flex", justifyContent: "center",
-            transform: `scale(${f < 307.5 ? 1.3 : pressed ? 0.94 : 1})`,
+            transform: `scale(${f < 307.5 + e ? 1.3 : pressed ? 0.94 : 1})`,
           }}
         >
           <div style={{ background: C.ink, color: C.paper, borderRadius: 56, height: 112, padding: "0 58px", display: "flex", alignItems: "center", fontFamily: UI, fontSize: 58, fontWeight: 700, letterSpacing: -0.5, boxShadow: "8px 10px 0 rgba(0,0,0,0.2)" }}>
@@ -317,8 +351,8 @@ const End: React.FC<{ f: number }> = ({ f }) => {
           </div>
         </div>
       )}
-      <TapRing f={f} at={322.5} x={pill.x + 215} y={pill.y + 10} color={C.blue} />
-      <Pointer f={f} show={[305, S.total]} press={[322.5]} keys={[{ f: 305, x: 1020, y: 1950 }, { f: 317.5, x: pill.x + 215, y: pill.y + 10 }]} />
+      <TapRing f={f} at={322.5 + e} x={pill.x + 215} y={pill.y + 10} color={C.blue} />
+      <Pointer f={f} show={[305 + e, S.total]} press={[322.5 + e]} keys={[{ f: 305 + e, x: 1020, y: 1950 }, { f: 317.5 + e, x: pill.x + 215, y: pill.y + 10 }]} />
     </Stage>
   );
 };
@@ -331,7 +365,8 @@ export const Picture: React.FC<{ f: number }> = ({ f }) => {
       {f >= S.app && f < S.order && <App f={f} />}
       {f >= S.order && f < S.stamps && <Order f={f} />}
       {f >= S.stamps && f < S.alert && <Stamps f={f} />}
-      {f >= S.alert && f < S.end && <Alert f={f} />}
+      {f >= S.alert && f < S.back && <Alert f={f} />}
+      {f >= S.back && f < S.end && <Back f={f} />}
       {f >= S.end && <End f={f} />}
       {black > 0 && <div style={{ position: "absolute", inset: 0, background: "#000", opacity: black }} />}
     </>

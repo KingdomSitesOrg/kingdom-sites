@@ -6,7 +6,7 @@ export const W = 1080;
 export const H = 1920;
 /** 120 BPM at 30 fps: one beat is 15 frames. */
 export const BEAT = 15;
-export const DURATION = 345;
+export const DURATION = 435;
 /** Stop-motion: 12 poses a second, so a pose holds for 2.5 frames. */
 export const STEP = 2.5;
 
