@@ -17,31 +17,32 @@ built on an apartment building; scenes slide in as paper panels instead of cutti
 stays the same across the series.
 
 Draft 3 (same day: "too fast ... I can't actually really read what's going on. Slow it down by
-like 10 or 20%"): picture and music 17% slower, 128.6 BPM, 14.2 s.
+like 10 or 20%"): picture and music 17% slower, 128.6 BPM, 14.2 s. Draft 4 ("Slower still"):
+the café ad's pace, 120 BPM, 15.3 s.
 
 Words are Claude's. "Your Rentals" is a stand-in name; the rent amount, dates and water notice
 are made-up demo content. No client names or logos.
 
 ## Words and beats
 
-Scene units: a beat is 15 units, a pose 2.5 (the café grid); the film plays them 15/14 as fast,
-so a beat is 14 frames (0.47 s).
+Scene units: a beat is 15 units, a pose 2.5 (the café grid); the film plays them at that pace,
+so a unit is a frame and a beat is 0.5 s.
 
 | Units | Seconds | Ground | On screen | What moves |
 |---|---|---|---|---|
-| 0-75 | 0.0-2.3 | navy | PROPERTY / MANAGER? / LOTS OF RENTERS? | an apartment building lands, its windows light up two a pose, renters' bubbles pop out: Rent? Leak! Keys? Noise! Parking? |
-| 75-135 | 2.3-4.2 | blue, slides up | GET YOUR / OWN APP. (below the phone) | a phone rises, every bubble flies into it, the company's app opens on its splash screen |
-| 135-195 | 4.2-6.1 | cream, slides in from the right | PAY RENT / IN A SWIPE. | December rent; the pointer drags "Slide to pay" across, it turns green "Paid"; "Payment received" drops in |
-| 195-255 | 6.1-7.9 | green, slides in from the left | FIX-IT / REQUESTS. (below) | the camera frames a dripping tap, the pointer snaps it; status Sent, Plumber booked, On the way while a van drives over stop by stop; FIXED! |
-| 255-300 | 7.9-9.3 | ink, slides down | BUILDING / ALERTS. | a notice drops in ("Water is off Tuesday, 9 to 11 AM, for pipe repairs.") and a bell lands in every window |
-| 300-375 | 9.3-11.7 | blue, slides in from the right | ONLINE RENT + FAST REPAIRS / FEWER CALLS. / HAPPIER / RENTERS. | a ringing office phone squashes away; the building comes back and every window smiles |
-| 375-457.5 | 11.7-14.2 | paper, cut on the music's hit | APPS FOR PROPERTY MANAGERS / KINGDOM / SITES / kingdom-sites.com | paper burst; the card holds; the pointer clicks the address; fade to black |
+| 0-75 | 0.0-2.5 | navy | PROPERTY / MANAGER? / LOTS OF RENTERS? | an apartment building lands, its windows light up two a pose, renters' bubbles pop out: Rent? Leak! Keys? Noise! Parking? |
+| 75-135 | 2.5-4.5 | blue, slides up | GET YOUR / OWN APP. (below the phone) | a phone rises, every bubble flies into it, the company's app opens on its splash screen |
+| 135-195 | 4.5-6.5 | cream, slides in from the right | PAY RENT / IN A SWIPE. | December rent; the pointer drags "Slide to pay" across, it turns green "Paid"; "Payment received" drops in |
+| 195-255 | 6.5-8.5 | green, slides in from the left | FIX-IT / REQUESTS. (below) | the camera frames a dripping tap, the pointer snaps it; status Sent, Plumber booked, On the way while a van drives over stop by stop; FIXED! |
+| 255-300 | 8.5-10.0 | ink, slides down | BUILDING / ALERTS. | a notice drops in ("Water is off Tuesday, 9 to 11 AM, for pipe repairs.") and a bell lands in every window |
+| 300-375 | 10.0-12.5 | blue, slides in from the right | ONLINE RENT + FAST REPAIRS / FEWER CALLS. / HAPPIER / RENTERS. | a ringing office phone squashes away; the building comes back and every window smiles |
+| 375-457.5 | 12.5-15.3 | paper, cut on the music's hit | APPS FOR PROPERTY MANAGERS / KINGDOM / SITES / kingdom-sites.com | paper burst; the card holds; the pointer clicks the address; fade to black |
 
 ## Sound
 
 - Music: its own ElevenLabs track (`audio/music.py`, generation 2): 150 BPM funky bass, muted
-  guitar, glockenspiel, snaps. Trimmed 0.245 s so its beats sit on the grid; slowed to 128.6 BPM with the picture (pitch kept);
-  its big hit lands with the end card at 11.7 s. `video/tools/beats.mjs` measures tempo, phase and hits. Measured, not
+  guitar, glockenspiel, snaps. Trimmed 0.245 s so its beats sit on the grid; slowed to 120 BPM with the picture (pitch kept);
+  its big hit lands with the end card at 12.5 s. `video/tools/beats.mjs` measures tempo, phase and hits. Measured, not
   listened to.
 - Effects under the music only where something happens (`video/tools/mix.mjs`, cues in units).
 

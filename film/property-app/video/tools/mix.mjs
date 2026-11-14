@@ -1,16 +1,16 @@
 // The soundtrack: this ad's own track (../audio/raw/music_gen2.mp3, 150 BPM, its first beat at
 // 0.245 s, so it is trimmed by that much to put its beats on the film's 12-frame grid; its big hit
-// then lands with the end card; it is slowed to 128.6 BPM with the picture, with the end card) as the bed, and a small dry sound only where something
+// then lands with the end card; it is slowed to 120 BPM with the picture, with the end card) as the bed, and a small dry sound only where something
 // real happens. Cue times are in scene units (see SPEED in src/lib.ts) and converted here. One
 // plain gain to about -14 LUFS; lowered if the true peak passes -1 dBTP. Writes public/mix.wav.
 import { execFileSync } from "node:child_process";
 import { SR, measure, write } from "./pcm.mjs";
 
 const FPS = 30;
-const SPEED = 15 / 14;
-const LEN = 427 / FPS;
-/** The track is slowed with the picture, 150 to 128.6 BPM, pitch kept. */
-const TEMPO = 6 / 7;
+const SPEED = 1;
+const LEN = 458 / FPS;
+/** The track is slowed with the picture, 150 to 120 BPM, pitch kept. */
+const TEMPO = 0.8;
 const TARGET = -14;
 const CEILING = -1;
 const db = (v) => Math.pow(10, v / 20);
