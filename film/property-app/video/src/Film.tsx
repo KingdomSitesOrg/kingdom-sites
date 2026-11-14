@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { AbsoluteFill, Audio, continueRender, delayRender, staticFile, useCurrentFrame } from "remotion";
 import { loadFont } from "@remotion/fonts";
-import { C, FONT, STEP, q } from "./lib";
+import { C, FONT, SPEED, STEP, q } from "./lib";
 import { Picture } from "./scenes";
 
 const Grain: React.FC<{ f: number }> = ({ f }) => (
@@ -17,7 +17,7 @@ const Grain: React.FC<{ f: number }> = ({ f }) => (
 );
 
 export const Film: React.FC<{ audio?: boolean }> = ({ audio = true }) => {
-  const f = q(useCurrentFrame());
+  const f = q(useCurrentFrame() * SPEED);
   const [ready, setReady] = useState(false);
   const [handle] = useState(() => delayRender("font"));
   useEffect(() => {

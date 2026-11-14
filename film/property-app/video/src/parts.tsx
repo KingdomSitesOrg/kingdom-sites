@@ -26,14 +26,13 @@ export const Stamp: React.FC<{
         const age = f - at;
         const land = age < STEP - 1e-6 ? 1.5 : age < 2 * STEP - 1e-6 ? 0.9 : 1;
         const lift = age < STEP - 1e-6 ? -size * 0.12 : 0;
-        const tilt = (random(`${id}t${i}`) - 0.5) * 7;
-        const b = boil(`${id}${i}`, f, 0.7);
+        const tilt = (random(`${id}t${i}`) - 0.5) * 5;
         return (
           <span
             key={i}
             style={{
               display: "inline-block",
-              transform: `translate(${b.x}px, ${lift + b.y}px) rotate(${tilt * (age < STEP ? 2.2 : 1) + b.r}deg) scale(${land})`,
+              transform: `translateY(${lift}px) rotate(${tilt * (age < STEP ? 2 : 1)}deg) scale(${land})`,
               textShadow: shadow ? `${size * 0.03}px ${size * 0.04}px 0 rgba(0,0,0,0.22)` : undefined,
             }}
           >
@@ -116,7 +115,7 @@ export const Phone: React.FC<{ id: string; f: number; x: number; y: number; scal
     style={{
       position: "absolute", left: x - PHONE.w / 2, top: y - PHONE.h / 2, width: PHONE.w, height: PHONE.h,
       borderRadius: PHONE.r, background: C.ink, filter: "drop-shadow(12px 16px 0 rgba(0,0,0,0.25))",
-      transform: `${boilT(id, f, 0.5)} rotate(${rot}deg) scale(${scale}, ${scale * sy})`, transformOrigin: "50% 100%",
+      transform: `rotate(${rot}deg) scale(${scale}, ${scale * sy})`, transformOrigin: "50% 100%",
     }}
   >
     <div style={{ position: "absolute", inset: PHONE.bezel, borderRadius: PHONE.r - PHONE.bezel, overflow: "hidden", background: C.paper }}>
@@ -232,7 +231,7 @@ export const OldPhone: React.FC<{ id: string; f: number; w: number; ringing: boo
   const b = boil(id, f, 2);
   return (
     <svg width={w} height={w} viewBox="0 0 200 200" style={{ overflow: "visible" }}>
-      <g transform={ringing ? `rotate(${k % 2 ? 6 : -6} 100 140)` : undefined}>
+      <g transform={ringing ? `rotate(${k % 2 ? 3 : -3} 100 140)` : undefined}>
         <path d="M38 184 L58 104 H142 L162 184 Z" fill={C.warm} />
         <circle cx="100" cy="146" r="22" fill={C.paper} />
         <path d="M18 88 Q18 56 50 56 H150 Q182 56 182 88 V100 H144 V82 H56 V100 H18 Z" fill={C.ink} />
@@ -248,3 +247,60 @@ export const OldPhone: React.FC<{ id: string; f: number; w: number; ringing: boo
     </svg>
   );
 };
+
+/** The apartment building: 4 by 5 windows, the door in the middle of the bottom row. Each window
+    is dark, lit, lit with a bell (an alert reached it) or lit with a smile. */
+export type Win = "off" | "on" | "bell" | "smile";
+export const WINDOWS = Array.from({ length: 20 }, (_, i) => i).filter((i) => i !== 17 && i !== 18);
+/** The windows in a fixed shuffled order, so they light up scattered rather than row by row. */
+export const WIN_ORDER = [...WINDOWS].sort((a, b) => random(`wo${a}`) - random(`wo${b}`));
+export const Building: React.FC<{ w: number; win: (i: number) => Win }> = ({ w, win }) => (
+  <svg width={w} height={w * 1.4} viewBox="0 0 560 784">
+    <rect x="20" y="40" width="520" height="744" fill="#efe3cc" />
+    <rect x="0" y="16" width="560" height="40" rx="6" fill={C.ink} />
+    <rect x="200" y="0" width="160" height="30" fill={C.ink} />
+    {Array.from({ length: 20 }, (_, i) => {
+      const c = i % 4, r = Math.floor(i / 4);
+      const x = 62 + c * 118, y = 92 + r * 134;
+      if (i === 17) return <rect key={i} x={x + 12} y={y + 10} width={176} height={128} rx={8} fill={C.green} />;
+      if (i === 18) return null;
+      const s = win(i);
+      return (
+        <g key={i} transform={`translate(${x} ${y})`}>
+          <rect width="84" height="96" rx="6" fill={s === "off" ? "#2a3550" : C.gold} />
+          <rect x="38" width="8" height="96" fill={s === "off" ? "#1e2740" : "#d9ad59"} />
+          {s === "bell" && <path d="M42 26 a16 16 0 0 1 16 16 v16 l6 8 h-44 l6 -8 v-16 a16 16 0 0 1 16 -16 Z M36 70 h12 a6 6 0 0 1 -12 0 Z" fill={C.ink} />}
+          {s === "smile" && (
+            <>
+              <circle cx="28" cy="40" r="7" fill={C.ink} />
+              <circle cx="56" cy="40" r="7" fill={C.ink} />
+              <path d="M24 60 Q42 76 60 60" fill="none" stroke={C.ink} strokeWidth={6} strokeLinecap="round" />
+            </>
+          )}
+        </g>
+      );
+    })}
+  </svg>
+);
+
+/** A renter's speech bubble, in the stamped type. */
+export const Bubble: React.FC<{ text: string; tail: -1 | 1 }> = ({ text, tail }) => (
+  <div style={{ position: "relative", background: C.white, borderRadius: 34, padding: "16px 30px", fontFamily: FONT, fontWeight: 900, fontVariationSettings: "'wdth' 62", fontSize: 70, lineHeight: 1, color: C.ink, whiteSpace: "nowrap" }}>
+    {text}
+    <svg width={40} height={34} viewBox="0 0 40 34" style={{ position: "absolute", bottom: -28, [tail < 0 ? "left" : "right"]: 34 }}>
+      <path d={tail < 0 ? "M0 0 H40 L6 34 Z" : "M0 0 H40 L34 34 Z"} fill={C.white} />
+    </svg>
+  </div>
+);
+
+/** The plumber's van. */
+export const Van: React.FC<{ w: number }> = ({ w }) => (
+  <svg width={w} height={w * 0.55} viewBox="0 0 300 165">
+    <path d="M10 40 Q10 20 30 20 H190 L250 70 H280 Q292 70 292 82 V130 H10 Z" fill={C.white} />
+    <path d="M196 30 L238 68 H196 Z" fill="#9fc6e8" />
+    <rect x="10" y="96" width="282" height="16" fill={C.green} />
+    <path d="M70 46 l18 18 m-6 -6 l-22 22 a6 6 0 0 1 -8 -8 l22 -22" stroke={C.green} strokeWidth={9} strokeLinecap="round" fill="none" />
+    <circle cx="70" cy="132" r="26" fill={C.ink} /><circle cx="70" cy="132" r="10" fill={C.grey} />
+    <circle cx="232" cy="132" r="26" fill={C.ink} /><circle cx="232" cy="132" r="10" fill={C.grey} />
+  </svg>
+);

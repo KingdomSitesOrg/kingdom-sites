@@ -9,25 +9,38 @@ Thomas, 2026-11-14, after the café ad: "do the exact same thing and build one f
 management organizations like https://stewartproperty.net/ Or other small to medium sized
 property management people where they have a lot of renters managing things Etc."
 
-Words are Claude's first draft. "Your Rentals" is a stand-in name on the demo app; the rent
-amount, the dates and the water notice are made-up demo content. No client names or logos.
+Draft 2 (Thomas, same day: "again less shaking, a little bit faster and a few more change ups
+from the last one for the coffee one. This seems like it's just a copy"): its own music at
+150 BPM; every move 1.25x faster (12.2 s); half the wobble, changing half as often, letters still
+once landed, no camera roll or beat kick; a new opening, app scene, rent, repair, alert and payoff,
+built on an apartment building; scenes slide in as paper panels instead of cutting. The end card
+stays the same across the series.
 
-## Words and beats (a beat is 15 frames, 0.5 s)
+Words are Claude's. "Your Rentals" is a stand-in name; the rent amount, dates and water notice
+are made-up demo content. No client names or logos.
 
-| Frames | Seconds | Ground | On screen | What moves |
+## Words and beats
+
+Scene units: a beat is 15 units, a pose 2.5 (the café grid); the film plays them 1.25x faster,
+so one unit is 0.8 frames and a beat is 0.4 s.
+
+| Units | Seconds | Ground | On screen | What moves |
 |---|---|---|---|---|
-| 0-75 | 0.0-2.5 | green | PROPERTY / MANAGER? / LOTS OF RENTERS? | a house slides up and lands (0.5 s), a key hops in (1.5 s) |
-| 75-135 | 2.5-4.5 | blue | GET YOUR / OWN APP. | a phone drops in; the company's icon (green tile, white house) stamps onto the home screen; the pointer taps it |
-| 135-180 | 4.5-6.0 | cream | PAY RENT / IN A TAP. | December rent card; the pointer taps "Pay rent" (5.0 s), it turns "Paid"; "Payment received" drops in (5.5 s) |
-| 180-240 | 6.0-8.0 | green | FIX-IT / REQUESTS. | a repair request with a photo of a dripping tap; a rubber stamp checks off Photo sent, Request received, Plumber booked, On the way, Fixed, then thumps FIXED! (7.5 s) |
-| 240-292.5 | 8.0-9.75 | ink | BUILDING / ALERTS. | a lock-screen notice drops in (8.5 s): "Water is off Tuesday, 9 to 11 AM, for pipe repairs."; three houses hop on |
-| 292.5-382.5 | 9.75-12.75 | blue | ONLINE RENT + FAST REPAIRS / FEWER CALLS. / HAPPIER / RENTERS. | a ringing office phone walks off the left edge for good; a smiling house walks in from the right and lands as RENTERS. stamps in (12.0 s) |
-| 382.5-465 | 12.75-15.5 | paper | APPS FOR PROPERTY MANAGERS / KINGDOM / SITES / kingdom-sites.com | paper burst on the music's last hit; the card holds a second; the pointer clicks the address; fade to black |
+| 0-75 | 0.0-2.0 | navy | PROPERTY / MANAGER? / LOTS OF RENTERS? | an apartment building lands, its windows light up two a pose, renters' bubbles pop out: Rent? Leak! Keys? Noise! Parking? |
+| 75-135 | 2.0-3.6 | blue, slides up | GET YOUR / OWN APP. (below the phone) | a phone rises, every bubble flies into it, the company's app opens on its splash screen |
+| 135-195 | 3.6-5.2 | cream, slides in from the right | PAY RENT / IN A SWIPE. | December rent; the pointer drags "Slide to pay" across, it turns green "Paid"; "Payment received" drops in |
+| 195-255 | 5.2-6.8 | green, slides in from the left | FIX-IT / REQUESTS. (below) | the camera frames a dripping tap, the pointer snaps it; status Sent, Plumber booked, On the way while a van drives over stop by stop; FIXED! |
+| 255-300 | 6.8-8.0 | ink, slides down | BUILDING / ALERTS. | a notice drops in ("Water is off Tuesday, 9 to 11 AM, for pipe repairs.") and a bell lands in every window |
+| 300-375 | 8.0-10.0 | blue, slides in from the right | ONLINE RENT + FAST REPAIRS / FEWER CALLS. / HAPPIER / RENTERS. | a ringing office phone squashes away; the building comes back and every window smiles |
+| 375-457.5 | 10.0-12.2 | paper, cut on the music's hit | APPS FOR PROPERTY MANAGERS / KINGDOM / SITES / kingdom-sites.com | paper burst; the card holds; the pointer clicks the address; fade to black |
 
 ## Sound
 
-Same track and mix as the café ad (`audio/raw/music_gen1.mp3`, `video/tools/mix.mjs`); the
-actions sit on the same frames, so every cue lines up. Measured, not listened to.
+- Music: its own ElevenLabs track (`audio/music.py`, generation 2): 150 BPM funky bass, muted
+  guitar, glockenspiel, snaps. Trimmed 0.245 s so its beats sit on the grid; its big hit lands at
+  10.0 s with the end card. `video/tools/beats.mjs` measures tempo, phase and hits. Measured, not
+  listened to.
+- Effects under the music only where something happens (`video/tools/mix.mjs`, cues in units).
 
 ## Commands (in `video/`)
 

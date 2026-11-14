@@ -6,7 +6,12 @@ export const W = 1080;
 export const H = 1920;
 /** 120 BPM at 30 fps: one beat is 15 frames. */
 export const BEAT = 15;
-export const DURATION = 465;
+/** Scene time runs 1.25x film time (Thomas, property draft 1: "a little bit faster"): scenes are
+    written on the café ad's grid (a beat is 15 units, a pose 2.5), and the film plays them at
+    150 BPM, a beat every 12 frames and a pose every 2 frames. */
+export const SPEED = 1.25;
+/** 457.5 scene units. */
+export const DURATION = 366;
 /** Stop-motion: 12 poses a second, so a pose holds for 2.5 frames. */
 export const STEP = 2.5;
 
@@ -49,14 +54,14 @@ export const outBack = (t: number, s = 1.9) => {
   return 1 + (s + 1) * Math.pow(x - 1, 3) + s * Math.pow(x - 1, 2);
 };
 
-/** The hand-placed wobble of stop-motion: a new tiny offset every two poses (6 a second). Kept
-    small (Thomas, draft 2: "a little bit less shaky ... not so much"). */
+/** The hand-placed wobble of stop-motion: a new tiny offset every four poses. Half the café ad's,
+    which was already cut once (Thomas, property draft 1: "again less shaking"). */
 export const boil = (id: string, f: number, amp = 1) => {
-  const k = Math.floor(f / (STEP * 2) + 1e-6);
+  const k = Math.floor(f / (STEP * 4) + 1e-6);
   return {
-    x: (random(`${id}x${k}`) - 0.5) * 1.6 * amp,
-    y: (random(`${id}y${k}`) - 0.5) * 1.6 * amp,
-    r: (random(`${id}r${k}`) - 0.5) * 0.6 * amp,
+    x: (random(`${id}x${k}`) - 0.5) * 0.8 * amp,
+    y: (random(`${id}y${k}`) - 0.5) * 0.8 * amp,
+    r: (random(`${id}r${k}`) - 0.5) * 0.3 * amp,
   };
 };
 export const boilT = (id: string, f: number, amp = 1) => {
