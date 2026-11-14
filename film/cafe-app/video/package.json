@@ -1,0 +1,27 @@
+{
+  "name": "cafe-app-film",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Kingdom Sites 12-second kinetic stop-motion ad: custom apps for coffee shops and bakeries. Built in Remotion.",
+  "type": "module",
+  "scripts": {
+    "studio": "remotion studio",
+    "typecheck": "tsc --noEmit",
+    "mix": "node tools/mix.mjs",
+    "stills": "node tools/stills.mjs",
+    "draft": "npm run mix && remotion render CafeApp ../draft/cafe-app-draft-540x960.mp4 --scale=0.5 --concurrency=8",
+    "final": "npm run mix && remotion render CafeApp ../final/cafe-app-1080x1920.mp4 --concurrency=8 --crf=14"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.535",
+    "@remotion/fonts": "4.0.535",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "remotion": "4.0.535"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "typescript": "5.9.3"
+  }
+}
