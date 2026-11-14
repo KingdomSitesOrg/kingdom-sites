@@ -6,7 +6,7 @@ export const W = 1080;
 export const H = 1920;
 /** 120 BPM at 30 fps: one beat is 15 frames. */
 export const BEAT = 15;
-export const DURATION = 435;
+export const DURATION = 465;
 /** Stop-motion: 12 poses a second, so a pose holds for 2.5 frames. */
 export const STEP = 2.5;
 
@@ -46,13 +46,14 @@ export const outBack = (t: number, s = 1.9) => {
   return 1 + (s + 1) * Math.pow(x - 1, 3) + s * Math.pow(x - 1, 2);
 };
 
-/** The hand-placed wobble of stop-motion: a new tiny offset every two poses (6 a second). */
+/** The hand-placed wobble of stop-motion: a new tiny offset every two poses (6 a second). Kept
+    small (Thomas, draft 2: "a little bit less shaky ... not so much"). */
 export const boil = (id: string, f: number, amp = 1) => {
   const k = Math.floor(f / (STEP * 2) + 1e-6);
   return {
-    x: (random(`${id}x${k}`) - 0.5) * 5 * amp,
-    y: (random(`${id}y${k}`) - 0.5) * 5 * amp,
-    r: (random(`${id}r${k}`) - 0.5) * 1.8 * amp,
+    x: (random(`${id}x${k}`) - 0.5) * 1.6 * amp,
+    y: (random(`${id}y${k}`) - 0.5) * 1.6 * amp,
+    r: (random(`${id}r${k}`) - 0.5) * 0.6 * amp,
   };
 };
 export const boilT = (id: string, f: number, amp = 1) => {

@@ -8,7 +8,7 @@ import { execFileSync } from "node:child_process";
 import { SR, measure, write } from "./pcm.mjs";
 
 const FPS = 30;
-const LEN = 435 / FPS;
+const LEN = 465 / FPS;
 const TARGET = -14;
 const CEILING = -1;
 const db = (v) => Math.pow(10, v / 20);
@@ -35,7 +35,7 @@ const CUES = [
   [187.5, "thump", -9, -0.3], [195, "thump", -10, 0], [202.5, "thump", -9, 0.3],
   [210, "thump", -10, -0.3], [217.5, "thump", -9, 0], [225, "bubble", -9, 0.3],
   [255, "bubble", -10, 0], [262.5, "pop", -15, -0.6], [270, "pop", -15, 0.6], [277.5, "pop", -15, -0.6],
-  [360, "pop", -11, 0], [412.5, "click", -7, 0.2],
+  [360, "pop", -11, 0], [442.5, "click", -7, 0.2],
 ];
 
 const n = Math.round(LEN * SR);

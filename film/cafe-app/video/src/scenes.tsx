@@ -5,7 +5,7 @@ import { random } from "remotion";
 import { BEAT, C, STEP, UI, boilT, lerp, outBack, outCubic, prog } from "./lib";
 import { AppIcon, Croissant, Cup, Cut, PHONE, Phone, Pointer, Skel, Stamp, Steam, TapRing, uiText } from "./parts";
 
-export const S = { hook: 0, app: 75, order: 135, stamps: 180, alert: 240, back: 292.5, end: 382.5, black: 417.5, total: 435 };
+export const S = { hook: 0, app: 75, order: 135, stamps: 180, alert: 240, back: 292.5, end: 382.5, black: 447.5, total: 465 };
 
 /** Where the phone sits in scenes 2 to 5, and its screen's top-left corner on the frame. */
 const PX = 540, PY = 1230;
@@ -15,10 +15,10 @@ const SW = PHONE.w - 2 * PHONE.bezel;
 /** A scene's ground and camera: a slow stepped push, a small roll, and a one-pose kick on every beat. */
 const Stage: React.FC<{ f: number; from: number; to: number; bg: string; roll: number; children: React.ReactNode }> = ({ f, from, to, bg, roll, children }) => {
   const t = prog(f, from, to);
-  const kick = (f - from) % BEAT < STEP - 1e-6 && f > from + 1 ? 0.018 : 0;
+  const kick = (f - from) % BEAT < STEP - 1e-6 && f > from + 1 ? 0.006 : 0;
   return (
     <div style={{ position: "absolute", inset: 0, background: bg, overflow: "hidden" }}>
-      <div style={{ position: "absolute", inset: 0, transform: `scale(${1 + 0.045 * t + kick}) rotate(${roll * t}deg)` }}>{children}</div>
+      <div style={{ position: "absolute", inset: 0, transform: `scale(${1 + 0.03 * t + kick}) rotate(${roll * 0.6 * t}deg)` }}>{children}</div>
     </div>
   );
 };
@@ -325,7 +325,9 @@ const BITS = Array.from({ length: 18 }, (_, i) => ({
 const End: React.FC<{ f: number }> = ({ f }) => {
   const pill = { x: 540, y: 1330 };
   const e = S.end - 292.5;
-  const pressed = f >= 322.5 + e && f < 327.5 + e;
+  /** Thomas, draft 2: hold the end card one more second before the pointer comes in. */
+  const hold = 30;
+  const pressed = f >= 322.5 + e + hold && f < 327.5 + e + hold;
   const pillOn = f >= 305 + e;
   const age = f - S.end;
   return (
@@ -351,8 +353,8 @@ const End: React.FC<{ f: number }> = ({ f }) => {
           </div>
         </div>
       )}
-      <TapRing f={f} at={322.5 + e} x={pill.x + 215} y={pill.y + 10} color={C.blue} />
-      <Pointer f={f} show={[305 + e, S.total]} press={[322.5 + e]} keys={[{ f: 305 + e, x: 1020, y: 1950 }, { f: 317.5 + e, x: pill.x + 215, y: pill.y + 10 }]} />
+      <TapRing f={f} at={322.5 + e + hold} x={pill.x + 215} y={pill.y + 10} color={C.blue} />
+      <Pointer f={f} show={[305 + e + hold, S.total]} press={[322.5 + e + hold]} keys={[{ f: 305 + e + hold, x: 1020, y: 1950 }, { f: 317.5 + e + hold, x: pill.x + 215, y: pill.y + 10 }]} />
     </Stage>
   );
 };

@@ -1,6 +1,6 @@
 # Cafe app: script
 
-A 14.5-second kinetic stop-motion ad for Kingdom Sites custom apps, aimed at coffee shops and
+A 15.5-second kinetic stop-motion ad for Kingdom Sites custom apps, aimed at coffee shops and
 bakeries. Vertical 1080x1920, 30 frames a second, everything moving in poses at 12 a second
 (a pose holds 2.5 frames) with a slight per-pose wobble, paper cut-outs with hard shadows and a
 paper grain that changes every two poses. No narrator; it reads with the sound off.
@@ -12,7 +12,9 @@ shops and bakeries max 12 seconds".
 Draft 2 (Thomas, 2026-11-14, after draft 1: "this is perfect, but just you can make it a little
 bit longer, but just add like through rewards and a seamless experience you will retain more
 customers Or something that's fun and works with your vibe"): one 3-second payoff card before the
-end card. The rest of the words are Claude's first draft, which Thomas called perfect. No prices, numbers,
+end card. Draft 3 (same day): "hold the very last scene before the cursor just one extra
+second" and "a little bit less shaky ... not so much": the per-pose wobble is about a third of
+what it was, the beat kick and camera push are smaller, the grain changes half as often. The rest of the words are Claude's first draft, which Thomas called perfect. No prices, numbers,
 client names or logos; "Your Café" is a stand-in name on the demo app.
 
 ## Words and beats (a beat is 15 frames, 0.5 s)
@@ -25,7 +27,7 @@ client names or logos; "Your Café" is a stand-in name on the demo app.
 | 180-240 | 6.0-8.0 | terracotta | STAMP / CARDS. | a rubber stamp thumps five cups onto the card, the sixth is FREE (7.5 s); FREE COFFEE! |
 | 240-292.5 | 8.0-9.75 | ink | FRESH-BAKED / ALERTS. | a lock-screen notification drops in (8.5 s): "Warm croissants just came out of the oven."; three croissants hop on |
 | 292.5-382.5 | 9.75-12.75 | blue | SWEET REWARDS + SMOOTH ORDERS / KEEP THEM / COMING / BACK. | the cup and the croissant walk off the left edge, then come back in from the right and land as BACK. stamps in (12.0 s) |
-| 382.5-435 | 12.75-14.5 | paper | APPS FOR CAFÉS & BAKERIES / KINGDOM / SITES / kingdom-sites.com | the music's last hit bursts paper bits out; the name stamps in; the pointer clicks the address (13.75 s); fade to black |
+| 382.5-465 | 12.75-15.5 | paper | APPS FOR CAFÉS & BAKERIES / KINGDOM / SITES / kingdom-sites.com | the music's last hit bursts paper bits out; the name stamps in; the card holds a full second, then the pointer clicks the address (14.75 s); fade to black |
 
 ## Sound
 

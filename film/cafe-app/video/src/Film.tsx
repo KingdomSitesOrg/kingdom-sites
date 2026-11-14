@@ -9,7 +9,7 @@ import { Picture } from "./scenes";
 const Grain: React.FC<{ f: number }> = ({ f }) => (
   <svg width={1080} height={1920} style={{ position: "absolute", inset: 0, mixBlendMode: "multiply", opacity: 0.16, pointerEvents: "none" }}>
     <filter id="g">
-      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves={2} seed={Math.floor(f / (STEP * 2))} />
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves={2} seed={Math.floor(f / (STEP * 4))} />
       <feColorMatrix values="0 0 0 0 0.5  0 0 0 0 0.45  0 0 0 0 0.4  0 0 0 1.4 -0.35" />
     </filter>
     <rect width="100%" height="100%" filter="url(#g)" />
