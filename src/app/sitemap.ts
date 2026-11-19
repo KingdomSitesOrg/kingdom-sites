@@ -15,6 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/portfolio/kcupg`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/portfolio/delta`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/about`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${base}/media`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/mission`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${base}/ministry`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/prayer`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
