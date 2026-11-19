@@ -36,6 +36,7 @@ const MENU = [
       { href: '/about', label: 'About' },
       { href: '/mission', label: 'Mission' },
       { href: '/ai-tooling', label: 'AI consultation' },
+      { href: '/media', label: 'Media' },
       { href: '/refer', label: 'Refer someone' },
     ],
   },

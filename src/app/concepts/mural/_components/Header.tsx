@@ -40,6 +40,9 @@ export default function MuralHeader({ home = false }: { home?: boolean }) {
             AI consultation
           </Link>
         )}
+        <Link href="/media" data-snap>
+          Media
+        </Link>
       </nav>
       <Fx />
       {/* Site search: the magnifying glass, working as it did before the mural look. */}
