@@ -6,6 +6,7 @@
 
 export const FEEDBACK_PATH = '/feedback'
 export const FEEDBACK_API = '/api/feedback'
+export const FEEDBACK_MIN_ELAPSED_MS = 3000
 
 export const RATING_QUESTIONS = [
   { id: 'communication', label: 'Communication' },
