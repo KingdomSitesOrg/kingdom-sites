@@ -124,7 +124,13 @@ export default function AppShell({
   // the exception: it is being tried as the home page, so it carries the chat like the home page does.
   const concept = section === 'strata' || (section === 'concepts' && !pathname?.startsWith('/concepts/mural'))
   const intelligence =
-    concept || section === 'farzana' || pathname?.startsWith('/sign/s/') || pathname === '/get-started' || pathname?.startsWith('/inbox') || pathname?.startsWith('/pocket-thought') ? null : <Intelligence />
+    concept ||
+    section === 'farzana' ||
+    pathname?.startsWith('/sign/s/') ||
+    pathname === '/get-started' ||
+    pathname === '/business-feedback' ||
+    pathname?.startsWith('/inbox') ||
+    pathname?.startsWith('/pocket-thought') ? null : <Intelligence />
 
   return (
     <>

@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
 import { CONTACT_EMAIL } from '@/lib/contact'
-import { clean, feedbackEmail, parseFeedback } from '@/lib/feedback'
+import { clean, feedbackEmail, FEEDBACK_MIN_ELAPSED_MS, parseFeedback } from '@/lib/feedback'
+import { businessFeedbackEmail, readBusinessFeedback } from '@/lib/business-feedback'
 import { saveFeedback } from '@/lib/feedback-store'
 
 /**
- * Client feedback from /feedback.
+ * Submissions from /feedback and /business-feedback.
  *
  * Each response is saved (see feedback-store) and emailed to Thomas through
  * Resend. It succeeds if either one works.
@@ -34,7 +35,7 @@ function overLimit(ip: string): boolean {
 }
 
 async function sendEmail(subject: string, text: string): Promise<boolean> {
-  const key = process.env.RESEND_API_KEY?.trim()
+  const key = process.env.FEEDBACK_RESEND_API_KEY?.trim() || process.env.RESEND_API_KEY?.trim()
   if (!key) return false
 
   try {
@@ -89,18 +90,19 @@ export async function POST(request: Request) {
 
     if (clean(raw.company) !== '') return NextResponse.json({ ok: true })
     const elapsed = Number(raw.elapsedMs)
-    if (!Number.isFinite(elapsed) || elapsed < 3000) return NextResponse.json({ ok: true })
-
-    const parsed = parseFeedback(raw)
-    if (!parsed.ok) {
-      return NextResponse.json({ ok: false, error: parsed.error }, { status: 400 })
+    if (!Number.isFinite(elapsed) || elapsed < FEEDBACK_MIN_ELAPSED_MS) {
+      return NextResponse.json({ ok: true })
     }
 
     const receivedAt = new Date().toISOString()
-    const { subject, text } = feedbackEmail(parsed.feedback, receivedAt)
+    const submission = parseSubmission(raw, receivedAt)
+    if ('error' in submission) {
+      return NextResponse.json({ ok: false, error: submission.error }, { status: 400 })
+    }
+
     const [saved, emailed] = await Promise.all([
-      saveFeedback(parsed.feedback, receivedAt),
-      sendEmail(subject, text),
+      saveFeedback(submission.feedback, receivedAt),
+      sendEmail(submission.email.subject, submission.email.text),
     ])
 
     if (!saved && !emailed) {
@@ -116,4 +118,18 @@ export async function POST(request: Request) {
     Sentry.captureException(error)
     return NextResponse.json({ ok: false, error: 'Something went wrong sending that.' }, { status: 500 })
   }
+}
+
+function parseSubmission(raw: Record<string, unknown>, receivedAt: string) {
+  if (raw.kind === 'business') {
+    const feedback = readBusinessFeedback(raw)
+    if (!feedback.limitingFactor && !feedback.aiUse && !feedback.supportNeeds) {
+      return { error: 'Please answer at least one question.' }
+    }
+    return { feedback, email: businessFeedbackEmail(feedback, receivedAt) }
+  }
+
+  const parsed = parseFeedback(raw)
+  if (!parsed.ok) return { error: parsed.error }
+  return { feedback: parsed.feedback, email: feedbackEmail(parsed.feedback, receivedAt) }
 }

@@ -4,6 +4,7 @@ import { randomUUID } from 'crypto'
 import { put } from '@vercel/blob'
 import * as Sentry from '@sentry/nextjs'
 import type { Feedback } from './feedback'
+import type { BusinessFeedback } from './business-feedback'
 
 const LOCAL_ROOT = path.join(process.cwd(), '.data', 'feedback')
 
@@ -12,7 +13,7 @@ const LOCAL_ROOT = path.join(process.cwd(), '.data', 'feedback')
  * Private Vercel Blob when BLOB_READ_WRITE_TOKEN is set; otherwise .data/ on a
  * local machine. Vercel's filesystem is read-only, so there it is blob or nothing.
  */
-export async function saveFeedback(feedback: Feedback, receivedAt: string): Promise<boolean> {
+export async function saveFeedback(feedback: Feedback | BusinessFeedback, receivedAt: string): Promise<boolean> {
   const id = `${receivedAt.replace(/[:.]/g, '-')}-${randomUUID().slice(0, 8)}`
   const payload = JSON.stringify({ id, receivedAt, ...feedback }, null, 2)
 
