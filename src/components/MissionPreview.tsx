@@ -93,7 +93,7 @@ export default function MissionPreview() {
               href="/mission#free-ministry-sites"
               className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-white/25 px-5 py-2.5 text-[14.5px] font-medium text-white transition-colors hover:border-white/40 hover:bg-white/10"
             >
-              Are you a ministry that needs a site for free?
+              Are you a ministry that needs a site?
             </Link>
           </div>
         </div>

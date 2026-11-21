@@ -177,13 +177,14 @@ export default function Mission() {
         <div className="border-t border-line pt-12">
           <div className="max-w-3xl">
             <h2 className="cn-display cn-h3 text-balance">
-              I donate websites to ministries.
+              Small ministry sites are free.
             </h2>
             <p className="mt-5 text-[15px] leading-relaxed text-body sm:text-base">
-              Ministries, missionaries raising support, and churches get the site built for free
+              Ministries, missionaries raising support, and churches get a small site built for free
               <span className="align-super text-[0.6em] text-ink">*</span> — designed, built,
-              and put live, the same way every client gets it. It is one of the ways I can put
-              this work behind the advance of the gospel rather than only behind a business.
+              and put live, the same way every client gets it. Bigger work, like an app or a larger
+              system, gets a ministry discount, worked out after we talk. It is one of the ways I
+              can put this work behind the advance of the gospel rather than only behind a business.
             </p>
             <p className="mt-4 text-[15px] leading-relaxed text-body sm:text-base">
               If that is you,{' '}
