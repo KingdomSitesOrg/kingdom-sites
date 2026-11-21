@@ -95,12 +95,13 @@ export default function About() {
 
             <div className="tile p-6">
               <h3 className="text-sm font-semibold tracking-tight text-ink">
-                Free websites for ministries
+                Free small sites for ministries
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-body">
-                Ministries, missionaries raising support, and churches get their website built for free
+                Ministries, missionaries raising support, and churches get a small site built for free
                 <span className="align-super text-[0.6em] text-accent">*</span>, with the same care as
-                every client. It is one of the ways I put this business toward the gospel.{' '}
+                every client. Bigger work, like an app or a larger system, gets a ministry discount.
+                It is one of the ways I put this business toward the gospel.{' '}
                 <Link href="/mission" className="link-accent">
                   My mission <span aria-hidden="true">›</span>
                 </Link>

@@ -237,7 +237,7 @@ export const AUDIENCES = [
   },
   {
     title: 'Churches and ministries',
-    body: 'Ministries, missionaries raising support and churches get their website built for free. The domain and hosting stay in your name.',
+    body: 'Ministries, missionaries raising support and churches get a small site built for free, and bigger work at a ministry discount. The domain and hosting stay in your name.',
   },
   {
     title: 'Schools',
