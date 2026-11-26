@@ -34,7 +34,7 @@ describe('sitemap and robots', () => {
   })
 
   it('leaves out pages that ask not to be indexed or only redirect', () => {
-    for (const p of ['/full-potential', '/calc', '/feedback', '/farzana', '/my-work', '/local-business']) {
+    for (const p of ['/full-potential', '/calc', '/feedback', '/farzana', '/my-work', '/local-business', '/media', '/blog', '/guides']) {
       expect(urls).not.toContain(p)
     }
   })
@@ -49,7 +49,7 @@ describe('sitemap and robots', () => {
 describe('redirects', () => {
   it('moves old addresses permanently, so Google carries them over', async () => {
     const list = await nextConfig.redirects!()
-    for (const source of ['/local-business', '/my-work', '/work']) {
+    for (const source of ['/local-business', '/my-work', '/work', '/blog', '/blog/:slug*', '/guides', '/guides/:slug*']) {
       const r = list.find((x) => x.source === source)
       expect(r, source).toBeDefined()
       expect(r!.permanent, source).toBe(true)

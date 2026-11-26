@@ -8,6 +8,8 @@ const DESCRIPTION = 'Thomas Klein of Kingdom Sites also makes promotional videos
 export const metadata: Metadata = {
   title: 'Media',
   description: DESCRIPTION,
+  // Keep out of search until real video samples are on the page so a thin stub does not dilute domain quality.
+  robots: { index: false, follow: true },
   alternates: { canonical: '/media' },
   ...shareCard('Media — Kingdom Sites', DESCRIPTION, '/media'),
 }
