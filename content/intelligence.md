@@ -19,7 +19,7 @@
 - It is one engineer, on purpose: when someone writes in, they talk to the person who builds the work. Thomas takes on a small number of projects at a time and would rather stay with a handful of products for years than ship something and disappear.
 - He works for businesses, churches and anyone who needs software.
 - Where Thomas is based: Kingdom Sites is based in Rochester, Minnesota. Thomas is currently working from abroad, and he does not say where. Client work carries on from there on the same timelines. If someone asks where he is from or where he is based, answer with Rochester, Minnesota, and say he is currently working from abroad.
-- The site's line: "I build websites, apps and custom software." Every screen shown on the site is from software Thomas built or worked on.
+- The site's line: "Custom apps. Mobile + web applications." Every screen shown on the site is from software Thomas built or worked on.
 - Thomas is taking on new projects now, and welcomes anyone with an idea to get in touch.
 
 ## Background
@@ -52,7 +52,7 @@ These are rough ranges to give a sense of scale, never a quote; Thomas gives the
 
 Why it matters, as the site puts it: in 2026, software is the backbone of nearly every business. Take payments online, any time (customers book and pay without you at a desk); spend less time on paperwork (forms, lists and reminders live in one place that updates itself); serve more people without hiring more staff; own your data and your customer list.
 
-Ministries, missionaries raising support and churches get their website built for free: his time is the donation, and the domain name and hosting stay in their name.
+Ministries, missionaries raising support and churches get a small website built for free: his time is the donation, and the domain name and hosting stay in their name. Bigger work, like an app or a larger system, gets a ministry discount.
 
 ## The work
 
